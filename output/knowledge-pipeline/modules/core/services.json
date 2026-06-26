@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKAccessService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/access/services/access.service.ts",
     "submodule": "access",
     "methods": [
@@ -309,6 +310,7 @@
   },
   {
     "name": "OSKAccessMessagePublisherService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/access/services/access_message_publisher.service.ts",
     "submodule": "access",
     "methods": [
@@ -603,6 +605,7 @@
   },
   {
     "name": "OSKPincodeService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/access/services/access_pincode.service.ts",
     "submodule": "access",
     "methods": [
@@ -895,6 +898,7 @@
   },
   {
     "name": "OSKPincodeGenerationService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/access/services/access_pincode_generation.service.ts",
     "submodule": "access",
     "methods": [
@@ -976,6 +980,7 @@
   },
   {
     "name": "OSKAccessUpdateService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/access/services/access_update.service.ts",
     "submodule": "access",
     "methods": [
@@ -1156,6 +1161,7 @@
   },
   {
     "name": "OSKAccessUtilsService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/access/services/access_utils.service.ts",
     "submodule": "access",
     "methods": [
@@ -1299,6 +1305,7 @@
   },
   {
     "name": "OSKAccessUtilsDatesService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/access/services/access_utils_dates.service.ts",
     "submodule": "access",
     "methods": [
@@ -1408,6 +1415,7 @@
   },
   {
     "name": "OSKAuth0Service",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
     "submodule": "auth0",
     "methods": [
@@ -1816,6 +1824,7 @@
   },
   {
     "name": "OSKCountryService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/country/services/country.service.ts",
     "submodule": "country",
     "methods": [
@@ -1869,6 +1878,7 @@
   },
   {
     "name": "OSKStorageService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/storage/services/storage.service.ts",
     "submodule": "storage",
     "methods": [
@@ -1929,6 +1939,7 @@
   },
   {
     "name": "OSKLoggingService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/services/logging.service.ts",
     "submodule": null,
     "methods": [
@@ -2132,6 +2143,7 @@
   },
   {
     "name": "OSKSecretService",
+    "repo": "cloud",
     "path": "functions/src/modules/core/services/secret.service.ts",
     "submodule": null,
     "methods": [

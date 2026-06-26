@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKTaskHandlerService",
+    "repo": "cloud",
     "path": "functions/src/modules/tasks/services/task_handler.service.ts",
     "submodule": null,
     "methods": [
@@ -31,6 +32,7 @@
   },
   {
     "name": "OSKTaskSchedulerService",
+    "repo": "cloud",
     "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
     "submodule": null,
     "methods": [

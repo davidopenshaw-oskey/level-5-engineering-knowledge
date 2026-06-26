@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKCallService",
+    "repo": "cloud",
     "path": "functions/src/modules/call/services/call.service.ts",
     "submodule": null,
     "methods": [

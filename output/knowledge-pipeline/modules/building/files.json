@@ -1,6 +1,7 @@
 [
   {
     "path": "functions/src/modules/building/controllers/building.controller.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -682,10 +683,35 @@
         "line": 50
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/controllers/building.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/controllers/building.controller.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/buildings",
+        "line": 14
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/controllers/building.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/controllers/building.controller.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/buildings",
+        "line": 50
+      }
+    ]
   },
   {
     "path": "functions/src/modules/building/index.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1330,11 +1356,47 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/index.ts",
+        "value": "@oskey/building/settings",
+        "line": 8
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/index.ts",
+        "type": "storage_path_candidate",
+        "value": "^buildings/[a-zA-Z0-9-]*/public/images/[a-zA-Z0-9-]*.(png|jpg|jpeg)$",
+        "line": 37
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 46
+      }
+    ]
   },
   {
     "path": "functions/src/modules/building/models/documents/building_document.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1443,10 +1505,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/models/functions/building_request.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1620,10 +1684,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+    "repo": "cloud",
     "submodule": "building_accesses",
     "imports": [
       {
@@ -2336,10 +2402,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_accesses/index.ts",
+    "repo": "cloud",
     "submodule": "building_accesses",
     "imports": [],
     "exports": [
@@ -2445,10 +2513,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_accesses",
     "imports": [
       {
@@ -2517,10 +2587,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_accesses/services/building_access.service.ts",
+    "repo": "cloud",
     "submodule": "building_accesses",
     "imports": [
       {
@@ -2874,10 +2946,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_activity/controllers/building_activities.controller.ts",
+    "repo": "cloud",
     "submodule": "building_activity",
     "imports": [
       {
@@ -3478,10 +3552,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_activity/index.ts",
+    "repo": "cloud",
     "submodule": "building_activity",
     "imports": [
       {
@@ -3871,10 +3947,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_activity",
+        "path": "functions/src/modules/building/modules/building_activity/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_activity/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 39
+      }
+    ]
   },
   {
     "path": "functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_activity",
     "imports": [
       {
@@ -3950,10 +4040,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_activity/models/functions/building_activities.model_request.ts",
+    "repo": "cloud",
     "submodule": "building_activity",
     "imports": [],
     "exports": [
@@ -4011,10 +4103,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_activity/services/building_activities.service.ts",
+    "repo": "cloud",
     "submodule": "building_activity",
     "imports": [
       {
@@ -4657,10 +4751,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/controllers/building_door.controller.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -5410,10 +5506,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device.controller.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -5693,10 +5791,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -6387,10 +6487,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/index.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -6959,10 +7061,35 @@
         "line": 12
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_door",
+        "path": "functions/src/modules/building/modules/building_door/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_door/index.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/buildings/{buildingId}/doors/{doorId}/accessControlDevices/{deviceId}",
+        "line": 12
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_door",
+        "path": "functions/src/modules/building/modules/building_door/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_door/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 57
+      }
+    ]
   },
   {
     "path": "functions/src/modules/building/modules/building_door/models/documents/building_door_access_control_device_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -7031,10 +7158,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/models/documents/building_door_access_control_device_public_key_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -7074,10 +7203,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/models/documents/building_door_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -7174,10 +7305,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/models/functions/building_door_request.model.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -7270,10 +7403,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/models/shared/building_door_info.model.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -7313,10 +7448,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/services/building_door.service.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -8420,7 +8557,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_door",
+        "path": "functions/src/modules/building/modules/building_door/services/building_door.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_door/services/building_door.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 17
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -8522,10 +8670,12 @@
         "value": "v1.org.buildings.createManager",
         "line": 215
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/services/building_door_access_control_device.service.ts",
+    "repo": "cloud",
     "submodule": "building_door",
     "imports": [
       {
@@ -9011,10 +9161,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts",
+    "repo": "cloud",
     "submodule": "building_intercom",
     "imports": [
       {
@@ -9554,10 +9706,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_intercom",
+        "path": "functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts",
+        "type": "environment_variable",
+        "value": "OSK_PUBSUB_TOPIC_ACD_INTERCOM_ENTRIES",
+        "line": 61
+      }
+    ]
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/controllers/building_intercom_calltransferlist.controller.ts",
+    "repo": "cloud",
     "submodule": "building_intercom",
     "imports": [
       {
@@ -10099,10 +10265,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/index.ts",
+    "repo": "cloud",
     "submodule": "building_intercom",
     "imports": [
       {
@@ -10783,10 +10951,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_intercom",
+        "path": "functions/src/modules/building/modules/building_intercom/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 61
+      }
+    ]
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_callTransferList_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_intercom",
     "imports": [
       {
@@ -10850,10 +11032,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_intercom",
     "imports": [
       {
@@ -11011,10 +11195,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/models/functions/building_intercom_request.model.ts",
+    "repo": "cloud",
     "submodule": "building_intercom",
     "imports": [
       {
@@ -11078,10 +11264,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/models/messages/building_intercom_messages.model.ts",
+    "repo": "cloud",
     "submodule": "building_intercom",
     "imports": [],
     "exports": [
@@ -11127,10 +11315,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts",
+    "repo": "cloud",
     "submodule": "building_intercom",
     "imports": [
       {
@@ -12203,10 +12393,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts",
+    "repo": "cloud",
     "submodule": "building_intercom",
     "imports": [
       {
@@ -14745,7 +14937,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_intercom",
+        "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 35
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -14757,10 +14960,12 @@
         "value": "v1.admin.accessControlDevice.edit",
         "line": 272
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts",
+    "repo": "cloud",
     "submodule": "building_intercom",
     "imports": [
       {
@@ -15109,11 +15314,24 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_intercom",
+        "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts",
+        "value": "@oskey/building/settings",
+        "line": 11
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts",
+    "repo": "cloud",
     "submodule": "building_pincode",
     "imports": [
       {
@@ -15656,10 +15874,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode/index.ts",
+    "repo": "cloud",
     "submodule": "building_pincode",
     "imports": [],
     "exports": [
@@ -15885,10 +16105,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode/models/documents/building_pincode_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_pincode",
     "imports": [
       {
@@ -16116,10 +16338,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts",
+    "repo": "cloud",
     "submodule": "building_pincode",
     "imports": [
       {
@@ -16514,10 +16738,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts",
+    "repo": "cloud",
     "submodule": "building_pincode_trash",
     "imports": [
       {
@@ -17029,10 +17255,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode_trash/index.ts",
+    "repo": "cloud",
     "submodule": "building_pincode_trash",
     "imports": [],
     "exports": [
@@ -17114,10 +17342,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_pincode_trash",
     "imports": [
       {
@@ -17186,10 +17416,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode_trash/services/building_pincode_trash.service.ts",
+    "repo": "cloud",
     "submodule": "building_pincode_trash",
     "imports": [],
     "exports": [
@@ -17225,10 +17457,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts",
+    "repo": "cloud",
     "submodule": "building_settings",
     "imports": [
       {
@@ -17718,11 +17952,24 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_settings",
+        "path": "functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts",
+        "value": "@oskey/building/settings",
+        "line": 6
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/data/building_settings_default_data.ts",
+    "repo": "cloud",
     "submodule": "building_settings",
     "imports": [
       {
@@ -18239,10 +18486,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/index.ts",
+    "repo": "cloud",
     "submodule": "building_settings",
     "imports": [
       {
@@ -18814,10 +19063,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_settings",
+        "path": "functions/src/modules/building/modules/building_settings/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_settings/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 51
+      }
+    ]
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/models/documents/building_settings.model.ts",
+    "repo": "cloud",
     "submodule": "building_settings",
     "imports": [
       {
@@ -18929,10 +19192,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/models/documents/fields_metadata.model.ts",
+    "repo": "cloud",
     "submodule": "building_settings",
     "imports": [],
     "exports": [
@@ -18966,10 +19231,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/models/functions/building_settings_request.model.ts",
+    "repo": "cloud",
     "submodule": "building_settings",
     "imports": [
       {
@@ -19057,10 +19324,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/services/building_settings.service.ts",
+    "repo": "cloud",
     "submodule": "building_settings",
     "imports": [
       {
@@ -20601,7 +20870,28 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_settings",
+        "path": "functions/src/modules/building/modules/building_settings/services/building_settings.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_settings/services/building_settings.service.ts",
+        "value": "@oskey/building/settings",
+        "line": 12
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_settings",
+        "path": "functions/src/modules/building/modules/building_settings/services/building_settings.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_settings/services/building_settings.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 15
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -20703,10 +20993,12 @@
         "value": "permission-denied",
         "line": 475
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit.controller.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -21348,10 +21640,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_door.controller.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -21574,10 +21868,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_inhabitant.controller.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -22440,10 +22736,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_invitation.controller.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -22932,10 +23230,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -23642,10 +23942,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/index.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -24507,10 +24809,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 68
+      }
+    ]
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -24566,10 +24882,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_door_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -24654,10 +24972,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -24759,10 +25079,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_invitation_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -24852,10 +25174,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_type_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [],
     "exports": [
@@ -24877,10 +25201,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_permanent_guest_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -24953,10 +25279,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/functions/building_unit_door_request.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -25053,10 +25381,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/functions/building_unit_request.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -25132,10 +25462,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser.controller.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -25761,10 +26093,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_access.controller.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -26320,10 +26654,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity.controller.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -26912,10 +27248,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity_aggregates.controller.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -27385,10 +27723,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_pincode.controller.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -27872,10 +28212,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -28609,10 +28951,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 49
+      }
+    ]
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_access.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -28656,10 +29012,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_accesses_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -28733,10 +29091,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_activity_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -28812,10 +29172,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -28867,10 +29229,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_pincode.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -28956,10 +29320,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/functions/building_unit_nonAppUser_request.model.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -29128,10 +29494,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -31479,10 +31847,12 @@
         "value": "permission-denied",
         "line": 349
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_access.service.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -31813,10 +32183,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity.service.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -32133,10 +32505,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity_aggregates.service.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -32563,10 +32937,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_pincode.service.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -32728,10 +33104,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -34048,7 +34426,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 21
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -34150,10 +34539,68 @@
         "value": "v1.org.buildings.create",
         "line": 333
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 48
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 103
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 162
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 241
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 316
+      }
     ]
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -34597,7 +35044,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 9
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -34609,10 +35067,24 @@
         "value": "v1.org.buildings.create",
         "line": 46
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 28
+      }
     ]
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts",
+    "repo": "cloud",
     "submodule": "building_unit",
     "imports": [
       {
@@ -35438,11 +35910,24 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_unit",
+        "path": "functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts",
+        "value": "@oskey/building/settings",
+        "line": 7
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_user/controllers/building_user.controller.ts",
+    "repo": "cloud",
     "submodule": "building_user",
     "imports": [
       {
@@ -35884,10 +36369,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_user/index.ts",
+    "repo": "cloud",
     "submodule": "building_user",
     "imports": [
       {
@@ -36139,10 +36626,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_user",
+        "path": "functions/src/modules/building/modules/building_user/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_user/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 33
+      }
+    ]
   },
   {
     "path": "functions/src/modules/building/modules/building_user/models/documents/building_user_document.model.ts",
+    "repo": "cloud",
     "submodule": "building_user",
     "imports": [
       {
@@ -36232,10 +36733,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_user/models/functions/building_user_request.model.ts",
+    "repo": "cloud",
     "submodule": "building_user",
     "imports": [
       {
@@ -36366,10 +36869,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/building/modules/building_user/services/building_user.service.ts",
+    "repo": "cloud",
     "submodule": "building_user",
     "imports": [
       {
@@ -36966,7 +37471,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_user",
+        "path": "functions/src/modules/building/modules/building_user/services/building_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_user/services/building_user.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 12
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -36988,10 +37504,24 @@
         "value": "v1.org.buildings.create",
         "line": 49
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_user",
+        "path": "functions/src/modules/building/modules/building_user/services/building_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_user/services/building_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 27
+      }
     ]
   },
   {
     "path": "functions/src/modules/building/services/building.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -39046,7 +39576,28 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/services/building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/services/building.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 9
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/services/building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/services/building.service.ts",
+        "value": "@oskey/building/settings",
+        "line": 22
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -39127,6 +39678,52 @@
         "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/services/building.service.ts",
         "value": "permission-denied",
         "line": 442
+      }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/services/building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/services/building.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 54
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/services/building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/services/building.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 97
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/services/building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/services/building.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 243
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": null,
+        "path": "functions/src/modules/building/services/building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/services/building.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 344
       }
     ]
   }

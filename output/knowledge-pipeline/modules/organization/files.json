@@ -1,6 +1,7 @@
 [
   {
     "path": "functions/src/modules/organization/controllers/organization.controller.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -554,10 +555,12 @@
         "line": 15
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/index.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1727,10 +1730,35 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": null,
+        "path": "functions/src/modules/organization/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/index.ts",
+        "type": "storage_path_candidate",
+        "value": "^organizations/[a-zA-Z0-9-]*/public/logos/[a-zA-Z0-9-]*.(png|jpg|jpeg)$",
+        "line": 83
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": null,
+        "path": "functions/src/modules/organization/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 90
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/models/documents/organization_document.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1786,10 +1814,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/models/functions/get_all_organizations_request_document.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [],
     "exports": [
@@ -1811,10 +1841,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/models/functions/organization_request_document_model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1878,10 +1910,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/models/shared/with-organization-id.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [],
     "exports": [
@@ -1903,10 +1937,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/models/shared/with-user-id.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [],
     "exports": [
@@ -1928,10 +1964,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_building/controllers/organization_building.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_building",
     "imports": [
       {
@@ -2295,10 +2333,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_building/index.ts",
+    "repo": "cloud",
     "submodule": "organization_building",
     "imports": [
       {
@@ -2589,10 +2629,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building",
+        "path": "functions/src/modules/organization/modules/organization_building/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 40
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_building/models/documents/organization_building_document_model.ts",
+    "repo": "cloud",
     "submodule": "organization_building",
     "imports": [
       {
@@ -2661,10 +2715,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_building/models/functions/organization_building_request_document_model.ts",
+    "repo": "cloud",
     "submodule": "organization_building",
     "imports": [
       {
@@ -2798,10 +2854,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
+    "repo": "cloud",
     "submodule": "organization_building",
     "imports": [
       {
@@ -3539,7 +3597,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building",
+        "path": "functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 10
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -3601,10 +3670,46 @@
         "value": "permission-denied",
         "line": 232
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building",
+        "path": "functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 41
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building",
+        "path": "functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 104
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building",
+        "path": "functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 195
+      }
     ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_building_invitation/index.ts",
+    "repo": "cloud",
     "submodule": "organization_building_invitation",
     "imports": [
       {
@@ -3860,10 +3965,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building_invitation",
+        "path": "functions/src/modules/organization/modules/organization_building_invitation/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building_invitation/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 41
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_building_invitation/models/functions/organization_building_invitation_request_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_building_invitation",
     "imports": [
       {
@@ -3972,10 +4091,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+    "repo": "cloud",
     "submodule": "organization_building_invitation",
     "imports": [
       {
@@ -5047,7 +5168,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building_invitation",
+        "path": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 20
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -5089,10 +5221,57 @@
         "value": "v1.org.buildings.create",
         "line": 326
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building_invitation",
+        "path": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 45
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building_invitation",
+        "path": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 180
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building_invitation",
+        "path": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 230
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_building_invitation",
+        "path": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 299
+      }
     ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_entity",
     "imports": [
       {
@@ -5453,11 +5632,24 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_entity",
+        "path": "functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts",
+        "value": "/entities",
+        "line": 12
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_entity/index.ts",
+    "repo": "cloud",
     "submodule": "organization_entity",
     "imports": [
       {
@@ -5759,10 +5951,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_entity",
+        "path": "functions/src/modules/organization/modules/organization_entity/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_entity/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 28
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_entity/models/documents/entity_document_model.ts",
+    "repo": "cloud",
     "submodule": "organization_entity",
     "imports": [
       {
@@ -5826,10 +6032,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_entity/models/functions/entity_request_document_model.ts",
+    "repo": "cloud",
     "submodule": "organization_entity",
     "imports": [
       {
@@ -6006,10 +6214,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_entity/services/entity.service.ts",
+    "repo": "cloud",
     "submodule": "organization_entity",
     "imports": [
       {
@@ -7508,7 +7718,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_entity",
+        "path": "functions/src/modules/organization/modules/organization_entity/services/entity.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_entity/services/entity.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 10
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -7610,10 +7831,12 @@
         "value": "permission-denied",
         "line": 258
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_inhabitant/controllers/organization_inhabitant.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_inhabitant",
     "imports": [
       {
@@ -7753,10 +7976,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_inhabitant/index.ts",
+    "repo": "cloud",
     "submodule": "organization_inhabitant",
     "imports": [
       {
@@ -7995,10 +8220,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_inhabitant/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_inhabitant/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 29
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_inhabitant/models/documents/organization_inhabitant_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_inhabitant",
     "imports": [
       {
@@ -8058,10 +8297,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_inhabitant/models/functions/organization_inhabitant_request_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_inhabitant",
     "imports": [
       {
@@ -8137,10 +8378,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+    "repo": "cloud",
     "submodule": "organization_inhabitant",
     "imports": [
       {
@@ -8999,7 +9242,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 18
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -9041,10 +9295,35 @@
         "value": "permission-denied",
         "line": 234
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 131
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 206
+      }
     ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_intercom_ communication/controllers/organization_intercom_building_state.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_intercom_ communication",
     "imports": [
       {
@@ -9460,10 +9739,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_intercom_ communication/controllers/organization_intercom_communication_archive.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_intercom_ communication",
     "imports": [
       {
@@ -9904,10 +10185,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_intercom_ communication/index.ts",
+    "repo": "cloud",
     "submodule": "organization_intercom_ communication",
     "imports": [
       {
@@ -10607,10 +10890,35 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_intercom_ communication",
+        "path": "functions/src/modules/organization/modules/organization_intercom_ communication/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 52
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_intercom_ communication",
+        "path": "functions/src/modules/organization/modules/organization_intercom_ communication/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 53
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_intercom_ communication/models/documents/organization_intercom_communication.model.ts",
+    "repo": "cloud",
     "submodule": "organization_intercom_ communication",
     "imports": [
       {
@@ -10799,10 +11107,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_intercom_ communication/models/functions/organization_intercom_communication_request.model.ts",
+    "repo": "cloud",
     "submodule": "organization_intercom_ communication",
     "imports": [
       {
@@ -10966,10 +11276,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
+    "repo": "cloud",
     "submodule": "organization_intercom_ communication",
     "imports": [
       {
@@ -16980,7 +17292,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_intercom_ communication",
+        "path": "functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 19
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -17072,10 +17395,46 @@
         "value": "v1.org.communications.delete",
         "line": 1686
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_intercom_ communication",
+        "path": "functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
+        "type": "environment_variable",
+        "value": "GCLOUD_PROJECT",
+        "line": 57
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_intercom_ communication",
+        "path": "functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
+        "type": "environment_variable",
+        "value": "LOCATION_ID",
+        "line": 1136
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_intercom_ communication",
+        "path": "functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
+        "type": "environment_variable",
+        "value": "GCLOUD_PROJECT",
+        "line": 1137
+      }
     ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/controllers/organization_onboarding_inhabitant.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_onboarding_inhabitant",
     "imports": [
       {
@@ -17695,10 +18054,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/index.ts",
+    "repo": "cloud",
     "submodule": "organization_onboarding_inhabitant",
     "imports": [
       {
@@ -18459,10 +18820,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 40
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/documents/organization_onboarding_inhabitant_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_onboarding_inhabitant",
     "imports": [
       {
@@ -18667,10 +19042,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/functions/organization_onboarding_inhabitant_request_document.ts",
+    "repo": "cloud",
     "submodule": "organization_onboarding_inhabitant",
     "imports": [
       {
@@ -19073,10 +19450,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/shared/organization_onboarding_inhabitant_shared_documents.model.ts",
+    "repo": "cloud",
     "submodule": "organization_onboarding_inhabitant",
     "imports": [
       {
@@ -19176,10 +19555,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+    "repo": "cloud",
     "submodule": "organization_onboarding_inhabitant",
     "imports": [
       {
@@ -23024,6 +23405,26 @@
         "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
         "kindHint": "service",
         "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 8
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "value": "@oskey/settings/appstore",
+        "line": 58
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
         "value": "/users",
         "line": 1078
       }
@@ -23149,10 +23550,123 @@
         "value": "v1.org.residents.onboardingNotification",
         "line": 1439
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/users",
+        "line": 1078
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 75
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 140
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 215
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 289
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 579
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "GCLOUD_PROJECT",
+        "line": 859
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 926
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 1312
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 1365
+      }
     ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts",
+    "repo": "cloud",
     "submodule": "organization_onboarding_inhabitant",
     "imports": [
       {
@@ -23577,7 +24091,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_onboarding_inhabitant",
+        "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 9
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -23599,10 +24124,12 @@
         "value": "permission-denied",
         "line": 69
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_pending/controllers/organization_pending.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_pending",
     "imports": [
       {
@@ -23945,10 +24472,12 @@
         "line": 12
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_pending/index.ts",
+    "repo": "cloud",
     "submodule": "organization_pending",
     "imports": [
       {
@@ -24257,10 +24786,24 @@
         "line": 20
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_pending",
+        "path": "functions/src/modules/organization/modules/organization_pending/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 22
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_pending/models/documents/organization_pending_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_pending",
     "imports": [
       {
@@ -24316,10 +24859,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_pending/models/functions/get_organizations_pending_request_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_pending",
     "imports": [],
     "exports": [
@@ -24341,10 +24886,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_pending/models/functions/organizations_pending_by_id_request_document.ts",
+    "repo": "cloud",
     "submodule": "organization_pending",
     "imports": [
       {
@@ -24413,10 +24960,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+    "repo": "cloud",
     "submodule": "organization_pending",
     "imports": [
       {
@@ -25805,6 +26354,16 @@
         "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
         "kindHint": "service",
         "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 15
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_pending",
+        "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
         "value": "../models/functions/organizations_pending_by_id_request_document",
         "line": 30
       }
@@ -25910,10 +26469,79 @@
         "value": "v1.org.user.create",
         "line": 400
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_pending",
+        "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 36
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_pending",
+        "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 92
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_pending",
+        "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 111
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_pending",
+        "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 165
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_pending",
+        "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 243
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_pending",
+        "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 315
+      }
     ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_prompt_templates/controllers/oraganization_prompt_templates.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_prompt_templates",
     "imports": [
       {
@@ -26360,10 +26988,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_prompt_templates/index.ts",
+    "repo": "cloud",
     "submodule": "organization_prompt_templates",
     "imports": [
       {
@@ -26767,10 +27397,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_prompt_templates",
+        "path": "functions/src/modules/organization/modules/organization_prompt_templates/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_prompt_templates/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 36
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_prompt_templates/models/organization_prompt_templates.model.ts",
+    "repo": "cloud",
     "submodule": "organization_prompt_templates",
     "imports": [
       {
@@ -26894,10 +27538,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts",
+    "repo": "cloud",
     "submodule": "organization_prompt_templates",
     "imports": [
       {
@@ -27555,10 +28201,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_property",
     "imports": [
       {
@@ -28139,11 +28787,24 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_property",
+        "path": "functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts",
+        "value": "/properties",
+        "line": 12
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_property/index.ts",
+    "repo": "cloud",
     "submodule": "organization_property",
     "imports": [
       {
@@ -28673,10 +29334,35 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_property",
+        "path": "functions/src/modules/organization/modules/organization_property/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_property/index.ts",
+        "type": "storage_path_candidate",
+        "value": "^properties/[a-zA-Z0-9-]*/public/images/[a-zA-Z0-9-]*.(png|jpg|jpeg)$",
+        "line": 41
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_property",
+        "path": "functions/src/modules/organization/modules/organization_property/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_property/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 47
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_property/models/documents/property_document.ts",
+    "repo": "cloud",
     "submodule": "organization_property",
     "imports": [
       {
@@ -28812,10 +29498,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_property/models/functions/property_request_document_model.ts",
+    "repo": "cloud",
     "submodule": "organization_property",
     "imports": [
       {
@@ -28993,10 +29681,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+    "repo": "cloud",
     "submodule": "organization_property",
     "imports": [
       {
@@ -31056,7 +31746,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_property",
+        "path": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 7
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -31168,10 +31869,12 @@
         "value": "permission-denied",
         "line": 325
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_residents/controllers/organization_residents.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_residents",
     "imports": [
       {
@@ -31743,10 +32446,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_residents/index.ts",
+    "repo": "cloud",
     "submodule": "organization_residents",
     "imports": [
       {
@@ -32116,10 +32821,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_residents",
+        "path": "functions/src/modules/organization/modules/organization_residents/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 22
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_residents/models/documents/organization_resident_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_residents",
     "imports": [
       {
@@ -32266,10 +32985,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_residents/models/functions/organization_resident_request_document_model.ts",
+    "repo": "cloud",
     "submodule": "organization_residents",
     "imports": [
       {
@@ -32386,10 +33107,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
+    "repo": "cloud",
     "submodule": "organization_residents",
     "imports": [
       {
@@ -36383,7 +37106,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_residents",
+        "path": "functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 45
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -36525,10 +37259,46 @@
         "value": "permission-denied",
         "line": 1159
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_residents",
+        "path": "functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 81
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_residents",
+        "path": "functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
+        "type": "environment_variable",
+        "value": "MAX_BATCH_SIZE",
+        "line": 1137
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_residents",
+        "path": "functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
+        "type": "environment_variable",
+        "value": "MAX_BATCH_SIZE",
+        "line": 1137
+      }
     ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_user",
     "imports": [
       {
@@ -37181,10 +37951,12 @@
         "value": "v1.admin",
         "line": 60
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user/index.ts",
+    "repo": "cloud",
     "submodule": "organization_user",
     "imports": [
       {
@@ -37616,10 +38388,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 51
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_user",
     "imports": [
       {
@@ -37687,11 +38473,24 @@
     "methods": [],
     "functions": [],
     "calls": [],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model.ts",
+        "kindHint": "model",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model.ts",
+        "value": "@oskey/settings/role",
+        "line": 7
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user/models/documents/organization_user_update_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_user",
     "imports": [
       {
@@ -37759,11 +38558,24 @@
     "methods": [],
     "functions": [],
     "calls": [],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/models/documents/organization_user_update_document.model.ts",
+        "kindHint": "model",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/models/documents/organization_user_update_document.model.ts",
+        "value": "@oskey/settings/role",
+        "line": 7
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user/models/functions/get_all_organization_users.model.ts",
+    "repo": "cloud",
     "submodule": "organization_user",
     "imports": [],
     "exports": [
@@ -37797,10 +38609,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user/models/functions/organization_user_request_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_user",
     "imports": [],
     "exports": [
@@ -37834,10 +38648,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user/models/functions/organization_user_update_roles_request_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_user",
     "imports": [],
     "exports": [
@@ -37859,10 +38675,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+    "repo": "cloud",
     "submodule": "organization_user",
     "imports": [
       {
@@ -39499,7 +40317,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 13
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -39641,10 +40470,90 @@
         "value": "permission-denied",
         "line": 452
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 42
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 131
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 208
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 261
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 341
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 384
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user",
+        "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 432
+      }
     ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_access/index.ts",
+    "repo": "cloud",
     "submodule": "organization_user_access",
     "imports": [],
     "exports": [
@@ -39678,10 +40587,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts",
+    "repo": "cloud",
     "submodule": "organization_user_access",
     "imports": [
       {
@@ -39871,10 +40782,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_pmp_user_invitation.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_user_invitation",
     "imports": [
       {
@@ -40039,10 +40952,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_user_invitation",
     "imports": [
       {
@@ -40671,10 +41586,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation_pending.controller.ts",
+    "repo": "cloud",
     "submodule": "organization_user_invitation",
     "imports": [
       {
@@ -40842,10 +41759,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_invitation/index.ts",
+    "repo": "cloud",
     "submodule": "organization_user_invitation",
     "imports": [
       {
@@ -41239,10 +42158,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user_invitation",
+        "path": "functions/src/modules/organization/modules/organization_user_invitation/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 52
+      }
+    ]
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_cancelled_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_user_invitation",
     "imports": [
       {
@@ -41328,10 +42261,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_user_invitation",
     "imports": [
       {
@@ -41428,10 +42363,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_pending_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_user_invitation",
     "imports": [
       {
@@ -41483,10 +42420,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_invitation/models/functions/organization_user_invitation_cancel_request_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_user_invitation",
     "imports": [],
     "exports": [
@@ -41508,10 +42447,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_invitation/models/functions/organization_user_invitation_request_document.model.ts",
+    "repo": "cloud",
     "submodule": "organization_user_invitation",
     "imports": [
       {
@@ -41599,10 +42540,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+    "repo": "cloud",
     "submodule": "organization_user_invitation",
     "imports": [
       {
@@ -44024,7 +44967,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user_invitation",
+        "path": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 21
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -44126,10 +45080,24 @@
         "value": "permission-denied",
         "line": 445
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": "organization_user_invitation",
+        "path": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+        "type": "environment_variable",
+        "value": "PMP_PORTAL_URL",
+        "line": 555
+      }
     ]
   },
   {
     "path": "functions/src/modules/organization/services/organization.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -45205,7 +46173,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": null,
+        "path": "functions/src/modules/organization/services/organization.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/services/organization.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 6
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -45327,10 +46306,46 @@
         "value": "v1.admin.org.edit",
         "line": 219
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": null,
+        "path": "functions/src/modules/organization/services/organization.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/services/organization.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 80
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": null,
+        "path": "functions/src/modules/organization/services/organization.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/services/organization.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 128
+      },
+      {
+        "repo": "cloud",
+        "module": "organization",
+        "submodule": null,
+        "path": "functions/src/modules/organization/services/organization.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/services/organization.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 199
+      }
     ]
   },
   {
     "path": "functions/src/modules/organization/utils/get_organization_user.util.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -45615,6 +46630,7 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   }
 ]

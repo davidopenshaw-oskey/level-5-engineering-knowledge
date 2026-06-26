@@ -1,6 +1,7 @@
 [
   {
     "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -257,11 +258,44 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": null,
+        "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/controllers/setting.controller.ts",
+        "value": "/settings",
+        "line": 20
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": null,
+        "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/controllers/setting.controller.ts",
+        "value": "/settings",
+        "line": 25
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": null,
+        "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/controllers/setting.controller.ts",
+        "value": "/settings",
+        "line": 32
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/index.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -499,11 +533,46 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": null,
+        "path": "functions/src/modules/settings/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/index.ts",
+        "value": "@oskey/settings/role",
+        "line": 6
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": null,
+        "path": "functions/src/modules/settings/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/index.ts",
+        "value": "@oskey/settings/workflow",
+        "line": 7
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": null,
+        "path": "functions/src/modules/settings/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 31
+      }
+    ]
   },
   {
     "path": "functions/src/modules/settings/models/documents/setting_document.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -555,10 +624,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+    "repo": "cloud",
     "submodule": "appstore",
     "imports": [
       {
@@ -782,11 +853,44 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "appstore",
+        "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+        "value": "/settings",
+        "line": 18
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "appstore",
+        "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+        "value": "/settings",
+        "line": 22
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "appstore",
+        "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+        "value": "/settings",
+        "line": 26
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/appstore/index.ts",
+    "repo": "cloud",
     "submodule": "appstore",
     "imports": [],
     "exports": [
@@ -940,10 +1044,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts",
+    "repo": "cloud",
     "submodule": "appstore",
     "imports": [
       {
@@ -995,10 +1101,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model.ts",
+    "repo": "cloud",
     "submodule": "appstore",
     "imports": [
       {
@@ -1050,10 +1158,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+    "repo": "cloud",
     "submodule": "appstore",
     "imports": [
       {
@@ -1395,10 +1505,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "appstore",
+        "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 30
+      }
+    ]
   },
   {
     "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -2227,11 +2351,24 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+        "value": "/settings/roles/compositeRoles",
+        "line": 15
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -2773,10 +2910,12 @@
         "value": "permission-denied",
         "line": 55
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -3208,11 +3347,84 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "value": "/settings/roles/roles",
+        "line": 19
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "value": "/settings/roles/roles",
+        "line": 23
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "value": "/settings/roles/roles",
+        "line": 26
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "value": "/settings/roles/roles",
+        "line": 30
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "value": "/settings/roles/roles",
+        "line": 35
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "value": "/settings/roles/roles",
+        "line": 43
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+        "value": "/settings/roles/roles",
+        "line": 49
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -5033,10 +5245,12 @@
         "value": "v1.org.communications.delete",
         "line": 1050
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -7217,10 +7431,12 @@
         "value": "v1.org.delete",
         "line": 1248
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/index.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -7699,11 +7915,36 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/index.ts",
+        "value": "/settings/roles/compositeRoles/{compositeRoleId}",
+        "line": 11
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 52
+      }
+    ]
   },
   {
     "path": "functions/src/modules/settings/modules/role/models/documents/composite_role_document.model.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -7772,10 +8013,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/models/documents/role_document.model.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -7827,10 +8070,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/models/shared/assigned_role.model.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -7882,10 +8127,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/models/shared/generated_roles.model.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -7925,10 +8172,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -9001,10 +9250,12 @@
         "value": "v1.admin",
         "line": 162
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+    "repo": "cloud",
     "submodule": "role",
     "imports": [
       {
@@ -9372,10 +9623,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+    "repo": "cloud",
     "submodule": "workflow",
     "imports": [
       {
@@ -9679,11 +9932,54 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+        "value": "/settings/workflows/buildingRequest",
+        "line": 23
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+        "value": "/settings/workflows/buildingRequest",
+        "line": 27
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+        "value": "/settings/workflows/buildingRequest",
+        "line": 32
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+        "value": "/settings/workflows/buildingRequest",
+        "line": 39
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+    "repo": "cloud",
     "submodule": "workflow",
     "imports": [
       {
@@ -9987,11 +10283,54 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+        "value": "/settings/workflows/organizationRequests",
+        "line": 23
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+        "value": "/settings/workflows/organizationRequests",
+        "line": 27
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+        "value": "/settings/workflows/organizationRequests",
+        "line": 32
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+        "value": "/settings/workflows/organizationRequests",
+        "line": 39
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/data/workflows.data.ts",
+    "repo": "cloud",
     "submodule": "workflow",
     "imports": [
       {
@@ -10060,10 +10399,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/index.ts",
+    "repo": "cloud",
     "submodule": "workflow",
     "imports": [
       {
@@ -10546,11 +10887,36 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/index.ts",
+        "value": "/settings/workflows/buildingRequests/{workflowId}",
+        "line": 11
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 61
+      }
+    ]
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/models/documents/building_request_workflow_document.model.ts",
+    "repo": "cloud",
     "submodule": "workflow",
     "imports": [
       {
@@ -10602,10 +10968,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/models/documents/organization_request_workflow_document.model.ts",
+    "repo": "cloud",
     "submodule": "workflow",
     "imports": [
       {
@@ -10657,10 +11025,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+    "repo": "cloud",
     "submodule": "workflow",
     "imports": [
       {
@@ -11046,10 +11416,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 42
+      }
+    ]
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+    "repo": "cloud",
     "submodule": "workflow",
     "imports": [
       {
@@ -11435,10 +11819,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 42
+      }
+    ]
   },
   {
     "path": "functions/src/modules/settings/services/setting.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -11623,6 +12021,19 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": null,
+        "path": "functions/src/modules/settings/services/setting.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/services/setting.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 18
+      }
+    ]
   }
 ]

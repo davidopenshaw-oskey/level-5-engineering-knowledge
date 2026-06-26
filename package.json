@@ -6,11 +6,11 @@
     "typescript": "^6.0.3"
   },
   "scripts": {
-    "scan-repo": "node -r ts-node/register scripts/knowledge-pipeline/00-scan-repo.ts",
-    "extract-ast-evidence": "node -r ts-node/register scripts/knowledge-pipeline/01-extract-ast-evidence.ts",
-    "build-module-evidence": "node -r ts-node/register scripts/knowledge-pipeline/02-build-module-evidence.ts",
-    "build-evidence-graph": "node -r ts-node/register scripts/knowledge-pipeline/03-build-evidence-graph.ts",
-    "build-benchmark": "node -r ts-node/register scripts/knowledge-pipeline/04-build-benchmark.ts",
-    "build-prd-context-pack": "node -r ts-node/register scripts/knowledge-pipeline/05-build-prd-context-pack.ts"
+    "00-scan-repo": "node -r ts-node/register scripts/knowledge-pipeline/00-scan-repo.ts",
+    "01-extract-ast-evidence": "node -r ts-node/register scripts/knowledge-pipeline/01-extract-ast-evidence.ts",
+    "02-build-module-evidence": "node -r ts-node/register scripts/knowledge-pipeline/02-build-module-evidence.ts",
+    "03-build-evidence-graph": "node -r ts-node/register scripts/knowledge-pipeline/03-build-evidence-graph.ts",
+    "04-build-benchmark": "node -r ts-node/register scripts/knowledge-pipeline/04-build-benchmark.ts",
+    "05-build-prd-context-pack": "node -r ts-node/register scripts/knowledge-pipeline/05-build-prd-context-pack.ts"
   }
 }

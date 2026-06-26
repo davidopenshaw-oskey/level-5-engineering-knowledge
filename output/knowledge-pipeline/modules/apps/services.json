@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKEmailService",
+    "repo": "cloud",
     "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
     "submodule": "mail",
     "methods": [
@@ -48,6 +49,7 @@
   },
   {
     "name": "OSKAPNSService",
+    "repo": "cloud",
     "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
     "submodule": "notification",
     "methods": [
@@ -119,6 +121,7 @@
   },
   {
     "name": "OSKFirebaseCloudMessagingService",
+    "repo": "cloud",
     "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
     "submodule": "notification",
     "methods": [
@@ -184,6 +187,7 @@
   },
   {
     "name": "OSKNotificationService",
+    "repo": "cloud",
     "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
     "submodule": "notification",
     "methods": [
@@ -429,6 +433,7 @@
   },
   {
     "name": "OSKQRcodeService",
+    "repo": "cloud",
     "path": "functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts",
     "submodule": "qr_code",
     "methods": [
@@ -453,6 +458,7 @@
   },
   {
     "name": "OSKSmsService",
+    "repo": "cloud",
     "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
     "submodule": "sms",
     "methods": [

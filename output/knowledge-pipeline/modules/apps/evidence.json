@@ -1,8 +1,26 @@
 {
-  "firestoreEvidence": [],
+  "firestoreEvidence": [
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+      "submodule": "mail",
+      "value": "/EmailLogs",
+      "line": 13
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+      "submodule": "mail",
+      "value": "/EmailLogs",
+      "line": 36
+    }
+  ],
   "permissionEvidence": [],
   "callEvidence": [
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
       "submodule": "mail",
@@ -12,6 +30,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
       "submodule": "mail",
@@ -23,6 +42,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
       "submodule": "mail",
@@ -34,6 +54,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
       "submodule": "mail",
@@ -46,6 +67,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
       "submodule": "mail",
@@ -59,6 +81,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
       "submodule": "mail",
@@ -71,6 +94,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
       "submodule": "mail",
@@ -84,6 +108,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
       "submodule": "mail",
@@ -96,6 +121,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
       "submodule": "mail",
@@ -107,6 +133,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -116,6 +143,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -127,6 +155,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -138,6 +167,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -150,6 +180,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -159,6 +190,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -168,6 +200,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -179,6 +212,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -190,6 +224,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -199,6 +234,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -210,6 +246,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -221,6 +258,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -233,6 +271,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -244,6 +283,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -255,6 +295,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -266,6 +307,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -277,6 +319,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -289,6 +332,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -300,6 +344,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -312,6 +357,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -323,6 +369,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -335,6 +382,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -347,6 +395,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -358,6 +407,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -370,6 +420,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -382,6 +433,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -394,6 +446,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -406,6 +459,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -417,6 +471,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -428,6 +483,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -437,6 +493,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -449,6 +506,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -458,6 +516,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -469,6 +528,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -480,6 +540,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -489,6 +550,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -498,6 +560,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -509,6 +572,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -520,6 +584,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -531,6 +596,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -542,6 +608,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -554,6 +621,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -565,6 +633,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -576,6 +645,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -590,6 +660,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -601,6 +672,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -612,6 +684,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -626,6 +699,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -638,6 +712,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -649,6 +724,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -660,6 +736,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -669,6 +746,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -681,6 +759,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -692,6 +771,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -704,6 +784,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -715,6 +796,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -727,6 +809,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -738,6 +821,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -750,6 +834,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -761,6 +846,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -773,6 +859,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -784,6 +871,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -795,6 +883,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -807,6 +896,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
       "submodule": "notification",
@@ -820,6 +910,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
       "submodule": "notification",
@@ -831,6 +922,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
       "submodule": "notification",
@@ -840,6 +932,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
       "submodule": "notification",
@@ -852,6 +945,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
       "submodule": "notification",
@@ -863,6 +957,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
       "submodule": "notification",
@@ -875,6 +970,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
       "submodule": "notification",
@@ -886,6 +982,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -898,6 +995,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -909,6 +1007,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -923,6 +1022,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -934,6 +1034,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -946,6 +1047,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -957,6 +1059,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -969,6 +1072,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -980,6 +1084,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -991,6 +1096,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1002,6 +1108,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1013,6 +1120,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1024,6 +1132,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1035,6 +1144,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1046,6 +1156,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1061,6 +1172,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1075,6 +1187,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1086,6 +1199,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1095,6 +1209,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1107,6 +1222,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1119,6 +1235,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1131,6 +1248,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1142,6 +1260,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1155,6 +1274,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1167,6 +1287,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1179,6 +1300,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1191,6 +1313,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1202,6 +1325,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1215,6 +1339,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1226,6 +1351,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1237,6 +1363,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1248,6 +1375,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1259,6 +1387,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1270,6 +1399,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1281,6 +1411,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1293,6 +1424,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1304,6 +1436,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1315,6 +1448,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1326,6 +1460,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1337,6 +1472,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1348,6 +1484,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1361,6 +1498,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1372,6 +1510,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -1385,6 +1524,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts",
       "submodule": "qr_code",
@@ -1396,6 +1536,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts",
       "submodule": "qr_code",
@@ -1408,6 +1549,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts",
       "submodule": "qr_code",
@@ -1419,6 +1561,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
       "submodule": "sms",
@@ -1428,6 +1571,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
       "submodule": "sms",
@@ -1439,6 +1583,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
       "submodule": "sms",
@@ -1450,6 +1595,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
       "submodule": "sms",
@@ -1462,6 +1608,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
       "submodule": "sms",
@@ -1475,6 +1622,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
       "submodule": "sms",
@@ -1487,6 +1635,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
       "submodule": "sms",
@@ -1500,6 +1649,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
       "submodule": "sms",
@@ -1512,6 +1662,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
       "submodule": "sms",
@@ -1523,6 +1674,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1532,6 +1684,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1541,6 +1694,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1553,6 +1707,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1564,6 +1719,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1575,6 +1731,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1586,6 +1743,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1597,6 +1755,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1608,6 +1767,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1620,6 +1780,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1632,6 +1793,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1644,6 +1806,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1656,6 +1819,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1667,6 +1831,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1679,6 +1844,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1691,6 +1857,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1702,6 +1869,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1715,6 +1883,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1727,6 +1896,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1739,6 +1909,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1750,6 +1921,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1763,6 +1935,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1775,6 +1948,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -1787,8 +1961,191 @@
       ]
     }
   ],
+  "externalHooks": [
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+      "submodule": "mail",
+      "type": "environment_variable",
+      "value": "OSK_FIREBASE_EMULATOR",
+      "line": 22
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+      "submodule": "mail",
+      "type": "environment_variable",
+      "value": "OSK_ALLOWED_EMAIL_DOMAINS",
+      "line": 32
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+      "submodule": "mail",
+      "type": "environment_variable",
+      "value": "OSK_MAILTRAP_SMTP_HOST",
+      "line": 61
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+      "submodule": "mail",
+      "type": "environment_variable",
+      "value": "OSK_MAILTRAP_SMTP_USERNAME",
+      "line": 62
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+      "submodule": "mail",
+      "type": "environment_variable",
+      "value": "OSK_EMAIL_SUBJECT_PREFIX",
+      "line": 83
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+      "submodule": "mail",
+      "type": "environment_variable",
+      "value": "OSK_NO_REPLY_EMAIL",
+      "line": 116
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_APPLE_TEAM_ID",
+      "line": 24
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_IOS_APP_BUNDLE_ID",
+      "line": 24
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_APPLE_TEAM_ID",
+      "line": 25
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_IOS_APP_BUNDLE_ID",
+      "line": 25
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_IOS_APP_BUNDLE_ID",
+      "line": 56
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_IOS_APP_BUNDLE_ID",
+      "line": 94
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_IOS_APP_BUNDLE_ID",
+      "line": 123
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_APNS_API_KEY_ID",
+      "line": 49
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_APPLE_TEAM_ID",
+      "line": 52
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_APNS_API_KEY_ID",
+      "line": 61
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_APPLE_TEAM_ID",
+      "line": 62
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_APNS_API_KEY_ID",
+      "line": 110
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "submodule": "notification",
+      "type": "environment_variable",
+      "value": "OSK_APPLE_TEAM_ID",
+      "line": 111
+    },
+    {
+      "repo": "cloud",
+      "module": "apps",
+      "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
+      "submodule": "sms",
+      "type": "environment_variable",
+      "value": "OSK_FIREBASE_EMULATOR",
+      "line": 62
+    }
+  ],
   "crossModuleDependencies": [
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/apps/modules/notification/models/notification_options.model.ts",
       "submodule": "notification",
       "importedFrom": "src/modules/call/models/shared/ice_servers.model",
@@ -1804,6 +2161,7 @@
   ],
   "exports": [
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
       "submodule": "mail",
@@ -1812,6 +2170,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/index.ts",
       "submodule": "mail",
@@ -1820,6 +2179,7 @@
       "moduleSpecifier": "./services/email.service"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/index.ts",
       "submodule": "mail",
@@ -1828,6 +2188,7 @@
       "moduleSpecifier": "./models/email_options.model"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/index.ts",
       "submodule": "mail",
@@ -1836,6 +2197,7 @@
       "moduleSpecifier": "./models/email_template.model"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/index.ts",
       "submodule": "mail",
@@ -1844,6 +2206,7 @@
       "moduleSpecifier": "./models/email_template.model"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/index.ts",
       "submodule": "mail",
@@ -1852,6 +2215,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/index.ts",
       "submodule": "mail",
@@ -1860,6 +2224,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/index.ts",
       "submodule": "mail",
@@ -1868,6 +2233,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/index.ts",
       "submodule": "mail",
@@ -1876,6 +2242,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/models/email_log_document.ts",
       "submodule": "mail",
@@ -1884,6 +2251,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/models/email_log_document.ts",
       "submodule": "mail",
@@ -1892,6 +2260,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/models/email_log_document.ts",
       "submodule": "mail",
@@ -1900,6 +2269,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/models/email_options.model.ts",
       "submodule": "mail",
@@ -1908,6 +2278,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/models/email_template.model.ts",
       "submodule": "mail",
@@ -1916,6 +2287,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/models/email_template.model.ts",
       "submodule": "mail",
@@ -1924,6 +2296,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/models/email_template.model.ts",
       "submodule": "mail",
@@ -1932,6 +2305,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
       "submodule": "mail",
@@ -1940,6 +2314,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/core/core.template.ts",
       "submodule": "mail",
@@ -1948,6 +2323,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/core/core.template.ts",
       "submodule": "mail",
@@ -1956,6 +2332,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/index.ts",
       "submodule": "mail",
@@ -1964,6 +2341,7 @@
       "moduleSpecifier": "./core/core.template"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/index.ts",
       "submodule": "mail",
@@ -1972,6 +2350,7 @@
       "moduleSpecifier": "./core/core.template"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/index.ts",
       "submodule": "mail",
@@ -1980,6 +2359,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/index.ts",
       "submodule": "mail",
@@ -1988,6 +2368,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/index.ts",
       "submodule": "mail",
@@ -1996,6 +2377,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/onboarding_activation/onboarding_activation_code.ts",
       "submodule": "mail",
@@ -2004,6 +2386,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/organization_invitation/organization_invitation.template.ts",
       "submodule": "mail",
@@ -2012,6 +2395,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/pmp_user_invitation/pmp_user_invitation.template.ts",
       "submodule": "mail",
@@ -2020,6 +2404,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/unit_invitation/external_unit_invitation_template.ts",
       "submodule": "mail",
@@ -2028,6 +2413,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/user_invitation/external_user_invitation.template.ts",
       "submodule": "mail",
@@ -2036,6 +2422,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/user_onboarded/user_onboarded_notification.template.ts",
       "submodule": "mail",
@@ -2044,6 +2431,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/mail/templates/user_otp_code/user_otp_code.template.ts",
       "submodule": "mail",
@@ -2052,6 +2440,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
       "submodule": "notification",
@@ -2060,6 +2449,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2068,6 +2458,7 @@
       "moduleSpecifier": "./models/notification_metadata.model"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2076,6 +2467,7 @@
       "moduleSpecifier": "./models/notification_options.model"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2084,6 +2476,7 @@
       "moduleSpecifier": "./models/notification_options.model"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2092,6 +2485,7 @@
       "moduleSpecifier": "./models/notification_type.model"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2100,6 +2494,7 @@
       "moduleSpecifier": "./models/notification_type.model"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2108,6 +2503,7 @@
       "moduleSpecifier": "./models/notification_type.model"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2116,6 +2512,7 @@
       "moduleSpecifier": "./services/notification.service"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2124,6 +2521,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2132,6 +2530,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2140,6 +2539,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2148,6 +2548,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2156,6 +2557,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2164,6 +2566,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/index.ts",
       "submodule": "notification",
@@ -2172,6 +2575,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/models/notification_metadata.model.ts",
       "submodule": "notification",
@@ -2180,6 +2584,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/models/notification_metadata.model.ts",
       "submodule": "notification",
@@ -2188,6 +2593,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/models/notification_metadata.model.ts",
       "submodule": "notification",
@@ -2196,6 +2602,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/models/notification_metadata.model.ts",
       "submodule": "notification",
@@ -2204,6 +2611,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/models/notification_metadata.model.ts",
       "submodule": "notification",
@@ -2212,6 +2620,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/models/notification_options.model.ts",
       "submodule": "notification",
@@ -2220,6 +2629,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/models/notification_options.model.ts",
       "submodule": "notification",
@@ -2228,6 +2638,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/models/notification_type.model.ts",
       "submodule": "notification",
@@ -2236,6 +2647,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/models/notification_type.model.ts",
       "submodule": "notification",
@@ -2244,6 +2656,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/models/notification_type.model.ts",
       "submodule": "notification",
@@ -2252,6 +2665,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
       "submodule": "notification",
@@ -2260,6 +2674,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
       "submodule": "notification",
@@ -2268,6 +2683,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
       "submodule": "notification",
@@ -2276,6 +2692,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/qr_code/index.ts",
       "submodule": "qr_code",
@@ -2284,6 +2701,7 @@
       "moduleSpecifier": "./services/qr.code.service"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/qr_code/index.ts",
       "submodule": "qr_code",
@@ -2292,6 +2710,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts",
       "submodule": "qr_code",
@@ -2300,6 +2719,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
       "submodule": "sms",
@@ -2308,6 +2728,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/index.ts",
       "submodule": "sms",
@@ -2316,6 +2737,7 @@
       "moduleSpecifier": "./services/sms.service"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/index.ts",
       "submodule": "sms",
@@ -2324,6 +2746,7 @@
       "moduleSpecifier": "./models/sms_options"
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/index.ts",
       "submodule": "sms",
@@ -2332,6 +2755,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/index.ts",
       "submodule": "sms",
@@ -2340,6 +2764,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/models/sms_log_document.ts",
       "submodule": "sms",
@@ -2348,6 +2773,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/models/sms_options.model.ts",
       "submodule": "sms",
@@ -2356,6 +2782,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/models/sms_options.ts",
       "submodule": "sms",
@@ -2364,6 +2791,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
       "submodule": "sms",
@@ -2372,6 +2800,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/templates/index.ts",
       "submodule": "sms",
@@ -2380,6 +2809,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/templates/sms_messages.model.ts",
       "submodule": "sms",
@@ -2388,6 +2818,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/templates/sms_messages.model.ts",
       "submodule": "sms",
@@ -2396,6 +2827,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/templates/sms_template.model.ts",
       "submodule": "sms",
@@ -2404,6 +2836,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/templates/sms_template.model.ts",
       "submodule": "sms",
@@ -2412,6 +2845,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "apps",
       "path": "functions/src/modules/apps/modules/sms/templates/sms_template.model.ts",
       "submodule": "sms",

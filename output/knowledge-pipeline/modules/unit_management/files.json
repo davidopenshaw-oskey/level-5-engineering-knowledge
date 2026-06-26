@@ -1,6 +1,7 @@
 [
   {
     "path": "functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -781,10 +782,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/unit_management/index.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1453,10 +1456,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "unit_management",
+        "submodule": null,
+        "path": "functions/src/modules/unit_management/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 51
+      }
+    ]
   },
   {
     "path": "functions/src/modules/unit_management/models/documents/unit_management_invitation_document.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1584,10 +1601,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/unit_management/models/functions/unit_management_inhabitant_request_document.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1708,10 +1727,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/unit_management/models/functions/unit_management_inhabitant_response_document.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1907,10 +1928,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/unit_management/models/functions/unit_management_invitation_creation_response_document.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [],
     "exports": [
@@ -1932,10 +1955,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/unit_management/models/functions/unit_management_invitation_request_document.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1987,10 +2012,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/unit_management/models/functions/unit_management_permanent_guest_request_document.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -2117,10 +2144,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -4294,10 +4323,12 @@
         "value": "permission-denied",
         "line": 337
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/unit_management/services/unit_management_invitation.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -4643,10 +4674,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "unit_management",
+        "submodule": null,
+        "path": "functions/src/modules/unit_management/services/unit_management_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/services/unit_management_invitation.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 30
+      }
+    ]
   },
   {
     "path": "functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -5570,10 +5615,24 @@
         "line": 44
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "unit_management",
+        "submodule": null,
+        "path": "functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/users",
+        "line": 44
+      }
+    ]
   },
   {
     "path": "functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -6216,10 +6275,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -7292,6 +7353,30 @@
         "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
         "value": "permission-denied",
         "line": 203
+      }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "unit_management",
+        "submodule": null,
+        "path": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 45
+      },
+      {
+        "repo": "cloud",
+        "module": "unit_management",
+        "submodule": null,
+        "path": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 257
       }
     ]
   }

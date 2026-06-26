@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKOrganizationBuildingService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
     "submodule": "organization_building",
     "methods": [
@@ -77,6 +78,7 @@
   },
   {
     "name": "OSKOrganizationBuildingInvitationService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
     "submodule": "organization_building_invitation",
     "methods": [
@@ -176,6 +178,7 @@
   },
   {
     "name": "OSKEntityService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_entity/services/entity.service.ts",
     "submodule": "organization_entity",
     "methods": [
@@ -423,6 +426,7 @@
   },
   {
     "name": "OSKOrganizationInhabitantService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
     "submodule": "organization_inhabitant",
     "methods": [
@@ -562,6 +566,7 @@
   },
   {
     "name": "OSKIntercomCommunicationService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
     "submodule": "organization_intercom_ communication",
     "methods": [
@@ -1169,6 +1174,7 @@
   },
   {
     "name": "OSKOrganizationOnboardingInhabitantService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
     "submodule": "organization_onboarding_inhabitant",
     "methods": [
@@ -1643,6 +1649,7 @@
   },
   {
     "name": "OSKOrganizationOnboardingMailService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts",
     "submodule": "organization_onboarding_inhabitant",
     "methods": [
@@ -1697,6 +1704,7 @@
   },
   {
     "name": "OSKOrganizationPendingService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
     "submodule": "organization_pending",
     "methods": [
@@ -1842,6 +1850,7 @@
   },
   {
     "name": "OSKOrganizationPromptTemplateService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts",
     "submodule": "organization_prompt_templates",
     "methods": [
@@ -1999,6 +2008,7 @@
   },
   {
     "name": "OSKPropertyService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
     "submodule": "organization_property",
     "methods": [
@@ -2349,6 +2359,7 @@
   },
   {
     "name": "OSKOrganizationResidentsService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
     "submodule": "organization_residents",
     "methods": [
@@ -2833,6 +2844,7 @@
   },
   {
     "name": "OSKOrganizationUserService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
     "submodule": "organization_user",
     "methods": [
@@ -3018,6 +3030,7 @@
   },
   {
     "name": "OSKOrganizationUserAccessService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts",
     "submodule": "organization_user_access",
     "methods": [
@@ -3042,6 +3055,7 @@
   },
   {
     "name": "OSKOrganizationUserInvitationService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
     "submodule": "organization_user_invitation",
     "methods": [
@@ -3241,6 +3255,7 @@
   },
   {
     "name": "OSKOrganizationService",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/services/organization.service.ts",
     "submodule": null,
     "methods": [

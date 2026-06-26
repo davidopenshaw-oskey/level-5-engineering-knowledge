@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKSettingController",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/controllers/setting.controller.ts",
     "submodule": null,
     "methods": [
@@ -70,6 +71,7 @@
   },
   {
     "name": "OSKAppStoreSettingsController",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
     "submodule": "appstore",
     "methods": [
@@ -139,6 +141,7 @@
   },
   {
     "name": "OSKCompositeRoleController",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
     "submodule": "role",
     "methods": [
@@ -320,6 +323,7 @@
   },
   {
     "name": "OSKConsolidatedRolesController",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
     "submodule": "role",
     "methods": [
@@ -419,6 +423,7 @@
   },
   {
     "name": "OSKRoleController",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
     "submodule": "role",
     "methods": [
@@ -554,6 +559,7 @@
   },
   {
     "name": "OSKBuildingRequestWorkflowController",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
     "submodule": "workflow",
     "methods": [
@@ -646,6 +652,7 @@
   },
   {
     "name": "OSKOrganizationRequestWorkflowController",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
     "submodule": "workflow",
     "methods": [

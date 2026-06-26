@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKUnitManagementInhabitantService",
+    "repo": "cloud",
     "path": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
     "submodule": null,
     "methods": [
@@ -234,6 +235,7 @@
   },
   {
     "name": "OSKUnitManagementInvitationService",
+    "repo": "cloud",
     "path": "functions/src/modules/unit_management/services/unit_management_invitation.service.ts",
     "submodule": null,
     "methods": [
@@ -264,6 +266,7 @@
   },
   {
     "name": "OSKUnitManagementCreationInvitationService",
+    "repo": "cloud",
     "path": "functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts",
     "submodule": null,
     "methods": [
@@ -411,6 +414,7 @@
   },
   {
     "name": "OSKUnitManagementCreationOskeyUserInvitationService",
+    "repo": "cloud",
     "path": "functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts",
     "submodule": null,
     "methods": [
@@ -511,6 +515,7 @@
   },
   {
     "name": "OSKUnitManagementPermanentGuestService",
+    "repo": "cloud",
     "path": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
     "submodule": null,
     "methods": [

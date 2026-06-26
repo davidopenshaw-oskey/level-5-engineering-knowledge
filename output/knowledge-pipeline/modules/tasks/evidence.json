@@ -3,6 +3,7 @@
   "permissionEvidence": [],
   "callEvidence": [
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/index.ts",
       "submodule": null,
@@ -14,6 +15,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -25,6 +27,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -37,6 +40,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -48,6 +52,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -59,6 +64,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -70,6 +76,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -82,6 +89,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -94,6 +102,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -105,6 +114,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -117,6 +127,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -128,6 +139,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -140,6 +152,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -151,6 +164,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -162,6 +176,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -173,6 +188,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -184,6 +200,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -195,6 +212,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -207,6 +225,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -218,6 +237,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -229,6 +249,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -242,6 +263,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -253,6 +275,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -264,6 +287,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -275,6 +299,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -286,6 +311,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -295,6 +321,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -306,6 +333,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -315,6 +343,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -326,6 +355,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -337,6 +367,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -349,6 +380,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -360,6 +392,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -371,6 +404,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,
@@ -383,8 +417,38 @@
       ]
     }
   ],
+  "externalHooks": [
+    {
+      "repo": "cloud",
+      "module": "tasks",
+      "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "GCLOUD_PROJECT",
+      "line": 17
+    },
+    {
+      "repo": "cloud",
+      "module": "tasks",
+      "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "LOCATION_ID",
+      "line": 18
+    },
+    {
+      "repo": "cloud",
+      "module": "tasks",
+      "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "QUEUE_TASK_NAME",
+      "line": 19
+    }
+  ],
   "crossModuleDependencies": [
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
       "importedFrom": "../../admin/modules/admin_maintenance/db_pincodes/services/pincode_refresh_worker.service",
@@ -398,6 +462,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
       "importedFrom": "../../organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service",
@@ -413,6 +478,7 @@
   ],
   "exports": [
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/index.ts",
       "submodule": null,
@@ -421,6 +487,7 @@
       "moduleSpecifier": "./services/task_scheduler.service"
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/index.ts",
       "submodule": null,
@@ -429,6 +496,7 @@
       "moduleSpecifier": "./services/task_handler.service"
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/index.ts",
       "submodule": null,
@@ -437,6 +505,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/index.ts",
       "submodule": null,
@@ -445,6 +514,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/index.ts",
       "submodule": null,
@@ -453,6 +523,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/models/pincode_refresh_task.model.ts",
       "submodule": null,
@@ -461,6 +532,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/models/tasks.model.ts",
       "submodule": null,
@@ -469,6 +541,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/models/tasks.model.ts",
       "submodule": null,
@@ -477,6 +550,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_handler.service.ts",
       "submodule": null,
@@ -485,6 +559,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "tasks",
       "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
       "submodule": null,

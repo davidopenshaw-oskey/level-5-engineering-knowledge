@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKAccessControlDeviceController",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device.controllers.ts",
     "submodule": null,
     "methods": [
@@ -48,6 +49,7 @@
   },
   {
     "name": "OSKAccessControlDeviceController",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device_public_keys.controllers.ts",
     "submodule": null,
     "methods": [
@@ -95,6 +97,7 @@
   },
   {
     "name": "OSKAccessControlDeviceController",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
     "submodule": null,
     "methods": [
@@ -266,6 +269,7 @@
   },
   {
     "name": "OSKAccessControlDeviceAccessCommandsController",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts",
     "submodule": null,
     "methods": [
@@ -347,6 +351,7 @@
   },
   {
     "name": "OSKAccessControlDeviceConfigController",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
     "submodule": null,
     "methods": [
@@ -529,6 +534,7 @@
   },
   {
     "name": "OSKAccessControlDevicePublicKeysController",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
     "submodule": null,
     "methods": [
@@ -726,6 +732,7 @@
   },
   {
     "name": "OSKAccessControlDeviceStateController",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
     "submodule": null,
     "methods": [
@@ -807,6 +814,7 @@
   },
   {
     "name": "OSKAccessControlDeviceSystemLogsController",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
     "submodule": null,
     "methods": [

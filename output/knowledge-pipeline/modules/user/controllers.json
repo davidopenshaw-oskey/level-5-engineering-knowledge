@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKEmailChangeController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/controllers/chnageEmail.controller.ts",
     "submodule": null,
     "methods": [
@@ -107,6 +108,7 @@
   },
   {
     "name": "OSKUserController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/controllers/user.controller.ts",
     "submodule": null,
     "methods": [
@@ -543,6 +545,7 @@
   },
   {
     "name": "OSKUserAccessesController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_access/controllers/user_accesses.controller.ts",
     "submodule": "user_access",
     "methods": [
@@ -728,6 +731,7 @@
   },
   {
     "name": "OSKUserBuildingUnitController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_access/controllers/user_building_unit.controller.ts",
     "submodule": "user_access",
     "methods": [
@@ -914,6 +918,7 @@
   },
   {
     "name": "OSKUserActivitiesController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_activity/controllers/user_activities.controller.ts",
     "submodule": "user_activity",
     "methods": [
@@ -1092,6 +1097,7 @@
   },
   {
     "name": "OSKUserActivityAggregatesController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_activity/controllers/user_activity_aggregates.controller.ts",
     "submodule": "user_activity",
     "methods": [
@@ -1282,6 +1288,7 @@
   },
   {
     "name": "OSKUserCallController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts",
     "submodule": "user_call",
     "methods": [
@@ -1346,6 +1353,7 @@
   },
   {
     "name": "OSKUserDeviceController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_device/controllers/user_device.controller.ts",
     "submodule": "user_device",
     "methods": [
@@ -1501,6 +1509,7 @@
   },
   {
     "name": "OSKUserDeviceAccessControlDeviceTokenController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_device/controllers/user_device_access_control_device_token.controller.ts",
     "submodule": "user_device",
     "methods": [
@@ -1531,6 +1540,7 @@
   },
   {
     "name": "OSKUserIntercomController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts",
     "submodule": "user_intercoms",
     "methods": [
@@ -1676,6 +1686,7 @@
   },
   {
     "name": "OSKUserInvitationController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation.controller.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -1918,6 +1929,7 @@
   },
   {
     "name": "OSKUserInvitationBuildingController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation_building.controller.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -2127,6 +2139,7 @@
   },
   {
     "name": "OSKUserInvitationExternalUserController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation_external_user.controller.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -2279,6 +2292,7 @@
   },
   {
     "name": "OSKUserSentInvitationController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/controllers/user_sent_invitation.controller.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -2498,6 +2512,7 @@
   },
   {
     "name": "OSKUserNotificationController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_notification/controllers/user_notification.controller.ts",
     "submodule": "user_notification",
     "methods": [
@@ -2631,6 +2646,7 @@
   },
   {
     "name": "OSKUserNotificationTokenController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_notification/controllers/user_notification_token.controller.ts",
     "submodule": "user_notification",
     "methods": [
@@ -2764,6 +2780,7 @@
   },
   {
     "name": "OSKUserOrganizationController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_organization/controllers/user_organization.controller.ts",
     "submodule": "user_organization",
     "methods": [
@@ -2897,6 +2914,7 @@
   },
   {
     "name": "OSKUserOrganizationInvitationPendingController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_organization/controllers/user_organization_invitation_pending.controller.ts",
     "submodule": "user_organization",
     "methods": [
@@ -2972,6 +2990,7 @@
   },
   {
     "name": "OSKUserOrganizationRequestController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_organization/controllers/user_organization_request.controller.ts",
     "submodule": "user_organization",
     "methods": [
@@ -3036,6 +3055,7 @@
   },
   {
     "name": "OSKUserPincodeController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_pincode/controllers/user_pincode.controller.ts",
     "submodule": "user_pincode",
     "methods": [
@@ -3266,6 +3286,7 @@
   },
   {
     "name": "OSKUserSettingsBuildingController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_settings/controllers/user_building_settings.controller.ts",
     "submodule": "user_settings",
     "methods": [
@@ -3422,6 +3443,7 @@
   },
   {
     "name": "OSKUserSettingsUnitController",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_settings/controllers/user_unit_settings.controller.ts",
     "submodule": "user_settings",
     "methods": [

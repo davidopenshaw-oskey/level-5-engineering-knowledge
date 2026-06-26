@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKAdminBuildingService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts",
     "submodule": "admin_buildings",
     "methods": [
@@ -31,6 +32,7 @@
   },
   {
     "name": "OSKDbAccessService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts",
     "submodule": "admin_maintenance",
     "methods": [
@@ -359,6 +361,7 @@
   },
   {
     "name": "OSKDbBuildingSettingsService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts",
     "submodule": "admin_maintenance",
     "methods": [
@@ -435,6 +438,7 @@
   },
   {
     "name": "OSKDbIntercomUnitNumberService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercom_allowUnitNumber.service.ts",
     "submodule": "admin_maintenance",
     "methods": [
@@ -511,6 +515,7 @@
   },
   {
     "name": "OSKDbIntercomService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts",
     "submodule": "admin_maintenance",
     "methods": [
@@ -955,6 +960,7 @@
   },
   {
     "name": "OSKDbOrganizationPromptService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_organizations/db_organization_prompt.service.ts",
     "submodule": "admin_maintenance",
     "methods": [
@@ -985,6 +991,7 @@
   },
   {
     "name": "OSKDbPincodesService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts",
     "submodule": "admin_maintenance",
     "methods": [
@@ -1044,6 +1051,7 @@
   },
   {
     "name": "OSKPincodeRefreshWorkerService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/pincode_refresh_worker.service.ts",
     "submodule": "admin_maintenance",
     "methods": [
@@ -1098,6 +1106,7 @@
   },
   {
     "name": "OSKDbPropertiesService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_propertiesIds/db_propertiesIds.service.ts",
     "submodule": "admin_maintenance",
     "methods": [
@@ -1128,6 +1137,7 @@
   },
   {
     "name": "OSKDbResidentsService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts",
     "submodule": "admin_maintenance",
     "methods": [
@@ -1255,6 +1265,7 @@
   },
   {
     "name": "OSKDbUserSettingsService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts",
     "submodule": "admin_maintenance",
     "methods": [
@@ -1354,6 +1365,7 @@
   },
   {
     "name": "OSKOragnizationListService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
     "submodule": "admin_organization",
     "methods": [
@@ -1407,6 +1419,7 @@
   },
   {
     "name": "OSKAdminInhabitantUserService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
     "submodule": "admin_users",
     "methods": [
@@ -1506,6 +1519,7 @@
   },
   {
     "name": "OSKAdminUserService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
     "submodule": "admin_users",
     "methods": [
@@ -1582,6 +1596,7 @@
   },
   {
     "name": "OSKAdminUserAccessService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
     "submodule": "admin_users",
     "methods": [
@@ -1721,6 +1736,7 @@
   },
   {
     "name": "OSKAdminUserDeviceService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
     "submodule": "admin_users",
     "methods": [
@@ -1814,6 +1830,7 @@
   },
   {
     "name": "OSKAdminUserInvitationService",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
     "submodule": "admin_users",
     "methods": [

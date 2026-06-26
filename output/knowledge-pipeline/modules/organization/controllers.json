@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKOrganizationController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/controllers/organization.controller.ts",
     "submodule": null,
     "methods": [
@@ -192,6 +193,7 @@
   },
   {
     "name": "OSKOrganizationBuildingController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_building/controllers/organization_building.controller.ts",
     "submodule": "organization_building",
     "methods": [
@@ -325,6 +327,7 @@
   },
   {
     "name": "OSKEntityController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts",
     "submodule": "organization_entity",
     "methods": [
@@ -449,6 +452,7 @@
   },
   {
     "name": "OSKOrganizationInhabitantController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_inhabitant/controllers/organization_inhabitant.controller.ts",
     "submodule": "organization_inhabitant",
     "methods": [
@@ -479,6 +483,7 @@
   },
   {
     "name": "OSKIntercomBuildingStateController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_intercom_ communication/controllers/organization_intercom_building_state.controller.ts",
     "submodule": "organization_intercom_ communication",
     "methods": [
@@ -643,6 +648,7 @@
   },
   {
     "name": "OSKIntercomCommunicationArchiveController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_intercom_ communication/controllers/organization_intercom_communication_archive.controller.ts",
     "submodule": "organization_intercom_ communication",
     "methods": [
@@ -778,6 +784,7 @@
   },
   {
     "name": "OSKOrganizationOnboardingInhabitantController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/controllers/organization_onboarding_inhabitant.controller.ts",
     "submodule": "organization_onboarding_inhabitant",
     "methods": [
@@ -986,6 +993,7 @@
   },
   {
     "name": "OSKOrganizationPendingController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_pending/controllers/organization_pending.controller.ts",
     "submodule": "organization_pending",
     "methods": [
@@ -1093,6 +1101,7 @@
   },
   {
     "name": "OSKOrganizationPromptTemplateController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_prompt_templates/controllers/oraganization_prompt_templates.controller.ts",
     "submodule": "organization_prompt_templates",
     "methods": [
@@ -1243,6 +1252,7 @@
   },
   {
     "name": "OSKPropertyController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts",
     "submodule": "organization_property",
     "methods": [
@@ -1470,6 +1480,7 @@
   },
   {
     "name": "OSKOrganizationResidentsController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_residents/controllers/organization_residents.controller.ts",
     "submodule": "organization_residents",
     "methods": [
@@ -1655,6 +1666,7 @@
   },
   {
     "name": "OSKOrganizationUserController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts",
     "submodule": "organization_user",
     "methods": [
@@ -1874,6 +1886,7 @@
   },
   {
     "name": "OSKOrganizationPMPUserInvitationController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_pmp_user_invitation.controller.ts",
     "submodule": "organization_user_invitation",
     "methods": [
@@ -1909,6 +1922,7 @@
   },
   {
     "name": "OSKOrganizationUserInvitationController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts",
     "submodule": "organization_user_invitation",
     "methods": [
@@ -2169,6 +2183,7 @@
   },
   {
     "name": "OSKOrganizationUserInvitationPendingController",
+    "repo": "cloud",
     "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation_pending.controller.ts",
     "submodule": "organization_user_invitation",
     "methods": [

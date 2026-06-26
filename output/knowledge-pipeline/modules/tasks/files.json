@@ -1,6 +1,7 @@
 [
   {
     "path": "functions/src/modules/tasks/index.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -140,10 +141,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/tasks/models/pincode_refresh_task.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [],
     "exports": [
@@ -165,10 +168,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/tasks/models/tasks.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -220,10 +225,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/tasks/services/task_handler.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -654,10 +661,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1005,6 +1014,41 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "tasks",
+        "submodule": null,
+        "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/tasks/services/task_scheduler.service.ts",
+        "type": "environment_variable",
+        "value": "GCLOUD_PROJECT",
+        "line": 17
+      },
+      {
+        "repo": "cloud",
+        "module": "tasks",
+        "submodule": null,
+        "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/tasks/services/task_scheduler.service.ts",
+        "type": "environment_variable",
+        "value": "LOCATION_ID",
+        "line": 18
+      },
+      {
+        "repo": "cloud",
+        "module": "tasks",
+        "submodule": null,
+        "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/tasks/services/task_scheduler.service.ts",
+        "type": "environment_variable",
+        "value": "QUEUE_TASK_NAME",
+        "line": 19
+      }
+    ]
   }
 ]

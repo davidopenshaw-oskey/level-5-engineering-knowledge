@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-25T16:52:02.549Z",
+  "generatedAt": "2026-06-26T10:27:01.112Z",
   "module": "supplier",
   "source": {
     "manifest": "manifest.json",
@@ -17,8 +17,9 @@
       "methods": 77,
       "functions": 2,
       "calls": 316,
-      "firestoreHints": 2,
+      "firestoreHints": 7,
       "permissionHints": 35,
+      "externalHooks": 2,
       "services": 6,
       "controllers": 6
     },
@@ -47,6 +48,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
           "submodule": null,
           "methods": [
@@ -220,6 +222,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
           "submodule": null,
           "methods": [
@@ -398,6 +401,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
           "submodule": null,
           "methods": [
@@ -576,6 +580,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
           "submodule": null,
           "methods": [
@@ -761,6 +766,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
           "submodule": null,
           "methods": [
@@ -946,6 +952,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
           "submodule": null,
           "methods": [
@@ -1137,6 +1144,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
           "submodule": null,
           "methods": [
@@ -1328,6 +1336,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
           "submodule": null,
           "methods": [
@@ -1513,6 +1522,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
           "submodule": null,
           "methods": [
@@ -1691,6 +1701,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
           "submodule": null,
           "methods": [
@@ -1873,6 +1884,7 @@
       "value": "OSKSupplierController",
       "symbol": "OSKSupplierController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -1902,6 +1914,7 @@
       "line": 13,
       "value": "/suppliers",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -1919,6 +1932,7 @@
       "value": "super",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -1938,6 +1952,7 @@
       "value": "OSKSupplierController.default._generateDocId",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -1959,6 +1974,7 @@
       "value": "OSKSupplierController.default._get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -1981,6 +1997,7 @@
       "value": "this.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -2002,6 +2019,7 @@
       "value": "OSKSupplierController.default._set",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -2025,6 +2043,7 @@
       "value": "OSKSupplierController.default._update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -2048,6 +2067,7 @@
       "value": "OSKSupplierController.default._delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -2070,6 +2090,7 @@
       "value": "OSKSupplierController.default._query",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -2091,6 +2112,7 @@
       "value": "OSKSupplierController.default._query",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
         "submodule": null,
@@ -2112,6 +2134,7 @@
       "value": "OSKSupplierController",
       "symbol": "OSKSupplierController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2129,6 +2152,7 @@
       "value": "OSKSupplierStaffController",
       "symbol": "OSKSupplierStaffController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2146,6 +2170,7 @@
       "value": "OSKSupplierStaffPincodeController",
       "symbol": "OSKSupplierStaffPincodeController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2163,6 +2188,7 @@
       "value": "*",
       "symbol": "*",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2180,6 +2206,7 @@
       "value": "OSKSupplierStaffAccess",
       "symbol": "OSKSupplierStaffAccess",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2197,6 +2224,7 @@
       "value": "OSKSupplierStaffPincodeDocument",
       "symbol": "OSKSupplierStaffPincodeDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2214,6 +2242,7 @@
       "value": "OSKSupplierStaffService",
       "symbol": "OSKSupplierStaffService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2231,6 +2260,7 @@
       "value": "OSKSupplierStaffAccessService",
       "symbol": "OSKSupplierStaffAccessService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2248,6 +2278,7 @@
       "value": "OSKSupplierStaffPincodeService",
       "symbol": "OSKSupplierStaffPincodeService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2265,6 +2296,7 @@
       "value": "OSKSupplierService",
       "symbol": "OSKSupplierService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2282,6 +2314,7 @@
       "value": "getCallableFunctionTriggers",
       "symbol": "getCallableFunctionTriggers",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2299,6 +2332,7 @@
       "value": "OSKSupplier",
       "symbol": "OSKSupplier",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2316,6 +2350,7 @@
       "value": "OSKSupplierDocument",
       "symbol": "OSKSupplierDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2333,6 +2368,7 @@
       "value": "OSKCreateSupplierRequest",
       "symbol": "OSKCreateSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2350,6 +2386,7 @@
       "value": "OSKUpdateSupplierRequest",
       "symbol": "OSKUpdateSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2367,6 +2404,7 @@
       "value": "OSKGetSupplierRequest",
       "symbol": "OSKGetSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2384,6 +2422,7 @@
       "value": "OSKGetAllSuppliersRequest",
       "symbol": "OSKGetAllSuppliersRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2401,6 +2440,7 @@
       "value": "OSKDeleteSupplierRequest",
       "symbol": "OSKDeleteSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2418,6 +2458,7 @@
       "value": "OSKSupplierStaff",
       "symbol": "OSKSupplierStaff",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2435,6 +2476,7 @@
       "value": "OSKSupplierStaffDocument",
       "symbol": "OSKSupplierStaffDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2452,6 +2494,7 @@
       "value": "OSKSupplierStaffPincode",
       "symbol": "OSKSupplierStaffPincode",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2469,6 +2512,7 @@
       "value": "OSKAddSupplierStaffRequest",
       "symbol": "OSKAddSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2486,6 +2530,7 @@
       "value": "OSKUpdateSupplierStaffRequest",
       "symbol": "OSKUpdateSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2503,6 +2548,7 @@
       "value": "OSKGetSupplierStaffRequest",
       "symbol": "OSKGetSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2520,6 +2566,7 @@
       "value": "OSKDeleteSupplierStaffRequest",
       "symbol": "OSKDeleteSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2537,6 +2584,7 @@
       "value": "OSKGetAllSupplierStaffRequest",
       "symbol": "OSKGetAllSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2554,6 +2602,7 @@
       "value": "OSKCreateSupplierStaffAccessRequest",
       "symbol": "OSKCreateSupplierStaffAccessRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2571,6 +2620,7 @@
       "value": "OSKCreateSupplierStaffWithAccessRequest",
       "symbol": "OSKCreateSupplierStaffWithAccessRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2588,6 +2638,7 @@
       "value": "OSKCreateSupplierStaffWithAccessResponse",
       "symbol": "OSKCreateSupplierStaffWithAccessResponse",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2605,6 +2656,7 @@
       "value": "OSKUpdateSupplierStaffAccessDoorsRequest",
       "symbol": "OSKUpdateSupplierStaffAccessDoorsRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2622,6 +2674,7 @@
       "value": "OSKDeleteSupplierStaffAccessRequest",
       "symbol": "OSKDeleteSupplierStaffAccessRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2639,6 +2692,7 @@
       "value": "OSKGetAllSupplierStaffPincodesRequest",
       "symbol": "OSKGetAllSupplierStaffPincodesRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2656,6 +2710,7 @@
       "value": "OSKCreateSupplierStaffAccessResponse",
       "symbol": "OSKCreateSupplierStaffAccessResponse",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2673,6 +2728,7 @@
       "value": "OSKGettAllSupplierStaffAccessesInfosRequest",
       "symbol": "OSKGettAllSupplierStaffAccessesInfosRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2690,6 +2746,7 @@
       "value": "OSKGetAllSupplierStaffAccessesInfosResponse",
       "symbol": "OSKGetAllSupplierStaffAccessesInfosResponse",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2706,6 +2763,7 @@
       "file": "functions/src/modules/supplier/index.ts",
       "value": "./modules/supplierStaff",
       "evidence": {
+        "repo": "cloud",
         "sourceFile": "functions/src/modules/supplier/index.ts",
         "submodule": null,
         "importedFrom": "./modules/supplierStaff",
@@ -2736,6 +2794,7 @@
       "value": "functionBuilder.runWith",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2757,6 +2816,7 @@
       "value": "supplierStaffTrigger.getCallableFunctionTriggers",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2778,6 +2838,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2799,6 +2860,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2820,6 +2882,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2841,6 +2904,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2862,6 +2926,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/index.ts",
         "submodule": null,
@@ -2882,6 +2947,7 @@
       "value": "OSKSupplier",
       "symbol": "OSKSupplier",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/documents/supplier_document.model.ts",
         "submodule": null,
@@ -2899,6 +2965,7 @@
       "value": "OSKSupplierDocument",
       "symbol": "OSKSupplierDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/documents/supplier_document.model.ts",
         "submodule": null,
@@ -2928,6 +2995,7 @@
       "value": "OSKCreateSupplierRequest",
       "symbol": "OSKCreateSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
         "submodule": null,
@@ -2945,6 +3013,7 @@
       "value": "OSKUpdateSupplierRequest",
       "symbol": "OSKUpdateSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
         "submodule": null,
@@ -2962,6 +3031,7 @@
       "value": "OSKGetSupplierRequest",
       "symbol": "OSKGetSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
         "submodule": null,
@@ -2979,6 +3049,7 @@
       "value": "OSKGetAllSuppliersRequest",
       "symbol": "OSKGetAllSuppliersRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
         "submodule": null,
@@ -2996,6 +3067,7 @@
       "value": "OSKDeleteSupplierRequest",
       "symbol": "OSKDeleteSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
         "submodule": null,
@@ -3025,6 +3097,7 @@
       "value": "OSKCreateSupplierRequest",
       "symbol": "OSKCreateSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
         "submodule": null,
@@ -3042,6 +3115,7 @@
       "value": "OSKUpdateSupplierRequest",
       "symbol": "OSKUpdateSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
         "submodule": null,
@@ -3059,6 +3133,7 @@
       "value": "OSKGetSupplierRequest",
       "symbol": "OSKGetSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
         "submodule": null,
@@ -3076,6 +3151,7 @@
       "value": "OSKGetAllSuppliersRequest",
       "symbol": "OSKGetAllSuppliersRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
         "submodule": null,
@@ -3093,6 +3169,7 @@
       "value": "OSKDeleteSupplierRequest",
       "symbol": "OSKDeleteSupplierRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
         "submodule": null,
@@ -3125,6 +3202,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffAccessController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -3364,6 +3442,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffAccessController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -3609,6 +3688,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffAccessController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -3848,6 +3928,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffAccessController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -4099,6 +4180,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffAccessController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -4350,6 +4432,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffAccessController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -4595,6 +4678,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffAccessController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -4831,6 +4915,7 @@
       "value": "OSKSupplierStaffAccessController",
       "symbol": "OSKSupplierStaffAccessController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -4861,6 +4946,7 @@
       "value": "OSKSupplierStaffAccessController.default._get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -4883,6 +4969,7 @@
       "value": "OSKSupplierStaffAccessController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -4905,6 +4992,7 @@
       "value": "OSKSupplierStaffAccessController.default._query",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -4926,6 +5014,7 @@
       "value": "OSKSupplierStaffAccessController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -4948,6 +5037,7 @@
       "value": "OSKSupplierStaffAccessController.default._create",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -4971,6 +5061,7 @@
       "value": "OSKSupplierStaffAccessController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -4993,6 +5084,7 @@
       "value": "OSKSupplierStaffAccessController.default._update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -5016,6 +5108,7 @@
       "value": "OSKSupplierStaffAccessController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -5038,6 +5131,7 @@
       "value": "OSKSupplierStaffAccessController.default._delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -5060,6 +5154,7 @@
       "value": "OSKSupplierStaffAccessController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -5082,6 +5177,7 @@
       "value": "OSKSupplierStaffAccessController.default._query",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -5103,6 +5199,7 @@
       "value": "OSKSupplierStaffAccessController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
         "submodule": "supplierStaff",
@@ -5127,6 +5224,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivityAggregatesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -5359,6 +5457,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivityAggregatesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -5609,6 +5708,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivityAggregatesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -5865,6 +5965,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivityAggregatesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -6121,6 +6222,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivityAggregatesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -6371,6 +6473,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivityAggregatesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -6633,6 +6736,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivityAggregatesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -6895,6 +6999,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivityAggregatesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -7148,6 +7253,7 @@
       "value": "OSKSupplierStaffActivityAggregatesController",
       "symbol": "OSKSupplierStaffActivityAggregatesController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7178,6 +7284,7 @@
       "value": "super",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7197,6 +7304,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7219,6 +7327,7 @@
       "value": "this._get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7241,6 +7350,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7263,6 +7373,7 @@
       "value": "this._get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7285,6 +7396,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7307,6 +7419,7 @@
       "value": "this._query",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7328,6 +7441,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7350,6 +7464,7 @@
       "value": "this._set",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7373,6 +7488,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7395,6 +7511,7 @@
       "value": "this._update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7418,6 +7535,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7440,6 +7558,7 @@
       "value": "this._delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
         "submodule": "supplierStaff",
@@ -7464,6 +7583,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivitiesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -7684,6 +7804,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivitiesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -7922,6 +8043,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivitiesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -8166,6 +8288,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivitiesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -8410,6 +8533,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivitiesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -8648,6 +8772,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivitiesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -8886,6 +9011,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivitiesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -9136,6 +9262,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffActivitiesController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -9377,6 +9504,7 @@
       "value": "OSKSupplierStaffActivitiesController",
       "symbol": "OSKSupplierStaffActivitiesController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9407,6 +9535,7 @@
       "value": "super",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9426,6 +9555,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9448,6 +9578,7 @@
       "value": "this._get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9470,6 +9601,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9492,6 +9624,7 @@
       "value": "this._get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9514,6 +9647,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9536,6 +9670,7 @@
       "value": "this._query",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9557,6 +9692,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9579,6 +9715,7 @@
       "value": "this._generateDocId",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9600,6 +9737,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9622,6 +9760,7 @@
       "value": "this._set",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9645,6 +9784,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9667,6 +9807,7 @@
       "value": "this._delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
         "submodule": "supplierStaff",
@@ -9691,6 +9832,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffPincodeController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -9872,6 +10014,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffPincodeController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -10065,6 +10208,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffPincodeController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -10252,6 +10396,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffPincodeController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -10439,6 +10584,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffPincodeController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -10617,6 +10763,7 @@
       "value": "OSKSupplierStaffPincodeController",
       "symbol": "OSKSupplierStaffPincodeController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
         "submodule": "supplierStaff",
@@ -10647,6 +10794,7 @@
       "value": "OSKSupplierStaffPincodeController.default._create",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
         "submodule": "supplierStaff",
@@ -10670,6 +10818,7 @@
       "value": "OSKSupplierStaffPincodeController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
         "submodule": "supplierStaff",
@@ -10692,6 +10841,7 @@
       "value": "OSKSupplierStaffPincodeController.default._query",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
         "submodule": "supplierStaff",
@@ -10714,6 +10864,7 @@
       "value": "OSKSupplierStaffPincodeController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
         "submodule": "supplierStaff",
@@ -10736,6 +10887,7 @@
       "value": "OSKSupplierStaffPincodeController.default._delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
         "submodule": "supplierStaff",
@@ -10758,6 +10910,7 @@
       "value": "OSKSupplierStaffPincodeController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
         "submodule": "supplierStaff",
@@ -10780,6 +10933,7 @@
       "value": "OSKSupplierStaffPincodeController.default._query",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
         "submodule": "supplierStaff",
@@ -10801,6 +10955,7 @@
       "value": "this.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
         "submodule": "supplierStaff",
@@ -10825,6 +10980,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -11025,6 +11181,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -11237,6 +11394,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -11442,6 +11600,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -11660,6 +11819,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -11878,6 +12038,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -12102,6 +12263,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -12326,6 +12488,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -12544,6 +12707,7 @@
       "evidence": {
         "controller": {
           "name": "OSKSupplierStaffController",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -12753,6 +12917,7 @@
       "value": "OSKSupplierStaffController",
       "symbol": "OSKSupplierStaffController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12783,6 +12948,7 @@
       "value": "super",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12802,6 +12968,7 @@
       "value": "OSKSupplierStaffController.default._generateDocId",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12823,6 +12990,7 @@
       "value": "OSKSupplierStaffController.default._get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12845,6 +13013,7 @@
       "value": "OSKSupplierStaffController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12866,6 +13035,7 @@
       "value": "OSKSupplierStaffController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12888,6 +13058,7 @@
       "value": "OSKSupplierStaffController.default._set",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12911,6 +13082,7 @@
       "value": "OSKSupplierStaffController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12932,6 +13104,7 @@
       "value": "OSKSupplierStaffController.default._update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12955,6 +13128,7 @@
       "value": "OSKSupplierStaffController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12976,6 +13150,7 @@
       "value": "OSKSupplierStaffController.default._delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -12998,6 +13173,7 @@
       "value": "OSKSupplierStaffController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -13019,6 +13195,7 @@
       "value": "OSKSupplierStaffController.default._query",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -13040,6 +13217,7 @@
       "value": "OSKSupplierStaffController.default.getCollectionPath",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
         "submodule": "supplierStaff",
@@ -13060,6 +13238,7 @@
       "value": "OSKSupplierStaffController",
       "symbol": "OSKSupplierStaffController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13077,6 +13256,7 @@
       "value": "OSKSupplierStaffPincodeController",
       "symbol": "OSKSupplierStaffPincodeController",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13094,6 +13274,7 @@
       "value": "OSKSupplierStaffAccess",
       "symbol": "OSKSupplierStaffAccess",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13111,6 +13292,7 @@
       "value": "OSKSupplierStaffAccessesDocument",
       "symbol": "OSKSupplierStaffAccessesDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13128,6 +13310,7 @@
       "value": "OSKSupplierStaff",
       "symbol": "OSKSupplierStaff",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13145,6 +13328,7 @@
       "value": "OSKSupplierStaffDocument",
       "symbol": "OSKSupplierStaffDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13162,6 +13346,7 @@
       "value": "*",
       "symbol": "*",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13179,6 +13364,7 @@
       "value": "OSKAddSupplierStaffRequest",
       "symbol": "OSKAddSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13196,6 +13382,7 @@
       "value": "OSKCreateSupplierStaffAccessRequest",
       "symbol": "OSKCreateSupplierStaffAccessRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13213,6 +13400,7 @@
       "value": "OSKCreateSupplierStaffWithAccessRequest",
       "symbol": "OSKCreateSupplierStaffWithAccessRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13230,6 +13418,7 @@
       "value": "OSKCreateSupplierStaffWithAccessResponse",
       "symbol": "OSKCreateSupplierStaffWithAccessResponse",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13247,6 +13436,7 @@
       "value": "OSKDeleteSupplierStaffAccessRequest",
       "symbol": "OSKDeleteSupplierStaffAccessRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13264,6 +13454,7 @@
       "value": "OSKDeleteSupplierStaffRequest",
       "symbol": "OSKDeleteSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13281,6 +13472,7 @@
       "value": "OSKGetAllSupplierStaffPincodesRequest",
       "symbol": "OSKGetAllSupplierStaffPincodesRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13298,6 +13490,7 @@
       "value": "OSKGetAllSupplierStaffRequest",
       "symbol": "OSKGetAllSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13315,6 +13508,7 @@
       "value": "OSKGetSupplierStaffRequest",
       "symbol": "OSKGetSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13332,6 +13526,7 @@
       "value": "OSKUpdateSupplierStaffAccessDoorsRequest",
       "symbol": "OSKUpdateSupplierStaffAccessDoorsRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13349,6 +13544,7 @@
       "value": "OSKUpdateSupplierStaffRequest",
       "symbol": "OSKUpdateSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13366,6 +13562,7 @@
       "value": "OSKSupplierStaffService",
       "symbol": "OSKSupplierStaffService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13383,6 +13580,7 @@
       "value": "OSKSupplierStaffAccessService",
       "symbol": "OSKSupplierStaffAccessService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13400,6 +13598,7 @@
       "value": "OSKSupplierStaffActivityService",
       "symbol": "OSKSupplierStaffActivityService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13417,6 +13616,7 @@
       "value": "OSKSupplierStaffActivityAggregatesService",
       "symbol": "OSKSupplierStaffActivityAggregatesService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13434,6 +13634,7 @@
       "value": "OSKSupplierStaffPincodeService",
       "symbol": "OSKSupplierStaffPincodeService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13451,6 +13652,7 @@
       "value": "getCallableFunctionTriggers",
       "symbol": "getCallableFunctionTriggers",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13468,6 +13670,7 @@
       "value": "OSKSupplierStaffPincode",
       "symbol": "OSKSupplierStaffPincode",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13485,6 +13688,7 @@
       "value": "OSKSupplierStaffPincodeDocument",
       "symbol": "OSKSupplierStaffPincodeDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13515,6 +13719,7 @@
       "value": "functionBuilder.runWith",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13536,6 +13741,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13557,6 +13763,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13578,6 +13785,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13599,6 +13807,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13620,6 +13829,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13641,6 +13851,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13662,6 +13873,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13683,6 +13895,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13704,6 +13917,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13725,6 +13939,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13746,6 +13961,7 @@
       "value": "https.onCall",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
         "submodule": "supplierStaff",
@@ -13766,6 +13982,7 @@
       "value": "OSKSupplierStaffAccessesDocument",
       "symbol": "OSKSupplierStaffAccessesDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access_document.model.ts",
         "submodule": "supplierStaff",
@@ -13795,6 +14012,7 @@
       "value": "OSKSupplierStaffAccess",
       "symbol": "OSKSupplierStaffAccess",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access.model.ts",
         "submodule": "supplierStaff",
@@ -13824,6 +14042,7 @@
       "value": "OSKSupplierStaffActivity",
       "symbol": "OSKSupplierStaffActivity",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
         "submodule": "supplierStaff",
@@ -13841,6 +14060,7 @@
       "value": "OSKSupplierStaffActivityAggregate",
       "symbol": "OSKSupplierStaffActivityAggregate",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
         "submodule": "supplierStaff",
@@ -13858,6 +14078,7 @@
       "value": "OSKSupplierStaffActivityDocument",
       "symbol": "OSKSupplierStaffActivityDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
         "submodule": "supplierStaff",
@@ -13875,6 +14096,7 @@
       "value": "OSKSupplierStaffActivityAggregateDocument",
       "symbol": "OSKSupplierStaffActivityAggregateDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
         "submodule": "supplierStaff",
@@ -13891,6 +14113,7 @@
       "file": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
       "value": "../../../../../building/modules/building_activity/models/documents/building_activity_document.model",
       "evidence": {
+        "repo": "cloud",
         "sourceFile": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
         "submodule": "supplierStaff",
         "importedFrom": "../../../../../building/modules/building_activity/models/documents/building_activity_document.model",
@@ -13925,6 +14148,7 @@
       "value": "OSKSupplierStaff",
       "symbol": "OSKSupplierStaff",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model.ts",
         "submodule": "supplierStaff",
@@ -13942,6 +14166,7 @@
       "value": "OSKSupplierStaffDocument",
       "symbol": "OSKSupplierStaffDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model.ts",
         "submodule": "supplierStaff",
@@ -13971,6 +14196,7 @@
       "value": "OSKSupplierStaffPincode",
       "symbol": "OSKSupplierStaffPincode",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_pincode.model.ts",
         "submodule": "supplierStaff",
@@ -13988,6 +14214,7 @@
       "value": "OSKSupplierStaffPincodeDocument",
       "symbol": "OSKSupplierStaffPincodeDocument",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_pincode.model.ts",
         "submodule": "supplierStaff",
@@ -14017,6 +14244,7 @@
       "value": "OSKGetSupplierStaffActivityByIdRequest",
       "symbol": "OSKGetSupplierStaffActivityByIdRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model.ts",
         "submodule": "supplierStaff",
@@ -14034,6 +14262,7 @@
       "value": "OSKGetAllSupplierStaffActivitiesRequest",
       "symbol": "OSKGetAllSupplierStaffActivitiesRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model.ts",
         "submodule": "supplierStaff",
@@ -14051,6 +14280,7 @@
       "value": "OSKGetSupplierStaffActivityAggregatesByBuildingIdRequest",
       "symbol": "OSKGetSupplierStaffActivityAggregatesByBuildingIdRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model.ts",
         "submodule": "supplierStaff",
@@ -14080,6 +14310,7 @@
       "value": "OSKAddSupplierStaffRequest",
       "symbol": "OSKAddSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14097,6 +14328,7 @@
       "value": "OSKUpdateSupplierStaffRequest",
       "symbol": "OSKUpdateSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14114,6 +14346,7 @@
       "value": "OSKGetSupplierStaffRequest",
       "symbol": "OSKGetSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14131,6 +14364,7 @@
       "value": "OSKDeleteSupplierStaffRequest",
       "symbol": "OSKDeleteSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14148,6 +14382,7 @@
       "value": "OSKGetAllSupplierStaffRequest",
       "symbol": "OSKGetAllSupplierStaffRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14165,6 +14400,7 @@
       "value": "OSKCreateSupplierStaffAccessRequest",
       "symbol": "OSKCreateSupplierStaffAccessRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14182,6 +14418,7 @@
       "value": "OSKCreateSupplierStaffWithAccessRequest",
       "symbol": "OSKCreateSupplierStaffWithAccessRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14199,6 +14436,7 @@
       "value": "OSKCreateSupplierStaffWithAccessResponse",
       "symbol": "OSKCreateSupplierStaffWithAccessResponse",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14216,6 +14454,7 @@
       "value": "OSKUpdateSupplierStaffAccessDoorsRequest",
       "symbol": "OSKUpdateSupplierStaffAccessDoorsRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14233,6 +14472,7 @@
       "value": "OSKDeleteSupplierStaffAccessRequest",
       "symbol": "OSKDeleteSupplierStaffAccessRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14250,6 +14490,7 @@
       "value": "OSKGetAllSupplierStaffPincodesRequest",
       "symbol": "OSKGetAllSupplierStaffPincodesRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14267,6 +14508,7 @@
       "value": "OSKCreateSupplierStaffAccessResponse",
       "symbol": "OSKCreateSupplierStaffAccessResponse",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14284,6 +14526,7 @@
       "value": "OSKGettAllSupplierStaffAccessesInfosRequest",
       "symbol": "OSKGettAllSupplierStaffAccessesInfosRequest",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14301,6 +14544,7 @@
       "value": "OSKGetAllSupplierStaffAccessesInfosResponse",
       "symbol": "OSKGetAllSupplierStaffAccessesInfosResponse",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
         "submodule": "supplierStaff",
@@ -14330,6 +14574,7 @@
       "value": "OSKSupplierStaffAccessService",
       "symbol": "OSKSupplierStaffAccessService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -14350,6 +14595,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffAccessService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -14504,6 +14750,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffAccessService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -14640,6 +14887,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffAccessService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -14793,6 +15041,7 @@
       "value": "OSKAccessUtilsService.generateAccessId",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -14812,6 +15061,7 @@
       "value": "Timestamp.now",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -14831,6 +15081,7 @@
       "value": "OSKBuildingController.default.getSafe",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -14852,6 +15103,7 @@
       "value": "OSKSupplierStaffAccessController.default.getPerBuilding",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -14875,6 +15127,7 @@
       "value": "OSKSupplierStaffAccessController.default.update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -14899,6 +15152,7 @@
       "value": "FieldValue.arrayUnion",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -14920,6 +15174,7 @@
       "value": "Timestamp.now",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -14939,6 +15194,7 @@
       "value": "OSKSupplierStaffAccessController.default.save",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -14963,6 +15219,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -14984,6 +15241,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15005,6 +15263,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15027,6 +15286,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15048,6 +15308,7 @@
       "line": 135,
       "value": "v1.org.suppliers.view",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15064,6 +15325,7 @@
       "line": 138,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15081,6 +15343,7 @@
       "value": "OSKSupplierStaffAccessController.default.getAllAccessesForAllBuildings",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15103,6 +15366,7 @@
       "value": "OSKSupplierStaffPincodeController.default.getAll",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15125,6 +15389,7 @@
       "value": "supplierStaffPincodeDocs.forEach",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15146,6 +15411,7 @@
       "value": "pincodeMap.set",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15168,6 +15434,7 @@
       "value": "supplierStaffAccessDocs.map",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15189,6 +15456,7 @@
       "value": "accessDoc.accesses.map",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15210,6 +15478,7 @@
       "value": "pincodeMap.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
         "submodule": "supplierStaff",
@@ -15230,6 +15499,7 @@
       "value": "OSKSupplierStaffActivityAggregatesService",
       "symbol": "OSKSupplierStaffActivityAggregatesService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15246,6 +15516,7 @@
       "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "value": "../../../../building/modules/building_activity",
       "evidence": {
+        "repo": "cloud",
         "sourceFile": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
         "importedFrom": "../../../../building/modules/building_activity",
@@ -15271,6 +15542,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffActivityAggregatesService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -15366,6 +15638,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffActivityAggregatesService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -15478,6 +15751,7 @@
       "value": "OSKSupplierStaffActivityAggregatesService.logger.logError",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15500,6 +15774,7 @@
       "value": "OSKSupplierService.getSupplierStaffFromAllSuppliers",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15521,6 +15796,7 @@
       "value": "OSKSupplierStaffActivityAggregatesService.logger.logError",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15543,6 +15819,7 @@
       "value": "OSKSupplierStaffActivityAggregatesController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15566,6 +15843,7 @@
       "value": "aggregateDoc.activities.push",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15587,6 +15865,7 @@
       "value": "cutoffDate.setDate",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15608,6 +15887,7 @@
       "value": "cutoffDate.getDate",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15627,6 +15907,7 @@
       "value": "cutoffDate.setHours",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15651,6 +15932,7 @@
       "value": "aggregateDoc.activities.filter",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15672,6 +15954,7 @@
       "value": "OSKSupplierStaffActivityAggregatesController.default.updateActivities",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15696,6 +15979,7 @@
       "value": "Timestamp.now",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15715,6 +15999,7 @@
       "value": "OSKSupplierStaffActivityAggregatesController.default.save",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15739,6 +16024,7 @@
       "value": "OSKSupplierStaffActivityAggregatesService.logger.logError",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15761,6 +16047,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15782,6 +16069,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15803,6 +16091,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15824,6 +16113,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15845,6 +16135,7 @@
       "line": 145,
       "value": "v1.org.suppliers.view",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15862,6 +16153,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15883,6 +16175,7 @@
       "line": 152,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15900,6 +16193,7 @@
       "value": "OSKSupplierStaffActivityAggregatesController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
         "submodule": "supplierStaff",
@@ -15922,6 +16216,7 @@
       "value": "OSKSupplierStaffActivityService",
       "symbol": "OSKSupplierStaffActivityService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -15938,6 +16233,7 @@
       "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "value": "../../../../building/modules/building_activity",
       "evidence": {
+        "repo": "cloud",
         "sourceFile": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
         "importedFrom": "../../../../building/modules/building_activity",
@@ -15963,6 +16259,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffActivityService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -16088,6 +16385,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffActivityService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -16220,6 +16518,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffActivityService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -16362,6 +16661,7 @@
       "value": "OSKSupplierStaffActivityService.logger.logError",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16384,6 +16684,7 @@
       "value": "OSKSupplierService.getSupplierStaffFromAllSuppliers",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16405,6 +16706,7 @@
       "value": "OSKSupplierStaffActivityService.logger.logError",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16427,6 +16729,7 @@
       "value": "Timestamp.now",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16446,6 +16749,7 @@
       "value": "OSKSupplierStaffActivitiesController.default.save",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16470,6 +16774,7 @@
       "value": "OSKSupplierStaffActivityService.logger.logError",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16492,6 +16797,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16513,6 +16819,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16534,6 +16841,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16555,6 +16863,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16576,6 +16885,7 @@
       "line": 114,
       "value": "v1.org.suppliers.view",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16593,6 +16903,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16614,6 +16925,7 @@
       "line": 121,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16631,6 +16943,7 @@
       "value": "OSKSupplierStaffActivitiesController.default.getSfe",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16654,6 +16967,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16675,6 +16989,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16696,6 +17011,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16717,6 +17033,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16738,6 +17055,7 @@
       "line": 153,
       "value": "v1.org.suppliers.view",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16755,6 +17073,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16776,6 +17095,7 @@
       "line": 160,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16793,6 +17113,7 @@
       "value": "OSKSupplierStaffActivitiesController.default.getAll",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
         "submodule": "supplierStaff",
@@ -16814,6 +17135,7 @@
       "value": "OSKSupplierStaffPincodeService",
       "symbol": "OSKSupplierStaffPincodeService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
         "submodule": "supplierStaff",
@@ -16834,6 +17156,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffPincodeService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -16897,6 +17220,7 @@
       "value": "Timestamp.now",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
         "submodule": "supplierStaff",
@@ -16916,6 +17240,7 @@
       "value": "OSKSupplierStaffPincodeController.default.create",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
         "submodule": "supplierStaff",
@@ -16939,6 +17264,7 @@
       "value": "OSKSupplierStaffService",
       "symbol": "OSKSupplierStaffService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -16959,6 +17285,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -17447,6 +17774,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -17935,6 +18263,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -18423,6 +18752,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -18911,6 +19241,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -19399,6 +19730,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -19887,6 +20219,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -20375,6 +20708,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -20874,6 +21208,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -21362,6 +21697,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -21843,6 +22179,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -22324,6 +22661,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -22812,6 +23150,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -23293,6 +23632,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -23780,6 +24120,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierStaffService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
           "submodule": "supplierStaff",
           "methods": [
@@ -24278,6 +24619,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24299,6 +24641,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24320,6 +24663,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24341,6 +24685,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24362,6 +24707,7 @@
       "line": 72,
       "value": "v1.org.suppliers.create",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24379,6 +24725,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24400,6 +24747,7 @@
       "line": 79,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24417,6 +24765,7 @@
       "value": "Timestamp.now",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24436,6 +24785,7 @@
       "value": "OSKSupplierController.default.getSafe",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24457,6 +24807,7 @@
       "value": "OSKSupplierStaffController.default.generateDocId",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24476,6 +24827,7 @@
       "value": "OSKSupplierStaffController.default.create",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24499,6 +24851,7 @@
       "value": "OSKSupplierStaffService.logger.logInfo",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24521,6 +24874,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24542,6 +24896,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24563,6 +24918,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24584,6 +24940,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24605,6 +24962,7 @@
       "line": 118,
       "value": "v1.org.suppliers.view",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24622,6 +24980,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24643,6 +25002,7 @@
       "line": 125,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24660,6 +25020,7 @@
       "value": "OSKSupplierStaffController.default.getSafe",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24682,6 +25043,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24703,6 +25065,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24724,6 +25087,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24745,6 +25109,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24766,6 +25131,7 @@
       "line": 149,
       "value": "v1.org.suppliers.view",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24783,6 +25149,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24804,6 +25171,7 @@
       "line": 156,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24821,6 +25189,7 @@
       "value": "OSKSupplierStaffController.default.getAll",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24842,6 +25211,7 @@
       "value": "Promise.all",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24863,6 +25233,7 @@
       "value": "staffMembers.map",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24884,6 +25255,7 @@
       "value": "OSKSupplierStaffAccessController.default.getAll",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24906,6 +25278,7 @@
       "value": "OSKSupplierStaffPincodeController.default.getAll",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24928,6 +25301,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24949,6 +25323,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24970,6 +25345,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -24991,6 +25367,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25012,6 +25389,7 @@
       "line": 197,
       "value": "v1.org.suppliers.edit",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25029,6 +25407,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25050,6 +25429,7 @@
       "line": 204,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25067,6 +25447,7 @@
       "value": "OSKSupplierStaffController.default.getSafe",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25089,6 +25470,7 @@
       "value": "Timestamp.now",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25108,6 +25490,7 @@
       "value": "OSKSupplierStaffController.default.update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25131,6 +25514,7 @@
       "value": "OSKSupplierStaffService.logger.logInfo",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25153,6 +25537,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25174,6 +25559,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25195,6 +25581,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25216,6 +25603,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25237,6 +25625,7 @@
       "line": 242,
       "value": "v1.org.suppliers.delete",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25254,6 +25643,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25275,6 +25665,7 @@
       "line": 249,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25292,6 +25683,7 @@
       "value": "OSKSupplierStaffService._deleteStaffMemberAndRelatedData",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25314,6 +25706,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25335,6 +25728,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25356,6 +25750,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25377,6 +25772,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25398,6 +25794,7 @@
       "line": 287,
       "value": "v1.org.suppliers.edit",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25415,6 +25812,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25436,6 +25834,7 @@
       "line": 294,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25453,6 +25852,7 @@
       "value": "OSKBuildingController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25474,6 +25874,7 @@
       "value": "OSKSupplierStaffService.logger.logWarning",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25495,6 +25896,7 @@
       "value": "doorIds.every",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25516,6 +25918,7 @@
       "value": "OSKSupplierStaffService.logger.logWarning",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25537,6 +25940,7 @@
       "value": "OSKSupplierStaffService._getDoorDocumentsFromIds",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25559,6 +25963,7 @@
       "value": "doorDocs.map",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25580,6 +25985,7 @@
       "value": "isNaN",
       "symbol": "isNaN",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25601,6 +26007,7 @@
       "value": "startDate.getTime",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25620,6 +26027,7 @@
       "value": "endDate.getTime",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25639,6 +26047,7 @@
       "value": "Timestamp.fromDate",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25660,6 +26069,7 @@
       "value": "Timestamp.fromDate",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25681,6 +26091,7 @@
       "value": "OSKAccessService.createAccess",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25704,6 +26115,7 @@
       "value": "createdAccesses.push",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25725,6 +26137,7 @@
       "value": "OSKSupplierStaffService.logger.logInfo",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25747,6 +26160,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25768,6 +26182,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25789,6 +26204,7 @@
       "value": "OSKSupplierStaffController.default.generateDocId",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25808,6 +26224,7 @@
       "value": "Timestamp.now",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25827,6 +26244,7 @@
       "value": "OSKSupplierStaffController.default.create",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25850,6 +26268,7 @@
       "value": "OSKSupplierStaffService.logger.logInfo",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25871,6 +26290,7 @@
       "value": "OSKBuildingController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25892,6 +26312,7 @@
       "value": "OSKSupplierStaffService.logger.logWarning",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25913,6 +26334,7 @@
       "value": "isNaN",
       "symbol": "isNaN",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25934,6 +26356,7 @@
       "value": "startDate.getTime",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25953,6 +26376,7 @@
       "value": "endDate.getTime",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25972,6 +26396,7 @@
       "value": "Timestamp.fromDate",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -25993,6 +26418,7 @@
       "value": "Timestamp.fromDate",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26014,6 +26440,7 @@
       "value": "OSKSupplierStaffService._internalCreateSupplierStaffAccess",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26039,6 +26466,7 @@
       "value": "createdAccessInfo.push",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26060,6 +26488,7 @@
       "value": "OSKSupplierStaffService._getDoorDocumentsFromIds",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26082,6 +26511,7 @@
       "value": "doorDocs.map",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26103,6 +26533,7 @@
       "value": "OSKAccessService.createAccess",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26126,6 +26557,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26147,6 +26579,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26168,6 +26601,7 @@
       "value": "OSKSupplierStaffAccessController.default.getPerBuilding",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26191,6 +26625,7 @@
       "value": "OSKSupplierStaffService._getSupplierStaffAuthorizedDoors",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26213,6 +26648,7 @@
       "value": "staffAccessDoc.accesses.findIndex",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26234,6 +26670,7 @@
       "value": "OSKSupplierStaffAccessController.default.update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26258,6 +26695,7 @@
       "value": "OSKBuildingAccessesController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26280,6 +26718,7 @@
       "value": "buildingAccessDoc.accesses.findIndex",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26301,6 +26740,7 @@
       "value": "OSKBuildingAccessesController.default.update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26324,6 +26764,7 @@
       "value": "OSKAccessMessagePublisherService.publishMessageToAllACDs",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26349,6 +26790,7 @@
       "value": "OSKSupplierStaffService.logger.logInfo",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26371,6 +26813,7 @@
       "value": "OSKSupplierStaffService._getDoorDocumentsFromIds",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26393,6 +26836,7 @@
       "value": "doorsToProcess.map",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26414,6 +26858,7 @@
       "value": "OSKAccessUtilsService.getAccessControlDevicesPerDoor",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26436,6 +26881,7 @@
       "value": "Promise.all",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26457,6 +26903,7 @@
       "value": "doorIds.map",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26478,6 +26925,7 @@
       "value": "OSKBuildingDoorController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26500,6 +26948,7 @@
       "value": "Promise.all",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26521,6 +26970,7 @@
       "value": "OSKBuildingDoorController.default.getAll",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26542,6 +26992,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26563,6 +27014,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26584,6 +27036,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26605,6 +27058,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26626,6 +27080,7 @@
       "line": 634,
       "value": "v1.org.suppliers.edit",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26643,6 +27098,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26664,6 +27120,7 @@
       "line": 641,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26681,6 +27138,7 @@
       "value": "OSKSupplierStaffAccessController.default.getPerBuilding",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26704,6 +27162,7 @@
       "value": "supplierAccessDoc.accesses.find",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26725,6 +27184,7 @@
       "value": "OSKSupplierStaffService._deleteAccessSideEffects",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26748,6 +27208,7 @@
       "value": "OSKSupplierStaffAccessController.default.delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26771,6 +27232,7 @@
       "value": "OSKSupplierStaffAccessController.default.update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26795,6 +27257,7 @@
       "value": "FieldValue.arrayRemove",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26816,6 +27279,7 @@
       "value": "OSKSupplierStaffService.logger.logInfo",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26838,6 +27302,7 @@
       "value": "OSKSupplierStaffAccessController.default.getAll",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26860,6 +27325,7 @@
       "value": "OSKSupplierStaffService._deleteAccessSideEffects",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26883,6 +27349,7 @@
       "value": "OSKSupplierStaffAccessController.default.delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26906,6 +27373,7 @@
       "value": "OSKSupplierStaffController.default.delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26928,6 +27396,7 @@
       "value": "OSKSupplierStaffService.logger.logInfo",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26949,6 +27418,7 @@
       "value": "OSKBuildingAccessesController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26971,6 +27441,7 @@
       "value": "buildingAccessDoc.accesses.filter",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -26992,6 +27463,7 @@
       "value": "OSKBuildingAccessesController.default.deletePerUser",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27014,6 +27486,7 @@
       "value": "OSKBuildingAccessesController.default.update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27037,6 +27510,7 @@
       "value": "OSKSupplierStaffPincodeController.default.getByAccessId",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27060,6 +27534,7 @@
       "value": "OSKSupplierStaffPincodeController.default.delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27083,6 +27558,7 @@
       "value": "OSKPincodeService.deleteBuildingPincodeAndMoveToTrash",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27105,6 +27581,7 @@
       "value": "OSKAccessMessagePublisherService.publishMessageToAllACDs",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27129,6 +27606,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27150,6 +27628,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27171,6 +27650,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27193,6 +27673,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27214,6 +27695,7 @@
       "line": 761,
       "value": "v1.org.suppliers.view",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27230,6 +27712,7 @@
       "line": 764,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27247,6 +27730,7 @@
       "value": "OSKSupplierStaffPincodeController.default.getAll",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
         "submodule": "supplierStaff",
@@ -27268,6 +27752,7 @@
       "value": "OSKSupplierService",
       "symbol": "OSKSupplierService",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -27284,6 +27769,7 @@
       "file": "functions/src/modules/supplier/services/supplier.service.ts",
       "value": "../modules/supplierStaff",
       "evidence": {
+        "repo": "cloud",
         "sourceFile": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
         "importedFrom": "../modules/supplierStaff",
@@ -27313,6 +27799,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/services/supplier.service.ts",
           "submodule": null,
           "methods": [
@@ -27529,6 +28016,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/services/supplier.service.ts",
           "submodule": null,
           "methods": [
@@ -27745,6 +28233,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/services/supplier.service.ts",
           "submodule": null,
           "methods": [
@@ -27961,6 +28450,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/services/supplier.service.ts",
           "submodule": null,
           "methods": [
@@ -28177,6 +28667,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/services/supplier.service.ts",
           "submodule": null,
           "methods": [
@@ -28393,6 +28884,7 @@
       "evidence": {
         "service": {
           "name": "OSKSupplierService",
+          "repo": "cloud",
           "path": "functions/src/modules/supplier/services/supplier.service.ts",
           "submodule": null,
           "methods": [
@@ -28606,6 +29098,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28627,6 +29120,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28648,6 +29142,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28669,6 +29164,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28690,6 +29186,7 @@
       "line": 55,
       "value": "v1.org.suppliers.create",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28707,6 +29204,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28728,6 +29226,7 @@
       "line": 62,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28745,6 +29244,7 @@
       "value": "OSKEntityController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28766,6 +29266,7 @@
       "value": "Timestamp.now",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28785,6 +29286,7 @@
       "value": "OSKSupplierController.default.generateDocId",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28804,6 +29306,7 @@
       "value": "OSKSupplierController.default.create",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28826,6 +29329,7 @@
       "value": "OSKSupplierService.logger.logInfo",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28848,6 +29352,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28869,6 +29374,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28890,6 +29396,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28911,6 +29418,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28932,6 +29440,7 @@
       "line": 101,
       "value": "v1.org.suppliers.view",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28949,6 +29458,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28970,6 +29480,7 @@
       "line": 108,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -28987,6 +29498,7 @@
       "value": "OSKSupplierController.default.getSafe",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29007,6 +29519,7 @@
       "line": 112,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29024,6 +29537,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29045,6 +29559,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29066,6 +29581,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29087,6 +29603,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29108,6 +29625,7 @@
       "line": 134,
       "value": "v1.org.suppliers.view",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29125,6 +29643,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29146,6 +29665,7 @@
       "line": 141,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29163,6 +29683,7 @@
       "value": "OSKSupplierController.default.query",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29184,6 +29705,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29205,6 +29727,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29226,6 +29749,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29247,6 +29771,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29268,6 +29793,7 @@
       "line": 168,
       "value": "v1.org.suppliers.edit",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29285,6 +29811,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29306,6 +29833,7 @@
       "line": 175,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29323,6 +29851,7 @@
       "value": "OSKSupplierController.default.getSafe",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29344,6 +29873,7 @@
       "value": "Timestamp.now",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29363,6 +29893,7 @@
       "value": "OSKSupplierController.default.update",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29385,6 +29916,7 @@
       "value": "OSKSupplierService.logger.logInfo",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29407,6 +29939,7 @@
       "value": "OSKUserSecurityChecks",
       "symbol": "OSKUserSecurityChecks",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29428,6 +29961,7 @@
       "value": "OSKSecurityChecks.checkParameters",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29449,6 +29983,7 @@
       "value": "OSKOrganizationController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29470,6 +30005,7 @@
       "value": "OSKOrganizationUserController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29491,6 +30027,7 @@
       "line": 209,
       "value": "v1.org.suppliers.delete",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29508,6 +30045,7 @@
       "value": "OSKConsolidatedRolesController.default.checkUserPermissions",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29529,6 +30067,7 @@
       "line": 216,
       "value": "permission-denied",
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29546,6 +30085,7 @@
       "value": "OSKSupplierStaffController.default.getAll",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29567,6 +30107,7 @@
       "value": "OSKSupplierStaffService._deleteStaffMemberAndRelatedData",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29589,6 +30130,7 @@
       "value": "OSKSupplierController.default.delete",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29610,6 +30152,7 @@
       "value": "OSKSupplierService.logger.logInfo",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29631,6 +30174,7 @@
       "value": "OSKSupplierController.default.getAll",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,
@@ -29650,6 +30194,7 @@
       "value": "OSKSupplierStaffController.default.get",
       "symbol": null,
       "evidence": {
+        "repo": "cloud",
         "module": "supplier",
         "path": "functions/src/modules/supplier/services/supplier.service.ts",
         "submodule": null,

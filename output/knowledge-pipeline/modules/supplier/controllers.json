@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKSupplierController",
+    "repo": "cloud",
     "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
     "submodule": null,
     "methods": [
@@ -157,6 +158,7 @@
   },
   {
     "name": "OSKSupplierStaffController",
+    "repo": "cloud",
     "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
     "submodule": "supplierStaff",
     "methods": [
@@ -340,6 +342,7 @@
   },
   {
     "name": "OSKSupplierStaffAccessController",
+    "repo": "cloud",
     "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
     "submodule": "supplierStaff",
     "methods": [
@@ -544,6 +547,7 @@
   },
   {
     "name": "OSKSupplierStaffActivitiesController",
+    "repo": "cloud",
     "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
     "submodule": "supplierStaff",
     "methods": [
@@ -747,6 +751,7 @@
   },
   {
     "name": "OSKSupplierStaffActivityAggregatesController",
+    "repo": "cloud",
     "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
     "submodule": "supplierStaff",
     "methods": [
@@ -962,6 +967,7 @@
   },
   {
     "name": "OSKSupplierStaffPincodeController",
+    "repo": "cloud",
     "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
     "submodule": "supplierStaff",
     "methods": [

@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKUserAccessService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_access/services/user_access.service.ts",
     "submodule": "user_access",
     "methods": [
@@ -48,6 +49,7 @@
   },
   {
     "name": "OSKUserActivitiesService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_activity/services/user_activities.service.ts",
     "submodule": "user_activity",
     "methods": [
@@ -190,6 +192,7 @@
   },
   {
     "name": "OSKUserActivityAggregatesService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_activity/services/user_activity_aggregates.service.ts",
     "submodule": "user_activity",
     "methods": [
@@ -254,6 +257,7 @@
   },
   {
     "name": "OSKUserDeviceService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
     "submodule": "user_device",
     "methods": [
@@ -432,6 +436,7 @@
   },
   {
     "name": "OSKUserIntercomService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts",
     "submodule": "user_intercoms",
     "methods": [
@@ -636,6 +641,7 @@
   },
   {
     "name": "OSKUserInvitationAcceptedService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_accepted.service.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -701,6 +707,7 @@
   },
   {
     "name": "OSKUserInvitationCancelledService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_cancelled.service.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -731,6 +738,7 @@
   },
   {
     "name": "OSKUserInvitationCommonService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_common.service.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -841,6 +849,7 @@
   },
   {
     "name": "OSKUserInvitationCreationService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_creation.service.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -959,6 +968,7 @@
   },
   {
     "name": "OSKUserInvitationDeleteService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_delete.service.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -1042,6 +1052,7 @@
   },
   {
     "name": "OSKUserInvitationEditService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_edit.service.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -1072,6 +1083,7 @@
   },
   {
     "name": "OSKUserInvitationExternalUnitService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_external_unit.service.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -1131,6 +1143,7 @@
   },
   {
     "name": "OSKUserInvitationExternalUserService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_external_user.service.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -1374,12 +1387,14 @@
   },
   {
     "name": "OSKUserInvitationNotificationService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_notification.service.ts",
     "submodule": "user_invitation",
     "methods": []
   },
   {
     "name": "OSKUserInvitationRejectedService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_rejected.service.ts",
     "submodule": "user_invitation",
     "methods": [
@@ -1410,6 +1425,7 @@
   },
   {
     "name": "OSKUserNotificationService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_notification/services/user_notification.service.ts",
     "submodule": "user_notification",
     "methods": [
@@ -1509,6 +1525,7 @@
   },
   {
     "name": "OSKUserNotificationTestService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_notification/services/user_notification_test.service.ts",
     "submodule": "user_notification",
     "methods": [
@@ -1539,6 +1556,7 @@
   },
   {
     "name": "OSKUserNotificationTokenService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_notification/services/user_notification_token.service.ts",
     "submodule": "user_notification",
     "methods": [
@@ -1592,12 +1610,14 @@
   },
   {
     "name": "OSKUserOrganizationService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_organization/services/user_organization.service.ts",
     "submodule": "user_organization",
     "methods": []
   },
   {
     "name": "OSKUserOrganizationInvitationService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts",
     "submodule": "user_organization",
     "methods": [
@@ -1674,12 +1694,14 @@
   },
   {
     "name": "OSKUserOrganizationRequestService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_organization/services/user_organization_request.service.ts",
     "submodule": "user_organization",
     "methods": []
   },
   {
     "name": "OSKUserPincodeService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts",
     "submodule": "user_pincode",
     "methods": [
@@ -1828,6 +1850,7 @@
   },
   {
     "name": "OSKUserSettingsBuildingService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts",
     "submodule": "user_settings",
     "methods": [
@@ -2002,6 +2025,7 @@
   },
   {
     "name": "OSKUserSettingsUnitService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts",
     "submodule": "user_settings",
     "methods": [
@@ -2213,6 +2237,7 @@
   },
   {
     "name": "OSKUserService",
+    "repo": "cloud",
     "path": "functions/src/modules/user/services/user.service.ts",
     "submodule": null,
     "methods": [

@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKUnitManagementPendingInvitationsController",
+    "repo": "cloud",
     "path": "functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts",
     "submodule": null,
     "methods": [

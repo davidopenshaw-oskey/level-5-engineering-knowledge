@@ -1,6 +1,7 @@
 [
   {
     "path": "functions/src/modules/admin/index.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -206,10 +207,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/models/with_admin_organization_id.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [],
     "exports": [
@@ -231,10 +234,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts",
+    "repo": "cloud",
     "submodule": "admin_buildings",
     "imports": [
       {
@@ -392,10 +397,24 @@
         "line": 12
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_buildings",
+        "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/buildings",
+        "line": 12
+      }
+    ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building_unit.controller.ts",
+    "repo": "cloud",
     "submodule": "admin_buildings",
     "imports": [
       {
@@ -549,10 +568,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_buildings/index.ts",
+    "repo": "cloud",
     "submodule": "admin_buildings",
     "imports": [
       {
@@ -683,10 +704,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_buildings",
+        "path": "functions/src/modules/admin/modules/admin_buildings/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_buildings/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 18
+      }
+    ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_buildings/models/functions/get_all_buildings_with_units_request.type.ts",
+    "repo": "cloud",
     "submodule": "admin_buildings",
     "imports": [
       {
@@ -743,10 +778,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts",
+    "repo": "cloud",
     "submodule": "admin_buildings",
     "imports": [
       {
@@ -1104,7 +1141,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_buildings",
+        "path": "functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 9
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -1126,10 +1174,24 @@
         "value": "permission-denied",
         "line": 42
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_buildings",
+        "path": "functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 25
+      }
     ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_accesses/models/recreate_accesses.model.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -1334,10 +1396,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -3511,10 +3575,12 @@
         "line": 296
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -4463,14 +4529,16 @@
         "path": "functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts",
         "kindHint": "service",
         "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts",
-        "value": "Failed to create residents settings documents in the collection seetings for a building",
-        "line": 36
+        "value": "@oskey/building/settings",
+        "line": 7
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercom_allowUnitNumber.service.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -4986,10 +5054,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -7104,10 +7174,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_organizations/db_organization_prompt.service.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -7426,10 +7498,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/models/refresh_pincodes.model.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -7481,10 +7555,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -8078,10 +8154,35 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_maintenance",
+        "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts",
+        "type": "environment_variable",
+        "value": "GCLOUD_PROJECT",
+        "line": 64
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_maintenance",
+        "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts",
+        "type": "environment_variable",
+        "value": "LOCATION_ID",
+        "line": 65
+      }
+    ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/pincode_refresh_worker.service.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -8606,10 +8707,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_propertiesIds/db_propertiesIds.service.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -9085,10 +9188,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -10024,22 +10129,13 @@
         ]
       }
     ],
-    "firestoreHints": [
-      {
-        "repo": "cloud",
-        "module": "admin",
-        "submodule": "admin_maintenance",
-        "path": "functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts",
-        "kindHint": "service",
-        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts",
-        "value": "Failed to create residents documents in the collection residents",
-        "line": 94
-      }
-    ],
-    "permissionHints": []
+    "firestoreHints": [],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -11162,14 +11258,16 @@
         "path": "functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts",
         "kindHint": "unknown",
         "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts",
-        "value": "Failed to create users settings documents in the collection settings for users",
-        "line": 72
+        "value": "@oskey/building/settings",
+        "line": 3
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/index.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -11804,10 +11902,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_maintenance",
+        "path": "functions/src/modules/admin/modules/admin_maintenance/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 34
+      }
+    ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts",
+    "repo": "cloud",
     "submodule": "admin_maintenance",
     "imports": [
       {
@@ -12007,7 +12119,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_maintenance",
+        "path": "functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts",
+        "kindHint": "utils",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts",
+        "value": "@oskey/settings/role",
+        "line": 9
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -12029,10 +12152,12 @@
         "value": "permission-denied",
         "line": 26
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts",
+    "repo": "cloud",
     "submodule": "admin_organization",
     "imports": [
       {
@@ -12209,10 +12334,12 @@
         "line": 15
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/index.ts",
+    "repo": "cloud",
     "submodule": "admin_organization",
     "imports": [
       {
@@ -12392,10 +12519,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_organization",
+        "path": "functions/src/modules/admin/modules/admin_organization/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_organization/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 24
+      }
+    ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/models/documents/organization_listdocument.model.ts",
+    "repo": "cloud",
     "submodule": "admin_organization",
     "imports": [
       {
@@ -12451,10 +12592,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/models/functions/get_organizations_list_request_document.model.ts",
+    "repo": "cloud",
     "submodule": "admin_organization",
     "imports": [],
     "exports": [
@@ -12476,10 +12619,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/models/functions/organizations_details_by_id_request_document.ts",
+    "repo": "cloud",
     "submodule": "admin_organization",
     "imports": [
       {
@@ -12531,10 +12676,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+    "repo": "cloud",
     "submodule": "admin_organization",
     "imports": [
       {
@@ -12951,6 +13098,16 @@
         "path": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
         "kindHint": "service",
         "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 8
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_organization",
+        "path": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
         "value": "../models/functions/organizations_details_by_id_request_document",
         "line": 16
       }
@@ -13076,10 +13233,35 @@
         "value": "permission-denied",
         "line": 109
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_organization",
+        "path": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 26
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_organization",
+        "path": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 73
+      }
     ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_inhabitant_user.controller.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -13340,10 +13522,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -13528,10 +13712,24 @@
         "line": 11
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/users",
+        "line": 11
+      }
+    ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_access.controller.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -13718,10 +13916,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_device.controller.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -13947,10 +14147,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -14453,10 +14655,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/index.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -15263,10 +15467,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 33
+      }
+    ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_inhabitant_user.requests.model.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -15416,10 +15634,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_accesses_requests.model.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -15541,10 +15761,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_devices_requests.model.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -15654,10 +15876,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_invitations_requests.model.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -15779,10 +16003,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_requests.model.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -15892,10 +16118,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/shared/with_user_id.model.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [],
     "exports": [
@@ -15917,10 +16145,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -17143,7 +17373,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 20
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -17235,10 +17476,57 @@
         "value": "permission-denied",
         "line": 284
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 45
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 154
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 212
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 256
+      }
     ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -17989,7 +18277,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 9
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -18091,10 +18390,46 @@
         "value": "permission-denied",
         "line": 132
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 37
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 66
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 114
+      }
     ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -18984,7 +19319,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 9
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -19106,10 +19452,68 @@
         "value": "permission-denied",
         "line": 215
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 31
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 63
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 106
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 145
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 187
+      }
     ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -19693,7 +20097,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 8
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -19775,10 +20190,46 @@
         "value": "permission-denied",
         "line": 128
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 28
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 71
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 105
+      }
     ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -20878,7 +21329,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 9
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -20970,10 +21432,57 @@
         "value": "permission-denied",
         "line": 206
       }
+    ],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 36
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 67
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 106
+      },
+      {
+        "repo": "cloud",
+        "module": "admin",
+        "submodule": "admin_users",
+        "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 188
+      }
     ]
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/utils/get_admin_organization_user.util.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -21234,10 +21743,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/utils/get_user.util.ts",
+    "repo": "cloud",
     "submodule": "admin_users",
     "imports": [
       {
@@ -21376,6 +21887,7 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   }
 ]

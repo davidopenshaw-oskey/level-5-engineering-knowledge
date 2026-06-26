@@ -1,6 +1,7 @@
 [
   {
     "path": "functions/src/modules/call/controllers/call.controller.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -289,11 +290,99 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/controllers/call.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/controllers/call.controller.ts",
+        "value": "/calls",
+        "line": 21
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/controllers/call.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/controllers/call.controller.ts",
+        "value": "/calls",
+        "line": 25
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/controllers/call.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/controllers/call.controller.ts",
+        "value": "/calls",
+        "line": 31
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/controllers/call.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/controllers/call.controller.ts",
+        "value": "/calls",
+        "line": 36
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/controllers/call.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/controllers/call.controller.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/calls",
+        "line": 21
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/controllers/call.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/controllers/call.controller.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/calls",
+        "line": 25
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/controllers/call.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/controllers/call.controller.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/calls",
+        "line": 31
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/controllers/call.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/controllers/call.controller.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/calls",
+        "line": 36
+      }
+    ]
   },
   {
     "path": "functions/src/modules/call/index.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -560,10 +649,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/models/documents/call_document.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -673,10 +764,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/models/https/call_creation_body.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -716,10 +809,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/models/https/call_creation_response.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -771,10 +866,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/models/https/call_notification_request_response.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [],
     "exports": [
@@ -796,10 +893,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/models/https/call_update_body.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -839,10 +938,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/models/shared/call_transfer_list_item.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [],
     "exports": [
@@ -900,10 +1001,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/models/shared/ice_servers.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [],
     "exports": [
@@ -925,10 +1028,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/schema/call_creation_body.schema.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1277,10 +1382,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/schema/call_update_body.schema.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -2435,10 +2542,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/schema/ice_server.schema.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -2614,10 +2723,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/call/services/call.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -4922,7 +5033,95 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/services/call.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/services/call.service.ts",
+        "value": "/calls",
+        "line": 56
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/services/call.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/services/call.service.ts",
+        "value": "/calls/:callId",
+        "line": 199
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/services/call.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/services/call.service.ts",
+        "value": "/calls/:callId/notify/:sequenceNumber",
+        "line": 350
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/services/call.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/services/call.service.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/calls",
+        "line": 56
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/services/call.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/services/call.service.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/calls/:callId",
+        "line": 199
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/services/call.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/services/call.service.ts",
+        "type": "storage_path_candidate",
+        "value": "/calls/:callId",
+        "line": 199
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/services/call.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/services/call.service.ts",
+        "type": "http_or_client_path_candidate",
+        "value": "/calls/:callId/notify/:sequenceNumber",
+        "line": 350
+      },
+      {
+        "repo": "cloud",
+        "module": "call",
+        "submodule": null,
+        "path": "functions/src/modules/call/services/call.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/services/call.service.ts",
+        "type": "storage_path_candidate",
+        "value": "/calls/:callId/notify/:sequenceNumber",
+        "line": 350
+      }
+    ]
   }
 ]

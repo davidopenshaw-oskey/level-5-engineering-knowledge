@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKCallController",
+    "repo": "cloud",
     "path": "functions/src/modules/call/controllers/call.controller.ts",
     "submodule": null,
     "methods": [

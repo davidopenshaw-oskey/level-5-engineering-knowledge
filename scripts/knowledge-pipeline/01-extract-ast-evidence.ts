@@ -1,9 +1,8 @@
-
 import fs from "fs";
 import path from "path";
 import {
-  Project,
   Node,
+  Project,
   SourceFile,
   SyntaxKind,
 } from "ts-morph";
@@ -29,6 +28,7 @@ type BaseRecord = Omit<FileInfo, "sizeBytes"> & {
 };
 
 const projectRoot = process.cwd();
+
 const configPath = path.join(projectRoot, "config/repos.json");
 const filesPath = path.join(projectRoot, "output/raw/files.json");
 const outputRoot = path.join(projectRoot, "output/raw");
@@ -250,16 +250,24 @@ function extractStringHints(sourceFile: SourceFile, base: BaseRecord) {
   const permissions: any[] = [];
 
   sourceFile.forEachDescendant(node => {
-    if (!Node.isStringLiteral(node) && !Node.isNoSubstitutionTemplateLiteral(node)) return;
+    if (!Node.isStringLiteral(node) && !Node.isNoSubstitutionTemplateLiteral(node)) {
+      return;
+    }
 
     const text = node.getLiteralText();
 
     if (
+      text.includes("/EmailLogs") ||
+      text.includes("/accessControlDevices") ||
       text.includes("/buildings") ||
+      text.includes("/calls") ||
+      text.includes("/entities") ||
+      text.includes("/externalUserInvitations") ||
       text.includes("/organizations") ||
-      text.includes("/users") ||
+      text.includes("/properties") ||
+      text.includes("/settings") ||
       text.includes("/suppliers") ||
-      text.includes("collection")
+      text.includes("/users")
     ) {
       firestoreLike.push({
         ...base,
@@ -280,13 +288,92 @@ function extractStringHints(sourceFile: SourceFile, base: BaseRecord) {
   return { firestoreLike, permissions };
 }
 
-async function main() {
+function extractExternalHooks(sourceFile: SourceFile, base: BaseRecord) {
+  const hooks: any[] = [];
+
+  sourceFile.forEachDescendant(node => {
+    if (!Node.isStringLiteral(node) && !Node.isNoSubstitutionTemplateLiteral(node)) {
+      return;
+    }
+
+    const value = node.getLiteralText();
+    const line = node.getStartLineNumber();
+
+    if (
+      value.includes("PUBSUB") ||
+      value.includes("TOPIC") ||
+      value.includes("OSK_PUBSUB") ||
+      value.includes("FCM") ||
+      value.includes("NOTIFICATION")
+    ) {
+      hooks.push({
+        ...base,
+        type: "pubsub_or_notification_candidate",
+        value,
+        line,
+      });
+    }
+
+    if (
+      value.startsWith("/") &&
+      (
+        value.includes("/api") ||
+        value.includes("/calls") ||
+        value.includes("/users") ||
+        value.includes("/buildings") ||
+        value.includes("/accessControlDevices")
+      )
+    ) {
+      hooks.push({
+        ...base,
+        type: "http_or_client_path_candidate",
+        value,
+        line,
+      });
+    }
+
+    if (
+      value.includes("bucket") ||
+      value.includes("storage") ||
+      value.includes("public/") ||
+      value.includes("calls/")
+    ) {
+      hooks.push({
+        ...base,
+        type: "storage_path_candidate",
+        value,
+        line,
+      });
+    }
+  });
+
+  sourceFile.forEachDescendant(node => {
+    if (!Node.isPropertyAccessExpression(node)) return;
+
+    const text = node.getText();
+
+    if (text.startsWith("process.env.")) {
+      hooks.push({
+        ...base,
+        type: "environment_variable",
+        value: text.replace("process.env.", ""),
+        line: node.getStartLineNumber(),
+      });
+    }
+  });
+
+  return hooks;
+}
+
+function main() {
   const tsFiles = files.filter(isTsSource);
-  const mainRepo = repoConfig.repositories[0];
+  const firstRepo = repoConfig.repositories[0];
 
-  if (!mainRepo) throw new Error("No repository configured.");
+  if (!firstRepo) {
+    throw new Error("No repository configured in config/repos.json");
+  }
 
-  const tsConfigFilePath = path.join(mainRepo.path, "functions", "tsconfig.json");
+  const tsConfigFilePath = path.join(firstRepo.path, "functions", "tsconfig.json");
 
   const project = new Project({
     tsConfigFilePath: fs.existsSync(tsConfigFilePath) ? tsConfigFilePath : undefined,
@@ -299,17 +386,16 @@ async function main() {
   });
 
   const validFiles = tsFiles
-    .map(f => ({ file: f, base: makeBase(f) }))
+    .map(file => ({ file, base: makeBase(file) }))
     .filter((x): x is { file: FileInfo; base: BaseRecord } => Boolean(x.base));
 
   console.log(`Manifest files: ${files.length}`);
   console.log(`TS files selected: ${validFiles.length}`);
 
-  // Important: add all first, then extract. This lets ts-morph resolve cross-file symbols.
   for (const { base } of validFiles) {
     try {
       project.addSourceFileAtPath(base.absolutePath);
-    } catch (err) {
+    } catch {
       console.warn(`Could not add source file: ${base.path}`);
     }
   }
@@ -323,6 +409,7 @@ async function main() {
     calls: [] as any[],
     firestoreHints: [] as any[],
     permissionHints: [] as any[],
+    externalHooks: [] as any[],
     errors: [] as any[],
   };
 
@@ -344,6 +431,8 @@ async function main() {
       const hints = extractStringHints(sourceFile, base);
       output.firestoreHints.push(...hints.firestoreLike);
       output.permissionHints.push(...hints.permissions);
+
+      output.externalHooks.push(...extractExternalHooks(sourceFile, base));
     } catch (err: any) {
       output.errors.push({
         path: base.path,
@@ -362,9 +451,10 @@ async function main() {
   fs.writeFileSync(path.join(outputRoot, "ast-calls.json"), JSON.stringify(output.calls, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-firestore-hints.json"), JSON.stringify(output.firestoreHints, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-permission-hints.json"), JSON.stringify(output.permissionHints, null, 2));
+  fs.writeFileSync(path.join(outputRoot, "ast-external-hooks.json"), JSON.stringify(output.externalHooks, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-errors.json"), JSON.stringify(output.errors, null, 2));
 
-  console.log("AST extraction complete");
+  console.log("AST evidence extraction complete");
   console.log({
     imports: output.imports.length,
     exports: output.exports.length,
@@ -374,11 +464,9 @@ async function main() {
     calls: output.calls.length,
     firestoreHints: output.firestoreHints.length,
     permissionHints: output.permissionHints.length,
+    externalHooks: output.externalHooks.length,
     errors: output.errors.length,
   });
 }
 
-main().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+main();

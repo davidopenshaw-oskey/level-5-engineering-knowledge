@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKAppStoreSettingsService",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
     "submodule": "appstore",
     "methods": [
@@ -58,6 +59,7 @@
   },
   {
     "name": "OSKCompositeRoleService",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
     "submodule": "role",
     "methods": [
@@ -232,6 +234,7 @@
   },
   {
     "name": "OSKRoleService",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
     "submodule": "role",
     "methods": [
@@ -292,6 +295,7 @@
   },
   {
     "name": "OSKBuildingRequestWorkflowService",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
     "submodule": "workflow",
     "methods": [
@@ -365,6 +369,7 @@
   },
   {
     "name": "OSKOrganizationRequestWorkflowService",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
     "submodule": "workflow",
     "methods": [
@@ -438,6 +443,7 @@
   },
   {
     "name": "OSKSettingService",
+    "repo": "cloud",
     "path": "functions/src/modules/settings/services/setting.service.ts",
     "submodule": null,
     "methods": [

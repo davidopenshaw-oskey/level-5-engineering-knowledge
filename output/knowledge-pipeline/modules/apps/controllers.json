@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKEmailLogController",
+    "repo": "cloud",
     "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
     "submodule": "mail",
     "methods": [
@@ -140,6 +141,7 @@
   },
   {
     "name": "OSKSMSLogController",
+    "repo": "cloud",
     "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
     "submodule": "sms",
     "methods": [

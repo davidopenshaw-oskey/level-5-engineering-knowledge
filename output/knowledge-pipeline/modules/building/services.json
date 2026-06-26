@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKBuildingAccessService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_accesses/services/building_access.service.ts",
     "submodule": "building_accesses",
     "methods": [
@@ -72,6 +73,7 @@
   },
   {
     "name": "OSKBuildingActivitiesService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_activity/services/building_activities.service.ts",
     "submodule": "building_activity",
     "methods": [
@@ -222,6 +224,7 @@
   },
   {
     "name": "OSKBuildingDoorService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_door/services/building_door.service.ts",
     "submodule": "building_door",
     "methods": [
@@ -379,6 +382,7 @@
   },
   {
     "name": "OSKBuildingDoorAccessControlDeviceService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_door/services/building_door_access_control_device.service.ts",
     "submodule": "building_door",
     "methods": [
@@ -432,6 +436,7 @@
   },
   {
     "name": "OSKBuildingIntercomCallTransferListService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts",
     "submodule": "building_intercom",
     "methods": [
@@ -701,6 +706,7 @@
   },
   {
     "name": "OSKBuildingIntercomService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts",
     "submodule": "building_intercom",
     "methods": [
@@ -1164,6 +1170,7 @@
   },
   {
     "name": "OSKIntercomMessagePublisherService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts",
     "submodule": "building_intercom",
     "methods": [
@@ -1222,6 +1229,7 @@
   },
   {
     "name": "OSKBuildingPincodeService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts",
     "submodule": "building_pincode",
     "methods": [
@@ -1314,12 +1322,14 @@
   },
   {
     "name": "OSKBuildingPincodeTrashService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_pincode_trash/services/building_pincode_trash.service.ts",
     "submodule": "building_pincode_trash",
     "methods": []
   },
   {
     "name": "OSKBuildingSettingsService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_settings/services/building_settings.service.ts",
     "submodule": "building_settings",
     "methods": [
@@ -1477,6 +1487,7 @@
   },
   {
     "name": "OSKBuildingUnitNonAppUserService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts",
     "submodule": "building_unit",
     "methods": [
@@ -1888,6 +1899,7 @@
   },
   {
     "name": "OSKNonAppUserAccessService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_access.service.ts",
     "submodule": "building_unit",
     "methods": [
@@ -1947,6 +1959,7 @@
   },
   {
     "name": "OSKNonAppUserActivityService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity.service.ts",
     "submodule": "building_unit",
     "methods": [
@@ -1977,6 +1990,7 @@
   },
   {
     "name": "OSKNonAppUserActivityAggregatesService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity_aggregates.service.ts",
     "submodule": "building_unit",
     "methods": [
@@ -2007,6 +2021,7 @@
   },
   {
     "name": "OSKNonAppUserPincodeService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_pincode.service.ts",
     "submodule": "building_unit",
     "methods": [
@@ -2031,6 +2046,7 @@
   },
   {
     "name": "OSKBuildingUnitService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
     "submodule": "building_unit",
     "methods": [
@@ -2153,6 +2169,7 @@
   },
   {
     "name": "OSKBuildingUnitDoorService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts",
     "submodule": "building_unit",
     "methods": [
@@ -2183,6 +2200,7 @@
   },
   {
     "name": "OSKBuildingUnitInhabitantService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts",
     "submodule": "building_unit",
     "methods": [
@@ -2282,6 +2300,7 @@
   },
   {
     "name": "OSKBuildingUserService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_user/services/building_user.service.ts",
     "submodule": "building_user",
     "methods": [
@@ -2335,6 +2354,7 @@
   },
   {
     "name": "OSKBuildingService",
+    "repo": "cloud",
     "path": "functions/src/modules/building/services/building.service.ts",
     "submodule": null,
     "methods": [

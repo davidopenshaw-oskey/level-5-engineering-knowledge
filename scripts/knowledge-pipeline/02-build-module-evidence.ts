@@ -2,16 +2,62 @@ import fs from "fs";
 import path from "path";
 
 const projectRoot = process.cwd();
+
 const inputRoot = path.join(projectRoot, "output/raw");
 const modulesRoot = path.join(projectRoot, "output/knowledge-pipeline/modules");
 
+const FIRESTORE_ROOT_COLLECTIONS = [
+  "/EmailLogs",
+  "/accessControlDevices",
+  "/buildings",
+  "/calls",
+  "/entities",
+  "/externalUserInvitations",
+  "/organizations",
+  "/properties",
+  "/settings",
+  "/suppliers",
+  "/users",
+];
+
 type AnyRow = {
-  repo?: string;
-  module?: string;
+  repo?: string | null;
+  module?: string | null;
   submodule?: string | null;
-  path?: string;
-  absolutePath?: string;
+  path?: string | null;
+  absolutePath?: string | null;
+  file?: string | null;
   [key: string]: any;
+};
+
+type EvidenceFact = {
+  id: string;
+  type:
+    | "source_file"
+    | "firestore_path_touched"
+    | "permission_required"
+    | "permission_error"
+    | "call_expression"
+    | "imports_dependency"
+    | "exported_symbol"
+    | "service_method"
+    | "controller_method"
+    | "external_hook"
+    | "pubsub_topic"
+    | "http_or_client_path"
+    | "environment_variable"
+    | "storage_path";
+
+  repo?: string | null;
+  module: string;
+  submodule: string | null;
+  file: string | null;
+  line?: number | null;
+  value?: string | null;
+  symbol?: string | null;
+  method?: string | null;
+  className?: string | null;
+  evidence: AnyRow;
 };
 
 function readJson<T>(fileName: string): T[] {
@@ -54,6 +100,102 @@ function groupByPath<T extends AnyRow>(rows: T[]) {
   return map;
 }
 
+function safeString(value: unknown): string | null {
+  return typeof value === "string" && value.trim().length > 0
+    ? value
+    : null;
+}
+
+function cleanValue(value: unknown): string | null {
+  const s = safeString(value);
+  return s ? s.trim() : null;
+}
+
+function stableId(parts: Array<string | number | null | undefined>) {
+  return parts
+    .map(part => String(part ?? ""))
+    .join("|")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function looksLikeFirestorePath(value: string): boolean {
+  const trimmed = value.trim();
+  if (!trimmed.startsWith("/")) return false;
+
+  return FIRESTORE_ROOT_COLLECTIONS.some(collection =>
+    trimmed.includes(collection),
+  );
+}
+
+function looksLikePermission(value: string): boolean {
+  return /^v\d+\./.test(value.trim());
+}
+
+function looksLikePermissionError(value: string): boolean {
+  const v = value.trim();
+
+  return (
+    v === "permission-denied" ||
+    v.includes("permission-denied") ||
+    v.includes("Permission denied")
+  );
+}
+
+function moduleOf(record: AnyRow, targetModule: string): string {
+  return safeString(record.module) ?? targetModule;
+}
+
+function submoduleOf(record: AnyRow): string | null {
+  return safeString(record.submodule);
+}
+
+function fileOf(record: AnyRow): string | null {
+  return safeString(record.path) ?? safeString(record.file);
+}
+
+function lineOf(record: AnyRow): number | null {
+  return typeof record.line === "number" ? record.line : null;
+}
+
+function fact(input: Omit<EvidenceFact, "id">): EvidenceFact {
+  return {
+    ...input,
+    id: stableId([
+      input.type,
+      input.repo ?? null,
+      input.module,
+      input.submodule,
+      input.file,
+      input.line ?? null,
+      input.value ?? null,
+      input.symbol ?? null,
+      input.className ?? null,
+      input.method ?? null,
+    ]),
+  };
+}
+
+function dedupeFacts(facts: EvidenceFact[]) {
+  const map = new Map<string, EvidenceFact>();
+
+  for (const f of facts) {
+    if (!map.has(f.id)) map.set(f.id, f);
+  }
+
+  return Array.from(map.values()).sort((a, b) => {
+    const af = a.file ?? "";
+    const bf = b.file ?? "";
+    if (af !== bf) return af.localeCompare(bf);
+
+    const al = a.line ?? 0;
+    const bl = b.line ?? 0;
+    if (al !== bl) return al - bl;
+
+    return a.type.localeCompare(b.type);
+  });
+}
+
 function buildModuleEvidence(targetModule: string, raw: {
   imports: AnyRow[];
   exports_: AnyRow[];
@@ -63,6 +205,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   calls: AnyRow[];
   firestoreHints: AnyRow[];
   permissionHints: AnyRow[];
+  externalHooks: AnyRow[];
 }) {
   const imports = raw.imports.filter(r => isTarget(r, targetModule));
   const exports_ = raw.exports_.filter(r => isTarget(r, targetModule));
@@ -72,6 +215,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   const calls = raw.calls.filter(r => isTarget(r, targetModule));
   const firestoreHints = raw.firestoreHints.filter(r => isTarget(r, targetModule));
   const permissionHints = raw.permissionHints.filter(r => isTarget(r, targetModule));
+  const externalHooks = raw.externalHooks.filter(r => isTarget(r, targetModule));
 
   const allRows = [
     ...imports,
@@ -82,6 +226,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     ...calls,
     ...firestoreHints,
     ...permissionHints,
+    ...externalHooks,
   ];
 
   const filePaths = unique(
@@ -98,9 +243,11 @@ function buildModuleEvidence(targetModule: string, raw: {
   const callsByFile = groupByPath(calls);
   const firestoreByFile = groupByPath(firestoreHints);
   const permissionsByFile = groupByPath(permissionHints);
+  const externalHooksByFile = groupByPath(externalHooks);
 
   const files = filePaths.map(filePath => ({
     path: filePath,
+    repo: allRows.find(r => r.path === filePath)?.repo ?? null,
     submodule: allRows.find(r => r.path === filePath)?.submodule ?? null,
     imports: importsByFile.get(filePath) ?? [],
     exports: exportsByFile.get(filePath) ?? [],
@@ -110,12 +257,14 @@ function buildModuleEvidence(targetModule: string, raw: {
     calls: callsByFile.get(filePath) ?? [],
     firestoreHints: firestoreByFile.get(filePath) ?? [],
     permissionHints: permissionsByFile.get(filePath) ?? [],
+    externalHooks: externalHooksByFile.get(filePath) ?? [],
   }));
 
   const services = classes
     .filter(c => String(c.name ?? "").endsWith("Service"))
     .map(c => ({
       name: c.name,
+      repo: c.repo ?? null,
       path: c.path,
       submodule: c.submodule ?? null,
       methods: methods
@@ -136,6 +285,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     .filter(c => String(c.name ?? "").endsWith("Controller"))
     .map(c => ({
       name: c.name,
+      repo: c.repo ?? null,
       path: c.path,
       submodule: c.submodule ?? null,
       methods: methods
@@ -158,6 +308,7 @@ function buildModuleEvidence(targetModule: string, raw: {
       return spec.includes("modules/") || spec.includes("src/modules/");
     })
     .map(i => ({
+      repo: i.repo ?? null,
       sourceFile: i.path,
       submodule: i.submodule ?? null,
       importedFrom: i.moduleSpecifier,
@@ -176,6 +327,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     calls: calls.length,
     firestoreHints: firestoreHints.length,
     permissionHints: permissionHints.length,
+    externalHooks: externalHooks.length,
     services: services.length,
     controllers: controllers.length,
   };
@@ -193,8 +345,9 @@ function buildModuleEvidence(targetModule: string, raw: {
   writeJson(path.join(moduleOutputRoot, "services.json"), services);
   writeJson(path.join(moduleOutputRoot, "controllers.json"), controllers);
 
-  writeJson(path.join(moduleOutputRoot, "evidence.json"), {
+  const evidence = {
     firestoreEvidence: firestoreHints.map(h => ({
+      repo: h.repo ?? null,
       module: h.module ?? targetModule,
       path: h.path,
       submodule: h.submodule ?? null,
@@ -203,6 +356,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     })),
 
     permissionEvidence: permissionHints.map(h => ({
+      repo: h.repo ?? null,
       module: h.module ?? targetModule,
       path: h.path,
       submodule: h.submodule ?? null,
@@ -211,6 +365,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     })),
 
     callEvidence: calls.map(c => ({
+      repo: c.repo ?? null,
       module: c.module ?? targetModule,
       path: c.path,
       submodule: c.submodule ?? null,
@@ -220,9 +375,20 @@ function buildModuleEvidence(targetModule: string, raw: {
       arguments: c.arguments ?? [],
     })),
 
+    externalHooks: externalHooks.map(h => ({
+      repo: h.repo ?? null,
+      module: h.module ?? targetModule,
+      path: h.path,
+      submodule: h.submodule ?? null,
+      type: h.type,
+      value: h.value,
+      line: h.line,
+    })),
+
     crossModuleDependencies,
 
     exports: exports_.map(e => ({
+      repo: e.repo ?? null,
       module: e.module ?? targetModule,
       path: e.path,
       submodule: e.submodule ?? null,
@@ -232,9 +398,249 @@ function buildModuleEvidence(targetModule: string, raw: {
     })),
 
     warnings: [],
+  };
+
+  writeJson(path.join(moduleOutputRoot, "evidence.json"), evidence);
+
+  const facts: EvidenceFact[] = [];
+
+  for (const fileRecord of files) {
+    facts.push(
+      fact({
+        type: "source_file",
+        repo: fileRecord.repo ?? null,
+        module: targetModule,
+        submodule: submoduleOf(fileRecord),
+        file: fileOf(fileRecord),
+        value: fileOf(fileRecord),
+        evidence: {
+          repo: fileRecord.repo ?? null,
+          path: fileRecord.path,
+          submodule: fileRecord.submodule ?? null,
+        },
+      }),
+    );
+  }
+
+  for (const item of evidence.firestoreEvidence) {
+    const value = cleanValue(item.value);
+    if (!value) continue;
+    if (!looksLikeFirestorePath(value)) continue;
+
+    facts.push(
+      fact({
+        type: "firestore_path_touched",
+        repo: item.repo ?? null,
+        module: moduleOf(item, targetModule),
+        submodule: submoduleOf(item),
+        file: fileOf(item),
+        line: lineOf(item),
+        value,
+        evidence: item,
+      }),
+    );
+  }
+
+  for (const item of evidence.permissionEvidence) {
+    const value = cleanValue(item.value);
+    if (!value) continue;
+
+    if (looksLikePermission(value)) {
+      facts.push(
+        fact({
+          type: "permission_required",
+          repo: item.repo ?? null,
+          module: moduleOf(item, targetModule),
+          submodule: submoduleOf(item),
+          file: fileOf(item),
+          line: lineOf(item),
+          value,
+          evidence: item,
+        }),
+      );
+      continue;
+    }
+
+    if (looksLikePermissionError(value)) {
+      facts.push(
+        fact({
+          type: "permission_error",
+          repo: item.repo ?? null,
+          module: moduleOf(item, targetModule),
+          submodule: submoduleOf(item),
+          file: fileOf(item),
+          line: lineOf(item),
+          value,
+          evidence: item,
+        }),
+      );
+    }
+  }
+
+  for (const item of evidence.callEvidence) {
+    const expression = cleanValue(item.expression);
+    if (!expression) continue;
+
+    facts.push(
+      fact({
+        type: "call_expression",
+        repo: item.repo ?? null,
+        module: moduleOf(item, targetModule),
+        submodule: submoduleOf(item),
+        file: fileOf(item),
+        line: lineOf(item),
+        value: expression,
+        symbol: cleanValue(item.name),
+        evidence: item,
+      }),
+    );
+  }
+
+  for (const item of evidence.externalHooks) {
+    const value = cleanValue(item.value);
+    if (!value) continue;
+
+    const hookType = cleanValue(item.type);
+
+    let factType: EvidenceFact["type"] = "external_hook";
+
+    if (hookType === "environment_variable") {
+      factType = "environment_variable";
+    } else if (hookType === "pubsub_or_notification_candidate") {
+      factType = "pubsub_topic";
+    } else if (hookType === "http_or_client_path_candidate") {
+      factType = "http_or_client_path";
+    } else if (hookType === "storage_path_candidate") {
+      factType = "storage_path";
+    }
+
+    facts.push(
+      fact({
+        type: factType,
+        repo: item.repo ?? null,
+        module: moduleOf(item, targetModule),
+        submodule: submoduleOf(item),
+        file: fileOf(item),
+        line: lineOf(item),
+        value,
+        evidence: {
+          ...item,
+          externalBoundaryStatus: "candidate",
+        },
+      }),
+    );
+  }
+
+  for (const item of evidence.crossModuleDependencies) {
+    const importedFrom = cleanValue(item.importedFrom);
+    if (!importedFrom) continue;
+
+    facts.push(
+      fact({
+        type: "imports_dependency",
+        repo: item.repo ?? null,
+        module: targetModule,
+        submodule: submoduleOf(item),
+        file: safeString(item.sourceFile),
+        value: importedFrom,
+        evidence: item,
+      }),
+    );
+  }
+
+  for (const item of evidence.exports) {
+    const name = cleanValue(item.name);
+    if (!name) continue;
+
+    facts.push(
+      fact({
+        type: "exported_symbol",
+        repo: item.repo ?? null,
+        module: targetModule,
+        submodule: submoduleOf(item),
+        file: fileOf(item),
+        value: name,
+        symbol: name,
+        evidence: item,
+      }),
+    );
+  }
+
+  for (const service of services) {
+    const serviceName = cleanValue(service.name);
+
+    for (const method of service.methods ?? []) {
+      const methodName = cleanValue(method.name);
+      if (!serviceName || !methodName) continue;
+
+      facts.push(
+        fact({
+          type: "service_method",
+          repo: service.repo ?? null,
+          module: targetModule,
+          submodule: submoduleOf(service),
+          file: fileOf(service),
+          className: serviceName,
+          method: methodName,
+          value: `${serviceName}.${methodName}`,
+          evidence: { service, method },
+        }),
+      );
+    }
+  }
+
+  for (const controller of controllers) {
+    const controllerName = cleanValue(controller.name);
+
+    for (const method of controller.methods ?? []) {
+      const methodName = cleanValue(method.name);
+      if (!controllerName || !methodName) continue;
+
+      facts.push(
+        fact({
+          type: "controller_method",
+          repo: controller.repo ?? null,
+          module: targetModule,
+          submodule: submoduleOf(controller),
+          file: fileOf(controller),
+          className: controllerName,
+          method: methodName,
+          value: `${controllerName}.${methodName}`,
+          evidence: { controller, method },
+        }),
+      );
+    }
+  }
+
+  const dedupedFacts = dedupeFacts(facts);
+
+  const countsByType = dedupedFacts.reduce<Record<string, number>>((acc, f) => {
+    acc[f.type] = (acc[f.type] ?? 0) + 1;
+    return acc;
+  }, {});
+
+  writeJson(path.join(moduleOutputRoot, "evidence-graph.json"), {
+    generatedAt: new Date().toISOString(),
+    module: targetModule,
+    source: {
+      manifest: "manifest.json",
+      files: "files.json",
+      services: "services.json",
+      controllers: "controllers.json",
+      evidence: "evidence.json",
+    },
+    summary: {
+      inputSummary: summary,
+      totalFacts: dedupedFacts.length,
+      countsByType,
+    },
+    facts: dedupedFacts,
   });
 
-  console.log(`${targetModule}:`, summary);
+  console.log(`${targetModule}:`, {
+    ...summary,
+    facts: dedupedFacts.length,
+  });
 }
 
 function main() {
@@ -247,6 +653,7 @@ function main() {
     calls: readJson<AnyRow>("ast-calls.json"),
     firestoreHints: readJson<AnyRow>("ast-firestore-hints.json"),
     permissionHints: readJson<AnyRow>("ast-permission-hints.json"),
+    externalHooks: readJson<AnyRow>("ast-external-hooks.json"),
   };
 
   const modules = getModules([
@@ -258,17 +665,19 @@ function main() {
     ...raw.calls,
     ...raw.firestoreHints,
     ...raw.permissionHints,
+    ...raw.externalHooks,
   ]);
 
   fs.mkdirSync(modulesRoot, { recursive: true });
 
-  console.log(`Building module evidence for ${modules.length} modules`);
+  console.log(`Building module evidence and evidence graphs for ${modules.length} modules`);
 
   for (const moduleName of modules) {
     buildModuleEvidence(moduleName, raw);
   }
 
-  console.log(`Wrote module evidence to output/knowledge-pipeline/modules/`);
+  console.log("Complete");
+  console.log("Wrote output/knowledge-pipeline/modules/*");
 }
 
 main();

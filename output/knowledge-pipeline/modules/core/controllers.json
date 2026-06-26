@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKDocumentController",
+    "repo": "cloud",
     "path": "functions/src/modules/core/controllers/document.controller.ts",
     "submodule": null,
     "methods": [
@@ -493,6 +494,7 @@
   },
   {
     "name": "OSKDocumentAndMessageController",
+    "repo": "cloud",
     "path": "functions/src/modules/core/controllers/document_and_message.controller.ts",
     "submodule": null,
     "methods": [
@@ -759,6 +761,7 @@
   },
   {
     "name": "OSKMessageController",
+    "repo": "cloud",
     "path": "functions/src/modules/core/controllers/message.controller.ts",
     "submodule": null,
     "methods": [
@@ -795,6 +798,7 @@
   },
   {
     "name": "OSKAccessController",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/access/controllers/access.controller.ts",
     "submodule": "access",
     "methods": [
@@ -926,6 +930,7 @@
   },
   {
     "name": "OSKPublicKeysController",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts",
     "submodule": "public_key",
     "methods": [
@@ -997,6 +1002,7 @@
   },
   {
     "name": "OSKStorageController",
+    "repo": "cloud",
     "path": "functions/src/modules/core/modules/storage/controllers/storage.controller.ts",
     "submodule": "storage",
     "methods": [

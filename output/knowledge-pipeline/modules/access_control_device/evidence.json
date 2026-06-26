@@ -1,29 +1,105 @@
 {
   "firestoreEvidence": [
     {
+      "repo": "cloud",
       "module": "access_control_device",
-      "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
-      "value": "User not identified by accessId, checking users collection.",
-      "line": 138
+      "value": "/accessControlDevices",
+      "line": 29
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
-      "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
-      "value": "Found user in users collection. Setting type to USER.",
-      "line": 144
+      "value": "/accessControlDevices",
+      "line": 39
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
-      "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
-      "value": "Could not determine user type. User not found in users collection and no matching specific access was found.",
-      "line": 150
+      "value": "/accessControlDevices",
+      "line": 43
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "value": "/accessControlDevices",
+      "line": 47
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "value": "/accessControlDevices",
+      "line": 51
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "value": "/accessControlDevices",
+      "line": 59
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "value": "/accessControlDevices",
+      "line": 69
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "value": "/accessControlDevices",
+      "line": 83
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "value": "/accessControlDevices",
+      "line": 101
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/index.ts",
+      "submodule": null,
+      "value": "/accessControlDevices/{deviceId}",
+      "line": 11
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/index.ts",
+      "submodule": null,
+      "value": "/accessControlDevices/{deviceId}/configs/{configId}",
+      "line": 12
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/index.ts",
+      "submodule": null,
+      "value": "/accessControlDevices/{deviceId}/publicKeys/{keyType}",
+      "line": 13
     }
   ],
   "permissionEvidence": [
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -31,6 +107,7 @@
       "line": 142
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -40,6 +117,7 @@
   ],
   "callEvidence": [
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device.controllers.ts",
       "submodule": null,
@@ -53,6 +131,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device.controllers.ts",
       "submodule": null,
@@ -65,6 +144,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device_public_keys.controllers.ts",
       "submodule": null,
@@ -78,6 +158,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device_public_keys.controllers.ts",
       "submodule": null,
@@ -90,6 +171,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -101,6 +183,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -110,6 +193,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -121,6 +205,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -132,6 +217,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -144,6 +230,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -155,6 +242,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -166,6 +254,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -178,6 +267,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -191,6 +281,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -203,6 +294,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -214,6 +306,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -226,6 +319,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -238,6 +332,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -249,6 +344,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -258,6 +354,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -270,6 +367,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -281,6 +379,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -292,6 +391,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -305,6 +405,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -318,6 +419,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -331,6 +433,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -340,6 +443,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -352,6 +456,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -365,6 +470,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -378,6 +484,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -390,6 +497,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -403,6 +511,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -416,6 +525,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts",
       "submodule": null,
@@ -425,6 +535,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts",
       "submodule": null,
@@ -437,6 +548,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts",
       "submodule": null,
@@ -450,6 +562,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts",
       "submodule": null,
@@ -461,6 +574,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -470,6 +584,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -479,6 +594,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -488,6 +604,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -499,6 +616,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -511,6 +629,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -522,6 +641,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -531,6 +651,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -542,6 +663,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -554,6 +676,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -563,6 +686,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -572,6 +696,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -584,6 +709,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -597,6 +723,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -606,6 +733,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -615,6 +743,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -626,6 +755,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -635,6 +765,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -644,6 +775,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -656,6 +788,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -665,6 +798,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -678,6 +812,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
       "submodule": null,
@@ -687,6 +822,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
       "submodule": null,
@@ -699,6 +835,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
       "submodule": null,
@@ -711,6 +848,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
       "submodule": null,
@@ -724,6 +862,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
       "submodule": null,
@@ -738,6 +877,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
       "submodule": null,
@@ -751,6 +891,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
       "submodule": null,
@@ -762,6 +903,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
       "submodule": null,
@@ -775,6 +917,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
       "submodule": null,
@@ -784,6 +927,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
       "submodule": null,
@@ -796,6 +940,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
       "submodule": null,
@@ -809,6 +954,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
       "submodule": null,
@@ -820,6 +966,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
       "submodule": null,
@@ -829,6 +976,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
       "submodule": null,
@@ -841,6 +989,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
       "submodule": null,
@@ -854,6 +1003,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
       "submodule": null,
@@ -865,6 +1015,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -876,6 +1027,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -887,6 +1039,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -898,6 +1051,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -909,6 +1063,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -920,6 +1075,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -931,6 +1087,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -942,6 +1099,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -953,6 +1111,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -964,6 +1123,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -975,6 +1135,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -986,6 +1147,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -997,6 +1159,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -1008,6 +1171,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -1019,6 +1183,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -1030,6 +1195,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -1041,6 +1207,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -1052,6 +1219,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/shared/access_control_device_token_payload.model.ts",
       "submodule": null,
@@ -1063,6 +1231,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/shared/access_control_device_token_payload.model.ts",
       "submodule": null,
@@ -1074,6 +1243,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/shared/access_control_device_token_payload.model.ts",
       "submodule": null,
@@ -1083,6 +1253,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/shared/access_control_device_token_payload.model.ts",
       "submodule": null,
@@ -1092,6 +1263,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/shared/access_control_device_token_payload.model.ts",
       "submodule": null,
@@ -1105,6 +1277,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1116,6 +1289,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1125,6 +1299,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1134,6 +1309,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1143,6 +1319,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1152,6 +1329,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1164,6 +1342,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1176,6 +1355,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1187,6 +1367,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1198,6 +1379,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1209,6 +1391,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1220,6 +1403,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1231,6 +1415,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1242,6 +1427,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -1254,6 +1440,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1266,6 +1453,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1277,6 +1465,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1289,6 +1478,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1300,6 +1490,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1312,6 +1503,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1323,6 +1515,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1335,6 +1528,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1347,6 +1541,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1359,6 +1554,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1371,6 +1567,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1383,6 +1580,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1394,6 +1592,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1406,6 +1605,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1418,6 +1618,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1430,6 +1631,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1442,6 +1644,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1453,6 +1656,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1464,6 +1668,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1476,6 +1681,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1488,6 +1694,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -1500,6 +1707,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1509,6 +1717,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1520,6 +1729,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1531,6 +1741,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1540,6 +1751,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1549,6 +1761,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1561,6 +1774,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1570,6 +1784,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1581,6 +1796,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1592,6 +1808,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1603,6 +1820,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1612,6 +1830,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1624,6 +1843,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1633,6 +1853,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1644,6 +1865,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1655,6 +1877,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -1667,6 +1890,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1676,6 +1900,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1689,6 +1914,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1698,6 +1924,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1707,6 +1934,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1718,6 +1946,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1729,6 +1958,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1742,6 +1972,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1755,6 +1986,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1766,6 +1998,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1777,6 +2010,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1791,6 +2025,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1802,6 +2037,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1813,6 +2049,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1824,6 +2061,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1835,6 +2073,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1847,6 +2086,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1860,6 +2100,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1871,6 +2112,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,
@@ -1882,8 +2124,191 @@
       ]
     }
   ],
+  "externalHooks": [
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "OSK_OSK_NODE_IOT_API_URL",
+      "line": 17
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "GCLOUD_PROJECT",
+      "line": 22
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "OSK_FIREBASE_EMULATOR",
+      "line": 53
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "OSK_FIREBASE_EMULATOR",
+      "line": 65
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices",
+      "line": 29
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices",
+      "line": 39
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices",
+      "line": 43
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices",
+      "line": 47
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices",
+      "line": 51
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices",
+      "line": 59
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices",
+      "line": 69
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices",
+      "line": 83
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices",
+      "line": 101
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "OSK_PUBSUB_TOPIC_ACD_CONFIGURATIONS",
+      "line": 87
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/index.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices/{deviceId}",
+      "line": 11
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/index.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices/{deviceId}/configs/{configId}",
+      "line": 12
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/index.ts",
+      "submodule": null,
+      "type": "http_or_client_path_candidate",
+      "value": "/accessControlDevices/{deviceId}/publicKeys/{keyType}",
+      "line": 13
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/index.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "OSK_FIREBASE_EMULATOR",
+      "line": 109
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "OSK_FIREBASE_EMULATOR",
+      "line": 114
+    },
+    {
+      "repo": "cloud",
+      "module": "access_control_device",
+      "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "OSK_FIREBASE_EMULATOR",
+      "line": 161
+    }
+  ],
   "crossModuleDependencies": [
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
       "importedFrom": "../../../modules/core/models/documents/document_list.model",
@@ -1897,6 +2322,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/access_control_device/models/documents/access_control_device_config_document.model.ts",
       "submodule": null,
       "importedFrom": "../../../organization/modules/organization_intercom_ communication/",
@@ -1910,6 +2336,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/access_control_device/models/documents/access_control_device_document.model.ts",
       "submodule": null,
       "importedFrom": "../../../building/modules/building_activity/models/documents/building_activity_document.model",
@@ -1923,6 +2350,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
       "importedFrom": "../../building/modules/building_activity/models/documents/building_activity_document.model",
@@ -1938,6 +2366,7 @@
   ],
   "exports": [
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device.controllers.ts",
       "submodule": null,
@@ -1946,6 +2375,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device_public_keys.controllers.ts",
       "submodule": null,
@@ -1954,6 +2384,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/index.ts",
       "submodule": null,
@@ -1962,6 +2393,7 @@
       "moduleSpecifier": "./models/access_control_device.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/index.ts",
       "submodule": null,
@@ -1970,6 +2402,7 @@
       "moduleSpecifier": "./models/access_control_device_config.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/index.ts",
       "submodule": null,
@@ -1978,6 +2411,7 @@
       "moduleSpecifier": "./models/access_control_device_public_keys.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/index.ts",
       "submodule": null,
@@ -1986,6 +2420,7 @@
       "moduleSpecifier": "./controllers/access_control_device.controllers"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/index.ts",
       "submodule": null,
@@ -1994,6 +2429,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/index.ts",
       "submodule": null,
@@ -2002,6 +2438,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/index.ts",
       "submodule": null,
@@ -2010,6 +2447,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/index.ts",
       "submodule": null,
@@ -2018,6 +2456,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/models/access_control_device.model.ts",
       "submodule": null,
@@ -2026,6 +2465,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/models/access_control_device.model.ts",
       "submodule": null,
@@ -2034,6 +2474,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/models/access_control_device_config.model.ts",
       "submodule": null,
@@ -2042,6 +2483,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/models/access_control_device_public_keys.model.ts",
       "submodule": null,
@@ -2050,6 +2492,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/models/jwt_payload.model.ts",
       "submodule": null,
@@ -2058,6 +2501,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
       "submodule": null,
@@ -2066,6 +2510,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
       "submodule": null,
@@ -2074,6 +2519,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts",
       "submodule": null,
@@ -2082,6 +2528,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
       "submodule": null,
@@ -2090,6 +2537,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
       "submodule": null,
@@ -2098,6 +2546,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
       "submodule": null,
@@ -2106,6 +2555,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
       "submodule": null,
@@ -2114,6 +2564,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2122,6 +2573,7 @@
       "moduleSpecifier": "./controllers/access_control_device.controller"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2130,6 +2582,7 @@
       "moduleSpecifier": "./controllers/access_control_device_access_commands.controller"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2138,6 +2591,7 @@
       "moduleSpecifier": "./controllers/access_control_device_config.controller"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2146,6 +2600,7 @@
       "moduleSpecifier": "./controllers/access_control_device_public_keys.controller"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2154,6 +2609,7 @@
       "moduleSpecifier": "./controllers/access_control_device_state.controller"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2162,6 +2618,7 @@
       "moduleSpecifier": "./controllers/access_control_device_system_logs.controller"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2170,6 +2627,7 @@
       "moduleSpecifier": "./services/access_control_device.service"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2178,6 +2636,7 @@
       "moduleSpecifier": "./services/access_control_device_activity_enrichment.service"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2186,6 +2645,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_access_command_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2194,6 +2654,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_access_command_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2202,6 +2663,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_config_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2210,6 +2672,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_config_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2218,6 +2681,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2226,6 +2690,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2234,6 +2699,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_public_keys_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2242,6 +2708,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_public_keys_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2250,6 +2717,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_state_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2258,6 +2726,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_state_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2266,6 +2735,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_system_log_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2274,6 +2744,7 @@
       "moduleSpecifier": "./models/documents/access_control_device_system_log_document.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2282,6 +2753,7 @@
       "moduleSpecifier": "./models/functions/access_control_device_public_key_add_request.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2290,6 +2762,7 @@
       "moduleSpecifier": "./models/functions/access_control_device_public_key_delete_request.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2298,6 +2771,7 @@
       "moduleSpecifier": "./models/messages/access_control_device_config_message.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2306,6 +2780,7 @@
       "moduleSpecifier": "./models/messages/access_control_device_message.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2314,6 +2789,7 @@
       "moduleSpecifier": "./models/messages/access_control_device_public_keys_message.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2322,6 +2798,7 @@
       "moduleSpecifier": "./models/messages/access_control_device_state_message.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2330,6 +2807,7 @@
       "moduleSpecifier": "./models/shared/access_control_device_token_payload.model"
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2338,6 +2816,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2346,6 +2825,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2354,6 +2834,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2362,6 +2843,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2370,6 +2852,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2378,6 +2861,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2386,6 +2870,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2394,6 +2879,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2402,6 +2888,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2410,6 +2897,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2418,6 +2906,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2426,6 +2915,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2434,6 +2924,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2442,6 +2933,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2450,6 +2942,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2458,6 +2951,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2466,6 +2960,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2474,6 +2969,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2482,6 +2978,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2490,6 +2987,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2498,6 +2996,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2506,6 +3005,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2514,6 +3014,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2522,6 +3023,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2530,6 +3032,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2538,6 +3041,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2546,6 +3050,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2554,6 +3059,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/index.ts",
       "submodule": null,
@@ -2562,6 +3068,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_access_command_document.model.ts",
       "submodule": null,
@@ -2570,6 +3077,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_access_command_document.model.ts",
       "submodule": null,
@@ -2578,6 +3086,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_config_document.model.ts",
       "submodule": null,
@@ -2586,6 +3095,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_config_document.model.ts",
       "submodule": null,
@@ -2594,6 +3104,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_document.model.ts",
       "submodule": null,
@@ -2602,6 +3113,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_document.model.ts",
       "submodule": null,
@@ -2610,6 +3122,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_document.model.ts",
       "submodule": null,
@@ -2618,6 +3131,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_public_keys_document.model.ts",
       "submodule": null,
@@ -2626,6 +3140,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_public_keys_document.model.ts",
       "submodule": null,
@@ -2634,6 +3149,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_state_document.model.ts",
       "submodule": null,
@@ -2642,6 +3158,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_state_document.model.ts",
       "submodule": null,
@@ -2650,6 +3167,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_system_log_document.model.ts",
       "submodule": null,
@@ -2658,6 +3176,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/documents/access_control_device_system_log_document.model.ts",
       "submodule": null,
@@ -2666,6 +3185,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/functions/access_control_device_public_key_add_request.model.ts",
       "submodule": null,
@@ -2674,6 +3194,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/functions/access_control_device_public_key_delete_request.model.ts",
       "submodule": null,
@@ -2682,6 +3203,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/messages/access_control_device_config_message.model.ts",
       "submodule": null,
@@ -2690,6 +3212,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/messages/access_control_device_message.model.ts",
       "submodule": null,
@@ -2698,6 +3221,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/messages/access_control_device_public_keys_message.model.ts",
       "submodule": null,
@@ -2706,6 +3230,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/messages/access_control_device_state_message.model.ts",
       "submodule": null,
@@ -2714,6 +3239,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/shared/access_control_device_public_key_type.model.ts",
       "submodule": null,
@@ -2722,6 +3248,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/models/shared/access_control_device_token_payload.model.ts",
       "submodule": null,
@@ -2730,6 +3257,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
       "submodule": null,
@@ -2738,6 +3266,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -2746,6 +3275,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -2754,6 +3284,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -2762,6 +3293,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
       "submodule": null,
@@ -2770,6 +3302,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
       "submodule": null,
@@ -2778,6 +3311,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "access_control_device",
       "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
       "submodule": null,

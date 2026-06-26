@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKAdminBuildingController",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts",
     "submodule": "admin_buildings",
     "methods": [
@@ -23,6 +24,7 @@
   },
   {
     "name": "OSKAdminBuildingUnitController",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building_unit.controller.ts",
     "submodule": "admin_buildings",
     "methods": [
@@ -52,6 +54,7 @@
   },
   {
     "name": "OSKOragnizationListController",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts",
     "submodule": "admin_organization",
     "methods": [
@@ -86,6 +89,7 @@
   },
   {
     "name": "OSKAdminInhabitantUserController",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_inhabitant_user.controller.ts",
     "submodule": "admin_users",
     "methods": [
@@ -179,6 +183,7 @@
   },
   {
     "name": "OSKAdminUserController",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
     "submodule": "admin_users",
     "methods": [
@@ -218,6 +223,7 @@
   },
   {
     "name": "OSKAdminUserAccessController",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_access.controller.ts",
     "submodule": "admin_users",
     "methods": [
@@ -270,6 +276,7 @@
   },
   {
     "name": "OSKAdminUserDeviceController",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_device.controller.ts",
     "submodule": "admin_users",
     "methods": [
@@ -339,6 +346,7 @@
   },
   {
     "name": "OSKAdminUserInvitationController",
+    "repo": "cloud",
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts",
     "submodule": "admin_users",
     "methods": [

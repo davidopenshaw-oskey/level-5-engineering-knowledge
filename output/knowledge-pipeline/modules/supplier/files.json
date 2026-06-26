@@ -1,6 +1,7 @@
 [
   {
     "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -500,10 +501,12 @@
         "line": 33
       }
     ],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/index.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1252,10 +1255,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "supplier",
+        "submodule": null,
+        "path": "functions/src/modules/supplier/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/supplier/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 41
+      }
+    ]
   },
   {
     "path": "functions/src/modules/supplier/models/documents/supplier_document.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1315,10 +1332,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1427,10 +1446,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -1539,10 +1560,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -2092,10 +2115,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -2618,10 +2643,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -3162,10 +3189,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -3728,10 +3757,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -4124,10 +4155,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -4955,10 +4988,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "supplier",
+        "submodule": "supplierStaff",
+        "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/index.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 50
+      }
+    ]
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access.model.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -5002,10 +5049,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access_document.model.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -5083,10 +5132,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -5179,10 +5230,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -5238,10 +5291,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_pincode.model.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -5327,10 +5382,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [],
     "exports": [
@@ -5376,10 +5433,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -5617,10 +5676,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -8540,7 +8601,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "supplier",
+        "submodule": "supplierStaff",
+        "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 21
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -8702,10 +8774,12 @@
         "value": "permission-denied",
         "line": 764
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -9456,7 +9530,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "supplier",
+        "submodule": "supplierStaff",
+        "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 10
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -9478,10 +9563,12 @@
         "value": "permission-denied",
         "line": 138
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -10186,7 +10273,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "supplier",
+        "submodule": "supplierStaff",
+        "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 10
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -10228,10 +10326,12 @@
         "value": "permission-denied",
         "line": 160
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -10898,7 +10998,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "supplier",
+        "submodule": "supplierStaff",
+        "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 9
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -10920,10 +11031,12 @@
         "value": "permission-denied",
         "line": 152
       }
-    ]
+    ],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
+    "repo": "cloud",
     "submodule": "supplierStaff",
     "imports": [
       {
@@ -11084,10 +11197,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/supplier/services/supplier.service.ts",
+    "repo": "cloud",
     "submodule": null,
     "imports": [
       {
@@ -12245,7 +12360,18 @@
         ]
       }
     ],
-    "firestoreHints": [],
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "supplier",
+        "submodule": null,
+        "path": "functions/src/modules/supplier/services/supplier.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/supplier/services/supplier.service.ts",
+        "value": "@oskey/settings/role",
+        "line": 13
+      }
+    ],
     "permissionHints": [
       {
         "repo": "cloud",
@@ -12357,6 +12483,7 @@
         "value": "permission-denied",
         "line": 216
       }
-    ]
+    ],
+    "externalHooks": []
   }
 ]

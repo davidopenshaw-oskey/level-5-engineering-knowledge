@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKNodeIoTAPIService",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
     "submodule": null,
     "methods": [
@@ -105,6 +106,7 @@
   },
   {
     "name": "OSKAccessControlDeviceService",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
     "submodule": null,
     "methods": [
@@ -158,6 +160,7 @@
   },
   {
     "name": "OSKActivityEnrichmentService",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
     "submodule": null,
     "methods": [
@@ -182,6 +185,7 @@
   },
   {
     "name": "OSKAccessControlDeviceConfigService",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
     "submodule": null,
     "methods": [
@@ -258,6 +262,7 @@
   },
   {
     "name": "OSKAccessControlDevicePublicKeysService",
+    "repo": "cloud",
     "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
     "submodule": null,
     "methods": [

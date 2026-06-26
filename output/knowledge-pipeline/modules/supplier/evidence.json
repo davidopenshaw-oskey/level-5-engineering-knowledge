@@ -1,6 +1,7 @@
 {
   "firestoreEvidence": [
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -8,15 +9,57 @@
       "line": 13
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
       "value": "Supplier not found in /suppliers",
       "line": 33
+    },
+    {
+      "repo": "cloud",
+      "module": "supplier",
+      "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+      "submodule": "supplierStaff",
+      "value": "@oskey/settings/role",
+      "line": 21
+    },
+    {
+      "repo": "cloud",
+      "module": "supplier",
+      "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
+      "submodule": "supplierStaff",
+      "value": "@oskey/settings/role",
+      "line": 10
+    },
+    {
+      "repo": "cloud",
+      "module": "supplier",
+      "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
+      "submodule": "supplierStaff",
+      "value": "@oskey/settings/role",
+      "line": 10
+    },
+    {
+      "repo": "cloud",
+      "module": "supplier",
+      "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
+      "submodule": "supplierStaff",
+      "value": "@oskey/settings/role",
+      "line": 9
+    },
+    {
+      "repo": "cloud",
+      "module": "supplier",
+      "path": "functions/src/modules/supplier/services/supplier.service.ts",
+      "submodule": null,
+      "value": "@oskey/settings/role",
+      "line": 13
     }
   ],
   "permissionEvidence": [
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -24,6 +67,7 @@
       "line": 72
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -31,6 +75,7 @@
       "line": 79
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -38,6 +83,7 @@
       "line": 118
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -45,6 +91,7 @@
       "line": 125
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -52,6 +99,7 @@
       "line": 149
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -59,6 +107,7 @@
       "line": 156
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -66,6 +115,7 @@
       "line": 197
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -73,6 +123,7 @@
       "line": 204
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -80,6 +131,7 @@
       "line": 242
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -87,6 +139,7 @@
       "line": 249
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -94,6 +147,7 @@
       "line": 287
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -101,6 +155,7 @@
       "line": 294
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -108,6 +163,7 @@
       "line": 634
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -115,6 +171,7 @@
       "line": 641
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -122,6 +179,7 @@
       "line": 761
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -129,6 +187,7 @@
       "line": 764
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -136,6 +195,7 @@
       "line": 135
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -143,6 +203,7 @@
       "line": 138
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -150,6 +211,7 @@
       "line": 114
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -157,6 +219,7 @@
       "line": 121
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -164,6 +227,7 @@
       "line": 153
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -171,6 +235,7 @@
       "line": 160
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -178,6 +243,7 @@
       "line": 145
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -185,6 +251,7 @@
       "line": 152
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -192,6 +259,7 @@
       "line": 55
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -199,6 +267,7 @@
       "line": 62
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -206,6 +275,7 @@
       "line": 101
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -213,6 +283,7 @@
       "line": 108
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -220,6 +291,7 @@
       "line": 112
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -227,6 +299,7 @@
       "line": 134
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -234,6 +307,7 @@
       "line": 141
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -241,6 +315,7 @@
       "line": 168
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -248,6 +323,7 @@
       "line": 175
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -255,6 +331,7 @@
       "line": 209
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -264,6 +341,7 @@
   ],
   "callEvidence": [
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -273,6 +351,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -284,6 +363,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -296,6 +376,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -307,6 +388,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -320,6 +402,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -333,6 +416,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -345,6 +429,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -356,6 +441,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -368,6 +454,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -379,6 +466,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -390,6 +478,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -401,6 +490,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -412,6 +502,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -423,6 +514,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -434,6 +526,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -445,6 +538,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -454,6 +548,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -465,6 +560,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -477,6 +573,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -488,6 +585,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -500,6 +598,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -513,6 +612,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -524,6 +624,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -537,6 +638,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -548,6 +650,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -560,6 +663,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -571,6 +675,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -582,6 +687,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -593,6 +699,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -605,6 +712,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -617,6 +725,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -628,6 +737,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -640,6 +750,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -653,6 +764,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -665,6 +777,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -678,6 +791,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -690,6 +804,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -702,6 +817,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -714,6 +830,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -725,6 +842,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -737,6 +855,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -746,6 +865,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -758,6 +878,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -770,6 +891,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -782,6 +904,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -794,6 +917,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -806,6 +930,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -817,6 +942,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -829,6 +955,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -840,6 +967,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -852,6 +980,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -865,6 +994,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -877,6 +1007,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -889,6 +1020,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -898,6 +1030,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -910,6 +1043,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -922,6 +1056,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -934,6 +1069,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -946,6 +1082,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -958,6 +1095,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -969,6 +1107,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -981,6 +1120,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -994,6 +1134,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -1006,6 +1147,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -1019,6 +1161,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -1031,6 +1174,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -1043,6 +1187,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
       "submodule": "supplierStaff",
@@ -1056,6 +1201,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
       "submodule": "supplierStaff",
@@ -1068,6 +1214,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
       "submodule": "supplierStaff",
@@ -1080,6 +1227,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
       "submodule": "supplierStaff",
@@ -1092,6 +1240,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
       "submodule": "supplierStaff",
@@ -1104,6 +1253,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
       "submodule": "supplierStaff",
@@ -1116,6 +1266,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
       "submodule": "supplierStaff",
@@ -1127,6 +1278,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
       "submodule": "supplierStaff",
@@ -1139,6 +1291,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1150,6 +1303,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1161,6 +1315,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1172,6 +1327,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1183,6 +1339,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1194,6 +1351,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1205,6 +1363,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1216,6 +1375,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1227,6 +1387,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1238,6 +1399,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1249,6 +1411,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1260,6 +1423,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -1271,6 +1435,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1282,6 +1447,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1293,6 +1459,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1304,6 +1471,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1316,6 +1484,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1328,6 +1497,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1337,6 +1507,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1348,6 +1519,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1357,6 +1529,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1370,6 +1543,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1382,6 +1556,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1393,6 +1568,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1404,6 +1580,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1415,6 +1592,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1427,6 +1605,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1439,6 +1618,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1451,6 +1631,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1462,6 +1643,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1473,6 +1655,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1484,6 +1667,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1496,6 +1680,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1508,6 +1693,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1519,6 +1705,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1530,6 +1717,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1541,6 +1729,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1553,6 +1742,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1565,6 +1755,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1576,6 +1767,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1587,6 +1779,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1598,6 +1791,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1610,6 +1804,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1622,6 +1817,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1634,6 +1830,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1643,6 +1840,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1656,6 +1854,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1668,6 +1867,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1679,6 +1879,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1690,6 +1891,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1701,6 +1903,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1713,6 +1916,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1725,6 +1929,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1737,6 +1942,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1748,6 +1954,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1759,6 +1966,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1770,6 +1978,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1782,6 +1991,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1794,6 +2004,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1805,6 +2016,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1816,6 +2028,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1827,6 +2040,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1838,6 +2052,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1850,6 +2065,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1861,6 +2077,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1872,6 +2089,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1881,6 +2099,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1892,6 +2111,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1901,6 +2121,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1912,6 +2133,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1923,6 +2145,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1936,6 +2159,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1947,6 +2171,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1959,6 +2184,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1970,6 +2196,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1981,6 +2208,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1990,6 +2218,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -1999,6 +2228,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2012,6 +2242,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2023,6 +2254,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2034,6 +2266,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2045,6 +2278,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2056,6 +2290,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2065,6 +2300,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2076,6 +2312,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2085,6 +2322,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2096,6 +2334,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2107,6 +2346,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2122,6 +2362,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2133,6 +2374,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2145,6 +2387,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2156,6 +2399,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2169,6 +2413,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2180,6 +2425,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2191,6 +2437,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2204,6 +2451,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2216,6 +2464,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2227,6 +2476,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2241,6 +2491,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2253,6 +2504,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2264,6 +2516,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2277,6 +2530,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2292,6 +2546,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2304,6 +2559,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2316,6 +2572,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2327,6 +2584,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2339,6 +2597,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2350,6 +2609,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2361,6 +2621,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2373,6 +2634,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2384,6 +2646,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2395,6 +2658,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2406,6 +2670,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2417,6 +2682,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2428,6 +2694,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2440,6 +2707,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2452,6 +2720,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2465,6 +2734,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2476,6 +2746,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2489,6 +2760,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2502,6 +2774,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2516,6 +2789,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2527,6 +2801,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2539,6 +2814,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2551,6 +2827,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2564,6 +2841,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2577,6 +2855,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2589,6 +2868,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2600,6 +2880,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2612,6 +2893,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2623,6 +2905,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2635,6 +2918,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2648,6 +2932,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2661,6 +2946,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2674,6 +2960,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2686,6 +2973,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2700,6 +2988,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2711,6 +3000,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2722,6 +3012,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2734,6 +3025,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2746,6 +3038,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -2758,6 +3051,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2767,6 +3061,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2776,6 +3071,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2787,6 +3083,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2800,6 +3097,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2814,6 +3112,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2825,6 +3124,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2834,6 +3134,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2848,6 +3149,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2859,6 +3161,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2870,6 +3173,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2882,6 +3186,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2894,6 +3199,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2906,6 +3212,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2918,6 +3225,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2929,6 +3237,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2941,6 +3250,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2952,6 +3262,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2963,6 +3274,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -2974,6 +3286,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -2986,6 +3299,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -2997,6 +3311,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3009,6 +3324,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3018,6 +3334,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3032,6 +3349,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3044,6 +3362,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3055,6 +3374,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3066,6 +3386,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3077,6 +3398,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3089,6 +3411,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3101,6 +3424,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3114,6 +3438,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3125,6 +3450,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3136,6 +3462,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3147,6 +3474,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3159,6 +3487,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3171,6 +3500,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -3183,6 +3513,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3195,6 +3526,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3206,6 +3538,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3218,6 +3551,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3231,6 +3565,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3242,6 +3577,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3253,6 +3589,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3262,6 +3599,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3276,6 +3614,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3287,6 +3626,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3301,6 +3641,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3310,6 +3651,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3324,6 +3666,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3336,6 +3679,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3347,6 +3691,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3358,6 +3703,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3369,6 +3715,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3381,6 +3728,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3393,6 +3741,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -3406,6 +3755,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
       "submodule": "supplierStaff",
@@ -3415,6 +3765,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
       "submodule": "supplierStaff",
@@ -3429,6 +3780,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3440,6 +3792,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3451,6 +3804,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3462,6 +3816,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3474,6 +3829,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3486,6 +3842,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3497,6 +3854,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3506,6 +3864,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3515,6 +3874,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3527,6 +3887,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3539,6 +3900,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3550,6 +3912,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3561,6 +3924,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3572,6 +3936,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3584,6 +3949,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3596,6 +3962,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3607,6 +3974,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3618,6 +3986,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3629,6 +3998,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3640,6 +4010,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3652,6 +4023,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3664,6 +4036,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3675,6 +4048,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3686,6 +4060,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3697,6 +4072,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3708,6 +4084,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3720,6 +4097,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3732,6 +4110,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3743,6 +4122,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3752,6 +4132,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3764,6 +4145,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3776,6 +4158,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3787,6 +4170,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3798,6 +4182,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3809,6 +4194,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3821,6 +4207,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3833,6 +4220,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3844,6 +4232,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3856,6 +4245,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3867,6 +4257,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3878,6 +4269,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3887,6 +4279,7 @@
       "arguments": []
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
@@ -3899,8 +4292,29 @@
       ]
     }
   ],
+  "externalHooks": [
+    {
+      "repo": "cloud",
+      "module": "supplier",
+      "path": "functions/src/modules/supplier/index.ts",
+      "submodule": null,
+      "type": "environment_variable",
+      "value": "OSK_FIREBASE_EMULATOR",
+      "line": 41
+    },
+    {
+      "repo": "cloud",
+      "module": "supplier",
+      "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
+      "submodule": "supplierStaff",
+      "type": "environment_variable",
+      "value": "OSK_FIREBASE_EMULATOR",
+      "line": 50
+    }
+  ],
   "crossModuleDependencies": [
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/supplier/index.ts",
       "submodule": null,
       "importedFrom": "./modules/supplierStaff",
@@ -3909,6 +4323,7 @@
       "namedImports": []
     },
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
       "submodule": "supplierStaff",
       "importedFrom": "../../../../../building/modules/building_activity/models/documents/building_activity_document.model",
@@ -3922,6 +4337,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
       "importedFrom": "../../../../building/modules/building_activity",
@@ -3935,6 +4351,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
       "importedFrom": "../../../../building/modules/building_activity",
@@ -3948,6 +4365,7 @@
       ]
     },
     {
+      "repo": "cloud",
       "sourceFile": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,
       "importedFrom": "../modules/supplierStaff",
@@ -3967,6 +4385,7 @@
   ],
   "exports": [
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
       "submodule": null,
@@ -3975,6 +4394,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -3983,6 +4403,7 @@
       "moduleSpecifier": "./controllers/supplier.controller"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -3991,6 +4412,7 @@
       "moduleSpecifier": "./modules/supplierStaff/controllers/supplier_staff.controller"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -3999,6 +4421,7 @@
       "moduleSpecifier": "./modules/supplierStaff/controllers/supplier_staff_pincode.controller"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4007,6 +4430,7 @@
       "moduleSpecifier": "./models/documents/supplier_document.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4015,6 +4439,7 @@
       "moduleSpecifier": "./models/functions/supplier_request_document.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4023,6 +4448,7 @@
       "moduleSpecifier": "./modules/supplierStaff/models/documents/supplier_staff_access.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4031,6 +4457,7 @@
       "moduleSpecifier": "./modules/supplierStaff/models/documents/supplier_staff_document.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4039,6 +4466,7 @@
       "moduleSpecifier": "./modules/supplierStaff/models/documents/supplier_staff_pincode.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4047,6 +4475,7 @@
       "moduleSpecifier": "./modules/supplierStaff/models/documents/supplier_staff_pincode.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4055,6 +4484,7 @@
       "moduleSpecifier": "./modules/supplierStaff/models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4063,6 +4493,7 @@
       "moduleSpecifier": "./modules/supplierStaff/services/supplier_staff.service"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4071,6 +4502,7 @@
       "moduleSpecifier": "./modules/supplierStaff/services/supplier_staff_access.service"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4079,6 +4511,7 @@
       "moduleSpecifier": "./modules/supplierStaff/services/supplier_staff_pincode.service"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4087,6 +4520,7 @@
       "moduleSpecifier": "./services/supplier.service"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4095,6 +4529,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4103,6 +4538,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4111,6 +4547,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4119,6 +4556,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4127,6 +4565,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4135,6 +4574,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4143,6 +4583,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4151,6 +4592,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4159,6 +4601,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4167,6 +4610,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4175,6 +4619,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4183,6 +4628,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4191,6 +4637,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4199,6 +4646,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4207,6 +4655,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4215,6 +4664,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4223,6 +4673,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4231,6 +4682,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4239,6 +4691,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4247,6 +4700,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4255,6 +4709,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4263,6 +4718,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4271,6 +4727,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4279,6 +4736,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4287,6 +4745,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4295,6 +4754,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4303,6 +4763,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4311,6 +4772,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4319,6 +4781,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4327,6 +4790,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4335,6 +4799,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4343,6 +4808,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4351,6 +4817,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/index.ts",
       "submodule": null,
@@ -4359,6 +4826,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/documents/supplier_document.model.ts",
       "submodule": null,
@@ -4367,6 +4835,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/documents/supplier_document.model.ts",
       "submodule": null,
@@ -4375,6 +4844,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
       "submodule": null,
@@ -4383,6 +4853,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
       "submodule": null,
@@ -4391,6 +4862,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
       "submodule": null,
@@ -4399,6 +4871,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
       "submodule": null,
@@ -4407,6 +4880,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
       "submodule": null,
@@ -4415,6 +4889,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
       "submodule": null,
@@ -4423,6 +4898,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
       "submodule": null,
@@ -4431,6 +4907,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
       "submodule": null,
@@ -4439,6 +4916,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
       "submodule": null,
@@ -4447,6 +4925,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
       "submodule": null,
@@ -4455,6 +4934,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
       "submodule": "supplierStaff",
@@ -4463,6 +4943,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
       "submodule": "supplierStaff",
@@ -4471,6 +4952,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
       "submodule": "supplierStaff",
@@ -4479,6 +4961,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
       "submodule": "supplierStaff",
@@ -4487,6 +4970,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
       "submodule": "supplierStaff",
@@ -4495,6 +4979,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4503,6 +4988,7 @@
       "moduleSpecifier": "./controllers/supplier_staff.controller"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4511,6 +4997,7 @@
       "moduleSpecifier": "./controllers/supplier_staff_pincode.controller"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4519,6 +5006,7 @@
       "moduleSpecifier": "./models/documents/supplier_staff_access.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4527,6 +5015,7 @@
       "moduleSpecifier": "./models/documents/supplier_staff_access_document.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4535,6 +5024,7 @@
       "moduleSpecifier": "./models/documents/supplier_staff_document.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4543,6 +5033,7 @@
       "moduleSpecifier": "./models/documents/supplier_staff_document.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4551,6 +5042,7 @@
       "moduleSpecifier": "./models/documents/supplier_staff_pincode.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4559,6 +5051,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4567,6 +5060,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4575,6 +5069,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4583,6 +5078,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4591,6 +5087,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4599,6 +5096,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4607,6 +5105,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4615,6 +5114,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4623,6 +5123,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4631,6 +5132,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4639,6 +5141,7 @@
       "moduleSpecifier": "./models/functions/supplier_staff_document_request.model"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4647,6 +5150,7 @@
       "moduleSpecifier": "./services/supplier_staff.service"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4655,6 +5159,7 @@
       "moduleSpecifier": "./services/supplier_staff_access.service"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4663,6 +5168,7 @@
       "moduleSpecifier": "./services/supplier_staff_activity.service"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4671,6 +5177,7 @@
       "moduleSpecifier": "./services/supplier_staff_activity_aggregates.service"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4679,6 +5186,7 @@
       "moduleSpecifier": "./services/supplier_staff_pincode.service"
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4687,6 +5195,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4695,6 +5204,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4703,6 +5213,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4711,6 +5222,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4719,6 +5231,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4727,6 +5240,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4735,6 +5249,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4743,6 +5258,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4751,6 +5267,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4759,6 +5276,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4767,6 +5285,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4775,6 +5294,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4783,6 +5303,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4791,6 +5312,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4799,6 +5321,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4807,6 +5330,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4815,6 +5339,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4823,6 +5348,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4831,6 +5357,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4839,6 +5366,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4847,6 +5375,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4855,6 +5384,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4863,6 +5393,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4871,6 +5402,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
       "submodule": "supplierStaff",
@@ -4879,6 +5411,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access.model.ts",
       "submodule": "supplierStaff",
@@ -4887,6 +5420,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access_document.model.ts",
       "submodule": "supplierStaff",
@@ -4895,6 +5429,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
       "submodule": "supplierStaff",
@@ -4903,6 +5438,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
       "submodule": "supplierStaff",
@@ -4911,6 +5447,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
       "submodule": "supplierStaff",
@@ -4919,6 +5456,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
       "submodule": "supplierStaff",
@@ -4927,6 +5465,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model.ts",
       "submodule": "supplierStaff",
@@ -4935,6 +5474,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model.ts",
       "submodule": "supplierStaff",
@@ -4943,6 +5483,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_pincode.model.ts",
       "submodule": "supplierStaff",
@@ -4951,6 +5492,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_pincode.model.ts",
       "submodule": "supplierStaff",
@@ -4959,6 +5501,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model.ts",
       "submodule": "supplierStaff",
@@ -4967,6 +5510,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model.ts",
       "submodule": "supplierStaff",
@@ -4975,6 +5519,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model.ts",
       "submodule": "supplierStaff",
@@ -4983,6 +5528,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -4991,6 +5537,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -4999,6 +5546,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5007,6 +5555,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5015,6 +5564,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5023,6 +5573,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5031,6 +5582,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5039,6 +5591,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5047,6 +5600,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5055,6 +5609,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5063,6 +5618,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5071,6 +5627,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5079,6 +5636,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5087,6 +5645,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
       "submodule": "supplierStaff",
@@ -5095,6 +5654,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
       "submodule": "supplierStaff",
@@ -5103,6 +5663,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
       "submodule": "supplierStaff",
@@ -5111,6 +5672,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
       "submodule": "supplierStaff",
@@ -5119,6 +5681,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
       "submodule": "supplierStaff",
@@ -5127,6 +5690,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
       "submodule": "supplierStaff",
@@ -5135,6 +5699,7 @@
       "moduleSpecifier": null
     },
     {
+      "repo": "cloud",
       "module": "supplier",
       "path": "functions/src/modules/supplier/services/supplier.service.ts",
       "submodule": null,

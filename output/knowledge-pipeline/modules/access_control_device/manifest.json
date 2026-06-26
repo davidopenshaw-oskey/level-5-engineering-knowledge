@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-25T16:51:27.032Z",
+  "generatedAt": "2026-06-26T10:26:23.491Z",
   "module": "access_control_device",
   "summary": {
     "files": 33,
@@ -9,8 +9,9 @@
     "methods": 61,
     "functions": 2,
     "calls": 165,
-    "firestoreHints": 3,
+    "firestoreHints": 12,
     "permissionHints": 2,
+    "externalHooks": 20,
     "services": 5,
     "controllers": 8
   }

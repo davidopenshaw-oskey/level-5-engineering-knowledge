@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-25T16:51:27.044Z",
+  "generatedAt": "2026-06-26T10:26:23.522Z",
   "module": "apps",
   "summary": {
     "files": 34,
@@ -9,8 +9,9 @@
     "methods": 35,
     "functions": 0,
     "calls": 157,
-    "firestoreHints": 0,
+    "firestoreHints": 2,
     "permissionHints": 0,
+    "externalHooks": 20,
     "services": 6,
     "controllers": 2
   }

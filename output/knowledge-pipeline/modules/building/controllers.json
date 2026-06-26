@@ -1,6 +1,7 @@
 [
   {
     "name": "OSKBuildingController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/controllers/building.controller.ts",
     "submodule": null,
     "methods": [
@@ -236,6 +237,7 @@
   },
   {
     "name": "OSKBuildingAccessesController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
     "submodule": "building_accesses",
     "methods": [
@@ -484,6 +486,7 @@
   },
   {
     "name": "OSKBuildingActivitiesController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_activity/controllers/building_activities.controller.ts",
     "submodule": "building_activity",
     "methods": [
@@ -710,6 +713,7 @@
   },
   {
     "name": "OSKBuildingDoorController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_door/controllers/building_door.controller.ts",
     "submodule": "building_door",
     "methods": [
@@ -963,6 +967,7 @@
   },
   {
     "name": "OSKBuildingDoorAccessControlDeviceController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device.controller.ts",
     "submodule": "building_door",
     "methods": [
@@ -993,6 +998,7 @@
   },
   {
     "name": "OSKBuildingDoorAccessControlDeviceKeysController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts",
     "submodule": "building_door",
     "methods": [
@@ -1104,6 +1110,7 @@
   },
   {
     "name": "OSKBuildingIntercomController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts",
     "submodule": "building_intercom",
     "methods": [
@@ -1295,6 +1302,7 @@
   },
   {
     "name": "OSKBuildingIntercomCallTransferListController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_intercom/controllers/building_intercom_calltransferlist.controller.ts",
     "submodule": "building_intercom",
     "methods": [
@@ -1480,6 +1488,7 @@
   },
   {
     "name": "OSKBuildingPincodeController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts",
     "submodule": "building_pincode",
     "methods": [
@@ -1653,6 +1662,7 @@
   },
   {
     "name": "OSKBuildingPincodeTrashController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts",
     "submodule": "building_pincode_trash",
     "methods": [
@@ -1826,6 +1836,7 @@
   },
   {
     "name": "OSKBuildingSettingsController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts",
     "submodule": "building_settings",
     "methods": [
@@ -1980,6 +1991,7 @@
   },
   {
     "name": "OSKBuildingUnitController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit.controller.ts",
     "submodule": "building_unit",
     "methods": [
@@ -2251,6 +2263,7 @@
   },
   {
     "name": "OSKBuildingUnitDoorController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_door.controller.ts",
     "submodule": "building_unit",
     "methods": [
@@ -2321,6 +2334,7 @@
   },
   {
     "name": "OSKBuildingUnitInhabitantController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_inhabitant.controller.ts",
     "submodule": "building_unit",
     "methods": [
@@ -2658,6 +2672,7 @@
   },
   {
     "name": "OSKBuildingUnitInvitationController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_invitation.controller.ts",
     "submodule": "building_unit",
     "methods": [
@@ -2850,6 +2865,7 @@
   },
   {
     "name": "OSKBuildingUnitPermanentGuestController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts",
     "submodule": "building_unit",
     "methods": [
@@ -3169,6 +3185,7 @@
   },
   {
     "name": "OSKBuildingUnitNonAppUserController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser.controller.ts",
     "submodule": "building_unit",
     "methods": [
@@ -3407,6 +3424,7 @@
   },
   {
     "name": "OSKNonAppUserAccessController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_access.controller.ts",
     "submodule": "building_unit",
     "methods": [
@@ -3635,6 +3653,7 @@
   },
   {
     "name": "OSKNonAppUserActivitiesController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity.controller.ts",
     "submodule": "building_unit",
     "methods": [
@@ -3880,6 +3899,7 @@
   },
   {
     "name": "OSKNonAppUserActivityAggregatesController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity_aggregates.controller.ts",
     "submodule": "building_unit",
     "methods": [
@@ -4073,6 +4093,7 @@
   },
   {
     "name": "OSKNonAppUserPincodeController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_pincode.controller.ts",
     "submodule": "building_unit",
     "methods": [
@@ -4284,6 +4305,7 @@
   },
   {
     "name": "OSKBuildingUserController",
+    "repo": "cloud",
     "path": "functions/src/modules/building/modules/building_user/controllers/building_user.controller.ts",
     "submodule": "building_user",
     "methods": [

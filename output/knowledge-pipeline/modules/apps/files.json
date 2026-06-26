@@ -1,6 +1,7 @@
 [
   {
     "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -432,11 +433,34 @@
         ]
       }
     ],
-    "firestoreHints": [],
-    "permissionHints": []
+    "firestoreHints": [
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "mail",
+        "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+        "value": "/EmailLogs",
+        "line": 13
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "mail",
+        "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+        "kindHint": "controller",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+        "value": "/EmailLogs",
+        "line": 36
+      }
+    ],
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/index.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [],
     "exports": [
@@ -542,10 +566,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/models/email_log_document.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -609,10 +635,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/models/email_options.model.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -652,10 +680,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/models/email_template.model.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -719,10 +749,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -1568,10 +1600,79 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "mail",
+        "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 22
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "mail",
+        "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_ALLOWED_EMAIL_DOMAINS",
+        "line": 32
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "mail",
+        "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_MAILTRAP_SMTP_HOST",
+        "line": 61
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "mail",
+        "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_MAILTRAP_SMTP_USERNAME",
+        "line": 62
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "mail",
+        "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_EMAIL_SUBJECT_PREFIX",
+        "line": 83
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "mail",
+        "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/mail/services/email.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_NO_REPLY_EMAIL",
+        "line": 116
+      }
+    ]
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/core/core.template.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -1640,10 +1741,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/index.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -1850,10 +1953,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/onboarding_activation/onboarding_activation_code.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -1893,10 +1998,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/organization_invitation/organization_invitation.template.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -1936,10 +2043,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/pmp_user_invitation/pmp_user_invitation.template.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -1979,10 +2088,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/unit_invitation/external_unit_invitation_template.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -2022,10 +2133,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/user_invitation/external_user_invitation.template.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -2065,10 +2178,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/user_onboarded/user_onboarded_notification.template.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -2108,10 +2223,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/user_otp_code/user_otp_code.template.ts",
+    "repo": "cloud",
     "submodule": "mail",
     "imports": [
       {
@@ -2151,10 +2268,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+    "repo": "cloud",
     "submodule": "notification",
     "imports": [
       {
@@ -2194,10 +2313,90 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "kindHint": "data",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "type": "environment_variable",
+        "value": "OSK_APPLE_TEAM_ID",
+        "line": 24
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "kindHint": "data",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "type": "environment_variable",
+        "value": "OSK_IOS_APP_BUNDLE_ID",
+        "line": 24
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "kindHint": "data",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "type": "environment_variable",
+        "value": "OSK_APPLE_TEAM_ID",
+        "line": 25
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "kindHint": "data",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "type": "environment_variable",
+        "value": "OSK_IOS_APP_BUNDLE_ID",
+        "line": 25
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "kindHint": "data",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "type": "environment_variable",
+        "value": "OSK_IOS_APP_BUNDLE_ID",
+        "line": 56
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "kindHint": "data",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "type": "environment_variable",
+        "value": "OSK_IOS_APP_BUNDLE_ID",
+        "line": 94
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "kindHint": "data",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+        "type": "environment_variable",
+        "value": "OSK_IOS_APP_BUNDLE_ID",
+        "line": 123
+      }
+    ]
   },
   {
     "path": "functions/src/modules/apps/modules/notification/index.ts",
+    "repo": "cloud",
     "submodule": "notification",
     "imports": [],
     "exports": [
@@ -2375,10 +2574,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/models/notification_metadata.model.ts",
+    "repo": "cloud",
     "submodule": "notification",
     "imports": [
       {
@@ -2559,10 +2760,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/models/notification_options.model.ts",
+    "repo": "cloud",
     "submodule": "notification",
     "imports": [
       {
@@ -2631,10 +2834,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/models/notification_type.model.ts",
+    "repo": "cloud",
     "submodule": "notification",
     "imports": [],
     "exports": [
@@ -2680,10 +2885,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+    "repo": "cloud",
     "submodule": "notification",
     "imports": [
       {
@@ -3197,10 +3404,79 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_APNS_API_KEY_ID",
+        "line": 49
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_APPLE_TEAM_ID",
+        "line": 52
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_APNS_API_KEY_ID",
+        "line": 61
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_APPLE_TEAM_ID",
+        "line": 62
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_APNS_API_KEY_ID",
+        "line": 110
+      },
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "notification",
+        "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/services/apns.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_APPLE_TEAM_ID",
+        "line": 111
+      }
+    ]
   },
   {
     "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
+    "repo": "cloud",
     "submodule": "notification",
     "imports": [
       {
@@ -3481,10 +3757,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
+    "repo": "cloud",
     "submodule": "notification",
     "imports": [
       {
@@ -4656,10 +4934,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/qr_code/index.ts",
+    "repo": "cloud",
     "submodule": "qr_code",
     "imports": [],
     "exports": [
@@ -4693,10 +4973,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts",
+    "repo": "cloud",
     "submodule": "qr_code",
     "imports": [
       {
@@ -4832,10 +5114,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
+    "repo": "cloud",
     "submodule": "sms",
     "imports": [
       {
@@ -5268,10 +5552,12 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/index.ts",
+    "repo": "cloud",
     "submodule": "sms",
     "imports": [],
     "exports": [
@@ -5329,10 +5615,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/models/sms_log_document.ts",
+    "repo": "cloud",
     "submodule": "sms",
     "imports": [
       {
@@ -5372,10 +5660,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/models/sms_options.model.ts",
+    "repo": "cloud",
     "submodule": "sms",
     "imports": [
       {
@@ -5415,10 +5705,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/models/sms_options.ts",
+    "repo": "cloud",
     "submodule": "sms",
     "imports": [],
     "exports": [
@@ -5440,10 +5732,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
+    "repo": "cloud",
     "submodule": "sms",
     "imports": [
       {
@@ -6041,10 +6335,24 @@
       }
     ],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": [
+      {
+        "repo": "cloud",
+        "module": "apps",
+        "submodule": "sms",
+        "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/sms/services/sms.service.ts",
+        "type": "environment_variable",
+        "value": "OSK_FIREBASE_EMULATOR",
+        "line": 62
+      }
+    ]
   },
   {
     "path": "functions/src/modules/apps/modules/sms/templates/index.ts",
+    "repo": "cloud",
     "submodule": "sms",
     "imports": [
       {
@@ -6105,10 +6413,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/templates/sms_messages.model.ts",
+    "repo": "cloud",
     "submodule": "sms",
     "imports": [
       {
@@ -6160,10 +6470,12 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/templates/sms_template.model.ts",
+    "repo": "cloud",
     "submodule": "sms",
     "imports": [
       {
@@ -6227,6 +6539,7 @@
     "functions": [],
     "calls": [],
     "firestoreHints": [],
-    "permissionHints": []
+    "permissionHints": [],
+    "externalHooks": []
   }
 ]
