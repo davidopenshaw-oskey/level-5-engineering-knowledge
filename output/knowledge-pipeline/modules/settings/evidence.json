@@ -1,0 +1,5499 @@
+{
+  "firestoreEvidence": [],
+  "permissionEvidence": [
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "value": "permission-denied",
+      "line": 55
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin",
+      "line": 8
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Administrative access",
+      "line": 14
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Accès administratif",
+      "line": 15
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.admin",
+      "line": 19
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Manage settings",
+      "line": 25
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Gérer les paramètres",
+      "line": 26
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.admin",
+      "line": 30
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Manage roles",
+      "line": 36
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Gérer les rôles",
+      "line": 37
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.view",
+      "line": 42
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - View roles",
+      "line": 48
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Consulter les rôles",
+      "line": 49
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.create",
+      "line": 53
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Create a role",
+      "line": 59
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Créer un rôle",
+      "line": 60
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.edit",
+      "line": 64
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Edit a role",
+      "line": 70
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Modifier un rôle",
+      "line": 71
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.delete",
+      "line": 75
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Delete a role",
+      "line": 81
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Supprimer un rôle",
+      "line": 82
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.admin",
+      "line": 88
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Manage workflows",
+      "line": 94
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Gérer les workflows",
+      "line": 95
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.view",
+      "line": 100
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - View workflows",
+      "line": 106
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Consulter les workflows",
+      "line": 107
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.create",
+      "line": 111
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Create a workflow",
+      "line": 117
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Créer un workflow",
+      "line": 118
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.edit",
+      "line": 122
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Edit a workflow",
+      "line": 128
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Modifier un workflow",
+      "line": 129
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.delete",
+      "line": 133
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Delete a workflow",
+      "line": 139
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Supprimer un workflow",
+      "line": 140
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.admin",
+      "line": 149
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Manage organizations",
+      "line": 155
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Gérer les organisations",
+      "line": 156
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.view",
+      "line": 161
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - View organizations",
+      "line": 167
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Consulter les organisations",
+      "line": 168
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.register",
+      "line": 172
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Register an organization",
+      "line": 178
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Enregistrer une organisation",
+      "line": 179
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.edit",
+      "line": 183
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Edit an organization",
+      "line": 189
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Modifier une organisation",
+      "line": 190
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.delete",
+      "line": 194
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Delete an organization",
+      "line": 200
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Supprimer une organisation",
+      "line": 201
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.validate",
+      "line": 205
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Validate an organization",
+      "line": 211
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Valider une organisation",
+      "line": 212
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.admin",
+      "line": 218
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Manage buildings",
+      "line": 224
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Gérer les immeubles",
+      "line": 225
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.view",
+      "line": 230
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - View buildings",
+      "line": 236
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Consulter les immeubles",
+      "line": 237
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.register",
+      "line": 241
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Register a building",
+      "line": 247
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Enregistrer un immeuble",
+      "line": 248
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.edit",
+      "line": 252
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Edit a building",
+      "line": 258
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Modifier un immeuble",
+      "line": 259
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.delete",
+      "line": 263
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Delete a building",
+      "line": 269
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Supprimer un immeuble",
+      "line": 270
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.validate",
+      "line": 274
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Validate a building",
+      "line": 280
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Valider un immeuble",
+      "line": 281
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.admin",
+      "line": 287
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Manage access control devices",
+      "line": 293
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Gérer les dispositifs de contrôle d'accès",
+      "line": 294
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.view",
+      "line": 299
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - View access control devices",
+      "line": 305
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Consulter les dispositifs de contrôle d'accès",
+      "line": 306
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.register",
+      "line": 310
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Register an access control device",
+      "line": 316
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Enregistrer un dispositif de contrôle d'accès",
+      "line": 317
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.edit",
+      "line": 321
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Edit an access control device",
+      "line": 327
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Modifier un dispositif de contrôle d'accès",
+      "line": 328
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.delete",
+      "line": 332
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Delete an access control device",
+      "line": 338
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Supprimer un dispositif de contrôle d'accès",
+      "line": 339
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.admin",
+      "line": 345
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Manage users",
+      "line": 351
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Gérer les utilisateurs",
+      "line": 352
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.devices.admin",
+      "line": 355
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Manage user devices",
+      "line": 361
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Gérer les appareils des utilisateurs",
+      "line": 362
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.devices.view",
+      "line": 367
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - View user devices",
+      "line": 373
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Consulter les appareils des utilisateurs",
+      "line": 374
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.devices.edit",
+      "line": 378
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Edit a user device",
+      "line": 384
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Modifier l'appareil d'un utilisateur",
+      "line": 385
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.devices.delete",
+      "line": 389
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Delete a user device",
+      "line": 395
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Supprimer l'appareil d'un utilisateur",
+      "line": 396
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.invitations.admin",
+      "line": 402
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Manage user invitations",
+      "line": 408
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Gérer les invitations des utilisateurs",
+      "line": 409
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.invitations.view",
+      "line": 414
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - View user invitations",
+      "line": 420
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Consulter les invitations des utilisateurs",
+      "line": 421
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.invitations.delete",
+      "line": 425
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Delete a user invitation",
+      "line": 431
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Supprimer l'invitation d'un utilisateur",
+      "line": 432
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.accesses.admin",
+      "line": 438
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Manage user accesses",
+      "line": 444
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Gérer les accès des utilisateurs",
+      "line": 445
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.accesses.view",
+      "line": 450
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - View user accesses",
+      "line": 456
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Consulter les accès des utilisateurs",
+      "line": 457
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.accesses.create",
+      "line": 461
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Create a user access",
+      "line": 467
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Créer un accès pour un utilisateur",
+      "line": 468
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.accesses.delete",
+      "line": 472
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Delete a user access",
+      "line": 478
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Supprimer l'accès d'un utilisateur",
+      "line": 479
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.view",
+      "line": 488
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - View users",
+      "line": 494
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Consulter les utilisateurs",
+      "line": 495
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.edit",
+      "line": 499
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Edit a user",
+      "line": 505
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Modifier un utilisateur",
+      "line": 506
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.delete",
+      "line": 510
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Delete a user",
+      "line": 516
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Supprimer un utilisateur",
+      "line": 517
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.admin",
+      "line": 526
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.user.admin",
+      "line": 537
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.user.view",
+      "line": 549
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.user.create",
+      "line": 560
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.user.edit",
+      "line": 571
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.onboardingNotification",
+      "line": 584
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.onboardingNotification",
+      "line": 596
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.admin",
+      "line": 609
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.view",
+      "line": 621
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.create",
+      "line": 632
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.edit",
+      "line": 643
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.delete",
+      "line": 654
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.admin",
+      "line": 667
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.view",
+      "line": 679
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.create",
+      "line": 690
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.edit",
+      "line": 701
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.delete",
+      "line": 712
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.admin",
+      "line": 725
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.view",
+      "line": 737
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.create",
+      "line": 748
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.edit",
+      "line": 759
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.delete",
+      "line": 770
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.admin",
+      "line": 783
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.view",
+      "line": 795
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.create",
+      "line": 806
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.edit",
+      "line": 817
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.delete",
+      "line": 828
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.admin",
+      "line": 841
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.view",
+      "line": 853
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.create",
+      "line": 864
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.edit",
+      "line": 875
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.delete",
+      "line": 886
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.admin",
+      "line": 899
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.view",
+      "line": 911
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.create",
+      "line": 922
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.edit",
+      "line": 933
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.delete",
+      "line": 944
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.view",
+      "line": 959
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.edit",
+      "line": 970
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.delete",
+      "line": 981
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.admin",
+      "line": 994
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.list",
+      "line": 1006
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.view",
+      "line": 1017
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.create",
+      "line": 1028
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.edit",
+      "line": 1039
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.delete",
+      "line": 1050
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin",
+      "line": 8
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Unrestricted administrative access",
+      "line": 14
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Accès administratif complet",
+      "line": 15
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.admin",
+      "line": 19
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view and edit platform settings",
+      "line": 25
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter et modifier les paramètres de la plateforme",
+      "line": 26
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.admin",
+      "line": 30
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to create, edit, and delete user roles",
+      "line": 36
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de créer, modifier et supprimer les rôles utilisateurs",
+      "line": 37
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.list",
+      "line": 42
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the list of roles",
+      "line": 48
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter la liste des rôles",
+      "line": 49
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.view",
+      "line": 53
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the details of a role",
+      "line": 59
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter les détails d'un rôle",
+      "line": 60
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.create",
+      "line": 64
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to create a new role",
+      "line": 70
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de créer un nouveau rôle",
+      "line": 71
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.edit",
+      "line": 75
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to edit an existing role",
+      "line": 81
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de modifier un rôle existant",
+      "line": 82
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.role.delete",
+      "line": 86
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to delete a role",
+      "line": 92
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de supprimer un rôle",
+      "line": 93
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.admin",
+      "line": 99
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to create, edit, and delete workflows",
+      "line": 105
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de créer, modifier et supprimer les workflows",
+      "line": 106
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.list",
+      "line": 111
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the list of workflows",
+      "line": 117
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter la liste des workflows",
+      "line": 118
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.view",
+      "line": 122
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the details of a workflow",
+      "line": 128
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter les détails d'un workflow",
+      "line": 129
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.create",
+      "line": 133
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to create a new workflow",
+      "line": 139
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de créer un nouveau workflow",
+      "line": 140
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.edit",
+      "line": 144
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to edit an existing workflow",
+      "line": 150
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de modifier un workflow existant",
+      "line": 151
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.settings.workflow.delete",
+      "line": 155
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to delete a workflow",
+      "line": 161
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de supprimer un workflow",
+      "line": 162
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.admin",
+      "line": 171
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to create, edit, delete, and validate organizations",
+      "line": 177
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de créer, modifier, supprimer et valider les organisations",
+      "line": 178
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.list",
+      "line": 183
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the list of organizations",
+      "line": 189
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter la liste des organisations",
+      "line": 190
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.view",
+      "line": 194
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the details of an organization",
+      "line": 200
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter les détails d'une organisation",
+      "line": 201
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.register",
+      "line": 205
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to register a new organization",
+      "line": 211
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet d'enregistrer une nouvelle organisation",
+      "line": 212
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.edit",
+      "line": 216
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to edit an existing organization",
+      "line": 222
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de modifier une organisation existante",
+      "line": 223
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.delete",
+      "line": 227
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to delete an organization",
+      "line": 233
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de supprimer une organisation",
+      "line": 234
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.org.validate",
+      "line": 238
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to validate a new organization",
+      "line": 244
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de valider une nouvelle organisation",
+      "line": 245
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.admin",
+      "line": 251
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to create, edit, delete, and validate buildings",
+      "line": 257
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de créer, modifier, supprimer et valider les immeubles",
+      "line": 258
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.list",
+      "line": 263
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the list of buildings",
+      "line": 269
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter la liste des immeubles",
+      "line": 270
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.view",
+      "line": 274
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the details of a building",
+      "line": 280
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter les détails d'un immeuble",
+      "line": 281
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.register",
+      "line": 285
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to register a new building",
+      "line": 291
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet d'enregistrer un nouvel immeuble",
+      "line": 292
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.edit",
+      "line": 296
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to edit an existing building",
+      "line": 302
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de modifier un immeuble existant",
+      "line": 303
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.delete",
+      "line": 307
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to delete a building",
+      "line": 313
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de supprimer un immeuble",
+      "line": 314
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.building.validate",
+      "line": 318
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to validate a new building",
+      "line": 324
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de valider un nouvel immeuble",
+      "line": 325
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.admin",
+      "line": 331
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to create, edit, and delete access control devices",
+      "line": 337
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de créer, modifier et supprimer les dispositifs de contrôle d'accès",
+      "line": 338
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.list",
+      "line": 343
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the list of access control devices",
+      "line": 349
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter la liste des dispositifs de contrôle d'accès",
+      "line": 350
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.view",
+      "line": 354
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the details of an access control device",
+      "line": 360
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter les détails d'un dispositif de contrôle d'accès",
+      "line": 361
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.register",
+      "line": 365
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to register a new access control device",
+      "line": 371
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet d'enregistrer un nouveau dispositif de contrôle d'accès",
+      "line": 372
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.edit",
+      "line": 376
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to edit an existing access control device",
+      "line": 382
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de modifier un dispositif de contrôle d'accès existant",
+      "line": 383
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.accessControlDevice.delete",
+      "line": 387
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to delete an access control device",
+      "line": 393
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de supprimer un dispositif de contrôle d'accès",
+      "line": 394
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.admin",
+      "line": 400
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to edit, delete, and manage user devices, invitations, and accesses",
+      "line": 406
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de modifier, supprimer et gérer les appareils, invitations et accès des utilisateurs",
+      "line": 407
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.devices.admin",
+      "line": 410
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view, edit, and delete user devices",
+      "line": 416
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter, modifier et supprimer les appareils des utilisateurs",
+      "line": 417
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.devices.list",
+      "line": 422
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the list of user devices",
+      "line": 428
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter la liste des appareils des utilisateurs",
+      "line": 429
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.devices.view",
+      "line": 433
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the details of a user device",
+      "line": 439
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter les détails d'un appareil utilisateur",
+      "line": 440
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.devices.edit",
+      "line": 444
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to edit a user device",
+      "line": 450
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de modifier l'appareil d'un utilisateur",
+      "line": 451
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.devices.delete",
+      "line": 455
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to delete a user device",
+      "line": 461
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de supprimer l'appareil d'un utilisateur",
+      "line": 462
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.invitations.admin",
+      "line": 468
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view and delete user invitations",
+      "line": 474
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter et supprimer les invitations des utilisateurs",
+      "line": 475
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.invitations.list",
+      "line": 480
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the list of user invitations",
+      "line": 486
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter la liste des invitations des utilisateurs",
+      "line": 487
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.invitations.view",
+      "line": 491
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the details of a user invitation",
+      "line": 497
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter les détails d'une invitation utilisateur",
+      "line": 498
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.invitations.delete",
+      "line": 502
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to delete a user invitation",
+      "line": 508
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de supprimer l'invitation d'un utilisateur",
+      "line": 509
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.accesses.admin",
+      "line": 515
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view, create, and delete user accesses",
+      "line": 521
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter, créer et supprimer les accès des utilisateurs",
+      "line": 522
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.accesses.list",
+      "line": 527
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the list of user accesses",
+      "line": 533
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter la liste des accès des utilisateurs",
+      "line": 534
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.accesses.view",
+      "line": 538
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the details of a user access",
+      "line": 544
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter les détails d'un accès utilisateur",
+      "line": 545
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.accesses.create",
+      "line": 549
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to create a user access",
+      "line": 555
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de créer un accès pour un utilisateur",
+      "line": 556
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.accesses.delete",
+      "line": 560
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to delete a user access",
+      "line": 566
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de supprimer l'accès d'un utilisateur",
+      "line": 567
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.list",
+      "line": 576
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the list of all users",
+      "line": 582
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter la liste de tous les utilisateurs",
+      "line": 583
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.view",
+      "line": 587
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to view the details of a user",
+      "line": 593
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de consulter les détails d'un utilisateur",
+      "line": 594
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.edit",
+      "line": 598
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to edit a user",
+      "line": 604
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de modifier un utilisateur",
+      "line": 605
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin.user.delete",
+      "line": 609
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Allows to delete a user",
+      "line": 615
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.admin - Permet de supprimer un utilisateur",
+      "line": 616
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.admin",
+      "line": 625
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.user.admin",
+      "line": 636
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.user.list",
+      "line": 648
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.user.view",
+      "line": 659
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.user.create",
+      "line": 670
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.user.edit",
+      "line": 681
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.user.delete",
+      "line": 692
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.onboardingNotification",
+      "line": 705
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.onboardingNotification",
+      "line": 717
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.admin",
+      "line": 730
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.list",
+      "line": 742
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.view",
+      "line": 753
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.create",
+      "line": 764
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.edit",
+      "line": 775
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.entity.delete",
+      "line": 786
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.admin",
+      "line": 799
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.list",
+      "line": 811
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.view",
+      "line": 822
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.create",
+      "line": 833
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.edit",
+      "line": 844
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.settings.delete",
+      "line": 855
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.admin",
+      "line": 868
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.list",
+      "line": 880
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.view",
+      "line": 891
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.create",
+      "line": 902
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.edit",
+      "line": 913
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.residents.delete",
+      "line": 924
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.admin",
+      "line": 937
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.list",
+      "line": 949
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.view",
+      "line": 960
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.create",
+      "line": 971
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.edit",
+      "line": 982
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.property.delete",
+      "line": 993
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.admin",
+      "line": 1006
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.list",
+      "line": 1018
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.view",
+      "line": 1029
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.create",
+      "line": 1040
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.edit",
+      "line": 1051
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.suppliers.delete",
+      "line": 1062
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.admin",
+      "line": 1075
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.list",
+      "line": 1087
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.view",
+      "line": 1098
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.create",
+      "line": 1109
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.edit",
+      "line": 1120
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.buildings.delete",
+      "line": 1131
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.admin",
+      "line": 1144
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.list",
+      "line": 1156
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.view",
+      "line": 1167
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.create",
+      "line": 1178
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.edit",
+      "line": 1189
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.communications.delete",
+      "line": 1200
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.list",
+      "line": 1215
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.view",
+      "line": 1226
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.edit",
+      "line": 1237
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "value": "v1.org.delete",
+      "line": 1248
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "value": "v1.admin",
+      "line": 162
+    }
+  ],
+  "callEvidence": [
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+      "submodule": null,
+      "expression": "super",
+      "name": null,
+      "line": 16,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+      "submodule": null,
+      "expression": "OSKSettingController.default._get",
+      "name": null,
+      "line": 20,
+      "arguments": [
+        "'/settings'",
+        "settingId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+      "submodule": null,
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 24,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+      "submodule": null,
+      "expression": "OSKSettingController.default._set",
+      "name": null,
+      "line": 25,
+      "arguments": [
+        "'/settings'",
+        "settingId",
+        "{\n            ...data,\n            creationDate: ts,\n        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+      "submodule": null,
+      "expression": "OSKSettingController.default._delete",
+      "name": null,
+      "line": 32,
+      "arguments": [
+        "'/settings'",
+        "settingId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/index.ts",
+      "submodule": null,
+      "expression": "getRoleFirestoreTriggers",
+      "name": "getRoleFirestoreTriggers",
+      "line": 25,
+      "arguments": [
+        "functionBuilder"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/index.ts",
+      "submodule": null,
+      "expression": "getWorkflowFirestoreTriggers",
+      "name": "getWorkflowFirestoreTriggers",
+      "line": 26,
+      "arguments": [
+        "functionBuilder"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/index.ts",
+      "submodule": null,
+      "expression": "functionBuilder.runWith",
+      "name": null,
+      "line": 31,
+      "arguments": [
+        "{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/index.ts",
+      "submodule": null,
+      "expression": "https.onCall",
+      "name": null,
+      "line": 33,
+      "arguments": [
+        "OSKSettingService.onCreateSettingsCalled"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/index.ts",
+      "submodule": null,
+      "expression": "getRoleCallableFunction",
+      "name": "getRoleCallableFunction",
+      "line": 34,
+      "arguments": [
+        "functionBuilder"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/index.ts",
+      "submodule": null,
+      "expression": "getWorkflowCallableFunction",
+      "name": "getWorkflowCallableFunction",
+      "line": 35,
+      "arguments": [
+        "functionBuilder"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+      "submodule": "appstore",
+      "expression": "super",
+      "name": null,
+      "line": 14,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+      "submodule": "appstore",
+      "expression": "OSKAppStoreSettingsController.default._get",
+      "name": null,
+      "line": 18,
+      "arguments": [
+        "'/settings'",
+        "documentId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+      "submodule": "appstore",
+      "expression": "OSKAppStoreSettingsController.default._set",
+      "name": null,
+      "line": 22,
+      "arguments": [
+        "'/settings'",
+        "documentId",
+        "data"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+      "submodule": "appstore",
+      "expression": "OSKAppStoreSettingsController.default._delete",
+      "name": null,
+      "line": 26,
+      "arguments": [
+        "'/settings'",
+        "documentId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+      "submodule": "appstore",
+      "expression": "OSKAppStoreSettingsService.logger.logError",
+      "name": null,
+      "line": 31,
+      "arguments": [
+        "'failed-precondition: The function must be called from an App Check verified app.'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+      "submodule": "appstore",
+      "expression": "OSKSecurityChecks.checkParameters",
+      "name": null,
+      "line": 37,
+      "arguments": [
+        "[{ name: 'activationCode', value: request.activationCode, type: 'string' }]"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+      "submodule": "appstore",
+      "expression": "OSKAppStoreSettingsService.validateInternally",
+      "name": null,
+      "line": 39,
+      "arguments": [
+        "request.activationCode"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+      "submodule": "appstore",
+      "expression": "OSKAppStoreSettingsController.default.get",
+      "name": null,
+      "line": 57,
+      "arguments": [
+        "'appstore'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+      "submodule": "appstore",
+      "expression": "appStoreDoc.stores.find",
+      "name": null,
+      "line": 60,
+      "arguments": [
+        "(s) => s.activationCode === activationCode"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+      "submodule": "appstore",
+      "expression": "OSKAppStoreSettingsController.default.get",
+      "name": null,
+      "line": 77,
+      "arguments": [
+        "'appstore'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+      "submodule": "appstore",
+      "expression": "appStoreDetails.stores.forEach",
+      "name": null,
+      "line": 88,
+      "arguments": [
+        "(row) => {\n                if (row.storeName === 'APPLE') {\n                    storeInfo.appleStoreName = row.storeName;\n                    storeInfo.appleStoreUrl = row.storeUrl;\n                } else {\n                    storeInfo.googleStoreName = row.storeName;\n                    storeInfo.googleStoreUrl = row.storeUrl;\n                }\n            }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "super",
+      "name": null,
+      "line": 18,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "this._listDocuments",
+      "name": null,
+      "line": 22,
+      "arguments": [
+        "this.compositeRolesCollection"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "this._query",
+      "name": null,
+      "line": 26,
+      "arguments": [
+        "this.compositeRolesCollection"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "this._get",
+      "name": null,
+      "line": 30,
+      "arguments": [
+        "this.compositeRolesCollection",
+        "compositeRoleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "this._set",
+      "name": null,
+      "line": 34,
+      "arguments": [
+        "this.compositeRolesCollection",
+        "compositeRoleId",
+        "data"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 38,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "this._set",
+      "name": null,
+      "line": 39,
+      "arguments": [
+        "this.compositeRolesCollection",
+        "compositeRoleId",
+        "{\n            ...compositeRole,\n            creationDate: ts,\n        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "this._update",
+      "name": null,
+      "line": 46,
+      "arguments": [
+        "this.compositeRolesCollection",
+        "compositeRoleId",
+        "{\n            parentCompositeRoles,\n        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 53,
+      "arguments": [
+        "compositeRole.roles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.get",
+      "name": null,
+      "line": 54,
+      "arguments": [
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.create",
+      "name": null,
+      "line": 58,
+      "arguments": [
+        "roleId",
+        "newRole"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "existingRole.parentCompositeRoles.findIndex",
+      "name": null,
+      "line": 61,
+      "arguments": [
+        "(aCompositeRoleId) => {\n                        return aCompositeRoleId === compositeRoleId;\n                    }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "existingRole.parentCompositeRoles.filter",
+      "name": null,
+      "line": 66,
+      "arguments": [
+        "(aCompositeRoleId) => {\n                            return aCompositeRoleId !== compositeRoleId;\n                        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.updateParentCompositeRoles",
+      "name": null,
+      "line": 71,
+      "arguments": [
+        "roleId",
+        "existingRole.parentCompositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 80,
+      "arguments": [
+        "compositeRole.compositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.get",
+      "name": null,
+      "line": 81,
+      "arguments": [
+        "subCompositeRoleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.create",
+      "name": null,
+      "line": 85,
+      "arguments": [
+        "subCompositeRoleId",
+        "newCompositeRole"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "existingCompositeRole.parentCompositeRoles.findIndex",
+      "name": null,
+      "line": 88,
+      "arguments": [
+        "(aCompositeRoleId) => {\n                        return aCompositeRoleId === compositeRoleId;\n                    }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "existingCompositeRole.parentCompositeRoles.filter",
+      "name": null,
+      "line": 93,
+      "arguments": [
+        "(aCompositeRoleId) => {\n                            return aCompositeRoleId !== compositeRoleId;\n                        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.updateParentCompositeRoles",
+      "name": null,
+      "line": 98,
+      "arguments": [
+        "subCompositeRoleId",
+        "existingCompositeRole.parentCompositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 109,
+      "arguments": [
+        "compositeRole.roles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.get",
+      "name": null,
+      "line": 110,
+      "arguments": [
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "existingRole.parentCompositeRoles.filter",
+      "name": null,
+      "line": 114,
+      "arguments": [
+        "(aCompositeRoleId) => {\n                            return aCompositeRoleId !== compositeRoleId;\n                        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.updateParentCompositeRoles",
+      "name": null,
+      "line": 118,
+      "arguments": [
+        "roleId",
+        "existingRole.parentCompositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.delete",
+      "name": null,
+      "line": 122,
+      "arguments": [
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 127,
+      "arguments": [
+        "compositeRole.compositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.get",
+      "name": null,
+      "line": 128,
+      "arguments": [
+        "subCompositeRoleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "existingCompsiteRole.parentCompositeRoles.filter",
+      "name": null,
+      "line": 132,
+      "arguments": [
+        "(aCompositeRoleId) => {\n                            return aCompositeRoleId !== compositeRoleId;\n                        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.updateParentCompositeRoles",
+      "name": null,
+      "line": 136,
+      "arguments": [
+        "subCompositeRoleId",
+        "existingCompsiteRole.parentCompositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.delete",
+      "name": null,
+      "line": 140,
+      "arguments": [
+        "subCompositeRoleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "expression": "this._delete",
+      "name": null,
+      "line": 146,
+      "arguments": [
+        "this.compositeRolesCollection",
+        "compositeRoleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "(\n            await OSKCompositeRoleController.default.getAll()\n        ).reduce",
+      "name": null,
+      "line": 18,
+      "arguments": [
+        "(roles, role) => ({ ...roles, [role.id]: role })",
+        "{}"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.getAll",
+      "name": null,
+      "line": 19,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 25,
+      "arguments": [
+        "compositeRole.compositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 26,
+      "arguments": [
+        "compositeRole.roles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "OSKConsolidatedRolesController.default.buildConsolidatedRoles",
+      "name": null,
+      "line": 29,
+      "arguments": [
+        "subCompositeRolesIds"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "consolidatedRoles.includes",
+      "name": null,
+      "line": 32,
+      "arguments": [
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "consolidatedRoles.push",
+      "name": null,
+      "line": 33,
+      "arguments": [
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "permissionRoles.some",
+      "name": null,
+      "line": 49,
+      "arguments": [
+        "(r) => userRoles.includes(r)"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "userRoles.includes",
+      "name": null,
+      "line": 49,
+      "arguments": [
+        "r"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "this.checkUserPermissions",
+      "name": null,
+      "line": 53,
+      "arguments": [
+        "userRoles",
+        "permissionRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "(await OSKCompositeRoleController.default.listDocuments()).map",
+      "name": null,
+      "line": 85,
+      "arguments": [
+        "(r) => r.id"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.listDocuments",
+      "name": null,
+      "line": 85,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "OSKConsolidatedRolesController.default.buildConsolidatedRoles",
+      "name": null,
+      "line": 86,
+      "arguments": [
+        "organizationRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "rolesToAssign.filter",
+      "name": null,
+      "line": 89,
+      "arguments": [
+        "(r) => compositeRolesIds.includes(r) && allAllowedRoles.includes(r)"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "compositeRolesIds.includes",
+      "name": null,
+      "line": 90,
+      "arguments": [
+        "r"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "allAllowedRoles.includes",
+      "name": null,
+      "line": 90,
+      "arguments": [
+        "r"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "rolesToAssignIds.map",
+      "name": null,
+      "line": 92,
+      "arguments": [
+        "(roleId) => {\n            const assignedRole: OSKAssignedRole = {\n                roleId: roleId,\n                assignedOn: Timestamp.now(),\n                assignedBy: rolesAssigner,\n            };\n\n            return assignedRole;\n        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 95,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "expression": "OSKConsolidatedRolesController.default.buildConsolidatedRoles",
+      "name": null,
+      "line": 103,
+      "arguments": [
+        "rolesToAssignIds"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "submodule": "role",
+      "expression": "super",
+      "name": null,
+      "line": 16,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default._query",
+      "name": null,
+      "line": 19,
+      "arguments": [
+        "'/settings/roles/roles'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "submodule": "role",
+      "expression": "this._listDocuments",
+      "name": null,
+      "line": 23,
+      "arguments": [
+        "'/settings/roles/roles'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "submodule": "role",
+      "expression": "this._get",
+      "name": null,
+      "line": 26,
+      "arguments": [
+        "'/settings/roles/roles'",
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "submodule": "role",
+      "expression": "this._set",
+      "name": null,
+      "line": 30,
+      "arguments": [
+        "'/settings/roles/roles'",
+        "roleId",
+        "data"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "submodule": "role",
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 34,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "submodule": "role",
+      "expression": "this._set",
+      "name": null,
+      "line": 35,
+      "arguments": [
+        "'/settings/roles/roles'",
+        "roleId",
+        "{\n            ...role,\n            creationDate: ts,\n            modificationDate: ts,\n        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "submodule": "role",
+      "expression": "this._update",
+      "name": null,
+      "line": 43,
+      "arguments": [
+        "'/settings/roles/roles'",
+        "roleId",
+        "{\n            parentCompositeRoles,\n        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "submodule": "role",
+      "expression": "this._delete",
+      "name": null,
+      "line": 49,
+      "arguments": [
+        "'/settings/roles/roles'",
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "db\n            .document(compositeRolePath)\n            .onCreate",
+      "name": null,
+      "line": 36,
+      "arguments": [
+        "OSKCompositeRoleService.onDocumentCreated"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "db\n            .document",
+      "name": null,
+      "line": 36,
+      "arguments": [
+        "compositeRolePath"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "db\n            .document(compositeRolePath)\n            .onUpdate",
+      "name": null,
+      "line": 39,
+      "arguments": [
+        "OSKCompositeRoleService.onDocumentUpdated"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "db\n            .document",
+      "name": null,
+      "line": 39,
+      "arguments": [
+        "compositeRolePath"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "db\n            .document(compositeRolePath)\n            .onDelete",
+      "name": null,
+      "line": 42,
+      "arguments": [
+        "OSKCompositeRoleService.onDocumentDeleted"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "db\n            .document",
+      "name": null,
+      "line": 42,
+      "arguments": [
+        "compositeRolePath"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "db.document(rolePath).onCreate",
+      "name": null,
+      "line": 45,
+      "arguments": [
+        "OSKRoleService.onDocumentCreated"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "db.document",
+      "name": null,
+      "line": 45,
+      "arguments": [
+        "rolePath"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "functionBuilder.runWith",
+      "name": null,
+      "line": 52,
+      "arguments": [
+        "{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "https.onCall",
+      "name": null,
+      "line": 54,
+      "arguments": [
+        "OSKCompositeRoleService.onCreateCompositeRolesCalled"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "https.onCall",
+      "name": null,
+      "line": 55,
+      "arguments": [
+        "OSKRoleService.getAllRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "https.onCall",
+      "name": null,
+      "line": 56,
+      "arguments": [
+        "OSKCompositeRoleService.getAllCompositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "expression": "https.onCall",
+      "name": null,
+      "line": 57,
+      "arguments": [
+        "OSKCompositeRoleService.getOrganizationCompositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 22,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 26,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 27,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 28,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 29,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 30,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.save",
+      "name": null,
+      "line": 34,
+      "arguments": [
+        "compositeRoleId",
+        "compositeRole"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "snapshot.after.data",
+      "name": null,
+      "line": 40,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.createorUpdateDependantRoles",
+      "name": null,
+      "line": 42,
+      "arguments": [
+        "compositeRoleId",
+        "compositeRole"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 48,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.deleteOrUpdateDependantRoles",
+      "name": null,
+      "line": 50,
+      "arguments": [
+        "compositeRoleId",
+        "compositeRole"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKSecurityChecks.user_security_checks",
+      "name": null,
+      "line": 54,
+      "arguments": [
+        "{ request, context }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 67,
+      "arguments": [
+        "data.compositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleService.processRoleHierarchy",
+      "name": null,
+      "line": 68,
+      "arguments": [
+        "compositeRoleId",
+        "data.compositeRoles[compositeRoleId]",
+        "fileRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "(await OSKCompositeRoleController.default.listDocuments()).map",
+      "name": null,
+      "line": 76,
+      "arguments": [
+        "(doc) => doc.id"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.listDocuments",
+      "name": null,
+      "line": 76,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "(await OSKRoleController.default.listDocuments()).map",
+      "name": null,
+      "line": 77,
+      "arguments": [
+        "(doc) => doc.id"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.listDocuments",
+      "name": null,
+      "line": 77,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "dbCompositeRoles.filter",
+      "name": null,
+      "line": 80,
+      "arguments": [
+        "(id) => !fileRoles.compositeRoles.has(id)"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "fileRoles.compositeRoles.has",
+      "name": null,
+      "line": 80,
+      "arguments": [
+        "id"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "dbRoles.filter",
+      "name": null,
+      "line": 81,
+      "arguments": [
+        "(id) => !fileRoles.roles.has(id)"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "fileRoles.roles.has",
+      "name": null,
+      "line": 81,
+      "arguments": [
+        "id"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "deletePromises.push",
+      "name": null,
+      "line": 86,
+      "arguments": [
+        "OSKRoleController.default.delete(roleId)"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.delete",
+      "name": null,
+      "line": 86,
+      "arguments": [
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "deletePromises.push",
+      "name": null,
+      "line": 90,
+      "arguments": [
+        "OSKCompositeRoleController.default.delete(compositeRoleId)"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.delete",
+      "name": null,
+      "line": 90,
+      "arguments": [
+        "compositeRoleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "Promise.all",
+      "name": null,
+      "line": 93,
+      "arguments": [
+        "deletePromises"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 110,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "fileRoles.compositeRoles.add",
+      "name": null,
+      "line": 112,
+      "arguments": [
+        "compositeRoleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.get",
+      "name": null,
+      "line": 113,
+      "arguments": [
+        "compositeRoleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.save",
+      "name": null,
+      "line": 118,
+      "arguments": [
+        "compositeRoleId",
+        "compositeRoleToSave"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 121,
+      "arguments": [
+        "compositeRoleData.compositeRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleService.processRoleHierarchy",
+      "name": null,
+      "line": 123,
+      "arguments": [
+        "subCompositeRoleId",
+        "subCompositeRole",
+        "fileRoles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 128,
+      "arguments": [
+        "compositeRoleData.roles"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "fileRoles.roles.add",
+      "name": null,
+      "line": 129,
+      "arguments": [
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.get",
+      "name": null,
+      "line": 131,
+      "arguments": [
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.save",
+      "name": null,
+      "line": 137,
+      "arguments": [
+        "roleId",
+        "roleToSave"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKSecurityChecks.user_security_checks",
+      "name": null,
+      "line": 146,
+      "arguments": [
+        "{ context }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.getAll",
+      "name": null,
+      "line": 149,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKSecurityChecks.user_security_checks",
+      "name": null,
+      "line": 157,
+      "arguments": [
+        "{ context }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "OSKCompositeRoleController.default.getAll",
+      "name": null,
+      "line": 160,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "compositeRolesList.filter",
+      "name": null,
+      "line": 162,
+      "arguments": [
+        "(role) => !role.id.startsWith('v1.admin')"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "expression": "role.id.startsWith",
+      "name": null,
+      "line": 162,
+      "arguments": [
+        "'v1.admin'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+      "submodule": "role",
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 18,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+      "submodule": "role",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 22,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+      "submodule": "role",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 23,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+      "submodule": "role",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 24,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.save",
+      "name": null,
+      "line": 29,
+      "arguments": [
+        "roleId",
+        "role"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+      "submodule": "role",
+      "expression": "OSKUserSecurityChecks",
+      "name": "OSKUserSecurityChecks",
+      "line": 43,
+      "arguments": [
+        "{ checkUserIdMatch: false }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+      "submodule": "role",
+      "expression": "OSKSecurityChecks.checkParameters",
+      "name": null,
+      "line": 48,
+      "arguments": [
+        "[{ name: 'context', value: context, type: 'object' }]"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+      "submodule": "role",
+      "expression": "OSKRoleController.default.getAll",
+      "name": null,
+      "line": 49,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+      "submodule": "workflow",
+      "expression": "super",
+      "name": null,
+      "line": 19,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+      "submodule": "workflow",
+      "expression": "OSKBuildingRequestWorkflowController.default._get",
+      "name": null,
+      "line": 23,
+      "arguments": [
+        "'/settings/workflows/buildingRequest'",
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+      "submodule": "workflow",
+      "expression": "OSKBuildingRequestWorkflowController.default._set",
+      "name": null,
+      "line": 27,
+      "arguments": [
+        "'/settings/workflows/buildingRequest'",
+        "roleId",
+        "data"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+      "submodule": "workflow",
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 31,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+      "submodule": "workflow",
+      "expression": "OSKBuildingRequestWorkflowController.default._set",
+      "name": null,
+      "line": 32,
+      "arguments": [
+        "'/settings/workflows/buildingRequest'",
+        "roleId",
+        "{\n            ...role,\n            creationDate: ts,\n        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+      "submodule": "workflow",
+      "expression": "OSKBuildingRequestWorkflowController.default._delete",
+      "name": null,
+      "line": 39,
+      "arguments": [
+        "'/settings/workflows/buildingRequest'",
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+      "submodule": "workflow",
+      "expression": "super",
+      "name": null,
+      "line": 19,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+      "submodule": "workflow",
+      "expression": "this._get",
+      "name": null,
+      "line": 23,
+      "arguments": [
+        "'/settings/workflows/organizationRequests'",
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+      "submodule": "workflow",
+      "expression": "this._set",
+      "name": null,
+      "line": 27,
+      "arguments": [
+        "'/settings/workflows/organizationRequests'",
+        "roleId",
+        "data"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+      "submodule": "workflow",
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 31,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+      "submodule": "workflow",
+      "expression": "this._set",
+      "name": null,
+      "line": 32,
+      "arguments": [
+        "'/settings/workflows/organizationRequests'",
+        "roleId",
+        "{\n            ...role,\n            creationDate: ts,\n        }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+      "submodule": "workflow",
+      "expression": "this._delete",
+      "name": null,
+      "line": 39,
+      "arguments": [
+        "'/settings/workflows/organizationRequests'",
+        "roleId"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document(buildingRequestWorkflowPath)\n            .onCreate",
+      "name": null,
+      "line": 39,
+      "arguments": [
+        "OSKBuildingRequestWorkflowService.onDocumentCreated"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document",
+      "name": null,
+      "line": 39,
+      "arguments": [
+        "buildingRequestWorkflowPath"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document(buildingRequestWorkflowPath)\n            .onUpdate",
+      "name": null,
+      "line": 42,
+      "arguments": [
+        "OSKBuildingRequestWorkflowService.onDocumentUpdated"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document",
+      "name": null,
+      "line": 42,
+      "arguments": [
+        "buildingRequestWorkflowPath"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document(buildingRequestWorkflowPath)\n            .onDelete",
+      "name": null,
+      "line": 45,
+      "arguments": [
+        "OSKBuildingRequestWorkflowService.onDocumentDeleted"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document",
+      "name": null,
+      "line": 45,
+      "arguments": [
+        "buildingRequestWorkflowPath"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document(organizationRequestWorkflowPath)\n            .onCreate",
+      "name": null,
+      "line": 48,
+      "arguments": [
+        "OSKOrganizationRequestWorkflowService.onDocumentCreated"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document",
+      "name": null,
+      "line": 48,
+      "arguments": [
+        "organizationRequestWorkflowPath"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document(organizationRequestWorkflowPath)\n            .onUpdate",
+      "name": null,
+      "line": 51,
+      "arguments": [
+        "OSKOrganizationRequestWorkflowService.onDocumentUpdated"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document",
+      "name": null,
+      "line": 51,
+      "arguments": [
+        "organizationRequestWorkflowPath"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document(organizationRequestWorkflowPath)\n            .onDelete",
+      "name": null,
+      "line": 54,
+      "arguments": [
+        "OSKOrganizationRequestWorkflowService.onDocumentDeleted"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "db\n            .document",
+      "name": null,
+      "line": 54,
+      "arguments": [
+        "organizationRequestWorkflowPath"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "functionBuilder.runWith",
+      "name": null,
+      "line": 61,
+      "arguments": [
+        "{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "https.onCall",
+      "name": null,
+      "line": 63,
+      "arguments": [
+        "OSKBuildingRequestWorkflowService.onCreateBuildingRequestWorkflowsCalled"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "expression": "https.onCall",
+      "name": null,
+      "line": 66,
+      "arguments": [
+        "OSKOrganizationRequestWorkflowService.onCreateOrganizationRequestWorkflowsCalled"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 19,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 23,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 24,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "OSKBuildingRequestWorkflowController.default.save",
+      "name": null,
+      "line": 28,
+      "arguments": [
+        "workflowId",
+        "role"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "OSKBuildingRequestWorkflowService.logger.logError",
+      "name": null,
+      "line": 43,
+      "arguments": [
+        "'Failed-precondition: The function must be called from an App Check verified app.'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 56,
+      "arguments": [
+        "buildingRequestWorkflowData"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "OSKBuildingRequestWorkflowController.default.create",
+      "name": null,
+      "line": 57,
+      "arguments": [
+        "buildingRequestWorkflow",
+        "buildingRequestWorkflowData[buildingRequestWorkflow]"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "OSKBuildingRequestWorkflowService.logger.logError",
+      "name": null,
+      "line": 63,
+      "arguments": [
+        "'Invalid-argument: Wrong body structure in onCreateBuildingRequestWorkflowsCalled()'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "OSKBuildingRequestWorkflowService.logger.logError",
+      "name": null,
+      "line": 72,
+      "arguments": [
+        "'Unauthenticated:You must be authenticated to use onCreateBuildingRequestWorkflowsCalled()'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "Timestamp.now",
+      "name": null,
+      "line": 19,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 23,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "snapshot.data",
+      "name": null,
+      "line": 24,
+      "arguments": []
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "OSKOrganizationRequestWorkflowController.default.save",
+      "name": null,
+      "line": 28,
+      "arguments": [
+        "workflowId",
+        "role"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "OSKOrganizationRequestWorkflowService.logger.logError",
+      "name": null,
+      "line": 43,
+      "arguments": [
+        "'Failed-precondition: The function must be called from an App Check verified app.'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "Object.keys",
+      "name": null,
+      "line": 56,
+      "arguments": [
+        "organizationRequestWorkflowData"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "OSKOrganizationRequestWorkflowController.default.create",
+      "name": null,
+      "line": 57,
+      "arguments": [
+        "organizationRequestWorkflow",
+        "organizationRequestWorkflowData[organizationRequestWorkflow]"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "OSKOrganizationRequestWorkflowService.logger.logError",
+      "name": null,
+      "line": 63,
+      "arguments": [
+        "'Invalid-argument: Wrong body structure in onCreateOrganizationRequestWorkflowsCalled()'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+      "submodule": "workflow",
+      "expression": "OSKOrganizationRequestWorkflowService.logger.logError",
+      "name": null,
+      "line": 72,
+      "arguments": [
+        "'Unauthenticated: You must be authenticated to use onCreateOrganizationRequestWorkflowsCalled()'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/services/setting.service.ts",
+      "submodule": null,
+      "expression": "OSKSettingService.logger.logError",
+      "name": null,
+      "line": 19,
+      "arguments": [
+        "'Failed-precondition: The function must be called from an App Check verified app.'"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/services/setting.service.ts",
+      "submodule": null,
+      "expression": "OSKSettingController.default.create",
+      "name": null,
+      "line": 32,
+      "arguments": [
+        "`${setting}s`",
+        "{\n                    viewRole: `v1.admin.settings.${setting}.view`,\n                    createRole: `v1.admin.settings.${setting}.create`,\n                    editRole: `v1.admin.settings.${setting}.edit`,\n                    deleteRole: `v1.admin.settings.${setting}.delete`,\n                    adminCompositeRole: `v1.admin.settings.${setting}.admin`,\n                }"
+      ]
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/services/setting.service.ts",
+      "submodule": null,
+      "expression": "OSKSettingService.logger.logError",
+      "name": null,
+      "line": 46,
+      "arguments": [
+        "'Unauthenticated: You must be authenticated to use onCreateSettingsCalled()'"
+      ]
+    }
+  ],
+  "crossModuleDependencies": [],
+  "exports": [
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+      "submodule": null,
+      "kind": "localExport",
+      "name": "OSKSettingController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/index.ts",
+      "submodule": null,
+      "kind": "localExport",
+      "name": "getSettingsFirestoreTriggers",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/index.ts",
+      "submodule": null,
+      "kind": "localExport",
+      "name": "getSettingsCallableFunction",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/models/documents/setting_document.model.ts",
+      "submodule": null,
+      "kind": "localExport",
+      "name": "OSKSetting",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/models/documents/setting_document.model.ts",
+      "submodule": null,
+      "kind": "localExport",
+      "name": "OSKSettingDocument",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreSettingsController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "namedExport",
+      "name": "OSKAppStoreSettingsController",
+      "moduleSpecifier": "./controllers/app_store_settings.controller"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "namedExport",
+      "name": "OSKAppStoreSettingsService",
+      "moduleSpecifier": "./services/app_store_settings.service"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "namedExport",
+      "name": "OSKAppStoreInfo",
+      "moduleSpecifier": "./models/documents/app_store_settings_document.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "namedExport",
+      "name": "OSKAppStoreSettings",
+      "moduleSpecifier": "./models/documents/app_store_settings_document.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "namedExport",
+      "name": "OSKAppStoreActivationRequest",
+      "moduleSpecifier": "./models/functions/app_store_settings_request.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "namedExport",
+      "name": "OSKAppStoreActivationResponse",
+      "moduleSpecifier": "./models/functions/app_store_settings_request.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreSettingsController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreSettingsService",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreInfo",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreSettings",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreActivationRequest",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/index.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreActivationResponse",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreSettings",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreInfo",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreActivationRequest",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreActivationResponse",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+      "submodule": "appstore",
+      "kind": "localExport",
+      "name": "OSKAppStoreSettingsService",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKCompositeRoleController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKConsolidatedRolesController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKRoleController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "compositeRoles",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "compositeRoles",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "namedExport",
+      "name": "OSKCompositeRoleController",
+      "moduleSpecifier": "./controllers/composite_role.contoller.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "namedExport",
+      "name": "OSKConsolidatedRolesController",
+      "moduleSpecifier": "./controllers/consolidated_roles.controller.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "namedExport",
+      "name": "OSKRoleController",
+      "moduleSpecifier": "./controllers/role.controller.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "namedExport",
+      "name": "OSKCompositeRole",
+      "moduleSpecifier": "./models/documents/composite_role_document.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "namedExport",
+      "name": "OSKCompositeRoleDocument",
+      "moduleSpecifier": "./models/documents/composite_role_document.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "namedExport",
+      "name": "OSKRoleDocument",
+      "moduleSpecifier": "./models/documents/role_document.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "namedExport",
+      "name": "OSKAssignedRole",
+      "moduleSpecifier": "./models/shared/assigned_role.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "getRoleFirestoreTriggers",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "getRoleCallableFunction",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKCompositeRoleController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKConsolidatedRolesController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKRoleController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKCompositeRole",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKCompositeRoleDocument",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKRoleDocument",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/index.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKAssignedRole",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/models/documents/composite_role_document.model.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKCompositeRole",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/models/documents/composite_role_document.model.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKCompositeRoleDocument",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/models/documents/role_document.model.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKRole",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/models/documents/role_document.model.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKRoleDocument",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/models/shared/assigned_role.model.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKRoleAssigner",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/models/shared/assigned_role.model.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKAssignedRole",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/models/shared/generated_roles.model.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKGeneratedRoles",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKCompositeRoleService",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+      "submodule": "role",
+      "kind": "localExport",
+      "name": "OSKRoleService",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKBuildingRequestWorkflowController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKOrganizationRequestWorkflowController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/data/workflows.data.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "buildingRequestWorkflows",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/data/workflows.data.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "organizationRequestWorkflows",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "namedExport",
+      "name": "OSKBuildingRequestWorkflowController",
+      "moduleSpecifier": "./controllers/building_request_workflow.controller"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "namedExport",
+      "name": "OSKOrganizationRequestWorkflowController",
+      "moduleSpecifier": "./controllers/organization_request_workflow.contoller"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "namedExport",
+      "name": "OSKBuildingRequestWorkflow",
+      "moduleSpecifier": "./models/documents/building_request_workflow_document.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "namedExport",
+      "name": "OSKBuildingRequestWorkflowDocument",
+      "moduleSpecifier": "./models/documents/building_request_workflow_document.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "namedExport",
+      "name": "OSKOrganizationRequestWorkflow",
+      "moduleSpecifier": "./models/documents/organization_request_workflow_document.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "namedExport",
+      "name": "OSKOrganizationRequestWorkflowDocument",
+      "moduleSpecifier": "./models/documents/organization_request_workflow_document.model"
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "getWorkflowFirestoreTriggers",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "getWorkflowCallableFunction",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKBuildingRequestWorkflowController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKOrganizationRequestWorkflowController",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKBuildingRequestWorkflow",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKBuildingRequestWorkflowDocument",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKOrganizationRequestWorkflow",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/index.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKOrganizationRequestWorkflowDocument",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/models/documents/building_request_workflow_document.model.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKBuildingRequestWorkflow",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/models/documents/building_request_workflow_document.model.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKBuildingRequestWorkflowDocument",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/models/documents/organization_request_workflow_document.model.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKOrganizationRequestWorkflow",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/models/documents/organization_request_workflow_document.model.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKOrganizationRequestWorkflowDocument",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKBuildingRequestWorkflowService",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+      "submodule": "workflow",
+      "kind": "localExport",
+      "name": "OSKOrganizationRequestWorkflowService",
+      "moduleSpecifier": null
+    },
+    {
+      "module": "settings",
+      "path": "functions/src/modules/settings/services/setting.service.ts",
+      "submodule": null,
+      "kind": "localExport",
+      "name": "OSKSettingService",
+      "moduleSpecifier": null
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,507 @@
+[
+  {
+    "name": "OSKEmailService",
+    "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+    "submodule": "mail",
+    "methods": [
+      {
+        "name": "send",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "options",
+            "typeText": "OSKEmailOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/mail/models/email_options.model\").OSKEmailOptions",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "logMailMessage",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "emailResponse",
+            "typeText": "SMTPTransport.SentMessageInfo",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/@types/nodemailer/lib/smtp-transport/index\").SentMessageInfo",
+            "decorators": []
+          },
+          {
+            "name": "message",
+            "typeText": "{ from?: string; to: string[]; subject?: string; text: string; html: string; fromEmail?: string }",
+            "resolvedTypeText": "{ from?: string | undefined; to: string[]; subject?: string | undefined; text: string; html: string; fromEmail?: string | undefined; }",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKAPNSService",
+    "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+    "submodule": "notification",
+    "methods": [
+      {
+        "name": "send",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "tokens",
+            "typeText": "{ tokenId: string; token: string; environment: 'development' | 'production' }[]",
+            "resolvedTypeText": "{ tokenId: string; token: string; environment: \"development\" | \"production\"; }[]",
+            "decorators": []
+          },
+          {
+            "name": "notification",
+            "typeText": "Notification",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/@parse/node-apn/index\").Notification",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_send",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<boolean>",
+        "resolvedReturnTypeText": "Promise<boolean>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "tokens",
+            "typeText": "{ tokenId: string; token: string }[]",
+            "resolvedTypeText": "{ tokenId: string; token: string; }[]",
+            "decorators": []
+          },
+          {
+            "name": "notification",
+            "typeText": "Notification",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/@parse/node-apn/index\").Notification",
+            "decorators": []
+          },
+          {
+            "name": "environment",
+            "typeText": "'development' | 'production'",
+            "resolvedTypeText": "\"development\" | \"production\"",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKFirebaseCloudMessagingService",
+    "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
+    "submodule": "notification",
+    "methods": [
+      {
+        "name": "send",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "tokenId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "message",
+            "typeText": "TokenMessage",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-admin/lib/messaging/messaging-api\").TokenMessage",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_send",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<boolean>",
+        "resolvedReturnTypeText": "Promise<boolean>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "_userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "_tokenId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "message",
+            "typeText": "TokenMessage",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-admin/lib/messaging/messaging-api\").TokenMessage",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKNotificationService",
+    "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
+    "submodule": "notification",
+    "methods": [
+      {
+        "name": "send",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "notificationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "FullNotificationOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").FullNotificationOptions",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_handlePushNotifications",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "notificationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "metadata",
+            "typeText": "OSKNotificationMetadataOption",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").OSKNotificationMetadataOption",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "FullNotificationOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").FullNotificationOptions",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_sendApns",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "void",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "notificationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "metadata",
+            "typeText": "OSKNotificationMetadataOption",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").OSKNotificationMetadataOption",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "FullNotificationOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").FullNotificationOptions",
+            "decorators": []
+          },
+          {
+            "name": "apnsTokens",
+            "typeText": "ApnsToken[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").ApnsToken[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_sendFcm",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "void",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "metadata",
+            "typeText": "OSKNotificationMetadataOption",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").OSKNotificationMetadataOption",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "FullNotificationOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").FullNotificationOptions",
+            "decorators": []
+          },
+          {
+            "name": "fcmTokens",
+            "typeText": "FcmToken[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").FcmToken[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_handleEmailNotifications",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "void",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "metadata",
+            "typeText": "OSKNotificationMetadataOption",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").OSKNotificationMetadataOption",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "FullNotificationOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").FullNotificationOptions",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_handleSmsNotifications",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "void",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "metadata",
+            "typeText": "OSKNotificationMetadataOption",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").OSKNotificationMetadataOption",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "FullNotificationOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_metadata.model\").FullNotificationOptions",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_interpolate",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "template",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "params",
+            "typeText": "{ [key: string]: string }",
+            "resolvedTypeText": "{ [key: string]: string; }",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "sendSpecial",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "notificationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "OSKSpecialNotificationOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_options.model\").OSKSpecialNotificationOptions",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKQRcodeService",
+    "path": "functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts",
+    "submodule": "qr_code",
+    "methods": [
+      {
+        "name": "generateQR",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "activationCode",
+            "typeText": "string | QRCode.QRCodeSegment[]",
+            "resolvedTypeText": "string | import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/@types/qrcode/index\").QRCodeSegment[]",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSmsService",
+    "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
+    "submodule": "sms",
+    "methods": [
+      {
+        "name": "logSms",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "options",
+            "typeText": "OSKSMSOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/sms/models/sms_options.model\").OSKSMSOptions",
+            "decorators": []
+          },
+          {
+            "name": "messageText",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "response",
+            "typeText": "MessageInstance | RestException",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/node_modules/twilio/lib/rest/api/v2010/account/message\").MessageInstance | import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/node_modules/twilio/lib/base/RestException\").default",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "sendSms",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "options",
+            "typeText": "OSKSMSOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/sms/models/sms_options.model\").OSKSMSOptions",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

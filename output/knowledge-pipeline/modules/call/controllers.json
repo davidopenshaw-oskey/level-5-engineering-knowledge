@@ -1,0 +1,71 @@
+[
+  {
+    "name": "OSKCallController",
+    "path": "functions/src/modules/call/controllers/call.controller.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKCallDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/documents/call_document.model\").OSKCallDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "callId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "call",
+            "typeText": "OSKCall",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/documents/call_document.model\").OSKAccessControlDeviceCall",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "callId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "call",
+            "typeText": "OSKDocumentUpdate<OSKCall>",
+            "resolvedTypeText": "{ callId?: string | FirebaseFirestore.FieldValue | undefined; externalCallId?: string | FirebaseFirestore.FieldValue | undefined; callerId?: string | FirebaseFirestore.FieldValue | undefined; iceServers?: FirebaseFirestore.FieldValue | { urlStrings?: FirebaseFirestore.FieldValue | (string | FirebaseFirestore.FieldValue | undefined)[] | undefined; username?: string | FirebaseFirestore.FieldValue | undefined; credentials?: string | FirebaseFirestore.FieldValue | undefined; } | undefined; callerType?: FirebaseFirestore.FieldValue | \"acd\" | undefined; buildingId?: string | FirebaseFirestore.FieldValue | undefined; unitId?: string | FirebaseFirestore.FieldValue | undefined; contactId?: string | FirebaseFirestore.FieldValue | undefined; callTransferList?: FirebaseFirestore.FieldValue | (FirebaseFirestore.FieldValue | { callRecipients?: FirebaseFirestore.FieldValue | (FirebaseFirestore.FieldValue | { callerId?: string | FirebaseFirestore.FieldValue | undefined; status?: FirebaseFirestore.FieldValue | import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/shared/call_transfer_list_item.model\").OSKCallRecipientStatus | undefined; events?: FirebaseFirestore.FieldValue | (FirebaseFirestore.FieldValue | { status?: FirebaseFirestore.FieldValue | import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/shared/call_transfer_list_item.model\").OSKCallRecipientStatus | undefined; timestamp?: string | FirebaseFirestore.FieldValue | undefined; socketId?: string | FirebaseFirestore.FieldValue | undefined; error?: string | FirebaseFirestore.FieldValue | undefined; } | undefined)[] | undefined; } | undefined)[] | undefined; sequenceNumber?: number | FirebaseFirestore.FieldValue | undefined; status?: FirebaseFirestore.FieldValue | import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/shared/call_transfer_list_item.model\").OSKCallTransferListItemStatus | undefined; events?: FirebaseFirestore.FieldValue | (FirebaseFirestore.FieldValue | { status?: FirebaseFirestore.FieldValue | import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/shared/call_transfer_list_item.model\").OSKCallTransferListItemStatus | undefined; timestamp?: string | FirebaseFirestore.FieldValue | undefined; socketId?: string | FirebaseFirestore.FieldValue | undefined; error?: string | FirebaseFirestore.FieldValue | undefined; } | undefined)[] | undefined; } | undefined)[] | undefined; status?: FirebaseFirestore.FieldValue | import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/documents/call_document.model\").OSKCallStatus | undefined; events?: FirebaseFirestore.FieldValue | (FirebaseFirestore.FieldValue | { status?: FirebaseFirestore.FieldValue | import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/documents/call_document.model\").OSKCallStatus | undefined; timestamp?: string | FirebaseFirestore.FieldValue | undefined; socketId?: string | FirebaseFirestore.FieldValue | undefined; error?: string | FirebaseFirestore.FieldValue | undefined; } | undefined)[] | undefined; callPictureName?: string | FirebaseFirestore.FieldValue | undefined; creationDate?: FirebaseFirestore.FieldValue | { readonly seconds?: number | FirebaseFirestore.FieldValue | undefined; readonly nanoseconds?: number | FirebaseFirestore.FieldValue | undefined; toDate?: FirebaseFirestore.FieldValue | {} | undefined; toMillis?: FirebaseFirestore.FieldValue | {} | undefined; isEqual?: FirebaseFirestore.FieldValue | {} | undefined; valueOf?: FirebaseFirestore.FieldValue | {} | undefined; } | undefined; modificationDate?: FirebaseFirestore.FieldValue | { readonly seconds?: number | FirebaseFirestore.FieldValue | undefined; readonly nanoseconds?: number | FirebaseFirestore.FieldValue | undefined; toDate?: FirebaseFirestore.FieldValue | {} | undefined; toMillis?: FirebaseFirestore.FieldValue | {} | undefined; isEqual?: FirebaseFirestore.FieldValue | {} | undefined; valueOf?: FirebaseFirestore.FieldValue | {} | undefined; } | undefined; } & FirebaseFirestore.AddPrefixToKeys<\"iceServers\", { urlStrings?: FirebaseFirestore.FieldValue | (string | FirebaseFirestore.FieldValue | undefined)[] | undefined; username?: string | FirebaseFirestore.FieldValue | undefined; credentials?: string | FirebaseFirestore.FieldValue | undefined; }>",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

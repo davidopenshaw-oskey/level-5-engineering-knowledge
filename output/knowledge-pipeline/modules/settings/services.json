@@ -1,0 +1,469 @@
+[
+  {
+    "name": "OSKAppStoreSettingsService",
+    "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+    "submodule": "appstore",
+    "methods": [
+      {
+        "name": "validateAppStoreActivationCode",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKAppStoreActivationResponse>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model\").OSKAppStoreActivationResponse>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKAppStoreActivationRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model\").OSKAppStoreActivationRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "validateInternally",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<{ isRecordFound: boolean; activationCode?: string; appStoreDocument?: OSKAppStoreSettings }>",
+        "resolvedReturnTypeText": "Promise<{ isRecordFound: boolean; activationCode?: string | undefined; appStoreDocument?: import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model\").OSKAppStoreSettings | undefined; }>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "activationCode",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAppstoreInformation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKAppStoreInfo>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model\").OSKAppStoreInfo>",
+        "decorators": [],
+        "parameters": []
+      }
+    ]
+  },
+  {
+    "name": "OSKCompositeRoleService",
+    "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+    "submodule": "role",
+    "methods": [
+      {
+        "name": "onDocumentCreated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentUpdated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "Change<DocumentSnapshot>",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/change\").Change<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentDeleted",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onCreateCompositeRolesCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "{ dummy: string }",
+            "resolvedTypeText": "{ dummy: string; }",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "processRoleHierarchy",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "compositeRoleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "compositeRoleData",
+            "typeText": "OSKCompositeRole",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/models/documents/composite_role_document.model\").OSKCompositeRole",
+            "decorators": []
+          },
+          {
+            "name": "fileRoles",
+            "typeText": "{ roles: Set<string>; compositeRoles: Set<string> }",
+            "resolvedTypeText": "{ roles: Set<string>; compositeRoles: Set<string>; }",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllCompositeRoles",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKCompositeRoleDocument[]>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/models/documents/composite_role_document.model\").OSKCompositeRoleDocument[]>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "_request",
+            "typeText": "Record<string, never>",
+            "resolvedTypeText": "Record<string, never>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getOrganizationCompositeRoles",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKCompositeRoleDocument[]>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/models/documents/composite_role_document.model\").OSKCompositeRoleDocument[]>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "_request",
+            "typeText": "Record<string, never>",
+            "resolvedTypeText": "Record<string, never>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKRoleService",
+    "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+    "submodule": "role",
+    "methods": [
+      {
+        "name": "onDocumentCreated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllRoles",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKRoleDocument[]>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/models/documents/role_document.model\").OSKRoleDocument[]>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "_request",
+            "typeText": "Record<string, never>",
+            "resolvedTypeText": "Record<string, never>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKBuildingRequestWorkflowService",
+    "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+    "submodule": "workflow",
+    "methods": [
+      {
+        "name": "onDocumentCreated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentUpdated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "onDocumentDeleted",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "onCreateBuildingRequestWorkflowsCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "{ dummy: string }",
+            "resolvedTypeText": "{ dummy: string; }",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationRequestWorkflowService",
+    "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+    "submodule": "workflow",
+    "methods": [
+      {
+        "name": "onDocumentCreated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentUpdated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "onDocumentDeleted",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "onCreateOrganizationRequestWorkflowsCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "{ dummy: string }",
+            "resolvedTypeText": "{ dummy: string; }",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSettingService",
+    "path": "functions/src/modules/settings/services/setting.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "onCreateSettingsCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "_request",
+            "typeText": "{ dummy: string }",
+            "resolvedTypeText": "{ dummy: string; }",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

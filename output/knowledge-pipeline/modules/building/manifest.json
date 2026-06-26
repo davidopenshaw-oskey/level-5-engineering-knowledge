@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-06-25T16:51:27.047Z",
+  "module": "building",
+  "summary": {
+    "files": 89,
+    "imports": 387,
+    "exports": 467,
+    "classes": 42,
+    "methods": 275,
+    "functions": 15,
+    "calls": 1003,
+    "firestoreHints": 4,
+    "permissionHints": 47,
+    "services": 20,
+    "controllers": 22
+  }
+}

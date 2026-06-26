@@ -1,0 +1,394 @@
+{
+  "generatedAt": "2026-06-25T17:15:03.211Z",
+  "modules": [
+    {
+      "module": "access_control_device",
+      "files": 33,
+      "services": 5,
+      "controllers": 8,
+      "methods": 61,
+      "calls": 165,
+      "firestoreHints": 3,
+      "permissionHints": 2,
+      "facts": 337,
+      "factsByType": {
+        "controller_method": 43,
+        "exported_symbol": 75,
+        "source_file": 33,
+        "call_expression": 164,
+        "service_method": 16,
+        "imports_dependency": 4,
+        "permission_error": 2
+      }
+    },
+    {
+      "module": "admin",
+      "files": 46,
+      "services": 17,
+      "controllers": 8,
+      "methods": 117,
+      "calls": 663,
+      "firestoreHints": 8,
+      "permissionHints": 64,
+      "facts": 1010,
+      "factsByType": {
+        "exported_symbol": 110,
+        "imports_dependency": 8,
+        "source_file": 46,
+        "call_expression": 663,
+        "controller_method": 29,
+        "firestore_path_touched": 3,
+        "service_method": 87,
+        "permission_required": 41,
+        "permission_error": 23
+      }
+    },
+    {
+      "module": "apps",
+      "files": 34,
+      "services": 6,
+      "controllers": 2,
+      "methods": 35,
+      "calls": 157,
+      "firestoreHints": 0,
+      "permissionHints": 0,
+      "facts": 288,
+      "factsByType": {
+        "controller_method": 18,
+        "exported_symbol": 61,
+        "source_file": 34,
+        "call_expression": 157,
+        "service_method": 17,
+        "imports_dependency": 1
+      }
+    },
+    {
+      "module": "building",
+      "files": 89,
+      "services": 20,
+      "controllers": 22,
+      "methods": 275,
+      "calls": 1003,
+      "firestoreHints": 4,
+      "permissionHints": 47,
+      "facts": 1753,
+      "factsByType": {
+        "controller_method": 181,
+        "exported_symbol": 329,
+        "source_file": 89,
+        "firestore_path_touched": 3,
+        "call_expression": 1002,
+        "imports_dependency": 8,
+        "service_method": 94,
+        "permission_required": 21,
+        "permission_error": 26
+      }
+    },
+    {
+      "module": "call",
+      "files": 13,
+      "services": 1,
+      "controllers": 1,
+      "methods": 9,
+      "calls": 249,
+      "firestoreHints": 0,
+      "permissionHints": 0,
+      "facts": 300,
+      "factsByType": {
+        "controller_method": 4,
+        "exported_symbol": 27,
+        "source_file": 13,
+        "call_expression": 249,
+        "imports_dependency": 2,
+        "service_method": 5
+      }
+    },
+    {
+      "module": "core",
+      "files": 58,
+      "services": 12,
+      "controllers": 6,
+      "methods": 151,
+      "calls": 965,
+      "firestoreHints": 0,
+      "permissionHints": 7,
+      "facts": 1400,
+      "factsByType": {
+        "controller_method": 43,
+        "exported_symbol": 221,
+        "source_file": 58,
+        "call_expression": 964,
+        "imports_dependency": 15,
+        "service_method": 92,
+        "permission_error": 4,
+        "permission_required": 3
+      }
+    },
+    {
+      "module": "organization",
+      "files": 80,
+      "services": 15,
+      "controllers": 15,
+      "methods": 228,
+      "calls": 1506,
+      "firestoreHints": 5,
+      "permissionHints": 121,
+      "facts": 2327,
+      "factsByType": {
+        "controller_method": 100,
+        "exported_symbol": 379,
+        "source_file": 80,
+        "firestore_path_touched": 3,
+        "call_expression": 1506,
+        "imports_dependency": 11,
+        "service_method": 127,
+        "permission_required": 77,
+        "permission_error": 44
+      }
+    },
+    {
+      "module": "settings",
+      "files": 29,
+      "services": 6,
+      "controllers": 7,
+      "methods": 61,
+      "calls": 193,
+      "firestoreHints": 0,
+      "permissionHints": 394,
+      "facts": 736,
+      "factsByType": {
+        "controller_method": 40,
+        "exported_symbol": 59,
+        "source_file": 29,
+        "call_expression": 193,
+        "service_method": 21,
+        "permission_error": 1,
+        "permission_required": 393
+      }
+    },
+    {
+      "module": "supplier",
+      "files": 24,
+      "services": 6,
+      "controllers": 6,
+      "methods": 77,
+      "calls": 316,
+      "firestoreHints": 2,
+      "permissionHints": 35,
+      "facts": 568,
+      "factsByType": {
+        "controller_method": 47,
+        "exported_symbol": 112,
+        "source_file": 24,
+        "firestore_path_touched": 1,
+        "call_expression": 314,
+        "imports_dependency": 5,
+        "service_method": 30,
+        "permission_required": 17,
+        "permission_error": 18
+      }
+    },
+    {
+      "module": "tasks",
+      "files": 5,
+      "services": 2,
+      "controllers": 0,
+      "methods": 3,
+      "calls": 34,
+      "firestoreHints": 0,
+      "permissionHints": 0,
+      "facts": 53,
+      "factsByType": {
+        "exported_symbol": 9,
+        "source_file": 5,
+        "call_expression": 34,
+        "imports_dependency": 2,
+        "service_method": 3
+      }
+    },
+    {
+      "module": "unit_management",
+      "files": 13,
+      "services": 5,
+      "controllers": 1,
+      "methods": 33,
+      "calls": 216,
+      "firestoreHints": 1,
+      "permissionHints": 4,
+      "facts": 316,
+      "factsByType": {
+        "controller_method": 12,
+        "exported_symbol": 46,
+        "source_file": 13,
+        "call_expression": 216,
+        "imports_dependency": 3,
+        "service_method": 21,
+        "permission_error": 4,
+        "firestore_path_touched": 1
+      }
+    },
+    {
+      "module": "user",
+      "files": 115,
+      "services": 25,
+      "controllers": 22,
+      "methods": 275,
+      "calls": 1188,
+      "firestoreHints": 10,
+      "permissionHints": 24,
+      "facts": 2028,
+      "factsByType": {
+        "controller_method": 168,
+        "exported_symbol": 414,
+        "source_file": 115,
+        "call_expression": 1185,
+        "firestore_path_touched": 7,
+        "imports_dependency": 8,
+        "service_method": 107,
+        "permission_error": 14,
+        "permission_required": 10
+      }
+    }
+  ],
+  "totals": {
+    "modules": 12,
+    "files": 539,
+    "imports": 2347,
+    "exports": 2450,
+    "classes": 224,
+    "methods": 1325,
+    "functions": 100,
+    "calls": 6655,
+    "services": 120,
+    "controllers": 98,
+    "firestoreHints": 33,
+    "permissionHints": 698,
+    "facts": 11116
+  },
+  "factsByType": {
+    "controller_method": 685,
+    "exported_symbol": 1842,
+    "source_file": 539,
+    "call_expression": 6647,
+    "service_method": 620,
+    "imports_dependency": 67,
+    "permission_error": 136,
+    "firestore_path_touched": 18,
+    "permission_required": 562
+  },
+  "recommendedPocModules": [
+    {
+      "module": "settings",
+      "files": 29,
+      "services": 6,
+      "controllers": 7,
+      "methods": 61,
+      "calls": 193,
+      "firestoreHints": 0,
+      "permissionHints": 394,
+      "facts": 736,
+      "factsByType": {
+        "controller_method": 40,
+        "exported_symbol": 59,
+        "source_file": 29,
+        "call_expression": 193,
+        "service_method": 21,
+        "permission_error": 1,
+        "permission_required": 393
+      },
+      "score": 429.86
+    },
+    {
+      "module": "organization",
+      "files": 80,
+      "services": 15,
+      "controllers": 15,
+      "methods": 228,
+      "calls": 1506,
+      "firestoreHints": 5,
+      "permissionHints": 121,
+      "facts": 2327,
+      "factsByType": {
+        "controller_method": 100,
+        "exported_symbol": 379,
+        "source_file": 80,
+        "firestore_path_touched": 3,
+        "call_expression": 1506,
+        "imports_dependency": 11,
+        "service_method": 127,
+        "permission_required": 77,
+        "permission_error": 44
+      },
+      "score": 221
+    },
+    {
+      "module": "building",
+      "files": 89,
+      "services": 20,
+      "controllers": 22,
+      "methods": 275,
+      "calls": 1003,
+      "firestoreHints": 4,
+      "permissionHints": 47,
+      "facts": 1753,
+      "factsByType": {
+        "controller_method": 181,
+        "exported_symbol": 329,
+        "source_file": 89,
+        "firestore_path_touched": 3,
+        "call_expression": 1002,
+        "imports_dependency": 8,
+        "service_method": 94,
+        "permission_required": 21,
+        "permission_error": 26
+      },
+      "score": 175
+    },
+    {
+      "module": "user",
+      "files": 115,
+      "services": 25,
+      "controllers": 22,
+      "methods": 275,
+      "calls": 1188,
+      "firestoreHints": 10,
+      "permissionHints": 24,
+      "facts": 2028,
+      "factsByType": {
+        "controller_method": 168,
+        "exported_symbol": 414,
+        "source_file": 115,
+        "call_expression": 1185,
+        "firestore_path_touched": 7,
+        "imports_dependency": 8,
+        "service_method": 107,
+        "permission_error": 14,
+        "permission_required": 10
+      },
+      "score": 173
+    },
+    {
+      "module": "admin",
+      "files": 46,
+      "services": 17,
+      "controllers": 8,
+      "methods": 117,
+      "calls": 663,
+      "firestoreHints": 8,
+      "permissionHints": 64,
+      "facts": 1010,
+      "factsByType": {
+        "exported_symbol": 110,
+        "imports_dependency": 8,
+        "source_file": 46,
+        "call_expression": 663,
+        "controller_method": 29,
+        "firestore_path_touched": 3,
+        "service_method": 87,
+        "permission_required": 41,
+        "permission_error": 23
+      },
+      "score": 152.26
+    }
+  ]
+}

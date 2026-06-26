@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es2020",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "rootDir": "./scripts"
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {}
+  },
+  "include": [
+    "scripts/**/*.ts"
+  ]
+}

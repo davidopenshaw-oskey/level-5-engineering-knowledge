@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-06-25T16:51:27.032Z",
+  "module": "access_control_device",
+  "summary": {
+    "files": 33,
+    "imports": 93,
+    "exports": 106,
+    "classes": 14,
+    "methods": 61,
+    "functions": 2,
+    "calls": 165,
+    "firestoreHints": 3,
+    "permissionHints": 2,
+    "services": 5,
+    "controllers": 8
+  }
+}

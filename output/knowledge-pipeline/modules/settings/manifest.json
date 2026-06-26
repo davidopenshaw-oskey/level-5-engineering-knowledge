@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-06-25T16:51:27.088Z",
+  "module": "settings",
+  "summary": {
+    "files": 29,
+    "imports": 96,
+    "exports": 78,
+    "classes": 13,
+    "methods": 61,
+    "functions": 6,
+    "calls": 193,
+    "firestoreHints": 0,
+    "permissionHints": 394,
+    "services": 6,
+    "controllers": 7
+  }
+}

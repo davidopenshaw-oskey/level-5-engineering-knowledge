@@ -1,0 +1,381 @@
+[
+  {
+    "name": "OSKNodeIoTAPIService",
+    "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "token",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "_url",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "{ subject?: string }",
+            "resolvedTypeText": "{ subject?: string | undefined; } | undefined",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "url",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "path",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "post",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "path",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "body",
+            "typeText": "any",
+            "resolvedTypeText": "any",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "{ subject?: string }",
+            "resolvedTypeText": "{ subject?: string | undefined; } | undefined",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "path",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "{ subject?: string }",
+            "resolvedTypeText": "{ subject?: string | undefined; } | undefined",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKAccessControlDeviceService",
+    "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "onDocumentCreated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentDeleted",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKActivityEnrichmentService",
+    "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "enrichAndValidateActivity",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<EnrichedActivityData | null>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service\").EnrichedActivityData | null>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "activityDocument",
+            "typeText": "OSKBuildingActivity",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model\").OSKBuildingActivity",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKAccessControlDeviceConfigService",
+    "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "onDocumentCreated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentUpdated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "Change<DocumentSnapshot>",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/change\").Change<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentDeleted",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKAccessControlDevicePublicKeysService",
+    "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "onDocumentCreated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentUpdated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "Change<DocumentSnapshot>",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/change\").Change<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentDeleted",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "_snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onAddAccessControlDevicePublicKeyCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKAccessControlDevicePublicKeyAddRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/models/functions/access_control_device_public_key_add_request.model\").OSKAccessControlDevicePublicKeyAddRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDeleteAccessControlDevicePublicKeyCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKAccessControlDevicePublicKeyDeleteRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/models/functions/access_control_device_public_key_delete_request.model\").OSKAccessControlDevicePublicKeyDeleteRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

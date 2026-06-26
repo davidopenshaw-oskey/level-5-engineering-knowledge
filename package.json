@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@types/node": "^26.0.1",
+    "ts-morph": "^28.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "scan-repo": "node -r ts-node/register scripts/knowledge-pipeline/00-scan-repo.ts",
+    "extract-ast-evidence": "node -r ts-node/register scripts/knowledge-pipeline/01-extract-ast-evidence.ts",
+    "build-module-evidence": "node -r ts-node/register scripts/knowledge-pipeline/02-build-module-evidence.ts",
+    "build-evidence-graph": "node -r ts-node/register scripts/knowledge-pipeline/03-build-evidence-graph.ts",
+    "build-benchmark": "node -r ts-node/register scripts/knowledge-pipeline/04-build-benchmark.ts",
+    "build-prd-context-pack": "node -r ts-node/register scripts/knowledge-pipeline/05-build-prd-context-pack.ts"
+  }
+}

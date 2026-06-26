@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-06-25T16:51:27.096Z",
+  "module": "unit_management",
+  "summary": {
+    "files": 13,
+    "imports": 99,
+    "exports": 62,
+    "classes": 6,
+    "methods": 33,
+    "functions": 1,
+    "calls": 216,
+    "firestoreHints": 1,
+    "permissionHints": 4,
+    "services": 5,
+    "controllers": 1
+  }
+}

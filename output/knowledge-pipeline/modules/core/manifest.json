@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-06-25T16:51:27.063Z",
+  "module": "core",
+  "summary": {
+    "files": 58,
+    "imports": 211,
+    "exports": 309,
+    "classes": 21,
+    "methods": 151,
+    "functions": 26,
+    "calls": 965,
+    "firestoreHints": 0,
+    "permissionHints": 7,
+    "services": 12,
+    "controllers": 6
+  }
+}

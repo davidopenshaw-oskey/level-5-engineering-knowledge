@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-06-25T16:51:27.100Z",
+  "module": "user",
+  "summary": {
+    "files": 115,
+    "imports": 511,
+    "exports": 542,
+    "classes": 47,
+    "methods": 275,
+    "functions": 24,
+    "calls": 1188,
+    "firestoreHints": 10,
+    "permissionHints": 24,
+    "services": 25,
+    "controllers": 22
+  }
+}

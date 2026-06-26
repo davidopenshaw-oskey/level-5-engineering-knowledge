@@ -1,0 +1,9 @@
+{
+  "repositories": [
+    {
+      "name": "cloud",
+      "path": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev",
+      "modulesRoot": "functions/src/modules"
+    }
+  ]
+}

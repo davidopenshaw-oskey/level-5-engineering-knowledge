@@ -1,0 +1,143 @@
+[
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "path": "functions/src/modules/access_control_device",
+    "submodules": [],
+    "fileCount": 35
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "path": "functions/src/modules/admin",
+    "submodules": [
+      "admin_buildings",
+      "admin_maintenance",
+      "admin_organization",
+      "admin_users"
+    ],
+    "fileCount": 46
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "path": "functions/src/modules/apps",
+    "submodules": [
+      "mail",
+      "notification",
+      "qr_code",
+      "sms"
+    ],
+    "fileCount": 34
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "path": "functions/src/modules/building",
+    "submodules": [
+      "building_accesses",
+      "building_activity",
+      "building_door",
+      "building_intercom",
+      "building_pincode",
+      "building_pincode_trash",
+      "building_settings",
+      "building_unit",
+      "building_user"
+    ],
+    "fileCount": 90
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "path": "functions/src/modules/call",
+    "submodules": [],
+    "fileCount": 13
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "path": "functions/src/modules/core",
+    "submodules": [
+      "access",
+      "auth0",
+      "country",
+      "public_key",
+      "storage"
+    ],
+    "fileCount": 58
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "path": "functions/src/modules/organization",
+    "submodules": [
+      "organization_building",
+      "organization_building_invitation",
+      "organization_entity",
+      "organization_inhabitant",
+      "organization_intercom_ communication",
+      "organization_onboarding_inhabitant",
+      "organization_pending",
+      "organization_prompt_templates",
+      "organization_property",
+      "organization_residents",
+      "organization_user",
+      "organization_user_access",
+      "organization_user_invitation"
+    ],
+    "fileCount": 80
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "path": "functions/src/modules/settings",
+    "submodules": [
+      "appstore",
+      "role",
+      "workflow"
+    ],
+    "fileCount": 29
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "path": "functions/src/modules/supplier",
+    "submodules": [
+      "supplierStaff"
+    ],
+    "fileCount": 24
+  },
+  {
+    "repo": "cloud",
+    "module": "tasks",
+    "path": "functions/src/modules/tasks",
+    "submodules": [],
+    "fileCount": 5
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "path": "functions/src/modules/unit_management",
+    "submodules": [],
+    "fileCount": 13
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "path": "functions/src/modules/user",
+    "submodules": [
+      "user_access",
+      "user_activity",
+      "user_call",
+      "user_device",
+      "user_intercoms",
+      "user_invitation",
+      "user_notification",
+      "user_organization",
+      "user_pincode",
+      "user_settings"
+    ],
+    "fileCount": 117
+  }
+]

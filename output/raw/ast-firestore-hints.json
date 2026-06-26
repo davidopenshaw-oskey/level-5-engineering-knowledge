@@ -1,0 +1,332 @@
+[
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+    "value": "User not identified by accessId, checking users collection.",
+    "line": 138
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+    "value": "Found user in users collection. Setting type to USER.",
+    "line": 144
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+    "value": "Could not determine user type. User not found in users collection and no matching specific access was found.",
+    "line": 150
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_buildings",
+    "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts",
+    "value": "/buildings",
+    "line": 12
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts",
+    "value": "maintenance - - user does not exist in /users/ collection, its accesses will be removed from buildings/accesses",
+    "line": 296
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts",
+    "value": "Failed to create residents settings documents in the collection seetings for a building",
+    "line": 36
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts",
+    "value": "Failed to create residents documents in the collection residents",
+    "line": 94
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts",
+    "kindHint": "unknown",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts",
+    "value": "Failed to create users settings documents in the collection settings for users",
+    "line": 72
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_organization",
+    "path": "functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts",
+    "value": "/organizations",
+    "line": 15
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_organization",
+    "path": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+    "value": "../models/functions/organizations_details_by_id_request_document",
+    "line": 16
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
+    "value": "/users",
+    "line": 11
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": null,
+    "path": "functions/src/modules/building/controllers/building.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/controllers/building.controller.ts",
+    "value": "/buildings",
+    "line": 14
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": null,
+    "path": "functions/src/modules/building/controllers/building.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/controllers/building.controller.ts",
+    "value": "Building not found in /buildings",
+    "line": 38
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": null,
+    "path": "functions/src/modules/building/controllers/building.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/controllers/building.controller.ts",
+    "value": "/buildings",
+    "line": 50
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/index.ts",
+    "kindHint": "unknown",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_door/index.ts",
+    "value": "/buildings/{buildingId}/doors/{doorId}/accessControlDevices/{deviceId}",
+    "line": 12
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": null,
+    "path": "functions/src/modules/organization/controllers/organization.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/controllers/organization.controller.ts",
+    "value": "/organizations",
+    "line": 15
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_onboarding_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+    "value": "/users",
+    "line": 1078
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_pending",
+    "path": "functions/src/modules/organization/modules/organization_pending/controllers/organization_pending.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/controllers/organization_pending.controller.ts",
+    "value": "/organizationsPending",
+    "line": 12
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_pending",
+    "path": "functions/src/modules/organization/modules/organization_pending/index.ts",
+    "kindHint": "unknown",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/index.ts",
+    "value": "./models/functions/organizations_pending_by_id_request_document",
+    "line": 20
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_pending",
+    "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+    "value": "../models/functions/organizations_pending_by_id_request_document",
+    "line": 30
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": null,
+    "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/supplier/controllers/supplier.controller.ts",
+    "value": "/suppliers",
+    "line": 13
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": null,
+    "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/supplier/controllers/supplier.controller.ts",
+    "value": "Supplier not found in /suppliers",
+    "line": 33
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts",
+    "value": "/users",
+    "line": 44
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/controllers/chnageEmail.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/controllers/chnageEmail.controller.ts",
+    "value": "changeEMail collection not found in /emailChangeRequests",
+    "line": 29
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/controllers/user.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/controllers/user.controller.ts",
+    "value": "/users",
+    "line": 19
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/controllers/user.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/controllers/user.controller.ts",
+    "value": "User not found in /users",
+    "line": 32
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/index.ts",
+    "kindHint": "unknown",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/index.ts",
+    "value": "/users/{userId}",
+    "line": 17
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/index.ts",
+    "kindHint": "unknown",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_device/index.ts",
+    "value": "/users/{userId}/devices/{deviceId}",
+    "line": 10
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_common.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/services/user_invitation_common.service.ts",
+    "value": "/users",
+    "line": 64
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_common.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/services/user_invitation_common.service.ts",
+    "value": "/users",
+    "line": 72
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/index.ts",
+    "kindHint": "unknown",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_notification/index.ts",
+    "value": "/users/{userId}/notifications/{notificationId}",
+    "line": 12
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_pincode",
+    "path": "functions/src/modules/user/modules/user_pincode/controllers/user_pincode.controller.ts",
+    "kindHint": "controller",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_pincode/controllers/user_pincode.controller.ts",
+    "value": "Pincode document not found in /users/pincodes",
+    "line": 93
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/services/user.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/services/user.service.ts",
+    "value": "/users",
+    "line": 926
+  }
+]
