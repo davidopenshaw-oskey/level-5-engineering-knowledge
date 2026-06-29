@@ -1,213 +1,132 @@
-# Rules: Module Engineering Profile v1.1
+# work-order.md
 
-# Scope
+# Task
 
-This is a Pass 1 module-level document.
+Generate an Engineering Module Profile for the supplied module.
 
-Describe the supplied target module only.
+The profile should explain how the module fits within the OSkey platform and how it implements its architectural responsibilities.
 
-Do not attempt to produce a complete system architecture, workflow catalogue, or inter-module dependency map.
+Interpret the supplied engineering evidence using the architectural grounding documents.
 
-You may mention relationships to other modules only when directly evidenced, but do not expand them into full functional flows.
+Do not treat the AST evidence as isolated source code.
 
-The objective is to create one reliable module document that can later be used as input to a Pass 2 multi-module synthesis.
+Use the architecture, Firestore schema and RBAC context to understand the implementation before describing it.
 
-## 1. Evidence is the source of truth
+For each section of the required output listed below, evidence must be listed as concrete evidence items, not only source documents.
 
-Use the supplied input pack as the only source of truth.
+Prefer this format:
 
-Do not rely on memory, assumptions, or general knowledge about the OSkey platform unless that information is included in the supplied context.
+- Architecture: Building scope is the physical anchor for ACDs.
+- Service: OSKBuildingDoorService
+- Controller: OSKBuildingController.update
+- Method: createOrUpdateBuildingAccess
+- Firestore path: /buildings/{buildingId}/doors
+- Permission: v1.org.buildings.edit
+- Evidence artefact: building-evidence-graph.json
+- Architecture document: Oskey Architecture.md
 
-Do not ask for or assume access to the original TypeScript source code.
-
----
-
-## 2. Respect evidence authority tiers
-
-Treat supplied inputs according to the following authority order.
-
-### Tier 1 — Deterministic code evidence
-
-Examples:
-
-- module manifest
-- services artefact
-- controllers artefact
-- evidence artefact
-- evidence graph
-
-Use this as the highest authority for what the current codebase exposes.
-
-### Tier 2 — Deterministic schema, rules, and RBAC evidence
-
-Examples:
-
-- Firestore schema
-- Firestore security rules
-- RBAC / permissions reference if available
-
-Use this to ground data structures, collection paths, security boundaries, and permission relationships.
-
-### Tier 3 — Architecture grounding
-
-Examples:
-
-- OSkey Backend Services & Data Architecture
-- OSkey Architecture
-
-Use this to understand intended architecture, fan-out patterns, data replication, system boundaries, and known architectural context.
-
-These Architecture grounding documents may be stale or partially superseded. If it conflicts with Tier 1 or Tier 2 evidence, report the conflict instead of resolving it silently.
-
-### Tier 4 — Product or operating context
-
-Examples:
-
-- personas
-- authority models
-- feature maps
-- workflow documents
-
-Use only if supplied. Do not infer business workflows unless the supplied context directly supports them.
-
-### Tier 5 — Legacy generated documents
-
-Use legacy AI-generated outputs only as comparison material or historical context.
-
-Do not treat legacy generated documents as source-of-truth unless explicitly marked as approved.
 
 ---
 
-## 3. Separate fact, interpretation, and open questions
+# Required Output
 
-Clearly distinguish between:
+## 1. Executive Summary
 
-- confirmed evidence
-- reasonable interpretation
-- open questions
+Summarise the purpose of the module within the overall platform.
 
-Use cautious language when interpreting.
+## 2. Architectural Position
 
-Preferred wording:
+Describe where the module sits within the platform architecture.
 
-- "Evidence indicates..."
-- "The module appears to..."
-- "This likely represents..."
-- "Requires confirmation..."
-- "Architecture grounding suggests..."
+Identify:
 
-Avoid unsupported certainty.
+* parent scope
+* owned concepts
+* provided capabilities
+
+## 3. Primary Responsibilities
+
+Describe the responsibilities implemented by the module.
+
+Separate confirmed evidence from interpretation.
+
+## 4. Public Interfaces
+
+Summarise controllers, exported services and public entry points.
+
+## 5. Internal Structure
+
+Describe the internal decomposition into services, controllers and supporting components.
+
+## 6. Firestore & Data Ownership
+
+Describe Firestore persistence.
+
+Where possible distinguish between:
+
+- Primary persistence
+- Confirmed collection paths
+- Confirmed nested structures
+- Candidate denormalised structures
+- Candidate fan-out targets
+
+Do not claim ownership unless supported by architecture grounding.
+
+
+## 7. Permissions & Security
+
+Summarise permission evidence and security boundaries.
+
+Do not infer complete RBAC behaviour.
+
+## 8. Cross-Module Relationships
+
+Identify only relationships directly supported by the supplied evidence.
+
+Do not expand into workflow descriptions.
+
+## 9. External Hooks
+
+Identify candidate external boundaries.
+
+Clearly distinguish confirmed integrations from architectural candidates.
+
+## 10. Architectural Observations
+
+Describe architectural characteristics supported by evidence.
+
+Examples include:
+
+* separation of concerns
+* coupling
+* layering
+* orchestration
+* denormalisation
+* fan-out
+
+## 11. Risks & Open Questions
+
+Identify missing evidence, uncertainty and implementation questions.
+
+Do not answer them.
+
+## 12. Evidence References
+
+Reference the supporting evidence for significant observations.
+
+Use concrete references wherever possible.
 
 ---
 
-## 4. Do not invent business rules
+# Writing Style
 
-Do not infer business rules from method names alone.
-
-A business rule may only be stated as confirmed when supported by supplied evidence or approved grounding material.
-
-If a business rule is plausible but not confirmed, place it under open questions or mark it as interpretation.
-
----
-
-## 5. Treat external hooks as candidate boundaries
-
-Treat external hooks as candidate boundaries unless confirmed by supplied evidence.
-
-Do not claim that Android, iOS, intercom, middleware, hardware, IoT backend, or mobile applications consume a hook unless explicitly evidenced.
-
-If architecture grounding suggests an external relationship but the mapped repo evidence is missing, phrase it as:
-
-> "Architecture grounding suggests this may fan out to [system], but this remains a candidate boundary until the corresponding repo is mapped."
-
----
-
-## 6. Explain fan-out only when grounded
-
-Fan-out, cascading updates, denormalized writes, Pub/Sub events, Cloud Tasks, storage writes, and hardware synchronization may be described only when supported by supplied evidence.
-
-When describing fan-out, identify:
-
-- source service or method, if known
-- target collection, service, topic, or external system
-- confidence level
-- whether the evidence came from code evidence, schema/RBAC evidence, or architecture grounding
-
----
-
-## 7. Cite evidence concretely
-
-Every major section should include concrete evidence references where available.
-
-A concrete evidence reference should include at least one of:
-
-- source file path
-- line number
-- fact type
-- service name
-- controller name
-- method name
-- permission string
-- Firestore path
-- architecture-grounding document name
-
-Avoid vague phrases such as "the evidence shows" without naming the evidence.
-
----
-
-## 8. Preserve uncertainty and conflicts
-
-If evidence is incomplete, say so.
-
-If evidence sources conflict, do not hide the conflict.
-
-Use a clear conflict format:
-
-```md
-Conflict:
-- Tier 1 evidence indicates...
-- Architecture grounding suggests...
-- Resolution: requires human review.
-
-## 9. Do not generate delivery artefacts
-
-This task must not produce:
-
-- Atomic PRDs
-- Jira tickets
-- implementation plans
-- QA test suites
-- code changes
-- new feature designs
-
-The output is an engineering knowledge profile only.
-
-## 10. Keep the output human-readable
+Write as an experienced enterprise software architect documenting an existing production platform.
 
 Write for:
 
-- engineering leaders
-- product managers
-- developers joining the codebase
-- technical stakeholders
+* engineering leadership
+* product management
+* developers
+* solution architects
 
-Avoid dumping raw JSON unless necessary.
-
-Summarise evidence, but keep enough references for traceability.
-
-## 11. Required output structure
-
-The Module Engineering Profile must use this structure:
-
-- Module Summary
-- Primary Evidence
-- Services
-- Controllers
-- Firestore Evidence
-- Permissions
-- Cross-Module Dependencies
-- External Hooks / Candidate Boundaries
-- Fan-Out and Side Effects
-- Architectural Observations
-- Risks and Open Questions
-- Evidence References
+The output should improve engineering understanding rather than recommend design changes.

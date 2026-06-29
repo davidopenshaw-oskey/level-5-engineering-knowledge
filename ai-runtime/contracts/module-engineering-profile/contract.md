@@ -1,22 +1,135 @@
-# Required Inputs
+# contract.md
 
-## Mandatory Code Evidence
+# AI Task Contract
 
-- `{module}-manifest.json`
-- `{module}-services.json`
-- `{module}-controllers.json`
-- `{module}-evidence.json`
-- `{module}-evidence-graph.json`
+**Task:** Module Engineering Profile
 
-## Mandatory Grounding Evidence
+## Purpose
 
-- `firestore-schema.md`,
-- `firestore-indexes.json`,
-- `firestore-rules.txt`, 
-- `rbac-permissions.json`, if available
+Generate an evidence-backed Engineering Module Profile for a single OSkey module.
 
-## Mandatory Architecture Grounding
+The objective is to transform deterministic engineering evidence into a human-readable engineering document that accurately describes the module's responsibilities, structure and architectural role.
 
-- `OSkey Architecture.md`
-- `OSkey Backend Services & Data Architecture.md`
+This task is **Pass 1** of the Knowledge Pipeline.
 
+It documents **one module only**.
+
+It does **not** attempt to synthesise platform-wide behaviour, workflows or cross-repository interactions.
+
+Output the results into a markdown file called modulename-engineering-profile.md
+
+---
+
+# Runtime Instructions
+
+This document is the primary execution controller for this task.
+
+Read this document first.
+
+Follow the execution sequence exactly as defined.
+
+Do not begin generating the output until all required input artefacts have been reviewed.
+
+If any mandatory artefact is missing, state which artefact is missing before attempting the task.
+
+---
+
+# Execution Order
+
+The AI should process the supplied inputs in the following order.
+
+## Stage 1 — Build Architectural Context
+
+Read and understand the architectural grounding documents.
+
+These establish:
+
+* platform terminology
+* ownership boundaries
+* system architecture
+* data architecture
+* infrastructure concepts
+
+These documents define how the platform is intended to work.
+
+- Oskey Architecture.md
+- OSkey Backend Services & Data Architecture.md - this file may already be superceded. Only use it where information can be verified from AST proof
+
+
+---
+
+## Stage 2 — Build Data Context
+
+Read:
+
+* Firestore schema
+* Firestore rules
+* RBAC reference
+
+These define:
+
+* data ownership
+* collection hierarchy
+* security boundaries
+* permission model
+
+firestore-schema.md
+firestore.rules.txt
+firestore.indexes.json
+rbac-roles.json
+
+RBAC Roles
+- v1.admin roles are a work in progress and are not currently implemented
+- v1.org.admin roles are currently in production
+
+---
+
+## Stage 3 — Build Module Context
+
+Read the module evidence.
+
+Examples:
+
+* module manifest
+* services
+* controllers
+* evidence
+* evidence graph
+
+Use these artefacts to understand how this specific module implements its responsibilities.
+
+---
+
+## Stage 4 — Produce the Engineering Profile
+
+Generate the Module Engineering Profile using the supplied Output Schema.
+
+The profile should describe the current implementation.
+
+It should not redesign the system.
+
+---
+
+# Authority Order
+
+If multiple sources describe the same concept, use the following precedence.
+
+1. AST-derived engineering evidence
+2. Firestore schema and security rules
+3. RBAC reference
+4. Architecture documents
+5. Product or operating documentation
+
+If sources conflict, report the conflict rather than resolving it.
+
+---
+
+# Scope
+
+This task is limited to the supplied module.
+
+Cross-module relationships may be identified when directly evidenced.
+
+Do not synthesise platform workflows.
+
+Those are produced during a later Knowledge Pipeline stage.

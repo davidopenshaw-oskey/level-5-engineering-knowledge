@@ -1,1255 +1,1255 @@
 {
     "v1.admin": {
         "title": {
-            en: 'Super Admin',
-            fr: 'Super Administrateur',
+            "en": "Super Admin",
+            "fr": "Super Administrateur"
         },
-        description: {
-            en: 'v1.admin - Unrestricted administrative access',
-            fr: 'v1.admin - Accès administratif complet',
+        "description": {
+            "en": "v1.admin - Unrestricted administrative access",
+            "fr": "v1.admin - Accès administratif complet"
         },
-        parentCompositeRoles: [],
-        compositeRoles: {
-            'v1.admin.settings.admin': {
-                title: {
-                    en: 'Manage Settings (Admin)',
-                    fr: 'Gérer les Paramètres (Admin)',
+        "parentCompositeRoles": [],
+        "compositeRoles": {
+            "v1.admin.settings.admin": {
+                "title": {
+                    "en": "Manage Settings (Admin)",
+                    "fr": "Gérer les Paramètres (Admin)"
                 },
-                description: {
-                    en: 'v1.admin - Allows to view and edit platform settings',
-                    fr: 'v1.admin - Permet de consulter et modifier les paramètres de la plateforme',
+                "description": {
+                    "en": "v1.admin - Allows to view and edit platform settings",
+                    "fr": "v1.admin - Permet de consulter et modifier les paramètres de la plateforme"
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {
-                    'v1.admin.settings.role.admin': {
-                        title: {
-                            en: 'Manage Roles (Admin)',
-                            fr: 'Gérer les Rôles (Admin)',
+                "parentCompositeRoles": [],
+                "compositeRoles": {
+                    "v1.admin.settings.role.admin": {
+                        "title": {
+                            "en": "Manage Roles (Admin)",
+                            "fr": "Gérer les Rôles (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to create, edit, and delete user roles',
-                            fr: 'v1.admin - Permet de créer, modifier et supprimer les rôles utilisateurs',
+                        "description": {
+                            "en": "v1.admin - Allows to create, edit, and delete user roles",
+                            "fr": "v1.admin - Permet de créer, modifier et supprimer les rôles utilisateurs"
                         },
-                        parentCompositeRoles: [],
-                        compositeRoles: {},
-                        roles: {
-                            'v1.admin.settings.role.list': {
-                                title: {
-                                    en: 'List Roles (Admin)',
-                                    fr: 'Lister les Rôles (Admin)',
+                        "parentCompositeRoles": [],
+                        "compositeRoles": {},
+                        "roles": {
+                            "v1.admin.settings.role.list": {
+                                "title": {
+                                    "en": "List Roles (Admin)",
+                                    "fr": "Lister les Rôles (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to view the list of roles',
-                                    fr: 'v1.admin - Permet de consulter la liste des rôles',
+                                "description": {
+                                    "en": "v1.admin - Allows to view the list of roles",
+                                    "fr": "v1.admin - Permet de consulter la liste des rôles"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.settings.role.view': {
-                                title: {
-                                    en: 'View Role (Admin)',
-                                    fr: 'Consulter un Rôle (Admin)',
+                            "v1.admin.settings.role.view": {
+                                "title": {
+                                    "en": "View Role (Admin)",
+                                    "fr": "Consulter un Rôle (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to view the details of a role',
-                                    fr: "v1.admin - Permet de consulter les détails d'un rôle",
+                                "description": {
+                                    "en": "v1.admin - Allows to view the details of a role",
+                                    "fr": "v1.admin - Permet de consulter les détails d'un rôle"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.settings.role.create': {
-                                title: {
-                                    en: 'Create Role (Admin)',
-                                    fr: 'Créer un Rôle (Admin)',
+                            "v1.admin.settings.role.create": {
+                                "title": {
+                                    "en": "Create Role (Admin)",
+                                    "fr": "Créer un Rôle (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to create a new role',
-                                    fr: 'v1.admin - Permet de créer un nouveau rôle',
+                                "description": {
+                                    "en": "v1.admin - Allows to create a new role",
+                                    "fr": "v1.admin - Permet de créer un nouveau rôle"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.settings.role.edit': {
-                                title: {
-                                    en: 'Edit Role (Admin)',
-                                    fr: 'Modifier un Rôle (Admin)',
+                            "v1.admin.settings.role.edit": {
+                                "title": {
+                                    "en": "Edit Role (Admin)",
+                                    "fr": "Modifier un Rôle (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to edit an existing role',
-                                    fr: 'v1.admin - Permet de modifier un rôle existant',
+                                "description": {
+                                    "en": "v1.admin - Allows to edit an existing role",
+                                    "fr": "v1.admin - Permet de modifier un rôle existant"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.settings.role.delete': {
-                                title: {
-                                    en: 'Delete Role (Admin)',
-                                    fr: 'Supprimer un Rôle (Admin)',
+                            "v1.admin.settings.role.delete": {
+                                "title": {
+                                    "en": "Delete Role (Admin)",
+                                    "fr": "Supprimer un Rôle (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to delete a role',
-                                    fr: 'v1.admin - Permet de supprimer un rôle',
+                                "description": {
+                                    "en": "v1.admin - Allows to delete a role",
+                                    "fr": "v1.admin - Permet de supprimer un rôle"
                                 },
-                                parentCompositeRoles: [],
-                            },
-                        },
+                                "parentCompositeRoles": []
+                            }
+                        }
                     },
-                    'v1.admin.settings.workflow.admin': {
-                        title: {
-                            en: 'Manage Workflows (Admin)',
-                            fr: 'Gérer les Workflows (Admin)',
+                    "v1.admin.settings.workflow.admin": {
+                        "title": {
+                            "en": "Manage Workflows (Admin)",
+                            "fr": "Gérer les Workflows (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to create, edit, and delete workflows',
-                            fr: 'v1.admin - Permet de créer, modifier et supprimer les workflows',
+                        "description": {
+                            "en": "v1.admin - Allows to create, edit, and delete workflows",
+                            "fr": "v1.admin - Permet de créer, modifier et supprimer les workflows"
                         },
-                        parentCompositeRoles: [],
-                        compositeRoles: {},
-                        roles: {
-                            'v1.admin.settings.workflow.list': {
-                                title: {
-                                    en: 'List Workflows (Admin)',
-                                    fr: 'Lister les Workflows (Admin)',
+                        "parentCompositeRoles": [],
+                        "compositeRoles": {},
+                        "roles": {
+                            "v1.admin.settings.workflow.list": {
+                                "title": {
+                                    "en": "List Workflows (Admin)",
+                                    "fr": "Lister les Workflows (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to view the list of workflows',
-                                    fr: 'v1.admin - Permet de consulter la liste des workflows',
+                                "description": {
+                                    "en": "v1.admin - Allows to view the list of workflows",
+                                    "fr": "v1.admin - Permet de consulter la liste des workflows"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.settings.workflow.view': {
-                                title: {
-                                    en: 'View Workflow (Admin)',
-                                    fr: 'Consulter un Workflow (Admin)',
+                            "v1.admin.settings.workflow.view": {
+                                "title": {
+                                    "en": "View Workflow (Admin)",
+                                    "fr": "Consulter un Workflow (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to view the details of a workflow',
-                                    fr: "v1.admin - Permet de consulter les détails d'un workflow",
+                                "description": {
+                                    "en": "v1.admin - Allows to view the details of a workflow",
+                                    "fr": "v1.admin - Permet de consulter les détails d'un workflow"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.settings.workflow.create': {
-                                title: {
-                                    en: 'Create Workflow (Admin)',
-                                    fr: 'Créer un Workflow (Admin)',
+                            "v1.admin.settings.workflow.create": {
+                                "title": {
+                                    "en": "Create Workflow (Admin)",
+                                    "fr": "Créer un Workflow (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to create a new workflow',
-                                    fr: 'v1.admin - Permet de créer un nouveau workflow',
+                                "description": {
+                                    "en": "v1.admin - Allows to create a new workflow",
+                                    "fr": "v1.admin - Permet de créer un nouveau workflow"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.settings.workflow.edit': {
-                                title: {
-                                    en: 'Edit Workflow (Admin)',
-                                    fr: 'Modifier un Workflow (Admin)',
+                            "v1.admin.settings.workflow.edit": {
+                                "title": {
+                                    "en": "Edit Workflow (Admin)",
+                                    "fr": "Modifier un Workflow (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to edit an existing workflow',
-                                    fr: 'v1.admin - Permet de modifier un workflow existant',
+                                "description": {
+                                    "en": "v1.admin - Allows to edit an existing workflow",
+                                    "fr": "v1.admin - Permet de modifier un workflow existant"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.settings.workflow.delete': {
-                                title: {
-                                    en: 'Delete Workflow (Admin)',
-                                    fr: 'Supprimer un Workflow (Admin)',
+                            "v1.admin.settings.workflow.delete": {
+                                "title": {
+                                    "en": "Delete Workflow (Admin)",
+                                    "fr": "Supprimer un Workflow (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to delete a workflow',
-                                    fr: 'v1.admin - Permet de supprimer un workflow',
+                                "description": {
+                                    "en": "v1.admin - Allows to delete a workflow",
+                                    "fr": "v1.admin - Permet de supprimer un workflow"
                                 },
-                                parentCompositeRoles: [],
-                            },
-                        },
-                    },
+                                "parentCompositeRoles": []
+                            }
+                        }
+                    }
                 },
-                roles: {},
+                "roles": {}
             },
-            'v1.admin.org.admin': {
-                title: {
-                    en: 'Manage Organizations (Admin)',
-                    fr: 'Gérer les Organisations (Admin)',
+            "v1.admin.org.admin": {
+                "title": {
+                    "en": "Manage Organizations (Admin)",
+                    "fr": "Gérer les Organisations (Admin)"
                 },
-                description: {
-                    en: 'v1.admin - Allows to create, edit, delete, and validate organizations',
-                    fr: 'v1.admin - Permet de créer, modifier, supprimer et valider les organisations',
+                "description": {
+                    "en": "v1.admin - Allows to create, edit, delete, and validate organizations",
+                    "fr": "v1.admin - Permet de créer, modifier, supprimer et valider les organisations"
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.admin.org.list': {
-                        title: {
-                            en: 'List Organizations (Admin)',
-                            fr: 'Lister les Organisations (Admin)',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.admin.org.list": {
+                        "title": {
+                            "en": "List Organizations (Admin)",
+                            "fr": "Lister les Organisations (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view the list of organizations',
-                            fr: 'v1.admin - Permet de consulter la liste des organisations',
+                        "description": {
+                            "en": "v1.admin - Allows to view the list of organizations",
+                            "fr": "v1.admin - Permet de consulter la liste des organisations"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.org.view': {
-                        title: {
-                            en: 'View Organization (Admin)',
-                            fr: 'Consulter une Organisation (Admin)',
+                    "v1.admin.org.view": {
+                        "title": {
+                            "en": "View Organization (Admin)",
+                            "fr": "Consulter une Organisation (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view the details of an organization',
-                            fr: "v1.admin - Permet de consulter les détails d'une organisation",
+                        "description": {
+                            "en": "v1.admin - Allows to view the details of an organization",
+                            "fr": "v1.admin - Permet de consulter les détails d'une organisation"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.org.register': {
-                        title: {
-                            en: 'Register Organization (Admin)',
-                            fr: 'Enregistrer une Organisation (Admin)',
+                    "v1.admin.org.register": {
+                        "title": {
+                            "en": "Register Organization (Admin)",
+                            "fr": "Enregistrer une Organisation (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to register a new organization',
-                            fr: "v1.admin - Permet d'enregistrer une nouvelle organisation",
+                        "description": {
+                            "en": "v1.admin - Allows to register a new organization",
+                            "fr": "v1.admin - Permet d'enregistrer une nouvelle organisation"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.org.edit': {
-                        title: {
-                            en: 'Edit Organization (Admin)',
-                            fr: 'Modifier une Organisation (Admin)',
+                    "v1.admin.org.edit": {
+                        "title": {
+                            "en": "Edit Organization (Admin)",
+                            "fr": "Modifier une Organisation (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to edit an existing organization',
-                            fr: 'v1.admin - Permet de modifier une organisation existante',
+                        "description": {
+                            "en": "v1.admin - Allows to edit an existing organization",
+                            "fr": "v1.admin - Permet de modifier une organisation existante"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.org.delete': {
-                        title: {
-                            en: 'Delete Organization (Admin)',
-                            fr: 'Supprimer une Organisation (Admin)',
+                    "v1.admin.org.delete": {
+                        "title": {
+                            "en": "Delete Organization (Admin)",
+                            "fr": "Supprimer une Organisation (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to delete an organization',
-                            fr: 'v1.admin - Permet de supprimer une organisation',
+                        "description": {
+                            "en": "v1.admin - Allows to delete an organization",
+                            "fr": "v1.admin - Permet de supprimer une organisation"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.org.validate': {
-                        title: {
-                            en: 'Validate Organization (Admin)',
-                            fr: 'Valider une Organisation (Admin)',
+                    "v1.admin.org.validate": {
+                        "title": {
+                            "en": "Validate Organization (Admin)",
+                            "fr": "Valider une Organisation (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to validate a new organization',
-                            fr: 'v1.admin - Permet de valider une nouvelle organisation',
+                        "description": {
+                            "en": "v1.admin - Allows to validate a new organization",
+                            "fr": "v1.admin - Permet de valider une nouvelle organisation"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.admin.building.admin': {
-                title: {
-                    en: 'Manage Buildings (Admin)',
-                    fr: 'Gérer les Immeubles (Admin)',
+            "v1.admin.building.admin": {
+                "title": {
+                    "en": "Manage Buildings (Admin)",
+                    "fr": "Gérer les Immeubles (Admin)"
                 },
-                description: {
-                    en: 'v1.admin - Allows to create, edit, delete, and validate buildings',
-                    fr: 'v1.admin - Permet de créer, modifier, supprimer et valider les immeubles',
+                "description": {
+                    "en": "v1.admin - Allows to create, edit, delete, and validate buildings",
+                    "fr": "v1.admin - Permet de créer, modifier, supprimer et valider les immeubles"
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.admin.building.list': {
-                        title: {
-                            en: 'List Buildings (Admin)',
-                            fr: 'Lister les Immeubles (Admin)',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.admin.building.list": {
+                        "title": {
+                            "en": "List Buildings (Admin)",
+                            "fr": "Lister les Immeubles (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view the list of buildings',
-                            fr: 'v1.admin - Permet de consulter la liste des immeubles',
+                        "description": {
+                            "en": "v1.admin - Allows to view the list of buildings",
+                            "fr": "v1.admin - Permet de consulter la liste des immeubles"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.building.view': {
-                        title: {
-                            en: 'View Building (Admin)',
-                            fr: 'Consulter un Immeuble (Admin)',
+                    "v1.admin.building.view": {
+                        "title": {
+                            "en": "View Building (Admin)",
+                            "fr": "Consulter un Immeuble (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view the details of a building',
-                            fr: "v1.admin - Permet de consulter les détails d'un immeuble",
+                        "description": {
+                            "en": "v1.admin - Allows to view the details of a building",
+                            "fr": "v1.admin - Permet de consulter les détails d'un immeuble"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.building.register': {
-                        title: {
-                            en: 'Register Building (Admin)',
-                            fr: 'Enregistrer un Immeuble (Admin)',
+                    "v1.admin.building.register": {
+                        "title": {
+                            "en": "Register Building (Admin)",
+                            "fr": "Enregistrer un Immeuble (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to register a new building',
-                            fr: "v1.admin - Permet d'enregistrer un nouvel immeuble",
+                        "description": {
+                            "en": "v1.admin - Allows to register a new building",
+                            "fr": "v1.admin - Permet d'enregistrer un nouvel immeuble"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.building.edit': {
-                        title: {
-                            en: 'Edit Building (Admin)',
-                            fr: 'Modifier un Immeuble (Admin)',
+                    "v1.admin.building.edit": {
+                        "title": {
+                            "en": "Edit Building (Admin)",
+                            "fr": "Modifier un Immeuble (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to edit an existing building',
-                            fr: 'v1.admin - Permet de modifier un immeuble existant',
+                        "description": {
+                            "en": "v1.admin - Allows to edit an existing building",
+                            "fr": "v1.admin - Permet de modifier un immeuble existant"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.building.delete': {
-                        title: {
-                            en: 'Delete Building (Admin)',
-                            fr: 'Supprimer un Immeuble (Admin)',
+                    "v1.admin.building.delete": {
+                        "title": {
+                            "en": "Delete Building (Admin)",
+                            "fr": "Supprimer un Immeuble (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to delete a building',
-                            fr: 'v1.admin - Permet de supprimer un immeuble',
+                        "description": {
+                            "en": "v1.admin - Allows to delete a building",
+                            "fr": "v1.admin - Permet de supprimer un immeuble"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.building.validate': {
-                        title: {
-                            en: 'Validate Building (Admin)',
-                            fr: 'Valider un Immeuble (Admin)',
+                    "v1.admin.building.validate": {
+                        "title": {
+                            "en": "Validate Building (Admin)",
+                            "fr": "Valider un Immeuble (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to validate a new building',
-                            fr: 'v1.admin - Permet de valider un nouvel immeuble',
+                        "description": {
+                            "en": "v1.admin - Allows to validate a new building",
+                            "fr": "v1.admin - Permet de valider un nouvel immeuble"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.admin.accessControlDevice.admin': {
-                title: {
-                    en: 'Manage Access Control Devices (Admin)',
-                    fr: "Gérer les Dispositifs de Contrôle d'Accès (Admin)",
+            "v1.admin.accessControlDevice.admin": {
+                "title": {
+                    "en": "Manage Access Control Devices (Admin)",
+                    "fr": "Gérer les Dispositifs de Contrôle d'Accès (Admin)"
                 },
-                description: {
-                    en: 'v1.admin - Allows to create, edit, and delete access control devices',
-                    fr: "v1.admin - Permet de créer, modifier et supprimer les dispositifs de contrôle d'accès",
+                "description": {
+                    "en": "v1.admin - Allows to create, edit, and delete access control devices",
+                    "fr": "v1.admin - Permet de créer, modifier et supprimer les dispositifs de contrôle d'accès"
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.admin.accessControlDevice.list': {
-                        title: {
-                            en: 'List Access Control Devices (Admin)',
-                            fr: "Lister les Dispositifs de Contrôle d'Accès (Admin)",
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.admin.accessControlDevice.list": {
+                        "title": {
+                            "en": "List Access Control Devices (Admin)",
+                            "fr": "Lister les Dispositifs de Contrôle d'Accès (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view the list of access control devices',
-                            fr: "v1.admin - Permet de consulter la liste des dispositifs de contrôle d'accès",
+                        "description": {
+                            "en": "v1.admin - Allows to view the list of access control devices",
+                            "fr": "v1.admin - Permet de consulter la liste des dispositifs de contrôle d'accès"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.accessControlDevice.view': {
-                        title: {
-                            en: 'View Access Control Device (Admin)',
-                            fr: "Consulter un Dispositif de Contrôle d'Accès (Admin)",
+                    "v1.admin.accessControlDevice.view": {
+                        "title": {
+                            "en": "View Access Control Device (Admin)",
+                            "fr": "Consulter un Dispositif de Contrôle d'Accès (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view the details of an access control device',
-                            fr: "v1.admin - Permet de consulter les détails d'un dispositif de contrôle d'accès",
+                        "description": {
+                            "en": "v1.admin - Allows to view the details of an access control device",
+                            "fr": "v1.admin - Permet de consulter les détails d'un dispositif de contrôle d'accès"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.accessControlDevice.register': {
-                        title: {
-                            en: 'Register Access Control Device (Admin)',
-                            fr: "Enregistrer un Dispositif de Contrôle d'Accès (Admin)",
+                    "v1.admin.accessControlDevice.register": {
+                        "title": {
+                            "en": "Register Access Control Device (Admin)",
+                            "fr": "Enregistrer un Dispositif de Contrôle d'Accès (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to register a new access control device',
-                            fr: "v1.admin - Permet d'enregistrer un nouveau dispositif de contrôle d'accès",
+                        "description": {
+                            "en": "v1.admin - Allows to register a new access control device",
+                            "fr": "v1.admin - Permet d'enregistrer un nouveau dispositif de contrôle d'accès"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.accessControlDevice.edit': {
-                        title: {
-                            en: 'Edit Access Control Device (Admin)',
-                            fr: "Modifier un Dispositif de Contrôle d'Accès (Admin)",
+                    "v1.admin.accessControlDevice.edit": {
+                        "title": {
+                            "en": "Edit Access Control Device (Admin)",
+                            "fr": "Modifier un Dispositif de Contrôle d'Accès (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to edit an existing access control device',
-                            fr: "v1.admin - Permet de modifier un dispositif de contrôle d'accès existant",
+                        "description": {
+                            "en": "v1.admin - Allows to edit an existing access control device",
+                            "fr": "v1.admin - Permet de modifier un dispositif de contrôle d'accès existant"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.accessControlDevice.delete': {
-                        title: {
-                            en: 'Delete Access Control Device (Admin)',
-                            fr: "Supprimer un Dispositif de Contrôle d'Accès (Admin)",
+                    "v1.admin.accessControlDevice.delete": {
+                        "title": {
+                            "en": "Delete Access Control Device (Admin)",
+                            "fr": "Supprimer un Dispositif de Contrôle d'Accès (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to delete an access control device',
-                            fr: "v1.admin - Permet de supprimer un dispositif de contrôle d'accès",
+                        "description": {
+                            "en": "v1.admin - Allows to delete an access control device",
+                            "fr": "v1.admin - Permet de supprimer un dispositif de contrôle d'accès"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.admin.user.admin': {
-                title: {
-                    en: 'Manage Users (Admin)',
-                    fr: 'Gérer les Utilisateurs (Admin)',
+            "v1.admin.user.admin": {
+                "title": {
+                    "en": "Manage Users (Admin)",
+                    "fr": "Gérer les Utilisateurs (Admin)"
                 },
-                description: {
-                    en: 'v1.admin - Allows to edit, delete, and manage user devices, invitations, and accesses',
-                    fr: 'v1.admin - Permet de modifier, supprimer et gérer les appareils, invitations et accès des utilisateurs',
+                "description": {
+                    "en": "v1.admin - Allows to edit, delete, and manage user devices, invitations, and accesses",
+                    "fr": "v1.admin - Permet de modifier, supprimer et gérer les appareils, invitations et accès des utilisateurs"
                 },
-                compositeRoles: {
-                    'v1.admin.user.devices.admin': {
-                        title: {
-                            en: 'Manage User Devices (Admin)',
-                            fr: 'Gérer les Appareils Utilisateur (Admin)',
+                "compositeRoles": {
+                    "v1.admin.user.devices.admin": {
+                        "title": {
+                            "en": "Manage User Devices (Admin)",
+                            "fr": "Gérer les Appareils Utilisateur (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view, edit, and delete user devices',
-                            fr: 'v1.admin - Permet de consulter, modifier et supprimer les appareils des utilisateurs',
+                        "description": {
+                            "en": "v1.admin - Allows to view, edit, and delete user devices",
+                            "fr": "v1.admin - Permet de consulter, modifier et supprimer les appareils des utilisateurs"
                         },
-                        compositeRoles: {},
-                        parentCompositeRoles: [],
-                        roles: {
-                            'v1.admin.user.devices.list': {
-                                title: {
-                                    en: 'List User Devices (Admin)',
-                                    fr: 'Lister les Appareils Utilisateur (Admin)',
+                        "compositeRoles": {},
+                        "parentCompositeRoles": [],
+                        "roles": {
+                            "v1.admin.user.devices.list": {
+                                "title": {
+                                    "en": "List User Devices (Admin)",
+                                    "fr": "Lister les Appareils Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to view the list of user devices',
-                                    fr: 'v1.admin - Permet de consulter la liste des appareils des utilisateurs',
+                                "description": {
+                                    "en": "v1.admin - Allows to view the list of user devices",
+                                    "fr": "v1.admin - Permet de consulter la liste des appareils des utilisateurs"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.user.devices.view': {
-                                title: {
-                                    en: 'View User Device (Admin)',
-                                    fr: 'Consulter un Appareil Utilisateur (Admin)',
+                            "v1.admin.user.devices.view": {
+                                "title": {
+                                    "en": "View User Device (Admin)",
+                                    "fr": "Consulter un Appareil Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to view the details of a user device',
-                                    fr: "v1.admin - Permet de consulter les détails d'un appareil utilisateur",
+                                "description": {
+                                    "en": "v1.admin - Allows to view the details of a user device",
+                                    "fr": "v1.admin - Permet de consulter les détails d'un appareil utilisateur"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.user.devices.edit': {
-                                title: {
-                                    en: 'Edit User Device (Admin)',
-                                    fr: 'Modifier un Appareil Utilisateur (Admin)',
+                            "v1.admin.user.devices.edit": {
+                                "title": {
+                                    "en": "Edit User Device (Admin)",
+                                    "fr": "Modifier un Appareil Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to edit a user device',
-                                    fr: "v1.admin - Permet de modifier l'appareil d'un utilisateur",
+                                "description": {
+                                    "en": "v1.admin - Allows to edit a user device",
+                                    "fr": "v1.admin - Permet de modifier l'appareil d'un utilisateur"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.user.devices.delete': {
-                                title: {
-                                    en: 'Delete User Device (Admin)',
-                                    fr: 'Supprimer un Appareil Utilisateur (Admin)',
+                            "v1.admin.user.devices.delete": {
+                                "title": {
+                                    "en": "Delete User Device (Admin)",
+                                    "fr": "Supprimer un Appareil Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to delete a user device',
-                                    fr: "v1.admin - Permet de supprimer l'appareil d'un utilisateur",
+                                "description": {
+                                    "en": "v1.admin - Allows to delete a user device",
+                                    "fr": "v1.admin - Permet de supprimer l'appareil d'un utilisateur"
                                 },
-                                parentCompositeRoles: [],
-                            },
-                        },
+                                "parentCompositeRoles": []
+                            }
+                        }
                     },
-                    'v1.admin.user.invitations.admin': {
-                        title: {
-                            en: 'Manage User Invitations (Admin)',
-                            fr: 'Gérer les Invitations Utilisateur (Admin)',
+                    "v1.admin.user.invitations.admin": {
+                        "title": {
+                            "en": "Manage User Invitations (Admin)",
+                            "fr": "Gérer les Invitations Utilisateur (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view and delete user invitations',
-                            fr: 'v1.admin - Permet de consulter et supprimer les invitations des utilisateurs',
+                        "description": {
+                            "en": "v1.admin - Allows to view and delete user invitations",
+                            "fr": "v1.admin - Permet de consulter et supprimer les invitations des utilisateurs"
                         },
-                        compositeRoles: {},
-                        parentCompositeRoles: [],
-                        roles: {
-                            'v1.admin.user.invitations.list': {
-                                title: {
-                                    en: 'List User Invitations (Admin)',
-                                    fr: 'Lister les Invitations Utilisateur (Admin)',
+                        "compositeRoles": {},
+                        "parentCompositeRoles": [],
+                        "roles": {
+                            "v1.admin.user.invitations.list": {
+                                "title": {
+                                    "en": "List User Invitations (Admin)",
+                                    "fr": "Lister les Invitations Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to view the list of user invitations',
-                                    fr: 'v1.admin - Permet de consulter la liste des invitations des utilisateurs',
+                                "description": {
+                                    "en": "v1.admin - Allows to view the list of user invitations",
+                                    "fr": "v1.admin - Permet de consulter la liste des invitations des utilisateurs"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.user.invitations.view': {
-                                title: {
-                                    en: 'View User Invitation (Admin)',
-                                    fr: 'Consulter une Invitation Utilisateur (Admin)',
+                            "v1.admin.user.invitations.view": {
+                                "title": {
+                                    "en": "View User Invitation (Admin)",
+                                    "fr": "Consulter une Invitation Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to view the details of a user invitation',
-                                    fr: "v1.admin - Permet de consulter les détails d'une invitation utilisateur",
+                                "description": {
+                                    "en": "v1.admin - Allows to view the details of a user invitation",
+                                    "fr": "v1.admin - Permet de consulter les détails d'une invitation utilisateur"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.user.invitations.delete': {
-                                title: {
-                                    en: 'Delete User Invitation (Admin)',
-                                    fr: 'Supprimer une Invitation Utilisateur (Admin)',
+                            "v1.admin.user.invitations.delete": {
+                                "title": {
+                                    "en": "Delete User Invitation (Admin)",
+                                    "fr": "Supprimer une Invitation Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to delete a user invitation',
-                                    fr: "v1.admin - Permet de supprimer l'invitation d'un utilisateur",
+                                "description": {
+                                    "en": "v1.admin - Allows to delete a user invitation",
+                                    "fr": "v1.admin - Permet de supprimer l'invitation d'un utilisateur"
                                 },
-                                parentCompositeRoles: [],
-                            },
-                        },
+                                "parentCompositeRoles": []
+                            }
+                        }
                     },
-                    'v1.admin.user.accesses.admin': {
-                        title: {
-                            en: 'Manage User Accesses (Admin)',
-                            fr: 'Gérer les Accès Utilisateur (Admin)',
+                    "v1.admin.user.accesses.admin": {
+                        "title": {
+                            "en": "Manage User Accesses (Admin)",
+                            "fr": "Gérer les Accès Utilisateur (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view, create, and delete user accesses',
-                            fr: 'v1.admin - Permet de consulter, créer et supprimer les accès des utilisateurs',
+                        "description": {
+                            "en": "v1.admin - Allows to view, create, and delete user accesses",
+                            "fr": "v1.admin - Permet de consulter, créer et supprimer les accès des utilisateurs"
                         },
-                        compositeRoles: {},
-                        parentCompositeRoles: [],
-                        roles: {
-                            'v1.admin.user.accesses.list': {
-                                title: {
-                                    en: 'List User Accesses (Admin)',
-                                    fr: 'Lister les Accès Utilisateur (Admin)',
+                        "compositeRoles": {},
+                        "parentCompositeRoles": [],
+                        "roles": {
+                            "v1.admin.user.accesses.list": {
+                                "title": {
+                                    "en": "List User Accesses (Admin)",
+                                    "fr": "Lister les Accès Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to view the list of user accesses',
-                                    fr: 'v1.admin - Permet de consulter la liste des accès des utilisateurs',
+                                "description": {
+                                    "en": "v1.admin - Allows to view the list of user accesses",
+                                    "fr": "v1.admin - Permet de consulter la liste des accès des utilisateurs"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.user.accesses.view': {
-                                title: {
-                                    en: 'View User Access (Admin)',
-                                    fr: 'Consulter un Accès Utilisateur (Admin)',
+                            "v1.admin.user.accesses.view": {
+                                "title": {
+                                    "en": "View User Access (Admin)",
+                                    "fr": "Consulter un Accès Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to view the details of a user access',
-                                    fr: "v1.admin - Permet de consulter les détails d'un accès utilisateur",
+                                "description": {
+                                    "en": "v1.admin - Allows to view the details of a user access",
+                                    "fr": "v1.admin - Permet de consulter les détails d'un accès utilisateur"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.user.accesses.create': {
-                                title: {
-                                    en: 'Create User Access (Admin)',
-                                    fr: 'Créer un Accès Utilisateur (Admin)',
+                            "v1.admin.user.accesses.create": {
+                                "title": {
+                                    "en": "Create User Access (Admin)",
+                                    "fr": "Créer un Accès Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to create a user access',
-                                    fr: 'v1.admin - Permet de créer un accès pour un utilisateur',
+                                "description": {
+                                    "en": "v1.admin - Allows to create a user access",
+                                    "fr": "v1.admin - Permet de créer un accès pour un utilisateur"
                                 },
-                                parentCompositeRoles: [],
+                                "parentCompositeRoles": []
                             },
-                            'v1.admin.user.accesses.delete': {
-                                title: {
-                                    en: 'Delete User Access (Admin)',
-                                    fr: 'Supprimer un Accès Utilisateur (Admin)',
+                            "v1.admin.user.accesses.delete": {
+                                "title": {
+                                    "en": "Delete User Access (Admin)",
+                                    "fr": "Supprimer un Accès Utilisateur (Admin)"
                                 },
-                                description: {
-                                    en: 'v1.admin - Allows to delete a user access',
-                                    fr: "v1.admin - Permet de supprimer l'accès d'un utilisateur",
+                                "description": {
+                                    "en": "v1.admin - Allows to delete a user access",
+                                    "fr": "v1.admin - Permet de supprimer l'accès d'un utilisateur"
                                 },
-                                parentCompositeRoles: [],
-                            },
-                        },
-                    },
+                                "parentCompositeRoles": []
+                            }
+                        }
+                    }
                 },
-                parentCompositeRoles: [],
-                roles: {
-                    'v1.admin.user.list': {
-                        title: {
-                            en: 'List Users (Admin)',
-                            fr: 'Lister les Utilisateurs (Admin)',
+                "parentCompositeRoles": [],
+                "roles": {
+                    "v1.admin.user.list": {
+                        "title": {
+                            "en": "List Users (Admin)",
+                            "fr": "Lister les Utilisateurs (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view the list of all users',
-                            fr: 'v1.admin - Permet de consulter la liste de tous les utilisateurs',
+                        "description": {
+                            "en": "v1.admin - Allows to view the list of all users",
+                            "fr": "v1.admin - Permet de consulter la liste de tous les utilisateurs"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.user.view': {
-                        title: {
-                            en: 'View User (Admin)',
-                            fr: 'Consulter un Utilisateur (Admin)',
+                    "v1.admin.user.view": {
+                        "title": {
+                            "en": "View User (Admin)",
+                            "fr": "Consulter un Utilisateur (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to view the details of a user',
-                            fr: "v1.admin - Permet de consulter les détails d'un utilisateur",
+                        "description": {
+                            "en": "v1.admin - Allows to view the details of a user",
+                            "fr": "v1.admin - Permet de consulter les détails d'un utilisateur"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.user.edit': {
-                        title: {
-                            en: 'Edit User (Admin)',
-                            fr: 'Modifier un Utilisateur (Admin)',
+                    "v1.admin.user.edit": {
+                        "title": {
+                            "en": "Edit User (Admin)",
+                            "fr": "Modifier un Utilisateur (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to edit a user',
-                            fr: 'v1.admin - Permet de modifier un utilisateur',
+                        "description": {
+                            "en": "v1.admin - Allows to edit a user",
+                            "fr": "v1.admin - Permet de modifier un utilisateur"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.admin.user.delete': {
-                        title: {
-                            en: 'Delete User (Admin)',
-                            fr: 'Supprimer un Utilisateur (Admin)',
+                    "v1.admin.user.delete": {
+                        "title": {
+                            "en": "Delete User (Admin)",
+                            "fr": "Supprimer un Utilisateur (Admin)"
                         },
-                        description: {
-                            en: 'v1.admin - Allows to delete a user',
-                            fr: 'v1.admin - Permet de supprimer un utilisateur',
+                        "description": {
+                            "en": "v1.admin - Allows to delete a user",
+                            "fr": "v1.admin - Permet de supprimer un utilisateur"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
-            },
+                        "parentCompositeRoles": []
+                    }
+                }
+            }
         },
-        roles: {},
+        "roles": {}
     },
-    'v1.org.admin': {
-        title: {
-            en: 'Manage Entire Organization',
-            fr: "Gérer toute l'organisation",
+    "v1.org.admin": {
+        "title": {
+            "en": "Manage Entire Organization",
+            "fr": "Gérer toute l'organisation"
         },
-        description: {
-            en: 'Grants full access to the organization. Enable or disable this permission to select/deselect all other permissions.',
-            fr: "Permet de donner un accès complet à l'organisation. Activez ou désactivez cette permission pour sélectionner/désélectionner toutes les autres.",
+        "description": {
+            "en": "Grants full access to the organization. Enable or disable this permission to select/deselect all other permissions.",
+            "fr": "Permet de donner un accès complet à l'organisation. Activez ou désactivez cette permission pour sélectionner/désélectionner toutes les autres."
         },
-        parentCompositeRoles: [],
-        compositeRoles: {
-            'v1.org.user.admin': {
-                title: {
-                    en: 'Manage Oskey Management Portal Users',
-                    fr: 'Gérer les Utilisateurs du Portail de Gestion Oskey',
+        "parentCompositeRoles": [],
+        "compositeRoles": {
+            "v1.org.user.admin": {
+                "title": {
+                    "en": "Manage Oskey Management Portal Users",
+                    "fr": "Gérer les Utilisateurs du Portail de Gestion Oskey"
                 },
-                description: {
-                    en: 'Allows to create new users, view their accounts, edit them, and delete them.',
-                    fr: 'Permet de créer de nouveaux utilisateurs, de consulter leurs informations, de les modifier et de les supprimer.',
+                "description": {
+                    "en": "Allows to create new users, view their accounts, edit them, and delete them.",
+                    "fr": "Permet de créer de nouveaux utilisateurs, de consulter leurs informations, de les modifier et de les supprimer."
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.org.user.list': {
-                        title: {
-                            en: 'List Portal Users',
-                            fr: 'Lister les Utilisateurs du Portail',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.org.user.list": {
+                        "title": {
+                            "en": "List Portal Users",
+                            "fr": "Lister les Utilisateurs du Portail"
                         },
-                        description: {
-                            en: 'Allows to view the list of Oskey Property Management Portal users',
-                            fr: 'Permet de consulter la liste des utilisateurs du Portail de Gestion Oskey',
+                        "description": {
+                            "en": "Allows to view the list of Oskey Property Management Portal users",
+                            "fr": "Permet de consulter la liste des utilisateurs du Portail de Gestion Oskey"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.user.view': {
-                        title: {
-                            en: 'View Portal User',
-                            fr: 'Consulter un Utilisateur du Portail',
+                    "v1.org.user.view": {
+                        "title": {
+                            "en": "View Portal User",
+                            "fr": "Consulter un Utilisateur du Portail"
                         },
-                        description: {
-                            en: 'Allows to view the details of an Oskey Property Management Portal user',
-                            fr: "Permet de consulter les détails d'un utilisateur du Portail de Gestion Oskey",
+                        "description": {
+                            "en": "Allows to view the details of an Oskey Property Management Portal user",
+                            "fr": "Permet de consulter les détails d'un utilisateur du Portail de Gestion Oskey"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.user.create': {
-                        title: {
-                            en: 'Add Portal User',
-                            fr: 'Ajouter un Utilisateur au Portail',
+                    "v1.org.user.create": {
+                        "title": {
+                            "en": "Add Portal User",
+                            "fr": "Ajouter un Utilisateur au Portail"
                         },
-                        description: {
-                            en: 'Allows to add a new user to the Oskey Property Management Portal',
-                            fr: "Permet d'ajouter un nouvel utilisateur au Portail de Gestion Oskey",
+                        "description": {
+                            "en": "Allows to add a new user to the Oskey Property Management Portal",
+                            "fr": "Permet d'ajouter un nouvel utilisateur au Portail de Gestion Oskey"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.user.edit': {
-                        title: {
-                            en: 'Edit Portal User',
-                            fr: 'Modifier un Utilisateur du Portail',
+                    "v1.org.user.edit": {
+                        "title": {
+                            "en": "Edit Portal User",
+                            "fr": "Modifier un Utilisateur du Portail"
                         },
-                        description: {
-                            en: "Allows to edit a user's information on the Oskey Property Management Portal",
-                            fr: "Permet de modifier les informations d'un utilisateur du Portail de Gestion Oskey",
+                        "description": {
+                            "en": "Allows to edit a user's information on the Oskey Property Management Portal",
+                            "fr": "Permet de modifier les informations d'un utilisateur du Portail de Gestion Oskey"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.user.delete': {
-                        title: {
-                            en: 'Delete Portal User',
-                            fr: 'Supprimer un Utilisateur du Portail',
+                    "v1.org.user.delete": {
+                        "title": {
+                            "en": "Delete Portal User",
+                            "fr": "Supprimer un Utilisateur du Portail"
                         },
-                        description: {
-                            en: 'Allows to delete an Oskey Property Management Portal user',
-                            fr: 'Permet de supprimer un utilisateur du Portail de Gestion Oskey',
+                        "description": {
+                            "en": "Allows to delete an Oskey Property Management Portal user",
+                            "fr": "Permet de supprimer un utilisateur du Portail de Gestion Oskey"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.org.residents.onboardingNotification': {
-                title: {
-                    en: 'Manage Resident Notifications',
-                    fr: 'Gérer les Notifications Résidents',
+            "v1.org.residents.onboardingNotification": {
+                "title": {
+                    "en": "Manage Resident Notifications",
+                    "fr": "Gérer les Notifications Résidents"
                 },
-                description: {
-                    en: 'Allows to activate email notifications for new resident registrations.',
-                    fr: "Permet d'activer les notifications par email pour l'enregistrement des nouveaux résidents.",
+                "description": {
+                    "en": "Allows to activate email notifications for new resident registrations.",
+                    "fr": "Permet d'activer les notifications par email pour l'enregistrement des nouveaux résidents."
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.org.residents.onboardingNotification': {
-                        title: {
-                            en: 'Receive Resident Notifications',
-                            fr: 'Recevoir les Notifications Résidents',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.org.residents.onboardingNotification": {
+                        "title": {
+                            "en": "Receive Resident Notifications",
+                            "fr": "Recevoir les Notifications Résidents"
                         },
-                        description: {
-                            en: 'Activates email notifications for new resident registrations.',
-                            fr: "Active la réception des notifications par email pour l'enregistrement des nouveaux résidents.",
+                        "description": {
+                            "en": "Activates email notifications for new resident registrations.",
+                            "fr": "Active la réception des notifications par email pour l'enregistrement des nouveaux résidents."
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.org.entity.admin': {
-                title: {
-                    en: 'Manage Entities',
-                    fr: 'Gérer les Entités',
+            "v1.org.entity.admin": {
+                "title": {
+                    "en": "Manage Entities",
+                    "fr": "Gérer les Entités"
                 },
-                description: {
-                    en: 'Allows to create new entities, view their information, edit them, and delete them.',
-                    fr: "Permet de créer de nouvelles entités pour l'organisation, de consulter leurs informations, de les modifier et de les supprimer.",
+                "description": {
+                    "en": "Allows to create new entities, view their information, edit them, and delete them.",
+                    "fr": "Permet de créer de nouvelles entités pour l'organisation, de consulter leurs informations, de les modifier et de les supprimer."
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.org.entity.list': {
-                        title: {
-                            en: 'List Entities',
-                            fr: 'Lister les Entités',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.org.entity.list": {
+                        "title": {
+                            "en": "List Entities",
+                            "fr": "Lister les Entités"
                         },
-                        description: {
-                            en: 'Allows to view the list of entities',
-                            fr: 'Permet de consulter la liste des entités',
+                        "description": {
+                            "en": "Allows to view the list of entities",
+                            "fr": "Permet de consulter la liste des entités"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.entity.view': {
-                        title: {
-                            en: 'View Entity',
-                            fr: 'Consulter une Entité',
+                    "v1.org.entity.view": {
+                        "title": {
+                            "en": "View Entity",
+                            "fr": "Consulter une Entité"
                         },
-                        description: {
-                            en: 'Allows to view the details of an entity',
-                            fr: "Permet de consulter les détails d'une entité",
+                        "description": {
+                            "en": "Allows to view the details of an entity",
+                            "fr": "Permet de consulter les détails d'une entité"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.entity.create': {
-                        title: {
-                            en: 'Create Entity',
-                            fr: 'Créer une Entité',
+                    "v1.org.entity.create": {
+                        "title": {
+                            "en": "Create Entity",
+                            "fr": "Créer une Entité"
                         },
-                        description: {
-                            en: 'Allows to create a new entity',
-                            fr: 'Permet de créer une nouvelle entité',
+                        "description": {
+                            "en": "Allows to create a new entity",
+                            "fr": "Permet de créer une nouvelle entité"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.entity.edit': {
-                        title: {
-                            en: 'Edit Entity',
-                            fr: 'Modifier une Entité',
+                    "v1.org.entity.edit": {
+                        "title": {
+                            "en": "Edit Entity",
+                            "fr": "Modifier une Entité"
                         },
-                        description: {
-                            en: "Allows to edit an entity's information",
-                            fr: "Permet de modifier les informations d'une entité",
+                        "description": {
+                            "en": "Allows to edit an entity's information",
+                            "fr": "Permet de modifier les informations d'une entité"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.entity.delete': {
-                        title: {
-                            en: 'Delete Entity',
-                            fr: 'Supprimer une Entité',
+                    "v1.org.entity.delete": {
+                        "title": {
+                            "en": "Delete Entity",
+                            "fr": "Supprimer une Entité"
                         },
-                        description: {
-                            en: 'Allows to delete an entity',
-                            fr: 'Permet de supprimer une entité',
+                        "description": {
+                            "en": "Allows to delete an entity",
+                            "fr": "Permet de supprimer une entité"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.org.settings.admin': {
-                title: {
-                    en: 'Manage Building Rules',
-                    fr: 'Gérer les Règles de Gestion',
+            "v1.org.settings.admin": {
+                "title": {
+                    "en": "Manage Building Rules",
+                    "fr": "Gérer les Règles de Gestion"
                 },
-                description: {
-                    en: 'Allows to view and edit building management rules.',
-                    fr: 'Permet de consulter et modifier les règles de gestion des immeubles.',
+                "description": {
+                    "en": "Allows to view and edit building management rules.",
+                    "fr": "Permet de consulter et modifier les règles de gestion des immeubles."
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.org.settings.list': {
-                        title: {
-                            en: 'List Management Rules',
-                            fr: 'Lister les Règles de Gestion',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.org.settings.list": {
+                        "title": {
+                            "en": "List Management Rules",
+                            "fr": "Lister les Règles de Gestion"
                         },
-                        description: {
-                            en: 'Allows to view the list of management rules',
-                            fr: 'Permet de consulter la liste des règles de gestion',
+                        "description": {
+                            "en": "Allows to view the list of management rules",
+                            "fr": "Permet de consulter la liste des règles de gestion"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.settings.view': {
-                        title: {
-                            en: 'View Management Rule',
-                            fr: 'Consulter une Règle de Gestion',
+                    "v1.org.settings.view": {
+                        "title": {
+                            "en": "View Management Rule",
+                            "fr": "Consulter une Règle de Gestion"
                         },
-                        description: {
-                            en: 'Allows to view the details of a management rule',
-                            fr: "Permet de consulter les détails d'une règle de gestion",
+                        "description": {
+                            "en": "Allows to view the details of a management rule",
+                            "fr": "Permet de consulter les détails d'une règle de gestion"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.settings.create': {
-                        title: {
-                            en: 'Create Management Rule',
-                            fr: 'Créer une Règle de Gestion',
+                    "v1.org.settings.create": {
+                        "title": {
+                            "en": "Create Management Rule",
+                            "fr": "Créer une Règle de Gestion"
                         },
-                        description: {
-                            en: 'Allows to create a new management rule',
-                            fr: 'Permet de créer une nouvelle règle de gestion',
+                        "description": {
+                            "en": "Allows to create a new management rule",
+                            "fr": "Permet de créer une nouvelle règle de gestion"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.settings.edit': {
-                        title: {
-                            en: 'Edit Management Rule',
-                            fr: 'Modifier une Règle de Gestion',
+                    "v1.org.settings.edit": {
+                        "title": {
+                            "en": "Edit Management Rule",
+                            "fr": "Modifier une Règle de Gestion"
                         },
-                        description: {
-                            en: 'Allows to edit an existing management rule',
-                            fr: 'Permet de modifier une règle de gestion existante',
+                        "description": {
+                            "en": "Allows to edit an existing management rule",
+                            "fr": "Permet de modifier une règle de gestion existante"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.settings.delete': {
-                        title: {
-                            en: 'Delete Management Rule',
-                            fr: 'Supprimer une Règle de Gestion',
+                    "v1.org.settings.delete": {
+                        "title": {
+                            "en": "Delete Management Rule",
+                            "fr": "Supprimer une Règle de Gestion"
                         },
-                        description: {
-                            en: 'Allows to delete a management rule',
-                            fr: 'Permet de supprimer une règle de gestion',
+                        "description": {
+                            "en": "Allows to delete a management rule",
+                            "fr": "Permet de supprimer une règle de gestion"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.org.residents.admin': {
-                title: {
-                    en: 'Manage Residents',
-                    fr: 'Gérer les Résidents',
+            "v1.org.residents.admin": {
+                "title": {
+                    "en": "Manage Residents",
+                    "fr": "Gérer les Résidents"
                 },
-                description: {
-                    en: 'Allows to create new residents, view their profiles, edit them, and delete them.',
-                    fr: 'Permet de créer de nouveaux résidents, de consulter leurs fiches, de les modifier et de les supprimer.',
+                "description": {
+                    "en": "Allows to create new residents, view their profiles, edit them, and delete them.",
+                    "fr": "Permet de créer de nouveaux résidents, de consulter leurs fiches, de les modifier et de les supprimer."
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.org.residents.list': {
-                        title: {
-                            en: 'List Residents',
-                            fr: 'Lister les Résidents',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.org.residents.list": {
+                        "title": {
+                            "en": "List Residents",
+                            "fr": "Lister les Résidents"
                         },
-                        description: {
-                            en: 'Allows to view the list of residents',
-                            fr: 'Permet de consulter la liste des résidents',
+                        "description": {
+                            "en": "Allows to view the list of residents",
+                            "fr": "Permet de consulter la liste des résidents"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.residents.view': {
-                        title: {
-                            en: 'View Resident',
-                            fr: 'Consulter un Résident',
+                    "v1.org.residents.view": {
+                        "title": {
+                            "en": "View Resident",
+                            "fr": "Consulter un Résident"
                         },
-                        description: {
-                            en: 'Allows to view the details of a resident',
-                            fr: "Permet de consulter les détails d'un résident",
+                        "description": {
+                            "en": "Allows to view the details of a resident",
+                            "fr": "Permet de consulter les détails d'un résident"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.residents.create': {
-                        title: {
-                            en: 'Create Resident',
-                            fr: 'Créer un Résident',
+                    "v1.org.residents.create": {
+                        "title": {
+                            "en": "Create Resident",
+                            "fr": "Créer un Résident"
                         },
-                        description: {
-                            en: 'Allows to create a new resident profile',
-                            fr: "Permet de créer la fiche d'un nouveau résident",
+                        "description": {
+                            "en": "Allows to create a new resident profile",
+                            "fr": "Permet de créer la fiche d'un nouveau résident"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.residents.edit': {
-                        title: {
-                            en: 'Edit Resident',
-                            fr: 'Modifier un Résident',
+                    "v1.org.residents.edit": {
+                        "title": {
+                            "en": "Edit Resident",
+                            "fr": "Modifier un Résident"
                         },
-                        description: {
-                            en: "Allows to edit a resident's profile",
-                            fr: "Permet de modifier la fiche d'un résident",
+                        "description": {
+                            "en": "Allows to edit a resident's profile",
+                            "fr": "Permet de modifier la fiche d'un résident"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.residents.delete': {
-                        title: {
-                            en: 'Delete Resident',
-                            fr: 'Supprimer un Résident',
+                    "v1.org.residents.delete": {
+                        "title": {
+                            "en": "Delete Resident",
+                            "fr": "Supprimer un Résident"
                         },
-                        description: {
-                            en: 'Allows to delete a resident',
-                            fr: 'Permet de supprimer un résident',
+                        "description": {
+                            "en": "Allows to delete a resident",
+                            "fr": "Permet de supprimer un résident"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.org.property.admin': {
-                title: {
-                    en: 'Manage Properties',
-                    fr: 'Gérer les Propriétés',
+            "v1.org.property.admin": {
+                "title": {
+                    "en": "Manage Properties",
+                    "fr": "Gérer les Propriétés"
                 },
-                description: {
-                    en: 'Allows to create new properties, view their information, edit them, and delete them.',
-                    fr: "Permet de créer de nouvelles propriétés pour l'organisation, de consulter leurs informations, de les modifier et de les supprimer.",
+                "description": {
+                    "en": "Allows to create new properties, view their information, edit them, and delete them.",
+                    "fr": "Permet de créer de nouvelles propriétés pour l'organisation, de consulter leurs informations, de les modifier et de les supprimer."
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.org.property.list': {
-                        title: {
-                            en: 'List Properties',
-                            fr: 'Lister les Propriétés',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.org.property.list": {
+                        "title": {
+                            "en": "List Properties",
+                            "fr": "Lister les Propriétés"
                         },
-                        description: {
-                            en: 'Allows to view the list of properties',
-                            fr: 'Permet de consulter la liste des propriétés',
+                        "description": {
+                            "en": "Allows to view the list of properties",
+                            "fr": "Permet de consulter la liste des propriétés"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.property.view': {
-                        title: {
-                            en: 'View Property',
-                            fr: 'Consulter une Propriété',
+                    "v1.org.property.view": {
+                        "title": {
+                            "en": "View Property",
+                            "fr": "Consulter une Propriété"
                         },
-                        description: {
-                            en: 'Allows to view the details of a property',
-                            fr: "Permet de consulter les détails d'une propriété",
+                        "description": {
+                            "en": "Allows to view the details of a property",
+                            "fr": "Permet de consulter les détails d'une propriété"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.property.create': {
-                        title: {
-                            en: 'Create Property',
-                            fr: 'Créer une Propriété',
+                    "v1.org.property.create": {
+                        "title": {
+                            "en": "Create Property",
+                            "fr": "Créer une Propriété"
                         },
-                        description: {
-                            en: 'Allows to create a new property',
-                            fr: 'Permet de créer une nouvelle propriété',
+                        "description": {
+                            "en": "Allows to create a new property",
+                            "fr": "Permet de créer une nouvelle propriété"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.property.edit': {
-                        title: {
-                            en: 'Edit Property',
-                            fr: 'Modifier une Propriété',
+                    "v1.org.property.edit": {
+                        "title": {
+                            "en": "Edit Property",
+                            "fr": "Modifier une Propriété"
                         },
-                        description: {
-                            en: "Allows to edit a property's information",
-                            fr: "Permet de modifier les informations d'une propriété",
+                        "description": {
+                            "en": "Allows to edit a property's information",
+                            "fr": "Permet de modifier les informations d'une propriété"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.property.delete': {
-                        title: {
-                            en: 'Delete Property',
-                            fr: 'Supprimer une Propriété',
+                    "v1.org.property.delete": {
+                        "title": {
+                            "en": "Delete Property",
+                            "fr": "Supprimer une Propriété"
                         },
-                        description: {
-                            en: 'Allows to delete a property',
-                            fr: 'Permet de supprimer une propriété',
+                        "description": {
+                            "en": "Allows to delete a property",
+                            "fr": "Permet de supprimer une propriété"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.org.suppliers.admin': {
-                title: {
-                    en: 'Manage Service Providers',
-                    fr: 'Gérer les Prestataires',
+            "v1.org.suppliers.admin": {
+                "title": {
+                    "en": "Manage Service Providers",
+                    "fr": "Gérer les Prestataires"
                 },
-                description: {
-                    en: 'Allows to create new service providers, view their profiles, edit them, and delete them.',
-                    fr: 'Permet de créer de nouveaux prestataires, de consulter leurs fiches, de les modifier et de les supprimer.',
+                "description": {
+                    "en": "Allows to create new service providers, view their profiles, edit them, and delete them.",
+                    "fr": "Permet de créer de nouveaux prestataires, de consulter leurs fiches, de les modifier et de les supprimer."
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.org.suppliers.list': {
-                        title: {
-                            en: 'List Service Providers',
-                            fr: 'Lister les Prestataires',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.org.suppliers.list": {
+                        "title": {
+                            "en": "List Service Providers",
+                            "fr": "Lister les Prestataires"
                         },
-                        description: {
-                            en: 'Allows to view the list of service providers',
-                            fr: 'Permet de consulter la liste des prestataires',
+                        "description": {
+                            "en": "Allows to view the list of service providers",
+                            "fr": "Permet de consulter la liste des prestataires"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.suppliers.view': {
-                        title: {
-                            en: 'View Service Provider',
-                            fr: 'Consulter un Prestataire',
+                    "v1.org.suppliers.view": {
+                        "title": {
+                            "en": "View Service Provider",
+                            "fr": "Consulter un Prestataire"
                         },
-                        description: {
-                            en: 'Allows to view the details of a service provider',
-                            fr: "Permet de consulter les détails d'un prestataire",
+                        "description": {
+                            "en": "Allows to view the details of a service provider",
+                            "fr": "Permet de consulter les détails d'un prestataire"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.suppliers.create': {
-                        title: {
-                            en: 'Create Service Provider',
-                            fr: 'Créer un Prestataire',
+                    "v1.org.suppliers.create": {
+                        "title": {
+                            "en": "Create Service Provider",
+                            "fr": "Créer un Prestataire"
                         },
-                        description: {
-                            en: 'Allows to create a new service provider profile',
-                            fr: "Permet de créer la fiche d'un nouveau prestataire",
+                        "description": {
+                            "en": "Allows to create a new service provider profile",
+                            "fr": "Permet de créer la fiche d'un nouveau prestataire"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.suppliers.edit': {
-                        title: {
-                            en: 'Edit Service Provider',
-                            fr: 'Modifier un Prestataire',
+                    "v1.org.suppliers.edit": {
+                        "title": {
+                            "en": "Edit Service Provider",
+                            "fr": "Modifier un Prestataire"
                         },
-                        description: {
-                            en: "Allows to edit a service provider's profile",
-                            fr: "Permet de modifier la fiche d'un prestataire",
+                        "description": {
+                            "en": "Allows to edit a service provider's profile",
+                            "fr": "Permet de modifier la fiche d'un prestataire"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.suppliers.delete': {
-                        title: {
-                            en: 'Delete Service Provider',
-                            fr: 'Supprimer un Prestataire',
+                    "v1.org.suppliers.delete": {
+                        "title": {
+                            "en": "Delete Service Provider",
+                            "fr": "Supprimer un Prestataire"
                         },
-                        description: {
-                            en: 'Allows to delete a service provider',
-                            fr: 'Permet de supprimer un prestataire',
+                        "description": {
+                            "en": "Allows to delete a service provider",
+                            "fr": "Permet de supprimer un prestataire"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.org.buildings.admin': {
-                title: {
-                    en: 'Manage Buildings',
-                    fr: 'Gérer les Immeubles',
+            "v1.org.buildings.admin": {
+                "title": {
+                    "en": "Manage Buildings",
+                    "fr": "Gérer les Immeubles"
                 },
-                description: {
-                    en: 'Allows to create new buildings, view their information, edit them, and delete them.',
-                    fr: "Permet de créer de nouveaux immeubles pour l'organisation, de consulter leurs informations, de les modifier et de les supprimer.",
+                "description": {
+                    "en": "Allows to create new buildings, view their information, edit them, and delete them.",
+                    "fr": "Permet de créer de nouveaux immeubles pour l'organisation, de consulter leurs informations, de les modifier et de les supprimer."
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.org.buildings.list': {
-                        title: {
-                            en: 'List Buildings',
-                            fr: 'Lister les Immeubles',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.org.buildings.list": {
+                        "title": {
+                            "en": "List Buildings",
+                            "fr": "Lister les Immeubles"
                         },
-                        description: {
-                            en: 'Allows to view the list of buildings',
-                            fr: 'Permet de consulter la liste des immeubles',
+                        "description": {
+                            "en": "Allows to view the list of buildings",
+                            "fr": "Permet de consulter la liste des immeubles"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.buildings.view': {
-                        title: {
-                            en: 'View Building',
-                            fr: 'Consulter un Immeuble',
+                    "v1.org.buildings.view": {
+                        "title": {
+                            "en": "View Building",
+                            "fr": "Consulter un Immeuble"
                         },
-                        description: {
-                            en: 'Allows to view the details of a building',
-                            fr: "Permet de consulter les détails d'un immeuble",
+                        "description": {
+                            "en": "Allows to view the details of a building",
+                            "fr": "Permet de consulter les détails d'un immeuble"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.buildings.create': {
-                        title: {
-                            en: 'Create Building',
-                            fr: 'Créer un Immeuble',
+                    "v1.org.buildings.create": {
+                        "title": {
+                            "en": "Create Building",
+                            "fr": "Créer un Immeuble"
                         },
-                        description: {
-                            en: 'Allows to create a new building',
-                            fr: 'Permet de créer un nouvel immeuble',
+                        "description": {
+                            "en": "Allows to create a new building",
+                            "fr": "Permet de créer un nouvel immeuble"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.buildings.edit': {
-                        title: {
-                            en: 'Edit Building',
-                            fr: 'Modifier un Immeuble',
+                    "v1.org.buildings.edit": {
+                        "title": {
+                            "en": "Edit Building",
+                            "fr": "Modifier un Immeuble"
                         },
-                        description: {
-                            en: "Allows to edit a building's information",
-                            fr: "Permet de modifier les informations d'un immeuble",
+                        "description": {
+                            "en": "Allows to edit a building's information",
+                            "fr": "Permet de modifier les informations d'un immeuble"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.buildings.delete': {
-                        title: {
-                            en: 'Delete Building',
-                            fr: 'Supprimer un Immeuble',
+                    "v1.org.buildings.delete": {
+                        "title": {
+                            "en": "Delete Building",
+                            "fr": "Supprimer un Immeuble"
                         },
-                        description: {
-                            en: 'Allows to delete a building',
-                            fr: 'Permet de supprimer un immeuble',
+                        "description": {
+                            "en": "Allows to delete a building",
+                            "fr": "Permet de supprimer un immeuble"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
+                        "parentCompositeRoles": []
+                    }
+                }
             },
-            'v1.org.communications.admin': {
-                title: {
-                    en: 'Manage communications',
-                    fr: 'Gérer les communications',
+            "v1.org.communications.admin": {
+                "title": {
+                    "en": "Manage communications",
+                    "fr": "Gérer les communications"
                 },
-                description: {
-                    en: 'Allows to create new communication, view their information, edit them, and delete them.',
-                    fr: 'Permet de créer de nouvelles communications, de les consulter, modifier et de les supprimer.',
+                "description": {
+                    "en": "Allows to create new communication, view their information, edit them, and delete them.",
+                    "fr": "Permet de créer de nouvelles communications, de les consulter, modifier et de les supprimer."
                 },
-                parentCompositeRoles: [],
-                compositeRoles: {},
-                roles: {
-                    'v1.org.communications.list': {
-                        title: {
-                            en: 'List communications',
-                            fr: 'Lister les communications',
+                "parentCompositeRoles": [],
+                "compositeRoles": {},
+                "roles": {
+                    "v1.org.communications.list": {
+                        "title": {
+                            "en": "List communications",
+                            "fr": "Lister les communications"
                         },
-                        description: {
-                            en: 'Allows to view the list of communications',
-                            fr: 'Permet de consulter la liste des communications',
+                        "description": {
+                            "en": "Allows to view the list of communications",
+                            "fr": "Permet de consulter la liste des communications"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.communications.view': {
-                        title: {
-                            en: 'View communication',
-                            fr: 'Consulter une communication',
+                    "v1.org.communications.view": {
+                        "title": {
+                            "en": "View communication",
+                            "fr": "Consulter une communication"
                         },
-                        description: {
-                            en: 'Allows to view the details of a communication',
-                            fr: "Permet de consulter les détails d'une communication",
+                        "description": {
+                            "en": "Allows to view the details of a communication",
+                            "fr": "Permet de consulter les détails d'une communication"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.communications.create': {
-                        title: {
-                            en: 'Create communication',
-                            fr: 'Créer une communication',
+                    "v1.org.communications.create": {
+                        "title": {
+                            "en": "Create communication",
+                            "fr": "Créer une communication"
                         },
-                        description: {
-                            en: 'Allows to create a new communication',
-                            fr: 'Permet de créer une nouvelle communication',
+                        "description": {
+                            "en": "Allows to create a new communication",
+                            "fr": "Permet de créer une nouvelle communication"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.communications.edit': {
-                        title: {
-                            en: 'Edit communication',
-                            fr: 'Modifier une communication',
+                    "v1.org.communications.edit": {
+                        "title": {
+                            "en": "Edit communication",
+                            "fr": "Modifier une communication"
                         },
-                        description: {
-                            en: "Allows to edit a communication's information",
-                            fr: "Permet de modifier les informations d'une communication",
+                        "description": {
+                            "en": "Allows to edit a communication's information",
+                            "fr": "Permet de modifier les informations d'une communication"
                         },
-                        parentCompositeRoles: [],
+                        "parentCompositeRoles": []
                     },
-                    'v1.org.communications.delete': {
-                        title: {
-                            en: 'Delete communication',
-                            fr: 'Supprimer une communications',
+                    "v1.org.communications.delete": {
+                        "title": {
+                            "en": "Delete communication",
+                            "fr": "Supprimer une communications"
                         },
-                        description: {
-                            en: 'Allows to delete a communication',
-                            fr: 'Permet de supprimer une communication',
+                        "description": {
+                            "en": "Allows to delete a communication",
+                            "fr": "Permet de supprimer une communication"
                         },
-                        parentCompositeRoles: [],
-                    },
-                },
-            },
+                        "parentCompositeRoles": []
+                    }
+                }
+            }
         },
-        roles: {
-            'v1.org.list': {
-                title: {
-                    en: 'View Organization',
-                    fr: "Consulter l'Organisation",
+        "roles": {
+            "v1.org.list": {
+                "title": {
+                    "en": "View Organization",
+                    "fr": "Consulter l'Organisation"
                 },
-                description: {
-                    en: 'Allows to view organization information',
-                    fr: "Permet de consulter les informations de l'organisation",
+                "description": {
+                    "en": "Allows to view organization information",
+                    "fr": "Permet de consulter les informations de l'organisation"
                 },
-                parentCompositeRoles: [],
+                "parentCompositeRoles": []
             },
-            'v1.org.view': {
-                title: {
-                    en: 'View Organization',
-                    fr: "Consulter l'Organisation",
+            "v1.org.view": {
+                "title": {
+                    "en": "View Organization",
+                    "fr": "Consulter l'Organisation"
                 },
-                description: {
-                    en: 'Allows to view organization information',
-                    fr: "Permet de consulter les informations de l'organisation",
+                "description": {
+                    "en": "Allows to view organization information",
+                    "fr": "Permet de consulter les informations de l'organisation"
                 },
-                parentCompositeRoles: [],
+                "parentCompositeRoles": []
             },
-            'v1.org.edit': {
-                title: {
-                    en: 'Edit Organization',
-                    fr: "Modifier l'Organisation",
+            "v1.org.edit": {
+                "title": {
+                    "en": "Edit Organization",
+                    "fr": "Modifier l'Organisation"
                 },
-                description: {
-                    en: 'Allows to edit organization information',
-                    fr: "Permet de modifier les informations de l'organisation",
+                "description": {
+                    "en": "Allows to edit organization information",
+                    "fr": "Permet de modifier les informations de l'organisation"
                 },
-                parentCompositeRoles: [],
+                "parentCompositeRoles": []
             },
-            'v1.org.delete': {
-                title: {
-                    en: 'Delete Organization',
-                    fr: "Supprimer l'Organisation",
+            "v1.org.delete": {
+                "title": {
+                    "en": "Delete Organization",
+                    "fr": "Supprimer l'Organisation"
                 },
-                description: {
-                    en: 'Allows to delete the organization',
-                    fr: "Permet de supprimer l'organisation",
+                "description": {
+                    "en": "Allows to delete the organization",
+                    "fr": "Permet de supprimer l'organisation"
                 },
-                parentCompositeRoles: [],
-            },
-        },
-    },
+                "parentCompositeRoles": []
+            }
+        }
+    }
 }
