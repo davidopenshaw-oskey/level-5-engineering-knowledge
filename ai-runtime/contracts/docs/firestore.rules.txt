@@ -1,0 +1,705 @@
+This file contains the firestore rules
+
+//
+// firebase-oskey-dev
+// Copyright (c) 2021-2025, OSkey SAS. All rights reserved.
+//
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // *************************************************************************
+    // Custom data type
+    // *************************************************************************
+
+    // Street addresses
+    // function isValidStreetAddress(streetAddress) {
+    //   return streetAddress.houseNumber is string && 
+    //          streetAddress.streetName is string &&
+    //          streetAddress.postalCode is string &&
+    //          streetAddress.city is string &&
+    //          streetAddress.country is string &&
+    //          streetAddress.isoCountryCode is string;
+    // }
+
+    // *************************************************************************
+    // Getters
+    // *************************************************************************
+
+    // Get access control device document
+    function getAccessControlDevice(deviceId) {
+      return get(/databases/$(database)/documents/accessControlDevices/$(deviceId));
+    }
+
+    // Get building user
+    function getBuildingUser(buildingId, userId) {
+      return get(/databases/$(database)/documents/buildings/$(buildingId)/users/$(userId));
+    }
+
+    // Get organization_building user
+    function getOrganizationBuildingUser(organizationId, buildingId, userId) {
+      return get(/databases/$(database)/documents/organizations/$(organizationId)/buildings/$(buildingId)/users/$(userId));
+    }
+
+    // // Get building user
+    // function getOrganizationUser(organizationId, userId) {
+    //   return get(/databases/$(database)/documents/organizations/$(organizationId)/users/$(userId));
+    // }
+
+    // *************************************************************************
+    // Existance
+    // *************************************************************************
+
+    // Check user exists
+    function userExists(userId) {
+      return exists(/databases/$(database)/documents/users/$(userId));
+    }
+
+    // *************************************************************************
+    // Authentication
+    // *************************************************************************
+
+    // User signed in
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // User email has veen verified
+    function isEmailVerified() {
+      return true;
+    }
+
+    // Does the logged-in user match the requested userId?
+    function isUser(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // Is valid user
+    function isValidUser() {
+      return isSignedIn() && isEmailVerified();
+    }
+
+    // user is valid and is still active
+    function isAuthenticatedUser(userId) {
+      return isValidUser() && isUser(userId) && !isUserAccountDeleted();
+    }
+
+    // *************************************************************************
+    // Authorization
+    // *************************************************************************
+
+    function hasAuthorization(user, roleId) {
+      return user != null && roleId in user.data.consolidatedRoles;
+    }
+
+    // *************************************************************************
+    // /accessControlDevices/** collections
+    // *************************************************************************
+
+    // Registered device
+    function isAccessControlDeviceRegistered(deviceId) {
+      return getAccessControlDevice(deviceId);
+    }
+
+    // Registered device
+    function isAccessControlDeviceAssigned(deviceId) {
+      let accessControlDevice = getAccessControlDevice(deviceId);
+      return accessControlDevice.data.buildingDoorAssignment;
+    }
+
+    // *************************************************************************
+    // /buildings/** collections
+    // *************************************************************************
+
+    function isValidBuildingUnitCreation() {
+      return request.resource.data.keys().hasOnly(['name', 'floor', 'unitNumber', 'buildingId', 'unitId']) &&
+             request.resource.data.name is string &&
+             request.resource.data.floor is string &&
+             request.resource.data.unitNumber is string &&
+             request.resource.data.buildingId is string &&
+             request.resource.data.unitId is string;
+    }
+
+    function isValidBuildingUnitModification() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'floor', 'unitNumber', 'buildingId', 'unitId']) &&
+             request.resource.data.name is string &&
+             request.resource.data.floor is string &&
+             request.resource.data.unitNumber is string &&
+             request.resource.data.buildingId == resource.data.buildingId &&
+             request.resource.data.unitId == resource.data.unitId;
+
+            //  &&
+            //  request.resource.data.streetAddress == resource.data.streetAddress &&
+            //  request.resource.data.creationDate == resource.data.creationDate;
+    }
+
+    function isValidBuildingUnitOwnerCreation() {
+      return request.resource.data.keys().hasOnly(['isResident']) &&
+             request.resource.data.isResident is bool;
+    }
+
+    function isValidBuildingUnitOwnerModification() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isResident']) &&
+             request.resource.data.isResident is bool;
+    }
+
+    function isValidBuildingUnitResidentCreation() {
+      return request.resource.data.keys().hasOnly([]);
+    }
+
+    // Can create building unit
+    function canEditBuilding(buildingId) {
+      let user = getBuildingUser(buildingId, request.auth.uid);
+      return isValidUser() && hasAuthorization(user, 'v1.org.buildings.edit');
+    }
+    
+    // Can view building unit
+    function canViewBuilding(buildingId) {
+      let user = getBuildingUser(buildingId, request.auth.uid);
+      return isValidUser() && hasAuthorization(user, 'v1.org.buildings.view');
+    }
+
+    // Can create organization building unit
+        function canEditOrganizationBuilding(organizationId, buildingId) {
+          let user = getOrganizationBuildingUser(organizationId, buildingId, request.auth.uid);
+          return isValidUser() && hasAuthorization(user, 'v1.org.buildings.edit');
+        }
+    
+
+    // Can view organization building unit
+    function canViewOrganizationBuilding(organizationId, buildingId) {
+      let user = getOrganizationBuildingUser(organizationId, buildingId, request.auth.uid);
+      return isValidUser() && hasAuthorization(user, 'v1.org.buildings.view');
+    }
+
+    // *************************************************************************
+    // /organization/** collection
+    // *************************************************************************
+
+    // *************************************************************************
+    // /settings/** collection
+    // *************************************************************************
+    
+
+
+    // *************************************************************************
+    // /users/** collection
+    // *************************************************************************
+
+    // User creation
+    function isValidUserCreation() {
+      return request.resource.data.userId == request.auth.uid &&
+             request.resource.data.email == request.auth.token.email &&
+             request.resource.data.publicProfile.firstName is string &&
+             request.resource.data.publicProfile.lastName is string
+    }
+
+    // User public profile update
+    function isValidUserPublicProfileModification() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['publicProfile']) &&
+             request.resource.data.publicProfile.diff(resource.data.publicProfile).affectedKeys().hasOnly(['firstName', 'lastName']) &&
+             request.resource.data.publicProfile.firstName is string &&
+             request.resource.data.publicProfile.lastName is string
+    }
+
+    function isValidOnboardingStatusUpdate() {
+      // return true
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']) &&
+             request.resource.data.status.diff(resource.data.status).affectedKeys().hasOnly(['newUserOnboarding']) &&
+             request.resource.data.status.newUserOnboarding.diff(resource.data.status.newUserOnboarding).affectedKeys().hasOnly(['enrollMFA', 'activateBuildingAccess']) &&
+             request.resource.data.status.newUserOnboarding.enrollMFA is string && ( request.resource.data.status.newUserOnboarding.enrollMFA == 'notDone' || request.resource.data.status.newUserOnboarding.enrollMFA == 'done' || request.resource.data.status.newUserOnboarding.enrollMFA ==  'skipped') &&
+             request.resource.data.status.newUserOnboarding.activateBuildingAccess is string && ( request.resource.data.status.newUserOnboarding.activateBuildingAccess == 'notDone' || request.resource.data.status.newUserOnboarding.activateBuildingAccess == 'done' || request.resource.data.status.newUserOnboarding.activateBuildingAccess ==  'skipped')
+    }
+
+    // User email update
+    function isValidUserEmailModification() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['email']) &&
+             request.resource.data.email == request.auth.token.email;
+    }
+
+    // // User phone number update
+    // function isValidUserPhoneNumberModification() {
+    //   return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['phoneNumber']) &&
+    //          ( 
+    //            request.resource.data.phoneNumber == null || 
+    //            ( 
+    //              request.resource.data.phoneNumber.isoCountryCode is string &&
+    //              request.resource.data.phoneNumber.dialCode is string &&
+    //              request.resource.data.phoneNumber.localPhoneNumber is string &&
+    //              request.resource.data.phoneNumber.internationalPhoneNumber is string && request.resource.data.phoneNumber.internationalPhoneNumer == request.auth.token.phone_number
+    //            )
+    //          );
+    // }
+
+    // User device creation
+    function isValidUserDeviceCreation(deviceId) {
+      return request.resource.data.deviceId == deviceId &&
+             request.resource.data.name is string &&
+             ( (request.resource.data.type == 'mobile' && !request.resource.data.keys().hasAny(["parentDeviceId"])) || (request.resource.data.type == 'watch' && request.resource.data.parentDeviceId is string ));
+    }
+
+    // User device update
+    function isValidUserDeviceUpdate() {
+      // return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'isLocked', 'isStolen']) &&
+      //        request.resource.data.name is string &&
+      //        request.resource.data.isLocked is bool &&
+      //        request.resource.data.isStolen is bool;
+      return true;
+    }
+
+    // User has a deletion date
+    function isUserAccountDeleted() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.keys().hasAny(['accountDeletionDate']);
+    }
+
+    // TODO: Rewrite using user roles
+    // // Signed in user is a building manager
+    // function isBuildingManager(buildingId) {
+    //   return exists(/databases/$(database)/documents/buildings/$(buildingId)/managers/$(request.auth.uid));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // Signed in user is a building user
+    // function isBuildingUser(buildingId) {
+    //   return exists(/databases/$(database)/documents/buildings/$(buildingId)/users/$(request.auth.uid));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // Signed in user is a building guest
+    // function isBuildingGuest(buildingId) {
+    //   return exists(/databases/$(database)/documents/buildings/$(buildingId)/guests/$(request.auth.uid));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // User is not a building manager
+    // function userIsNotBuildingManager(userId, buildingId) {
+    //   return ! exists(/databases/$(database)/documents/buildings/$(buildingId)/managers/$(userId));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // User is not a building user
+    // function userIsNotBuildingUser(userId, buildingId) {
+    //   return ! exists(/databases/$(database)/documents/buildings/$(buildingId)/users/$(userId));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // User is not a building guest
+    // function userIsNotBuildingGuest(userId, buildingId) {
+    //   return ! exists(/databases/$(database)/documents/buildings/$(buildingId)/guests/$(userId));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // Signed in user is a unit manager
+    // function isBuildingUnitManager(buildingId, unitId) {
+    //   return  exists(/databases/$(database)/documents/buildings/$(buildingId)/units/$(unitId)/managers/$(request.auth.uid));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // Signed in user is a unit user
+    // function isBuildingUnitUser(buildingId, unitId) {
+    //   return exists(/databases/$(database)/documents/buildings/$(buildingId)/units/$(unitId)/users/$(request.auth.uid));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // Signed in user is a unit guest
+    // function isBuildingUnitGuest(buildingId, unitId) {
+    //   return exists(/databases/$(database)/documents/buildings/$(buildingId)/units/$(unitId)/guests/$(request.auth.uid));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // User is not a unit manager
+    // function userIsNotBuildingUnitManager(userId, buildingId, unitId) {
+    //   return ! exists(/databases/$(database)/documents/buildings/$(buildingId)/units/$(unitId)/managers/$(userId));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // User is not a unit user
+    // function userIsNotBuildingUnitUser(userId, buildingId, unitId) {
+    //   return ! exists(/databases/$(database)/documents/buildings/$(buildingId)/units/$(unitId)/users/$(userId));
+    // }
+
+    // TODO: Rewrite using user roles
+    // // User is not a unit guest
+    // function userIsNotBuildingUnitGuest(userId, buildingId, unitId) {
+    //   return ! exists(/databases/$(database)/documents/buildings/$(buildingId)/units/$(unitId)/guests/$(userId));
+    // }
+
+    // function onlyAuthorizedUserDocumentFieldUpdated()  {
+    //   return (request.resource.data.diff(resource.data).addedKeys().hasOnly(["publicProfile", "privateProfile", "settings"]) || request.resource.data.diff(resource.data).affectedKeys().hasOnly(["publicProfile", "privateProfile", "settings"])) &&
+    //          request.resource.data.publicProfile.diff(resource.data.publicProfile).addedKeys().hasOnly(["displayName", "profileImageUrl"]) &&
+    //          request.resource.data.privateProfile.diff(resource.data.privateProfile).addedKeys().hasOnly(["fullName", "streetAddress", "dateOfBirth"]);
+    // }
+
+    // *************************************************************************
+    // Default rule
+    // *************************************************************************
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // *************************************************************************
+    // Settings
+    // *************************************************************************
+
+    match /settings/{docId} {
+        allow write: if isValidUser();
+        allow read: if isValidUser();
+    }
+
+    // *************************************************************************
+    // Access control devices
+    // *************************************************************************
+
+    // /accessControlDevices
+    match /accessControlDevices/{deviceId} {
+      allow read: if isValidUser();
+      allow write: if isValidUser();
+
+      // /accessControlDevices/configs
+      match /configs/{configId} {
+        allow read: if ((configId == deviceId) && isValidUser());
+        allow write: if ((configId == deviceId) && isValidUser());
+      }
+
+      // /accessControlDevices/publicKeys
+      match /publicKeys/{keyType} {
+        allow read: if ((keyType == "signing" || keyType == "crypto") && isValidUser());
+        allow write: if false;
+      }
+
+      // /accessControlDevices/logs
+      match /logs/{configId} {
+        allow read: if ((configId == deviceId) && isValidUser());
+        allow write: if ((configId == deviceId) && isValidUser());
+      }
+
+      // /accessControlDevices/states
+      match /states/{configId} {
+        allow read: if ((configId == deviceId) && isValidUser());
+        allow write: if ((configId == deviceId) && isValidUser());
+      }
+    }
+
+    // *************************************************************************
+    // Buildings
+    // *************************************************************************
+
+    // /buildings
+    match /buildings/{buildingId} {
+      allow read, write: if isValidUser();
+
+      // /buildings/doors
+      match /doors/{doorId} {
+        allow read, write: if isValidUser();
+
+        // /buildings/doors/accessControlDevices
+        match /accessControlDevices/{deviceId} {
+          allow read, write: if (isValidUser() && isAccessControlDeviceRegistered(deviceId) && !isAccessControlDeviceAssigned(deviceId));
+        }
+      }
+
+      // /buildings/users
+      match /users/{userId} {
+        allow read: if isValidUser();
+        allow write: if (isValidUser() && userExists(userId));
+      }
+
+      // /buildings/units
+      match /units/{unitId} {
+        allow read: if canViewBuilding(buildingId);
+        allow create: if canEditBuilding(buildingId) && isValidBuildingUnitCreation();
+        allow update: if canEditBuilding(buildingId) && isValidBuildingUnitModification();
+        allow delete: if canEditBuilding(buildingId);
+
+        // /buildings/units/owners
+        match /owners/{ownerId} {
+          allow read: if canViewBuilding(buildingId);
+          allow create: if canEditBuilding(buildingId) && isValidBuildingUnitOwnerCreation();
+          allow update: if canEditBuilding(buildingId) && isValidBuildingUnitOwnerModification();
+          allow delete: if canEditBuilding(buildingId);
+        }
+
+        // /buildings/units/residents
+        match /residents/{residentId} {
+          allow read: if canViewBuilding(buildingId);
+          allow create: if canEditBuilding(buildingId) && isValidBuildingUnitResidentCreation();
+          allow update: if false;
+          allow delete: if canEditBuilding(buildingId);
+        }
+      }
+    }
+
+    // *************************************************************************
+    // Organizations
+    // *************************************************************************
+
+    // /organizations
+    match /organizations/{organizationId} {
+      allow write: if isValidUser();
+      allow read: if isValidUser();
+
+      // /organizations/buildings
+      match /buildings/{buildingId} {
+        allow write: if isValidUser();
+        allow read: if isValidUser();
+
+        // /organizations/buildings/doors
+        match /doors/{doorId} {
+          allow read, write: if isValidUser();
+
+          // /organizations/buildings/doors/accessControlDevices
+          match /accessControlDevices/{deviceId} {
+            allow read, write: if (isValidUser() && isAccessControlDeviceRegistered(deviceId) && !isAccessControlDeviceAssigned(deviceId));
+          }
+        }
+
+        // /organizations/buildings/users
+        match /users/{userId} {
+          allow read: if isValidUser();
+          allow write: if (isValidUser() && userExists(userId));
+        }
+
+        // /organizations/buildings/units
+        match /units/{unitId} {
+          allow read: if canViewOrganizationBuilding(organizationId, buildingId);
+          allow create: if canEditOrganizationBuilding(organizationId, buildingId) && isValidBuildingUnitCreation();
+          allow update: if canEditOrganizationBuilding(organizationId, buildingId) && isValidBuildingUnitModification();
+          allow delete: if canEditOrganizationBuilding(organizationId, buildingId);
+
+          // /organizations/buildings/units/owners
+          match /owners/{ownerId} {
+            allow read: if canViewOrganizationBuilding(organizationId, buildingId);
+            allow create: if canEditOrganizationBuilding(organizationId, buildingId) && isValidBuildingUnitOwnerCreation();
+            allow update: if canEditOrganizationBuilding(organizationId, buildingId) && isValidBuildingUnitOwnerModification();
+            allow delete: if canEditOrganizationBuilding(organizationId, buildingId);
+          }
+
+          // /organizations/buildings/units/residents
+          match /residents/{residentId} {
+            allow read: if canViewOrganizationBuilding(organizationId, buildingId);
+            allow create: if canEditOrganizationBuilding(organizationId, buildingId) && isValidBuildingUnitResidentCreation();
+            allow update: if false;
+            allow delete: if canEditOrganizationBuilding(organizationId, buildingId);
+          }
+        }
+      }
+
+      // /organizations
+      match /users/{userId} {
+        allow write: if isValidUser();
+        allow read: if isValidUser();
+
+        // /organizations
+        match /accessControlDevices/{deviceId} {
+          allow write: if isValidUser();
+          allow read: if isValidUser();
+        }
+
+        // /organizations
+        match /buildings/{buildingId} {
+          allow write: if isValidUser();
+          allow read: if isValidUser();
+        }
+      }
+
+      // /organizations
+      match /userInvitations/{email} {
+        allow read: if isValidUser();
+        allow write: if isValidUser();
+      }
+      
+      // /organizations
+      match /onboardingCards/{onboardingId} {
+        allow read: if isValidUser();
+        allow write: if isValidUser();
+      }
+    }
+
+    // *************************************************************************
+    // Users
+    // *************************************************************************
+
+    // /users
+    match /users/{userId}  {
+      allow read: if (isSignedIn() && isUser(userId));
+      allow create: if (isUser(userId) && isSignedIn() && isValidUserCreation());
+      allow update: if (isUser(userId) && isSignedIn() && (isValidUserPublicProfileModification() || isValidUserEmailModification() || isValidOnboardingStatusUpdate()));
+      allow delete: if false;
+
+      // /users/pincodes
+      match /pincodes/{pincodeId} {
+        allow read: if isAuthenticatedUser(userId);
+      }
+      
+      // /users/organizationInvitations
+      match /organizationInvitations/{invitationId} {
+        allow read: if(isAuthenticatedUser(userId))
+      }
+
+      // /users/calls
+      match /calls/{callId} {
+        allow read: if(isAuthenticatedUser(userId))
+      }
+
+      // /users/intercoms
+      match /intercoms/{intercomId} {
+        allow read: if(isAuthenticatedUser(userId))
+      }
+
+      // /users/invitations
+      match /invitations/{invitationId} {
+        allow read: if (isAuthenticatedUser(userId));
+        allow write: if (isAuthenticatedUser(userId));
+      }
+
+      // /users/sentInvitations
+      match /sentInvitations/{sentInvitationId} {
+        allow read: if (isAuthenticatedUser(userId));
+      }
+
+      // /users/accesses
+      match /accesses/{accessId} {
+        allow read: if (isAuthenticatedUser(userId));
+        allow write: if false;
+
+        // /users/accesses/personalization
+        match /personalization/{personalizationId} {
+          allow read: if (isAuthenticatedUser(userId));
+          allow write: if (isAuthenticatedUser(userId) && get(/databases/$(database)/documents/users/$(userId)/accesses/$(accessId)).data.isInvitation == false && accessId == personalizationId);
+        }
+      }
+
+      // /users/activityAggregates
+      match /activityAggregates/{buildingId} {
+        allow read: if (isAuthenticatedUser(userId));
+        allow write: if false;
+      }
+
+      // /users/activities
+      match /activities/{activityId} {
+        allow read: if (isAuthenticatedUser(userId));
+        allow write: if false;
+      }
+
+      // /users/authorizedDoors
+      match /authorizedDoors/{authorizedDoorId} {
+        allow read: if (isAuthenticatedUser(userId));
+        allow write: if false;
+      }
+
+      // /users/buildings
+      match /buildings/{buildingId} {
+        allow read: if (isAuthenticatedUser(userId));
+        allow write: if false;
+
+        //  /users/buildings/units
+        match /units/{unitId} {
+          allow read: if (isAuthenticatedUser(userId));
+          allow write: if false;
+        }
+      }
+
+      // /users/devices
+      match /devices/{deviceId} {
+        allow read: if (isAuthenticatedUser(userId));
+        allow create: if (isAuthenticatedUser(userId) && isValidUserDeviceCreation(deviceId))
+        allow update: if (isAuthenticatedUser(userId) && isValidUserDeviceUpdate())
+        allow delete: if (isAuthenticatedUser(userId));
+
+        // /users/devices/accessControlDeviceTokens
+        match /accessControlDeviceTokens/{accessControlDeviceTokenId} {
+          allow read: if (isAuthenticatedUser(userId));
+          allow write: if false;
+        }
+
+        // /users/devices/companionDevices
+        match /companionDevices/{companionDeviceId} {
+          allow read: if (isAuthenticatedUser(userId));
+          allow write: if false;
+        }
+
+        // /users/devices/publicKeys
+        match /publicKeys/{keyType} {
+          allow read: if ((keyType == "signing" || keyType == "crypto") && isAuthenticatedUser(userId));
+          allow create, delete: if ((keyType == "signing" || keyType == "crypto") && isAuthenticatedUser(userId));
+          allow update: if false;
+        }
+      }
+
+      // /users/friends
+      match /friends/{uuid} {
+        allow read: if (isAuthenticatedUser(userId));
+        allow write: if (isAuthenticatedUser(userId));
+      }
+
+      // /users/friendRequests
+      //TODO: control it is an email
+      match /friendRequests/{friendRequestId} {
+        allow read: if (isAuthenticatedUser(userId));
+        allow create, delete: if (isAuthenticatedUser(userId));
+        allow update: if false;
+      }
+
+      // /users/notifications
+      match /notifications/{notificationId} {
+        allow read, update, delete: if (isAuthenticatedUser(userId) && !isUserAccountDeleted());
+        allow create: if false;
+      }
+
+      // /users/notificationTokens
+      match /notificationTokens/{tokenId} {
+        allow read: if (isAuthenticatedUser(userId) && !isUserAccountDeleted());
+        allow write: if false;
+      }
+
+      // /users/organizations
+      match /organizations/{organizationId} {
+        allow read: if (isAuthenticatedUser(userId) && !isUserAccountDeleted());
+      }
+
+      // /users/pendingFriendRequests
+      match /pendingFriendRequests/{pendingFriendRequestId} {
+        allow read: if (isAuthenticatedUser(userId));
+        allow write: if false;
+      }
+
+      // /users/properties
+      match /properties/{propertyId} {
+        allow read: if isValidUser() && !isUserAccountDeleted();
+        allow write: if false;
+      }
+
+      // /users/rentals
+      match /rentals/{rentalId} {
+        allow read: if isValidUser() && !isUserAccountDeleted();
+        allow write: if false;
+      }
+
+      // /users/settings
+      match /settings/{settingsId} {
+        allow read: if (isSignedIn() && isUser(userId) && !isUserAccountDeleted());
+        allow create, delete: if false
+      }
+
+      // /users/status
+      match /status/{statusId} {
+        allow read: if (isSignedIn() && isUser(userId) && !isUserAccountDeleted());
+        allow write: if false
+      }
+
+      // /users/buildingSettings
+      match /buildingSettings/{settingsId} {
+        allow read: if (isSignedIn() && isUser(userId) && !isUserAccountDeleted());
+        allow create, delete: if false
+
+        // /users/{userId}/buildingSettings/{buildingId}/unitSettings/{unitId}
+        match /unitSettings/{unitId} {
+            allow read: if (isSignedIn() && isUser(userId) && !isUserAccountDeleted());
+            allow write: if false;
+        }
+      }
+    }
+  }
+}

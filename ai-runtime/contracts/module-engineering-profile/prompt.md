@@ -17,9 +17,34 @@ This task requires the following input artefacts consisting of the contract, you
 
 ## Mandatory
 
+### Step 1. Contracts, personas and rules
 contract.md
 persona.md
 rules.md
+
+### Step 2. Architecture
+
+Oskey Architecture.md
+Purpose:
+Authoritative description of the platform, terminology,
+business capabilities and ownership boundaries.
+
+firestore-schema.md,firestore.rules.txt,firestore-index.json
+Purpose:
+Authoritative explanation of current firestore schema, indexes and rules.
+
+OSkey Backend Services & Data Architecture.md
+Purpose:
+Can only provide background information which needs to be verified through AST discovery as this grounding document may be stale or partially superseded.  
+
+### Step 3. AST
+
+AST
+Purpose:
+Implementation evidence.
+
+Use to verify and locate implementation,
+not to redefine platform terminology.
 
 
 | Artefact | Purpose |

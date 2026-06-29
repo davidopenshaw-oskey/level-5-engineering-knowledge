@@ -1,31 +1,22 @@
-Task Name
+# Required Inputs
 
-Generate Module Engineering Profile
+## Mandatory Code Evidence
 
-Purpose
+- `{module}-manifest.json`
+- `{module}-services.json`
+- `{module}-controllers.json`
+- `{module}-evidence.json`
+- `{module}-evidence-graph.json`
 
-Generate an engineering knowledge projection from deterministic evidence.
+## Mandatory Grounding Evidence
 
-Inputs Required
+- `firestore-schema.md`,
+- `firestore-indexes.json`,
+- `firestore-rules.txt`, 
+- `rbac-permissions.json`, if available
 
-Persona
+## Mandatory Architecture Grounding
 
-Rules
+- `OSkey Architecture.md`
+- `OSkey Backend Services & Data Architecture.md`
 
-Prompt
-
-Evidence Bundle
-
-Expected Output
-
-Engineering Profile
-
-Success Criteria
-
-Evidence-backed
-
-Readable
-
-No unsupported claims
-
-No missing major sections

@@ -2,6 +2,24 @@
 
 Generate a Module Engineering Profile from the supplied evidence pack.
 
+## Pass 1 boundary
+
+This task produces a Pass 1 module document.
+
+Do not try to solve Pass 2 concerns.
+
+Pass 2 concerns include:
+
+- full inter-module dependency mapping
+- complete functional flows
+- cross-module result sets
+- platform-wide fan-out analysis
+- cross-repository relationships
+
+If evidence suggests one of these concerns, record it as a candidate for Pass 2 rather than expanding it.
+
+---
+
 # Required Output
 
 Use this structure:

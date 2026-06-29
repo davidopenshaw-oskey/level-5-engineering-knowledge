@@ -1,3 +1,94 @@
+# Building — Module Engineering Profile
+
+Generated: 2026-06-29
+
+## 1. Module Summary
+
+- Purpose: The `building` module implements server-side controllers and services that model and manage building-scoped resources (buildings, doors, settings, intercoms, pincodes, non-app users) and orchestrate access provisioning and device-related interactions.
+- Responsibility: Provide the API surface and business logic to create/read/update/delete building entities, manage door-to-device associations, generate and persist pincodes, and support intercom-related features.
+
+## 2. Primary Responsibilities
+
+- Building lifecycle management: create, list, retrieve, update, delete buildings and images.
+- Door and device management: manage doors and access-control-device assignments/configuration.
+- Access provisioning and ledgers: orchestrate creation of access grants, pincode generation and denormalised access records.
+- Intercom management: intercom structures, call transfer lists, and message publishing candidates.
+- Non-app user handling: create/maintain non-app user accounts and their access under unit/building scope.
+
+## 3. Public Interfaces
+
+- Controllers (API surface): `OSKBuildingController` and ~21 submodule controllers (e.g., `building_accesses`, `building_door`, `building_intercom`, `building_pincode`, `building_settings`, `building_unit`). See controller listing in the evidence artifacts.
+- Exported services: `OSKBuildingAccessService`, `OSKBuildingDoorService`, `OSKBuildingIntercomService`, `OSKBuildingPincodeService`, `OSKBuildingSettingsService`, `OSKBuildingUnitNonAppUserService`, and others.
+- Representative public methods: `getCollectionPath`, `generateDocId`, `getAll`, `get`, `getSafe`, `save`, `update`, `delete`, `uploadImage`, `deleteImage` (documented in controller evidence).
+
+## 4. Internal Structure
+
+- Controllers vs Services: Controllers provide request/entry points; services encapsulate business logic and data orchestration.
+- Submodule decomposition: Each concern is split into submodules (e.g., `building_door`, `building_pincode`, `building_intercom`, `building_unit`), each with its own controllers and services.
+- Supporting artifacts: module manifest, evidence graph and AST-derived evidence enumerate methods, permission hints and firestore hints.
+
+## 5. Firestore Usage
+
+- Collections referenced (evidence + schema):
+  - `/buildings` and subcollections such as `/buildings/{id}/doors`, `/buildings/{id}/settings`.
+  - `/accessControlDevices` and its subcollections (`/accessControlDevices/{id}/configs`, `/accessControlDevices/{id}/publicKeys`).
+  - Access ledgers and user-scoped collections referenced by services: `/users/{userId}/accesses`, `/buildings/{buildingId}/accesses`, `/users/{userId}/pincodes` (implied by services and backend architecture grounding).
+  - Collection-groups in indexes: `inhabitants`, `intercom`, `invitationsSent`, `onboardingInhabitants`, `userInvitations`.
+- Likely reads: `get`, `getAll`, `listDocuments` on building documents; service reads to assemble access payloads.
+- Likely writes: `save`, `update`, `delete`, pincode generation, and denormalised fan-out writes to user/building access ledgers.
+- Uncertain: exact write targets and device sync mechanism (Cloud Tasks, pub/sub, direct device APIs) — requires tracing implementation.
+
+## 6. Permissions
+
+- Permission checks and hints are present across controllers/services (examples: `canEditBuilding`, `isAuthenticatedUser`, RBAC checks referenced in permission facts).
+- Firestore rules include building/unit ACL helpers and many omitted guard functions; controllers reference permission hints in evidence.
+- Do not infer complete RBAC mappings; evidence shows many permission hints but not a full authoritative mapping.
+
+## 7. Cross-Module Dependencies
+
+- Heavy dependencies on access- and pincode-related submodules (`building_accesses`, `building_pincode`).
+- Unit and non-app user flows depend on `building_unit` and `building_unit_nonAppUser` services.
+- Intercom flows depend on `building_intercom` message publisher services.
+
+## 8. External Hooks (Candidate Boundaries)
+
+- Physical access-control devices (ACDs) — Intercom and Digicom devices are candidate consumers of device syncs.
+- Mobile applications (OSkey iOS/Android) — likely consumers of building access APIs (architecture grounding suggests this relationship).
+- Telephony/push/notification systems — intercom call transfer and message publisher services suggest external integrations.
+- These remain candidate boundaries until concrete implementation hooks are traced.
+
+## 9. Architectural Observations
+
+- Clear separation of controllers (surface) and services (business logic).
+- Denormalisation and fan-out patterns are central to access management (architecture doc and service evidence point to multi-target writes), implying complexity in consistency management.
+- The `building` module is broad with many controllers/services — this breadth concentrates responsibilities and increases coupling risk.
+
+## 10. Risks and Open Questions
+
+- Where and how device synchronization to ACDs is implemented (protocols, endpoints, queues) is not fully evidenced.
+- Exact fan-out mechanism for denormalised writes (Cloud Tasks vs batched writes vs pub/sub) requires confirmation.
+- Complete RBAC permission-to-endpoint mapping is not present in the provided evidence.
+- Operational semantics (retries, transactions, partial-failure handling) for multi-document updates are not fully visible.
+
+## 11. Evidence References
+
+- Module manifest and stats: [output/knowledge-pipeline/modules/building/building-manifest.json](output/knowledge-pipeline/modules/building/building-manifest.json)
+- Controllers listing: [output/knowledge-pipeline/modules/building/building-controllers.json](output/knowledge-pipeline/modules/building/building-controllers.json)
+- Services listing: [output/knowledge-pipeline/modules/building/building-services.json](output/knowledge-pipeline/modules/building/building-services.json)
+- Evidence graph: [output/knowledge-pipeline/modules/building/building-evidence-graph.json](output/knowledge-pipeline/modules/building/building-evidence-graph.json)
+- Raw evidence: [output/knowledge-pipeline/modules/building/building-evidence.json](output/knowledge-pipeline/modules/building/building-evidence.json)
+- Firestore schema: [ai-runtime/contracts/docs/firestore-schema.md](ai-runtime/contracts/docs/firestore-schema.md)
+- Firestore rules: [ai-runtime/contracts/docs/firestore.rules.txt](ai-runtime/contracts/docs/firestore.rules.txt)
+- Firestore indexes: [ai-runtime/contracts/docs/firestore.indexes.json](ai-runtime/contracts/docs/firestore.indexes.json)
+- Architecture grounding: [ai-runtime/contracts/docs/OSkey Backend Services & Data Architecture.md](ai-runtime/contracts/docs/OSkey Backend Services & Data Architecture.md)
+- Module contract & persona: [ai-runtime/contracts/module-engineering-profile/contract.md](ai-runtime/contracts/module-engineering-profile/contract.md), [ai-runtime/contracts/module-engineering-profile/persona.md](ai-runtime/contracts/module-engineering-profile/persona.md)
+
+---
+
+If you want, I can now (choose):
+
+- trace and list the exact source files and lines that implement the fan-out to access ledgers and device syncs, or
+- expand the profile with quoted evidence snippets from the AST-derived artefacts.
 # Building Module Engineering Profile
 
 ## 1. Module Summary
