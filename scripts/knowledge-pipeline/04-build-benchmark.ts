@@ -46,8 +46,9 @@ function main() {
 
   for (const moduleName of moduleNames) {
     const moduleRoot = path.join(modulesRoot, moduleName);
-    const manifestPath = path.join(moduleRoot, "manifest.json");
-    const graphPath = path.join(moduleRoot, "evidence-graph.json");
+    const manifestPath = path.join(moduleRoot, `${moduleName}-manifest.json`);
+    const filesPath = path.join(moduleRoot, `${moduleName}-files.json`);
+    const graphPath = path.join(moduleRoot, `${moduleName}-evidence-graph.json`);
 
     if (!fs.existsSync(manifestPath) || !fs.existsSync(graphPath)) continue;
 

@@ -33,20 +33,20 @@ type AnyRow = {
 type EvidenceFact = {
   id: string;
   type:
-    | "source_file"
-    | "firestore_path_touched"
-    | "permission_required"
-    | "permission_error"
-    | "call_expression"
-    | "imports_dependency"
-    | "exported_symbol"
-    | "service_method"
-    | "controller_method"
-    | "external_hook"
-    | "pubsub_topic"
-    | "http_or_client_path"
-    | "environment_variable"
-    | "storage_path";
+  | "source_file"
+  | "firestore_path_touched"
+  | "permission_required"
+  | "permission_error"
+  | "call_expression"
+  | "imports_dependency"
+  | "exported_symbol"
+  | "service_method"
+  | "controller_method"
+  | "external_hook"
+  | "pubsub_topic"
+  | "http_or_client_path"
+  | "environment_variable"
+  | "storage_path";
 
   repo?: string | null;
   module: string;
@@ -335,15 +335,15 @@ function buildModuleEvidence(targetModule: string, raw: {
   const moduleOutputRoot = path.join(modulesRoot, targetModule);
   fs.mkdirSync(moduleOutputRoot, { recursive: true });
 
-  writeJson(path.join(moduleOutputRoot, "manifest.json"), {
+  writeJson(path.join(moduleOutputRoot, `${targetModule}-manifest.json`), {
     generatedAt: new Date().toISOString(),
     module: targetModule,
     summary,
   });
 
-  writeJson(path.join(moduleOutputRoot, "files.json"), files);
-  writeJson(path.join(moduleOutputRoot, "services.json"), services);
-  writeJson(path.join(moduleOutputRoot, "controllers.json"), controllers);
+  writeJson(path.join(moduleOutputRoot, `${targetModule}-files.json`), files);
+  writeJson(path.join(moduleOutputRoot, `${targetModule}-services.json`), services);
+  writeJson(path.join(moduleOutputRoot, `${targetModule}-controllers.json`), controllers);
 
   const evidence = {
     firestoreEvidence: firestoreHints.map(h => ({
@@ -400,7 +400,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     warnings: [],
   };
 
-  writeJson(path.join(moduleOutputRoot, "evidence.json"), evidence);
+  writeJson(path.join(moduleOutputRoot, `${targetModule}-evidence.json`), evidence);
 
   const facts: EvidenceFact[] = [];
 
@@ -619,15 +619,15 @@ function buildModuleEvidence(targetModule: string, raw: {
     return acc;
   }, {});
 
-  writeJson(path.join(moduleOutputRoot, "evidence-graph.json"), {
+  writeJson(path.join(moduleOutputRoot, `${targetModule}-evidence-graph.json`), {
     generatedAt: new Date().toISOString(),
     module: targetModule,
     source: {
-      manifest: "manifest.json",
-      files: "files.json",
-      services: "services.json",
-      controllers: "controllers.json",
-      evidence: "evidence.json",
+      manifest: `${targetModule}-manifest.json`,
+      files: `${targetModule}-files.json`,
+      services: `${targetModule}-services.json`,
+      controllers: `${targetModule}-controllers.json`,
+      evidence: `${targetModule}-evidence.json`,
     },
     summary: {
       inputSummary: summary,

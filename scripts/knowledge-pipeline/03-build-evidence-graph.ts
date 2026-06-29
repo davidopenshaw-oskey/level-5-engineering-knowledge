@@ -170,13 +170,13 @@ function getModuleDirectories() {
 
 function buildEvidenceGraph(targetModule: string) {
   const moduleRoot = path.join(modulesRoot, targetModule);
-  const outputPath = path.join(moduleRoot, "evidence-graph.json");
+  const outputPath = path.join(moduleRoot, `${targetModule}-evidence-graph.json`);
 
-  const manifest = readJson<AnyRecord>(moduleRoot, "manifest.json");
-  const files = readJson<AnyRecord[]>(moduleRoot, "files.json");
-  const services = readJson<AnyRecord[]>(moduleRoot, "services.json");
-  const controllers = readJson<AnyRecord[]>(moduleRoot, "controllers.json");
-  const evidence = readJson<AnyRecord>(moduleRoot, "evidence.json");
+  const manifest = readJson<AnyRecord>(moduleRoot, `${targetModule}-manifest.json`);
+  const files = readJson<AnyRecord[]>(moduleRoot, `${targetModule}-files.json`);
+  const services = readJson<AnyRecord[]>(moduleRoot, `${targetModule}-services.json`);
+  const controllers = readJson<AnyRecord[]>(moduleRoot, `${targetModule}-controllers.json`);
+  const evidence = readJson<AnyRecord>(moduleRoot, `${targetModule}-evidence.json`);
 
   const facts: EvidenceFact[] = [];
 
@@ -354,11 +354,19 @@ function buildEvidenceGraph(targetModule: string) {
     generatedAt: new Date().toISOString(),
     module: targetModule,
     source: {
-      manifest: "manifest.json",
-      files: "files.json",
-      services: "services.json",
-      controllers: "controllers.json",
-      evidence: "evidence.json",
+      manifest: `${targetModule}-manifest.json`,
+      files: `${targetModule}-files.json`,
+      services: `${targetModule}-services.json`,
+      controllers: `${targetModule}-controllers.json`,
+      evidence: `${targetModule}-evidence.json`,
+    },
+    manifest: {
+      generatedAt: new Date().toISOString(),
+      "manifest.json": `${targetModule}-manifest.json`,
+      "files.json": `${targetModule}-files.json`,
+      "services.json": `${targetModule}-services.json`,
+      "controllers.json": `${targetModule}-controllers.json`,
+      "evidence.json": `${targetModule}-evidence.json`,
     },
     summary: {
       inputSummary: manifest.summary ?? null,
