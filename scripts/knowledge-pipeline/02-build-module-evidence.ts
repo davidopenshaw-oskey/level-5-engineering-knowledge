@@ -46,7 +46,8 @@ type EvidenceFact = {
   | "pubsub_topic"
   | "http_or_client_path"
   | "environment_variable"
-  | "storage_path";
+  | "storage_path"
+  | "firestore_trigger";
 
   repo?: string | null;
   module: string;
@@ -206,6 +207,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   firestoreHints: AnyRow[];
   permissionHints: AnyRow[];
   externalHooks: AnyRow[];
+  firestoreTriggers: AnyRow[];
 }) {
   const imports = raw.imports.filter(r => isTarget(r, targetModule));
   const exports_ = raw.exports_.filter(r => isTarget(r, targetModule));
@@ -216,6 +218,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   const firestoreHints = raw.firestoreHints.filter(r => isTarget(r, targetModule));
   const permissionHints = raw.permissionHints.filter(r => isTarget(r, targetModule));
   const externalHooks = raw.externalHooks.filter(r => isTarget(r, targetModule));
+  const firestoreTriggers = raw.firestoreTriggers.filter(r => isTarget(r, targetModule));
 
   const allRows = [
     ...imports,
@@ -227,6 +230,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     ...firestoreHints,
     ...permissionHints,
     ...externalHooks,
+    ...firestoreTriggers,
   ];
 
   const filePaths = unique(
@@ -244,6 +248,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   const firestoreByFile = groupByPath(firestoreHints);
   const permissionsByFile = groupByPath(permissionHints);
   const externalHooksByFile = groupByPath(externalHooks);
+  const firestoreTriggersByFile = groupByPath(firestoreTriggers);
 
   const files = filePaths.map(filePath => ({
     path: filePath,
@@ -258,6 +263,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     firestoreHints: firestoreByFile.get(filePath) ?? [],
     permissionHints: permissionsByFile.get(filePath) ?? [],
     externalHooks: externalHooksByFile.get(filePath) ?? [],
+    firestoreTriggers: firestoreTriggersByFile.get(filePath) ?? [],
   }));
 
   const services = classes
@@ -328,6 +334,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     firestoreHints: firestoreHints.length,
     permissionHints: permissionHints.length,
     externalHooks: externalHooks.length,
+    firestoreTriggers: firestoreTriggers.length,
     services: services.length,
     controllers: controllers.length,
   };
@@ -344,6 +351,10 @@ function buildModuleEvidence(targetModule: string, raw: {
   writeJson(path.join(moduleOutputRoot, `${targetModule}-files.json`), files);
   writeJson(path.join(moduleOutputRoot, `${targetModule}-services.json`), services);
   writeJson(path.join(moduleOutputRoot, `${targetModule}-controllers.json`), controllers);
+  writeJson(
+    path.join(moduleOutputRoot, `${targetModule}-firestore-triggers.json`),
+    firestoreTriggers,
+  );
 
   const evidence = {
     firestoreEvidence: firestoreHints.map(h => ({
@@ -384,6 +395,8 @@ function buildModuleEvidence(targetModule: string, raw: {
       value: h.value,
       line: h.line,
     })),
+
+    firestoreTriggerArtefact: `${targetModule}-firestore-triggers.json`,
 
     crossModuleDependencies,
 
@@ -531,6 +544,38 @@ function buildModuleEvidence(targetModule: string, raw: {
     );
   }
 
+  for (const item of firestoreTriggers) {
+    const triggerType = cleanValue(item.triggerType) ?? "unknown";
+    const handlerName = cleanValue(item.handlerName);
+    const firestorePath = cleanValue(item.firestorePath);
+    const rawText = cleanValue(item.rawText);
+
+    const value =
+      firestorePath ??
+      handlerName ??
+      rawText ??
+      `${triggerType} trigger`;
+
+    facts.push(
+      fact({
+        type: "firestore_trigger",
+        repo: item.repo ?? null,
+        module: moduleOf(item, targetModule),
+        submodule: submoduleOf(item),
+        file: fileOf(item),
+        line: lineOf(item),
+        value,
+        symbol: handlerName,
+        evidence: {
+          ...item,
+          triggerType,
+          firestorePath: firestorePath ?? null,
+          handlerName: handlerName ?? null,
+        },
+      }),
+    );
+  }
+
   for (const item of evidence.crossModuleDependencies) {
     const importedFrom = cleanValue(item.importedFrom);
     if (!importedFrom) continue;
@@ -627,6 +672,7 @@ function buildModuleEvidence(targetModule: string, raw: {
       files: `${targetModule}-files.json`,
       services: `${targetModule}-services.json`,
       controllers: `${targetModule}-controllers.json`,
+      firestoreTriggers: `${targetModule}-firestore-triggers.json`,
       evidence: `${targetModule}-evidence.json`,
     },
     summary: {
@@ -654,6 +700,7 @@ function main() {
     firestoreHints: readJson<AnyRow>("ast-firestore-hints.json"),
     permissionHints: readJson<AnyRow>("ast-permission-hints.json"),
     externalHooks: readJson<AnyRow>("ast-external-hooks.json"),
+    firestoreTriggers: readJson<AnyRow>("ast-firestore-triggers.json"),
   };
 
   const modules = getModules([
@@ -666,6 +713,7 @@ function main() {
     ...raw.firestoreHints,
     ...raw.permissionHints,
     ...raw.externalHooks,
+    ...raw.firestoreTriggers,
   ]);
 
   fs.mkdirSync(modulesRoot, { recursive: true });

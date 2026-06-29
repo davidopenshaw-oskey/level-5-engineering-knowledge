@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T14:08:28.522Z",
+  "generatedAt": "2026-06-29T18:37:52.898Z",
   "module": "building",
   "summary": {
     "files": 89,
@@ -12,6 +12,7 @@
     "firestoreHints": 17,
     "permissionHints": 47,
     "externalHooks": 24,
+    "firestoreTriggers": 2,
     "services": 20,
     "controllers": 22
   }

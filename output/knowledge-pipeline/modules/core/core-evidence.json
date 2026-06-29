@@ -12113,6 +12113,7 @@
       "line": 129
     }
   ],
+  "firestoreTriggerArtefact": "core-firestore-triggers.json",
   "crossModuleDependencies": [
     {
       "repo": "cloud",

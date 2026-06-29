@@ -456,7 +456,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/index.ts",
@@ -567,7 +568,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/models/email_log_document.ts",
@@ -636,7 +638,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/models/email_options.model.ts",
@@ -681,7 +684,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/models/email_template.model.ts",
@@ -750,7 +754,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
@@ -1668,7 +1673,8 @@
         "value": "OSK_NO_REPLY_EMAIL",
         "line": 116
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/core/core.template.ts",
@@ -1742,7 +1748,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/index.ts",
@@ -1954,7 +1961,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/onboarding_activation/onboarding_activation_code.ts",
@@ -1999,7 +2007,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/organization_invitation/organization_invitation.template.ts",
@@ -2044,7 +2053,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/pmp_user_invitation/pmp_user_invitation.template.ts",
@@ -2089,7 +2099,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/unit_invitation/external_unit_invitation_template.ts",
@@ -2134,7 +2145,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/user_invitation/external_user_invitation.template.ts",
@@ -2179,7 +2191,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/user_onboarded/user_onboarded_notification.template.ts",
@@ -2224,7 +2237,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/mail/templates/user_otp_code/user_otp_code.template.ts",
@@ -2269,7 +2283,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
@@ -2392,7 +2407,8 @@
         "value": "OSK_IOS_APP_BUNDLE_ID",
         "line": 123
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/index.ts",
@@ -2575,7 +2591,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/models/notification_metadata.model.ts",
@@ -2761,7 +2778,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/models/notification_options.model.ts",
@@ -2835,7 +2853,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/models/notification_type.model.ts",
@@ -2886,7 +2905,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
@@ -3472,7 +3492,8 @@
         "value": "OSK_APPLE_TEAM_ID",
         "line": 111
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
@@ -3758,7 +3779,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
@@ -4935,7 +4957,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/qr_code/index.ts",
@@ -4974,7 +4997,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts",
@@ -5115,7 +5139,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
@@ -5553,7 +5578,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/index.ts",
@@ -5616,7 +5642,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/models/sms_log_document.ts",
@@ -5661,7 +5688,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/models/sms_options.model.ts",
@@ -5706,7 +5734,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/models/sms_options.ts",
@@ -5733,7 +5762,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
@@ -6348,7 +6378,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 62
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/templates/index.ts",
@@ -6414,7 +6445,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/templates/sms_messages.model.ts",
@@ -6471,7 +6503,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/apps/modules/sms/templates/sms_template.model.ts",
@@ -6540,6 +6573,7 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   }
 ]

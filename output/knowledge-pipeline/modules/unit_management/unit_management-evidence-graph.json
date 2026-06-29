@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T14:08:32.957Z",
+  "generatedAt": "2026-06-29T18:38:05.054Z",
   "module": "unit_management",
   "source": {
     "manifest": "unit_management-manifest.json",
@@ -9,7 +9,7 @@
     "evidence": "unit_management-evidence.json"
   },
   "manifest": {
-    "generatedAt": "2026-06-26T14:08:32.957Z",
+    "generatedAt": "2026-06-29T18:38:05.054Z",
     "manifest.json": "unit_management-manifest.json",
     "files.json": "unit_management-files.json",
     "services.json": "unit_management-services.json",
@@ -28,6 +28,7 @@
       "firestoreHints": 1,
       "permissionHints": 4,
       "externalHooks": 5,
+      "firestoreTriggers": 0,
       "services": 5,
       "controllers": 1
     },

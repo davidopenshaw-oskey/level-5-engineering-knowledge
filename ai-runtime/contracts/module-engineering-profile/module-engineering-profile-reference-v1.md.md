@@ -4,7 +4,7 @@
 
 ### Interpretation
 
-The building module is the OSkey backend module for the Building scope: the physical structure below a Property and above Units. Evidence indicates that it owns the primary `/buildings` document model and a broad set of building-scoped subcollections for doors, units, intercom directories, building settings, building-level access ledgers, pincodes, non-app users and activity records.
+The building module is the Oskey backend module for the Building scope: the physical structure below a Property and above Units. Evidence indicates that it owns the primary `/buildings` document model and a broad set of building-scoped subcollections for doors, units, intercom directories, building settings, building-level access ledgers, pincodes, non-app users and activity records.
 
 Architecture grounding places Building as the primary physical anchor for Access Control Devices (ACDs), active door-locking mechanisms and shared infrastructure such as lobby doors and service entrances. The current implementation reflects that role by combining structural administration services, Firestore controllers, denormalized access ledgers, intercom publication hooks and ACD assignment triggers.
 
@@ -542,7 +542,7 @@ High for the existence of these open questions. Low for any answer to them withi
 - `ai-runtime/contracts/module-engineering-profile/rules.md`
 - `ai-runtime/contracts/module-engineering-profile/persona.md`
 - `ai-runtime/contracts/docs/Oskey Architecture.md`
-- `ai-runtime/contracts/docs/OSkey Backend Services & Data Architecture.md`
+- `ai-runtime/contracts/docs/Oskey Backend Services & Data Architecture.md`
 - `ai-runtime/contracts/docs/firestore-schema.md`
 - `ai-runtime/contracts/docs/firestore.rules.txt`
 - `ai-runtime/contracts/docs/firestore.indexes.json`

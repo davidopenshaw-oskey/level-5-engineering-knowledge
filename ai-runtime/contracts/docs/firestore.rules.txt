@@ -2,7 +2,7 @@ This file contains the firestore rules
 
 //
 // firebase-oskey-dev
-// Copyright (c) 2021-2025, OSkey SAS. All rights reserved.
+// Copyright (c) 2021-2025, Oskey SAS. All rights reserved.
 //
 
 rules_version = '2';

@@ -93,7 +93,28 @@ For each responsibility, use:
 
 ---
 
-## 7. Permissions & Security
+## 7. Firestore Triggers
+
+### Interpretation
+
+Describe Firestore document triggers owned by or exposed from this module.
+
+Include confirmed triggers and their likely architectural role.
+
+### Evidence Used
+
+Use concrete evidence items.
+
+Examples:
+
+- Firestore Trigger: onCreate
+- Path or Path Variable: buildingDoorAccessControlDevicePath
+- Handler: OSKBuildingDoorAccessControlDeviceService.onDocumentCreated
+- Source File: functions/src/modules/building/modules/building_door/index.ts
+- Line: source line from evidence, if available
+
+### Confidence
+## 8. Permissions & Security
 
 ### Interpretation
 
@@ -105,7 +126,7 @@ For each responsibility, use:
 
 ---
 
-## 8. Cross-Module Relationships
+## 9. Cross-Module Relationships
 
 ### Interpretation
 
@@ -117,7 +138,7 @@ For each responsibility, use:
 
 ---
 
-## 9. External Hooks
+## 10. External Hooks
 
 ### Interpretation
 
@@ -129,7 +150,7 @@ For each responsibility, use:
 
 ---
 
-## 10. Architectural Observations
+## 11. Architectural Observations
 
 ### Interpretation
 
@@ -141,7 +162,7 @@ For each responsibility, use:
 
 ---
 
-## 11. Risks & Open Questions
+## 12. Risks & Open Questions
 
 ### Interpretation
 
@@ -153,6 +174,6 @@ For each responsibility, use:
 
 ---
 
-## 12. Evidence References
+## 13. Evidence References
 
 List all significant supporting artefacts referenced during generation.

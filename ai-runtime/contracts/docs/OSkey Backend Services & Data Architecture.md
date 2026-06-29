@@ -1,7 +1,7 @@
 # Oskeky firestore architecture
 
 **version:** 0.0.1
-© [Year] OSkey SAS. All rights reserved
+© [Year] Oskey SAS. All rights reserved
 
 This document is a companion document to the Oskey architecture.md and the firestore-schema.md. Its objective is to provide contextual information explaining the different collections, subcollections, keys and relationships and to assist agents in understanding the complexitiy of the Oskey landscape
 

@@ -33,6 +33,30 @@ When presenting evidence, use the following evidence types.
 
 Only classify an item according to its actual engineering role.
 
+#### Firestore Trigger
+
+A Firestore document trigger reacting to document create, update, delete, or write events.
+
+Use this evidence type for Cloud Function Firestore triggers such as:
+
+- `.onCreate`
+- `.onUpdate`
+- `.onDelete`
+- `.onWrite`
+- `onDocumentCreated`
+- `onDocumentUpdated`
+- `onDocumentDeleted`
+- `onDocumentWritten`
+
+When available, include:
+
+- trigger type
+- source file
+- line
+- Firestore path or path variable
+- handler/service method
+- downstream side effects
+
 #### Controller
 
 A controller class or controller method.

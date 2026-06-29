@@ -1,21 +1,21 @@
 
-# System Context & Architecture Overview: OSkey Access Platform
+# System Context & Architecture Overview: Oskey Access Platform
 
 **version:** 0.0.1
-© [Year] OSkey SAS. All rights reserved
+© [Year] Oskey SAS. All rights reserved
 
 ---
 
 ## 1. Business Context & Core Value Proposition
 
-The OSkey Secure Building Access Platform is a modern, ecosystem-driven solution designed to provide secure, frictionless access control for multi-tenant residential and commercial buildings. Its primary initial market is France, with strategic roadmap expansion targeted for the broader EU and EMEA regions.
+The Oskey Secure Building Access Platform is a modern, ecosystem-driven solution designed to provide secure, frictionless access control for multi-tenant residential and commercial buildings. Its primary initial market is France, with strategic roadmap expansion targeted for the broader EU and EMEA regions.
 
-By bridging physical hardware with cloud-native software, OSkey eliminates traditional physical key management friction for property managers while offering modern, secure, and flexible entry methods for residents and visitors.
+By bridging physical hardware with cloud-native software, Oskey eliminates traditional physical key management friction for property managers while offering modern, secure, and flexible entry methods for residents and visitors.
 
 The Core Ecosystem Components
 The platform's business logic and technical execution are split across three primary operational pillars:
 
-### The OSkey Mobile Application (iOS & Android)
+### The Oskey Mobile Application (iOS & Android)
 
 The primary user interface for inhabitants and guests. Residents use it for frictionless entry via SecureBLE (Bluetooth Low Energy) or custom PIN codes. It serves as a decentralized management tool for their specific unit, allowing them to invite co-inhabiters or issue temporary access to non-inhabitants (guests/delivery personnel) who can use the app via SecureBLE or a unique PIN.
 
@@ -29,19 +29,19 @@ The Digicom: A lightweight, Linux-based device running the Zephyr RTOS, featurin
 
 ### The Property Manager Portal (PGO)
 
-The central administrative web application (Angular-based). This portal allows property managers and administrative teams to manage the entire OSkey deployment across their portfolio—configuring buildings, provisioning devices, and onboarding or offboarding residents.
+The central administrative web application (Angular-based). This portal allows property managers and administrative teams to manage the entire Oskey deployment across their portfolio—configuring buildings, provisioning devices, and onboarding or offboarding residents.
 
 ---
 
 ## 2. Core Domain Entities & Hierarchy
 
-The OSkey Access platform relies on a strict, nested hierarchical data model that maps logical business structures to physical real estate assets. Understanding this hierarchy is critical for enforcing security boundaries, device provisioning, and Role-Based Access Control (RBAC).
+The Oskey Access platform relies on a strict, nested hierarchical data model that maps logical business structures to physical real estate assets. Understanding this hierarchy is critical for enforcing security boundaries, device provisioning, and Role-Based Access Control (RBAC).
 
 The logical and physical workflow flows downward through five specific scopes: Organization, Entity, Property, Building, and Unit.
 
 ### Organization Scope
 
-The Organization represents the top-level corporate or enterprise business entity (e.g., "Alpha Management Group"). This layer serves as the global configuration, subscription, and master administrative umbrella. It is provisioned strictly by OSkey internal operations staff after a contract is executed. Once created, customer enterprise admins utilize this layer to spawn internal PGO accounts for their corporate staff and assign high-level RBAC roles.
+The Organization represents the top-level corporate or enterprise business entity (e.g., "Alpha Management Group"). This layer serves as the global configuration, subscription, and master administrative umbrella. It is provisioned strictly by Oskey internal operations staff after a contract is executed. Once created, customer enterprise admins utilize this layer to spawn internal PGO accounts for their corporate staff and assign high-level RBAC roles.
 
 ### Entity Scope
 
@@ -61,7 +61,7 @@ A Unit is an individual apartment, office lot, commercial studio, or residential
 
 ### User Types & Personas
 
-The OSkey platform distinguishes between users who interact with the physical hardware (ACDs), the client mobile applications, and the backend administrative portal (PGO). These personas dictate access permissions, invitations, and identity verification workflows.
+The Oskey platform distinguishes between users who interact with the physical hardware (ACDs), the client mobile applications, and the backend administrative portal (PGO). These personas dictate access permissions, invitations, and identity verification workflows.
 
 #### Inhabitant Personas
 
@@ -107,7 +107,7 @@ Onboarding Inhabitant: A transitional state triggered the moment a Property Mana
 
 ## 3. Hardware Ecosystem
 
-The OSkey physical footprint consists of edge-deployed Access Control Devices (ACDs) installed at secure entry barriers. These devices operate as localized validation nodes, managing user interactions, cryptographic key matching, and cellular cloud synchronization. Devices such as Intercom and Digicoms are collectively termed ACDs.
+The Oskey physical footprint consists of edge-deployed Access Control Devices (ACDs) installed at secure entry barriers. These devices operate as localized validation nodes, managing user interactions, cryptographic key matching, and cellular cloud synchronization. Devices such as Intercom and Digicoms are collectively termed ACDs.
 
 ### The Intercom (Android Track)
 
@@ -127,11 +127,11 @@ Core Function: Functionally streamlined for secure access execution. It validate
 
 ### Edge Connectivity & Data Synchronization
 
-Rather than relying on local building Wi-Fi or hardwired Ethernet networks, OSkey hardware establishes a direct cloud connection through specialized onboard cellular architecture.
+Rather than relying on local building Wi-Fi or hardwired Ethernet networks, Oskey hardware establishes a direct cloud connection through specialized onboard cellular architecture.
 
 ### Onboard 4G Cellular Architecture
 
-Every ACD contains an internal, dedicated 4G cellular chip. This modem maintains an independent cellular uplink to the OSkey cloud ecosystem, isolating the building's physical security grid from local consumer network dependencies or outages.
+Every ACD contains an internal, dedicated 4G cellular chip. This modem maintains an independent cellular uplink to the Oskey cloud ecosystem, isolating the building's physical security grid from local consumer network dependencies or outages.
 
 ### Synchronization and Delta Payload Delivery
 
@@ -180,13 +180,13 @@ The Zephyr based Digicom is designed for constant field availability and does no
 
 ## 4. Software Architecture & Technical Layers
 
-The OSkey Access platform utilizes a decoupled, hybrid-database architecture engineered to separate client-facing administrative interfaces from the low-latency, high-availability constraints of edge hardware devices.
+The Oskey Access platform utilizes a decoupled, hybrid-database architecture engineered to separate client-facing administrative interfaces from the low-latency, high-availability constraints of edge hardware devices.
 
 ### Client Applications
 
 The client tier consists of native mobile platforms, an administrative web portal, and specialized field utility applications.
 
-### OSkey Mobile Applications (iOS & Android)
+### Oskey Mobile Applications (iOS & Android)
 
 Built natively using Swift (iOS) and Kotlin (Android). These apps interface with backend services to manage user credentials, generate guest access invitations, and communicate directly with ACDs via SecureBLE.
 
@@ -216,7 +216,7 @@ When an administrative change occurs (e.g., a new PIN code is generated or a res
 
 ### Database Layer & Data Partitioning
 
-OSkey splits its persistence layer between Google Firestore and MongoDB to isolate user-facing traffic from edge device polling traffic.
+Oskey splits its persistence layer between Google Firestore and MongoDB to isolate user-facing traffic from edge device polling traffic.
 
 ### Google Firestore (Client & Management State)
 
@@ -252,7 +252,7 @@ Signaling and Gateway Framework: (Architectural Placeholder) A dedicated SIP/Web
 
 ## 5. Core Systems & Workflows
 
-This section maps the operational execution paths of the OSkey platform, illustrating how cloud-native data models translate into immediate physical interactions at the building barrier.
+This section maps the operational execution paths of the Oskey platform, illustrating how cloud-native data models translate into immediate physical interactions at the building barrier.
 
 ### Access & Authentication (The Door Unlocking Flow)
 
@@ -322,7 +322,7 @@ Manual Distribution: Because the recipient lacks a smartphone app to pull the cr
 
 ### Device Cryptography & Security
 
-(Architectural Placeholder) This workflow outlines the public/private key generation, rotational exchange, and handshake protocols executed securely between the OSkey cloud infrastructure, the native client mobile apps, and the physical storage modules embedded inside the edge hardware components.
+(Architectural Placeholder) This workflow outlines the public/private key generation, rotational exchange, and handshake protocols executed securely between the Oskey cloud infrastructure, the native client mobile apps, and the physical storage modules embedded inside the edge hardware components.
 
 ---
 

@@ -208,7 +208,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/models/with_admin_organization_id.model.ts",
@@ -235,7 +236,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts",
@@ -410,7 +412,8 @@
         "value": "/buildings",
         "line": 12
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building_unit.controller.ts",
@@ -569,7 +572,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_buildings/index.ts",
@@ -717,7 +721,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 18
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_buildings/models/functions/get_all_buildings_with_units_request.type.ts",
@@ -779,7 +784,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts",
@@ -1187,7 +1193,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 25
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_accesses/models/recreate_accesses.model.ts",
@@ -1397,7 +1404,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts",
@@ -3576,7 +3584,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts",
@@ -4534,7 +4543,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercom_allowUnitNumber.service.ts",
@@ -5055,7 +5065,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts",
@@ -7175,7 +7186,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_organizations/db_organization_prompt.service.ts",
@@ -7499,7 +7511,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/models/refresh_pincodes.model.ts",
@@ -7556,7 +7569,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts",
@@ -8178,7 +8192,8 @@
         "value": "LOCATION_ID",
         "line": 65
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/pincode_refresh_worker.service.ts",
@@ -8708,7 +8723,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_propertiesIds/db_propertiesIds.service.ts",
@@ -9189,7 +9205,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts",
@@ -10131,7 +10148,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts",
@@ -11263,7 +11281,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/index.ts",
@@ -11915,7 +11934,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 34
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts",
@@ -12153,7 +12173,8 @@
         "line": 26
       }
     ],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts",
@@ -12335,7 +12356,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/index.ts",
@@ -12532,7 +12554,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 24
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/models/documents/organization_listdocument.model.ts",
@@ -12593,7 +12616,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/models/functions/get_organizations_list_request_document.model.ts",
@@ -12620,7 +12644,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/models/functions/organizations_details_by_id_request_document.ts",
@@ -12677,7 +12702,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
@@ -13257,7 +13283,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 73
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_inhabitant_user.controller.ts",
@@ -13523,7 +13550,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
@@ -13725,7 +13753,8 @@
         "value": "/users",
         "line": 11
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_access.controller.ts",
@@ -13917,7 +13946,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_device.controller.ts",
@@ -14148,7 +14178,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts",
@@ -14656,7 +14687,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/index.ts",
@@ -15480,7 +15512,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 33
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_inhabitant_user.requests.model.ts",
@@ -15635,7 +15668,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_accesses_requests.model.ts",
@@ -15762,7 +15796,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_devices_requests.model.ts",
@@ -15877,7 +15912,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_invitations_requests.model.ts",
@@ -16004,7 +16040,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_requests.model.ts",
@@ -16119,7 +16156,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/models/shared/with_user_id.model.ts",
@@ -16146,7 +16184,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
@@ -17522,7 +17561,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 256
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
@@ -18425,7 +18465,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 114
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
@@ -19509,7 +19550,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 187
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
@@ -20225,7 +20267,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 105
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
@@ -21478,7 +21521,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 188
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/utils/get_admin_organization_user.util.ts",
@@ -21744,7 +21788,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/admin/modules/admin_users/utils/get_user.util.ts",
@@ -21888,6 +21933,7 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   }
 ]

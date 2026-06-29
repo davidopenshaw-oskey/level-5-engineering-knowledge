@@ -6,7 +6,7 @@
 
 ## Purpose
 
-Generate an evidence-backed Engineering Module Profile for a single OSkey module.
+Generate an evidence-backed Engineering Module Profile for a single Oskey module.
 
 The objective is to transform deterministic engineering evidence into a human-readable engineering document that accurately describes the module's responsibilities, structure and architectural role.
 
@@ -15,8 +15,6 @@ This task is **Pass 1** of the Knowledge Pipeline.
 It documents **one module only**.
 
 It does **not** attempt to synthesise platform-wide behaviour, workflows or cross-repository interactions.
-
-Output the results into a markdown file called modulename-engineering-profile.md
 
 ---
 
@@ -53,7 +51,7 @@ These establish:
 These documents define how the platform is intended to work.
 
 - Oskey Architecture.md
-- OSkey Backend Services & Data Architecture.md - this file may already be superceded. Only use it where information can be verified from AST proof
+- Oskey Backend Services & Data Architecture.md - this file may already be superceded. Only use it where information can be verified from AST proof
 
 
 ---
@@ -86,27 +84,43 @@ RBAC Roles
 
 ## Stage 3 — Build Module Context
 
-Read the module evidence.
+Read the module evidence artefacts for the target module.
 
-Examples:
+Mandatory module evidence artefacts:
 
-* module manifest
-* services
-* controllers
-* evidence
-* evidence graph
+* `{module}-manifest.json`
+* `{module}-services.json`
+* `{module}-controllers.json`
+* `{module}-evidence.json`
+* `{module}-evidence-graph.json`
+* `{module}-firestore-triggers.json`
 
 Use these artefacts to understand how this specific module implements its responsibilities.
+
+Treat Firestore triggers as runtime behaviour evidence. They should be used to identify document-triggered side effects, path variables, handlers, and candidate fan-out behaviour.
 
 ---
 
 ## Stage 4 — Produce the Engineering Profile
 
-Generate the Module Engineering Profile using the supplied Output Schema.
+Before writing the final profile, read:
+
+* `persona.md`
+* `rules.md`
+* `work-order.md`
+* `output-schema.md`
+
+Then generate the Module Engineering Profile using the supplied Output Schema.
+
+The profile must include all required sections from `output-schema.md`, including the Firestore Triggers section if trigger evidence is supplied.
 
 The profile should describe the current implementation.
 
 It should not redesign the system.
+
+Output the result as a markdown file named:
+
+`{module}-engineering-profile.md`
 
 ---
 
@@ -133,3 +147,23 @@ Cross-module relationships may be identified when directly evidenced.
 Do not synthesise platform workflows.
 
 Those are produced during a later Knowledge Pipeline stage.
+
+---
+
+## Reference Output
+
+A reference output (module-engineering-profile-reference-v1.md) may optionally be supplied. 
+
+Its purpose is to demonstrate:
+
+- expected evidence density
+- section structure
+- writing style
+- engineering depth
+- evidence taxonomy
+
+If one is encountered:
+
+- Do not copy findings, interpretations or conclusions from the reference output.
+- Always regenerate the report from the supplied evidence.
+- If the evidence differs from the reference output, follow the evidence.

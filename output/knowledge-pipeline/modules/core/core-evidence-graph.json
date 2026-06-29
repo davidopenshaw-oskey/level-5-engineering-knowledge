@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T14:08:32.896Z",
+  "generatedAt": "2026-06-29T18:38:04.985Z",
   "module": "core",
   "source": {
     "manifest": "core-manifest.json",
@@ -9,7 +9,7 @@
     "evidence": "core-evidence.json"
   },
   "manifest": {
-    "generatedAt": "2026-06-26T14:08:32.896Z",
+    "generatedAt": "2026-06-29T18:38:04.985Z",
     "manifest.json": "core-manifest.json",
     "files.json": "core-files.json",
     "services.json": "core-services.json",
@@ -28,6 +28,7 @@
       "firestoreHints": 1,
       "permissionHints": 7,
       "externalHooks": 32,
+      "firestoreTriggers": 0,
       "services": 12,
       "controllers": 6
     },

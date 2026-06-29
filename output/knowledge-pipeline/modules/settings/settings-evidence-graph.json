@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T14:08:32.943Z",
+  "generatedAt": "2026-06-29T18:38:05.038Z",
   "module": "settings",
   "source": {
     "manifest": "settings-manifest.json",
@@ -9,7 +9,7 @@
     "evidence": "settings-evidence.json"
   },
   "manifest": {
-    "generatedAt": "2026-06-26T14:08:32.943Z",
+    "generatedAt": "2026-06-29T18:38:05.038Z",
     "manifest.json": "settings-manifest.json",
     "files.json": "settings-files.json",
     "services.json": "settings-services.json",
@@ -28,6 +28,7 @@
       "firestoreHints": 26,
       "permissionHints": 394,
       "externalHooks": 7,
+      "firestoreTriggers": 10,
       "services": 6,
       "controllers": 7
     },

@@ -3,7 +3,7 @@
 ## 1. Executive Summary
 
 ### Interpretation
-Evidence indicates that the building module is a building-scoped backend domain module in the OSkey platform. It implements building-level persistence and operational logic for buildings, doors, access-control-related structures, intercom entries, settings, and unit/user relationships within a building context.
+Evidence indicates that the building module is a building-scoped backend domain module in the Oskey platform. It implements building-level persistence and operational logic for buildings, doors, access-control-related structures, intercom entries, settings, and unit/user relationships within a building context.
 
 ### Evidence Used
 - Controller: OSKBuildingController exposes CRUD-style building methods including get, getSafe, update, save, delete, queryAllBuildings, and listDocuments.
@@ -20,7 +20,7 @@ High
 
 ## 2. Architectural Position
 
-- Parent scope: Building scope within the OSkey hierarchy beneath entity, property, and organization.
+- Parent scope: Building scope within the Oskey hierarchy beneath entity, property, and organization.
 - Owned concepts: Building documents, doors, access-control-device associations, intercom entries, settings, unit relationships, and building-user relationships.
 - Provided capabilities: Building lifecycle management, door and access administration, intercom management, settings management, and unit/user association logic.
 - Downstream consumers or candidate consumers: Property-management-facing services, building administration workflows, and candidate intercom or access-control-device consumers.

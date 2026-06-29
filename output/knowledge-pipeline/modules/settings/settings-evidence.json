@@ -5729,6 +5729,7 @@
       "line": 18
     }
   ],
+  "firestoreTriggerArtefact": "settings-firestore-triggers.json",
   "crossModuleDependencies": [],
   "exports": [
     {

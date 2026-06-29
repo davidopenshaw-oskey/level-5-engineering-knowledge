@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T14:08:32.955Z",
+  "generatedAt": "2026-06-29T18:38:05.050Z",
   "module": "tasks",
   "source": {
     "manifest": "tasks-manifest.json",
@@ -9,7 +9,7 @@
     "evidence": "tasks-evidence.json"
   },
   "manifest": {
-    "generatedAt": "2026-06-26T14:08:32.955Z",
+    "generatedAt": "2026-06-29T18:38:05.050Z",
     "manifest.json": "tasks-manifest.json",
     "files.json": "tasks-files.json",
     "services.json": "tasks-services.json",
@@ -28,6 +28,7 @@
       "firestoreHints": 0,
       "permissionHints": 0,
       "externalHooks": 3,
+      "firestoreTriggers": 0,
       "services": 2,
       "controllers": 0
     },

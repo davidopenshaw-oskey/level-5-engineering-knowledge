@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T14:08:32.951Z",
+  "generatedAt": "2026-06-29T18:38:05.045Z",
   "module": "supplier",
   "source": {
     "manifest": "supplier-manifest.json",
@@ -9,7 +9,7 @@
     "evidence": "supplier-evidence.json"
   },
   "manifest": {
-    "generatedAt": "2026-06-26T14:08:32.951Z",
+    "generatedAt": "2026-06-29T18:38:05.045Z",
     "manifest.json": "supplier-manifest.json",
     "files.json": "supplier-files.json",
     "services.json": "supplier-services.json",
@@ -28,6 +28,7 @@
       "firestoreHints": 7,
       "permissionHints": 35,
       "externalHooks": 2,
+      "firestoreTriggers": 0,
       "services": 6,
       "controllers": 6
     },

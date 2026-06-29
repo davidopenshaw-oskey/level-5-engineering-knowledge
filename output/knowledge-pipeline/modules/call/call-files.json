@@ -378,7 +378,8 @@
         "value": "/calls",
         "line": 36
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/index.ts",
@@ -650,7 +651,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/models/documents/call_document.model.ts",
@@ -765,7 +767,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/models/https/call_creation_body.model.ts",
@@ -810,7 +813,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/models/https/call_creation_response.model.ts",
@@ -867,7 +871,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/models/https/call_notification_request_response.model.ts",
@@ -894,7 +899,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/models/https/call_update_body.model.ts",
@@ -939,7 +945,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/models/shared/call_transfer_list_item.model.ts",
@@ -1002,7 +1009,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/models/shared/ice_servers.model.ts",
@@ -1029,7 +1037,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/schema/call_creation_body.schema.ts",
@@ -1383,7 +1392,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/schema/call_update_body.schema.ts",
@@ -2543,7 +2553,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/schema/ice_server.schema.ts",
@@ -2724,7 +2735,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/call/services/call.service.ts",
@@ -5122,6 +5134,7 @@
         "value": "/calls/:callId/notify/:sequenceNumber",
         "line": 350
       }
-    ]
+    ],
+    "firestoreTriggers": []
   }
 ]

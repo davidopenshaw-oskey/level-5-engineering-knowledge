@@ -2801,6 +2801,7 @@
       "line": 257
     }
   ],
+  "firestoreTriggerArtefact": "unit_management-firestore-triggers.json",
   "crossModuleDependencies": [
     {
       "repo": "cloud",

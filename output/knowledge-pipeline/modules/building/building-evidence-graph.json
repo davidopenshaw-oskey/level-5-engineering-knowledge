@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T14:08:32.857Z",
+  "generatedAt": "2026-06-29T18:38:04.943Z",
   "module": "building",
   "source": {
     "manifest": "building-manifest.json",
@@ -9,7 +9,7 @@
     "evidence": "building-evidence.json"
   },
   "manifest": {
-    "generatedAt": "2026-06-26T14:08:32.857Z",
+    "generatedAt": "2026-06-29T18:38:04.943Z",
     "manifest.json": "building-manifest.json",
     "files.json": "building-files.json",
     "services.json": "building-services.json",
@@ -28,6 +28,7 @@
       "firestoreHints": 17,
       "permissionHints": 47,
       "externalHooks": 24,
+      "firestoreTriggers": 2,
       "services": 20,
       "controllers": 22
     },

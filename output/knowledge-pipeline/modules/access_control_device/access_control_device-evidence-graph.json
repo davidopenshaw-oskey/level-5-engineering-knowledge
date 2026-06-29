@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T14:08:32.823Z",
+  "generatedAt": "2026-06-29T18:38:04.912Z",
   "module": "access_control_device",
   "source": {
     "manifest": "access_control_device-manifest.json",
@@ -9,7 +9,7 @@
     "evidence": "access_control_device-evidence.json"
   },
   "manifest": {
-    "generatedAt": "2026-06-26T14:08:32.823Z",
+    "generatedAt": "2026-06-29T18:38:04.913Z",
     "manifest.json": "access_control_device-manifest.json",
     "files.json": "access_control_device-files.json",
     "services.json": "access_control_device-services.json",
@@ -28,6 +28,7 @@
       "firestoreHints": 12,
       "permissionHints": 2,
       "externalHooks": 20,
+      "firestoreTriggers": 9,
       "services": 5,
       "controllers": 8
     },

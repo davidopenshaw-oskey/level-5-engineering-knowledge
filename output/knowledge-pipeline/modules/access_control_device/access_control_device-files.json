@@ -162,7 +162,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device_public_keys.controllers.ts",
@@ -327,7 +328,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/api/node-iot-api/index.ts",
@@ -438,7 +440,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/api/node-iot-api/models/access_control_device.model.ts",
@@ -477,7 +480,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/api/node-iot-api/models/access_control_device_config.model.ts",
@@ -504,7 +508,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/api/node-iot-api/models/access_control_device_public_keys.model.ts",
@@ -531,7 +536,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/api/node-iot-api/models/jwt_payload.model.ts",
@@ -558,7 +564,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
@@ -1048,7 +1055,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 65
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
@@ -1851,7 +1859,8 @@
         "value": "/accessControlDevices",
         "line": 101
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts",
@@ -2092,7 +2101,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
@@ -2806,7 +2816,8 @@
         "value": "OSK_PUBSUB_TOPIC_ACD_CONFIGURATIONS",
         "line": 87
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
@@ -3318,7 +3329,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
@@ -3559,7 +3571,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
@@ -3800,7 +3813,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/index.ts",
@@ -4914,6 +4928,99 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 109
       }
+    ],
+    "firestoreTriggers": [
+      {
+        "repo": "cloud",
+        "module": "access_control_device",
+        "submodule": null,
+        "path": "functions/src/modules/access_control_device/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/index.ts",
+        "line": 78,
+        "triggerType": "onCreate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(accessControlDevicePath)\n            .onCreate",
+        "rawText": "db\n            .document(accessControlDevicePath)\n            .onCreate(OSKAccessControlDeviceService.onDocumentCreated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "access_control_device",
+        "submodule": null,
+        "path": "functions/src/modules/access_control_device/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/index.ts",
+        "line": 81,
+        "triggerType": "onDelete",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(accessControlDevicePath)\n            .onDelete",
+        "rawText": "db\n            .document(accessControlDevicePath)\n            .onDelete(OSKAccessControlDeviceService.onDocumentDeleted)"
+      },
+      {
+        "repo": "cloud",
+        "module": "access_control_device",
+        "submodule": null,
+        "path": "functions/src/modules/access_control_device/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/index.ts",
+        "line": 84,
+        "triggerType": "onCreate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(accessControlDeviceConfigPath)\n            .onCreate",
+        "rawText": "db\n            .document(accessControlDeviceConfigPath)\n            .onCreate(OSKAccessControlDeviceConfigService.onDocumentCreated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "access_control_device",
+        "submodule": null,
+        "path": "functions/src/modules/access_control_device/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/index.ts",
+        "line": 87,
+        "triggerType": "onUpdate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(accessControlDeviceConfigPath)\n            .onUpdate",
+        "rawText": "db\n            .document(accessControlDeviceConfigPath)\n            .onUpdate(OSKAccessControlDeviceConfigService.onDocumentUpdated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "access_control_device",
+        "submodule": null,
+        "path": "functions/src/modules/access_control_device/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/index.ts",
+        "line": 90,
+        "triggerType": "onDelete",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(accessControlDeviceConfigPath)\n            .onDelete",
+        "rawText": "db\n            .document(accessControlDeviceConfigPath)\n            .onDelete(OSKAccessControlDeviceConfigService.onDocumentDeleted)"
+      },
+      {
+        "repo": "cloud",
+        "module": "access_control_device",
+        "submodule": null,
+        "path": "functions/src/modules/access_control_device/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/index.ts",
+        "line": 93,
+        "triggerType": "onCreate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(accessControlDevicePublicKeysPath)\n            .onCreate",
+        "rawText": "db\n            .document(accessControlDevicePublicKeysPath)\n            .onCreate(OSKAccessControlDevicePublicKeysService.onDocumentCreated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "access_control_device",
+        "submodule": null,
+        "path": "functions/src/modules/access_control_device/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/index.ts",
+        "line": 96,
+        "triggerType": "onDelete",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(accessControlDevicePublicKeysPath)\n            .onDelete",
+        "rawText": "db\n            .document(accessControlDevicePublicKeysPath)\n            .onDelete(OSKAccessControlDevicePublicKeysService.onDocumentDeleted)"
+      }
     ]
   },
   {
@@ -4988,7 +5095,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/documents/access_control_device_config_document.model.ts",
@@ -5070,7 +5178,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/documents/access_control_device_document.model.ts",
@@ -5173,7 +5282,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/documents/access_control_device_public_keys_document.model.ts",
@@ -5234,7 +5344,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/documents/access_control_device_state_document.model.ts",
@@ -5308,7 +5419,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/documents/access_control_device_system_log_document.model.ts",
@@ -5382,7 +5494,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/functions/access_control_device_public_key_add_request.model.ts",
@@ -5427,7 +5540,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/functions/access_control_device_public_key_delete_request.model.ts",
@@ -5472,7 +5586,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/messages/access_control_device_config_message.model.ts",
@@ -5517,7 +5632,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/messages/access_control_device_message.model.ts",
@@ -5562,7 +5678,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/messages/access_control_device_public_keys_message.model.ts",
@@ -5624,7 +5741,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/messages/access_control_device_state_message.model.ts",
@@ -5651,7 +5769,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/shared/access_control_device_public_key_type.model.ts",
@@ -5678,7 +5797,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/models/shared/access_control_device_token_payload.model.ts",
@@ -5883,7 +6003,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
@@ -6367,7 +6488,35 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": [
+      {
+        "repo": "cloud",
+        "module": "access_control_device",
+        "submodule": null,
+        "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/services/access_control_device.service.ts",
+        "line": 49,
+        "triggerType": "onCreate",
+        "firestorePath": null,
+        "handlerName": "OSKAccessControlDeviceService.logger.logError",
+        "rawText": "OSKAccessControlDeviceService.logger.logError(`Error in ACD onDocumentCreated: ${error}`, { error })"
+      },
+      {
+        "repo": "cloud",
+        "module": "access_control_device",
+        "submodule": null,
+        "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
+        "kindHint": "service",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/services/access_control_device.service.ts",
+        "line": 66,
+        "triggerType": "onDelete",
+        "firestorePath": null,
+        "handlerName": "OSKAccessControlDeviceService.logger.logError",
+        "rawText": "OSKAccessControlDeviceService.logger.logError(`Error in ACD onDocumentDeleted: ${error}`, { error })"
+      }
+    ]
   },
   {
     "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
@@ -6925,7 +7074,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
@@ -7400,7 +7550,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
@@ -8097,6 +8248,7 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 161
       }
-    ]
+    ],
+    "firestoreTriggers": []
   }
 ]

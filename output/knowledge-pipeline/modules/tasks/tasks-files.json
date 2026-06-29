@@ -142,7 +142,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/tasks/models/pincode_refresh_task.model.ts",
@@ -169,7 +170,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/tasks/models/tasks.model.ts",
@@ -226,7 +228,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/tasks/services/task_handler.service.ts",
@@ -662,7 +665,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
@@ -1049,6 +1053,7 @@
         "value": "QUEUE_TASK_NAME",
         "line": 19
       }
-    ]
+    ],
+    "firestoreTriggers": []
   }
 ]

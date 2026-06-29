@@ -9006,6 +9006,7 @@
       "line": 188
     }
   ],
+  "firestoreTriggerArtefact": "admin-firestore-triggers.json",
   "crossModuleDependencies": [
     {
       "repo": "cloud",

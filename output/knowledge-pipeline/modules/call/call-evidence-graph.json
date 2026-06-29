@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T14:08:32.888Z",
+  "generatedAt": "2026-06-29T18:38:04.975Z",
   "module": "call",
   "source": {
     "manifest": "call-manifest.json",
@@ -9,7 +9,7 @@
     "evidence": "call-evidence.json"
   },
   "manifest": {
-    "generatedAt": "2026-06-26T14:08:32.888Z",
+    "generatedAt": "2026-06-29T18:38:04.975Z",
     "manifest.json": "call-manifest.json",
     "files.json": "call-files.json",
     "services.json": "call-services.json",
@@ -28,6 +28,7 @@
       "firestoreHints": 7,
       "permissionHints": 0,
       "externalHooks": 9,
+      "firestoreTriggers": 0,
       "services": 1,
       "controllers": 1
     },

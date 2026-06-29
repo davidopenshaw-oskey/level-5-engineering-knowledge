@@ -707,7 +707,8 @@
         "value": "/buildings",
         "line": 50
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/index.ts",
@@ -1392,7 +1393,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 46
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/models/documents/building_document.model.ts",
@@ -1506,7 +1508,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/models/functions/building_request.model.ts",
@@ -1685,7 +1688,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
@@ -2403,7 +2407,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_accesses/index.ts",
@@ -2514,7 +2519,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts",
@@ -2588,7 +2594,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_accesses/services/building_access.service.ts",
@@ -2947,7 +2954,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_activity/controllers/building_activities.controller.ts",
@@ -3553,7 +3561,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_activity/index.ts",
@@ -3960,7 +3969,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 39
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model.ts",
@@ -4041,7 +4051,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_activity/models/functions/building_activities.model_request.ts",
@@ -4104,7 +4115,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_activity/services/building_activities.service.ts",
@@ -4752,7 +4764,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/controllers/building_door.controller.ts",
@@ -5507,7 +5520,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device.controller.ts",
@@ -5792,7 +5806,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts",
@@ -6488,7 +6503,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/index.ts",
@@ -7085,6 +7101,34 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 57
       }
+    ],
+    "firestoreTriggers": [
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_door",
+        "path": "functions/src/modules/building/modules/building_door/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_door/index.ts",
+        "line": 44,
+        "triggerType": "onCreate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(buildingDoorAccessControlDevicePath)\n            .onCreate",
+        "rawText": "db\n            .document(buildingDoorAccessControlDevicePath)\n            .onCreate(OSKBuildingDoorAccessControlDeviceService.onDocumentCreated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "building",
+        "submodule": "building_door",
+        "path": "functions/src/modules/building/modules/building_door/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_door/index.ts",
+        "line": 47,
+        "triggerType": "onDelete",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(buildingDoorAccessControlDevicePath)\n            .onDelete",
+        "rawText": "db\n            .document(buildingDoorAccessControlDevicePath)\n            .onDelete(OSKBuildingDoorAccessControlDeviceService.onDocumentDeleted)"
+      }
     ]
   },
   {
@@ -7159,7 +7203,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/models/documents/building_door_access_control_device_public_key_document.model.ts",
@@ -7204,7 +7249,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/models/documents/building_door_document.model.ts",
@@ -7306,7 +7352,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/models/functions/building_door_request.model.ts",
@@ -7404,7 +7451,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/models/shared/building_door_info.model.ts",
@@ -7449,7 +7497,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/services/building_door.service.ts",
@@ -8671,7 +8720,8 @@
         "line": 215
       }
     ],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_door/services/building_door_access_control_device.service.ts",
@@ -9162,7 +9212,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts",
@@ -9719,7 +9770,8 @@
         "value": "OSK_PUBSUB_TOPIC_ACD_INTERCOM_ENTRIES",
         "line": 61
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/controllers/building_intercom_calltransferlist.controller.ts",
@@ -10266,7 +10318,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/index.ts",
@@ -10964,7 +11017,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 61
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_callTransferList_document.model.ts",
@@ -11033,7 +11087,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_document.model.ts",
@@ -11196,7 +11251,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/models/functions/building_intercom_request.model.ts",
@@ -11265,7 +11321,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/models/messages/building_intercom_messages.model.ts",
@@ -11316,7 +11373,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts",
@@ -12394,7 +12452,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts",
@@ -14961,7 +15020,8 @@
         "line": 272
       }
     ],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts",
@@ -15327,7 +15387,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts",
@@ -15875,7 +15936,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode/index.ts",
@@ -16106,7 +16168,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode/models/documents/building_pincode_document.model.ts",
@@ -16339,7 +16402,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts",
@@ -16739,7 +16803,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts",
@@ -17256,7 +17321,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode_trash/index.ts",
@@ -17343,7 +17409,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts",
@@ -17417,7 +17484,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_pincode_trash/services/building_pincode_trash.service.ts",
@@ -17458,7 +17526,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts",
@@ -17965,7 +18034,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/data/building_settings_default_data.ts",
@@ -18487,7 +18557,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/index.ts",
@@ -19076,7 +19147,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 51
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/models/documents/building_settings.model.ts",
@@ -19193,7 +19265,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/models/documents/fields_metadata.model.ts",
@@ -19232,7 +19305,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/models/functions/building_settings_request.model.ts",
@@ -19325,7 +19399,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_settings/services/building_settings.service.ts",
@@ -20994,7 +21069,8 @@
         "line": 475
       }
     ],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit.controller.ts",
@@ -21641,7 +21717,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_door.controller.ts",
@@ -21869,7 +21946,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_inhabitant.controller.ts",
@@ -22737,7 +22815,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_invitation.controller.ts",
@@ -23231,7 +23310,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts",
@@ -23943,7 +24023,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/index.ts",
@@ -24822,7 +24903,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 68
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_document.model.ts",
@@ -24883,7 +24965,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_door_document.model.ts",
@@ -24973,7 +25056,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_document.model.ts",
@@ -25080,7 +25164,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_invitation_document.model.ts",
@@ -25175,7 +25260,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_type_document.model.ts",
@@ -25202,7 +25288,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_permanent_guest_document.model.ts",
@@ -25280,7 +25367,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/functions/building_unit_door_request.model.ts",
@@ -25382,7 +25470,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/models/functions/building_unit_request.model.ts",
@@ -25463,7 +25552,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser.controller.ts",
@@ -26094,7 +26184,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_access.controller.ts",
@@ -26655,7 +26746,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity.controller.ts",
@@ -27249,7 +27341,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity_aggregates.controller.ts",
@@ -27724,7 +27817,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_pincode.controller.ts",
@@ -28213,7 +28307,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts",
@@ -28964,7 +29059,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 49
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_access.model.ts",
@@ -29013,7 +29109,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_accesses_document.model.ts",
@@ -29092,7 +29189,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_activity_document.model.ts",
@@ -29173,7 +29271,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_document.model.ts",
@@ -29230,7 +29329,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_pincode.model.ts",
@@ -29321,7 +29421,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/functions/building_unit_nonAppUser_request.model.ts",
@@ -29495,7 +29596,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts",
@@ -31848,7 +31950,8 @@
         "line": 349
       }
     ],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_access.service.ts",
@@ -32184,7 +32287,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity.service.ts",
@@ -32506,7 +32610,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity_aggregates.service.ts",
@@ -32938,7 +33043,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_pincode.service.ts",
@@ -33105,7 +33211,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
@@ -34596,7 +34703,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 316
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts",
@@ -35080,7 +35188,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 28
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts",
@@ -35923,7 +36032,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_user/controllers/building_user.controller.ts",
@@ -36370,7 +36480,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_user/index.ts",
@@ -36639,7 +36750,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 33
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_user/models/documents/building_user_document.model.ts",
@@ -36734,7 +36846,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_user/models/functions/building_user_request.model.ts",
@@ -36870,7 +36983,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/modules/building_user/services/building_user.service.ts",
@@ -37517,7 +37631,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 27
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/building/services/building.service.ts",
@@ -39725,6 +39840,7 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 344
       }
-    ]
+    ],
+    "firestoreTriggers": []
   }
 ]

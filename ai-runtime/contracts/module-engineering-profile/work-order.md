@@ -4,7 +4,7 @@
 
 Generate an Engineering Module Profile for the supplied module.
 
-The profile should explain how the module fits within the OSkey platform and how it implements its architectural responsibilities.
+The profile should explain how the module fits within the Oskey platform and how it implements its architectural responsibilities.
 
 Interpret the supplied engineering evidence using the architectural grounding documents.
 
@@ -70,7 +70,21 @@ Where possible distinguish between:
 - Candidate denormalised structures
 - Candidate fan-out targets
 
+Also describe Firestore document triggers exposed by the module.
+
+For each trigger, identify where available:
+
+- trigger type
+- Firestore path or path variable
+- source file
+- handler/service method
+- likely side effect
+- confidence
+
+Do not infer exact downstream behaviour unless supported by trigger evidence, service evidence, or architecture grounding.
+
 Do not claim ownership unless supported by architecture grounding.
+
 
 
 ## 7. Permissions & Security

@@ -27,6 +27,14 @@ type BaseRecord = Omit<FileInfo, "sizeBytes"> & {
   absolutePath: string;
 };
 
+type FirestoreTriggerRow = BaseRecord & {
+  line: number;
+  triggerType: "onCreate" | "onUpdate" | "onDelete" | "onWrite" | "unknown";
+  firestorePath: string | null;
+  handlerName: string | null;
+  rawText: string;
+};
+
 const projectRoot = process.cwd();
 
 const configPath = path.join(projectRoot, "config/repos.json");
@@ -76,6 +84,58 @@ function extractDecorators(node: Node) {
     arguments: d.getArguments().map(a => safeText(() => a.getText())),
   }));
 }
+
+function getTriggerType(text: string): FirestoreTriggerRow["triggerType"] {
+  if (text.includes("onDocumentCreated") || text.includes(".onCreate")) return "onCreate";
+  if (text.includes("onDocumentUpdated") || text.includes(".onUpdate")) return "onUpdate";
+  if (text.includes("onDocumentDeleted") || text.includes(".onDelete")) return "onDelete";
+  if (text.includes("onDocumentWritten") || text.includes(".onWrite")) return "onWrite";
+  return "unknown";
+}
+
+function extractFirestoreTriggers(
+  sourceFile: SourceFile,
+  base: BaseRecord,
+): FirestoreTriggerRow[] {
+  const rows: FirestoreTriggerRow[] = [];
+
+  sourceFile.forEachDescendant(node => {
+    if (!Node.isCallExpression(node)) return;
+
+    const text = node.getText();
+    const expression = safeText(() => node.getExpression().getText());
+
+    const looksLikeTrigger =
+      text.includes("onDocumentCreated") ||
+      text.includes("onDocumentUpdated") ||
+      text.includes("onDocumentDeleted") ||
+      text.includes("onDocumentWritten") ||
+      text.includes(".onCreate(") ||
+      text.includes(".onUpdate(") ||
+      text.includes(".onDelete(") ||
+      text.includes(".onWrite(");
+
+    if (!looksLikeTrigger) return;
+
+    const args = node.getArguments().map(a => safeText(() => a.getText()));
+    const firstStringArg =
+      args
+        .map(a => a?.replace(/^['"`]|['"`]$/g, ""))
+        .find(a => a && a.includes("/")) ?? null;
+
+    rows.push({
+      ...base,
+      line: node.getStartLineNumber(),
+      triggerType: getTriggerType(text),
+      firestorePath: firstStringArg,
+      handlerName: expression,
+      rawText: text.slice(0, 500),
+    });
+  });
+
+  return rows;
+}
+
 
 function extractImports(sourceFile: SourceFile, base: BaseRecord) {
   return sourceFile.getImportDeclarations().map(i => ({
@@ -245,6 +305,9 @@ function extractCalls(sourceFile: SourceFile, base: BaseRecord) {
   return rows;
 }
 
+
+
+
 function extractStringHints(sourceFile: SourceFile, base: BaseRecord) {
   const firestoreLike: any[] = [];
   const permissions: any[] = [];
@@ -410,7 +473,8 @@ function main() {
     firestoreHints: [] as any[],
     permissionHints: [] as any[],
     externalHooks: [] as any[],
-    errors: [] as any[],
+    firestoreTriggers: [] as FirestoreTriggerRow[],
+    errors: [] as any[]
   };
 
   for (const { base } of validFiles) {
@@ -427,6 +491,7 @@ function main() {
 
       output.functions.push(...extractFunctions(sourceFile, base));
       output.calls.push(...extractCalls(sourceFile, base));
+      output.firestoreTriggers.push(...extractFirestoreTriggers(sourceFile, base));
 
       const hints = extractStringHints(sourceFile, base);
       output.firestoreHints.push(...hints.firestoreLike);
@@ -452,6 +517,10 @@ function main() {
   fs.writeFileSync(path.join(outputRoot, "ast-firestore-hints.json"), JSON.stringify(output.firestoreHints, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-permission-hints.json"), JSON.stringify(output.permissionHints, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-external-hooks.json"), JSON.stringify(output.externalHooks, null, 2));
+  fs.writeFileSync(
+  path.join(outputRoot, "ast-firestore-triggers.json"),
+  JSON.stringify(output.firestoreTriggers, null, 2),
+);
   fs.writeFileSync(path.join(outputRoot, "ast-errors.json"), JSON.stringify(output.errors, null, 2));
 
   console.log("AST evidence extraction complete");
@@ -465,6 +534,7 @@ function main() {
     firestoreHints: output.firestoreHints.length,
     permissionHints: output.permissionHints.length,
     externalHooks: output.externalHooks.length,
+    firestoreTriggers: output.firestoreTriggers.length,
     errors: output.errors.length,
   });
 }

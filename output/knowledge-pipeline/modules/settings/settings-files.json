@@ -291,7 +291,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/index.ts",
@@ -568,7 +569,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 31
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/models/documents/setting_document.model.ts",
@@ -625,7 +627,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
@@ -886,7 +889,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/appstore/index.ts",
@@ -1045,7 +1049,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts",
@@ -1102,7 +1107,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model.ts",
@@ -1159,7 +1165,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
@@ -1518,7 +1525,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 30
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
@@ -2364,7 +2372,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
@@ -2911,7 +2920,8 @@
         "line": 55
       }
     ],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
@@ -3420,7 +3430,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
@@ -5246,7 +5257,8 @@
         "line": 1050
       }
     ],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
@@ -7432,7 +7444,8 @@
         "line": 1248
       }
     ],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/index.ts",
@@ -7940,6 +7953,60 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 52
       }
+    ],
+    "firestoreTriggers": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/index.ts",
+        "line": 36,
+        "triggerType": "onCreate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(compositeRolePath)\n            .onCreate",
+        "rawText": "db\n            .document(compositeRolePath)\n            .onCreate(OSKCompositeRoleService.onDocumentCreated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/index.ts",
+        "line": 39,
+        "triggerType": "onUpdate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(compositeRolePath)\n            .onUpdate",
+        "rawText": "db\n            .document(compositeRolePath)\n            .onUpdate(OSKCompositeRoleService.onDocumentUpdated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/index.ts",
+        "line": 42,
+        "triggerType": "onDelete",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(compositeRolePath)\n            .onDelete",
+        "rawText": "db\n            .document(compositeRolePath)\n            .onDelete(OSKCompositeRoleService.onDocumentDeleted)"
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "role",
+        "path": "functions/src/modules/settings/modules/role/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/role/index.ts",
+        "line": 45,
+        "triggerType": "onCreate",
+        "firestorePath": null,
+        "handlerName": "db.document(rolePath).onCreate",
+        "rawText": "db.document(rolePath).onCreate(OSKRoleService.onDocumentCreated)"
+      }
     ]
   },
   {
@@ -8014,7 +8081,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/models/documents/role_document.model.ts",
@@ -8071,7 +8139,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/models/shared/assigned_role.model.ts",
@@ -8128,7 +8197,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/models/shared/generated_roles.model.ts",
@@ -8173,7 +8243,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
@@ -9251,7 +9322,8 @@
         "line": 162
       }
     ],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
@@ -9624,7 +9696,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
@@ -9975,7 +10048,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
@@ -10326,7 +10400,8 @@
       }
     ],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/data/workflows.data.ts",
@@ -10400,7 +10475,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/index.ts",
@@ -10912,6 +10988,86 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 61
       }
+    ],
+    "firestoreTriggers": [
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/index.ts",
+        "line": 39,
+        "triggerType": "onCreate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(buildingRequestWorkflowPath)\n            .onCreate",
+        "rawText": "db\n            .document(buildingRequestWorkflowPath)\n            .onCreate(OSKBuildingRequestWorkflowService.onDocumentCreated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/index.ts",
+        "line": 42,
+        "triggerType": "onUpdate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(buildingRequestWorkflowPath)\n            .onUpdate",
+        "rawText": "db\n            .document(buildingRequestWorkflowPath)\n            .onUpdate(OSKBuildingRequestWorkflowService.onDocumentUpdated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/index.ts",
+        "line": 45,
+        "triggerType": "onDelete",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(buildingRequestWorkflowPath)\n            .onDelete",
+        "rawText": "db\n            .document(buildingRequestWorkflowPath)\n            .onDelete(OSKBuildingRequestWorkflowService.onDocumentDeleted)"
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/index.ts",
+        "line": 48,
+        "triggerType": "onCreate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(organizationRequestWorkflowPath)\n            .onCreate",
+        "rawText": "db\n            .document(organizationRequestWorkflowPath)\n            .onCreate(OSKOrganizationRequestWorkflowService.onDocumentCreated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/index.ts",
+        "line": 51,
+        "triggerType": "onUpdate",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(organizationRequestWorkflowPath)\n            .onUpdate",
+        "rawText": "db\n            .document(organizationRequestWorkflowPath)\n            .onUpdate(OSKOrganizationRequestWorkflowService.onDocumentUpdated)"
+      },
+      {
+        "repo": "cloud",
+        "module": "settings",
+        "submodule": "workflow",
+        "path": "functions/src/modules/settings/modules/workflow/index.ts",
+        "kindHint": "unknown",
+        "absolutePath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/settings/modules/workflow/index.ts",
+        "line": 54,
+        "triggerType": "onDelete",
+        "firestorePath": null,
+        "handlerName": "db\n            .document(organizationRequestWorkflowPath)\n            .onDelete",
+        "rawText": "db\n            .document(organizationRequestWorkflowPath)\n            .onDelete(OSKOrganizationRequestWorkflowService.onDocumentDeleted)"
+      }
     ]
   },
   {
@@ -10969,7 +11125,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/models/documents/organization_request_workflow_document.model.ts",
@@ -11026,7 +11183,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
@@ -11429,7 +11587,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 42
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
@@ -11832,7 +11991,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 42
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/settings/services/setting.service.ts",
@@ -12034,6 +12194,7 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 18
       }
-    ]
+    ],
+    "firestoreTriggers": []
   }
 ]

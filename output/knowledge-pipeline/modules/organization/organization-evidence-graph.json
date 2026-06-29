@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T14:08:32.921Z",
+  "generatedAt": "2026-06-29T18:38:05.013Z",
   "module": "organization",
   "source": {
     "manifest": "organization-manifest.json",
@@ -9,7 +9,7 @@
     "evidence": "organization-evidence.json"
   },
   "manifest": {
-    "generatedAt": "2026-06-26T14:08:32.921Z",
+    "generatedAt": "2026-06-29T18:38:05.013Z",
     "manifest.json": "organization-manifest.json",
     "files.json": "organization-files.json",
     "services.json": "organization-services.json",
@@ -28,6 +28,7 @@
       "firestoreHints": 23,
       "permissionHints": 121,
       "externalHooks": 58,
+      "firestoreTriggers": 0,
       "services": 15,
       "controllers": 15
     },

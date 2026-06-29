@@ -446,6 +446,7 @@
       "line": 19
     }
   ],
+  "firestoreTriggerArtefact": "tasks-firestore-triggers.json",
   "crossModuleDependencies": [
     {
       "repo": "cloud",

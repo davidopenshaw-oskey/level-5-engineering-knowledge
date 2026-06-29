@@ -783,7 +783,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/index.ts",
@@ -1469,7 +1470,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 51
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/models/documents/unit_management_invitation_document.ts",
@@ -1602,7 +1604,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/models/functions/unit_management_inhabitant_request_document.ts",
@@ -1728,7 +1731,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/models/functions/unit_management_inhabitant_response_document.ts",
@@ -1929,7 +1933,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/models/functions/unit_management_invitation_creation_response_document.ts",
@@ -1956,7 +1961,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/models/functions/unit_management_invitation_request_document.ts",
@@ -2013,7 +2019,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/models/functions/unit_management_permanent_guest_request_document.ts",
@@ -2145,7 +2152,8 @@
     "calls": [],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
@@ -4324,7 +4332,8 @@
         "line": 337
       }
     ],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/services/unit_management_invitation.service.ts",
@@ -4687,7 +4696,8 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 30
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts",
@@ -5628,7 +5638,8 @@
         "value": "/users",
         "line": 44
       }
-    ]
+    ],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts",
@@ -6276,7 +6287,8 @@
     ],
     "firestoreHints": [],
     "permissionHints": [],
-    "externalHooks": []
+    "externalHooks": [],
+    "firestoreTriggers": []
   },
   {
     "path": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
@@ -7378,6 +7390,7 @@
         "value": "OSK_FIREBASE_EMULATOR",
         "line": 257
       }
-    ]
+    ],
+    "firestoreTriggers": []
   }
 ]

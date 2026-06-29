@@ -2306,6 +2306,7 @@
       "line": 161
     }
   ],
+  "firestoreTriggerArtefact": "access_control_device-firestore-triggers.json",
   "crossModuleDependencies": [
     {
       "repo": "cloud",
