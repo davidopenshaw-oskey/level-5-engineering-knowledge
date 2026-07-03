@@ -1,4 +1,11 @@
 /// <reference types="node" />
+// **version:** 0.0.2
+// **location:** level-5 phases 1, 2
+
+// © [Year] Oskey SAS. All rights reserved
+
+// This script scans the repository for modules and files, generating a JSON output that lists all modules and their associated files.
+
 import * as fs from "fs";
 import * as path from "path";
 

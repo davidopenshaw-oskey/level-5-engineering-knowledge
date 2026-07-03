@@ -1,3 +1,11 @@
+// **version:** 0.0.2
+// **location:** level-5 phases 1, 2
+
+// © [Year] Oskey SAS. All rights reserved
+// This script builds a benchmark for the knowledge pipeline, aggregating data from module manifests and evidence graphs to 
+// provide an overview of the repository's structure and content.
+
+
 import fs from "fs";
 import path from "path";
 

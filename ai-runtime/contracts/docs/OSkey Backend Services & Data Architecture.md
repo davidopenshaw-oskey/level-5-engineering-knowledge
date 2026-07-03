@@ -1,6 +1,8 @@
 # Oskeky firestore architecture
 
-**version:** 0.0.1
+**version:** 0.0.2
+**location:** level-5 phases 1, 2
+
 © [Year] Oskey SAS. All rights reserved
 
 This document is a companion document to the Oskey architecture.md and the firestore-schema.md. Its objective is to provide contextual information explaining the different collections, subcollections, keys and relationships and to assist agents in understanding the complexitiy of the Oskey landscape
@@ -14,7 +16,99 @@ This document is a companion document to the Oskey architecture.md and the fires
 
 ## Data Storage Philosophy, Design and Principles
 
-Within the Firestore database, we have adopted a Principle of Least Privilege, Client-Scoped Data Isolation (Security-First Design) principals. Therefore, what may appear to initially be data duplication actually serves the purpose of isolating information into sandboxed environments. For example, Oskey Mobile App Users can gain access to information within and below the /Users collections, but never outside this area.
+Within Firestore, OSkey adopts the principles of Least Privilege and Client-Scoped Data Isolation (Security-First Design).
+
+Data duplication within Firestore is intentional. Rather than representing redundant storage, duplicated documents provide security boundaries and isolated views optimised for specific consumers.
+
+For example, OSkey Mobile App users interact only with data contained within their authorised /users hierarchy. They never directly access organisation, property or other tenant-owned collections.
+
+Firestore therefore represents the authoritative business data store for the platform.
+
+### Firestore as the System of Record
+
+Firestore is the authoritative source for business entities including:
+
+organisations
+buildings
+units
+users
+suppliers
+invitations
+access configuration
+business workflows
+
+Business services perform validation and orchestration against Firestore before any downstream systems are updated.
+
+### MongoDB as the Hardware Projection Store
+
+MongoDB is not a second system of record.
+
+Instead, it acts as a projection database optimised for hardware communication.
+
+Access Controllers (ACDs), intercoms and other edge devices require a denormalised, hardware-friendly representation of access information.
+
+Relevant Firestore changes are transformed into hardware projections and synchronised into MongoDB.
+
+Hardware therefore consumes projections rather than authoritative business data.
+
+### Pub/Sub as the Synchronisation Backbone
+
+OSkey uses Pub/Sub to decouple business workflows from downstream processing.
+
+Business events generated from Firestore updates may publish messages for asynchronous processing.
+
+Consumers may include:
+
+hardware synchronisation
+activity aggregation
+notification processing
+audit updates
+projection generation
+
+This architecture allows business operations to complete independently of hardware or background processing.
+
+### Edge Device Activity Flow
+
+OSkey also supports a reverse data flow from physical Access Control Devices back into the platform.
+
+When an ACD processes an entry event, such as a PIN attempt, SecureBLE unlock, rejected access, door event, call event or supplier/non-app-user activity, the device sends the activity event to the hardware-facing backend.
+
+These events are first handled by the edge/middleware layer and are then processed back into Firestore as business-visible activity records.
+
+This reverse flow allows OSkey to maintain auditability and operational visibility without allowing edge devices to write directly into Firestore.
+
+Activity events may be written into consumer-specific Firestore views, such as:
+
+- user activity records
+- supplier staff activity records
+- non-app-user activity records
+- building activity records
+- activity aggregates
+- audit or reporting projections
+
+This preserves the same architectural principle used elsewhere in the platform:
+
+Edge devices produce activity signals.
+
+Middleware validates and processes those signals.
+
+Firestore stores the business-visible activity record.
+
+Client applications consume only authorised activity views.
+
+### Architectural Principle
+
+Firestore owns business truth.
+
+Pub/Sub transports business and synchronisation events.
+
+MongoDB serves hardware projections and hardware-facing exchange.
+
+Edge devices do not write directly to Firestore.
+
+Activity flows from edge devices back through the middleware layer before becoming authorised Firestore activity records.
+
+No downstream projection becomes authoritative.
 
 ## Access Orchestration Services
 
@@ -798,12 +892,21 @@ Business Logic: The /calls document is a short-lived state machine. Its lifecycl
 - Termination: When the call ends, a PATCH request updates the status to terminated, failed, or cancelled. A critical business rule is applied here: if no participant ever joined the call (i.e., no didJoin event exists), the final status is programmatically overridden to 'missed'.
 
 - Archival (Fan-Out): Upon termination, the service calculates the call duration and fans out a permanent, denormalized historical record to the personal collections of all participants (/users/{id}/calls and /users/{id}/activityAggregates), ensuring the main /calls collection remains lean with only active or very recent calls.
+  
 
-## /organizations/{organizationId}
+## /organizations/{organizationId}
 
 Description:
 
-The Organization entity represents the highest-level record for a client or tenant in the system. It stores fundamental identification information such as name, address, and tax number. Each organization is structurally linked to a root entity (entityP) within the /entities collection, establishing the foundation for a hierarchical resource tree. It also defines the manifest of composite roles (userRoles) available to be assigned to users within that specific organization.
+The Organization entity represents the highest-level record for a client or tenant in the system. It stores fundamental identification information such as name, address, and tax number.
+
+Each organization is structurally linked to a root entity (`entityP`) within the `/entities` collection, establishing the foundation for a hierarchical resource tree.
+
+It also defines the manifest of composite roles (`userRoles`) available to be assigned to users within that specific organization.
+
+The Angular PGO Portal enters this domain through Organization-scoped HTTPS callable functions and exposed Organization services.
+
+The Angular PGO Portal must not bypass these Organization service entry points or directly access lower-level collections outside the approved Organization domain boundary.
 
 Written By:
 

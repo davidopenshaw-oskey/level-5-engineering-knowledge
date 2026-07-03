@@ -1,3 +1,9 @@
+// **version:** 0.0.2
+// **location:** level-5 phases 1, 2
+
+// © [Year] Oskey SAS. All rights reserved
+// This script builds evidence graphs for each module in the knowledge pipeline, consolidating various types of evidence into a structured JSON output.
+
 import fs from "fs";
 import path from "path";
 
