@@ -386,6 +386,8 @@ The documentation in the final report should include:
 - The role and purpose of the /buildings/{id}/pincode_trash collection in the security and audit lifecycle.
 - The distinct pincode management flows for different personas, involving the user, supplier, and non-app-user modules.
 
+The investigation must differentiate between standard administrative capabilities (e.g., CRUD) and high-risk 'Maintenance' or 'Repair' capabilities. If a module, such as admin, exhibits multiple distinct personalities, these must be cataloged and analyzed separately.
+
 ---
 
 ## Stage 3 — Internal Architectural Topology
@@ -449,6 +451,8 @@ Example form:
 This is an architectural collaboration.
 
 It is not a complete user or business workflow.
+
+For any capability identified as an 'Event Router' or 'Message Processor' (e.g., PubSubMessageProcessor), the analysis must produce a routing table. This table must map each specific incoming message type or event to the exact downstream Module and Service/Handler that processes it.
 
 ---
 
@@ -686,6 +690,8 @@ Capabilities must be evidenced.
 
 Do not construct complete product workflows.
 
+The Description must include the key states of the capability's lifecycle or state machine, if evidenced (e.g., created, pending, active, expired, deleted). For transactional 'consume-and-delete' patterns, this must be explicitly stated.
+
 ---
 
 ## 4. Internal Architectural Topology
@@ -833,11 +839,15 @@ Examples include:
 * lifecycle coordination
 * unexpected coupling
 * significant cross-module dependencies
+* identified design patterns and intent
 * weak or incomplete architectural evidence
 
 Every finding must identify the specific engineering capabilities that support it.
 
 Only report discoveries supported by evidence.
+
+Identified Design Patterns and Intent: For each major architectural pattern observed (e.g., 'Paired Document', 'Denormalized Ledger'), the analysis must also extract the design intent or reasoning for that pattern if it is available in the supporting architecture documents. Explain why the pattern was chosen (e.g., 'for read performance optimization', 'to decouple systems').
+
 
 ---
 

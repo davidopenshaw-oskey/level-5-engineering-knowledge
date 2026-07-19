@@ -9,6 +9,21 @@
 import * as fs from "fs";
 import * as path from "path";
 
+/**
+ * Generates a unique run ID based on the current UTC date and time.
+ * @returns A string in the format YYYYMMDD-HHMMSS.
+ */
+function getRunId(): string {
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  const month = String(now.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(now.getUTCDate()).padStart(2, "0");
+  const hours = String(now.getUTCHours()).padStart(2, "0");
+  const minutes = String(now.getUTCMinutes()).padStart(2, "0");
+  const seconds = String(now.getUTCSeconds()).padStart(2, "0");
+  return `${year}${month}${day}-${hours}${minutes}${seconds}`;
+}
+
 type RepoConfig = {
   repositories: {
     name: string;
@@ -74,9 +89,18 @@ function walkFiles(dirPath: string): string[] {
 }
 
 function main() {
+  const runId = getRunId();
+  console.log(`Starting new pipeline run with Run ID: ${runId}`);
+
   const projectRoot = process.cwd();
   const configPath = path.join(projectRoot, "config/repos.json");
-  const outputRoot = path.join(projectRoot, "output/raw");
+  const outputDir = path.join(projectRoot, "output");
+  const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
+  const outputRoot = path.join(versionedOutputRoot, "raw");
+
+  // Write the context for this run so other scripts can find it.
+  ensureDir(outputDir);
+  fs.writeFileSync(path.join(outputDir, "run-context.json"), JSON.stringify({ runId }, null, 2));
 
   ensureDir(outputRoot);
 

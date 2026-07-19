@@ -1,0 +1,21 @@
+{
+  "runId": "20260719-151741",
+  "generatedAt": "2026-07-19T15:17:47.448Z",
+  "module": "supplier",
+  "summary": {
+    "files": 24,
+    "imports": 137,
+    "exports": 147,
+    "classes": 12,
+    "methods": 77,
+    "functions": 2,
+    "calls": 316,
+    "firestoreHints": 7,
+    "permissionHints": 35,
+    "externalHooks": 2,
+    "firestoreTriggers": 0,
+    "apiContracts": 16,
+    "services": 6,
+    "controllers": 6
+  }
+}

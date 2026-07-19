@@ -1,0 +1,113 @@
+[
+  {
+    "name": "OSKCallService",
+    "repo": "cloud",
+    "path": "functions/src/modules/call/services/call.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getCallTransferList",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKCallTransferListItem[]>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/shared/call_transfer_list_item.model\").OSKCallTransferListItem[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "callTransferListId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "creationTimestamp",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "convertCallTransferListFromIntercomToCall",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": false,
+        "returnTypeText": "OSKCallTransferListItem[]",
+        "resolvedReturnTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/shared/call_transfer_list_item.model\").OSKCallTransferListItem[]",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "intercomCallTransferList",
+            "typeText": "OSKIntercomCallTransferListItem[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_callTransferList_document.model\").OSKIntercomCallTransferListItem[]",
+            "decorators": []
+          },
+          {
+            "name": "creationTimestamp",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "convertRecipientsFromIntercomToCall",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": false,
+        "returnTypeText": "OSKCallRecipient[]",
+        "resolvedReturnTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/shared/call_transfer_list_item.model\").OSKCallRecipient[]",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "callRecipients",
+            "typeText": "OSKIntercomCallRecipient[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_callTransferList_document.model\").OSKIntercomCallRecipient[]",
+            "decorators": []
+          },
+          {
+            "name": "creationTimestamp",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateCallTransferListStarted",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "void",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "callTransferList",
+            "typeText": "OSKCallTransferListItem[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/call/models/shared/call_transfer_list_item.model\").OSKCallTransferListItem[]",
+            "decorators": []
+          },
+          {
+            "name": "timestamp",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

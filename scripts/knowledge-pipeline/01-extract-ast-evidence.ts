@@ -31,6 +31,7 @@ type RepoConfig = {
 
 type BaseRecord = Omit<FileInfo, "sizeBytes"> & {
   absolutePath: string;
+  runId: string;
 };
 
 type FirestoreTriggerRow = BaseRecord & {
@@ -41,11 +42,28 @@ type FirestoreTriggerRow = BaseRecord & {
   rawText: string;
 };
 
+type ApiContractRow = BaseRecord & {
+  line: number;
+  handlerName: string;
+  requestType: string | null;
+  requestSchema: Record<string, string> | null;
+  responseType: string | null;
+  decorators: { name: string; arguments: (string | null)[] }[];
+}
+
 const projectRoot = process.cwd();
 
-const configPath = path.join(projectRoot, "config/repos.json");
-const filesPath = path.join(projectRoot, "output/raw/files.json");
-const outputRoot = path.join(projectRoot, "output/raw");
+const runContextPath = path.join(projectRoot, "output", "run-context.json");
+if (!fs.existsSync(runContextPath)) {
+  throw new Error("Could not find run-context.json. Please run `00-scan-repo` first.");
+}
+const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
+const runId: string = runContext.runId;
+
+const configPath = path.join(projectRoot, "config", "repos.json");
+const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
+const outputRoot = path.join(versionedOutputRoot, "raw");
+const filesPath = path.join(outputRoot, "files.json");
 
 const repoConfig = JSON.parse(fs.readFileSync(configPath, "utf8")) as RepoConfig;
 const files = JSON.parse(fs.readFileSync(filesPath, "utf8")) as FileInfo[];
@@ -79,7 +97,7 @@ function makeBase(file: FileInfo): BaseRecord | null {
   if (!fs.existsSync(absolutePath)) return null;
 
   const { sizeBytes, ...rest } = file;
-  return { ...rest, absolutePath };
+  return { ...rest, absolutePath, runId };
 }
 
 function extractDecorators(node: Node) {
@@ -311,6 +329,64 @@ function extractCalls(sourceFile: SourceFile, base: BaseRecord) {
   return rows;
 }
 
+function extractApiContracts(sourceFile: SourceFile, base: BaseRecord): ApiContractRow[] {
+  const apiContracts: ApiContractRow[] = [];
+
+  // Find https.onCall expressions to identify callable function handlers
+  sourceFile.forEachDescendant(node => {
+    if (Node.isCallExpression(node) && node.getExpression().getText().endsWith('https.onCall')) {
+      const handlerArg = node.getArguments()[0];
+      if (handlerArg && (Node.isIdentifier(handlerArg) || Node.isPropertyAccessExpression(handlerArg))) {
+        const handlerFunc = handlerArg.getSymbol()?.getValueDeclaration();
+
+        if (handlerFunc && (Node.isFunctionDeclaration(handlerFunc) || Node.isMethodDeclaration(handlerFunc) || Node.isArrowFunction(handlerFunc) || Node.isFunctionExpression(handlerFunc))) {
+          let handlerName: string;
+          if (Node.isFunctionDeclaration(handlerFunc) || Node.isMethodDeclaration(handlerFunc)) {
+            handlerName = handlerFunc.getName() ?? handlerArg.getText();
+          } else {
+            // For ArrowFunction or FunctionExpression, we rely on the identifier that was passed to https.onCall.
+            handlerName = handlerArg.getText();
+          }
+
+          const parameters = handlerFunc.getParameters();
+
+          if (parameters.length > 0) {
+            const requestParam = parameters[0]; // Assuming the first parameter is the request object
+            const requestType = requestParam.getType();
+            const requestTypeName = requestParam.getTypeNode()?.getText() ?? 'unknown';
+            let requestSchema: Record<string, string> | null = null;
+
+            // Use the type system to get properties directly, which is more robust
+            const properties = requestType.getProperties();
+            if (properties.length > 0) {
+              requestSchema = {};
+              properties.forEach(prop => {
+                const propName = prop.getName();
+                // Using getValueDeclaration() is the canonical way to get the node where a symbol is declared.
+                // Then, getting its type and text is safe.
+                const declaration = prop.getValueDeclaration();
+                const propType = declaration ? declaration.getType().getText() : "any";
+                requestSchema![propName] = propType;
+              });
+            }
+
+            apiContracts.push({
+              ...base,
+              line: handlerFunc.getStartLineNumber(),
+              handlerName: handlerName,
+              requestType: requestTypeName,
+              requestSchema: requestSchema,
+              responseType: safeText(() => handlerFunc.getReturnType().getText()),
+              decorators: Node.isDecoratable(handlerFunc) ? extractDecorators(handlerFunc) : [],
+            });
+          }
+        }
+      }
+    }
+  });
+
+  return apiContracts;
+}
 
 
 
@@ -480,6 +556,7 @@ function main() {
     permissionHints: [] as any[],
     externalHooks: [] as any[],
     firestoreTriggers: [] as FirestoreTriggerRow[],
+    apiContracts: [] as ApiContractRow[],
     errors: [] as any[]
   };
 
@@ -503,6 +580,7 @@ function main() {
       output.firestoreHints.push(...hints.firestoreLike);
       output.permissionHints.push(...hints.permissions);
 
+      output.apiContracts.push(...extractApiContracts(sourceFile, base));
       output.externalHooks.push(...extractExternalHooks(sourceFile, base));
     } catch (err: any) {
       output.errors.push({
@@ -524,6 +602,8 @@ function main() {
   fs.writeFileSync(path.join(outputRoot, "ast-permission-hints.json"), JSON.stringify(output.permissionHints, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-external-hooks.json"), JSON.stringify(output.externalHooks, null, 2));
   fs.writeFileSync(
+    path.join(outputRoot, "ast-api-contracts.json"), JSON.stringify(output.apiContracts, null, 2));
+  fs.writeFileSync(
   path.join(outputRoot, "ast-firestore-triggers.json"),
   JSON.stringify(output.firestoreTriggers, null, 2),
 );
@@ -540,6 +620,7 @@ function main() {
     firestoreHints: output.firestoreHints.length,
     permissionHints: output.permissionHints.length,
     externalHooks: output.externalHooks.length,
+    apiContracts: output.apiContracts.length,
     firestoreTriggers: output.firestoreTriggers.length,
     errors: output.errors.length,
   });

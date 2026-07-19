@@ -6,11 +6,18 @@
 
 import fs from "fs";
 import path from "path";
-
 const projectRoot = process.cwd();
 
-const inputRoot = path.join(projectRoot, "output/raw");
-const modulesRoot = path.join(projectRoot, "output/knowledge-pipeline/modules");
+const runContextPath = path.join(projectRoot, "output", "run-context.json");
+if (!fs.existsSync(runContextPath)) {
+  throw new Error("Could not find run-context.json. Please run `00-scan-repo` first.");
+}
+const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
+const runId: string = runContext.runId;
+
+const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
+const inputRoot = path.join(versionedOutputRoot, "raw");
+const modulesRoot = path.join(versionedOutputRoot, "knowledge-pipeline", "modules");
 
 const FIRESTORE_ROOT_COLLECTIONS = [
   "/EmailLogs",
@@ -38,6 +45,7 @@ type AnyRow = {
 
 type EvidenceFact = {
   id: string;
+  runId: string;
   type:
   | "source_file"
   | "firestore_path_touched"
@@ -53,7 +61,8 @@ type EvidenceFact = {
   | "http_or_client_path"
   | "environment_variable"
   | "storage_path"
-  | "firestore_trigger";
+  | "firestore_trigger"
+  | "api_contract";
 
   repo?: string | null;
   module: string;
@@ -70,6 +79,9 @@ type EvidenceFact = {
 function readJson<T>(fileName: string): T[] {
   const fullPath = path.join(inputRoot, fileName);
   if (!fs.existsSync(fullPath)) return [];
+  // Add a basic check for empty files which can cause JSON.parse to fail
+  const content = fs.readFileSync(fullPath, "utf8");
+  if (content.trim() === "") return [];
   return JSON.parse(fs.readFileSync(fullPath, "utf8")) as T[];
 }
 
@@ -168,6 +180,7 @@ function lineOf(record: AnyRow): number | null {
 function fact(input: Omit<EvidenceFact, "id">): EvidenceFact {
   return {
     ...input,
+    runId: runId,
     id: stableId([
       input.type,
       input.repo ?? null,
@@ -214,6 +227,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   permissionHints: AnyRow[];
   externalHooks: AnyRow[];
   firestoreTriggers: AnyRow[];
+  apiContracts: AnyRow[];
 }) {
   const imports = raw.imports.filter(r => isTarget(r, targetModule));
   const exports_ = raw.exports_.filter(r => isTarget(r, targetModule));
@@ -225,6 +239,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   const permissionHints = raw.permissionHints.filter(r => isTarget(r, targetModule));
   const externalHooks = raw.externalHooks.filter(r => isTarget(r, targetModule));
   const firestoreTriggers = raw.firestoreTriggers.filter(r => isTarget(r, targetModule));
+  const apiContracts = raw.apiContracts.filter(r => isTarget(r, targetModule));
 
   const allRows = [
     ...imports,
@@ -237,6 +252,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     ...permissionHints,
     ...externalHooks,
     ...firestoreTriggers,
+    ...apiContracts,
   ];
 
   const filePaths = unique(
@@ -255,6 +271,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   const permissionsByFile = groupByPath(permissionHints);
   const externalHooksByFile = groupByPath(externalHooks);
   const firestoreTriggersByFile = groupByPath(firestoreTriggers);
+  const apiContractsByFile = groupByPath(apiContracts);
 
   const files = filePaths.map(filePath => ({
     path: filePath,
@@ -270,6 +287,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     permissionHints: permissionsByFile.get(filePath) ?? [],
     externalHooks: externalHooksByFile.get(filePath) ?? [],
     firestoreTriggers: firestoreTriggersByFile.get(filePath) ?? [],
+    apiContracts: apiContractsByFile.get(filePath) ?? [],
   }));
 
   const services = classes
@@ -341,6 +359,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     permissionHints: permissionHints.length,
     externalHooks: externalHooks.length,
     firestoreTriggers: firestoreTriggers.length,
+    apiContracts: apiContracts.length,
     services: services.length,
     controllers: controllers.length,
   };
@@ -349,6 +368,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   fs.mkdirSync(moduleOutputRoot, { recursive: true });
 
   writeJson(path.join(moduleOutputRoot, `${targetModule}-manifest.json`), {
+    runId: runId,
     generatedAt: new Date().toISOString(),
     module: targetModule,
     summary,
@@ -402,6 +422,16 @@ function buildModuleEvidence(targetModule: string, raw: {
       line: h.line,
     })),
 
+    apiContractEvidence: apiContracts.map(c => ({
+      repo: c.repo ?? null,
+      module: c.module ?? targetModule,
+      path: c.path,
+      submodule: c.submodule ?? null,
+      handlerName: c.handlerName,
+      requestType: c.requestType,
+      requestSchema: c.requestSchema,
+    })),
+
     firestoreTriggerArtefact: `${targetModule}-firestore-triggers.json`,
 
     crossModuleDependencies,
@@ -427,6 +457,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "source_file",
+        runId: runId,
         repo: fileRecord.repo ?? null,
         module: targetModule,
         submodule: submoduleOf(fileRecord),
@@ -449,6 +480,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "firestore_path_touched",
+        runId: runId,
         repo: item.repo ?? null,
         module: moduleOf(item, targetModule),
         submodule: submoduleOf(item),
@@ -468,6 +500,7 @@ function buildModuleEvidence(targetModule: string, raw: {
       facts.push(
         fact({
           type: "permission_required",
+          runId: runId,
           repo: item.repo ?? null,
           module: moduleOf(item, targetModule),
           submodule: submoduleOf(item),
@@ -484,6 +517,7 @@ function buildModuleEvidence(targetModule: string, raw: {
       facts.push(
         fact({
           type: "permission_error",
+          runId: runId,
           repo: item.repo ?? null,
           module: moduleOf(item, targetModule),
           submodule: submoduleOf(item),
@@ -503,6 +537,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "call_expression",
+        runId: runId,
         repo: item.repo ?? null,
         module: moduleOf(item, targetModule),
         submodule: submoduleOf(item),
@@ -536,6 +571,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: factType,
+        runId: runId,
         repo: item.repo ?? null,
         module: moduleOf(item, targetModule),
         submodule: submoduleOf(item),
@@ -546,6 +582,24 @@ function buildModuleEvidence(targetModule: string, raw: {
           ...item,
           externalBoundaryStatus: "candidate",
         },
+      }),
+    );
+  }
+
+  for (const item of evidence.apiContractEvidence) {
+    const handlerName = cleanValue(item.handlerName);
+    if (!handlerName) continue;
+
+    facts.push(
+      fact({
+        type: "api_contract",
+        runId: runId,
+        repo: item.repo ?? null,
+        module: moduleOf(item, targetModule),
+        submodule: submoduleOf(item),
+        file: fileOf(item),
+        value: handlerName,
+        evidence: item,
       }),
     );
   }
@@ -565,6 +619,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "firestore_trigger",
+        runId: runId,
         repo: item.repo ?? null,
         module: moduleOf(item, targetModule),
         submodule: submoduleOf(item),
@@ -589,6 +644,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "imports_dependency",
+        runId: runId,
         repo: item.repo ?? null,
         module: targetModule,
         submodule: submoduleOf(item),
@@ -606,6 +662,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "exported_symbol",
+        runId: runId,
         repo: item.repo ?? null,
         module: targetModule,
         submodule: submoduleOf(item),
@@ -627,6 +684,7 @@ function buildModuleEvidence(targetModule: string, raw: {
       facts.push(
         fact({
           type: "service_method",
+          runId: runId,
           repo: service.repo ?? null,
           module: targetModule,
           submodule: submoduleOf(service),
@@ -650,6 +708,7 @@ function buildModuleEvidence(targetModule: string, raw: {
       facts.push(
         fact({
           type: "controller_method",
+          runId: runId,
           repo: controller.repo ?? null,
           module: targetModule,
           submodule: submoduleOf(controller),
@@ -671,6 +730,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   }, {});
 
   writeJson(path.join(moduleOutputRoot, `${targetModule}-evidence-graph.json`), {
+    runId: runId,
     generatedAt: new Date().toISOString(),
     module: targetModule,
     source: {
@@ -707,6 +767,7 @@ function main() {
     permissionHints: readJson<AnyRow>("ast-permission-hints.json"),
     externalHooks: readJson<AnyRow>("ast-external-hooks.json"),
     firestoreTriggers: readJson<AnyRow>("ast-firestore-triggers.json"),
+    apiContracts: readJson<AnyRow>("ast-api-contracts.json"),
   };
 
   const modules = getModules([
@@ -720,6 +781,7 @@ function main() {
     ...raw.permissionHints,
     ...raw.externalHooks,
     ...raw.firestoreTriggers,
+    ...raw.apiContracts,
   ]);
 
   fs.mkdirSync(modulesRoot, { recursive: true });

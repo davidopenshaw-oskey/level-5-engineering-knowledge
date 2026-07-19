@@ -6,11 +6,10 @@
     "typescript": "^6.0.3"
   },
   "scripts": {
+    "pipeline:run": "npm run 00-scan-repo && npm run 01-extract-ast-evidence && npm run 02-build-module-evidence && npm run 03-build-benchmark",
     "00-scan-repo": "node -r ts-node/register scripts/knowledge-pipeline/00-scan-repo.ts",
     "01-extract-ast-evidence": "node -r ts-node/register scripts/knowledge-pipeline/01-extract-ast-evidence.ts",
     "02-build-module-evidence": "node -r ts-node/register scripts/knowledge-pipeline/02-build-module-evidence.ts",
-    "03-build-evidence-graph": "node -r ts-node/register scripts/knowledge-pipeline/03-build-evidence-graph.ts",
-    "04-build-benchmark": "node -r ts-node/register scripts/knowledge-pipeline/04-build-benchmark.ts",
-    "05-build-prd-context-pack": "node -r ts-node/register scripts/knowledge-pipeline/05-build-prd-context-pack.ts"
-  }
+    "03-build-benchmark": "node -r ts-node/register scripts/knowledge-pipeline/03-build-benchmark.ts"
+    }
 }

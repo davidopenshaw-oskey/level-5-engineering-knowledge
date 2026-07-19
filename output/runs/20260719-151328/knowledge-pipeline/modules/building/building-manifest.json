@@ -1,0 +1,21 @@
+{
+  "runId": "20260719-151328",
+  "generatedAt": "2026-07-19T15:13:34.149Z",
+  "module": "building",
+  "summary": {
+    "files": 89,
+    "imports": 387,
+    "exports": 467,
+    "classes": 42,
+    "methods": 275,
+    "functions": 15,
+    "calls": 1003,
+    "firestoreHints": 17,
+    "permissionHints": 47,
+    "externalHooks": 24,
+    "firestoreTriggers": 2,
+    "apiContracts": 38,
+    "services": 20,
+    "controllers": 22
+  }
+}
