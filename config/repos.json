@@ -3,6 +3,8 @@
     {
       "name": "cloud",
       "path": "/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev",
+      "gitUrl": "git@github.com:oskey-io/cloud-oskey-io.git",
+      "branch": "main",
       "modulesRoot": "functions/src/modules"
     }
   ]

@@ -1,5 +1,5 @@
 /// <reference types="node" />
-// **version:** 0.0.2
+// **version:** 0.0.3
 // **location:** level-5 phases 1, 2
 
 // © [Year] Oskey SAS. All rights reserved
@@ -8,12 +8,14 @@
 
 import * as fs from "fs";
 import * as path from "path";
+import { execSync } from "child_process";
 
 /**
  * Generates a unique run ID based on the current UTC date and time.
- * @returns A string in the format YYYYMMDD-HHMMSS.
+ * @param commitSha The git commit short SHA.
+ * @returns A string in the format YYYYMMDD_HHMMSS-commitSha.
  */
-function getRunId(): string {
+function getRunId(commitSha: string): string {
   const now = new Date();
   const year = now.getUTCFullYear();
   const month = String(now.getUTCMonth() + 1).padStart(2, "0");
@@ -21,13 +23,16 @@ function getRunId(): string {
   const hours = String(now.getUTCHours()).padStart(2, "0");
   const minutes = String(now.getUTCMinutes()).padStart(2, "0");
   const seconds = String(now.getUTCSeconds()).padStart(2, "0");
-  return `${year}${month}${day}-${hours}${minutes}${seconds}`;
+  return `${year}${month}${day}_${hours}${minutes}${seconds}-${commitSha}`;
 }
 
 type RepoConfig = {
   repositories: {
     name: string;
     path: string;
+    gitUrl?: string;
+    branch?: string;
+    commit?: string;
     modulesRoot: string;
   }[];
 };
@@ -88,12 +93,71 @@ function walkFiles(dirPath: string): string[] {
   return results;
 }
 
-function main() {
-  const runId = getRunId();
-  console.log(`Starting new pipeline run with Run ID: ${runId}`);
+/**
+ * Synchronizes the repository using Git SSH if gitUrl is configured.
+ */
+function syncRepo(gitUrl: string, clonePath: string, branch?: string, commit?: string) {
+  const parentDir = path.dirname(clonePath);
+  ensureDir(parentDir);
 
+  if (!fs.existsSync(clonePath)) {
+    console.log(`Cloning repository ${gitUrl} into ${clonePath}...`);
+    const branchFlag = branch ? `-b ${branch}` : "";
+    execSync(`git clone ${branchFlag} "${gitUrl}" "${clonePath}"`, { stdio: "inherit" });
+  } else {
+    console.log(`Pulling updates for repository in ${clonePath}...`);
+    execSync(`git -C "${clonePath}" pull`, { stdio: "inherit" });
+  }
+
+  if (commit) {
+    console.log(`Checking out commit ${commit} in ${clonePath}...`);
+    execSync(`git -C "${clonePath}" checkout "${commit}"`, { stdio: "inherit" });
+  } else if (branch) {
+    console.log(`Checking out branch ${branch} in ${clonePath}...`);
+    execSync(`git -C "${clonePath}" checkout "${branch}"`, { stdio: "inherit" });
+  }
+}
+
+/**
+ * Gets the current short commit SHA of a repository.
+ */
+function getCommitSha(repoPath: string): string {
+  try {
+    const sha = execSync(`git -C "${repoPath}" rev-parse --short HEAD`, { encoding: "utf8" }).trim();
+    return sha;
+  } catch (error) {
+    console.warn(`Warning: Could not get git commit SHA from ${repoPath}. Defaulting to 'unknown'.`);
+    return "unknown";
+  }
+}
+
+function main() {
   const projectRoot = process.cwd();
   const configPath = path.join(projectRoot, "config/repos.json");
+  const config = readJson<RepoConfig>(configPath);
+
+  // Determine the primary commit SHA for the run ID from the first repository
+  let primarySha = "unknown";
+  if (config.repositories && config.repositories.length > 0) {
+    const firstRepo = config.repositories[0];
+    let firstRepoPath = firstRepo.path;
+
+    if (firstRepo.gitUrl) {
+      const clonePath = path.join(projectRoot, "output/clones", firstRepo.name);
+      try {
+        syncRepo(firstRepo.gitUrl, clonePath, firstRepo.branch, firstRepo.commit);
+        firstRepoPath = clonePath;
+      } catch (err: any) {
+        console.warn(`Warning: Failed to sync repo ${firstRepo.name} via Git. Falling back to local path ${firstRepo.path}. Error: ${err.message}`);
+      }
+    }
+
+    primarySha = getCommitSha(firstRepoPath);
+  }
+
+  const runId = getRunId(primarySha);
+  console.log(`Starting new pipeline run with Run ID: ${runId}`);
+
   const outputDir = path.join(projectRoot, "output");
   const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
   const outputRoot = path.join(versionedOutputRoot, "raw");
@@ -104,13 +168,24 @@ function main() {
 
   ensureDir(outputRoot);
 
-  const config = readJson<RepoConfig>(configPath);
-
   const modulesOutput: any[] = [];
   const filesOutput: any[] = [];
 
   for (const repo of config.repositories) {
-    const modulesRootAbs = path.join(repo.path, repo.modulesRoot);
+    let repoPath = repo.path;
+
+    if (repo.gitUrl) {
+      const clonePath = path.join(projectRoot, "output/clones", repo.name);
+      try {
+        syncRepo(repo.gitUrl, clonePath, repo.branch, repo.commit);
+        repoPath = clonePath;
+      } catch (err: any) {
+        console.warn(`Warning: Failed to sync repo ${repo.name} via Git. Falling back to local path ${repo.path}. Error: ${err.message}`);
+        repoPath = repo.path;
+      }
+    }
+
+    const modulesRootAbs = path.join(repoPath, repo.modulesRoot);
 
     if (!fs.existsSync(modulesRootAbs)) {
       console.error(`Modules root not found: ${modulesRootAbs}`);
@@ -140,13 +215,13 @@ function main() {
       modulesOutput.push({
         repo: repo.name,
         module: moduleName,
-        path: path.relative(repo.path, modulePathAbs),
+        path: path.relative(repoPath, modulePathAbs),
         submodules,
         fileCount: moduleFiles.length,
       });
 
       for (const fileAbs of moduleFiles) {
-        const relToRepo = path.relative(repo.path, fileAbs);
+        const relToRepo = path.relative(repoPath, fileAbs);
         const submodule = submodules.find((s) =>
           relToRepo.includes(`/modules/${s}/`)
         );

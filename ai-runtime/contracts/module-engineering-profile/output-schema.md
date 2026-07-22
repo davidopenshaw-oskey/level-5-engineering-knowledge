@@ -2,6 +2,13 @@
 
 # Module Engineering Profile
 
+## 0. Generation Metadata
+
+- **Run ID**:
+- **Generated At**:
+
+---
+
 ## 1. Executive Summary
 
 ### Interpretation
@@ -93,6 +100,24 @@ For each responsibility, use:
 
 ---
 
+## 7. API Endpoints
+
+### Interpretation
+
+### Callable Functions
+
+| Handler Name | Request Type | Request Schema |
+| :--- | :--- | :--- |
+| | | |
+
+### Evidence Used
+- List concrete evidence items.
+- Do not only list filenames.
+
+### Confidence
+
+---
+
 ## 7. Firestore Triggers
 
 ### Interpretation
@@ -114,6 +139,9 @@ Examples:
 - Line: source line from evidence, if available
 
 ### Confidence
+
+---
+
 ## 8. Permissions & Security
 
 ### Interpretation
