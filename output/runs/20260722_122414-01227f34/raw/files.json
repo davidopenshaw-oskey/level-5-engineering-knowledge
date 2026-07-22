@@ -1,0 +1,4354 @@
+[
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device.controllers.ts",
+    "kindHint": "controller",
+    "sizeBytes": 722
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/api/node-iot-api/controllers/access_control_device_public_keys.controllers.ts",
+    "kindHint": "controller",
+    "sizeBytes": 722
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/api/node-iot-api/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 656
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/api/node-iot-api/models/access_control_device.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 412
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/api/node-iot-api/models/access_control_device_config.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 159
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/api/node-iot-api/models/access_control_device_public_keys.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 163
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/api/node-iot-api/models/jwt_payload.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 208
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 2680
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 4300
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1444
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3768
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3273
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1258
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1338
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 5600
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/documents/access_control_device_access_command_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 428
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/documents/access_control_device_config_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 932
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/documents/access_control_device_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1550
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/documents/access_control_device_public_keys_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 310
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/documents/access_control_device_state_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 530
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/documents/access_control_device_system_log_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 416
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/functions/access_control_device_public_key_add_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 298
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/functions/access_control_device_public_key_delete_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 307
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/messages/access_control_device_config_message.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 344
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/messages/access_control_device_message.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 471
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/messages/access_control_device_public_keys_message.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 677
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/messages/access_control_device_state_message.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 379
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/shared/access_control_device_mqtt_config.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 986
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/shared/access_control_device_public_key_type.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 161
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/models/shared/access_control_device_token_payload.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1989
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/services/access_control_device.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 3425
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 8449
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/services/access_control_device_config.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 6355
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 10040
+  },
+  {
+    "repo": "cloud",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/shared/functions/access_control_device_nonAppUser_activities_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 0
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": null,
+    "path": "functions/src/modules/admin/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1025
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": null,
+    "path": "functions/src/modules/admin/models/with_admin_organization_id.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 168
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_buildings",
+    "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 714
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_buildings",
+    "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building_unit.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 687
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_buildings",
+    "path": "functions/src/modules/admin/modules/admin_buildings/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 692
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_buildings",
+    "path": "functions/src/modules/admin/modules/admin_buildings/models/functions/get_all_buildings_with_units_request.type.ts",
+    "kindHint": "model",
+    "sizeBytes": 349
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_buildings",
+    "path": "functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 2775
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_accesses/models/recreate_accesses.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1178
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 20337
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 8752
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercom_allowUnitNumber.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 4581
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 23814
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_organizations/db_organization_prompt.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 4611
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/models/refresh_pincodes.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 351
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 6823
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/pincode_refresh_worker.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 5946
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_propertiesIds/db_propertiesIds.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 3936
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 10043
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 12171
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 4678
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_maintenance",
+    "path": "functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts",
+    "kindHint": "utils",
+    "sizeBytes": 1254
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_organization",
+    "path": "functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 993
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_organization",
+    "path": "functions/src/modules/admin/modules/admin_organization/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 870
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_organization",
+    "path": "functions/src/modules/admin/modules/admin_organization/models/documents/organization_listdocument.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 394
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_organization",
+    "path": "functions/src/modules/admin/modules/admin_organization/models/functions/get_organizations_list_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 177
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_organization",
+    "path": "functions/src/modules/admin/modules/admin_organization/models/functions/organizations_details_by_id_request_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 473
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_organization",
+    "path": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 5229
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_inhabitant_user.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1540
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 823
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_access.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 866
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_device.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 986
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3113
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 3231
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_inhabitant_user.requests.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1298
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_accesses_requests.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 950
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_devices_requests.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 738
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_invitations_requests.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 990
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/models/functions/admin_user_requests.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 874
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/models/shared/with_user_id.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 142
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 15204
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 6543
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 9429
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 5445
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 13862
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/utils/get_admin_organization_user.util.ts",
+    "kindHint": "utils",
+    "sizeBytes": 1960
+  },
+  {
+    "repo": "cloud",
+    "module": "admin",
+    "submodule": "admin_users",
+    "path": "functions/src/modules/admin/modules/admin_users/utils/get_user.util.ts",
+    "kindHint": "utils",
+    "sizeBytes": 682
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1816
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 339
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/models/email_log_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 835
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/models/email_options.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 2134
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/models/email_template.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 628
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 8034
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/templates/core/core.template.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 15187
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/templates/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1233
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/templates/onboarding_activation/onboarding_activation_code.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 22991
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/templates/organization_invitation/organization_invitation.template.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 4177
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/templates/pmp_user_invitation/pmp_user_invitation.template.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 9234
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/templates/unit_invitation/external_unit_invitation_template.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 15456
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/templates/user_invitation/external_user_invitation.template.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 7354
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/templates/user_onboarded/user_onboarded_notification.template.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1598
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "mail",
+    "path": "functions/src/modules/apps/modules/mail/templates/user_otp_code/user_otp_code.template.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 4258
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "notification",
+    "path": "functions/src/modules/apps/modules/notification/data/notification_metadata.data.ts",
+    "kindHint": "data",
+    "sizeBytes": 5435
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "notification",
+    "path": "functions/src/modules/apps/modules/notification/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 494
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "notification",
+    "path": "functions/src/modules/apps/modules/notification/models/notification_metadata.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 2114
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "notification",
+    "path": "functions/src/modules/apps/modules/notification/models/notification_options.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 2899
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "notification",
+    "path": "functions/src/modules/apps/modules/notification/models/notification_type.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 548
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "notification",
+    "path": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 5377
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "notification",
+    "path": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 1348
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "notification",
+    "path": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 15669
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "qr_code",
+    "path": "functions/src/modules/apps/modules/qr_code/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 63
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "qr_code",
+    "path": "functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 592
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "sms",
+    "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1748
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "sms",
+    "path": "functions/src/modules/apps/modules/sms/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 242
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "sms",
+    "path": "functions/src/modules/apps/modules/sms/models/sms_log_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 656
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "sms",
+    "path": "functions/src/modules/apps/modules/sms/models/sms_options.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 716
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "sms",
+    "path": "functions/src/modules/apps/modules/sms/models/sms_options.ts",
+    "kindHint": "model",
+    "sizeBytes": 313
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "sms",
+    "path": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 5173
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "sms",
+    "path": "functions/src/modules/apps/modules/sms/templates/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 373
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "sms",
+    "path": "functions/src/modules/apps/modules/sms/templates/sms_messages.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1122
+  },
+  {
+    "repo": "cloud",
+    "module": "apps",
+    "submodule": "sms",
+    "path": "functions/src/modules/apps/modules/sms/templates/sms_template.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 418
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": null,
+    "path": "functions/src/modules/building/controllers/building.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3025
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": null,
+    "path": "functions/src/modules/building/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2583
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": null,
+    "path": "functions/src/modules/building/models/documents/building_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 760
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": null,
+    "path": "functions/src/modules/building/models/functions/building_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1544
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_accesses",
+    "path": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3866
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_accesses",
+    "path": "functions/src/modules/building/modules/building_accesses/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 538
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_accesses",
+    "path": "functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 417
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_accesses",
+    "path": "functions/src/modules/building/modules/building_accesses/services/building_access.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 2588
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_activity",
+    "path": "functions/src/modules/building/modules/building_activity/controllers/building_activities.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2866
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_activity",
+    "path": "functions/src/modules/building/modules/building_activity/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1545
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_activity",
+    "path": "functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1071
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_activity",
+    "path": "functions/src/modules/building/modules/building_activity/models/functions/building_activities.model_request.ts",
+    "kindHint": "model",
+    "sizeBytes": 450
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_activity",
+    "path": "functions/src/modules/building/modules/building_activity/services/building_activities.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 5856
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/controllers/building_door.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 4049
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2489
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3785
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2819
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/models/documents/building_door_access_control_device_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 384
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/models/documents/building_door_access_control_device_public_key_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 381
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/models/documents/building_door_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 586
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/models/functions/building_door_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 852
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/models/shared/building_door_info.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 278
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/services/building_door.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 11972
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_door",
+    "path": "functions/src/modules/building/modules/building_door/services/building_door_access_control_device.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 6959
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3060
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/controllers/building_intercom_calltransferlist.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3570
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2473
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_callTransferList_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 741
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1785
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/models/functions/building_intercom_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 721
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/models/messages/building_intercom_messages.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1459
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 10891
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 34352
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 3386
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_pincode",
+    "path": "functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3703
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_pincode",
+    "path": "functions/src/modules/building/modules/building_pincode/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 944
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_pincode",
+    "path": "functions/src/modules/building/modules/building_pincode/models/documents/building_pincode_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1969
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_pincode",
+    "path": "functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 4509
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_pincode_trash",
+    "path": "functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3058
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_pincode_trash",
+    "path": "functions/src/modules/building/modules/building_pincode_trash/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 483
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_pincode_trash",
+    "path": "functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 605
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_pincode_trash",
+    "path": "functions/src/modules/building/modules/building_pincode_trash/services/building_pincode_trash.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 136
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_settings",
+    "path": "functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2961
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_settings",
+    "path": "functions/src/modules/building/modules/building_settings/data/building_settings_default_data.ts",
+    "kindHint": "data",
+    "sizeBytes": 4188
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_settings",
+    "path": "functions/src/modules/building/modules/building_settings/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1867
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_settings",
+    "path": "functions/src/modules/building/modules/building_settings/models/documents/building_settings.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 2935
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_settings",
+    "path": "functions/src/modules/building/modules/building_settings/models/documents/fields_metadata.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 534
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_settings",
+    "path": "functions/src/modules/building/modules/building_settings/models/functions/building_settings_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 640
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_settings",
+    "path": "functions/src/modules/building/modules/building_settings/services/building_settings.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 23549
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2903
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_door.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1040
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_inhabitant.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 4641
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_invitation.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2937
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 4106
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 3668
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 539
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_door_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 537
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1573
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_invitation_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 859
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_type_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 166
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/models/documents/building_unit_permanent_guest_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 585
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/models/functions/building_unit_door_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 941
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/models/functions/building_unit_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 874
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3278
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_access.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2987
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2928
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity_aggregates.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2933
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_pincode.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2716
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 3196
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_access.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 324
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_accesses_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 444
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_activity_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 711
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 423
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/documents/building_unit_nonAppUser_pincode.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 481
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/functions/building_unit_nonAppUser_activity_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 0
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/models/functions/building_unit_nonAppUser_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1653
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 27846
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_access.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 2829
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 3857
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity_aggregates.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 5350
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_pincode.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 1092
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 17847
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 4974
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_unit",
+    "path": "functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 11807
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_user",
+    "path": "functions/src/modules/building/modules/building_user/controllers/building_user.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1838
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_user",
+    "path": "functions/src/modules/building/modules/building_user/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1073
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_user",
+    "path": "functions/src/modules/building/modules/building_user/models/documents/building_user_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 865
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_user",
+    "path": "functions/src/modules/building/modules/building_user/models/functions/building_user_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1080
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": "building_user",
+    "path": "functions/src/modules/building/modules/building_user/services/building_user.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 16748
+  },
+  {
+    "repo": "cloud",
+    "module": "building",
+    "submodule": null,
+    "path": "functions/src/modules/building/services/building.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 27516
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/controllers/call.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2527
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 870
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/models/documents/call_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 978
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/models/https/call_creation_body.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 523
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/models/https/call_creation_response.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 299
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/models/https/call_notification_request_response.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 337
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/models/https/call_update_body.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 191
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/models/shared/call_transfer_list_item.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 963
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/models/shared/ice_servers.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 195
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/schema/call_creation_body.schema.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 832
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/schema/call_update_body.schema.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 3192
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/schema/ice_server.schema.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 508
+  },
+  {
+    "repo": "cloud",
+    "module": "call",
+    "submodule": null,
+    "path": "functions/src/modules/call/services/call.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 26456
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/controllers/document.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 19657
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/controllers/document_and_message.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 6814
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/controllers/message.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 7304
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 3135
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/documents/document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 931
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/documents/document_id.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 133
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/documents/document_list.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 240
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/documents/pub_sub_receiver.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1330
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/shared/coordinate.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 169
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/shared/deep_partial.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 192
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/shared/door_info.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 281
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/shared/entity_message.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 922
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/shared/phone_number.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 30333
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/shared/street_address.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 352
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/shared/supported_language.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 226
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/controllers/access.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3008
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 3236
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/access_method.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 281
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/access_pincode.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 891
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/access_pincode_generation.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 296
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/access_recurrence.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 811
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/access_recurrence_token.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1802
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/access_right.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 3966
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/access_right_token.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1237
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/access_right_typeguards.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 5315
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/accesses.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 779
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/functions/access_messages.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1113
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/functions/access_pincode_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 394
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/functions/user_access_request_accesses.document.ts",
+    "kindHint": "model",
+    "sizeBytes": 598
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/services/access.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 33300
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/services/access_message_publisher.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 11542
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/services/access_pincode.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 30445
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/services/access_pincode_generation.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 4737
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/services/access_update.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 10260
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/services/access_utils.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 17202
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/services/access_utils_dates.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 8456
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "auth0",
+    "path": "functions/src/modules/core/modules/auth0/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1230
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "auth0",
+    "path": "functions/src/modules/core/modules/auth0/models/functions/exchange_token_request.ts",
+    "kindHint": "model",
+    "sizeBytes": 1425
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "auth0",
+    "path": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 43121
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "country",
+    "path": "functions/src/modules/core/modules/country/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 571
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "country",
+    "path": "functions/src/modules/core/modules/country/services/country.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 2400
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "public_key",
+    "path": "functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3141
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "public_key",
+    "path": "functions/src/modules/core/modules/public_key/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 523
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "public_key",
+    "path": "functions/src/modules/core/modules/public_key/models/documents/public_keys_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 357
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "public_key",
+    "path": "functions/src/modules/core/modules/public_key/models/functions/public_key_add_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 173
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "public_key",
+    "path": "functions/src/modules/core/modules/public_key/models/functions/public_key_delete_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 153
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "public_key",
+    "path": "functions/src/modules/core/modules/public_key/models/shared/public_key.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 263
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "storage",
+    "path": "functions/src/modules/core/modules/storage/controllers/storage.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2214
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "storage",
+    "path": "functions/src/modules/core/modules/storage/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 783
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "storage",
+    "path": "functions/src/modules/core/modules/storage/models/documents/storage_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 97
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "storage",
+    "path": "functions/src/modules/core/modules/storage/models/functions/storage_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 355
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": "storage",
+    "path": "functions/src/modules/core/modules/storage/services/storage.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 6101
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/protocols/document.protocol.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 227
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/protocols/message.protocol.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 226
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/runtime/runtime-options.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1200
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/services/logging.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 5262
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/services/pub_sub_receiver.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 16333
+  },
+  {
+    "repo": "cloud",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/services/secret.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 8872
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": null,
+    "path": "functions/src/modules/organization/controllers/organization.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3169
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": null,
+    "path": "functions/src/modules/organization/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 5507
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": null,
+    "path": "functions/src/modules/organization/models/documents/organization_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 554
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": null,
+    "path": "functions/src/modules/organization/models/functions/get_all_organizations_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 180
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": null,
+    "path": "functions/src/modules/organization/models/functions/organization_request_document_model.ts",
+    "kindHint": "model",
+    "sizeBytes": 802
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": null,
+    "path": "functions/src/modules/organization/models/shared/with-organization-id.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 69
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": null,
+    "path": "functions/src/modules/organization/models/shared/with-user-id.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 53
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_building",
+    "path": "functions/src/modules/organization/modules/organization_building/controllers/organization_building.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1920
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_building",
+    "path": "functions/src/modules/organization/modules/organization_building/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1964
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_building",
+    "path": "functions/src/modules/organization/modules/organization_building/models/documents/organization_building_document_model.ts",
+    "kindHint": "model",
+    "sizeBytes": 525
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_building",
+    "path": "functions/src/modules/organization/modules/organization_building/models/functions/organization_building_request_document_model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1037
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_building",
+    "path": "functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 11420
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_building_invitation",
+    "path": "functions/src/modules/organization/modules/organization_building_invitation/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1531
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_building_invitation",
+    "path": "functions/src/modules/organization/modules/organization_building_invitation/models/functions/organization_building_invitation_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1590
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_building_invitation",
+    "path": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 19656
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_entity",
+    "path": "functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1660
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_entity",
+    "path": "functions/src/modules/organization/modules/organization_entity/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1448
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_entity",
+    "path": "functions/src/modules/organization/modules/organization_entity/models/documents/entity_document_model.ts",
+    "kindHint": "model",
+    "sizeBytes": 683
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_entity",
+    "path": "functions/src/modules/organization/modules/organization_entity/models/functions/entity_request_document_model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1827
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_entity",
+    "path": "functions/src/modules/organization/modules/organization_entity/services/entity.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 18274
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_inhabitant/controllers/organization_inhabitant.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 795
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_inhabitant/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1079
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_inhabitant/models/documents/organization_inhabitant_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 599
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_inhabitant/models/functions/organization_inhabitant_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 484
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 9567
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_intercom_ communication",
+    "path": "functions/src/modules/organization/modules/organization_intercom_ communication/controllers/organization_intercom_building_state.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2770
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_intercom_ communication",
+    "path": "functions/src/modules/organization/modules/organization_intercom_ communication/controllers/organization_intercom_communication_archive.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2527
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_intercom_ communication",
+    "path": "functions/src/modules/organization/modules/organization_intercom_ communication/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2909
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_intercom_ communication",
+    "path": "functions/src/modules/organization/modules/organization_intercom_ communication/models/documents/organization_intercom_communication.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 2246
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_intercom_ communication",
+    "path": "functions/src/modules/organization/modules/organization_intercom_ communication/models/functions/organization_intercom_communication_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 2146
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_intercom_ communication",
+    "path": "functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 84680
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_onboarding_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/controllers/organization_onboarding_inhabitant.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3783
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_onboarding_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2725
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_onboarding_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/documents/organization_onboarding_inhabitant_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 3010
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_onboarding_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/functions/organization_onboarding_inhabitant_request_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 4998
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_onboarding_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/shared/organization_onboarding_inhabitant_shared_documents.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 745
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_onboarding_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 68481
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_onboarding_inhabitant",
+    "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 5005
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_pending",
+    "path": "functions/src/modules/organization/modules/organization_pending/controllers/organization_pending.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2104
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_pending",
+    "path": "functions/src/modules/organization/modules/organization_pending/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1645
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_pending",
+    "path": "functions/src/modules/organization/modules/organization_pending/models/documents/organization_pending_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 423
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_pending",
+    "path": "functions/src/modules/organization/modules/organization_pending/models/functions/get_organizations_pending_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 187
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_pending",
+    "path": "functions/src/modules/organization/modules/organization_pending/models/functions/organizations_pending_by_id_request_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 509
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_pending",
+    "path": "functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 19372
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_prompt_templates",
+    "path": "functions/src/modules/organization/modules/organization_prompt_templates/controllers/oraganization_prompt_templates.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2126
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_prompt_templates",
+    "path": "functions/src/modules/organization/modules/organization_prompt_templates/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1622
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_prompt_templates",
+    "path": "functions/src/modules/organization/modules/organization_prompt_templates/models/organization_prompt_templates.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1040
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_prompt_templates",
+    "path": "functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 5542
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_property",
+    "path": "functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2823
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_property",
+    "path": "functions/src/modules/organization/modules/organization_property/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1929
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_property",
+    "path": "functions/src/modules/organization/modules/organization_property/models/documents/property_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 1636
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_property",
+    "path": "functions/src/modules/organization/modules/organization_property/models/functions/property_request_document_model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1633
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_property",
+    "path": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 24466
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_residents",
+    "path": "functions/src/modules/organization/modules/organization_residents/controllers/organization_residents.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3421
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_residents",
+    "path": "functions/src/modules/organization/modules/organization_residents/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1472
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_residents",
+    "path": "functions/src/modules/organization/modules/organization_residents/models/documents/organization_resident_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1692
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_residents",
+    "path": "functions/src/modules/organization/modules/organization_residents/models/functions/organization_resident_request_document_model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1000
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_residents",
+    "path": "functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 63992
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user",
+    "path": "functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3321
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user",
+    "path": "functions/src/modules/organization/modules/organization_user/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2819
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user",
+    "path": "functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 589
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user",
+    "path": "functions/src/modules/organization/modules/organization_user/models/documents/organization_user_update_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 609
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user",
+    "path": "functions/src/modules/organization/modules/organization_user/models/functions/get_all_organization_users.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 288
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user",
+    "path": "functions/src/modules/organization/modules/organization_user/models/functions/organization_user_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 379
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user",
+    "path": "functions/src/modules/organization/modules/organization_user/models/functions/organization_user_update_roles_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 217
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user",
+    "path": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 20996
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_access",
+    "path": "functions/src/modules/organization/modules/organization_user_access/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 248
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_access",
+    "path": "functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 2709
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_invitation",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_pmp_user_invitation.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 938
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_invitation",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3868
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_invitation",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation_pending.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 895
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_invitation",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 3066
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_invitation",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_cancelled_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 520
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_invitation",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1324
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_invitation",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_pending_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 422
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_invitation",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/models/functions/organization_user_invitation_cancel_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 200
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_invitation",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/models/functions/organization_user_invitation_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1196
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": "organization_user_invitation",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 33782
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": null,
+    "path": "functions/src/modules/organization/services/organization.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 15886
+  },
+  {
+    "repo": "cloud",
+    "module": "organization",
+    "submodule": null,
+    "path": "functions/src/modules/organization/utils/get_organization_user.util.ts",
+    "kindHint": "utils",
+    "sizeBytes": 2028
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": null,
+    "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1014
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": null,
+    "path": "functions/src/modules/settings/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1322
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": null,
+    "path": "functions/src/modules/settings/models/documents/setting_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 346
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "appstore",
+    "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1188
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "appstore",
+    "path": "functions/src/modules/settings/modules/appstore/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 915
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "appstore",
+    "path": "functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 776
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "appstore",
+    "path": "functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 403
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "appstore",
+    "path": "functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 4041
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+    "kindHint": "controller",
+    "sizeBytes": 6628
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+    "kindHint": "controller",
+    "sizeBytes": 4778
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1612
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/data/composite_role.data.ts",
+    "kindHint": "data",
+    "sizeBytes": 46990
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/data/composite_roles_translated.data.ts",
+    "kindHint": "data",
+    "sizeBytes": 61690
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2483
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/models/documents/composite_role_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 423
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/models/documents/role_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 382
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/models/shared/assigned_role.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 360
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/models/shared/generated_roles.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 154
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/services/composite_role.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 7663
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "role",
+    "path": "functions/src/modules/settings/modules/role/services/role.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 2129
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "workflow",
+    "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1461
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "workflow",
+    "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1357
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "workflow",
+    "path": "functions/src/modules/settings/modules/workflow/data/workflows.data.ts",
+    "kindHint": "data",
+    "sizeBytes": 693
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "workflow",
+    "path": "functions/src/modules/settings/modules/workflow/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2868
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "workflow",
+    "path": "functions/src/modules/settings/modules/workflow/models/documents/building_request_workflow_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 335
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "workflow",
+    "path": "functions/src/modules/settings/modules/workflow/models/documents/organization_request_workflow_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 347
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "workflow",
+    "path": "functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 3727
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": "workflow",
+    "path": "functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 3811
+  },
+  {
+    "repo": "cloud",
+    "module": "settings",
+    "submodule": null,
+    "path": "functions/src/modules/settings/services/setting.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 2336
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": null,
+    "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2226
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": null,
+    "path": "functions/src/modules/supplier/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2338
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": null,
+    "path": "functions/src/modules/supplier/models/documents/supplier_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 491
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": null,
+    "path": "functions/src/modules/supplier/models/functions/supplier_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 584
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": null,
+    "path": "functions/src/modules/supplier/models/functions/supplier_request_document_model.ts",
+    "kindHint": "model",
+    "sizeBytes": 584
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2627
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2567
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2199
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2613
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1942
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 3207
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 312
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 622
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 989
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 425
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_pincode.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 490
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 557
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 2666
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 36734
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 8188
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 7879
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 7571
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": "supplierStaff",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 1002
+  },
+  {
+    "repo": "cloud",
+    "module": "supplier",
+    "submodule": null,
+    "path": "functions/src/modules/supplier/services/supplier.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 11575
+  },
+  {
+    "repo": "cloud",
+    "module": "tasks",
+    "submodule": null,
+    "path": "functions/src/modules/tasks/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 500
+  },
+  {
+    "repo": "cloud",
+    "module": "tasks",
+    "submodule": null,
+    "path": "functions/src/modules/tasks/models/pincode_refresh_task.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 331
+  },
+  {
+    "repo": "cloud",
+    "module": "tasks",
+    "submodule": null,
+    "path": "functions/src/modules/tasks/models/tasks.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 921
+  },
+  {
+    "repo": "cloud",
+    "module": "tasks",
+    "submodule": null,
+    "path": "functions/src/modules/tasks/services/task_handler.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 4243
+  },
+  {
+    "repo": "cloud",
+    "module": "tasks",
+    "submodule": null,
+    "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 3366
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 5916
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 3291
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/models/documents/unit_management_invitation_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 1204
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/models/functions/unit_management_inhabitant_request_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 1290
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/models/functions/unit_management_inhabitant_response_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 4087
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/models/functions/unit_management_invitation_creation_response_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 216
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/models/functions/unit_management_invitation_request_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 397
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/models/functions/unit_management_permanent_guest_request_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 1152
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 38824
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/services/unit_management_invitation.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 4916
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 12805
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 9005
+  },
+  {
+    "repo": "cloud",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 15804
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/constants/account-create-restrictions.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 508
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/controllers/chnageEmail.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1783
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/controllers/user.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 7928
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 6036
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/documents/changeEmail.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 296
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/documents/user_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 756
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/functions/delete_user_account.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 67
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/functions/delete_user_profile_image.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 82
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/functions/get_userIds_by_email_or_phone.document.ts",
+    "kindHint": "model",
+    "sizeBytes": 557
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/functions/get_user_inhabitant_type.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 281
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/functions/get_user_units_response_data.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 323
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/functions/user_update_name_and_phone.document.ts",
+    "kindHint": "model",
+    "sizeBytes": 879
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/functions/user_updates_language_request_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 181
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/functions/user_updates_publicprofile_request_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 211
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/functions/user_updates_status_request_document.ts",
+    "kindHint": "model",
+    "sizeBytes": 377
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/shared/user_global_settings.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 219
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/shared/user_notification_settings.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 212
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/shared/user_public_profile.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 209
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/shared/user_settings.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 546
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/models/shared/user_status.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 331
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/controllers/user_accesses.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2701
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/controllers/user_building_unit.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1996
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1029
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/models/documents/user_access_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 2404
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 9491
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/models/documents/user_building_accesses_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 731
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/models/documents/user_building_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 365
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/models/documents/user_building_unit_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 412
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/models/functions/user_accesses_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 2714
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/models/messages/user_accesses_message.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1657
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/models/user_authorized_door.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 357
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/services/user_access.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 6844
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_activity",
+    "path": "functions/src/modules/user/modules/user_activity/controllers/user_activities.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2517
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_activity",
+    "path": "functions/src/modules/user/modules/user_activity/controllers/user_activity_aggregates.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3088
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_activity",
+    "path": "functions/src/modules/user/modules/user_activity/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1886
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_activity",
+    "path": "functions/src/modules/user/modules/user_activity/models/documents/user_activity_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 874
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_activity",
+    "path": "functions/src/modules/user/modules/user_activity/models/functions/user_activities_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 520
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_activity",
+    "path": "functions/src/modules/user/modules/user_activity/services/user_activities.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 4888
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_activity",
+    "path": "functions/src/modules/user/modules/user_activity/services/user_activity_aggregates.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 6203
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_call",
+    "path": "functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 872
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_call",
+    "path": "functions/src/modules/user/modules/user_call/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 480
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_call",
+    "path": "functions/src/modules/user/modules/user_call/models/user_call_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 715
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/controllers/user_device.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1819
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/controllers/user_device_access_control_device_token.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2337
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2169
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/models/documents/user_device_acess_control_device_token_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 322
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/models/documents/user_device_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 636
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/models/functions/user_device_public_key_add_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 309
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/models/functions/user_device_public_key_delete_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 318
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/models/functions/user_device_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 252
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/models/functions/user_device_service.model.ts",
+    "kindHint": "service",
+    "sizeBytes": 337
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/models/shared/user_device_type.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 131
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_device",
+    "path": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 12047
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_intercoms",
+    "path": "functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1993
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_intercoms",
+    "path": "functions/src/modules/user/modules/user_intercoms/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 808
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_intercoms",
+    "path": "functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 900
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_intercoms",
+    "path": "functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 9694
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3132
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation_building.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2950
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation_external_user.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2829
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/controllers/user_sent_invitation.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 2892
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 4403
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 3737
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_external_user_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 709
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_received_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1203
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 2325
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_external_user_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 896
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_get_all.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1272
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_accepted.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 9557
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_cancelled.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 3256
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_common.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 12720
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_creation.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 23372
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_delete.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 6756
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_edit.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 7739
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_external_unit.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 9317
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_external_user.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 37167
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_notification.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 1327
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_rejected.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 2974
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/controllers/user_notification.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1931
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/controllers/user_notification_token.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1900
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2449
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/models/documents/user_notification_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 427
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/models/documents/user_notification_registration_token_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 663
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/models/functions/user_notification_token_delete_body.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 187
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/models/functions/user_notification_token_insert_or_update_body.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 282
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/models/shared/user_notification_device_token.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 258
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/models/shared/user_notification_options.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 846
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/models/shared/user_notification_registration_token_device.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 275
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/services/user_notification.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 8773
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/services/user_notification_test.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 2925
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_notification",
+    "path": "functions/src/modules/user/modules/user_notification/services/user_notification_token.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 8787
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/controllers/user_organization.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1592
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/controllers/user_organization_invitation_pending.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1762
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/controllers/user_organization_request.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 1072
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 2580
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/models/documents/user_organization_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 473
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/models/documents/user_organization_invitation_pending_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 421
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/models/documents/user_organization_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 303
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 226
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/services/user_organization.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 656
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 11721
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_organization",
+    "path": "functions/src/modules/user/modules/user_organization/services/user_organization_request.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 3832
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_pincode",
+    "path": "functions/src/modules/user/modules/user_pincode/controllers/user_pincode.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 4630
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_pincode",
+    "path": "functions/src/modules/user/modules/user_pincode/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1130
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_pincode",
+    "path": "functions/src/modules/user/modules/user_pincode/models/documents/user_pincode_document.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1151
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_pincode",
+    "path": "functions/src/modules/user/modules/user_pincode/models/functions/user_pincode_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 278
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_pincode",
+    "path": "functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 7951
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_settings",
+    "path": "functions/src/modules/user/modules/user_settings/controllers/user_building_settings.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 4017
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_settings",
+    "path": "functions/src/modules/user/modules/user_settings/controllers/user_unit_settings.controller.ts",
+    "kindHint": "controller",
+    "sizeBytes": 3754
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_settings",
+    "path": "functions/src/modules/user/modules/user_settings/index.ts",
+    "kindHint": "unknown",
+    "sizeBytes": 1685
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_settings",
+    "path": "functions/src/modules/user/modules/user_settings/models/documents/user_building_settings.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 1981
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_settings",
+    "path": "functions/src/modules/user/modules/user_settings/models/documents/user_unit_settings.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 363
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_settings",
+    "path": "functions/src/modules/user/modules/user_settings/models/functions/user_building_settings_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 668
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_settings",
+    "path": "functions/src/modules/user/modules/user_settings/models/functions/user_unit_settings_request.model.ts",
+    "kindHint": "model",
+    "sizeBytes": 778
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_settings",
+    "path": "functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 18201
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": "user_settings",
+    "path": "functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 9777
+  },
+  {
+    "repo": "cloud",
+    "module": "user",
+    "submodule": null,
+    "path": "functions/src/modules/user/services/user.service.ts",
+    "kindHint": "service",
+    "sizeBytes": 70792
+  }
+]

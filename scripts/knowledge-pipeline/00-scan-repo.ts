@@ -100,21 +100,35 @@ function syncRepo(gitUrl: string, clonePath: string, branch?: string, commit?: s
   const parentDir = path.dirname(clonePath);
   ensureDir(parentDir);
 
-  if (!fs.existsSync(clonePath)) {
-    console.log(`Cloning repository ${gitUrl} into ${clonePath}...`);
-    const branchFlag = branch ? `-b ${branch}` : "";
-    execSync(`git clone ${branchFlag} "${gitUrl}" "${clonePath}"`, { stdio: "inherit" });
-  } else {
-    console.log(`Pulling updates for repository in ${clonePath}...`);
-    execSync(`git -C "${clonePath}" pull`, { stdio: "inherit" });
+  // For 100% guaranteed purity and absolute source-of-truth alignment,
+  // we completely delete any existing clone and perform a fresh clone every run.
+  if (fs.existsSync(clonePath)) {
+    console.log(`Wiping existing clone directory to guarantee 100% branch purity: ${clonePath}...`);
+    fs.rmSync(clonePath, { recursive: true, force: true });
   }
 
+  console.log(`Cloning repository ${gitUrl} into ${clonePath}...`);
+  // Clone normally so all branches are available for switching
+  execSync(`git clone "${gitUrl}" "${clonePath}"`, { stdio: "inherit" });
+
+  // Checkout target branch/commit
   if (commit) {
     console.log(`Checking out commit ${commit} in ${clonePath}...`);
     execSync(`git -C "${clonePath}" checkout "${commit}"`, { stdio: "inherit" });
   } else if (branch) {
     console.log(`Checking out branch ${branch} in ${clonePath}...`);
-    execSync(`git -C "${clonePath}" checkout "${branch}"`, { stdio: "inherit" });
+    try {
+      // Try normal checkout
+      execSync(`git -C "${clonePath}" checkout "${branch}"`, { stdio: "inherit" });
+    } catch {
+      // Force creation tracking the remote origin branch if it's the first checkout
+      console.log(`Creating local branch to track origin/${branch}...`);
+      execSync(`git -C "${clonePath}" checkout -b "${branch}" "origin/${branch}"`, { stdio: "inherit" });
+    }
+
+    // Pull latest code specifically for the active checked-out branch
+    console.log(`Pulling updates for branch ${branch}...`);
+    execSync(`git -C "${clonePath}" pull origin "${branch}"`, { stdio: "inherit" });
   }
 }
 

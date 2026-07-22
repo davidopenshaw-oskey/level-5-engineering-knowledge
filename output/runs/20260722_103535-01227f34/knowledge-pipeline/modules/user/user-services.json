@@ -1,0 +1,2881 @@
+[
+  {
+    "name": "OSKUserAccessService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_access/services/user_access.service.ts",
+    "submodule": "user_access",
+    "methods": [
+      {
+        "name": "createOrUpdateUserAccess",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "accessOptions",
+            "typeText": "{\n            userId: string;\n            userFirstName?: string;\n            userLastName?: string;\n            buildingId: string;\n            buildingName?: string;\n            buildingStreetAddress?: OSKStreetAddress;\n            buildingImageFilename?: string;\n        }",
+            "resolvedTypeText": "{ userId: string; userFirstName?: string | undefined; userLastName?: string | undefined; buildingId: string; buildingName?: string | undefined; buildingStreetAddress?: import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/models/shared/street_address.model\").OSKStreetAddress | undefined; buildingImageFilename?: string | undefined; }",
+            "decorators": []
+          },
+          {
+            "name": "receivedAccess",
+            "typeText": "OSKAccess",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model\").OSKAccess",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "setupUserAccess",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKInhabitantUserAccess>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model\").OSKInhabitantUserAccess>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "accessOptions",
+            "typeText": "{\n        isMainAccess: boolean;\n        unitId: string;\n        type: OSKUserAccessType;\n        inviterId?: string;\n        inviterName?: string;\n        accessRights: OSKAccessRightWithTimestamp[];\n        authorizedDoors: OSKUserAuthorizedDoor[];\n        creationDate?: Timestamp;\n        accessId?: string;\n    }",
+            "resolvedTypeText": "{ isMainAccess: boolean; unitId: string; type: import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model\").OSKUserAccessType; inviterId?: string | undefined; inviterName?: string | undefined; accessRights: import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/modules/access/models/access_right.model\").OSKAccessRightWithTimestamp[]; authorizedDoors: import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_access/models/user_authorized_door.model\").OSKUserAuthorizedDoor[]; creationDate?: FirebaseFirestore.Timestamp | undefined; accessId?: string | undefined; }",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserActivitiesService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_activity/services/user_activities.service.ts",
+    "submodule": "user_activity",
+    "methods": [
+      {
+        "name": "ActivityReceivedForUser",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "activity",
+            "typeText": "OSKBuildingActivity",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model\").OSKBuildingActivity",
+            "decorators": []
+          },
+          {
+            "name": "enrichedData",
+            "typeText": "EnrichedActivityData",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service\").EnrichedActivityData",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getActivityById",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKUserActivityDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_activity/models/documents/user_activity_document.model\").OSKUserActivityDocument>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetUserActivityByIdRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_activity/models/functions/user_activities_request.model\").OSKGetUserActivityByIdRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllUserActivities",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKDocumentList<OSKUserActivityDocument>>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_activity/models/documents/user_activity_document.model\").OSKUserActivityDocument>>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetAllUserActivitiesRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_activity/models/functions/user_activities_request.model\").OSKGetAllUserActivitiesRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKDeleteActivityByIdRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_activity/models/functions/user_activities_request.model\").OSKDeleteActivityByIdRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteAll",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKDeleteAllUserActivitiesRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_activity/models/functions/user_activities_request.model\").OSKDeleteAllUserActivitiesRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserActivityAggregatesService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_activity/services/user_activity_aggregates.service.ts",
+    "submodule": "user_activity",
+    "methods": [
+      {
+        "name": "ActivityReceivedForUser",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "activity",
+            "typeText": "OSKBuildingActivity",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model\").OSKBuildingActivity",
+            "decorators": []
+          },
+          {
+            "name": "enrichedData",
+            "typeText": "EnrichedActivityData",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service\").EnrichedActivityData",
+            "decorators": []
+          },
+          {
+            "name": "userCallDocument",
+            "typeText": "OSKUserCallDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_call/models/user_call_document.model\").OSKUserCallDocument | undefined",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getActivityByBuildingId",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKUserActivityAggregateDocument | undefined>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_activity/models/documents/user_activity_document.model\").OSKUserActivityAggregateDocument | undefined>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetUserActivityAggregatesByBuildingIdRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_activity/models/functions/user_activities_request.model\").OSKGetUserActivityAggregatesByBuildingIdRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserDeviceService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+    "submodule": "user_device",
+    "methods": [
+      {
+        "name": "getDevicesUserList",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKDocumentList<OSKUserDeviceDocument>>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_device/models/documents/user_device_document.model\").OSKUserDeviceDocument>>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetUserDeviceListRequestData",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_device/models/functions/user_device_request.model\").OSKGetUserDeviceListRequestData",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "removeUserDevice",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<undefined>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<undefined>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKRemoveUserDeviceRequestData",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_device/models/functions/user_device_request.model\").OSKRemoveUserDeviceRequestData",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentCreated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentUpdated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "Change<DocumentSnapshot>",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/change\").Change<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentDeleted",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "_snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createAccessDeviceToken",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "params",
+            "typeText": "OSKAccessDeviceTokenParams",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_device/models/functions/user_device_service.model\").OSKAccessDeviceTokenParams",
+            "decorators": []
+          },
+          {
+            "name": "isMainAccess",
+            "typeText": "boolean",
+            "resolvedTypeText": "boolean",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_findAllUserAccessForThisACD",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": false,
+        "returnTypeText": "OSKAccessRightWithTimestamp[]",
+        "resolvedReturnTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/modules/access/models/access_right.model\").OSKAccessRightWithTimestamp[]",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userAccess",
+            "typeText": "OSKUserAccessesDocument | undefined",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model\").OSKUserAccessesDocument | undefined",
+            "decorators": []
+          },
+          {
+            "name": "acd",
+            "typeText": "OSKBuildingDoorAccessControlDeviceDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_door/models/documents/building_door_access_control_device_document.model\").OSKBuildingDoorAccessControlDeviceDocument",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserIntercomService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts",
+    "submodule": "user_intercoms",
+    "methods": [
+      {
+        "name": "createAndUpdateUsersIntercomEntry",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "intercomDoc",
+            "typeText": "OSKBuildingIntercomDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_document.model\").OSKBuildingIntercomDocument",
+            "decorators": []
+          },
+          {
+            "name": "unitMatch",
+            "typeText": "OSKBuildingIntercomEntry",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_document.model\").OSKBuildingIntercomEntry",
+            "decorators": []
+          },
+          {
+            "name": "callTransferList",
+            "typeText": "OSKIntercomCallTransferListItem[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_callTransferList_document.model\").OSKIntercomCallTransferListItem[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateAllUserIntercomEntry",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "acdId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "inhabitants",
+            "typeText": "OSKIntercomUnitInhabitant[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_document.model\").OSKIntercomUnitInhabitant[]",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "Partial<OSKUserIntercomDocument>",
+            "resolvedTypeText": "Partial<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model\").OSKUserIntercomDocument>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateUserIntercomEntry",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "acdId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "Partial<OSKUserIntercomDocument>",
+            "resolvedTypeText": "Partial<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model\").OSKUserIntercomDocument>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteUserIntercom",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "acdId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "cleanUpUserIntercomsAfterInhabitantDeletion",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "intercomId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "deletedUserId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "remainingInhabitants",
+            "typeText": "OSKIntercomUnitInhabitant[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_document.model\").OSKIntercomUnitInhabitant[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createUserIntercomEntry",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "intercomDoc",
+            "typeText": "OSKBuildingIntercomDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_document.model\").OSKBuildingIntercomDocument",
+            "decorators": []
+          },
+          {
+            "name": "intercomUnit",
+            "typeText": "OSKBuildingIntercomEntry",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_document.model\").OSKBuildingIntercomEntry",
+            "decorators": []
+          },
+          {
+            "name": "callTransferListWithOnlyCallRecipients",
+            "typeText": "OSKUserIntercomCallTransferListItem[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model\").OSKUserIntercomCallTransferListItem[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "convertCallTransferListFromSequenceNumberToOrdered",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": false,
+        "returnTypeText": "OSKUserIntercomCallTransferListItem[]",
+        "resolvedReturnTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model\").OSKUserIntercomCallTransferListItem[]",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "callTransferList",
+            "typeText": "OSKIntercomCallTransferListItem[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/documents/building_intercom_callTransferList_document.model\").OSKIntercomCallTransferListItem[]",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserInvitationAcceptedService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_accepted.service.ts",
+    "submodule": "user_invitation",
+    "methods": [
+      {
+        "name": "inviteeAcceptsInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKInvitationReplyRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKInvitationReplyRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext | undefined",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "acceptInvitationForInvitee",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "invitee",
+            "typeText": "OSKInvitee",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKInvitee",
+            "decorators": []
+          },
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "invitation",
+            "typeText": "OSKUserInvitationSent",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSent",
+            "decorators": []
+          },
+          {
+            "name": "updateInviteesDocuments",
+            "typeText": "boolean",
+            "resolvedTypeText": "boolean",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserInvitationCancelledService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_cancelled.service.ts",
+    "submodule": "user_invitation",
+    "methods": [
+      {
+        "name": "inviterCancelsInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown> | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKInvitationReplyRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKInvitationReplyRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserInvitationCommonService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_common.service.ts",
+    "submodule": "user_invitation",
+    "methods": [
+      {
+        "name": "findInviteeUserId",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserDocument | null>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/documents/user_document.model\").OSKUserDocument | null>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "inviteeContactInfo",
+            "typeText": "OSKInviteeContactInfo",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKInviteeContactInfo",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateStatusOfInvitee",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKInvitee[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "invitedUser",
+            "typeText": "OSKUserDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/documents/user_document.model\").OSKUserDocument",
+            "decorators": []
+          },
+          {
+            "name": "invitees",
+            "typeText": "OSKInvitee[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKInvitee[]",
+            "decorators": []
+          },
+          {
+            "name": "invitationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "| { status: 'accepted'; accessId: string }\n            | { status: 'cancelled'; accessId?: string }\n            | { status: 'rejected' }\n            | { status: 'pending' }",
+            "resolvedTypeText": "{ status: \"accepted\"; accessId: string; } | { status: \"cancelled\"; accessId?: string | undefined; } | { status: \"rejected\"; } | { status: \"pending\"; }",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onGetAllInvitationsByUser",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKUserInvitationGetAllResponse>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_get_all.model\").OSKUserInvitationGetAllResponse>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserInvitationGetAllRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_get_all.model\").OSKUserInvitationGetAllRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "checkDates",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": false,
+        "returnTypeText": "{ creationDate: string; accessRights: OSKAccessRightWithStrings[] }",
+        "resolvedReturnTypeText": "{ creationDate: string; accessRights: import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/modules/access/models/access_right.model\").OSKAccessRightWithStrings[]; }",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "invitation",
+            "typeText": "| OSKDocumentListElement<OSKUserInvitationSentDocument>\n            | OSKDocumentListElement<OSKUserInvitationReceivedDocument>",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentListElement<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSentDocument> | import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentListElement<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_received_document.model\").OSKUserInvitationReceivedDocument>",
+            "decorators": []
+          },
+          {
+            "name": "invitationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserInvitationCreationService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_creation.service.ts",
+    "submodule": "user_invitation",
+    "methods": [
+      {
+        "name": "createUserInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKUserInvitationSentDocument> | null>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSentDocument> | null>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserInvitationCreateRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKUserInvitationCreateRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "constructUserInvitationSentObject",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserInvitationSentDocument>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSentDocument>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserInvitationConstruction",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKUserInvitationConstruction",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "processInvitee",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKInvitee | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKInvitee | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "invitationSender",
+            "typeText": "OSKUserDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/documents/user_document.model\").OSKUserDocument",
+            "decorators": []
+          },
+          {
+            "name": "invitee",
+            "typeText": "OSKInvitee",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKInvitee",
+            "decorators": []
+          },
+          {
+            "name": "invitation",
+            "typeText": "OSKUserInvitationSent",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSent",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "completeUnitDetails",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<{ unitId: string; unitName: string; unitNumber: string }>",
+        "resolvedReturnTypeText": "Promise<{ unitId: string; unitName: string; unitNumber: string; }>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "unitId",
+            "typeText": "string | undefined",
+            "resolvedTypeText": "string | undefined",
+            "decorators": []
+          },
+          {
+            "name": "unitName",
+            "typeText": "string | undefined",
+            "resolvedTypeText": "string | undefined",
+            "decorators": []
+          },
+          {
+            "name": "unitNumber",
+            "typeText": "string | undefined",
+            "resolvedTypeText": "string | undefined",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserInvitationDeleteService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_delete.service.ts",
+    "submodule": "user_invitation",
+    "methods": [
+      {
+        "name": "deleteInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserInvitationDeleteRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKUserInvitationDeleteRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteSentInvitation",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserInvitationDeleteRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKUserInvitationDeleteRequest",
+            "decorators": []
+          },
+          {
+            "name": "loggedUserId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteReceivedInvitation",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserInvitationDeleteRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKUserInvitationDeleteRequest",
+            "decorators": []
+          },
+          {
+            "name": "loggedUserId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserInvitationEditService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_edit.service.ts",
+    "submodule": "user_invitation",
+    "methods": [
+      {
+        "name": "editInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserInvitationUpdateRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKUserInvitationUpdateRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserInvitationExternalUnitService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_external_unit.service.ts",
+    "submodule": "user_invitation",
+    "methods": [
+      {
+        "name": "createExternalUnitInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<{ recordKey?: string; status?: string }>",
+        "resolvedReturnTypeText": "Promise<{ recordKey?: string | undefined; status?: string | undefined; }>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "unitInvitation",
+            "typeText": "Omit<OSKUnitInvitation, 'invitees'>",
+            "resolvedTypeText": "Omit<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/models/documents/unit_management_invitation_document\").OSKUnitInvitation, \"invitees\">",
+            "decorators": []
+          },
+          {
+            "name": "unitInvitee",
+            "typeText": "OSKUnitInvitationInvitees",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/models/documents/unit_management_invitation_document\").OSKUnitInvitationInvitees",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "insertExternalUserUnitInvitation",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "recordHeader",
+            "typeText": "{ contactType: string; recordKey: string }",
+            "resolvedTypeText": "{ contactType: string; recordKey: string; }",
+            "decorators": []
+          },
+          {
+            "name": "existingInvitations",
+            "typeText": "OSKExternalUserInvitationsDocument | undefined",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_external_user_document.model\").OSKExternalUserInvitationsDocument | undefined",
+            "decorators": []
+          },
+          {
+            "name": "newUnitInvitation",
+            "typeText": "OSKUnitInvitation",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/models/documents/unit_management_invitation_document\").OSKUnitInvitation",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserInvitationExternalUserService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_external_user.service.ts",
+    "submodule": "user_invitation",
+    "methods": [
+      {
+        "name": "getExternalUserInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKExternalUserInvitationsDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_external_user_document.model\").OSKExternalUserInvitationsDocument>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserExternalUserRequestGet",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_external_user_request_document.model\").OSKUserExternalUserRequestGet",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createExternalUserInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userInvitation",
+            "typeText": "OSKUserInvitationSent",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSent",
+            "decorators": []
+          },
+          {
+            "name": "invitee",
+            "typeText": "OSKInvitee",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKInvitee",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "insertExternalUserInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "emailOrPhone",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "contactType",
+            "typeText": "OSKExternalUserKeyType",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_external_user_document.model\").OSKExternalUserKeyType",
+            "decorators": []
+          },
+          {
+            "name": "invitation",
+            "typeText": "OSKUserInvitationSent",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSent",
+            "decorators": []
+          },
+          {
+            "name": "existingInvitations",
+            "typeText": "OSKExternalUserInvitationsDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_external_user_document.model\").OSKExternalUserInvitationsDocument | undefined",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "processExternalUserInvitations",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKUserProcessExternalUserInvitationsResponse>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_external_user_request_document.model\").OSKUserProcessExternalUserInvitationsResponse>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserProcessExternalUserInvitationsRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_external_user_request_document.model\").OSKUserProcessExternalUserInvitationsRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_processOnboardingCard",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<Omit<OSKInhabitantOnboardedResult, 'matchType'> | null>",
+        "resolvedReturnTypeText": "Promise<Omit<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_external_user_request_document.model\").OSKInhabitantOnboardedResult, \"matchType\"> | null>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "user",
+            "typeText": "OSKUserDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/documents/user_document.model\").OSKUserDocument",
+            "decorators": []
+          },
+          {
+            "name": "onboardingCard",
+            "typeText": "OSKOrganizationOnboardingInhabitant",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/documents/organization_onboarding_inhabitant_document.model\").OSKOrganizationOnboardingInhabitant",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_processOnboardingCards",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKInhabitantOnboardedResult[]>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_external_user_request_document.model\").OSKInhabitantOnboardedResult[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "user",
+            "typeText": "OSKUserDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/documents/user_document.model\").OSKUserDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_processExternalInvitations",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<{ guestInvitations: OSKUserInvitationSent[]; unitInvitations: OSKUnitInvitation[] }>",
+        "resolvedReturnTypeText": "Promise<{ guestInvitations: import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSent[]; unitInvitations: import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/models/documents/unit_management_invitation_document\").OSKUnitInvitation[]; }>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "user",
+            "typeText": "OSKUserDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/documents/user_document.model\").OSKUserDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "processUnitInvitations",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUnitInvitation[]>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/models/documents/unit_management_invitation_document\").OSKUnitInvitation[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userDoc",
+            "typeText": "OSKUserDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/documents/user_document.model\").OSKUserDocument",
+            "decorators": []
+          },
+          {
+            "name": "unitInvitations",
+            "typeText": "OSKUnitInvitation[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/unit_management/models/documents/unit_management_invitation_document\").OSKUnitInvitation[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "processUserInvitations",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSent[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "userInvitations",
+            "typeText": "OSKUserInvitationSent[]",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSent[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteByInvitationId",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "invitationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserInvitationNotificationService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_notification.service.ts",
+    "submodule": "user_invitation",
+    "methods": []
+  },
+  {
+    "name": "OSKUserInvitationRejectedService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_invitation/services/user_invitation_rejected.service.ts",
+    "submodule": "user_invitation",
+    "methods": [
+      {
+        "name": "inviteeRejectsInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown> | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKInvitationReplyRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_document.model\").OSKInvitationReplyRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserNotificationService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_notification/services/user_notification.service.ts",
+    "submodule": "user_notification",
+    "methods": [
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "OSKNotificationOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_options.model\").OSKNotificationOptions",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createSpecial",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "options",
+            "typeText": "OSKSpecialNotificationOptions",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/apps/modules/notification/models/notification_options.model\").OSKSpecialNotificationOptions",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentUpdated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "Change<DocumentSnapshot>",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/change\").Change<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentDeleted",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserNotificationTestService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_notification/services/user_notification_test.service.ts",
+    "submodule": "user_notification",
+    "methods": [
+      {
+        "name": "onTestNotification",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<\n        OSKHttpsSuccessResponse<{\n            status: string;\n            message: string;\n        }>\n    >",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<{ status: string; message: string; }>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "{ userId: string }",
+            "resolvedTypeText": "{ userId: string; }",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserNotificationTokenService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_notification/services/user_notification_token.service.ts",
+    "submodule": "user_notification",
+    "methods": [
+      {
+        "name": "onInsertOrUpdateNotificationToken",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserNotificationTokenInsertOrUpdateBody",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_notification/models/documents/user_notification_registration_token_document.model\").OSKUserNotificationToken",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDeleteNotificationToken",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserNotificationTokenDeleteRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_notification/models/functions/user_notification_token_delete_body.model\").OSKUserNotificationTokenDeleteRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserOrganizationService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_organization/services/user_organization.service.ts",
+    "submodule": "user_organization",
+    "methods": []
+  },
+  {
+    "name": "OSKUserOrganizationInvitationService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts",
+    "submodule": "user_organization",
+    "methods": [
+      {
+        "name": "getCurrentUserOrganizationInvitations",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKDocumentList<OSKUserOrganizationInvitationPendingDocument>>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_organization/models/documents/user_organization_invitation_pending_document.model\").OSKUserOrganizationInvitationPendingDocument>>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "_request",
+            "typeText": "Record<string, never>",
+            "resolvedTypeText": "Record<string, never>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "userOrganizationInvitationAccepted",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<boolean>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserOrganizationInvitationPendingRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model\").OSKUserOrganizationInvitationPendingRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "userOrganizationInvitationRejected",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<boolean>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserOrganizationInvitationPendingRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model\").OSKUserOrganizationInvitationPendingRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserOrganizationRequestService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_organization/services/user_organization_request.service.ts",
+    "submodule": "user_organization",
+    "methods": []
+  },
+  {
+    "name": "OSKUserPincodeService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts",
+    "submodule": "user_pincode",
+    "methods": [
+      {
+        "name": "createPincodeInhabitantDocument",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "documentFields",
+            "typeText": "{\n        pincode: string;\n        userId: string;\n        buildingId: string;\n        accessId: string;\n    }",
+            "resolvedTypeText": "{ pincode: string; userId: string; buildingId: string; accessId: string; }",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createPincodeGuestDocument",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "documentFields",
+            "typeText": "{\n        pincode: string;\n        userId: string;\n        buildingId: string;\n        accessId: string;\n        inviterId: string;\n    }",
+            "resolvedTypeText": "{ pincode: string; userId: string; buildingId: string; accessId: string; inviterId: string; }",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createPincodePermanentGuestDocument",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "documentFields",
+            "typeText": "{\n        pincode: string;\n        userId: string;\n        buildingId: string;\n        accessId: string;\n        inviterId: string;\n    }",
+            "resolvedTypeText": "{ pincode: string; userId: string; buildingId: string; accessId: string; inviterId: string; }",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createPincodeAnonymousDocument",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "documentFields",
+            "typeText": "{\n        pincode: string;\n        userId: string;\n        buildingId: string;\n        accessId: string;\n    }",
+            "resolvedTypeText": "{ pincode: string; userId: string; buildingId: string; accessId: string; }",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllPincodeStrings",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<string[]>",
+        "resolvedReturnTypeText": "Promise<string[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onGetUserPincodes",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKDocumentList<OSKUserPincodeDocument>>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_pincode/models/documents/user_pincode_document.model\").OSKUserPincodeDocument>>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserPincodeGetRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_pincode/models/functions/user_pincode_request.model\").OSKUserPincodeGetRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteUserPincode",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserPincodeDeleteRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_pincode/models/functions/user_pincode_request.model\").OSKUserPincodeDeleteRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserSettingsBuildingService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts",
+    "submodule": "user_settings",
+    "methods": [
+      {
+        "name": "createUserSettingsBuilding",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserCreateSettingsBuildingRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/functions/user_building_settings_request.model\").OSKUserCreateSettingsBuildingRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getUserSettingsBuilding",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserSettingsBuildingDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/documents/user_building_settings.model\").OSKUserSettingsBuildingDocument | undefined>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserGetSettingsBuildingRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/functions/user_building_settings_request.model\").OSKUserGetSettingsBuildingRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllUserSettingsBuilding",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserSettingsBuildingDocument[]>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/documents/user_building_settings.model\").OSKUserSettingsBuildingDocument[]>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserGetAllSettingsBuildingRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/functions/user_building_settings_request.model\").OSKUserGetAllSettingsBuildingRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteUserSettingsBuilding",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserDeleteSettingsBuildingRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/functions/user_building_settings_request.model\").OSKUserDeleteSettingsBuildingRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateUserSettingsBuilding",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserUpdateSettingsBuildingRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/functions/user_building_settings_request.model\").OSKUserUpdateSettingsBuildingRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createUserSettingsFromBuildingSettings",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserSettingsBuildingDocument>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/documents/user_building_settings.model\").OSKUserSettingsBuildingDocument>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingSettingsDoc",
+            "typeText": "OSKBuildingSettingsDocument",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_settings/models/documents/building_settings.model\").OSKBuildingSettingsDocument",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserSettingsUnitService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts",
+    "submodule": "user_settings",
+    "methods": [
+      {
+        "name": "checkPermissions",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "requiredRoles",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createUserSettingUnit",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserCreateSettingsUnitRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/documents/user_unit_settings.model\").OSKUserSettingsUnit",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getUserSettingUnit",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserSettingsUnitDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/documents/user_unit_settings.model\").OSKUserSettingsUnitDocument | undefined>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserGetSettingsUnitRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/functions/user_unit_settings_request.model\").OSKUserGetSettingsUnitRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllUserSettingsUnit",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserSettingsUnitDocument[]>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/documents/user_unit_settings.model\").OSKUserSettingsUnitDocument[]>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserGetAllSettingsUnitRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/functions/user_unit_settings_request.model\").OSKUserGetAllSettingsUnitRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteUserSettingUnit",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserDeleteSettingsUnitRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/functions/user_unit_settings_request.model\").OSKUserGetSettingsUnitRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateUserSettingUnit",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserUpdateSettingsUnitRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/modules/user_settings/models/functions/user_unit_settings_request.model\").OSKUserUpdateSettingsUnitRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createUserSettingsUnitFromInhabitant",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "unitId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "inhabitantType",
+            "typeText": "OSKBuildingUnitInhabitantType",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_type_document.model\").OSKBuildingUnitInhabitantType",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKUserService",
+    "repo": "cloud",
+    "path": "functions/src/modules/user/services/user.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "onDocumentCreated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "DocumentSnapshot",
+            "resolvedTypeText": "FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDocumentUpdated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "snapshot",
+            "typeText": "Change<DocumentSnapshot>",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/change\").Change<FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData, FirebaseFirestore.DocumentData>>",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "EventContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/v1/cloud-functions\").EventContext<Record<string, string>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "initiatePhoneNumberChange",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<void>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<void>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserInitiatePhoneChangeRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/user_update_name_and_phone.document\").OSKUserInitiatePhoneChangeRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "verifyAndCompletePhoneNumberChange",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<void>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<void>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserVerifyAndCompletePhoneNumberChangeRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/user_update_name_and_phone.document\").OSKUserVerifyAndCompletePhoneNumberChangeRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onUpdatePhoneNumberCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<string>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKPhoneNumber",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/core/models/shared/phone_number.model\").OSKPhoneNumber",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onAccountCreated",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userAccount",
+            "typeText": "UserRecord",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-admin/lib/auth/user-record\").UserRecord",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_cascadePublicProfileChange",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "oldPublicProfile",
+            "typeText": "OSKUserPublicProfile",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/shared/user_public_profile.model\").OSKUserPublicProfile",
+            "decorators": []
+          },
+          {
+            "name": "newPublicProfile",
+            "typeText": "OSKUserPublicProfile",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/shared/user_public_profile.model\").OSKUserPublicProfile",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onUpdateUserProfileAndPhoneNumberCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<boolean>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<boolean>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUpdateUserProfileAndPhoneNumberRequestData",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/user_update_name_and_phone.document\").OSKUpdateUserProfileAndPhoneNumberRequestData",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onUpdateUserOnboardingStatusCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<boolean>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<boolean>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserUpdatesOnboardingStatusRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/user_updates_status_request_document\").OSKUserUpdatesOnboardingStatusRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onUpdateUserSettingsLanguageCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<boolean>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<boolean>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserUpdatesLanguageRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/user_updates_language_request_document\").OSKUserUpdatesLanguageRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onUpdatePublicProfileCalled",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<unknown> | \"User names were identical, no changes made\">",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserUpdatesPublicProfileRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/user_updates_publicprofile_request_document\").OSKUserUpdatesPublicProfileRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "uploadImage",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "bucket",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "imagePath",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "contentType",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getCurrentUserUnits",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKGetUserUnitsResponseData>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/get_user_units_response_data.model\").OSKGetUserUnitsResponseData>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "{ userId: string }",
+            "resolvedTypeText": "{ userId: string; }",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getUserIdsByEmailOrPhone",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKGetUsersByEmailOrPhoneNumberResponseData>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/get_userIds_by_email_or_phone.document\").OSKGetUsersByEmailOrPhoneNumberResponseData>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetUsersByEmailOrPhoneNumberRequestData",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/get_userIds_by_email_or_phone.document\").OSKGetUsersByEmailOrPhoneNumberRequestData",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteUserProfileImage",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<void>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<void>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "deleteUserProfileImageRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/delete_user_profile_image.model\").deleteUserProfileImageRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "initiateEmailChange",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<void>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<void>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserInitiateEmailChangeRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/user_update_name_and_phone.document\").OSKUserInitiateEmailChangeRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "sendOtpCodeEmail",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "payload",
+            "typeText": "CodeEmailPayload",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/user_update_name_and_phone.document\").CodeEmailPayload",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "verifyAndCompleteEmailChange",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<void>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<void>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUserVerifyAndCompleteEmailChangeRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/user_update_name_and_phone.document\").OSKUserVerifyAndCompleteEmailChangeRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_sendVerificationSms",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "toPhoneNumber",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_verifySmsCode",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<boolean>",
+        "resolvedReturnTypeText": "Promise<boolean>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "toPhoneNumber",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "code",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "requestMyAccountDeletion",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<void>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<void>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "_request",
+            "typeText": "unknown",
+            "resolvedTypeText": "unknown",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onAccountDeleted",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userAccount",
+            "typeText": "UserRecord",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-admin/lib/auth/user-record\").UserRecord",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "onDeleteAccount",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "_deleteAllUserData",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getInhabitantType",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKGetInhabitantTypeResponse>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/utils/response_object\").OSKHttpsSuccessResponse<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/get_user_inhabitant_type.model\").OSKGetInhabitantTypeResponse>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetInhabitantTypeRequest",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/get_user_inhabitant_type.model\").OSKGetInhabitantTypeRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/node_modules/firebase-functions/lib/common/providers/https\").CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_getInhabitantType",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKGetInhabitantTypeResponse>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/davidopenshaw/Documents/clients/oskey/development/working/firebase-oskey-dev/functions/src/modules/user/models/functions/get_user_inhabitant_type.model\").OSKGetInhabitantTypeResponse>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "unitId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

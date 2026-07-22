@@ -1,0 +1,21 @@
+{
+  "runId": "20260722_095115-01227f34",
+  "generatedAt": "2026-07-22T09:51:23.309Z",
+  "module": "user",
+  "summary": {
+    "files": 115,
+    "imports": 511,
+    "exports": 542,
+    "classes": 47,
+    "methods": 275,
+    "functions": 24,
+    "calls": 1190,
+    "firestoreHints": 18,
+    "permissionHints": 24,
+    "externalHooks": 27,
+    "firestoreTriggers": 9,
+    "apiContracts": 43,
+    "services": 25,
+    "controllers": 22
+  }
+}
