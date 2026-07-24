@@ -60,6 +60,29 @@ When an AI agent is asked to evaluate impact or produce an Atomic PRD, it MUST t
 4. **Data & Persistence Layer**: Firestore collection paths (`firestore_path_touched`), subcollections, triggers.
 5. **Security & Governance Layer**: RBAC permission strings (`permission_required`).
 
+### Directive 4: Information Preservation Rule (Anti-Generic Abstraction)
+- AI agents MUST preserve specific engineering nouns and verbs found in source profiles (e.g., `access creation`, `pincode generation`, `ACD synchronisation`, `Paired Document Pattern`, `pincode_trash`).
+- Do NOT replace specific domain capabilities with generic labels like "infrastructure", "platform services", "administration", or "database writes" unless the underlying specific operations are also explicitly listed.
+- A statement like *"Module A is an orchestration hub"* is INSUFFICIENT unless the agent explains *what* is orchestrated using source code terminology.
+
+### Directive 5: Event Routing Table Standard
+- For any event router or message processor (e.g., `PubSubMessageProcessor`, Firestore triggers, Cloud Tasks handlers), AI agents MUST produce a structured **Event Routing Table**.
+- The table MUST explicitly map:
+  `Incoming Event / Message Topic` ➔ `Target Module` ➔ `Target Service Class` ➔ `Handler Method`.
+
+### Directive 6: Module Personality Separation
+- AI agents MUST differentiate between standard administrative capabilities (e.g., CRUD operations) and high-risk 'Maintenance', 'Repair', or 'Backfill' operations.
+- Modules exhibiting multiple operational personalities (e.g., `admin` serving as both a CRUD controller and a data repair mutator) MUST catalog and analyze these personalities separately.
+
+### Directive 7: Explicit Knowledge Gap Logging (`KI-XXX`)
+- Where evidence is incomplete or external integration contracts are undefined (e.g., missing Pub/Sub message schemas, implicit middleware decorators, path naming discrepancies), AI agents MUST NOT guess or invent missing behavior.
+- Record the limitation cleanly as an explicit **Knowledge Improvement** (`KI-001`, `KI-002`, etc.) with:
+  - Missing Knowledge
+  - Why It Matters
+  - Current Evidence vs. Required Evidence
+  - Expected Corpus Benefit
+  - Priority (High / Medium / Low)
+
 ---
 
 ## 3. Scope & Workflow Lifecycle
@@ -67,11 +90,18 @@ When an AI agent is asked to evaluate impact or produce an Atomic PRD, it MUST t
 ### Phase 1 & 1.5: Single-Module AST Fact Extraction [100% COMPLETE for `firebase-oskey-dev`]
 - Extract exports, controllers, services, API contracts, type aliases, enums, and properties into JSON fact streams and module evidence graphs.
 
+### Phase 1.75: Deterministic Cross-Module Graph Resolution [100% COMPLETE for `firebase-oskey-dev`]
+- Execute `04-build-resolved-graph.ts` to deterministically match caller-callee symbol references, shared Firestore collection path access, Pub/Sub event routing entries, and RBAC entitlement checks across modules without LLM guesswork.
+- Outputs: `resolved-engineering-graph.json` and `resolved-graph-matrix.md`.
+
 ### Phase 2: Inter-Module Architectural Synthesis [CURRENT PHASE for `firebase-oskey-dev`]
-- Map cross-module dependencies, inter-module call graph links, shared database collection accesses, and permissions matrix for the current repository.
+- Using `resolved-engineering-graph.json`, synthesize system guardrails, design patterns (e.g. `Paired Document Pattern`), subsystem classifications, and cross-module architectural topology into `INV-002 Architectural Topology Discovery.md`.
 
 ### Phase 3: Subsequent Repository Processing
-- Repeat Phase 1, Phase 1.5, and Phase 2 for each subsequent repository in the ecosystem (e.g., Mobile Apps, Web Admin Portal, IoT Firmware).
+- Repeat Phase 1 through Phase 2 for each subsequent repository in the ecosystem (e.g., Mobile Apps, Web Admin Portal, IoT Firmware).
 
 ### Phase 4: Cross-Repository Architectural Synthesis
 - Build end-to-end trace maps linking UI actions in client repos to cloud API contracts and backend database/hardware updates.
+
+### Phase 5: Global Impact Analysis & Atomic PRD Delivery
+- Generate execution-ready PRDs and impact reports with full multi-repo traceability.

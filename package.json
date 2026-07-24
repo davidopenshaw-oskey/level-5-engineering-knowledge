@@ -6,10 +6,12 @@
     "typescript": "^6.0.3"
   },
   "scripts": {
-    "pipeline:run": "npm run 00-scan-repo && npm run 01-extract-ast-evidence && npm run 02-build-module-evidence && npm run 03-build-benchmark",
-    "00-scan-repo": "node -r ts-node/register scripts/knowledge-pipeline/00-scan-repo.ts",
-    "01-extract-ast-evidence": "node -r ts-node/register scripts/knowledge-pipeline/01-extract-ast-evidence.ts",
-    "02-build-module-evidence": "node -r ts-node/register scripts/knowledge-pipeline/02-build-module-evidence.ts",
-    "03-build-benchmark": "node -r ts-node/register scripts/knowledge-pipeline/03-build-benchmark.ts"
-    }
+    "pipeline:firebase": "npm run cloud:00-scan-repo && npm run cloud:01-extract-ast && npm run cloud:02-build-evidence && npm run cloud:03-build-benchmark && npm run cloud:04-build-resolved-graph && npm run cloud:05-generate-profiles",
+    "cloud:00-scan-repo": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-00-repo-scanner/00-scan-repo.ts",
+    "cloud:01-extract-ast": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/01-extract-ast-evidence.ts",
+    "cloud:02-build-evidence": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/02-build-module-evidence.ts",
+    "cloud:03-build-benchmark": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/03-build-benchmark.ts",
+    "cloud:04-build-resolved-graph": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01.75-graph-resolution/04-build-resolved-graph.ts",
+    "cloud:05-generate-profiles": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/05-generate-profiles-and-apis.ts"
+  }
 }

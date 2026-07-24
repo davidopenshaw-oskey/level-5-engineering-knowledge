@@ -1,7 +1,7 @@
 {
   "repositories": [
     {
-      "name": "cloud",
+      "name": "firebase-oskey-dev",
       "path": "/Users/dopenshaw/development/working/firebase-oskey-dev",
       "gitUrl": "git@github.com:oskey-io/firebase-oskey-dev.git",
       "branch": "master",

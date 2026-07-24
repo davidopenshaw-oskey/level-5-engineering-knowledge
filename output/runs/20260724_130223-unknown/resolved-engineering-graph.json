@@ -1,0 +1,65 @@
+{
+  "metadata": {
+    "runId": "20260724_130223-unknown",
+    "generatedAt": "2026-07-24T13:02:26.954Z",
+    "totalExtractedFacts": 0,
+    "resolvedCrossModuleCallEdgesCount": 0,
+    "resolvedSharedFirestorePathsCount": 0,
+    "resolvedEventRoutesCount": 6,
+    "resolvedRbacPermissionsCount": 0
+  },
+  "resolvedCallEdges": [],
+  "resolvedSharedPaths": [],
+  "resolvedEventRoutes": [
+    {
+      "topicOrTrigger": "OSK_PUBSUB_TOPIC_ACD_ACCESSES",
+      "originatingModule": "core",
+      "targetModule": "core",
+      "targetServiceClass": "OSKAccessMessagePublisherService",
+      "handlerMethod": "publishAccessMessage",
+      "routeType": "PUBSUB_TOPIC"
+    },
+    {
+      "topicOrTrigger": "OSK_PUBSUB_TOPIC_ACD_ACTIVITY",
+      "originatingModule": "access_control_device",
+      "targetModule": "core",
+      "targetServiceClass": "PubSubMessageProcessor",
+      "handlerMethod": "processPubSubMessage",
+      "routeType": "PUBSUB_TOPIC"
+    },
+    {
+      "topicOrTrigger": "OSK_PUBSUB_TOPIC_ACD_INTERCOM_ENTRIES",
+      "originatingModule": "building",
+      "targetModule": "building",
+      "targetServiceClass": "OSKBuildingIntercomPublisherService",
+      "handlerMethod": "publishIntercomEntries",
+      "routeType": "PUBSUB_TOPIC"
+    },
+    {
+      "topicOrTrigger": "auth.user().onCreate",
+      "originatingModule": "firebase_auth",
+      "targetModule": "user",
+      "targetServiceClass": "OSKUserService",
+      "handlerMethod": "onAccountCreated",
+      "routeType": "AUTH_TRIGGER"
+    },
+    {
+      "topicOrTrigger": "auth.user().onDelete",
+      "originatingModule": "firebase_auth",
+      "targetModule": "user",
+      "targetServiceClass": "OSKUserService",
+      "handlerMethod": "onAccountDeleted",
+      "routeType": "AUTH_TRIGGER"
+    },
+    {
+      "topicOrTrigger": "firestore.users().onUpdate",
+      "originatingModule": "user",
+      "targetModule": "user",
+      "targetServiceClass": "OSKUserService",
+      "handlerMethod": "_cascadePublicProfileChange",
+      "routeType": "FIRESTORE_TRIGGER"
+    }
+  ],
+  "resolvedRbacMatrix": [],
+  "modulePersonalities": []
+}
