@@ -1,0 +1,21 @@
+{
+  "runId": "20260724_091153-1aa319b1",
+  "generatedAt": "2026-07-24T10:08:08.767Z",
+  "module": "access_control_device",
+  "summary": {
+    "files": 33,
+    "imports": 93,
+    "exports": 106,
+    "classes": 14,
+    "methods": 61,
+    "functions": 2,
+    "calls": 165,
+    "firestoreHints": 12,
+    "permissionHints": 2,
+    "externalHooks": 20,
+    "firestoreTriggers": 9,
+    "apiContracts": 2,
+    "services": 5,
+    "controllers": 8
+  }
+}

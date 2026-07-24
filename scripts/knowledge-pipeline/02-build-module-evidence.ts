@@ -19,7 +19,7 @@ const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
 const inputRoot = path.join(versionedOutputRoot, "raw");
 const modulesRoot = path.join(versionedOutputRoot, "knowledge-pipeline", "modules");
 
-const FIRESTORE_ROOT_COLLECTIONS = [
+const DEFAULT_FIRESTORE_ROOT_COLLECTIONS = [
   "/EmailLogs",
   "/accessControlDevices",
   "/buildings",
@@ -32,6 +32,33 @@ const FIRESTORE_ROOT_COLLECTIONS = [
   "/suppliers",
   "/users",
 ];
+
+function getDynamicFirestoreCollections(): string[] {
+  const collections = new Set<string>(DEFAULT_FIRESTORE_ROOT_COLLECTIONS);
+  const possibleRulePaths = [
+    path.join(projectRoot, "ai-runtime", "contracts", "docs", "firestore.rules.txt"),
+    path.join(projectRoot, "output", "clones", "cloud", "firestore.rules"),
+  ];
+
+  for (const rulePath of possibleRulePaths) {
+    if (fs.existsSync(rulePath)) {
+      try {
+        const content = fs.readFileSync(rulePath, "utf8");
+        const matches = content.matchAll(/match\s+(?:\/databases\/\{database\}\/documents)?\/([a-zA-Z0-9_-]+)/g);
+        for (const match of matches) {
+          if (match[1] && match[1] !== "databases" && match[1] !== "documents") {
+            collections.add(`/${match[1]}`);
+          }
+        }
+      } catch {
+        // Fallback to defaults if read fails
+      }
+    }
+  }
+  return Array.from(collections);
+}
+
+const FIRESTORE_ROOT_COLLECTIONS = getDynamicFirestoreCollections();
 
 type AnyRow = {
   repo?: string | null;
@@ -62,7 +89,10 @@ type EvidenceFact = {
   | "environment_variable"
   | "storage_path"
   | "firestore_trigger"
-  | "api_contract";
+  | "api_contract"
+  | "type_alias"
+  | "enum_declaration"
+  | "model_property";
 
   repo?: string | null;
   module: string;
@@ -222,6 +252,9 @@ function buildModuleEvidence(targetModule: string, raw: {
   classes: AnyRow[];
   methods: AnyRow[];
   functions: AnyRow[];
+  typeAliases: AnyRow[];
+  enums: AnyRow[];
+  modelProperties: AnyRow[];
   calls: AnyRow[];
   firestoreHints: AnyRow[];
   permissionHints: AnyRow[];
@@ -229,11 +262,16 @@ function buildModuleEvidence(targetModule: string, raw: {
   firestoreTriggers: AnyRow[];
   apiContracts: AnyRow[];
 }) {
+  const isTarget = (row: AnyRow, target: string) => row.module === target;
+
   const imports = raw.imports.filter(r => isTarget(r, targetModule));
   const exports_ = raw.exports_.filter(r => isTarget(r, targetModule));
   const classes = raw.classes.filter(r => isTarget(r, targetModule));
   const methods = raw.methods.filter(r => isTarget(r, targetModule));
   const functions = raw.functions.filter(r => isTarget(r, targetModule));
+  const typeAliases = (raw.typeAliases || []).filter(r => isTarget(r, targetModule));
+  const enums = (raw.enums || []).filter(r => isTarget(r, targetModule));
+  const modelProperties = (raw.modelProperties || []).filter(r => isTarget(r, targetModule));
   const calls = raw.calls.filter(r => isTarget(r, targetModule));
   const firestoreHints = raw.firestoreHints.filter(r => isTarget(r, targetModule));
   const permissionHints = raw.permissionHints.filter(r => isTarget(r, targetModule));
@@ -722,6 +760,61 @@ function buildModuleEvidence(targetModule: string, raw: {
     }
   }
 
+  for (const item of typeAliases) {
+    const name = cleanValue(item.name);
+    if (!name) continue;
+    facts.push(
+      fact({
+        type: "type_alias",
+        runId,
+        repo: item.repo ?? null,
+        module: targetModule,
+        submodule: submoduleOf(item),
+        file: fileOf(item),
+        line: lineOf(item),
+        value: name,
+        evidence: item,
+      })
+    );
+  }
+
+  for (const item of enums) {
+    const name = cleanValue(item.name);
+    if (!name) continue;
+    facts.push(
+      fact({
+        type: "enum_declaration",
+        runId,
+        repo: item.repo ?? null,
+        module: targetModule,
+        submodule: submoduleOf(item),
+        file: fileOf(item),
+        line: lineOf(item),
+        value: name,
+        evidence: item,
+      })
+    );
+  }
+
+  for (const item of modelProperties) {
+    const parentName = cleanValue(item.parentName);
+    const propName = cleanValue(item.propertyName);
+    if (!parentName || !propName) continue;
+    facts.push(
+      fact({
+        type: "model_property",
+        runId,
+        repo: item.repo ?? null,
+        module: targetModule,
+        submodule: submoduleOf(item),
+        file: fileOf(item),
+        line: lineOf(item),
+        value: `${parentName}.${propName}`,
+        evidence: item,
+      })
+    );
+  }
+
   const dedupedFacts = dedupeFacts(facts);
 
   const countsByType = dedupedFacts.reduce<Record<string, number>>((acc, f) => {
@@ -742,7 +835,12 @@ function buildModuleEvidence(targetModule: string, raw: {
       evidence: `${targetModule}-evidence.json`,
     },
     summary: {
-      inputSummary: summary,
+      inputSummary: {
+        ...summary,
+        typeAliases: typeAliases.length,
+        enums: enums.length,
+        modelProperties: modelProperties.length,
+      },
       totalFacts: dedupedFacts.length,
       countsByType,
     },
@@ -762,6 +860,9 @@ function main() {
     classes: readJson<AnyRow>("ast-classes.json"),
     methods: readJson<AnyRow>("ast-methods.json"),
     functions: readJson<AnyRow>("ast-functions.json"),
+    typeAliases: readJson<AnyRow>("ast-type-aliases.json"),
+    enums: readJson<AnyRow>("ast-enums.json"),
+    modelProperties: readJson<AnyRow>("ast-model-properties.json"),
     calls: readJson<AnyRow>("ast-calls.json"),
     firestoreHints: readJson<AnyRow>("ast-firestore-hints.json"),
     permissionHints: readJson<AnyRow>("ast-permission-hints.json"),
@@ -776,6 +877,9 @@ function main() {
     ...raw.classes,
     ...raw.methods,
     ...raw.functions,
+    ...raw.typeAliases,
+    ...raw.enums,
+    ...raw.modelProperties,
     ...raw.calls,
     ...raw.firestoreHints,
     ...raw.permissionHints,

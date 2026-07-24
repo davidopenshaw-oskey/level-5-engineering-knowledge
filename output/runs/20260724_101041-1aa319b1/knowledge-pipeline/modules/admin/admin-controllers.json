@@ -1,0 +1,568 @@
+[
+  {
+    "name": "OSKAdminBuildingController",
+    "repo": "cloud",
+    "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts",
+    "submodule": "admin_buildings",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKBuildingDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/building/models/documents/building_document.model\").OSKBuildingDocument>>",
+        "decorators": [],
+        "parameters": []
+      }
+    ]
+  },
+  {
+    "name": "OSKAdminBuildingUnitController",
+    "repo": "cloud",
+    "path": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building_unit.controller.ts",
+    "submodule": "admin_buildings",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKBuildingUnitDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/building/modules/building_unit/models/documents/building_unit_document.model\").OSKBuildingUnitDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOragnizationListController",
+    "repo": "cloud",
+    "path": "functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts",
+    "submodule": "admin_organization",
+    "methods": [
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationListDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/admin/modules/admin_organization/models/documents/organization_listdocument.model\").OSKOrganizationListDocument>>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getById",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationList | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/admin/modules/admin_organization/models/documents/organization_listdocument.model\").OSKOrganizationList | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "OrganizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKAdminInhabitantUserController",
+    "repo": "cloud",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_inhabitant_user.controller.ts",
+    "submodule": "admin_users",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getInhabitantUserUnits",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKBuildingUnitInhabitant>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_document.model\").OSKBuildingUnitInhabitant>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getInhabitantUserById",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKBuildingUnitInhabitant | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/building/modules/building_unit/models/documents/building_unit_inhabitant_document.model\").OSKBuildingUnitInhabitant | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "unitId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateInhabitantUser",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "unitId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKBuildingUnitInhabitant>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKAdminUserController",
+    "repo": "cloud",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
+    "submodule": "admin_users",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKUserDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/user/models/documents/user_document.model\").OSKUserDocument>>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getById",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/user/models/documents/user_document.model\").OSKUserDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKAdminUserAccessController",
+    "repo": "cloud",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_access.controller.ts",
+    "submodule": "admin_users",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKUserAccessesDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model\").OSKUserAccessesDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getById",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserAccessesDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model\").OSKUserAccessesDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "userAccessId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKAdminUserDeviceController",
+    "repo": "cloud",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_device.controller.ts",
+    "submodule": "admin_users",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKUserDeviceDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/user/modules/user_device/models/documents/user_device_document.model\").OSKUserDeviceDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "deviceId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteAll",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKAdminUserInvitationController",
+    "repo": "cloud",
+    "path": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts",
+    "submodule": "admin_users",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAllUserInvitations",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKUserInvitationReceivedDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_received_document.model\").OSKUserInvitationReceivedDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getUserInvitationById",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserInvitationReceivedDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_received_document.model\").OSKUserInvitationReceivedDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "invitationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteUserInvitationById",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "invitationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getBuildingInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserInvitationSentDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/user/modules/user_invitation/models/documents/user_invitation_sent_document.model\").OSKUserInvitationSentDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "unitId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "invitationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateBuildingInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "unitId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "invitationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKUserInvitationSentDocument>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteBuildingInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "unitId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "invitationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteSenderInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "invitationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateSenderInvitation",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "invitationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKUserInvitationSentDocument>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

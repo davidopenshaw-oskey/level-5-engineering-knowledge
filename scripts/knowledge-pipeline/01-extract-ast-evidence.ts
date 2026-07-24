@@ -68,7 +68,13 @@ const filesPath = path.join(outputRoot, "files.json");
 const repoConfig = JSON.parse(fs.readFileSync(configPath, "utf8")) as RepoConfig;
 const files = JSON.parse(fs.readFileSync(filesPath, "utf8")) as FileInfo[];
 
-const repoPathMap = new Map(repoConfig.repositories.map(r => [r.name, r.path]));
+const repoPathMap = new Map(
+  repoConfig.repositories.map(r => {
+    const clonePath = path.join(projectRoot, "output", "clones", r.name);
+    const effectivePath = fs.existsSync(clonePath) ? clonePath : r.path;
+    return [r.name, effectivePath];
+  })
+);
 
 function isTsSource(file: FileInfo) {
   return (
@@ -353,21 +359,47 @@ function extractApiContracts(sourceFile: SourceFile, base: BaseRecord): ApiContr
           if (parameters.length > 0) {
             const requestParam = parameters[0]; // Assuming the first parameter is the request object
             const requestType = requestParam.getType();
-            const requestTypeName = requestParam.getTypeNode()?.getText() ?? 'unknown';
+            const requestTypeName = requestParam.getTypeNode()?.getText() ?? requestType.getText() ?? 'unknown';
             let requestSchema: Record<string, string> | null = null;
 
-            // Use the type system to get properties directly, which is more robust
+            // 1. Try type system properties
             const properties = requestType.getProperties();
             if (properties.length > 0) {
               requestSchema = {};
               properties.forEach(prop => {
                 const propName = prop.getName();
-                // Using getValueDeclaration() is the canonical way to get the node where a symbol is declared.
-                // Then, getting its type and text is safe.
                 const declaration = prop.getValueDeclaration();
-                const propType = declaration ? declaration.getType().getText() : "any";
+                let propType = declaration ? declaration.getType().getText() : "any";
+                // Clean up long import(...) paths in type text
+                propType = propType.replace(/import\("[^"]+"\)\./g, '');
                 requestSchema![propName] = propType;
               });
+            } else {
+              // 2. Fallback: Inspect declaration nodes directly if type system properties were not resolved
+              const symbol = requestType.getSymbol() ?? requestParam.getTypeNode()?.getType().getSymbol();
+              if (symbol) {
+                const decls = symbol.getDeclarations();
+                for (const decl of decls) {
+                  if (Node.isInterfaceDeclaration(decl) || Node.isClassDeclaration(decl)) {
+                    requestSchema = requestSchema ?? {};
+                    decl.getProperties().forEach(p => {
+                      let pType = p.getTypeNode()?.getText() ?? p.getType().getText() ?? 'any';
+                      pType = pType.replace(/import\("[^"]+"\)\./g, '');
+                      requestSchema![p.getName()] = pType;
+                    });
+                  } else if (Node.isTypeAliasDeclaration(decl)) {
+                    const typeNode = decl.getTypeNode();
+                    if (Node.isTypeLiteral(typeNode)) {
+                      requestSchema = requestSchema ?? {};
+                      typeNode.getProperties().forEach(p => {
+                        let pType = p.getTypeNode()?.getText() ?? p.getType().getText() ?? 'any';
+                        pType = pType.replace(/import\("[^"]+"\)\./g, '');
+                        requestSchema![p.getName()] = pType;
+                      });
+                    }
+                  }
+                }
+              }
             }
 
             apiContracts.push({
@@ -386,6 +418,110 @@ function extractApiContracts(sourceFile: SourceFile, base: BaseRecord): ApiContr
   });
 
   return apiContracts;
+}
+
+function extractTypeAliasesAndEnums(sourceFile: SourceFile, base: BaseRecord) {
+  const typeAliases: any[] = [];
+  const enums: any[] = [];
+
+  for (const alias of sourceFile.getTypeAliases()) {
+    const typeNode = alias.getTypeNode();
+    const rawTypeText = typeNode ? typeNode.getText() : alias.getType().getText();
+    const cleanTypeText = rawTypeText.replace(/import\("[^"]+"\)\./g, '');
+
+    const literalValues: (string | number)[] = [];
+    if (Node.isUnionTypeNode(typeNode)) {
+      for (const element of typeNode.getTypeNodes()) {
+        if (Node.isLiteralTypeNode(element)) {
+          const literal = element.getLiteral();
+          if (Node.isStringLiteral(literal)) {
+            literalValues.push(literal.getLiteralText());
+          } else if (Node.isNumericLiteral(literal)) {
+            literalValues.push(literal.getLiteralValue());
+          }
+        }
+      }
+    }
+
+    typeAliases.push({
+      ...base,
+      line: alias.getStartLineNumber(),
+      name: alias.getName(),
+      typeText: cleanTypeText,
+      literalValues,
+      isExported: alias.isExported(),
+    });
+  }
+
+  for (const enumDecl of sourceFile.getEnums()) {
+    const members = enumDecl.getMembers().map(m => {
+      let val = m.getValue();
+      if (val === undefined) {
+        val = m.getInitializer()?.getText() ?? null;
+      }
+      return {
+        name: m.getName(),
+        value: val,
+      };
+    });
+
+    enums.push({
+      ...base,
+      line: enumDecl.getStartLineNumber(),
+      name: enumDecl.getName(),
+      isConst: enumDecl.isConstEnum(),
+      isExported: enumDecl.isExported(),
+      members,
+    });
+  }
+
+  return { typeAliases, enums };
+}
+
+function extractModelProperties(sourceFile: SourceFile, base: BaseRecord) {
+  const properties: any[] = [];
+
+  for (const iface of sourceFile.getInterfaces()) {
+    for (const prop of iface.getProperties()) {
+      let typeText = prop.getTypeNode()?.getText() ?? prop.getType().getText() ?? 'any';
+      typeText = typeText.replace(/import\("[^"]+"\)\./g, '');
+
+      properties.push({
+        ...base,
+        line: prop.getStartLineNumber(),
+        parentKind: 'interface',
+        parentName: iface.getName(),
+        propertyName: prop.getName(),
+        typeText,
+        isOptional: prop.hasQuestionToken(),
+        isReadonly: prop.isReadonly(),
+        isExported: iface.isExported(),
+      });
+    }
+  }
+
+  for (const cls of sourceFile.getClasses()) {
+    const className = cls.getName() ?? 'AnonymousClass';
+    for (const prop of cls.getProperties()) {
+      let typeText = prop.getTypeNode()?.getText() ?? prop.getType().getText() ?? 'any';
+      typeText = typeText.replace(/import\("[^"]+"\)\./g, '');
+
+      properties.push({
+        ...base,
+        line: prop.getStartLineNumber(),
+        parentKind: 'class',
+        parentName: className,
+        propertyName: prop.getName(),
+        typeText,
+        isOptional: prop.hasQuestionToken(),
+        isStatic: prop.isStatic(),
+        isReadonly: prop.isReadonly(),
+        isExported: cls.isExported(),
+      });
+    }
+  }
+
+  return properties;
 }
 
 
@@ -518,7 +654,8 @@ function main() {
     throw new Error("No repository configured in config/repos.json");
   }
 
-  const tsConfigFilePath = path.join(firstRepo.path, "functions", "tsconfig.json");
+  const effectiveRepoPath = repoPathMap.get(firstRepo.name) ?? firstRepo.path;
+  const tsConfigFilePath = path.join(effectiveRepoPath, "functions", "tsconfig.json");
 
   const project = new Project({
     tsConfigFilePath: fs.existsSync(tsConfigFilePath) ? tsConfigFilePath : undefined,
@@ -551,6 +688,9 @@ function main() {
     classes: [] as any[],
     methods: [] as any[],
     functions: [] as any[],
+    typeAliases: [] as any[],
+    enums: [] as any[],
+    modelProperties: [] as any[],
     calls: [] as any[],
     firestoreHints: [] as any[],
     permissionHints: [] as any[],
@@ -576,6 +716,12 @@ function main() {
       output.calls.push(...extractCalls(sourceFile, base));
       output.firestoreTriggers.push(...extractFirestoreTriggers(sourceFile, base));
 
+      const te = extractTypeAliasesAndEnums(sourceFile, base);
+      output.typeAliases.push(...te.typeAliases);
+      output.enums.push(...te.enums);
+
+      output.modelProperties.push(...extractModelProperties(sourceFile, base));
+
       const hints = extractStringHints(sourceFile, base);
       output.firestoreHints.push(...hints.firestoreLike);
       output.permissionHints.push(...hints.permissions);
@@ -597,6 +743,9 @@ function main() {
   fs.writeFileSync(path.join(outputRoot, "ast-classes.json"), JSON.stringify(output.classes, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-methods.json"), JSON.stringify(output.methods, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-functions.json"), JSON.stringify(output.functions, null, 2));
+  fs.writeFileSync(path.join(outputRoot, "ast-type-aliases.json"), JSON.stringify(output.typeAliases, null, 2));
+  fs.writeFileSync(path.join(outputRoot, "ast-enums.json"), JSON.stringify(output.enums, null, 2));
+  fs.writeFileSync(path.join(outputRoot, "ast-model-properties.json"), JSON.stringify(output.modelProperties, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-calls.json"), JSON.stringify(output.calls, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-firestore-hints.json"), JSON.stringify(output.firestoreHints, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-permission-hints.json"), JSON.stringify(output.permissionHints, null, 2));
@@ -604,9 +753,9 @@ function main() {
   fs.writeFileSync(
     path.join(outputRoot, "ast-api-contracts.json"), JSON.stringify(output.apiContracts, null, 2));
   fs.writeFileSync(
-  path.join(outputRoot, "ast-firestore-triggers.json"),
-  JSON.stringify(output.firestoreTriggers, null, 2),
-);
+    path.join(outputRoot, "ast-firestore-triggers.json"),
+    JSON.stringify(output.firestoreTriggers, null, 2),
+  );
   fs.writeFileSync(path.join(outputRoot, "ast-errors.json"), JSON.stringify(output.errors, null, 2));
 
   console.log("AST evidence extraction complete");
@@ -616,6 +765,9 @@ function main() {
     classes: output.classes.length,
     methods: output.methods.length,
     functions: output.functions.length,
+    typeAliases: output.typeAliases.length,
+    enums: output.enums.length,
+    modelProperties: output.modelProperties.length,
     calls: output.calls.length,
     firestoreHints: output.firestoreHints.length,
     permissionHints: output.permissionHints.length,

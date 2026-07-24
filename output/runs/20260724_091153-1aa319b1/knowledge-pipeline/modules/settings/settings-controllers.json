@@ -1,0 +1,746 @@
+[
+  {
+    "name": "OSKSettingController",
+    "repo": "cloud",
+    "path": "functions/src/modules/settings/controllers/setting.controller.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSettingDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/models/documents/setting_document.model\").OSKSettingDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "settingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "settingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKSetting",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/models/documents/setting_document.model\").OSKSetting",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "settingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKAppStoreSettingsController",
+    "repo": "cloud",
+    "path": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+    "submodule": "appstore",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKAppStoreSettings | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model\").OSKAppStoreSettings | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "documentId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "documentId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKAppStoreSettings",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model\").OSKAppStoreSettings",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "documentId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKCompositeRoleController",
+    "repo": "cloud",
+    "path": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+    "submodule": "role",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "listDocuments",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentId[]>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_id.model\").OSKDocumentId[]>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKCompositeRoleDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/documents/composite_role_document.model\").OSKCompositeRoleDocument>>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKCompositeRoleDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/documents/composite_role_document.model\").OSKCompositeRoleDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "compositeRoleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "compositeRoleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKCompositeRoleDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/documents/composite_role_document.model\").OSKCompositeRoleDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "compositeRoleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "compositeRole",
+            "typeText": "OSKCompositeRole",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/documents/composite_role_document.model\").OSKCompositeRole",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateParentCompositeRoles",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "compositeRoleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "parentCompositeRoles",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createorUpdateDependantRoles",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "compositeRoleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "compositeRole",
+            "typeText": "OSKCompositeRoleDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/documents/composite_role_document.model\").OSKCompositeRoleDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteOrUpdateDependantRoles",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "compositeRoleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "compositeRole",
+            "typeText": "OSKCompositeRoleDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/documents/composite_role_document.model\").OSKCompositeRoleDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "compositeRoleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKConsolidatedRolesController",
+    "repo": "cloud",
+    "path": "functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts",
+    "submodule": "role",
+    "methods": [
+      {
+        "name": "buildConsolidatedRoles",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<string[]>",
+        "resolvedReturnTypeText": "Promise<string[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "assignedRolesIds",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "checkUserPermissions",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "boolean",
+        "resolvedReturnTypeText": "boolean",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userRoles",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[]",
+            "decorators": []
+          },
+          {
+            "name": "permissionRoles",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "checkUserPermissionsSafe",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "void",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userRoles",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[]",
+            "decorators": []
+          },
+          {
+            "name": "permissionRoles",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "generateOrganizationUserRoles",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKGeneratedRoles>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/shared/generated_roles.model\").OSKGeneratedRoles>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "rolesToAssign",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[]",
+            "decorators": []
+          },
+          {
+            "name": "organizationRoles",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[]",
+            "decorators": []
+          },
+          {
+            "name": "rolesAssigner",
+            "typeText": "OSKRoleAssigner",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/shared/assigned_role.model\").OSKRoleAssigner",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKRoleController",
+    "repo": "cloud",
+    "path": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+    "submodule": "role",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKRoleDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/documents/role_document.model\").OSKRoleDocument>>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "listDocuments",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document_id.model\").OSKDocumentId[]>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKRoleDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/documents/role_document.model\").OSKRoleDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKRoleDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/documents/role_document.model\").OSKRoleDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "role",
+            "typeText": "OSKRole",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/role/models/documents/role_document.model\").OSKRole",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateParentCompositeRoles",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "parentCompositeRoles",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKBuildingRequestWorkflowController",
+    "repo": "cloud",
+    "path": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+    "submodule": "workflow",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKBuildingRequestWorkflowDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/workflow/models/documents/building_request_workflow_document.model\").OSKBuildingRequestWorkflowDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKBuildingRequestWorkflowDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/workflow/models/documents/building_request_workflow_document.model\").OSKBuildingRequestWorkflowDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "role",
+            "typeText": "OSKBuildingRequestWorkflow",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/workflow/models/documents/building_request_workflow_document.model\").OSKBuildingRequestWorkflow",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationRequestWorkflowController",
+    "repo": "cloud",
+    "path": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+    "submodule": "workflow",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationRequestWorkflowDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/workflow/models/documents/organization_request_workflow_document.model\").OSKOrganizationRequestWorkflowDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKOrganizationRequestWorkflowDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/workflow/models/documents/organization_request_workflow_document.model\").OSKOrganizationRequestWorkflowDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "role",
+            "typeText": "OSKOrganizationRequestWorkflow",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/settings/modules/workflow/models/documents/organization_request_workflow_document.model\").OSKOrganizationRequestWorkflow",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "roleId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

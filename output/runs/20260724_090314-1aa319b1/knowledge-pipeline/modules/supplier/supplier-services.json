@@ -1,0 +1,903 @@
+[
+  {
+    "name": "OSKSupplierStaffService",
+    "repo": "cloud",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+    "submodule": "supplierStaff",
+    "methods": [
+      {
+        "name": "createStaffMember",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKAddSupplierStaffRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model\").OSKSupplierStaff",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getStaffMember",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetSupplierStaffRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKGetSupplierStaffRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllStaffMembers",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetAllSupplierStaffRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKGetAllSupplierStaffRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateStaffMember",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUpdateSupplierStaffRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKUpdateSupplierStaffRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteStaffMember",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKDeleteSupplierStaffRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKDeleteSupplierStaffRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createSupplierStaffAccess",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKCreateSupplierStaffAccessResponse>>",
+        "resolvedReturnTypeText": "Promise<OSKHttpsSuccessResponse<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKCreateSupplierStaffAccessResponse>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKCreateSupplierStaffAccessRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKCreateSupplierStaffAccessRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createSupplierStaffWithAccess",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKCreateSupplierStaffWithAccessResponse>>",
+        "resolvedReturnTypeText": "Promise<OSKHttpsSuccessResponse<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKCreateSupplierStaffWithAccessResponse>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKCreateSupplierStaffWithAccessRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKCreateSupplierStaffWithAccessRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_internalCreateSupplierStaffAccess",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<{ accessId: string; pincode: string | null }>",
+        "resolvedReturnTypeText": "Promise<{ accessId: string; pincode: string | null; }>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "accessRights",
+            "typeText": "OSKAccessRightWithTimestamp[]",
+            "resolvedTypeText": "OSKAccessRightWithTimestamp[]",
+            "decorators": []
+          },
+          {
+            "name": "doorIds",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[] | undefined",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateSupplierStaffAccessDoors",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUpdateSupplierStaffAccessDoorsRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKUpdateSupplierStaffAccessDoorsRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_getSupplierStaffAuthorizedDoors",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUserAuthorizedDoor[]>",
+        "resolvedReturnTypeText": "Promise<OSKUserAuthorizedDoor[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "doorIds",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[] | undefined",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_getDoorDocumentsFromIds",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<(OSKBuildingDoorDocument & { id: string })[]>",
+        "resolvedReturnTypeText": "Promise<any[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "doorIds",
+            "typeText": "string[]",
+            "resolvedTypeText": "string[] | undefined",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteSupplierStaffAccess",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKDeleteSupplierStaffAccessRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKDeleteSupplierStaffAccessRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_deleteStaffMemberAndRelatedData",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "_deleteAccessSideEffects",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "access",
+            "typeText": "OSKSupplierStaffAccess",
+            "resolvedTypeText": "OSKSupplierStaffAccess",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllStaffMemberPincodes",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetAllSupplierStaffPincodesRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKGetAllSupplierStaffPincodesRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSupplierStaffAccessService",
+    "repo": "cloud",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
+    "submodule": "supplierStaff",
+    "methods": [
+      {
+        "name": "setupSupplierStaffAccess",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierStaffAccess>",
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "accessOptions",
+            "typeText": "OSKRequestSupplierStaffAccessOptions",
+            "resolvedTypeText": "OSKRequestSupplierStaffAccessOptions",
+            "decorators": []
+          },
+          {
+            "name": "authorizedDoors",
+            "typeText": "OSKUserAuthorizedDoor[]",
+            "resolvedTypeText": "OSKUserAuthorizedDoor[]",
+            "decorators": []
+          },
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "supplierName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "accessId",
+            "typeText": "string",
+            "resolvedTypeText": "string | undefined",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "createOrUpdateSupplierStaffAccess",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "accessOptions",
+            "typeText": "{\n            supplierId: string;\n            staffId: string;\n            staffFirstName: string;\n            staffLastName: string;\n            buildingId: string;\n            buildingName?: string;\n            buildingStreetAddress?: OSKStreetAddress;\n            buildingImageFilename?: string;\n        }",
+            "resolvedTypeText": "{ supplierId: string; staffId: string; staffFirstName: string; staffLastName: string; buildingId: string; buildingName?: string | undefined; buildingStreetAddress?: any; buildingImageFilename?: string | undefined; }",
+            "decorators": []
+          },
+          {
+            "name": "receivedAccess",
+            "typeText": "OSKSupplierStaffAccess",
+            "resolvedTypeText": "any",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllAccessesForAllBuildings",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKGetAllSupplierStaffAccessesInfosResponse>>",
+        "resolvedReturnTypeText": "Promise<OSKHttpsSuccessResponse<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKGetAllSupplierStaffAccessesInfosResponse>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGettAllSupplierStaffAccessesInfosRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_document_request.model\").OSKGettAllSupplierStaffAccessesInfosRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSupplierStaffActivityService",
+    "repo": "cloud",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
+    "submodule": "supplierStaff",
+    "methods": [
+      {
+        "name": "ActivityReceivedForSupplierStaff",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "activity",
+            "typeText": "OSKBuildingActivity",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model\").OSKBuildingActivity",
+            "decorators": []
+          },
+          {
+            "name": "enrichedData",
+            "typeText": "EnrichedActivityData",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service\").EnrichedActivityData",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getActivityById",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKSupplierStaffActivityDocument>>",
+        "resolvedReturnTypeText": "Promise<OSKHttpsSuccessResponse<OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivity>>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetSupplierStaffActivityByIdRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model\").OSKGetSupplierStaffActivityByIdRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllActivities",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKDocumentList<OSKSupplierStaffActivityDocument>>>",
+        "resolvedReturnTypeText": "Promise<OSKHttpsSuccessResponse<OSKDocumentList<OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivity>>>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetAllSupplierStaffActivitiesRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model\").OSKGetAllSupplierStaffActivitiesRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSupplierStaffActivityAggregatesService",
+    "repo": "cloud",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
+    "submodule": "supplierStaff",
+    "methods": [
+      {
+        "name": "ActivityReceivedForSupplierStaff",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "activity",
+            "typeText": "OSKBuildingActivity",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model\").OSKBuildingActivity",
+            "decorators": []
+          },
+          {
+            "name": "enrichedData",
+            "typeText": "EnrichedActivityData",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service\").EnrichedActivityData",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getActivityByBuildingId",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKHttpsSuccessResponse<OSKSupplierStaffActivityAggregateDocument | undefined>>",
+        "resolvedReturnTypeText": "Promise<OSKHttpsSuccessResponse<any>>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetSupplierStaffActivityAggregatesByBuildingIdRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/modules/supplierStaff/models/functions/supplier_staff_activity_request.model\").OSKGetSupplierStaffActivityAggregatesByBuildingIdRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSupplierStaffPincodeService",
+    "repo": "cloud",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
+    "submodule": "supplierStaff",
+    "methods": [
+      {
+        "name": "createPincodeDocument",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "documentFields",
+            "typeText": "{\n        pincode: string;\n        supplierId: string;\n        staffId: string;\n        buildingId: string;\n        accessId: string;\n    }",
+            "resolvedTypeText": "{ pincode: string; supplierId: string; staffId: string; buildingId: string; accessId: string; }",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSupplierService",
+    "repo": "cloud",
+    "path": "functions/src/modules/supplier/services/supplier.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "createSupplier",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKCreateSupplierRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/models/documents/supplier_document.model\").OSKSupplier",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getSupplier",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetSupplierRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/models/functions/supplier_request_document.model\").OSKGetSupplierRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllSuppliers",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKGetAllSuppliersRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/models/functions/supplier_request_document.model\").OSKGetAllSuppliersRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateSupplier",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKUpdateSupplierRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/models/functions/supplier_request_document.model\").OSKUpdateSupplierRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteSupplier",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [
+          {
+            "name": "OSKUserSecurityChecks",
+            "arguments": [
+              "{ checkUserIdMatch: false }"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "typeText": "OSKDeleteSupplierRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/supplier/models/functions/supplier_request_document.model\").OSKDeleteSupplierRequest",
+            "decorators": []
+          },
+          {
+            "name": "context",
+            "typeText": "CallableContext",
+            "resolvedTypeText": "CallableContext",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getSupplierStaffFromAllSuppliers",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierStaffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

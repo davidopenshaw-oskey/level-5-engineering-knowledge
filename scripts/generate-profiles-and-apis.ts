@@ -1,22 +1,25 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const modules = [
-  'access_control_device',
-  'admin',
-  'apps',
-  'call',
-  'core',
-  'organization',
-  'settings',
-  'supplier',
-  'tasks',
-  'unit_management',
-  'user'
-];
+const baseDir = process.cwd();
 
-const runId = '20260719-151741';
-const baseDir = '/Users/davidopenshaw/Documents/clients/oskey/documentation/level-5_engineering_knowledge';
+const runContextPath = path.join(baseDir, 'output', 'run-context.json');
+let runId = '20260719-151741';
+if (fs.existsSync(runContextPath)) {
+  const runContext = JSON.parse(fs.readFileSync(runContextPath, 'utf8'));
+  if (runContext.runId) {
+    runId = runContext.runId;
+  }
+}
+console.log(`Generating profiles and API docs for Run ID: ${runId}`);
+
+const modulesDir = path.join(baseDir, `output/runs/${runId}/knowledge-pipeline/modules`);
+const modules = fs.existsSync(modulesDir)
+  ? fs.readdirSync(modulesDir, { withFileTypes: true })
+      .filter(d => d.isDirectory())
+      .map(d => d.name)
+      .sort()
+  : [];
 
 for (const mod of modules) {
   console.log(`Processing module: ${mod}`);
@@ -31,7 +34,13 @@ for (const mod of modules) {
   const generatedAt = manifest.generatedAt || new Date().toISOString();
   
   // 2. Read original profile
-  const originalProfilePath = path.join(baseDir, `output/docs/${mod}-engineering-profile.md`);
+  let originalProfilePath = path.join(baseDir, `output/docs/${mod}-engineering-profile.md`);
+  if (!fs.existsSync(originalProfilePath)) {
+    originalProfilePath = path.join(baseDir, `output/docs/${mod}-module-engineering-profile.md`);
+  }
+  if (!fs.existsSync(originalProfilePath)) {
+    originalProfilePath = path.join(baseDir, `output/docs/building-module-engineering-profile.md`);
+  }
   if (!fs.existsSync(originalProfilePath)) {
     console.error(`Original profile not found: ${originalProfilePath}`);
     continue;
@@ -99,10 +108,15 @@ for (const mod of modules) {
   // 4. Generate API reference
   const graphPath = path.join(baseDir, `output/runs/${runId}/knowledge-pipeline/modules/${mod}/${mod}-evidence-graph.json`);
   let apiContracts: any[] = [];
+  let typeAliases: any[] = [];
+  let enums: any[] = [];
+
   if (fs.existsSync(graphPath)) {
     const graph = JSON.parse(fs.readFileSync(graphPath, 'utf8'));
     if (graph.facts && Array.isArray(graph.facts)) {
       apiContracts = graph.facts.filter((f: any) => f.type === 'api_contract');
+      typeAliases = graph.facts.filter((f: any) => f.type === 'type_alias');
+      enums = graph.facts.filter((f: any) => f.type === 'enum_declaration');
     }
   } else {
     console.warn(`Evidence graph not found for ${mod}`);
@@ -164,6 +178,46 @@ for (const mod of modules) {
     apiRefLines.push('### Confidence');
     apiRefLines.push('');
     apiRefLines.push('High.');
+    apiRefLines.push('');
+  }
+
+  // Section 2: Type Aliases & Enums (Phase 1.5 Enhancement)
+  apiRefLines.push('---');
+  apiRefLines.push('');
+  apiRefLines.push('## 2. Domain Types & Enums');
+  apiRefLines.push('');
+
+  if (enums.length > 0) {
+    apiRefLines.push('### Enums');
+    apiRefLines.push('');
+    apiRefLines.push('| Enum Name | Members | File |');
+    apiRefLines.push('| :--- | :--- | :--- |');
+    for (const item of enums) {
+      const name = item.value;
+      const membersList = (item.evidence?.members || []).map((m: any) => `\`${m.name}${m.value !== null ? ` = ${m.value}` : ''}\``).join(', ');
+      const file = item.file || 'Unknown';
+      apiRefLines.push(`| \`${name}\` | ${membersList || 'None'} | \`${file}\` |`);
+    }
+    apiRefLines.push('');
+  }
+
+  if (typeAliases.length > 0) {
+    apiRefLines.push('### Type Aliases');
+    apiRefLines.push('');
+    apiRefLines.push('| Type Name | Definition / Union Values | File |');
+    apiRefLines.push('| :--- | :--- | :--- |');
+    for (const item of typeAliases) {
+      const name = item.value;
+      const typeText = (item.evidence?.typeText || 'any').replace(/\n/g, ' ').replace(/\|/g, '\\|');
+      const truncatedType = typeText.length > 120 ? typeText.substring(0, 117) + '...' : typeText;
+      const file = item.file || 'Unknown';
+      apiRefLines.push(`| \`${name}\` | \`${truncatedType}\` | \`${file}\` |`);
+    }
+    apiRefLines.push('');
+  }
+
+  if (enums.length === 0 && typeAliases.length === 0) {
+    apiRefLines.push('No type aliases or enum declarations recorded for this module.');
     apiRefLines.push('');
   }
   

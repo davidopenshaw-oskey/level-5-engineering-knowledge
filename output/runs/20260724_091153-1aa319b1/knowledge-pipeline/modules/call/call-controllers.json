@@ -1,0 +1,72 @@
+[
+  {
+    "name": "OSKCallController",
+    "repo": "cloud",
+    "path": "functions/src/modules/call/controllers/call.controller.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKCallDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/call/models/documents/call_document.model\").OSKCallDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "callId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "call",
+            "typeText": "OSKCall",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/call/models/documents/call_document.model\").OSKAccessControlDeviceCall",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "callId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "call",
+            "typeText": "OSKDocumentUpdate<OSKCall>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/cloud/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]
