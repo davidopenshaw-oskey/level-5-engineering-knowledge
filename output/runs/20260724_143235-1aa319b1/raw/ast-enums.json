@@ -1,0 +1,453 @@
+[
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "access_control_device",
+    "submodule": null,
+    "path": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 14,
+    "name": "ActivityUserType",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "USER",
+        "value": "user"
+      },
+      {
+        "name": "SUPPLIER_STAFF_MEMBER",
+        "value": "supplierStaffMember"
+      },
+      {
+        "name": "NON_APP_USER",
+        "value": "nonAppUser"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "building",
+    "submodule": "building_activity",
+    "path": "functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 8,
+    "name": "OSKAccessControlDeviceActivityType",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "PINCODE",
+        "value": "pincode"
+      },
+      {
+        "name": "BLE",
+        "value": "ble"
+      },
+      {
+        "name": "SESAME",
+        "value": "sesame"
+      },
+      {
+        "name": "CALL",
+        "value": "call"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "building",
+    "submodule": "building_intercom",
+    "path": "functions/src/modules/building/modules/building_intercom/models/messages/building_intercom_messages.model.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/building/modules/building_intercom/models/messages/building_intercom_messages.model.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 10,
+    "name": "OSKOperationType",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "Create",
+        "value": "create"
+      },
+      {
+        "name": "Update",
+        "value": "update"
+      },
+      {
+        "name": "Delete",
+        "value": "delete"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/models/shared/supported_language.model.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/shared/supported_language.model.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 7,
+    "name": "OSKSupportedLanguageEnum",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "en_US",
+        "value": "en_US"
+      },
+      {
+        "name": "fr_FR",
+        "value": "fr_FR"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/access_pincode.model.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/modules/access/models/access_pincode.model.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 6,
+    "name": "OSKPincodeType",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "Inhabitant",
+        "value": "inhabitant"
+      },
+      {
+        "name": "Anonymous",
+        "value": "anonymous"
+      },
+      {
+        "name": "Guest",
+        "value": "guest"
+      },
+      {
+        "name": "Supplier",
+        "value": "supplier"
+      },
+      {
+        "name": "PermanentGuest",
+        "value": "permanentGuest"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "core",
+    "submodule": "access",
+    "path": "functions/src/modules/core/modules/access/models/functions/access_messages.model.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/modules/access/models/functions/access_messages.model.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 8,
+    "name": "OSKAccessMessageOperation",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "Insert",
+        "value": "insert"
+      },
+      {
+        "name": "Update",
+        "value": "update"
+      },
+      {
+        "name": "Delete",
+        "value": "delete"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "core",
+    "submodule": null,
+    "path": "functions/src/modules/core/services/secret.service.ts",
+    "kindHint": "service",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/services/secret.service.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 12,
+    "name": "OSKApiName",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "APNSDevelopmentAPIKey",
+        "value": "APNS_DEV_API_KEY"
+      },
+      {
+        "name": "APNSProductionAPIKey",
+        "value": "APNS_PROD_API_KEY"
+      },
+      {
+        "name": "MailerSend",
+        "value": "MAILERSEND"
+      },
+      {
+        "name": "MailtrapPassApiKey",
+        "value": "MAILTRAP_API_TOKEN"
+      },
+      {
+        "name": "MailtrapUser",
+        "value": "MAILTRAP_USER"
+      },
+      {
+        "name": "MailtrapPass",
+        "value": "MAILTRAP_PASS"
+      },
+      {
+        "name": "PubSubServiceAccountEmail",
+        "value": "PUB_SUB_SERVICE_ACCOUNT_EMAIL"
+      },
+      {
+        "name": "PubSubServiceAccountKey",
+        "value": "PUB_SUB_SERVICE_ACCOUNT_KEY"
+      },
+      {
+        "name": "OctopushPassApiKey",
+        "value": "OCTOPUSH_API_TOKEN"
+      },
+      {
+        "name": "Auth0M2MClientId",
+        "value": "AUTH0_M2M_CLIENT_ID"
+      },
+      {
+        "name": "Auth0M2MClientSecret",
+        "value": "AUTH0_M2M_CLIENT_SECRET"
+      },
+      {
+        "name": "Auth0Domain",
+        "value": "AUTH0_DOMAIN"
+      },
+      {
+        "name": "Auth0ManagementDomain",
+        "value": "AUTH0_MANAGEMENT_DOMAIN"
+      },
+      {
+        "name": "Auth0Audience",
+        "value": "AUTH0_AUDIENCE"
+      },
+      {
+        "name": "TwilioAccountSID",
+        "value": "TWILIO_ACCOUNT_SID"
+      },
+      {
+        "name": "TwilioAuthToken",
+        "value": "TWILIO_AUTH_TOKEN"
+      },
+      {
+        "name": "TwilioMessagingServiceSID",
+        "value": "TWILIO_MESSAGING_SERVICE_SID"
+      },
+      {
+        "name": "TwilioVerifyServiceID",
+        "value": "TWILIO_VERIFY_SERVICE_ID"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "organization",
+    "submodule": "organization_entity",
+    "path": "functions/src/modules/organization/modules/organization_entity/models/documents/entity_document_model.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_entity/models/documents/entity_document_model.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 7,
+    "name": "OSKEntityType",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "entity",
+        "value": "entity"
+      },
+      {
+        "name": "subEntity",
+        "value": "subEntity"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "organization",
+    "submodule": "organization_property",
+    "path": "functions/src/modules/organization/modules/organization_property/models/documents/property_document.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_property/models/documents/property_document.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 20,
+    "name": "OSKPropertyManagementEnum",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "CoOwnershipAssociation",
+        "value": "coOwnershipAssociation"
+      },
+      {
+        "name": "SyndicIndividual",
+        "value": "syndicIndividual"
+      },
+      {
+        "name": "SyndicProfessional",
+        "value": "syndicProfessional"
+      },
+      {
+        "name": "CollectifHabitat",
+        "value": "collectifHabitat"
+      },
+      {
+        "name": "CollectifHabitatSocial",
+        "value": "collectifHabitatSocial"
+      },
+      {
+        "name": "PrivateIndividual",
+        "value": "privateIndividual"
+      },
+      {
+        "name": "PrivateIndividualLandlord",
+        "value": "privateIndividualLandlord"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "organization",
+    "submodule": "organization_property",
+    "path": "functions/src/modules/organization/modules/organization_property/models/documents/property_document.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_property/models/documents/property_document.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 32,
+    "name": "OSKPropertyTypeEnum",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "Residencial",
+        "value": "residencial"
+      },
+      {
+        "name": "Commercial",
+        "value": "commercial"
+      },
+      {
+        "name": "Residencial_Commercial",
+        "value": "residencial_commercial"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "unit_management",
+    "submodule": null,
+    "path": "functions/src/modules/unit_management/models/functions/unit_management_inhabitant_response_document.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/unit_management/models/functions/unit_management_inhabitant_response_document.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 118,
+    "name": "OSKUnitRequestType",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "InhabitantUser",
+        "value": "inhabitantUser"
+      },
+      {
+        "name": "InhabitantPermanentGuestUser",
+        "value": "inhabitantPermanentGuestUser"
+      },
+      {
+        "name": "NonAppUser",
+        "value": "nonAppUser"
+      },
+      {
+        "name": "InhabitantPendingInvitation",
+        "value": "pendingUnitInvitation"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "user",
+    "submodule": "user_access",
+    "path": "functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 19,
+    "name": "OSKUserAccessType",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "InhabitantUser",
+        "value": "inhabitantUser"
+      },
+      {
+        "name": "InhabitantGuestUser",
+        "value": "inhabitantGuestUser"
+      },
+      {
+        "name": "InhabitantPermanentGuestUser",
+        "value": "inhabitantPermanentGuestUser"
+      },
+      {
+        "name": "InhabitantAnonymousUser",
+        "value": "inhabitantAnonymousUser"
+      },
+      {
+        "name": "OrganizationUser",
+        "value": "organizationUser"
+      },
+      {
+        "name": "OrganizationGuestUser",
+        "value": "organizationGuestUser"
+      },
+      {
+        "name": "SupplierStaff",
+        "value": "supplierStaff"
+      },
+      {
+        "name": "NonAppUser",
+        "value": "nonAppUser"
+      }
+    ]
+  },
+  {
+    "repo": "firebase-oskey-dev",
+    "module": "user",
+    "submodule": "user_invitation",
+    "path": "functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_get_all.model.ts",
+    "kindHint": "model",
+    "absolutePath": "/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_get_all.model.ts",
+    "runId": "20260724_143235-1aa319b1",
+    "line": 9,
+    "name": "OSKInvitationCategory",
+    "isConst": false,
+    "isExported": true,
+    "members": [
+      {
+        "name": "Granted",
+        "value": "granted"
+      },
+      {
+        "name": "Received",
+        "value": "received"
+      }
+    ]
+  }
+]

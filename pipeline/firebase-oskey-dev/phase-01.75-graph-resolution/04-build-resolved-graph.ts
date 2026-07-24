@@ -18,13 +18,24 @@ if (!fs.existsSync(runContextPath)) {
 
 const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
-
+const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
 const runDir = path.join(projectRoot, "output", "runs", runId);
-const rawDir = path.join(runDir, "raw");
+const repoOutputDir = path.join(runDir, "repos", REPO_NAME);
+
+let rawDir = path.join(repoOutputDir, "facts");
+if (!fs.existsSync(rawDir)) {
+  rawDir = path.join(repoOutputDir, "raw");
+}
+if (!fs.existsSync(rawDir)) {
+  rawDir = path.join(runDir, "facts");
+}
 
 if (!fs.existsSync(rawDir)) {
-  throw new Error(`Raw directory not found for runId ${runId}: ${rawDir}`);
+  throw new Error(`Facts directory not found for runId ${runId}: ${rawDir}`);
 }
+
+const kpDir = path.join(repoOutputDir, "knowledge-pipeline");
+fs.mkdirSync(kpDir, { recursive: true });
 
 function loadJson<T = any>(filename: string): T[] {
   const filePath = path.join(rawDir, filename);
@@ -331,16 +342,32 @@ const resolvedGraphArtifact = {
   modulePersonalities,
 };
 
-const resolvedJsonPath = path.join(runDir, "resolved-engineering-graph.json");
+const resolvedJsonPath = path.join(kpDir, "resolved-engineering-graph.json");
 fs.writeFileSync(resolvedJsonPath, JSON.stringify(resolvedGraphArtifact, null, 2), "utf8");
 
 // 8. Write Artifact 2: resolved-graph-matrix.md
-const markdownMatrix = `# Level 5 Engineering Knowledge: Resolved Engineering Graph Matrix
+const markdownMatrix = `<!-- © Oskey SAS. All rights reserved. -->
 
-**Run ID**: \`${runId}\`  
-**Phase**: Phase 1.75 (Deterministic Cross-Module Resolution)  
-**Generated Date**: ${new Date().toISOString().split("T")[0]}  
-**Status**: 100% Deterministic Resolution Complete
+# Level 5 Engineering Knowledge: Resolved Engineering Graph Matrix
+
+*© Oskey SAS. All rights reserved.*
+
+---
+
+## Metadata
+
+| Property | Value |
+| :--- | :--- |
+| **Repository** | \`${REPO_NAME}\` |
+| **Run ID** | \`${runId}\` |
+| **Extracted AST Facts** | ${rawCalls.length + rawMethods.length + rawFirestoreHints.length + rawPermissions.length + rawApiContracts.length} |
+| **Resolved Cross-Module Calls** | ${resolvedCallEdges.length} Call Edges |
+| **Resolved Shared Paths** | ${resolvedSharedPaths.length} Shared Firestore Collection Paths |
+| **Resolved Event Routes** | ${resolvedEventRoutes.length} Event Routes |
+| **RBAC Permission Checks** | ${resolvedRbacMatrix.length} Checks |
+| **Generated Date** | ${new Date().toISOString().split("T")[0]} |
+| **Classification** | Level 5 Engineering Knowledge Corpus Artefact |
+| **Status** | 100% Deterministic Resolution Complete |
 
 ---
 
@@ -409,7 +436,7 @@ ${modulePersonalities
   .join("\n")}
 `;
 
-const resolvedMdPath = path.join(runDir, "resolved-graph-matrix.md");
+const resolvedMdPath = path.join(kpDir, "resolved-graph-matrix.md");
 fs.writeFileSync(resolvedMdPath, markdownMatrix, "utf8");
 
 console.log(`✅ Phase 1.75 Complete: Built Resolved Engineering Graph for Run ${runId}`);

@@ -1,0 +1,21 @@
+{
+  "runId": "20260724_143603-1aa319b1",
+  "generatedAt": "2026-07-24T14:36:09.872Z",
+  "module": "unit_management",
+  "summary": {
+    "files": 13,
+    "imports": 99,
+    "exports": 62,
+    "classes": 6,
+    "methods": 33,
+    "functions": 1,
+    "calls": 216,
+    "firestoreHints": 1,
+    "permissionHints": 4,
+    "externalHooks": 5,
+    "firestoreTriggers": 0,
+    "apiContracts": 10,
+    "services": 5,
+    "controllers": 1
+  }
+}

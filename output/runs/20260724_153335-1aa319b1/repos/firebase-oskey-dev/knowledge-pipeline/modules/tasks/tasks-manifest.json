@@ -1,0 +1,21 @@
+{
+  "runId": "20260724_153335-1aa319b1",
+  "generatedAt": "2026-07-24T15:33:37.548Z",
+  "module": "tasks",
+  "summary": {
+    "files": 5,
+    "imports": 11,
+    "exports": 10,
+    "classes": 2,
+    "methods": 3,
+    "functions": 1,
+    "calls": 34,
+    "firestoreHints": 0,
+    "permissionHints": 0,
+    "externalHooks": 3,
+    "firestoreTriggers": 0,
+    "apiContracts": 0,
+    "services": 2,
+    "controllers": 0
+  }
+}

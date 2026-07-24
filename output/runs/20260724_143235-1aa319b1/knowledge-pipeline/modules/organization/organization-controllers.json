@@ -1,0 +1,2226 @@
+[
+  {
+    "name": "OSKOrganizationController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/controllers/organization.controller.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getCollectionPath",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/models/documents/organization_document.model\").OSKOrganizationDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getOrganizationByName",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentListElement<OSKOrganizationDocument> | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentListElement<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/models/documents/organization_document.model\").OSKOrganizationDocument> | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "name",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getOrganizationByNameSafe",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentListElement<OSKOrganizationDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentListElement<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/models/documents/organization_document.model\").OSKOrganizationDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "name",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/models/documents/organization_document.model\").OSKOrganizationDocument>>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKOrganizationDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/models/documents/organization_document.model\").OSKOrganizationDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKOrganizationDocument>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "uploadImage",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUploadData>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKUploadData>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "bucket",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "imagePath",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "contentType",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteImage",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "filePath",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "imagePath",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationBuildingController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_building/controllers/organization_building.controller.ts",
+    "submodule": "organization_building",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocument<OSKOrganizationBuilding>",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building/models/documents/organization_building_document_model\").OSKOrganizationBuilding>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKOrganizationBuilding>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationBuildingDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building/models/documents/organization_building_document_model\").OSKOrganizationBuildingDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationBuildingDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_building/models/documents/organization_building_document_model\").OSKOrganizationBuildingDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKEntityController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts",
+    "submodule": "organization_entity",
+    "methods": [
+      {
+        "name": "getCollectionPath",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "entityId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKEntityDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_entity/models/documents/entity_document_model\").OSKEntityDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "entityId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKEntityDocument>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKEntityDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_entity/models/documents/entity_document_model\").OSKEntityDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKEntityDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_entity/models/documents/entity_document_model\").OSKEntityDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "entityId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "entityId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationInhabitantController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_inhabitant/controllers/organization_inhabitant.controller.ts",
+    "submodule": "organization_inhabitant",
+    "methods": [
+      {
+        "name": "queryInhabitants",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKPmpResidentsDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_inhabitant/models/documents/organization_inhabitant_document.model\").OSKPmpResidentsDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "collectionName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "queryFilters",
+            "typeText": "OSKQueryFilter[]",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/controllers/document.controller\").OSKQueryFilter[]",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKIntercomBuildingStateController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_intercom_ communication/controllers/organization_intercom_building_state.controller.ts",
+    "submodule": "organization_intercom_ communication",
+    "methods": [
+      {
+        "name": "getStateCollectionPath",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "type",
+            "typeText": "'intercom' | 'push'",
+            "resolvedTypeText": "\"push\" | \"intercom\"",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "any",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "type",
+            "typeText": "'intercom' | 'push'",
+            "resolvedTypeText": "\"push\" | \"intercom\"",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getState",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKIntercomBuildingStateDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/models/documents/organization_intercom_communication.model\").OSKIntercomBuildingStateDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "type",
+            "typeText": "'intercom' | 'push'",
+            "resolvedTypeText": "\"push\" | \"intercom\"",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "saveState",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKIntercomBuildingStateDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/models/documents/organization_intercom_communication.model\").OSKIntercomBuildingStateDocument",
+            "decorators": []
+          },
+          {
+            "name": "type",
+            "typeText": "'intercom' | 'push'",
+            "resolvedTypeText": "\"push\" | \"intercom\"",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateState",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKIntercomBuildingStateDocument>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          },
+          {
+            "name": "type",
+            "typeText": "'intercom' | 'push'",
+            "resolvedTypeText": "\"push\" | \"intercom\"",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKIntercomCommunicationArchiveController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_intercom_ communication/controllers/organization_intercom_communication_archive.controller.ts",
+    "submodule": "organization_intercom_ communication",
+    "methods": [
+      {
+        "name": "getCollectionPath",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "type",
+            "typeText": "'intercom' | 'push'",
+            "resolvedTypeText": "\"push\" | \"intercom\"",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getArchive",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKIntercomCommunicationArchiveDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/models/documents/organization_intercom_communication.model\").OSKIntercomCommunicationArchiveDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "messageId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "type",
+            "typeText": "'intercom' | 'push'",
+            "resolvedTypeText": "\"push\" | \"intercom\"",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllArchive",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKIntercomCommunicationArchiveDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/models/documents/organization_intercom_communication.model\").OSKIntercomCommunicationArchiveDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "type",
+            "typeText": "'intercom' | 'push'",
+            "resolvedTypeText": "\"push\" | \"intercom\"",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getLatestArchives",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKIntercomCommunicationArchiveDocument[]>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_intercom_ communication/models/documents/organization_intercom_communication.model\").OSKIntercomCommunicationArchiveDocument[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "type",
+            "typeText": "'intercom' | 'push'",
+            "resolvedTypeText": "\"push\" | \"intercom\"",
+            "decorators": []
+          },
+          {
+            "name": "limitCount",
+            "typeText": "number",
+            "resolvedTypeText": "number",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationOnboardingInhabitantController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/controllers/organization_onboarding_inhabitant.controller.ts",
+    "submodule": "organization_onboarding_inhabitant",
+    "methods": [
+      {
+        "name": "getCollectionPath",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationOnboardingInhabitant | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/documents/organization_onboarding_inhabitant_document.model\").OSKOrganizationOnboardingInhabitant | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "onboardingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationOnboardingInhabitantDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/documents/organization_onboarding_inhabitant_document.model\").OSKOrganizationOnboardingInhabitantDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "queryOnboardingDocuments",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationOnboardingInhabitant>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/documents/organization_onboarding_inhabitant_document.model\").OSKOrganizationOnboardingInhabitant>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "collectionName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "queryFilters",
+            "typeText": "OSKQueryFilter[]",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/controllers/document.controller\").OSKQueryFilter[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "queryOrCollection",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationOnboardingInhabitant>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/documents/organization_onboarding_inhabitant_document.model\").OSKOrganizationOnboardingInhabitant>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "collectionName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "queryFilters",
+            "typeText": "OSKQueryFilter[]",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/controllers/document.controller\").OSKQueryFilter[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "onboardingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKOrganizationOnboardingInhabitant",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_onboarding_inhabitant/models/documents/organization_onboarding_inhabitant_document.model\").OSKOrganizationOnboardingInhabitant",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "onboardingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKOrganizationOnboardingInhabitant>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "onboardingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationPendingController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_pending/controllers/organization_pending.controller.ts",
+    "submodule": "organization_pending",
+    "methods": [
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationPendingDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/models/documents/organization_pending_document.model\").OSKOrganizationPendingDocument>>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAllByUserId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationPendingDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/models/documents/organization_pending_document.model\").OSKOrganizationPendingDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getById",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationPendingDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/models/documents/organization_pending_document.model\").OSKOrganizationPendingDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "pendingOrganizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "pendingOrganizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKOrganizationPendingDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_pending/models/documents/organization_pending_document.model\").OSKOrganizationPendingDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "pendingOrganizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKOrganizationPendingDocument>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationPromptTemplateController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_prompt_templates/controllers/oraganization_prompt_templates.controller.ts",
+    "submodule": "organization_prompt_templates",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getCollectionPath",
+        "visibility": "private",
+        "isStatic": true,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_prompt_templates/models/organization_prompt_templates.model\").OSKOrganizationPromptTemplateDocument>>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_prompt_templates/models/organization_prompt_templates.model\").OSKOrganizationPromptTemplateDocument> | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "promptName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "promptName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKOrganizationPromptTemplateDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_prompt_templates/models/organization_prompt_templates.model\").OSKOrganizationPromptTemplateDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "promptName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKOrganizationPromptTemplateDocument>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "promptName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKPropertyController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts",
+    "submodule": "organization_property",
+    "methods": [
+      {
+        "name": "getCollectionPath",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<string>",
+        "resolvedReturnTypeText": "Promise<string>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "propertyId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKPropertyDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_property/models/documents/property_document\").OSKPropertyDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "propertyId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKPropertyDocument>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKPropertyDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_property/models/documents/property_document\").OSKPropertyDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "entityId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "queryAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKPropertyDocument[]>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_property/models/documents/property_document\").OSKPropertyDocument[]>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKPropertyDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_property/models/documents/property_document\").OSKPropertyDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "propertyId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "uploadImage",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKUploadData>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKUploadData>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "bucket",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "imagePath",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "contentType",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "removeBuildingFromProperty",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "propertyId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "arrayFieldName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "identifierField",
+            "typeText": "keyof OSKBuilding",
+            "resolvedTypeText": "keyof import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/building/models/documents/building_document.model\").OSKBuilding",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "propertyId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteImage",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "filePath",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "filename",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationResidentsController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_residents/controllers/organization_residents.controller.ts",
+    "submodule": "organization_residents",
+    "methods": [
+      {
+        "name": "getCollectionPath",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationResidentDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/models/documents/organization_resident_document.model\").OSKOrganizationResidentDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationResidentDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/models/documents/organization_resident_document.model\").OSKOrganizationResidentDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "residentId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getSafe",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationResidentDocument>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/models/documents/organization_resident_document.model\").OSKOrganizationResidentDocument>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "residentId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "residentId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocument<OSKOrganizationResident>",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/models/documents/organization_resident_document.model\").OSKOrganizationResident>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "data",
+            "typeText": "OSKResidentsDocumentDeleteRequest",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/models/functions/organization_resident_request_document_model\").OSKResidentsDocumentDeleteRequest",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "residentId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKOrganizationResident>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getResidentsQueryFilters",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationResidentDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_residents/models/documents/organization_resident_document.model\").OSKOrganizationResidentDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "queryFilters",
+            "typeText": "OSKQueryFilter[]",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/controllers/document.controller\").OSKQueryFilter[]",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationUserController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts",
+    "submodule": "organization_user",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationUserDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model\").OSKOrganizationUserDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationUserDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model\").OSKOrganizationUserDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getSafe",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationUserDocument>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model\").OSKOrganizationUserDocument>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "email",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocument<OSKOrganizationUser>",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model\").OSKOrganizationUser>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKOrganizationUserUpdate>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "email",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getOrganizationUserAdmins",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationUser> | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model\").OSKOrganizationUser> | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getOrganizationAdmins",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationUser> | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model\").OSKOrganizationUser> | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getByEmail",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationUserDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user/models/documents/organization_user_document.model\").OSKOrganizationUserDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "email",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationPMPUserInvitationController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_pmp_user_invitation.controller.ts",
+    "submodule": "organization_user_invitation",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "queryInvitations",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationPMPUserInvitationDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_document.model\").OSKOrganizationPMPUserInvitationDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "collectionName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "queryFilters",
+            "typeText": "OSKQueryFilter[]",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/controllers/document.controller\").OSKQueryFilter[]",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationUserInvitationController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts",
+    "submodule": "organization_user_invitation",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationUserInvitationDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_document.model\").OSKOrganizationUserInvitationDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getByEmail",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": false,
+        "returnTypeText": "Promise<OSKOrganizationUserInvitationDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_document.model\").OSKOrganizationUserInvitationDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "email",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "email",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocument<OSKOrganizationUserInvitation>",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_document.model\").OSKOrganizationUserInvitation>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getUsersOrganization",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationUserInvitationDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_document.model\").OSKOrganizationUserInvitationDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getOrganizationsUserInvitation",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKOrganizationUserInvitationDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_document.model\").OSKOrganizationUserInvitationDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "email",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "deleteOrganizationUserInvitation",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "email",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "moveOrganizationUserInvitation",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "email",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocument<OSKOrganizationUserInvitation>",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_document.model\").OSKOrganizationUserInvitation>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "saveOrganizationUserInvitationCancelled",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "email",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocument<OSKOrganizationUserInvitationCancelled>",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_cancelled_document.model\").OSKOrganizationUserInvitationCancelled>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllOrganizationUserInvitations",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKOrganizationUserInvitation>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_document.model\").OSKOrganizationUserInvitation>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "collectionPath",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "queryFilters",
+            "typeText": "OSKQueryFilter[]",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/controllers/document.controller\").OSKQueryFilter[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "collectionName",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "documentId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKOrganizationUserInvitation>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKOrganizationUserInvitationPendingController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation_pending.controller.ts",
+    "submodule": "organization_user_invitation",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "userId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocument<OSKOrganizationUserInvitationPending>",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/organization/modules/organization_user_invitation/models/documents/organization_user_invitation_pending_document.model\").OSKOrganizationUserInvitationPending>",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

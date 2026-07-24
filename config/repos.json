@@ -2,10 +2,21 @@
   "repositories": [
     {
       "name": "firebase-oskey-dev",
-      "path": "/Users/dopenshaw/development/working/firebase-oskey-dev",
       "gitUrl": "git@github.com:oskey-io/firebase-oskey-dev.git",
       "branch": "master",
       "modulesRoot": "functions/src/modules"
+    },
+    {
+      "name": "angular-pgo-oskey-dev",
+      "gitUrl": "git@github.com:oskey-io/angular-app-oskey-io.git",
+      "branch": "master",
+      "modulesRoot": "hosting/web-app/src/app"
+    },
+    {
+      "name": "angular-admin-oskey-io",
+      "gitUrl": "git@github.com:oskey-io/angular-app-oskey-io.git",
+      "branch": "master",
+      "modulesRoot": "hosting/web-admin/src/app"
     }
   ]
 }

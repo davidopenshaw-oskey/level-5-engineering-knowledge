@@ -1,0 +1,282 @@
+[
+  {
+    "name": "OSKEmailLogController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+    "submodule": "mail",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKEmailLog>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/apps/modules/mail/models/email_log_document\").OSKEmailLog>>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKEmailLog | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/apps/modules/mail/models/email_log_document\").OSKEmailLog | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "emailDocId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "emailDocId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKEmailLog>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "queryAllSmsDocs",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKEmailLog>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/apps/modules/mail/models/email_log_document\").OSKEmailLog>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "queryFilters",
+            "typeText": "OSKQueryFilter[]",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/controllers/document.controller\").OSKQueryFilter[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "emailDocId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKEmailLog",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/apps/modules/mail/models/email_log_document\").OSKEmailLog",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "emailDocId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "listDocuments",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_id.model\").OSKDocumentId[]>",
+        "decorators": [],
+        "parameters": []
+      }
+    ]
+  },
+  {
+    "name": "OSKSMSLogController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
+    "submodule": "sms",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKSMSLog>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/apps/modules/sms/models/sms_log_document\").OSKSMSLog>>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSMSLog | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/apps/modules/sms/models/sms_log_document\").OSKSMSLog | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "smsDocId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "smsDocId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKSMSLog>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "queryAllSmsDocs",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKSMSLog>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/apps/modules/sms/models/sms_log_document\").OSKSMSLog>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "queryFilters",
+            "typeText": "OSKQueryFilter[]",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/controllers/document.controller\").OSKQueryFilter[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "smsDocId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKSMSLog",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/apps/modules/sms/models/sms_log_document\").OSKSMSLog",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "smsDocId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "listDocuments",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_id.model\").OSKDocumentId[]>",
+        "decorators": [],
+        "parameters": []
+      }
+    ]
+  }
+]

@@ -1,7 +1,7 @@
 // **version:** 0.0.2
 // **location:** level-5 phases 1, 2
 
-// © [Year] Oskey SAS. All rights reserved
+// © Oskey SAS. All rights reserved.
 // This script builds module evidence and evidence graphs from raw AST evidence, generating JSON outputs for each module.
 
 import fs from "fs";
@@ -15,9 +15,19 @@ if (!fs.existsSync(runContextPath)) {
 const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
 
+const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
 const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
-const inputRoot = path.join(versionedOutputRoot, "raw");
-const modulesRoot = path.join(versionedOutputRoot, "knowledge-pipeline", "modules");
+const repoOutputDir = path.join(versionedOutputRoot, "repos", REPO_NAME);
+
+let inputRoot = path.join(repoOutputDir, "facts");
+if (!fs.existsSync(inputRoot)) {
+  inputRoot = path.join(repoOutputDir, "raw");
+}
+if (!fs.existsSync(inputRoot)) {
+  inputRoot = path.join(versionedOutputRoot, "facts");
+}
+
+const modulesRoot = path.join(repoOutputDir, "knowledge-pipeline", "modules");
 
 const DEFAULT_FIRESTORE_ROOT_COLLECTIONS = [
   "/EmailLogs",

@@ -6,12 +6,13 @@
     "typescript": "^6.0.3"
   },
   "scripts": {
-    "pipeline:firebase": "npm run cloud:00-scan-repo && npm run cloud:01-extract-ast && npm run cloud:02-build-evidence && npm run cloud:03-build-benchmark && npm run cloud:04-build-resolved-graph && npm run cloud:05-generate-profiles",
+    "pipeline:firebase": "npm run cloud:00-scan-repo && npm run cloud:01-extract-ast && npm run cloud:02-build-evidence && npm run cloud:03-build-benchmark && npm run cloud:04-build-resolved-graph && npm run cloud:05-generate-profiles && npm run synthesize:cross-repo",
     "cloud:00-scan-repo": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-00-repo-scanner/00-scan-repo.ts",
     "cloud:01-extract-ast": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/01-extract-ast-evidence.ts",
     "cloud:02-build-evidence": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/02-build-module-evidence.ts",
     "cloud:03-build-benchmark": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/03-build-benchmark.ts",
     "cloud:04-build-resolved-graph": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01.75-graph-resolution/04-build-resolved-graph.ts",
-    "cloud:05-generate-profiles": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/05-generate-profiles-and-apis.ts"
+    "cloud:05-generate-profiles": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/05-generate-profiles-and-apis.ts",
+    "synthesize:cross-repo": "node -r ts-node/register pipeline/cross-repo-synthesis/phase-03-ecosystem-topology/06-build-cross-repo-graph.ts"
   }
 }

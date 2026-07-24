@@ -1,0 +1,87 @@
+[
+  {
+    "name": "OSKTaskHandlerService",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/tasks/services/task_handler.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "handleTask",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "req",
+            "typeText": "Request",
+            "resolvedTypeText": "Request",
+            "decorators": []
+          },
+          {
+            "name": "res",
+            "typeText": "Response",
+            "resolvedTypeText": "Response",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKTaskSchedulerService",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "scheduleTask",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<string | undefined | null>",
+        "resolvedReturnTypeText": "Promise<string | null | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "scheduleDate",
+            "typeText": "Date",
+            "resolvedTypeText": "Date",
+            "decorators": []
+          },
+          {
+            "name": "payload",
+            "typeText": "OSKTScheduledTaskPayload",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/tasks/models/tasks.model\").OSKTScheduledTaskPayload",
+            "decorators": []
+          },
+          {
+            "name": "targetUrl",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "cancelTask",
+        "visibility": "public",
+        "isStatic": true,
+        "isAsync": true,
+        "returnTypeText": "Promise<void>",
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "taskId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

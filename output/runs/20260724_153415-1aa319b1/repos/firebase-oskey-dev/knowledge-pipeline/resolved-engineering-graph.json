@@ -1,0 +1,2134 @@
+{
+  "metadata": {
+    "runId": "20260724_153415-1aa319b1",
+    "generatedAt": "2026-07-24T15:34:18.032Z",
+    "totalExtractedFacts": 9060,
+    "resolvedCrossModuleCallEdgesCount": 158,
+    "resolvedSharedFirestorePathsCount": 70,
+    "resolvedEventRoutesCount": 6,
+    "resolvedRbacPermissionsCount": 0
+  },
+  "resolvedCallEdges": [
+    {
+      "sourceModule": "access_control_device",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUpdateService",
+      "targetMethod": "addAccessControlDeviceToUserAccessesDoor",
+      "evidenceCallText": "OSKAccessUpdateService.addAccessControlDeviceToUserAccessesDoor"
+    },
+    {
+      "sourceModule": "access_control_device",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUpdateService",
+      "targetMethod": "removeAccessControlDeviceFromUserAccessesDoor",
+      "evidenceCallText": "OSKAccessUpdateService.removeAccessControlDeviceFromUserAccessesDoor"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingController",
+      "targetMethod": "getAll",
+      "evidenceCallText": "OSKAdminBuildingController.getAll"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitController",
+      "targetMethod": "getAll",
+      "evidenceCallText": "OSKAdminBuildingUnitController.getAll"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserDeviceService",
+      "targetMethod": "createAccessDeviceToken",
+      "evidenceCallText": "OSKUserDeviceService.createAccessDeviceToken"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessMessagePublisherService",
+      "targetMethod": "publishMessageAccessRecreateToACD",
+      "evidenceCallText": "OSKAccessMessagePublisherService.publishMessageAccessRecreateToACD"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "checkIsMainAccess",
+      "evidenceCallText": "OSKAccessUtilsService.checkIsMainAccess"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKIntercomMessagePublisherService",
+      "targetMethod": "publishMessageIntercomUpdate",
+      "evidenceCallText": "OSKIntercomMessagePublisherService.publishMessageIntercomUpdate"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingIntercomService",
+      "targetMethod": "createIntercomEntry",
+      "evidenceCallText": "OSKBuildingIntercomService.createIntercomEntry"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingIntercomService",
+      "targetMethod": "addInhabitantInAllIntercoms",
+      "evidenceCallText": "OSKBuildingIntercomService.addInhabitantInAllIntercoms"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "tasks",
+      "targetClass": "OSKTaskSchedulerService",
+      "targetMethod": "scheduleTask",
+      "evidenceCallText": "OSKTaskSchedulerService.scheduleTask"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKPincodeService",
+      "targetMethod": "createPincodeInhabitantDocuments",
+      "evidenceCallText": "OSKPincodeService.createPincodeInhabitantDocuments"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKPincodeService",
+      "targetMethod": "addPincodeDocumentsToNonAppUserAccess",
+      "evidenceCallText": "OSKPincodeService.addPincodeDocumentsToNonAppUserAccess"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKPincodeService",
+      "targetMethod": "deletePincodeDocuments",
+      "evidenceCallText": "OSKPincodeService.deletePincodeDocuments"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessMessagePublisherService",
+      "targetMethod": "publishMessageToAllACDs",
+      "evidenceCallText": "OSKAccessMessagePublisherService.publishMessageToAllACDs"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserSettingsUnitService",
+      "targetMethod": "createUserSettingsUnitFromInhabitant",
+      "evidenceCallText": "OSKUserSettingsUnitService.createUserSettingsUnitFromInhabitant"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "getBuildingAuthorizedDoors",
+      "evidenceCallText": "OSKAccessUtilsService.getBuildingAuthorizedDoors"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "createAccess",
+      "evidenceCallText": "OSKAccessService.createAccess"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitInhabitantService",
+      "targetMethod": "removeInhabitant",
+      "evidenceCallText": "OSKBuildingUnitInhabitantService.removeInhabitant"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitInhabitantService",
+      "targetMethod": "addInhabitant",
+      "evidenceCallText": "OSKBuildingUnitInhabitantService.addInhabitant"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserController",
+      "targetMethod": "getAll",
+      "evidenceCallText": "OSKAdminUserController.getAll"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserDeviceController",
+      "targetMethod": "getAll",
+      "evidenceCallText": "OSKAdminUserDeviceController.getAll"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "deleteAccessById",
+      "evidenceCallText": "OSKAccessService.deleteAccessById"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserDeviceController",
+      "targetMethod": "deleteAll",
+      "evidenceCallText": "OSKAdminUserDeviceController.deleteAll"
+    },
+    {
+      "sourceModule": "admin",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserDeviceController",
+      "targetMethod": "delete",
+      "evidenceCallText": "OSKAdminUserDeviceController.delete"
+    },
+    {
+      "sourceModule": "apps",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKSecretService",
+      "targetMethod": "getSecret",
+      "evidenceCallText": "OSKSecretService.getSecret"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKSecretService",
+      "targetMethod": "getPrivateKey",
+      "evidenceCallText": "OSKSecretService.getPrivateKey"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKSecretService",
+      "targetMethod": "createPrivateKeySecret",
+      "evidenceCallText": "OSKSecretService.createPrivateKeySecret"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "organization",
+      "targetClass": "OSKOrganizationUserUtils",
+      "targetMethod": "getOrganizationUser",
+      "evidenceCallText": "OSKOrganizationUserUtils.getOrganizationUser"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUpdateService",
+      "targetMethod": "updateUserAccessesDoorInfo",
+      "evidenceCallText": "OSKAccessUpdateService.updateUserAccessesDoorInfo"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUpdateService",
+      "targetMethod": "removeDoorFromUserAccesses",
+      "evidenceCallText": "OSKAccessUpdateService.removeDoorFromUserAccesses"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserIntercomService",
+      "targetMethod": "updateAllUserIntercomEntry",
+      "evidenceCallText": "OSKUserIntercomService.updateAllUserIntercomEntry"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserIntercomService",
+      "targetMethod": "deleteUserIntercom",
+      "evidenceCallText": "OSKUserIntercomService.deleteUserIntercom"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserIntercomService",
+      "targetMethod": "cleanUpUserIntercomsAfterInhabitantDeletion",
+      "evidenceCallText": "OSKUserIntercomService.cleanUpUserIntercomsAfterInhabitantDeletion"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserIntercomService",
+      "targetMethod": "createAndUpdateUsersIntercomEntry",
+      "evidenceCallText": "OSKUserIntercomService.createAndUpdateUsersIntercomEntry"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserService",
+      "targetMethod": "_getInhabitantType",
+      "evidenceCallText": "OSKUserService._getInhabitantType"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessMessagePublisherService",
+      "targetMethod": "publishMessageToAllACDs",
+      "evidenceCallText": "OSKAccessMessagePublisherService.publishMessageToAllACDs"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKPincodeService",
+      "targetMethod": "deleteBuildingPincodeAndMoveToTrash",
+      "evidenceCallText": "OSKPincodeService.deleteBuildingPincodeAndMoveToTrash"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "createAccess",
+      "evidenceCallText": "OSKAccessService.createAccess"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "getAccessControlDevicesPerDoor",
+      "evidenceCallText": "OSKAccessUtilsService.getAccessControlDevicesPerDoor"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "getAccessInviterName",
+      "evidenceCallText": "OSKAccessUtilsService.getAccessInviterName"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "generateAccessId",
+      "evidenceCallText": "OSKAccessUtilsService.generateAccessId"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserSettingsBuildingService",
+      "targetMethod": "createUserSettingsFromBuildingSettings",
+      "evidenceCallText": "OSKUserSettingsBuildingService.createUserSettingsFromBuildingSettings"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserSettingsUnitService",
+      "targetMethod": "createUserSettingsUnitFromInhabitant",
+      "evidenceCallText": "OSKUserSettingsUnitService.createUserSettingsUnitFromInhabitant"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "deleteAccessById",
+      "evidenceCallText": "OSKAccessService.deleteAccessById"
+    },
+    {
+      "sourceModule": "building",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUpdateService",
+      "targetMethod": "updateUserAccessesBuildingInfo",
+      "evidenceCallText": "OSKAccessUpdateService.updateUserAccessesBuildingInfo"
+    },
+    {
+      "sourceModule": "call",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserNotificationService",
+      "targetMethod": "createSpecial",
+      "evidenceCallText": "OSKUserNotificationService.createSpecial"
+    },
+    {
+      "sourceModule": "call",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "access_control_device",
+      "targetClass": "OSKActivityEnrichmentService",
+      "targetMethod": "enrichAndValidateActivity",
+      "evidenceCallText": "OSKActivityEnrichmentService.enrichAndValidateActivity"
+    },
+    {
+      "sourceModule": "call",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserActivityAggregatesService",
+      "targetMethod": "ActivityReceivedForUser",
+      "evidenceCallText": "OSKUserActivityAggregatesService.ActivityReceivedForUser"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "supplier",
+      "targetClass": "OSKSupplierStaffAccessService",
+      "targetMethod": "setupSupplierStaffAccess",
+      "evidenceCallText": "OSKSupplierStaffAccessService.setupSupplierStaffAccess"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingAccessService",
+      "targetMethod": "createOrUpdateBuildingAccessForStaffOrNonAppUser",
+      "evidenceCallText": "OSKBuildingAccessService.createOrUpdateBuildingAccessForStaffOrNonAppUser"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "supplier",
+      "targetClass": "OSKSupplierStaffAccessService",
+      "targetMethod": "createOrUpdateSupplierStaffAccess",
+      "evidenceCallText": "OSKSupplierStaffAccessService.createOrUpdateSupplierStaffAccess"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKNonAppUserAccessService",
+      "targetMethod": "setupNonAppUserAccess",
+      "evidenceCallText": "OSKNonAppUserAccessService.setupNonAppUserAccess"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKNonAppUserAccessService",
+      "targetMethod": "createOrUpdateNonAppUserAccess",
+      "evidenceCallText": "OSKNonAppUserAccessService.createOrUpdateNonAppUserAccess"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingAccessService",
+      "targetMethod": "createOrUpdateBuildingAccess",
+      "evidenceCallText": "OSKBuildingAccessService.createOrUpdateBuildingAccess"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserAccessService",
+      "targetMethod": "createOrUpdateUserAccess",
+      "evidenceCallText": "OSKUserAccessService.createOrUpdateUserAccess"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserDeviceService",
+      "targetMethod": "createAccessDeviceToken",
+      "evidenceCallText": "OSKUserDeviceService.createAccessDeviceToken"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserSentInvitationController",
+      "targetMethod": "getById",
+      "evidenceCallText": "OSKUserSentInvitationController.getById"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserSentInvitationController",
+      "targetMethod": "update",
+      "evidenceCallText": "OSKUserSentInvitationController.update"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingPincodeService",
+      "targetMethod": "createPincodeInhabitantDocument",
+      "evidenceCallText": "OSKBuildingPincodeService.createPincodeInhabitantDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserPincodeService",
+      "targetMethod": "createPincodeInhabitantDocument",
+      "evidenceCallText": "OSKUserPincodeService.createPincodeInhabitantDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingPincodeService",
+      "targetMethod": "createPincodeGuestDocument",
+      "evidenceCallText": "OSKBuildingPincodeService.createPincodeGuestDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserPincodeService",
+      "targetMethod": "createPincodeGuestDocument",
+      "evidenceCallText": "OSKUserPincodeService.createPincodeGuestDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingPincodeService",
+      "targetMethod": "createPincodePermanentGuestDocument",
+      "evidenceCallText": "OSKBuildingPincodeService.createPincodePermanentGuestDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserPincodeService",
+      "targetMethod": "createPincodePermanentGuestDocument",
+      "evidenceCallText": "OSKUserPincodeService.createPincodePermanentGuestDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserInvitationCreationService",
+      "targetMethod": "constructUserInvitationSentObject",
+      "evidenceCallText": "OSKUserInvitationCreationService.constructUserInvitationSentObject"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingPincodeService",
+      "targetMethod": "createPincodeAnonymousDocument",
+      "evidenceCallText": "OSKBuildingPincodeService.createPincodeAnonymousDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserPincodeService",
+      "targetMethod": "createPincodeAnonymousDocument",
+      "evidenceCallText": "OSKUserPincodeService.createPincodeAnonymousDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserSentInvitationController",
+      "targetMethod": "save",
+      "evidenceCallText": "OSKUserSentInvitationController.save"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingPincodeService",
+      "targetMethod": "createPincodeSupplierDocument",
+      "evidenceCallText": "OSKBuildingPincodeService.createPincodeSupplierDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "supplier",
+      "targetClass": "OSKSupplierStaffPincodeService",
+      "targetMethod": "createPincodeDocument",
+      "evidenceCallText": "OSKSupplierStaffPincodeService.createPincodeDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKNonAppUserPincodeService",
+      "targetMethod": "createPincodeDocument",
+      "evidenceCallText": "OSKNonAppUserPincodeService.createPincodeDocument"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserAccessService",
+      "targetMethod": "setupUserAccess",
+      "evidenceCallText": "OSKUserAccessService.setupUserAccess"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "organization",
+      "targetClass": "OSKOrganizationUserAccessService",
+      "targetMethod": "setupOrganizationUserAccess",
+      "evidenceCallText": "OSKOrganizationUserAccessService.setupOrganizationUserAccess"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingDoorAccessControlDeviceKeysController",
+      "targetMethod": "getPublicKey",
+      "evidenceCallText": "key.getPublicKey"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "access_control_device",
+      "targetClass": "OSKActivityEnrichmentService",
+      "targetMethod": "enrichAndValidateActivity",
+      "evidenceCallText": "OSKActivityEnrichmentService.enrichAndValidateActivity"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingActivitiesService",
+      "targetMethod": "ActivityReceivedForBuilding",
+      "evidenceCallText": "OSKBuildingActivitiesService.ActivityReceivedForBuilding"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserActivitiesService",
+      "targetMethod": "ActivityReceivedForUser",
+      "evidenceCallText": "OSKUserActivitiesService.ActivityReceivedForUser"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserActivityAggregatesService",
+      "targetMethod": "ActivityReceivedForUser",
+      "evidenceCallText": "OSKUserActivityAggregatesService.ActivityReceivedForUser"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "supplier",
+      "targetClass": "OSKSupplierStaffActivityService",
+      "targetMethod": "ActivityReceivedForSupplierStaff",
+      "evidenceCallText": "OSKSupplierStaffActivityService.ActivityReceivedForSupplierStaff"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "supplier",
+      "targetClass": "OSKSupplierStaffActivityAggregatesService",
+      "targetMethod": "ActivityReceivedForSupplierStaff",
+      "evidenceCallText": "OSKSupplierStaffActivityAggregatesService.ActivityReceivedForSupplierStaff"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKNonAppUserActivityService",
+      "targetMethod": "ActivityReceivedForNonAppUser",
+      "evidenceCallText": "OSKNonAppUserActivityService.ActivityReceivedForNonAppUser"
+    },
+    {
+      "sourceModule": "core",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKNonAppUserActivityAggregatesService",
+      "targetMethod": "ActivityReceivedForNonAppUser",
+      "evidenceCallText": "OSKNonAppUserActivityAggregatesService.ActivityReceivedForNonAppUser"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "getBuildingAuthorizedDoors",
+      "evidenceCallText": "OSKAccessUtilsService.getBuildingAuthorizedDoors"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitInhabitantService",
+      "targetMethod": "addInhabitant",
+      "evidenceCallText": "OSKBuildingUnitInhabitantService.addInhabitant"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserNotificationService",
+      "targetMethod": "create",
+      "evidenceCallText": "OSKUserNotificationService.create"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "tasks",
+      "targetClass": "OSKTaskSchedulerService",
+      "targetMethod": "cancelTask",
+      "evidenceCallText": "OSKTaskSchedulerService.cancelTask"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "tasks",
+      "targetClass": "OSKTaskSchedulerService",
+      "targetMethod": "scheduleTask",
+      "evidenceCallText": "OSKTaskSchedulerService.scheduleTask"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "apps",
+      "targetClass": "OSKQRcodeService",
+      "targetMethod": "generateQR",
+      "evidenceCallText": "OSKQRcodeService.generateQR"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "validateAccessRights",
+      "evidenceCallText": "OSKAccessUtilsService.validateAccessRights"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsDatesService",
+      "targetMethod": "convertAccessRightsToFirebaseTimestamp",
+      "evidenceCallText": "OSKAccessUtilsDatesService.convertAccessRightsToFirebaseTimestamp"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "settings",
+      "targetClass": "OSKAppStoreSettingsService",
+      "targetMethod": "validateInternally",
+      "evidenceCallText": "OSKAppStoreSettingsService.validateInternally"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "createAccess",
+      "evidenceCallText": "OSKAccessService.createAccess"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserController",
+      "targetMethod": "getAll",
+      "evidenceCallText": "OSKOrganizationUserController.getAll"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKPincodeService",
+      "targetMethod": "deleteBuildingPincodeAndMoveToTrash",
+      "evidenceCallText": "OSKPincodeService.deleteBuildingPincodeAndMoveToTrash"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessMessagePublisherService",
+      "targetMethod": "publishMessageToAllACDs",
+      "evidenceCallText": "OSKAccessMessagePublisherService.publishMessageToAllACDs"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingIntercomService",
+      "targetMethod": "deleteIntercomEntryUser",
+      "evidenceCallText": "OSKBuildingIntercomService.deleteIntercomEntryUser"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitInhabitantService",
+      "targetMethod": "removeInhabitant",
+      "evidenceCallText": "OSKBuildingUnitInhabitantService.removeInhabitant"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingIntercomService",
+      "targetMethod": "deleteIntercomEntry",
+      "evidenceCallText": "OSKBuildingIntercomService.deleteIntercomEntry"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitNonAppUserService",
+      "targetMethod": "_deleteAccessSideEffects",
+      "evidenceCallText": "OSKBuildingUnitNonAppUserService._deleteAccessSideEffects"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "deleteAccessById",
+      "evidenceCallText": "OSKAccessService.deleteAccessById"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "getClearedAccessRights",
+      "evidenceCallText": "OSKAccessService.getClearedAccessRights"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitNonAppUserController",
+      "targetMethod": "generateDocId",
+      "evidenceCallText": "nonAppUserController.generateDocId"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserController",
+      "targetMethod": "generateDocId",
+      "evidenceCallText": "nonAppUserController.generateDocId"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitNonAppUserController",
+      "targetMethod": "create",
+      "evidenceCallText": "nonAppUserController.create"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserController",
+      "targetMethod": "create",
+      "evidenceCallText": "nonAppUserController.create"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitNonAppUserService",
+      "targetMethod": "_createNonAppUserAccess",
+      "evidenceCallText": "OSKBuildingUnitNonAppUserService._createNonAppUserAccess"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitNonAppUserController",
+      "targetMethod": "delete",
+      "evidenceCallText": "nonAppUserController.delete"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserController",
+      "targetMethod": "delete",
+      "evidenceCallText": "nonAppUserController.delete"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserInvitationController",
+      "targetMethod": "getAll",
+      "evidenceCallText": "OSKOrganizationUserInvitationController.getAll"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "generateAccessId",
+      "evidenceCallText": "OSKAccessUtilsService.generateAccessId"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "getAccessInviterName",
+      "evidenceCallText": "OSKAccessUtilsService.getAccessInviterName"
+    },
+    {
+      "sourceModule": "organization",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAuth0Service",
+      "targetMethod": "emailExistsInAuth0",
+      "evidenceCallText": "OSKAuth0Service.emailExistsInAuth0"
+    },
+    {
+      "sourceModule": "supplier",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "createAccess",
+      "evidenceCallText": "OSKAccessService.createAccess"
+    },
+    {
+      "sourceModule": "supplier",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessMessagePublisherService",
+      "targetMethod": "publishMessageToAllACDs",
+      "evidenceCallText": "OSKAccessMessagePublisherService.publishMessageToAllACDs"
+    },
+    {
+      "sourceModule": "supplier",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "getAccessControlDevicesPerDoor",
+      "evidenceCallText": "OSKAccessUtilsService.getAccessControlDevicesPerDoor"
+    },
+    {
+      "sourceModule": "supplier",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKPincodeService",
+      "targetMethod": "deleteBuildingPincodeAndMoveToTrash",
+      "evidenceCallText": "OSKPincodeService.deleteBuildingPincodeAndMoveToTrash"
+    },
+    {
+      "sourceModule": "supplier",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "generateAccessId",
+      "evidenceCallText": "OSKAccessUtilsService.generateAccessId"
+    },
+    {
+      "sourceModule": "tasks",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "admin",
+      "targetClass": "OSKPincodeRefreshWorkerService",
+      "targetMethod": "executePincodeRefresh",
+      "evidenceCallText": "OSKPincodeRefreshWorkerService.executePincodeRefresh"
+    },
+    {
+      "sourceModule": "tasks",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "organization",
+      "targetClass": "OSKIntercomCommunicationService",
+      "targetMethod": "executeScheduledActivation",
+      "evidenceCallText": "OSKIntercomCommunicationService.executeScheduledActivation"
+    },
+    {
+      "sourceModule": "tasks",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "organization",
+      "targetClass": "OSKIntercomCommunicationService",
+      "targetMethod": "executeScheduledDeactivation",
+      "evidenceCallText": "OSKIntercomCommunicationService.executeScheduledDeactivation"
+    },
+    {
+      "sourceModule": "unit_management",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "deleteAccessById",
+      "evidenceCallText": "OSKAccessService.deleteAccessById"
+    },
+    {
+      "sourceModule": "unit_management",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKPincodeService",
+      "targetMethod": "deleteBuildingPincodeAndMoveToTrash",
+      "evidenceCallText": "OSKPincodeService.deleteBuildingPincodeAndMoveToTrash"
+    },
+    {
+      "sourceModule": "unit_management",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingIntercomService",
+      "targetMethod": "deleteIntercomEntryUser",
+      "evidenceCallText": "OSKBuildingIntercomService.deleteIntercomEntryUser"
+    },
+    {
+      "sourceModule": "unit_management",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "user",
+      "targetClass": "OSKUserInvitationExternalUnitService",
+      "targetMethod": "createExternalUnitInvitation",
+      "evidenceCallText": "OSKUserInvitationExternalUnitService.createExternalUnitInvitation"
+    },
+    {
+      "sourceModule": "unit_management",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsDatesService",
+      "targetMethod": "convertAccessRightToFirebaseTimestamp",
+      "evidenceCallText": "OSKAccessUtilsDatesService.convertAccessRightToFirebaseTimestamp"
+    },
+    {
+      "sourceModule": "unit_management",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitInhabitantService",
+      "targetMethod": "addInhabitant",
+      "evidenceCallText": "OSKBuildingUnitInhabitantService.addInhabitant"
+    },
+    {
+      "sourceModule": "unit_management",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "createAccess",
+      "evidenceCallText": "OSKAccessService.createAccess"
+    },
+    {
+      "sourceModule": "unit_management",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "updateAccess",
+      "evidenceCallText": "OSKAccessService.updateAccess"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "generateAccessId",
+      "evidenceCallText": "OSKAccessUtilsService.generateAccessId"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "getAccessInviterName",
+      "evidenceCallText": "OSKAccessUtilsService.getAccessInviterName"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUpdateService",
+      "targetMethod": "updateUserAccessDevices",
+      "evidenceCallText": "OSKAccessUpdateService.updateUserAccessDevices"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKSecretService",
+      "targetMethod": "getPrivateKey",
+      "evidenceCallText": "OSKSecretService.getPrivateKey"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "access_control_device",
+      "targetClass": "OSKAccessControlDeviceTokenPayload",
+      "targetMethod": "toSignedToken",
+      "evidenceCallText": "tokenPayload.toSignedToken"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitInhabitantService",
+      "targetMethod": "addInhabitant",
+      "evidenceCallText": "OSKBuildingUnitInhabitantService.addInhabitant"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "createAccess",
+      "evidenceCallText": "OSKAccessService.createAccess"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "deleteAccessById",
+      "evidenceCallText": "OSKAccessService.deleteAccessById"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsDatesService",
+      "targetMethod": "convertAccessRightsToDateString",
+      "evidenceCallText": "OSKAccessUtilsDatesService.convertAccessRightsToDateString"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsService",
+      "targetMethod": "validateAccessRights",
+      "evidenceCallText": "OSKAccessUtilsService.validateAccessRights"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsDatesService",
+      "targetMethod": "convertAccessRightsToFirebaseTimestamp",
+      "evidenceCallText": "OSKAccessUtilsDatesService.convertAccessRightsToFirebaseTimestamp"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKPincodeService",
+      "targetMethod": "deletePincodeAnonymousAccess",
+      "evidenceCallText": "OSKPincodeService.deletePincodeAnonymousAccess"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "building",
+      "targetClass": "OSKBuildingUnitInhabitantService",
+      "targetMethod": "removeInhabitant",
+      "evidenceCallText": "OSKBuildingUnitInhabitantService.removeInhabitant"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessService",
+      "targetMethod": "updateAccess",
+      "evidenceCallText": "OSKAccessService.updateAccess"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "settings",
+      "targetClass": "OSKAppStoreSettingsService",
+      "targetMethod": "getAppstoreInformation",
+      "evidenceCallText": "OSKAppStoreSettingsService.getAppstoreInformation"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "organization",
+      "targetClass": "OSKOrganizationOnboardingInhabitantService",
+      "targetMethod": "_sendOnboardingNotificationEmail",
+      "evidenceCallText": "OSKOrganizationOnboardingInhabitantService._sendOnboardingNotificationEmail"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUtilsDatesService",
+      "targetMethod": "convertAccessRightToFirebaseTimestamp",
+      "evidenceCallText": "OSKAccessUtilsDatesService.convertAccessRightToFirebaseTimestamp"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "unit_management",
+      "targetClass": "OSKUnitManagementCreationInvitationService",
+      "targetMethod": "consumeUnitInvitationInvitee",
+      "evidenceCallText": "OSKUnitManagementCreationInvitationService.consumeUnitInvitationInvitee"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "unit_management",
+      "targetClass": "OSKUnitManagementCreationOskeyUserInvitationService",
+      "targetMethod": "createPermanentGuest",
+      "evidenceCallText": "OSKUnitManagementCreationOskeyUserInvitationService.createPermanentGuest"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKPincodeService",
+      "targetMethod": "deleteBuildingPincodeAndMoveToTrash",
+      "evidenceCallText": "OSKPincodeService.deleteBuildingPincodeAndMoveToTrash"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAuth0Service",
+      "targetMethod": "getUsersByEmail",
+      "evidenceCallText": "OSKAuth0Service.getUsersByEmail"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAuth0Service",
+      "targetMethod": "getUsersByPhoneNumber",
+      "evidenceCallText": "OSKAuth0Service.getUsersByPhoneNumber"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAuth0Service",
+      "targetMethod": "updateUserPhoneNumber",
+      "evidenceCallText": "OSKAuth0Service.updateUserPhoneNumber"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAccessUpdateService",
+      "targetMethod": "updateAccessesUserInfo",
+      "evidenceCallText": "OSKAccessUpdateService.updateAccessesUserInfo"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAuth0Service",
+      "targetMethod": "updateUserEmail",
+      "evidenceCallText": "OSKAuth0Service.updateUserEmail"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKSecretService",
+      "targetMethod": "getSecret",
+      "evidenceCallText": "OSKSecretService.getSecret"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "core",
+      "targetClass": "OSKAuth0Service",
+      "targetMethod": "deleteAuth0User",
+      "evidenceCallText": "OSKAuth0Service.deleteAuth0User"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "organization",
+      "targetClass": "OSKOrganizationResidentsService",
+      "targetMethod": "deleteAppUserResident",
+      "evidenceCallText": "OSKOrganizationResidentsService.deleteAppUserResident"
+    },
+    {
+      "sourceModule": "user",
+      "sourceFile": "",
+      "sourceContext": "UnknownCaller",
+      "targetModule": "organization",
+      "targetClass": "OSKOrganizationResidentsService",
+      "targetMethod": "checkInhabitantTypeAndDeleteAllInhabitantresident",
+      "evidenceCallText": "OSKOrganizationResidentsService.checkInhabitantTypeAndDeleteAllInhabitantresident"
+    }
+  ],
+  "resolvedSharedPaths": [
+    {
+      "pathPattern": "functions/src/modules/{id}/controllers/{id}.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "access_control_device"
+      ],
+      "totalOccurrences": 9
+    },
+    {
+      "pathPattern": "functions/src/modules/{id}/index.ts",
+      "writingModules": [],
+      "readingModules": [
+        "access_control_device"
+      ],
+      "totalOccurrences": 3
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_maintenance/db_building/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_users/services/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "admin"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "apps"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/building/controllers/building.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 3
+    },
+    {
+      "pathPattern": "functions/src/modules/building/index.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/building/modules/building_door/index.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/building/modules/building_door/services/building_door.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/building/modules/building_intercom/services/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/building/modules/building_settings/services/building_settings.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/building/modules/building_unit/services/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/building/modules/building_unit/services/building_unit.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/building/modules/building_user/services/building_user.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/building/services/building.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "building"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/call/controllers/call.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "call"
+      ],
+      "totalOccurrences": 4
+    },
+    {
+      "pathPattern": "functions/src/modules/call/services/call.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "call"
+      ],
+      "totalOccurrences": 3
+    },
+    {
+      "pathPattern": "functions/src/modules/core/modules/storage/services/storage.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "core"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/controllers/organization.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/modules/{id} communication/services/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/modules/{id}/controllers/{id}.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/modules/{id}/controllers/property.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/modules/{id}/index.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/modules/{id}/services/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 11
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/modules/{id}/services/property.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/modules/organization_entity/services/entity.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/modules/organization_user/models/documents/{id}.model.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/organization/services/organization.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "organization"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/settings/controllers/setting.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "settings"
+      ],
+      "totalOccurrences": 3
+    },
+    {
+      "pathPattern": "functions/src/modules/settings/index.ts",
+      "writingModules": [],
+      "readingModules": [
+        "settings"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "settings"
+      ],
+      "totalOccurrences": 3
+    },
+    {
+      "pathPattern": "functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts",
+      "writingModules": [],
+      "readingModules": [
+        "settings"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/settings/modules/role/controllers/role.controller.model.ts",
+      "writingModules": [],
+      "readingModules": [
+        "settings"
+      ],
+      "totalOccurrences": 7
+    },
+    {
+      "pathPattern": "functions/src/modules/settings/modules/role/index.ts",
+      "writingModules": [],
+      "readingModules": [
+        "settings"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/settings/modules/workflow/controllers/{id}.contoller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "settings"
+      ],
+      "totalOccurrences": 4
+    },
+    {
+      "pathPattern": "functions/src/modules/settings/modules/workflow/controllers/{id}.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "settings"
+      ],
+      "totalOccurrences": 4
+    },
+    {
+      "pathPattern": "functions/src/modules/settings/modules/workflow/index.ts",
+      "writingModules": [],
+      "readingModules": [
+        "settings"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/supplier/controllers/supplier.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "supplier"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/supplier/modules/supplierStaff/services/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "supplier"
+      ],
+      "totalOccurrences": 3
+    },
+    {
+      "pathPattern": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "supplier"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/supplier/services/supplier.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "supplier"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/unit_management/services/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "unit_management"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/user/controllers/user.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/user/index.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/user/modules/user_device/index.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/user/modules/user_invitation/controllers/{id}.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/user/modules/user_invitation/services/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 4
+    },
+    {
+      "pathPattern": "functions/src/modules/user/modules/user_notification/index.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/user/modules/user_organization/services/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/user/modules/user_pincode/controllers/user_pincode.controller.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/user/modules/user_settings/models/documents/{id}.model.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/user/modules/user_settings/models/functions/{id}.model.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/user/modules/user_settings/services/{id}.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 2
+    },
+    {
+      "pathPattern": "functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 1
+    },
+    {
+      "pathPattern": "functions/src/modules/user/services/user.service.ts",
+      "writingModules": [],
+      "readingModules": [
+        "user"
+      ],
+      "totalOccurrences": 1
+    }
+  ],
+  "resolvedEventRoutes": [
+    {
+      "topicOrTrigger": "OSK_PUBSUB_TOPIC_ACD_ACCESSES",
+      "originatingModule": "core",
+      "targetModule": "core",
+      "targetServiceClass": "OSKAccessMessagePublisherService",
+      "handlerMethod": "publishAccessMessage",
+      "routeType": "PUBSUB_TOPIC"
+    },
+    {
+      "topicOrTrigger": "OSK_PUBSUB_TOPIC_ACD_ACTIVITY",
+      "originatingModule": "access_control_device",
+      "targetModule": "core",
+      "targetServiceClass": "PubSubMessageProcessor",
+      "handlerMethod": "processPubSubMessage",
+      "routeType": "PUBSUB_TOPIC"
+    },
+    {
+      "topicOrTrigger": "OSK_PUBSUB_TOPIC_ACD_INTERCOM_ENTRIES",
+      "originatingModule": "building",
+      "targetModule": "building",
+      "targetServiceClass": "OSKBuildingIntercomPublisherService",
+      "handlerMethod": "publishIntercomEntries",
+      "routeType": "PUBSUB_TOPIC"
+    },
+    {
+      "topicOrTrigger": "auth.user().onCreate",
+      "originatingModule": "firebase_auth",
+      "targetModule": "user",
+      "targetServiceClass": "OSKUserService",
+      "handlerMethod": "onAccountCreated",
+      "routeType": "AUTH_TRIGGER"
+    },
+    {
+      "topicOrTrigger": "auth.user().onDelete",
+      "originatingModule": "firebase_auth",
+      "targetModule": "user",
+      "targetServiceClass": "OSKUserService",
+      "handlerMethod": "onAccountDeleted",
+      "routeType": "AUTH_TRIGGER"
+    },
+    {
+      "topicOrTrigger": "firestore.users().onUpdate",
+      "originatingModule": "user",
+      "targetModule": "user",
+      "targetServiceClass": "OSKUserService",
+      "handlerMethod": "_cascadePublicProfileChange",
+      "routeType": "FIRESTORE_TRIGGER"
+    }
+  ],
+  "resolvedRbacMatrix": [],
+  "modulePersonalities": [
+    {
+      "module": "access_control_device",
+      "crudMethodsCount": 61,
+      "highRiskRepairMethodsCount": 0,
+      "highRiskRepairMethods": []
+    },
+    {
+      "module": "admin",
+      "crudMethodsCount": 108,
+      "highRiskRepairMethodsCount": 9,
+      "highRiskRepairMethods": [
+        "onMaintenanceRecreateAccess",
+        "onRecreateTokensForBuildingUsersAll",
+        "onRecreateAccessDocumentInMongoDbByBuildingAll",
+        "recreateTokensForBuildingUsers",
+        "recreateAccessDocumentInMongoDbByBuilding",
+        "onMaintenanceRefreshPincodes",
+        "executePincodeRefresh",
+        "executePincodeRefreshCallable",
+        "deleteUserData"
+      ]
+    },
+    {
+      "module": "apps",
+      "crudMethodsCount": 35,
+      "highRiskRepairMethodsCount": 0,
+      "highRiskRepairMethods": []
+    },
+    {
+      "module": "building",
+      "crudMethodsCount": 275,
+      "highRiskRepairMethodsCount": 0,
+      "highRiskRepairMethods": []
+    },
+    {
+      "module": "call",
+      "crudMethodsCount": 9,
+      "highRiskRepairMethodsCount": 0,
+      "highRiskRepairMethods": []
+    },
+    {
+      "module": "core",
+      "crudMethodsCount": 150,
+      "highRiskRepairMethodsCount": 1,
+      "highRiskRepairMethods": [
+        "publishMessageAccessRecreateToACD"
+      ]
+    },
+    {
+      "module": "organization",
+      "crudMethodsCount": 228,
+      "highRiskRepairMethodsCount": 0,
+      "highRiskRepairMethods": []
+    },
+    {
+      "module": "settings",
+      "crudMethodsCount": 61,
+      "highRiskRepairMethodsCount": 0,
+      "highRiskRepairMethods": []
+    },
+    {
+      "module": "supplier",
+      "crudMethodsCount": 77,
+      "highRiskRepairMethodsCount": 0,
+      "highRiskRepairMethods": []
+    },
+    {
+      "module": "tasks",
+      "crudMethodsCount": 3,
+      "highRiskRepairMethodsCount": 0,
+      "highRiskRepairMethods": []
+    },
+    {
+      "module": "unit_management",
+      "crudMethodsCount": 33,
+      "highRiskRepairMethodsCount": 0,
+      "highRiskRepairMethods": []
+    },
+    {
+      "module": "user",
+      "crudMethodsCount": 275,
+      "highRiskRepairMethodsCount": 0,
+      "highRiskRepairMethods": []
+    }
+  ]
+}

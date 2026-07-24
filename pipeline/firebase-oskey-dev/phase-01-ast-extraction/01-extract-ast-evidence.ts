@@ -1,7 +1,7 @@
 // **version:** 0.0.2
 // **location:** level-5 phases 1, 2
 
-// © [Year] Oskey SAS. All rights reserved
+// © Oskey SAS. All rights reserved.
 // This script extracts evidence from TypeScript source files, including imports, exports, classes, methods, functions, calls, and string hints related to Firestore and permissions.
 
 import fs from "fs";
@@ -52,6 +52,7 @@ type ApiContractRow = BaseRecord & {
 }
 
 const projectRoot = process.cwd();
+const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
 
 const runContextPath = path.join(projectRoot, "output", "run-context.json");
 if (!fs.existsSync(runContextPath)) {
@@ -62,8 +63,17 @@ const runId: string = runContext.runId;
 
 const configPath = path.join(projectRoot, "config", "repos.json");
 const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
-const outputRoot = path.join(versionedOutputRoot, "raw");
-const filesPath = path.join(outputRoot, "files.json");
+const repoOutputDir = path.join(versionedOutputRoot, "repos", REPO_NAME);
+const outputRoot = path.join(repoOutputDir, "facts");
+
+// Fallback check for facts/files.json or legacy path
+let filesPath = path.join(outputRoot, "files.json");
+if (!fs.existsSync(filesPath)) {
+  filesPath = path.join(repoOutputDir, "raw", "files.json");
+}
+if (!fs.existsSync(filesPath)) {
+  filesPath = path.join(versionedOutputRoot, "facts", "files.json");
+}
 
 const repoConfig = JSON.parse(fs.readFileSync(configPath, "utf8")) as RepoConfig;
 const files = JSON.parse(fs.readFileSync(filesPath, "utf8")) as FileInfo[];
@@ -71,7 +81,10 @@ const files = JSON.parse(fs.readFileSync(filesPath, "utf8")) as FileInfo[];
 const repoPathMap = new Map(
   repoConfig.repositories.map(r => {
     const clonePath = path.join(projectRoot, "output", "clones", r.name);
-    const effectivePath = fs.existsSync(clonePath) ? clonePath : r.path;
+    let effectivePath = clonePath;
+    if (!fs.existsSync(clonePath) && r.path) {
+      effectivePath = path.isAbsolute(r.path) ? r.path : path.join(projectRoot, r.path);
+    }
     return [r.name, effectivePath];
   })
 );

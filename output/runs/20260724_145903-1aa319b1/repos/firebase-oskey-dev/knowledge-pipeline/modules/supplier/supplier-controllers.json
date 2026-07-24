@@ -1,0 +1,1115 @@
+[
+  {
+    "name": "OSKSupplierController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/supplier/controllers/supplier.controller.ts",
+    "submodule": null,
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getCollectionPath",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/models/documents/supplier_document.model\").OSKSupplierDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getSafe",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierDocument>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/models/documents/supplier_document.model\").OSKSupplierDocument>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKSupplierDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/models/documents/supplier_document.model\").OSKSupplierDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKSupplierDocument>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKSupplierDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/models/documents/supplier_document.model\").OSKSupplierDocument>>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "query",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKSupplierDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/models/documents/supplier_document.model\").OSKSupplierDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "queryFilters",
+            "typeText": "OSKQueryFilter[]",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/controllers/document.controller\").OSKQueryFilter[]",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSupplierStaffController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
+    "submodule": "supplierStaff",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getCollectionPath",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierStaffDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model\").OSKSupplierStaffDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getSafe",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierStaffDocument>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model\").OSKSupplierStaffDocument>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKSupplierStaffDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model\").OSKSupplierStaffDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKDocumentUpdate<OSKSupplierStaff>",
+            "resolvedTypeText": "UpdateData<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<T>>",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKSupplierStaffDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_document.model\").OSKSupplierStaffDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSupplierStaffAccessController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
+    "submodule": "supplierStaff",
+    "methods": [
+      {
+        "name": "getCollectionPath",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getPerBuilding",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierStaffAccessesDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access_document.model\").OSKSupplierStaffAccessesDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllAccessesForAllBuildings",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierStaffAccessesDocument[]>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access_document.model\").OSKSupplierStaffAccessesDocument[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKSupplierStaffAccessesDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access_document.model\").OSKSupplierStaffAccessesDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "update",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "{ [key: string]: unknown }",
+            "resolvedTypeText": "{ [key: string]: unknown; }",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKSupplierStaffAccessesDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_access_document.model\").OSKSupplierStaffAccessesDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSupplierStaffActivitiesController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
+    "submodule": "supplierStaff",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getCollectionPath",
+        "visibility": "private",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivityDocument> | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "activityId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getSfe",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivityDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "activityId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document.model\").OSKDocument<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivityDocument>>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "generateDocId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<any>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "activityId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKSupplierStaffActivityDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivityDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "activityId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSupplierStaffActivityAggregatesController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
+    "submodule": "supplierStaff",
+    "methods": [
+      {
+        "name": "constructor",
+        "decorators": [],
+        "parameters": []
+      },
+      {
+        "name": "getCollectionPath",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "get",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierStaffActivityAggregateDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivityAggregateDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getSfe",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierStaffActivityAggregateDocument>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivityAggregateDocument>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAllBuildingsActivities",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierStaffActivityAggregateDocument[]>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivityAggregateDocument[]>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "save",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKSupplierStaffActivityAggregateDocument",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivityAggregateDocument",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "updateActivities",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "activities",
+            "typeText": "OSKSupplierStaffActivity[]",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_activity_documents.model\").OSKSupplierStaffActivity[]",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "buildingId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "OSKSupplierStaffPincodeController",
+    "repo": "firebase-oskey-dev",
+    "path": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
+    "submodule": "supplierStaff",
+    "methods": [
+      {
+        "name": "getCollectionPath",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": false,
+        "returnTypeText": "string",
+        "resolvedReturnTypeText": "string",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "create",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "pincode",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "data",
+            "typeText": "OSKSupplierStaffPincode",
+            "resolvedTypeText": "import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_pincode.model\").OSKSupplierStaffPincode",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getByAccessId",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKSupplierStaffPincodeDocument | undefined>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_pincode.model\").OSKSupplierStaffPincodeDocument | undefined>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "accessId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": null,
+        "resolvedReturnTypeText": "Promise<void>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "pincode",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      },
+      {
+        "name": "getAll",
+        "visibility": "public",
+        "isStatic": false,
+        "isAsync": true,
+        "returnTypeText": "Promise<OSKDocumentList<OSKSupplierStaffPincodeDocument>>",
+        "resolvedReturnTypeText": "Promise<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/core/models/documents/document_list.model\").OSKDocumentList<import(\"/Users/dopenshaw/documentation/level-5_engineering_knowledge/output/clones/firebase-oskey-dev/functions/src/modules/supplier/modules/supplierStaff/models/documents/supplier_staff_pincode.model\").OSKSupplierStaffPincodeDocument>>",
+        "decorators": [],
+        "parameters": [
+          {
+            "name": "supplierId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          },
+          {
+            "name": "staffId",
+            "typeText": "string",
+            "resolvedTypeText": "string",
+            "decorators": []
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,7 +1,7 @@
 // **version:** 0.0.2
 // **location:** level-5 phases 1, 2
 
-// © [Year] Oskey SAS. All rights reserved
+// © Oskey SAS. All rights reserved.
 // This script builds a benchmark for the knowledge pipeline, aggregating data from module manifests and evidence graphs to 
 // provide an overview of the repository's structure and content.
 
@@ -18,9 +18,16 @@ if (!fs.existsSync(runContextPath)) {
 const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
 
+const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
 const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
-const modulesRoot = path.join(versionedOutputRoot, "knowledge-pipeline", "modules");
-const outputPath = path.join(versionedOutputRoot, "knowledge-pipeline", "benchmark.json");
+const repoOutputDir = path.join(versionedOutputRoot, "repos", REPO_NAME);
+
+let modulesRoot = path.join(repoOutputDir, "knowledge-pipeline", "modules");
+if (!fs.existsSync(modulesRoot)) {
+  modulesRoot = path.join(versionedOutputRoot, "knowledge-pipeline", "modules");
+}
+
+const outputPath = path.join(repoOutputDir, "knowledge-pipeline", "benchmark.json");
 
 type AnyRecord = { [key: string]: any };
 
