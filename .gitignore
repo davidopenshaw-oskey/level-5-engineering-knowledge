@@ -8,7 +8,7 @@ logs
 *.log
 
 # level-5-engineering
-output/
+output
 
 
 
