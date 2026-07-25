@@ -1,4 +1,4 @@
-// **version:** 0.0.2
+// **version:** 2.5.0
 // **location:** level-5 phases 1, 2
 
 // © Oskey SAS. All rights reserved.
@@ -62,17 +62,12 @@ const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
 
 const configPath = path.join(projectRoot, "config", "repos.json");
-const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
-const repoOutputDir = path.join(versionedOutputRoot, "repos", REPO_NAME);
+const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 const outputRoot = path.join(repoOutputDir, "facts");
 
-// Fallback check for facts/files.json or legacy path
-let filesPath = path.join(outputRoot, "files.json");
+const filesPath = path.join(outputRoot, "files.json");
 if (!fs.existsSync(filesPath)) {
-  filesPath = path.join(repoOutputDir, "raw", "files.json");
-}
-if (!fs.existsSync(filesPath)) {
-  filesPath = path.join(versionedOutputRoot, "facts", "files.json");
+  throw new Error(`Could not find files.json at '${filesPath}'. Please run 00-scan-repo first.`);
 }
 
 const repoConfig = JSON.parse(fs.readFileSync(configPath, "utf8")) as RepoConfig;

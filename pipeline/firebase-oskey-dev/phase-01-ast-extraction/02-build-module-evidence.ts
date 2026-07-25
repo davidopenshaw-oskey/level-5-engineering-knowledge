@@ -1,4 +1,4 @@
-// **version:** 0.0.2
+// **version:** 2.5.0
 // **location:** level-5 phases 1, 2
 
 // © Oskey SAS. All rights reserved.
@@ -16,15 +16,11 @@ const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
 
 const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
-const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
-const repoOutputDir = path.join(versionedOutputRoot, "repos", REPO_NAME);
+const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 
-let inputRoot = path.join(repoOutputDir, "facts");
+const inputRoot = path.join(repoOutputDir, "facts");
 if (!fs.existsSync(inputRoot)) {
-  inputRoot = path.join(repoOutputDir, "raw");
-}
-if (!fs.existsSync(inputRoot)) {
-  inputRoot = path.join(versionedOutputRoot, "facts");
+  throw new Error(`Could not find facts directory at '${inputRoot}'. Please run 01-extract-ast-evidence first.`);
 }
 
 const modulesRoot = path.join(repoOutputDir, "knowledge-pipeline", "modules");

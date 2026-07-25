@@ -1,5 +1,5 @@
 /// <reference types="node" />
-// **version:** 0.0.4
+// **version:** 2.5.0
 // **location:** level-5 phase 0
 
 // © Oskey SAS. All rights reserved
@@ -10,7 +10,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { execSync } from "child_process";
 
-const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
+const REPO_NAME = "firebase-oskey-dev";
 
 /**
  * Generates a unique run ID based on the current UTC date and time.
@@ -139,6 +139,7 @@ function getCommitSha(repoPath: string): string {
 
 function main() {
   const projectRoot = process.cwd();
+  const extractedAt = new Date().toISOString();
   const configPath = path.join(projectRoot, "config/repos.json");
   const config = readJson<RepoConfig>(configPath);
 
@@ -172,14 +173,41 @@ function main() {
   console.log(`Starting pipeline run for repo [${REPO_NAME}] with Run ID: ${runId}`);
 
   const outputDir = path.join(projectRoot, "output");
-  const versionedOutputRoot = path.join(projectRoot, "output", "runs", runId);
-  const repoOutputDir = path.join(versionedOutputRoot, "repos", REPO_NAME);
+  const repoOutputDir = path.join(outputDir, "runs", REPO_NAME, runId);
   const rawOutputDir = path.join(repoOutputDir, "facts");
 
   ensureDir(outputDir);
-  fs.writeFileSync(path.join(outputDir, "run-context.json"), JSON.stringify({ runId, repoName: REPO_NAME }, null, 2));
-
   ensureDir(rawOutputDir);
+
+  // Write run-context.json
+  fs.writeFileSync(
+    path.join(outputDir, "run-context.json"),
+    JSON.stringify({ runId, repoName: REPO_NAME, extractedAt }, null, 2)
+  );
+
+  // Write or update latest-repo-manifest.json
+  const latestManifestPath = path.join(outputDir, "latest-repo-manifest.json");
+  let latestManifestData: any = { updatedAt: extractedAt, repositories: {} };
+  if (fs.existsSync(latestManifestPath)) {
+    try {
+      latestManifestData = JSON.parse(fs.readFileSync(latestManifestPath, "utf8"));
+    } catch {
+      // Use fresh object if malformed
+    }
+  }
+  latestManifestData.updatedAt = extractedAt;
+  if (!latestManifestData.repositories) {
+    latestManifestData.repositories = {};
+  }
+  latestManifestData.repositories[REPO_NAME] = {
+    latestRunId: runId,
+    repoName: REPO_NAME,
+    runPath: `output/runs/${REPO_NAME}/${runId}`,
+    commitSha: primarySha,
+    extractedAt,
+  };
+
+  fs.writeFileSync(latestManifestPath, JSON.stringify(latestManifestData, null, 2));
 
   const modulesOutput: any[] = [];
   const filesOutput: any[] = [];

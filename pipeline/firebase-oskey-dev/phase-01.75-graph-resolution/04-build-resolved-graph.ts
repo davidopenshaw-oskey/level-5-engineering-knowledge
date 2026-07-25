@@ -1,4 +1,4 @@
-// **version:** 1.0.0
+// **version:** 2.5.0
 // **location:** level-5 phase 1.75
 // © Oskey SAS. All rights reserved
 //
@@ -19,19 +19,11 @@ if (!fs.existsSync(runContextPath)) {
 const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
 const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
-const runDir = path.join(projectRoot, "output", "runs", runId);
-const repoOutputDir = path.join(runDir, "repos", REPO_NAME);
+const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 
-let rawDir = path.join(repoOutputDir, "facts");
+const rawDir = path.join(repoOutputDir, "facts");
 if (!fs.existsSync(rawDir)) {
-  rawDir = path.join(repoOutputDir, "raw");
-}
-if (!fs.existsSync(rawDir)) {
-  rawDir = path.join(runDir, "facts");
-}
-
-if (!fs.existsSync(rawDir)) {
-  throw new Error(`Facts directory not found for runId ${runId}: ${rawDir}`);
+  throw new Error(`Facts directory not found at '${rawDir}' for runId ${runId}.`);
 }
 
 const kpDir = path.join(repoOutputDir, "knowledge-pipeline");
