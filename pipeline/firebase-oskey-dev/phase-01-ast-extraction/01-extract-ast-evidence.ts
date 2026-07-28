@@ -26,6 +26,7 @@ type RepoConfig = {
     name: string;
     path: string;
     modulesRoot: string;
+    governancePath?: string;
   }[];
 };
 
@@ -73,6 +74,43 @@ if (!fs.existsSync(filesPath)) {
 const repoConfig = JSON.parse(fs.readFileSync(configPath, "utf8")) as RepoConfig;
 const files = JSON.parse(fs.readFileSync(filesPath, "utf8")) as FileInfo[];
 
+const targetRepo = repoConfig.repositories.find(r => r.name === REPO_NAME);
+if (!targetRepo) {
+  throw new Error(`Could not find repository config for name '${REPO_NAME}' in config/repos.json`);
+}
+
+const governanceRelPath = targetRepo.governancePath || "governance/reference-docs";
+const governanceAbsPath = path.join(projectRoot, governanceRelPath);
+
+// 100% Dynamic rules collection discovery (Fail-Closed, Option A)
+const ACTIVE_ROOT_COLLECTIONS = getActiveFirestoreRules(governanceAbsPath);
+
+function getActiveFirestoreRules(govPath: string): string[] {
+  const rulesFilePath = path.join(govPath, "firestore.rules.txt");
+  if (!fs.existsSync(rulesFilePath)) {
+    throw new Error(`[Fail-Closed] Authoritative rules file missing at: ${rulesFilePath}`);
+  }
+
+  const collections = new Set<string>();
+  try {
+    const content = fs.readFileSync(rulesFilePath, "utf8");
+    const matches = content.matchAll(/match\s+(?:\/databases\/\{database\}\/documents)?\/([a-zA-Z0-9_-]+)/g);
+    for (const match of matches) {
+      if (match[1] && !["databases", "documents"].includes(match[1])) {
+        collections.add(`/${match[1]}`);
+      }
+    }
+  } catch (err: any) {
+    throw new Error(`[Fail-Closed] Failed to parse firestore rules file at: ${rulesFilePath}. Error: ${err.message}`);
+  }
+
+  if (collections.size === 0) {
+    throw new Error(`[Fail-Closed] Parsed firestore rules file but found zero collections at: ${rulesFilePath}`);
+  }
+
+  return Array.from(collections);
+}
+
 const repoPathMap = new Map(
   repoConfig.repositories.map(r => {
     const clonePath = path.join(projectRoot, "output", "clones", r.name);
@@ -95,7 +133,7 @@ function isTsSource(file: FileInfo) {
   );
 }
 
-function safeText(fn: () => string | undefined | null): string | null {
+function safeText(fn: () => string): string | null {
   try {
     return fn() ?? null;
   } catch {
@@ -123,12 +161,115 @@ function extractDecorators(node: Node) {
   }));
 }
 
-function getTriggerType(text: string): FirestoreTriggerRow["triggerType"] {
-  if (text.includes("onDocumentCreated") || text.includes(".onCreate")) return "onCreate";
-  if (text.includes("onDocumentUpdated") || text.includes(".onUpdate")) return "onUpdate";
-  if (text.includes("onDocumentDeleted") || text.includes(".onDelete")) return "onDelete";
-  if (text.includes("onDocumentWritten") || text.includes(".onWrite")) return "onWrite";
-  return "unknown";
+function resolveExpressionValue(node: Node, sourceFile: SourceFile): string | null {
+  if (!node) return null;
+
+  if (Node.isStringLiteral(node) || Node.isNoSubstitutionTemplateLiteral(node)) {
+    return node.getLiteralValue();
+  }
+
+  if (Node.isTemplateExpression(node)) {
+    let pathStr = node.getHead().getLiteralText();
+    for (const span of node.getTemplateSpans()) {
+      const expr = span.getExpression();
+      const varName = Node.isIdentifier(expr) ? expr.getText() : "param";
+      pathStr += `{${varName}}` + span.getLiteral().getLiteralText();
+    }
+    return pathStr;
+  }
+
+  if (Node.isIdentifier(node)) {
+    const name = node.getText();
+    const variable = sourceFile.getVariableDeclaration(name);
+    if (variable) {
+      const initializer = variable.getInitializer();
+      if (initializer) {
+        return resolveExpressionValue(initializer, sourceFile);
+      }
+    }
+  }
+
+  return null;
+}
+
+function extractFirestorePaths(sourceFile: SourceFile, base: BaseRecord): any[] {
+  const paths: any[] = [];
+
+  sourceFile.forEachDescendant(node => {
+    if (!Node.isCallExpression(node)) return;
+
+    const expr = node.getExpression();
+    if (!Node.isPropertyAccessExpression(expr)) return;
+
+    const name = expr.getName();
+    if (name !== "collection" && name !== "doc" && name !== "collectionGroup") return;
+
+    const args = node.getArguments();
+    if (args.length === 0) return;
+
+    const resolvedPath = resolveExpressionValue(args[0], sourceFile);
+    if (resolvedPath) {
+      paths.push({
+        ...base,
+        value: resolvedPath.startsWith("/") ? resolvedPath : "/" + resolvedPath,
+        line: node.getStartLineNumber(),
+      });
+    }
+  });
+
+  return paths;
+}
+
+function extractPermissions(sourceFile: SourceFile, base: BaseRecord): any[] {
+  const permissions: any[] = [];
+
+  // Decorator based matching (e.g. @Permission('v1.permission'))
+  sourceFile.forEachDescendant(node => {
+    if (Node.isDecorator(node)) {
+      const name = node.getName();
+      if (name.toLowerCase().includes("permission") || name.toLowerCase().includes("access")) {
+        const args = node.getArguments();
+        if (args.length > 0) {
+          const val = resolveExpressionValue(args[0], sourceFile);
+          if (val) {
+            permissions.push({
+              ...base,
+              value: val,
+              line: node.getStartLineNumber(),
+            });
+          }
+        }
+      }
+    }
+  });
+
+  // Structural assertion/checker call matching (e.g. checkPermission(...))
+  sourceFile.forEachDescendant(node => {
+    if (Node.isCallExpression(node)) {
+      const expr = node.getExpression();
+      const name = Node.isIdentifier(expr) ? expr.getText() : (Node.isPropertyAccessExpression(expr) ? expr.getName() : "");
+      if (
+        name === "checkPermission" ||
+        name === "assertPermission" ||
+        name === "hasPermission" ||
+        name === "requirePermission" ||
+        name === "isAuthorized"
+      ) {
+        for (const arg of node.getArguments()) {
+          const val = resolveExpressionValue(arg, sourceFile);
+          if (val && (val.startsWith("v1.") || val.includes("permission-denied"))) {
+            permissions.push({
+              ...base,
+              value: val,
+              line: node.getStartLineNumber(),
+            });
+          }
+        }
+      }
+    }
+  });
+
+  return permissions;
 }
 
 function extractFirestoreTriggers(
@@ -140,40 +281,57 @@ function extractFirestoreTriggers(
   sourceFile.forEachDescendant(node => {
     if (!Node.isCallExpression(node)) return;
 
-    const text = node.getText();
-    const expression = safeText(() => node.getExpression().getText());
+    const expr = node.getExpression();
+    if (!Node.isPropertyAccessExpression(expr)) return;
 
-    const looksLikeTrigger =
-      text.includes("onDocumentCreated") ||
-      text.includes("onDocumentUpdated") ||
-      text.includes("onDocumentDeleted") ||
-      text.includes("onDocumentWritten") ||
-      text.includes(".onCreate(") ||
-      text.includes(".onUpdate(") ||
-      text.includes(".onDelete(") ||
-      text.includes(".onWrite(");
+    const name = expr.getName();
+    if (name !== "onCreate" && name !== "onUpdate" && name !== "onDelete" && name !== "onWrite") return;
 
-    if (!looksLikeTrigger) return;
+    const triggerType: FirestoreTriggerRow["triggerType"] =
+      name === "onCreate" ? "onCreate" :
+      name === "onUpdate" ? "onUpdate" :
+      name === "onDelete" ? "onDelete" :
+      "onWrite";
 
-    const args = node.getArguments().map(a => safeText(() => a.getText()));
-    const firstStringArg =
-      args
-        .map(a => a?.replace(/^['"`]|['"`]$/g, ""))
-        .find(a => a && a.includes("/")) ?? null;
+    let firestorePath: string | null = null;
+    let current: Node = expr.getExpression();
+
+    while (current) {
+      if (Node.isCallExpression(current)) {
+        const currentExpr = current.getExpression();
+        if (Node.isPropertyAccessExpression(currentExpr) && currentExpr.getName() === "document") {
+          const args = current.getArguments();
+          if (args.length > 0) {
+            firestorePath = resolveExpressionValue(args[0], sourceFile);
+          }
+          break;
+        }
+      }
+
+      if (Node.isPropertyAccessExpression(current)) {
+        current = current.getExpression();
+      } else if (Node.isCallExpression(current)) {
+        current = current.getExpression();
+      } else {
+        break;
+      }
+    }
+
+    const triggerArgs = node.getArguments();
+    const handlerName = triggerArgs.length > 0 ? triggerArgs[0].getText() : "unknown";
 
     rows.push({
       ...base,
       line: node.getStartLineNumber(),
-      triggerType: getTriggerType(text),
-      firestorePath: firstStringArg,
-      handlerName: expression,
-      rawText: text.slice(0, 500),
+      triggerType,
+      firestorePath,
+      handlerName,
+      rawText: node.getText().slice(0, 500),
     });
   });
 
   return rows;
 }
-
 
 function extractImports(sourceFile: SourceFile, base: BaseRecord) {
   return sourceFile.getImportDeclarations().map(i => ({
@@ -346,7 +504,6 @@ function extractCalls(sourceFile: SourceFile, base: BaseRecord) {
 function extractApiContracts(sourceFile: SourceFile, base: BaseRecord): ApiContractRow[] {
   const apiContracts: ApiContractRow[] = [];
 
-  // Find https.onCall expressions to identify callable function handlers
   sourceFile.forEachDescendant(node => {
     if (Node.isCallExpression(node) && node.getExpression().getText().endsWith('https.onCall')) {
       const handlerArg = node.getArguments()[0];
@@ -358,19 +515,17 @@ function extractApiContracts(sourceFile: SourceFile, base: BaseRecord): ApiContr
           if (Node.isFunctionDeclaration(handlerFunc) || Node.isMethodDeclaration(handlerFunc)) {
             handlerName = handlerFunc.getName() ?? handlerArg.getText();
           } else {
-            // For ArrowFunction or FunctionExpression, we rely on the identifier that was passed to https.onCall.
             handlerName = handlerArg.getText();
           }
 
           const parameters = handlerFunc.getParameters();
 
           if (parameters.length > 0) {
-            const requestParam = parameters[0]; // Assuming the first parameter is the request object
+            const requestParam = parameters[0];
             const requestType = requestParam.getType();
             const requestTypeName = requestParam.getTypeNode()?.getText() ?? requestType.getText() ?? 'unknown';
             let requestSchema: Record<string, string> | null = null;
 
-            // 1. Try type system properties
             const properties = requestType.getProperties();
             if (properties.length > 0) {
               requestSchema = {};
@@ -378,12 +533,10 @@ function extractApiContracts(sourceFile: SourceFile, base: BaseRecord): ApiContr
                 const propName = prop.getName();
                 const declaration = prop.getValueDeclaration();
                 let propType = declaration ? declaration.getType().getText() : "any";
-                // Clean up long import(...) paths in type text
                 propType = propType.replace(/import\("[^"]+"\)\./g, '');
                 requestSchema![propName] = propType;
               });
             } else {
-              // 2. Fallback: Inspect declaration nodes directly if type system properties were not resolved
               const symbol = requestType.getSymbol() ?? requestParam.getTypeNode()?.getType().getSymbol();
               if (symbol) {
                 const decls = symbol.getDeclarations();
@@ -532,12 +685,19 @@ function extractModelProperties(sourceFile: SourceFile, base: BaseRecord) {
   return properties;
 }
 
-
-
 function extractStringHints(sourceFile: SourceFile, base: BaseRecord) {
   const firestoreLike: any[] = [];
   const permissions: any[] = [];
 
+  // 1. Structural matching for collections
+  const structuralPaths = extractFirestorePaths(sourceFile, base);
+  firestoreLike.push(...structuralPaths);
+
+  // 2. Structural matching for permissions
+  const structuralPermissions = extractPermissions(sourceFile, base);
+  permissions.push(...structuralPermissions);
+
+  // 3. Robust fallback checks using our dynamic rules schema (Option A, Strict Slash-Prefix)
   sourceFile.forEachDescendant(node => {
     if (!Node.isStringLiteral(node) && !Node.isNoSubstitutionTemplateLiteral(node)) {
       return;
@@ -545,32 +705,31 @@ function extractStringHints(sourceFile: SourceFile, base: BaseRecord) {
 
     const text = node.getLiteralText();
 
-    if (
-      text.includes("/EmailLogs") ||
-      text.includes("/accessControlDevices") ||
-      text.includes("/buildings") ||
-      text.includes("/calls") ||
-      text.includes("/entities") ||
-      text.includes("/externalUserInvitations") ||
-      text.includes("/organizations") ||
-      text.includes("/properties") ||
-      text.includes("/settings") ||
-      text.includes("/suppliers") ||
-      text.includes("/users")
-    ) {
-      firestoreLike.push({
-        ...base,
-        value: text,
-        line: node.getStartLineNumber(),
-      });
+    const isDynamicFirestoreTouch = ACTIVE_ROOT_COLLECTIONS.some(col => 
+      text.startsWith(col) || text.includes(col + "/") || text === col
+    );
+
+    if (isDynamicFirestoreTouch) {
+      const alreadyCaptured = firestoreLike.some(f => f.value === text && f.line === node.getStartLineNumber());
+      if (!alreadyCaptured) {
+        firestoreLike.push({
+          ...base,
+          value: text,
+          line: node.getStartLineNumber(),
+        });
+      }
     }
 
-    if (text.startsWith("v1.") || text.includes("permission-denied")) {
-      permissions.push({
-        ...base,
-        value: text,
-        line: node.getStartLineNumber(),
-      });
+    const isLegacyPermission = text.startsWith("v1.") || text.includes("permission-denied");
+    if (isLegacyPermission) {
+      const alreadyCaptured = permissions.some(p => p.value === text && p.line === node.getStartLineNumber());
+      if (!alreadyCaptured) {
+        permissions.push({
+          ...base,
+          value: text,
+          line: node.getStartLineNumber(),
+        });
+      }
     }
   });
 
@@ -580,62 +739,55 @@ function extractStringHints(sourceFile: SourceFile, base: BaseRecord) {
 function extractExternalHooks(sourceFile: SourceFile, base: BaseRecord) {
   const hooks: any[] = [];
 
+  // 1. Structural matching
   sourceFile.forEachDescendant(node => {
-    if (!Node.isStringLiteral(node) && !Node.isNoSubstitutionTemplateLiteral(node)) {
-      return;
+    if (!Node.isCallExpression(node)) return;
+
+    const expr = node.getExpression();
+    if (!Node.isPropertyAccessExpression(expr)) return;
+
+    const name = expr.getName();
+
+    // Pub/Sub Topics (.topic("topic-name"))
+    if (name === "topic") {
+      const args = node.getArguments();
+      if (args.length > 0) {
+        const topicName = resolveExpressionValue(args[0], sourceFile);
+        if (topicName) {
+          hooks.push({
+            ...base,
+            type: "pubsub_or_notification_candidate",
+            value: topicName,
+            line: node.getStartLineNumber(),
+          });
+        }
+      }
     }
 
-    const value = node.getLiteralText();
-    const line = node.getStartLineNumber();
-
-    if (
-      value.includes("PUBSUB") ||
-      value.includes("TOPIC") ||
-      value.includes("OSK_PUBSUB") ||
-      value.includes("FCM") ||
-      value.includes("NOTIFICATION")
-    ) {
+    // Firebase Messaging (.send, .sendToDevice, .sendToTopic)
+    if (name === "send" || name === "sendToDevice" || name === "sendToTopic") {
       hooks.push({
         ...base,
         type: "pubsub_or_notification_candidate",
-        value,
-        line,
+        value: `FCM messaging().${name}`,
+        line: node.getStartLineNumber(),
       });
     }
 
-    if (
-      value.startsWith("/") &&
-      (
-        value.includes("/api") ||
-        value.includes("/calls") ||
-        value.includes("/users") ||
-        value.includes("/buildings") ||
-        value.includes("/accessControlDevices")
-      )
-    ) {
-      hooks.push({
-        ...base,
-        type: "http_or_client_path_candidate",
-        value,
-        line,
-      });
-    }
-
-    if (
-      value.includes("bucket") ||
-      value.includes("storage") ||
-      value.includes("public/") ||
-      value.includes("calls/")
-    ) {
+    // Cloud Storage (.bucket)
+    if (name === "bucket") {
+      const args = node.getArguments();
+      const bucketName = args.length > 0 ? resolveExpressionValue(args[0], sourceFile) : "default";
       hooks.push({
         ...base,
         type: "storage_path_candidate",
-        value,
-        line,
+        value: `Storage bucket: ${bucketName || "default"}`,
+        line: node.getStartLineNumber(),
       });
     }
   });
 
+  // Env variables
   sourceFile.forEachDescendant(node => {
     if (!Node.isPropertyAccessExpression(node)) return;
 
@@ -648,6 +800,73 @@ function extractExternalHooks(sourceFile: SourceFile, base: BaseRecord) {
         value: text.replace("process.env.", ""),
         line: node.getStartLineNumber(),
       });
+    }
+  });
+
+  // 2. Fallback heuristics using dynamic root collections
+  sourceFile.forEachDescendant(node => {
+    if (!Node.isStringLiteral(node) && !Node.isNoSubstitutionTemplateLiteral(node)) {
+      return;
+    }
+
+    const value = node.getLiteralText();
+    const line = node.getStartLineNumber();
+
+    const isPubSubKeyword =
+      value.includes("PUBSUB") ||
+      value.includes("TOPIC") ||
+      value.includes("OSK_PUBSUB") ||
+      value.includes("FCM") ||
+      value.includes("NOTIFICATION");
+
+    if (isPubSubKeyword) {
+      const alreadyCaptured = hooks.some(h => h.value === value && h.line === line);
+      if (!alreadyCaptured) {
+        hooks.push({
+          ...base,
+          type: "pubsub_or_notification_candidate",
+          value,
+          line,
+        });
+      }
+    }
+
+    const isHttpKeyword =
+      value.startsWith("/") &&
+      (
+        value.includes("/api") ||
+        value.includes("/calls") ||
+        ACTIVE_ROOT_COLLECTIONS.some(col => value.startsWith(col) || value.includes(col + "/"))
+      );
+
+    if (isHttpKeyword) {
+      const alreadyCaptured = hooks.some(h => h.value === value && h.line === line);
+      if (!alreadyCaptured) {
+        hooks.push({
+          ...base,
+          type: "http_or_client_path_candidate",
+          value,
+          line,
+        });
+      }
+    }
+
+    const isStorageKeyword =
+      value.includes("bucket") ||
+      value.includes("storage") ||
+      value.includes("public/") ||
+      value.includes("calls/");
+
+    if (isStorageKeyword) {
+      const alreadyCaptured = hooks.some(h => h.value === value && h.line === line);
+      if (!alreadyCaptured) {
+        hooks.push({
+          ...base,
+          type: "storage_path_candidate",
+          value,
+          line,
+        });
+      }
     }
   });
 
@@ -758,8 +977,7 @@ function main() {
   fs.writeFileSync(path.join(outputRoot, "ast-firestore-hints.json"), JSON.stringify(output.firestoreHints, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-permission-hints.json"), JSON.stringify(output.permissionHints, null, 2));
   fs.writeFileSync(path.join(outputRoot, "ast-external-hooks.json"), JSON.stringify(output.externalHooks, null, 2));
-  fs.writeFileSync(
-    path.join(outputRoot, "ast-api-contracts.json"), JSON.stringify(output.apiContracts, null, 2));
+  fs.writeFileSync(path.join(outputRoot, "ast-api-contracts.json"), JSON.stringify(output.apiContracts, null, 2));
   fs.writeFileSync(
     path.join(outputRoot, "ast-firestore-triggers.json"),
     JSON.stringify(output.firestoreTriggers, null, 2),

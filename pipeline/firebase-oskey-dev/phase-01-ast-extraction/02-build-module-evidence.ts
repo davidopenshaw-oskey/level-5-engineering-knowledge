@@ -15,7 +15,7 @@ if (!fs.existsSync(runContextPath)) {
 const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
 
-const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
+const REPO_NAME =  "firebase-oskey-dev";
 const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 
 const inputRoot = path.join(repoOutputDir, "facts");
@@ -25,46 +25,46 @@ if (!fs.existsSync(inputRoot)) {
 
 const modulesRoot = path.join(repoOutputDir, "knowledge-pipeline", "modules");
 
-const DEFAULT_FIRESTORE_ROOT_COLLECTIONS = [
-  "/EmailLogs",
-  "/accessControlDevices",
-  "/buildings",
-  "/calls",
-  "/entities",
-  "/externalUserInvitations",
-  "/organizations",
-  "/properties",
-  "/settings",
-  "/suppliers",
-  "/users",
-];
+const configPath = path.join(projectRoot, "config", "repos.json");
+if (!fs.existsSync(configPath)) {
+  throw new Error(`Could not find config/repos.json at '${configPath}'.`);
+}
+const repoConfig = JSON.parse(fs.readFileSync(configPath, "utf8"));
+const targetRepo = repoConfig.repositories.find((r: any) => r.name === REPO_NAME);
+if (!targetRepo) {
+  throw new Error(`Could not find repository config for name '${REPO_NAME}' in config/repos.json`);
+}
 
-function getDynamicFirestoreCollections(): string[] {
-  const collections = new Set<string>(DEFAULT_FIRESTORE_ROOT_COLLECTIONS);
-  const possibleRulePaths = [
-    path.join(projectRoot, "ai-runtime", "contracts", "docs", "firestore.rules.txt"),
-    path.join(projectRoot, "output", "clones", "cloud", "firestore.rules"),
-  ];
+const governanceRelPath = targetRepo.governancePath || "governance/reference-docs";
+const governanceAbsPath = path.join(projectRoot, governanceRelPath);
 
-  for (const rulePath of possibleRulePaths) {
-    if (fs.existsSync(rulePath)) {
-      try {
-        const content = fs.readFileSync(rulePath, "utf8");
-        const matches = content.matchAll(/match\s+(?:\/databases\/\{database\}\/documents)?\/([a-zA-Z0-9_-]+)/g);
-        for (const match of matches) {
-          if (match[1] && match[1] !== "databases" && match[1] !== "documents") {
-            collections.add(`/${match[1]}`);
-          }
-        }
-      } catch {
-        // Fallback to defaults if read fails
+function getActiveFirestoreRules(govPath: string): string[] {
+  const rulesFilePath = path.join(govPath, "firestore.rules.txt");
+  if (!fs.existsSync(rulesFilePath)) {
+    throw new Error(`[Fail-Closed] Authoritative rules file missing at: ${rulesFilePath}`);
+  }
+
+  const collections = new Set<string>();
+  try {
+    const content = fs.readFileSync(rulesFilePath, "utf8");
+    const matches = content.matchAll(/match\s+(?:\/databases\/\{database\}\/documents)?\/([a-zA-Z0-9_-]+)/g);
+    for (const match of matches) {
+      if (match[1] && !["databases", "documents"].includes(match[1])) {
+        collections.add(`/${match[1]}`);
       }
     }
+  } catch (err: any) {
+    throw new Error(`[Fail-Closed] Failed to parse firestore rules file at: ${rulesFilePath}. Error: ${err.message}`);
   }
+
+  if (collections.size === 0) {
+    throw new Error(`[Fail-Closed] Parsed firestore rules file but found zero collections at: ${rulesFilePath}`);
+  }
+
   return Array.from(collections);
 }
 
-const FIRESTORE_ROOT_COLLECTIONS = getDynamicFirestoreCollections();
+const FIRESTORE_ROOT_COLLECTIONS = getActiveFirestoreRules(governanceAbsPath);
 
 type AnyRow = {
   repo?: string | null;
@@ -176,11 +176,7 @@ function stableId(parts: Array<string | number | null | undefined>) {
 
 function looksLikeFirestorePath(value: string): boolean {
   const trimmed = value.trim();
-  if (!trimmed.startsWith("/")) return false;
-
-  return FIRESTORE_ROOT_COLLECTIONS.some(collection =>
-    trimmed.includes(collection),
-  );
+  return trimmed.startsWith("/");
 }
 
 function looksLikePermission(value: string): boolean {

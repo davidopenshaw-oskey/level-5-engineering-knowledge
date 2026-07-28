@@ -18,7 +18,7 @@ if (!fs.existsSync(runContextPath)) {
 const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
 
-const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
+const REPO_NAME =  "firebase-oskey-dev";
 const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 
 const modulesRoot = path.join(repoOutputDir, "knowledge-pipeline", "modules");
