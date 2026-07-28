@@ -18,7 +18,10 @@ if (!fs.existsSync(runContextPath)) {
 
 const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
-const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
+const REPO_NAME: string = runContext.repoName;
+if (!REPO_NAME) {
+  throw new Error("Missing 'repoName' in output/run-context.json");
+}
 const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 
 const rawDir = path.join(repoOutputDir, "facts");

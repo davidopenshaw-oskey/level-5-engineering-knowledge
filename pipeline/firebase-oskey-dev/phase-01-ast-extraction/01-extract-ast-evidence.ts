@@ -53,7 +53,6 @@ type ApiContractRow = BaseRecord & {
 }
 
 const projectRoot = process.cwd();
-const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
 
 const runContextPath = path.join(projectRoot, "output", "run-context.json");
 if (!fs.existsSync(runContextPath)) {
@@ -61,6 +60,10 @@ if (!fs.existsSync(runContextPath)) {
 }
 const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
+const REPO_NAME: string = runContext.repoName;
+if (!REPO_NAME) {
+  throw new Error("Missing 'repoName' in output/run-context.json");
+}
 
 const configPath = path.join(projectRoot, "config", "repos.json");
 const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
@@ -133,7 +136,7 @@ function isTsSource(file: FileInfo) {
   );
 }
 
-function safeText(fn: () => string): string | null {
+function safeText(fn: () => (string | undefined | null)): string | null {
   try {
     return fn() ?? null;
   } catch {
@@ -179,6 +182,30 @@ function resolveExpressionValue(node: Node, sourceFile: SourceFile): string | nu
   }
 
   if (Node.isIdentifier(node)) {
+    // 1. Try compiler type literal evaluation
+    const type = node.getType();
+    if (type.isStringLiteral()) {
+      return type.getLiteralValue() as string;
+    }
+
+    // 2. Next resolve cross-module imports & declarations via Symbol Resolution
+    const symbol = node.getSymbol();
+    if (symbol) {
+      const aliasedSymbol = symbol.getAliasedSymbol();
+      const effectiveSymbol = aliasedSymbol ?? symbol;
+      const declarations = effectiveSymbol.getDeclarations();
+      if (declarations.length > 0) {
+        const decl = declarations[0];
+        if (Node.isVariableDeclaration(decl)) {
+          const initializer = decl.getInitializer();
+          if (initializer) {
+            return resolveExpressionValue(initializer, decl.getSourceFile());
+          }
+        }
+      }
+    }
+
+    // 3. Fallback to local scope declaration
     const name = node.getText();
     const variable = sourceFile.getVariableDeclaration(name);
     if (variable) {
@@ -618,7 +645,7 @@ function extractTypeAliasesAndEnums(sourceFile: SourceFile, base: BaseRecord) {
     const members = enumDecl.getMembers().map(m => {
       let val = m.getValue();
       if (val === undefined) {
-        val = m.getInitializer()?.getText() ?? null;
+        val = m.getInitializer()?.getText() ?? undefined;
       }
       return {
         name: m.getName(),
@@ -754,12 +781,16 @@ function extractExternalHooks(sourceFile: SourceFile, base: BaseRecord) {
       if (args.length > 0) {
         const topicName = resolveExpressionValue(args[0], sourceFile);
         if (topicName) {
-          hooks.push({
-            ...base,
-            type: "pubsub_or_notification_candidate",
-            value: topicName,
-            line: node.getStartLineNumber(),
-          });
+          const callerType = expr.getExpression().getType().getText();
+          const isPubSub = callerType.includes("PubSub") || callerType.includes("Topic") || callerType.includes("pubsub") || callerType === "any";
+          if (isPubSub) {
+            hooks.push({
+              ...base,
+              type: "pubsub_or_notification_candidate",
+              value: topicName,
+              line: node.getStartLineNumber(),
+            });
+          }
         }
       }
     }
@@ -778,12 +809,16 @@ function extractExternalHooks(sourceFile: SourceFile, base: BaseRecord) {
     if (name === "bucket") {
       const args = node.getArguments();
       const bucketName = args.length > 0 ? resolveExpressionValue(args[0], sourceFile) : "default";
-      hooks.push({
-        ...base,
-        type: "storage_path_candidate",
-        value: `Storage bucket: ${bucketName || "default"}`,
-        line: node.getStartLineNumber(),
-      });
+      const callerType = expr.getExpression().getType().getText();
+      const isStorage = callerType.includes("Storage") || callerType.includes("storage") || callerType.includes("firebase-admin") || callerType === "any";
+      if (isStorage) {
+        hooks.push({
+          ...base,
+          type: "storage_path_candidate",
+          value: `Storage bucket: ${bucketName || "default"}`,
+          line: node.getStartLineNumber(),
+        });
+      }
     }
   });
 

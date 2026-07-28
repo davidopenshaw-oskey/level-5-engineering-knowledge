@@ -18,7 +18,10 @@ if (!fs.existsSync(runContextPath)) {
 const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
 
-const REPO_NAME =  "firebase-oskey-dev";
+const REPO_NAME: string = runContext.repoName;
+if (!REPO_NAME) {
+  throw new Error("Missing 'repoName' in output/run-context.json");
+}
 const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 
 const modulesRoot = path.join(repoOutputDir, "knowledge-pipeline", "modules");
@@ -37,33 +40,24 @@ function readJson<T>(filePath: string): T {
 function getModuleDirs() {
   return fs
     .readdirSync(modulesRoot, { withFileTypes: true })
-    .filter(entry => entry.isDirectory())
-    .map(entry => entry.name)
+    .filter((entry: fs.Dirent) => entry.isDirectory())
+    .map((entry: fs.Dirent) => entry.name)
     .sort();
 }
 
 function main() {
   const moduleNames = getModuleDirs();
 
+  const totals: Record<string, number> = {
+    modules: moduleNames.length,
+    facts: 0,
+  };
+
   const benchmark = {
     generatedAt: new Date().toISOString(),
     runId: runId,
     modules: [] as AnyRecord[],
-    totals: {
-      modules: moduleNames.length,
-      files: 0,
-      imports: 0,
-      exports: 0,
-      classes: 0,
-      methods: 0,
-      functions: 0,
-      calls: 0,
-      services: 0,
-      controllers: 0,
-      firestoreHints: 0,
-      permissionHints: 0,
-      facts: 0,
-    },
+    totals,
     factsByType: {} as Record<string, number>,
     recommendedPocModules: [] as AnyRecord[],
   };
@@ -71,7 +65,6 @@ function main() {
   for (const moduleName of moduleNames) {
     const moduleRoot = path.join(modulesRoot, moduleName);
     const manifestPath = path.join(moduleRoot, `${moduleName}-manifest.json`);
-    const filesPath = path.join(moduleRoot, `${moduleName}-files.json`);
     const graphPath = path.join(moduleRoot, `${moduleName}-evidence-graph.json`);
 
     if (!fs.existsSync(manifestPath) || !fs.existsSync(graphPath)) continue;
@@ -79,37 +72,24 @@ function main() {
     const manifest = readJson<AnyRecord>(manifestPath);
     const graph = readJson<AnyRecord>(graphPath);
 
-    const summary = manifest.summary ?? {};
+    const summary = (manifest.summary ?? {}) as Record<string, number>;
     const graphSummary = graph.summary ?? {};
     const countsByType = graphSummary.countsByType ?? {};
 
-    const moduleBenchmark = {
+    const moduleBenchmark: Record<string, any> = {
       module: moduleName,
-      files: summary.files ?? 0,
-      services: summary.services ?? 0,
-      controllers: summary.controllers ?? 0,
-      methods: summary.methods ?? 0,
-      calls: summary.calls ?? 0,
-      firestoreHints: summary.firestoreHints ?? 0,
-      permissionHints: summary.permissionHints ?? 0,
       facts: graphSummary.totalFacts ?? 0,
       factsByType: countsByType,
     };
 
-    benchmark.modules.push(moduleBenchmark);
+    // Dynamically copy and aggregate all summary keys to totals
+    for (const [key, value] of Object.entries(summary)) {
+      moduleBenchmark[key] = value ?? 0;
+      totals[key] = (totals[key] ?? 0) + (value ?? 0);
+    }
 
-    benchmark.totals.files += moduleBenchmark.files;
-    benchmark.totals.imports += summary.imports ?? 0;
-    benchmark.totals.exports += summary.exports ?? 0;
-    benchmark.totals.classes += summary.classes ?? 0;
-    benchmark.totals.methods += summary.methods ?? 0;
-    benchmark.totals.functions += summary.functions ?? 0;
-    benchmark.totals.calls += moduleBenchmark.calls;
-    benchmark.totals.services += moduleBenchmark.services;
-    benchmark.totals.controllers += moduleBenchmark.controllers;
-    benchmark.totals.firestoreHints += moduleBenchmark.firestoreHints;
-    benchmark.totals.permissionHints += moduleBenchmark.permissionHints;
-    benchmark.totals.facts += moduleBenchmark.facts;
+    benchmark.modules.push(moduleBenchmark);
+    totals.facts += graphSummary.totalFacts ?? 0;
 
     for (const [type, count] of Object.entries(countsByType)) {
       benchmark.factsByType[type] =
@@ -122,11 +102,11 @@ function main() {
     .map(m => ({
       ...m,
       score:
-        m.services * 3 +
-        m.controllers * 2 +
-        m.firestoreHints +
-        m.permissionHints +
-        Math.min(m.calls / 50, 20),
+        (m.services ?? 0) * 3 +
+        (m.controllers ?? 0) * 2 +
+        (m.firestoreHints ?? 0) +
+        (m.permissionHints ?? 0) +
+        Math.min((m.calls ?? 0) / 50, 20),
     }))
     .sort((a, b) => b.score - a.score)
     .slice(0, 5);

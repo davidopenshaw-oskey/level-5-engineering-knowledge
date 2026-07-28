@@ -3,15 +3,16 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es2020",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "strict": true,
-    "rootDir": "./scripts"
+    "rootDir": "./"
   },
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {}
   },
   "include": [
-    "scripts/**/*.ts"
+    "pipeline/**/*.ts"
   ]
 }

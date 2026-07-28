@@ -14,8 +14,10 @@ if (!fs.existsSync(runContextPath)) {
 }
 const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
 const runId: string = runContext.runId;
-
-const REPO_NAME =  "firebase-oskey-dev";
+const REPO_NAME: string = runContext.repoName;
+if (!REPO_NAME) {
+  throw new Error("Missing 'repoName' in output/run-context.json");
+}
 const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 
 const inputRoot = path.join(repoOutputDir, "facts");
@@ -463,13 +465,35 @@ function buildModuleEvidence(targetModule: string, raw: {
     })),
 
     apiContractEvidence: apiContracts.map(c => ({
+      ...c,
       repo: c.repo ?? null,
       module: c.module ?? targetModule,
       path: c.path,
       submodule: c.submodule ?? null,
-      handlerName: c.handlerName,
-      requestType: c.requestType,
-      requestSchema: c.requestSchema,
+    })),
+
+    typeAliases: typeAliases.map(item => ({
+      ...item,
+      repo: item.repo ?? null,
+      module: item.module ?? targetModule,
+      path: item.path,
+      submodule: item.submodule ?? null,
+    })),
+
+    enums: enums.map(item => ({
+      ...item,
+      repo: item.repo ?? null,
+      module: item.module ?? targetModule,
+      path: item.path,
+      submodule: item.submodule ?? null,
+    })),
+
+    modelProperties: modelProperties.map(item => ({
+      ...item,
+      repo: item.repo ?? null,
+      module: item.module ?? targetModule,
+      path: item.path,
+      submodule: item.submodule ?? null,
     })),
 
     firestoreTriggerArtefact: `${targetModule}-firestore-triggers.json`,
@@ -477,13 +501,11 @@ function buildModuleEvidence(targetModule: string, raw: {
     crossModuleDependencies,
 
     exports: exports_.map(e => ({
+      ...e,
       repo: e.repo ?? null,
       module: e.module ?? targetModule,
       path: e.path,
       submodule: e.submodule ?? null,
-      kind: e.kind,
-      name: e.name,
-      moduleSpecifier: e.moduleSpecifier,
     })),
 
     warnings: [],
@@ -626,7 +648,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     );
   }
 
-  for (const item of evidence.apiContractEvidence) {
+  for (const item of evidence.apiContractEvidence as AnyRow[]) {
     const handlerName = cleanValue(item.handlerName);
     if (!handlerName) continue;
 
@@ -638,6 +660,7 @@ function buildModuleEvidence(targetModule: string, raw: {
         module: moduleOf(item, targetModule),
         submodule: submoduleOf(item),
         file: fileOf(item),
+        line: lineOf(item),
         value: handlerName,
         evidence: item,
       }),
@@ -695,7 +718,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     );
   }
 
-  for (const item of evidence.exports) {
+  for (const item of evidence.exports as AnyRow[]) {
     const name = cleanValue(item.name);
     if (!name) continue;
 
@@ -855,47 +878,41 @@ function buildModuleEvidence(targetModule: string, raw: {
   });
 }
 
-function main() {
-  const raw = {
-    imports: readJson<AnyRow>("ast-imports.json"),
-    exports_: readJson<AnyRow>("ast-exports.json"),
-    classes: readJson<AnyRow>("ast-classes.json"),
-    methods: readJson<AnyRow>("ast-methods.json"),
-    functions: readJson<AnyRow>("ast-functions.json"),
-    typeAliases: readJson<AnyRow>("ast-type-aliases.json"),
-    enums: readJson<AnyRow>("ast-enums.json"),
-    modelProperties: readJson<AnyRow>("ast-model-properties.json"),
-    calls: readJson<AnyRow>("ast-calls.json"),
-    firestoreHints: readJson<AnyRow>("ast-firestore-hints.json"),
-    permissionHints: readJson<AnyRow>("ast-permission-hints.json"),
-    externalHooks: readJson<AnyRow>("ast-external-hooks.json"),
-    firestoreTriggers: readJson<AnyRow>("ast-firestore-triggers.json"),
-    apiContracts: readJson<AnyRow>("ast-api-contracts.json"),
-  };
+function kebabToCamel(str: string): string {
+  if (str === "exports") return "exports_";
+  return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+}
 
-  const modules = getModules([
-    ...raw.imports,
-    ...raw.exports_,
-    ...raw.classes,
-    ...raw.methods,
-    ...raw.functions,
-    ...raw.typeAliases,
-    ...raw.enums,
-    ...raw.modelProperties,
-    ...raw.calls,
-    ...raw.firestoreHints,
-    ...raw.permissionHints,
-    ...raw.externalHooks,
-    ...raw.firestoreTriggers,
-    ...raw.apiContracts,
-  ]);
+function main() {
+  const rawData: Record<string, AnyRow[]> = {};
+  
+  const raw = new Proxy(rawData, {
+    get(target, prop: string) {
+      return target[prop] ?? [];
+    }
+  });
+
+  const files = fs.readdirSync(inputRoot)
+    .filter((f: string) => f.startsWith("ast-") && f.endsWith(".json") && f !== "ast-errors.json");
+
+  console.log(`Discovered ${files.length} raw AST evidence files in facts root.`);
+
+  for (const file of files) {
+    const fileBase = file.slice(4, -5);
+    const propertyName = kebabToCamel(fileBase);
+
+    rawData[propertyName] = readJson<AnyRow>(file);
+  }
+
+  const allDiscoveredRows = Object.values(rawData).flat();
+  const modules = getModules(allDiscoveredRows);
 
   fs.mkdirSync(modulesRoot, { recursive: true });
 
   console.log(`Building module evidence and evidence graphs for ${modules.length} modules`);
 
   for (const moduleName of modules) {
-    buildModuleEvidence(moduleName, raw);
+    buildModuleEvidence(moduleName, raw as any);
   }
 
   console.log("Complete");
