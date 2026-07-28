@@ -4,7 +4,8 @@
       "name": "firebase-oskey-dev",
       "gitUrl": "git@github.com:oskey-io/firebase-oskey-dev.git",
       "branch": "master",
-      "modulesRoot": "functions/src/modules"
+      "modulesRoot": "functions/src/modules",
+      "governancePath": "governance/reference-docs"
     },
     {
       "name": "angular-pgo-oskey-dev",
