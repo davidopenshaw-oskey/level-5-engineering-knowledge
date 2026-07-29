@@ -2,9 +2,9 @@
 // **location:** level-5 phase 1.75
 
 // © Oskey SAS. All rights reserved.
-// Script 04: Resolved Engineering Graph Builder (Phase 1.75).
-// Synthesizes cross-module call edges, links API entry points by handler range,
-// computes the RBAC matrix and shared Firestore touch points, and exports the final graph.
+// Script 04: Repository Resolved Engineering Graph Builder (Phase 1.75).
+// Refactors call graph eligibility, exact compiler declaration matching, API-to-service edge linking,
+// RBAC entitlement matrix, and atomic Markdown graph promotion.
 
 import fs from "fs";
 import path from "path";
@@ -136,6 +136,14 @@ function writeJsonAtomically(filePath: string, data: unknown, contextDescription
   fs.renameSync(tmpPath, filePath);
 }
 
+function writeMarkdownAtomically(filePath: string, content: string) {
+  assertNoLocalAbsolutePaths(content, "resolved-graph-matrix.md");
+  const tmpPath = `${filePath}.tmp`;
+  fs.writeFileSync(tmpPath, content, "utf8");
+  fs.readFileSync(tmpPath, "utf8");
+  fs.renameSync(tmpPath, filePath);
+}
+
 function writeNotificationsAtomically(filePath: string, notifications: RunNotifications) {
   assertNoLocalAbsolutePaths(notifications, "run-notifications.json");
   const tmpPath = `${filePath}.tmp`;
@@ -163,6 +171,15 @@ function loadNotifications(notificationsPath: string, expectedRunId: string, exp
   return notifs;
 }
 
+function extractInvokedObject(expression: string): string | null {
+  if (!expression) return null;
+  const parts = expression
+    .split(".")
+    .map(part => part.trim())
+    .filter(Boolean);
+  return parts.length >= 2 ? parts[parts.length - 2] : null;
+}
+
 function normalizeObjectOrClassName(raw: string): string {
   if (!raw) return "";
   let clean = raw.trim();
@@ -173,14 +190,78 @@ function normalizeObjectOrClassName(raw: string): string {
   return clean.toLowerCase();
 }
 
-type CandidateDeclaration = {
-  factId: string;
-  module: string;
-  file: string;
-  line: number;
-  className: string;
-  methodName: string;
-};
+type CallGraphEligibility = "cross_module_service_candidate" | "service_candidate" | "non_graph_call";
+
+function classifyCallEligibility(
+  call: any,
+  allServiceMethods: any[],
+  moduleByClass: Map<string, string>
+): CallGraphEligibility {
+  const expr = call.calleeExpression || call.value || "";
+  const methodName = call.declarationMethod || call.evidence?.name || expr.split(".").pop() || "";
+  const declClass = call.declarationClass || "";
+  const declFile = call.declarationFile || "";
+
+  // Builtins, system calls, array/utility methods, and Firebase SDK calls
+  if (
+    expr.startsWith("console.") ||
+    expr.startsWith("JSON.") ||
+    expr.startsWith("Math.") ||
+    expr.startsWith("Object.") ||
+    expr.startsWith("Array.") ||
+    expr.startsWith("Promise.") ||
+    expr.startsWith("admin.") ||
+    expr.startsWith("functions.") ||
+    expr.includes("hasOwnProperty") ||
+    expr.includes(".map") ||
+    expr.includes(".forEach") ||
+    expr.includes(".find") ||
+    expr.includes(".filter") ||
+    expr.includes(".reduce") ||
+    expr.includes(".push") ||
+    expr.includes(".slice") ||
+    expr.includes(".split") ||
+    expr.includes(".join")
+  ) {
+    return "non_graph_call";
+  }
+
+  // Compiler declaration points to a known service_method
+  if (declFile && methodName) {
+    const matchingService = allServiceMethods.find(
+      s => s.file === declFile && (s.method === methodName || s.symbol === methodName)
+    );
+    if (matchingService) {
+      return matchingService.module !== call.module ? "cross_module_service_candidate" : "service_candidate";
+    }
+  }
+
+  // Known declaration class
+  if (declClass) {
+    const isServiceClass = declClass.endsWith("Service") || declClass.endsWith("Publisher") || declClass.endsWith("Processor");
+    if (isServiceClass) {
+      const targetMod = moduleByClass.get(declClass);
+      return targetMod && targetMod !== call.module ? "cross_module_service_candidate" : "service_candidate";
+    }
+  }
+
+  // Invoked object normalization check
+  const invObj = extractInvokedObject(expr);
+  if (invObj) {
+    const normObj = normalizeObjectOrClassName(invObj);
+    if (normObj) {
+      const hasMatchingService = allServiceMethods.some(s => {
+        const normClass = normalizeObjectOrClassName(s.className || "");
+        return normClass === normObj && (s.method === methodName || s.symbol === methodName);
+      });
+      if (hasMatchingService) {
+        return "cross_module_service_candidate";
+      }
+    }
+  }
+
+  return "non_graph_call";
+}
 
 function main() {
   const runContextPath = path.join(projectRoot, "output", "run-context.json");
@@ -212,10 +293,19 @@ function main() {
 
   const modulesBaseDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
 
-  const allModuleFacts: any[] = [];
-  const moduleFactMap = new Map<string, any[]>();
+  const serviceMethods: any[] = [];
+  const controllerMethods: any[] = [];
+  const classMethods: any[] = [];
+  const allCalls: any[] = [];
+  const apiContracts: any[] = [];
+  const firestoreTouches: any[] = [];
+  const rbacFacts: any[] = [];
+  const triggers: any[] = [];
+  const externalHooks: any[] = [];
 
-  // 1. Validate all module manifests & evidence graphs
+  const moduleByClass = new Map<string, string>();
+
+  // 1. Validate all 12 module manifests and evidence graphs fully
   for (const moduleName of authoritativeModules) {
     const modDir = path.join(modulesBaseDir, moduleName);
     const modManifestPath = path.join(modDir, `${moduleName}-manifest.json`);
@@ -227,396 +317,461 @@ function main() {
       throw new Error(`[INVALID_MODULE_GRAPH_FATAL] Missing output for module '${moduleName}'.`);
     }
 
-    let manifest: any;
-    let graph: any;
+    let modGraph: any;
     try {
-      manifest = JSON.parse(fs.readFileSync(modManifestPath, "utf8"));
-      graph = JSON.parse(fs.readFileSync(modGraphPath, "utf8"));
+      modGraph = JSON.parse(fs.readFileSync(modGraphPath, "utf8"));
     } catch (err: any) {
-      addNotification(notifications, "04-build-resolved-graph", "fatal", "INVALID_MODULE_GRAPH_FATAL", `Malformed manifest or graph JSON for module '${moduleName}': ${err.message}`, { module: moduleName });
+      addNotification(notifications, "04-build-resolved-graph", "fatal", "INVALID_MODULE_GRAPH_FATAL", `Malformed JSON in graph for module '${moduleName}': ${err.message}`, { module: moduleName });
       writeNotificationsAtomically(notificationsPath, notifications);
-      throw new Error(`[INVALID_MODULE_GRAPH_FATAL] Malformed JSON for module '${moduleName}'.`);
+      throw new Error(`[INVALID_MODULE_GRAPH_FATAL] Malformed graph JSON for module '${moduleName}'.`);
     }
 
     if (
-      manifest.runId !== runId ||
-      manifest.repoName !== REPO_NAME ||
-      manifest.module !== moduleName ||
-      graph.runId !== runId ||
-      graph.repoName !== REPO_NAME ||
-      graph.module !== moduleName ||
-      !Array.isArray(graph.facts) ||
-      !graph.summary ||
-      graph.summary.totalFacts !== graph.facts.length
+      modGraph.runId !== runId ||
+      modGraph.repoName !== REPO_NAME ||
+      modGraph.module !== moduleName ||
+      !Array.isArray(modGraph.facts) ||
+      !modGraph.summary ||
+      modGraph.summary.totalFacts !== modGraph.facts.length
     ) {
-      addNotification(notifications, "04-build-resolved-graph", "fatal", "INVALID_MODULE_GRAPH_FATAL", `Module graph validation failed for module '${moduleName}'.`, { module: moduleName });
+      addNotification(notifications, "04-build-resolved-graph", "fatal", "INVALID_MODULE_GRAPH_FATAL", `Graph structure or identity validation failed for module '${moduleName}'.`, { module: moduleName });
       writeNotificationsAtomically(notificationsPath, notifications);
-      throw new Error(`[INVALID_MODULE_GRAPH_FATAL] Module graph validation failed for '${moduleName}'.`);
+      throw new Error(`[INVALID_MODULE_GRAPH_FATAL] Graph validation failed for module '${moduleName}'.`);
     }
 
-    moduleFactMap.set(moduleName, graph.facts);
-    allModuleFacts.push(...graph.facts);
+    for (const fact of modGraph.facts) {
+      if (fact.type === "service_method") {
+        serviceMethods.push(fact);
+        if (fact.className) moduleByClass.set(fact.className, moduleName);
+      } else if (fact.type === "controller_method") {
+        controllerMethods.push(fact);
+        if (fact.className) moduleByClass.set(fact.className, moduleName);
+      } else if (fact.type === "class_method") {
+        classMethods.push(fact);
+      } else if (fact.type === "call_expression") {
+        allCalls.push(fact);
+      } else if (fact.type === "api_contract") {
+        apiContracts.push(fact);
+      } else if (fact.type === "firestore_path_touched") {
+        firestoreTouches.push(fact);
+      } else if (fact.type === "permission_required") {
+        rbacFacts.push(fact);
+      } else if (fact.type === "firestore_trigger") {
+        triggers.push(fact);
+      } else if (
+        fact.type === "external_hook" ||
+        fact.type === "pubsub_topic" ||
+        fact.type === "http_or_client_path" ||
+        fact.type === "environment_variable" ||
+        fact.type === "storage_path"
+      ) {
+        externalHooks.push(fact);
+      }
+    }
   }
 
-  // 2. Separate Method Indexes
-  const serviceMethodFacts = allModuleFacts.filter(f => f.type === "service_method");
-  const controllerMethodFacts = allModuleFacts.filter(f => f.type === "controller_method");
-  const classMethodFacts = allModuleFacts.filter(f => f.type === "class_method");
-
-  // Index service methods by declarationFile + methodName
-  const serviceByFileAndMethod = new Map<string, any[]>();
-  for (const sm of serviceMethodFacts) {
-    const key = `${sm.file}:${sm.method}`;
-    if (!serviceByFileAndMethod.has(key)) serviceByFileAndMethod.set(key, []);
-    serviceByFileAndMethod.get(key)!.push(sm);
-  }
-
-  // Index service methods by normalized className + methodName
-  const serviceByNormalizedClassAndMethod = new Map<string, any[]>();
-  for (const sm of serviceMethodFacts) {
-    const normClass = normalizeObjectOrClassName(sm.className);
-    const key = `${normClass}:${sm.method}`;
-    if (!serviceByNormalizedClassAndMethod.has(key)) serviceByNormalizedClassAndMethod.set(key, []);
-    serviceByNormalizedClassAndMethod.get(key)!.push(sm);
+  // Fast service method lookup index by exact declaration file & method name
+  const serviceByFileMethod = new Map<string, any[]>();
+  for (const s of serviceMethods) {
+    const key = `${s.file}::${s.method || s.symbol}`;
+    const list = serviceByFileMethod.get(key) || [];
+    list.push(s);
+    serviceByFileMethod.set(key, list);
   }
 
   const confirmedCallEdges: any[] = [];
   const probableCallEdges: any[] = [];
   const unresolvedCallEdges: any[] = [];
 
-  // 3. Resolve Cross-Module Call Edges
-  const allCalls = allModuleFacts.filter(f => f.type === "call_expression");
+  let inputCallExpressions = allCalls.length;
+  let graphEligibleCallExpressions = 0;
+  let nonGraphCallExpressions = 0;
+  let sameModuleServiceCalls = 0;
 
+  const confirmedEdgesMapBySourceFactId = new Map<string, any>();
+  const probableEdgesMapBySourceFactId = new Map<string, any>();
+
+  // 2. Cross-Module Service Call Resolution
   for (const call of allCalls) {
+    const eligibility = classifyCallEligibility(call, serviceMethods, moduleByClass);
+
+    if (eligibility === "non_graph_call") {
+      nonGraphCallExpressions += 1;
+      continue;
+    }
+
+    graphEligibleCallExpressions += 1;
+
+    const sourceModule = call.module;
+    const sourceFile = call.file;
+    const sourceLine = call.line;
+    const sourceContext = call.callerName || "anonymous";
     const calleeExpr = call.calleeExpression || call.value || "";
-    const methodName = call.declarationMethod || call.symbol || call.value.split(".").pop() || "";
 
-    // Candidate match resolution
-    let selectedMatch: any = null;
-    let matchMethod: "compiler_declaration" | "import_declaration" | "unique_signature" | null = null;
-    let candidateList: CandidateDeclaration[] = [];
+    const declFile = call.declarationFile;
+    const declMethod = call.declarationMethod || call.evidence?.name || calleeExpr.split(".").pop() || "";
+    const declClass = call.declarationClass;
 
-    // Attempt 1: Exact compiler declaration match
-    if (call.declarationFile && call.declarationMethod) {
-      const key = `${call.declarationFile}:${call.declarationMethod}`;
-      const matches = serviceByFileAndMethod.get(key) || [];
-      if (matches.length === 1) {
-        selectedMatch = matches[0];
-        matchMethod = "compiler_declaration";
-      } else if (matches.length > 1) {
-        candidateList = matches.map(m => ({
-          factId: m.id,
-          module: m.module,
-          file: m.file,
-          line: m.line,
-          className: m.className,
-          methodName: m.method,
-        }));
-      }
+    // Rule A: Exact Compiler Declaration Match
+    let compilerMatches: any[] = [];
+    if (declFile && declMethod) {
+      const candidates = serviceByFileMethod.get(`${declFile}::${declMethod}`) || [];
+      compilerMatches = candidates;
     }
 
-    // Attempt 2: Import declaration match
-    if (!selectedMatch && call.declarationModuleSpecifier) {
-      const matches = serviceMethodFacts.filter(sm => sm.file.includes(call.declarationModuleSpecifier) && sm.method === methodName);
-      if (matches.length === 1) {
-        selectedMatch = matches[0];
-        matchMethod = "import_declaration";
-      } else if (matches.length > 1 && candidateList.length === 0) {
-        candidateList = matches.map(m => ({
-          factId: m.id,
-          module: m.module,
-          file: m.file,
-          line: m.line,
-          className: m.className,
-          methodName: m.method,
-        }));
+    if (compilerMatches.length === 1) {
+      const target = compilerMatches[0];
+      if (target.module === sourceModule) {
+        sameModuleServiceCalls += 1;
+        continue;
       }
-    }
 
-    // Attempt 3: Unique signature heuristic fallback
-    if (!selectedMatch && candidateList.length === 0) {
-      const objClass = calleeExpr.includes(".") ? calleeExpr.split(".")[0] : call.callerClass || "";
-      const normObj = normalizeObjectOrClassName(objClass);
-      const key = `${normObj}:${methodName}`;
-      const matches = serviceByNormalizedClassAndMethod.get(key) || [];
-
-      if (matches.length === 1) {
-        selectedMatch = matches[0];
-        matchMethod = "unique_signature";
-      } else {
-        candidateList = matches.map(m => ({
-          factId: m.id,
-          module: m.module,
-          file: m.file,
-          line: m.line,
-          className: m.className,
-          methodName: m.method,
-        }));
-      }
-    }
-
-    const isCrossModule = selectedMatch && selectedMatch.module !== call.module;
-
-    if (selectedMatch && (matchMethod === "compiler_declaration" || matchMethod === "import_declaration")) {
+      const edgeId = `call_edge|${call.id}|${target.id}`;
       const edge = {
-        id: `call-edge|${call.module}|${call.file}|${call.line}|${selectedMatch.module}|${selectedMatch.className}|${selectedMatch.method}`,
-        sourceModule: call.module,
-        sourceFile: call.file,
-        sourceLine: call.line,
-        sourceContext: call.callerName || "anonymous",
-        targetModule: selectedMatch.module,
-        targetFile: selectedMatch.file,
-        targetLine: selectedMatch.line,
-        targetClass: selectedMatch.className,
-        targetMethod: selectedMatch.method,
-        evidenceCallText: call.value,
-        resolutionMethod: matchMethod === "compiler_declaration" ? "compiler_symbol" : "import_declaration",
+        id: edgeId,
+        sourceModule,
+        sourceFile,
+        sourceLine,
+        sourceContext,
+        targetModule: target.module,
+        targetFile: target.file,
+        targetLine: target.line,
+        targetClass: target.className,
+        targetMethod: target.method || target.symbol,
+        evidenceCallText: calleeExpr,
+        resolutionMethod: "compiler_symbol",
         confidence: "confirmed",
         candidateCount: 1,
+        sourceCallFactId: call.id,
+        targetFactId: target.id,
         evidence: {
-          targetFactId: selectedMatch.id,
-          sourceCallExpression: call.value,
-          resolvedDeclarationFile: selectedMatch.file,
-          resolvedDeclarationLine: selectedMatch.line,
-          resolvedDeclarationClass: selectedMatch.className,
-          resolvedDeclarationMethod: selectedMatch.method,
+          sourceCallFactId: call.id,
+          targetFactId: target.id,
+          callDeclarationFile: declFile,
+          callDeclarationLine: call.declarationLine,
+          callDeclarationClass: declClass,
+          callDeclarationMethod: declMethod,
+          targetDeclarationFile: target.file,
+          targetDeclarationLine: target.line,
+          targetDeclarationClass: target.className,
+          targetDeclarationMethod: target.method || target.symbol,
         },
       };
 
-      if (isCrossModule) {
-        confirmedCallEdges.push(edge);
+      confirmedCallEdges.push(edge);
+      confirmedEdgesMapBySourceFactId.set(call.id, edge);
+      continue;
+    }
+
+    // Rule B: Heuristic Unique Signature Fallback
+    const invObj = extractInvokedObject(calleeExpr);
+    let heuristicCandidates: any[] = [];
+
+    if (invObj && declMethod) {
+      const normObj = normalizeObjectOrClassName(invObj);
+      if (normObj) {
+        heuristicCandidates = serviceMethods.filter(s => {
+          const normClass = normalizeObjectOrClassName(s.className || "");
+          return normClass === normObj && (s.method === declMethod || s.symbol === declMethod);
+        });
       }
-    } else if (selectedMatch && matchMethod === "unique_signature") {
+    }
+
+    const uniqueCrossModuleCandidates = heuristicCandidates.filter(s => s.module !== sourceModule);
+
+    if (uniqueCrossModuleCandidates.length === 1) {
+      const target = uniqueCrossModuleCandidates[0];
+      const edgeId = `call_edge|${call.id}|${target.id}`;
       const edge = {
-        id: `call-edge|${call.module}|${call.file}|${call.line}|${selectedMatch.module}|${selectedMatch.className}|${selectedMatch.method}`,
-        sourceModule: call.module,
-        sourceFile: call.file,
-        sourceLine: call.line,
-        sourceContext: call.callerName || "anonymous",
-        targetModule: selectedMatch.module,
-        targetFile: selectedMatch.file,
-        targetLine: selectedMatch.line,
-        targetClass: selectedMatch.className,
-        targetMethod: selectedMatch.method,
-        evidenceCallText: call.value,
+        id: edgeId,
+        sourceModule,
+        sourceFile,
+        sourceLine,
+        sourceContext,
+        targetModule: target.module,
+        targetFile: target.file,
+        targetLine: target.line,
+        targetClass: target.className,
+        targetMethod: target.method || target.symbol,
+        evidenceCallText: calleeExpr,
         resolutionMethod: "unique_signature_heuristic",
         confidence: "probable",
         candidateCount: 1,
+        sourceCallFactId: call.id,
+        targetFactId: target.id,
         evidence: {
-          targetFactId: selectedMatch.id,
-          sourceCallExpression: call.value,
-          resolvedDeclarationFile: selectedMatch.file,
-          resolvedDeclarationLine: selectedMatch.line,
-          resolvedDeclarationClass: selectedMatch.className,
-          resolvedDeclarationMethod: selectedMatch.method,
+          sourceCallFactId: call.id,
+          targetFactId: target.id,
+          invokedObject: invObj,
+          normalizedObject: normalizeObjectOrClassName(invObj || ""),
         },
       };
 
-      if (isCrossModule) {
-        probableCallEdges.push(edge);
-      }
-    } else {
-      unresolvedCallEdges.push({
-        id: `unresolved-call|${call.module}|${call.file}|${call.line}|${call.value}`,
-        sourceModule: call.module,
-        sourceFile: call.file,
-        sourceLine: call.line,
-        sourceContext: call.callerName || "anonymous",
-        evidenceCallText: call.value,
-        reason: candidateList.length > 1 ? "multiple_candidates" : "no_target_declaration",
-        candidateCount: candidateList.length,
-        candidateSummaries: candidateList,
-      });
+      probableCallEdges.push(edge);
+      probableEdgesMapBySourceFactId.set(call.id, edge);
+      continue;
     }
+
+    // Rule C: Unresolved Candidate Record
+    const distinctCandidates = (heuristicCandidates.length > 0 ? heuristicCandidates : serviceMethods.filter(s => s.method === declMethod || s.symbol === declMethod)).map(s => ({
+      factId: s.id,
+      module: s.module,
+      file: s.file,
+      line: s.line,
+      className: s.className,
+      methodName: s.method || s.symbol,
+    }));
+
+    unresolvedCallEdges.push({
+      id: `unresolved_call|${call.id}`,
+      sourceCallFactId: call.id,
+      sourceModule,
+      sourceFile,
+      sourceLine,
+      sourceContext,
+      evidenceCallText: calleeExpr,
+      reason: distinctCandidates.length > 1 ? "multiple_candidates" : "no_target_declaration",
+      candidateCount: distinctCandidates.length,
+      candidateSummaries: distinctCandidates,
+    });
   }
 
-  // 4. API-to-Service Linking by Handler Range
-  const apiContracts = allModuleFacts.filter(f => f.type === "api_contract");
+  // 3. API Entry Points & Service Method Linking
   const apiEntryPoints: any[] = [];
-
   for (const api of apiContracts) {
-    const handlerFile = api.evidence?.handlerDeclarationFile || api.file;
-    const startLine = api.handlerStartLine || api.line;
-    const endLine = api.handlerEndLine || api.line;
+    const handlerFile = api.evidence?.handlerDeclarationFile ?? api.handlerDeclarationFile ?? api.file;
+    const handlerStartLine = api.evidence?.handlerStartLine ?? api.handlerStartLine ?? api.line;
+    const handlerEndLine = api.evidence?.handlerEndLine ?? api.handlerEndLine ?? api.line;
+    const handlerName = api.evidence?.handlerName ?? api.handlerName ?? api.value;
+    const handlerResolutionStatus = api.evidence?.handlerResolutionStatus ?? api.handlerResolutionStatus ?? "unresolved";
 
-    // Match calls in same module, same handler file, within handler range
-    const linkedCalls = allCalls.filter(
-      c => c.module === api.module && c.file === handlerFile && c.line >= startLine && c.line <= endLine
+    const handlerCalls = allCalls.filter(
+      c => c.module === api.module && c.file === handlerFile && c.line >= handlerStartLine && c.line <= handlerEndLine
     );
 
+    const linkedServiceMethods: any[] = [];
+    if (handlerResolutionStatus !== "unresolved") {
+      for (const callFact of handlerCalls) {
+        const confirmedEdge = confirmedEdgesMapBySourceFactId.get(callFact.id);
+        const probableEdge = probableEdgesMapBySourceFactId.get(callFact.id);
+        const edge = confirmedEdge || probableEdge;
+
+        if (edge) {
+          linkedServiceMethods.push({
+            callFactId: callFact.id,
+            edgeId: edge.id,
+            targetModule: edge.targetModule,
+            targetFile: edge.targetFile,
+            targetClass: edge.targetClass,
+            targetMethod: edge.targetMethod,
+            confidence: edge.confidence,
+            resolutionMethod: edge.resolutionMethod,
+          });
+        }
+      }
+    }
+
+    linkedServiceMethods.sort((a, b) => a.callFactId.localeCompare(b.callFactId));
+
     apiEntryPoints.push({
-      id: `api-entry|${api.module}|${api.file}|${api.line}|${api.handlerName}`,
+      id: `api-entry|${api.module}|${api.file}|${api.line}|${handlerName}`,
       module: api.module,
       file: api.file,
       line: api.line,
       contractType: api.contractType || "callable",
-      handlerName: api.handlerName,
-      handlerStartLine: startLine,
-      handlerEndLine: endLine,
-      linkedCallsCount: linkedCalls.length,
-      linkedCalls: linkedCalls.map(c => ({
-        file: c.file,
-        line: c.line,
-        expression: c.value,
-      })),
+      handlerName,
+      handlerDeclarationFile: handlerFile,
+      handlerStartLine,
+      handlerEndLine,
+      handlerResolutionStatus,
+      handlerLinkingStatus: handlerResolutionStatus === "unresolved" ? "unresolved_handler_declaration" : "resolved",
+      rawHandlerCallsCount: handlerCalls.length,
+      linkedServiceMethodsCount: linkedServiceMethods.length,
+      linkedServiceMethods,
     });
   }
 
-  // 5. Firestore Shared-Touch Matrix
-  const firestoreFacts = allModuleFacts.filter(f => f.type === "firestore_path_touched");
-  const pathGroupMap = new Map<string, any>();
+  // 4. Shared Firestore Touch Matrix
+  const firestorePathMap = new Map<string, { touchPoints: any[]; operations: Set<string>; resolutionMethods: Set<string> }>();
+  let firestorePathsWithoutOperationEvidence = 0;
 
-  for (const f of firestoreFacts) {
-    const pathVal = f.value;
-    if (!pathGroupMap.has(pathVal)) {
-      pathGroupMap.set(pathVal, {
-        pathPattern: pathVal,
-        pathResolutionMethod: f.pathResolutionMethod || "literal",
-        touchingModules: new Set<string>(),
-        touchingFiles: new Set<string>(),
-        operations: new Set<string>(),
-        evidenceCount: 0,
-      });
-    }
-    const group = pathGroupMap.get(pathVal)!;
-    group.touchingModules.add(f.module);
-    group.touchingFiles.add(`${f.file}:${f.line}`);
-    if (f.operation) group.operations.add(f.operation);
-    group.evidenceCount += 1;
+  for (const ft of firestoreTouches) {
+    const rawPath = ft.value || ft.file;
+    const cleanPath = rawPath.replace(/\{[^}]+\}/g, "{param}");
+    const entry = firestorePathMap.get(cleanPath) || { touchPoints: [], operations: new Set<string>(), resolutionMethods: new Set<string>() };
+
+    if (ft.operation) entry.operations.add(ft.operation);
+    if (ft.pathResolutionMethod) entry.resolutionMethods.add(ft.pathResolutionMethod);
+
+    entry.touchPoints.push({
+      module: ft.module,
+      file: ft.file,
+      line: ft.line,
+      operation: ft.operation || null,
+      pathResolutionMethod: ft.pathResolutionMethod || "literal",
+    });
+
+    firestorePathMap.set(cleanPath, entry);
   }
 
-  const firestoreSharedTouches = Array.from(pathGroupMap.values()).map(g => ({
-    pathPattern: g.pathPattern,
-    pathResolutionMethod: g.pathResolutionMethod,
-    touchingModules: Array.from(g.touchingModules).sort(),
-    touchingFilesCount: g.touchingFiles.size,
-    operations: Array.from(g.operations).sort(),
-    evidenceCount: g.evidenceCount,
-  }));
-
-  // 6. Event Endpoints and Candidate Route Groups
-  const pubsubFacts = allModuleFacts.filter(f => f.type === "pubsub_topic");
-  const triggerFacts = allModuleFacts.filter(f => f.type === "firestore_trigger");
-  const eventGroupMap = new Map<string, any>();
-
-  for (const p of pubsubFacts) {
-    const key = `pubsub|${p.value}`;
-    if (!eventGroupMap.has(key)) {
-      eventGroupMap.set(key, {
-        technology: "pubsub",
-        eventKey: p.value,
-        publishers: [],
-        subscribers: [],
-        triggers: [],
-        status: "publisher_only",
-      });
+  const firestoreSharedTouches: any[] = [];
+  for (const [pathPattern, data] of firestorePathMap.entries()) {
+    const modulesTouched = Array.from(new Set(data.touchPoints.map(t => t.module))).sort();
+    if (data.operations.size === 0) {
+      firestorePathsWithoutOperationEvidence += 1;
     }
-    eventGroupMap.get(key)!.publishers.push({ module: p.module, file: p.file, line: p.line });
+
+    firestoreSharedTouches.push({
+      pathPattern,
+      isSharedCrossModule: modulesTouched.length > 1,
+      modulesTouchedCount: modulesTouched.length,
+      modulesTouched,
+      operations: Array.from(data.operations).sort(),
+      pathResolutionMethods: Array.from(data.resolutionMethods).sort(),
+      touchPointsCount: data.touchPoints.length,
+      touchPoints: data.touchPoints,
+    });
   }
 
-  for (const t of triggerFacts) {
-    const key = `firestore_trigger|${t.value}`;
-    if (!eventGroupMap.has(key)) {
-      eventGroupMap.set(key, {
-        technology: "firestore_trigger",
-        eventKey: t.value,
-        publishers: [],
-        subscribers: [],
-        triggers: [],
-        status: "trigger_only",
-      });
-    }
-    eventGroupMap.get(key)!.triggers.push({ module: t.module, file: t.file, line: t.line, handlerName: t.handlerName });
+  // 5. Event Endpoints & Route Groups
+  const eventGroupMap = new Map<string, { publishers: any[]; triggers: any[] }>();
+  for (const hook of externalHooks) {
+    const key = `pubsub|${hook.value}`;
+    const group = eventGroupMap.get(key) || { publishers: [], triggers: [] };
+    group.publishers.push({ module: hook.module, file: hook.file, line: hook.line });
+    eventGroupMap.set(key, group);
+  }
+  for (const tr of triggers) {
+    const key = `firestore_trigger|${tr.firestorePath}`;
+    const group = eventGroupMap.get(key) || { publishers: [], triggers: [] };
+    group.triggers.push({ module: tr.module, file: tr.file, line: tr.line, handlerName: tr.handlerName });
+    eventGroupMap.set(key, group);
   }
 
-  const eventEndpoints = Array.from(eventGroupMap.values());
-  let unresolvedEventGroups = eventEndpoints.filter(e => e.status !== "resolved").length;
+  const eventEndpoints: any[] = [];
+  let unresolvedEventGroups = 0;
 
-  // 7. RBAC Matrix (Consume permission_required ONLY)
-  const requiredPermissions = allModuleFacts.filter(f => f.type === "permission_required");
-  const rbacMap = new Map<string, any>();
+  for (const [key, data] of eventGroupMap.entries()) {
+    const [tech, eventKey] = key.split("|");
+    unresolvedEventGroups += 1;
 
-  for (const p of requiredPermissions) {
-    const perm = p.permission || p.value;
-    if (!rbacMap.has(perm)) {
-      rbacMap.set(perm, {
-        permission: perm,
-        requiredByModules: new Set<string>(),
-        touchingFiles: new Set<string>(),
-        checkCount: 0,
-      });
-    }
-    const entry = rbacMap.get(perm)!;
-    entry.requiredByModules.add(p.module);
-    entry.touchingFiles.add(`${p.file}:${p.line}`);
-    entry.checkCount += 1;
+    eventEndpoints.push({
+      technology: tech,
+      eventKey,
+      eventSubscriberExtractionStatus: "not_implemented",
+      resolvedEventRoutes: 0,
+      publishersCount: data.publishers.length,
+      publishers: data.publishers,
+      triggersCount: data.triggers.length,
+      triggers: data.triggers,
+      status: data.publishers.length > 0 && data.triggers.length === 0 ? "publisher_only" : "trigger_only",
+    });
   }
 
-  const rbacRequirements = Array.from(rbacMap.values()).map(r => ({
-    permission: r.permission,
-    requiredByModules: Array.from(r.requiredByModules).sort(),
-    touchingFilesCount: r.touchingFiles.size,
-    checkCount: r.checkCount,
-  }));
+  // 6. RBAC Requirements Matrix
+  const rbacMap = new Map<string, { requirement: string; checks: any[] }>();
+  for (const rbac of rbacFacts) {
+    const perm = rbac.permission || rbac.value;
+    const entry = rbacMap.get(perm) || { requirement: perm, checks: [] as any[] };
+    entry.checks.push({ module: rbac.module, file: rbac.file, line: rbac.line, contextExpression: rbac.evidence?.contextExpression || null });
+    rbacMap.set(perm, entry);
+  }
 
-  // 8. Final Notification & Quality Ordering
+  const rbacRequirements: any[] = [];
+  for (const [permission, data] of rbacMap.entries()) {
+    rbacRequirements.push({
+      permission,
+      checkCount: data.checks.length,
+      checks: data.checks,
+    });
+  }
+
+  // Deterministic Sorting
+  confirmedCallEdges.sort((a, b) => a.id.localeCompare(b.id));
+  probableCallEdges.sort((a, b) => a.id.localeCompare(b.id));
+  unresolvedCallEdges.sort((a, b) => a.id.localeCompare(b.id));
+  apiEntryPoints.sort((a, b) => a.id.localeCompare(b.id));
+  firestoreSharedTouches.sort((a, b) => a.pathPattern.localeCompare(b.pathPattern));
+  eventEndpoints.sort((a, b) => a.eventKey.localeCompare(b.eventKey));
+  rbacRequirements.sort((a, b) => a.permission.localeCompare(b.permission));
+
+  // 7. Notifications & Quality Calculation Sequence
   if (unresolvedCallEdges.length > 0) {
     addNotification(
       notifications,
       "04-build-resolved-graph",
       "warning",
       "UNRESOLVED_CALLS_WARNING",
-      `${unresolvedCallEdges.length} cross-module call expression(s) could not be deterministically resolved to a single target declaration.`,
-      { count: unresolvedCallEdges.length, ambiguousCount: unresolvedCallEdges.filter(u => u.reason === "multiple_candidates").length }
+      `${unresolvedCallEdges.length} eligible call expression(s) could not be resolved to a unique cross-module service method.`,
+      { count: unresolvedCallEdges.length }
     );
   }
 
-  addNotification(
-    notifications,
-    "04-build-resolved-graph",
-    "info",
-    "EVENT_SUBSCRIBERS_NOT_IMPLEMENTED_INFO",
-    "Event subscriber extraction is marked as not_implemented for Phase 1.75."
+  if (eventEndpoints.length > 0) {
+    addNotification(
+      notifications,
+      "04-build-resolved-graph",
+      "info",
+      "EVENT_SUBSCRIBER_EXTRACTION_LIMITATION",
+      `Event subscriber extraction status is 'not_implemented' for ${eventEndpoints.length} event endpoint group(s).`,
+      { count: eventEndpoints.length }
+    );
+  }
+
+  // Determine final status for notification message
+  const preliminaryAttention = notifications.entries.some(
+    entry => entry.humanAttentionRecommended || entry.severity === "warning" || entry.severity === "error" || entry.severity === "fatal"
   );
+  const finalStatusString = notifications.highestSeverity === "error" || notifications.highestSeverity === "fatal" ? "failed" : preliminaryAttention ? "completed_with_warnings" : "complete";
 
   addNotification(
     notifications,
     "04-build-resolved-graph",
     "info",
     "GRAPH_RESOLUTION_COMPLETED",
-    `Phase 1.75 graph resolution completed with status [${notifications.highestSeverity === "error" || notifications.highestSeverity === "fatal" ? "failed" : (notifications.highestSeverity === "warning" ? "completed_with_warnings" : "completed_clean")}].`
+    `Repository-wide resolved graph completed with status '${finalStatusString}'.`
   );
 
   writeNotificationsAtomically(notificationsPath, notifications);
-  const finalNotifications = loadNotifications(notificationsPath, runId, REPO_NAME);
 
-  const graphQuality = {
-    status: finalNotifications.highestSeverity === "error" || finalNotifications.highestSeverity === "fatal" ? "failed" : (finalNotifications.highestSeverity === "warning" ? "completed_with_warnings" : "completed_clean"),
-    highestNotificationSeverity: finalNotifications.highestSeverity,
-    confirmedCallEdges: confirmedCallEdges.length,
-    probableCallEdges: probableCallEdges.length,
-    ambiguousCalls: unresolvedCallEdges.filter(u => u.reason === "multiple_candidates").length,
-    unresolvedCalls: unresolvedCallEdges.length,
-    sharedFirestorePaths: firestoreSharedTouches.length,
-    firestorePathsWithoutOperationEvidence: firestoreSharedTouches.filter(f => f.operations.length === 0).length,
-    eventSubscriberExtractionStatus: "not_implemented",
-    resolvedEventRoutes: 0,
+  const finalNotifications = loadNotifications(notificationsPath, runId, REPO_NAME);
+  const humanAttentionRecommended = finalNotifications.entries.some(
+    entry => entry.humanAttentionRecommended || entry.severity === "warning" || entry.severity === "error" || entry.severity === "fatal"
+  );
+
+  let status: "complete" | "completed_with_warnings" | "failed" = "complete";
+  if (finalNotifications.highestSeverity === "error" || finalNotifications.highestSeverity === "fatal") {
+    status = "failed";
+  } else if (finalNotifications.highestSeverity === "warning" || humanAttentionRecommended) {
+    status = "completed_with_warnings";
+  }
+
+  const quality = {
+    notificationHighestSeverity: finalNotifications.highestSeverity,
+    notificationCount: finalNotifications.entries.length,
+    humanAttentionRecommended,
+    inputCallExpressions,
+    graphEligibleCallExpressions,
+    nonGraphCallExpressions,
+    sameModuleServiceCalls,
+    confirmedCrossModuleCalls: confirmedCallEdges.length,
+    probableCrossModuleCalls: probableCallEdges.length,
+    unresolvedCrossModuleCandidates: unresolvedCallEdges.length,
+    apiEntryPointsCount: apiEntryPoints.length,
+    rbacRequirementsCount: rbacRequirements.length,
+    sharedFirestorePathsCount: firestoreSharedTouches.length,
+    firestorePathsWithoutOperationEvidence,
+    eventEndpointsCount: eventEndpoints.length,
     unresolvedEventGroups,
-    rbacRequirements: rbacRequirements.length,
-    apiEntryPoints: apiEntryPoints.length,
   };
 
   const graphPayload = {
     schemaVersion: "1.0.0",
-    metadata: {
-      runId,
-      repoName: REPO_NAME,
-      generatedAt: new Date().toISOString(),
-      sourceModulesExpected: authoritativeModules.length,
-      sourceModulesProcessed: authoritativeModules.length,
-      inputFactsProcessed: allModuleFacts.length,
-    },
-    quality: graphQuality,
+    runId,
+    repoName: REPO_NAME,
+    status,
+    generatedAt: new Date().toISOString(),
+    quality,
     confirmedCallEdges,
     probableCallEdges,
     unresolvedCallEdges,
@@ -627,68 +782,118 @@ function main() {
   };
 
   const kpDir = path.join(repoOutputDir, "knowledge-pipeline");
+  fs.mkdirSync(kpDir, { recursive: true });
+
   const graphJsonPath = path.join(kpDir, "resolved-engineering-graph.json");
   writeJsonAtomically(graphJsonPath, graphPayload, "knowledge-pipeline/resolved-engineering-graph.json");
 
-  // Generate Markdown Matrix
-  const markdownLines: string[] = [
-    `# Resolved Engineering Graph Matrix`,
-    ``,
-    `**Run ID**: \`${runId}\`  `,
-    `**Repo**: \`${REPO_NAME}\`  `,
-    `**Status**: \`${graphQuality.status}\`  `,
-    `**Generated At**: \`${new Date().toISOString()}\`  `,
-    ``,
-    `## Executive Summary`,
-    ``,
-    `- **Confirmed Call Edges**: ${graphQuality.confirmedCallEdges}`,
-    `- **Probable Call Edges**: ${graphQuality.probableCallEdges}`,
-    `- **Unresolved Calls**: ${graphQuality.unresolvedCalls} (${graphQuality.ambiguousCalls} ambiguous)`,
-    `- **API Entry Points**: ${graphQuality.apiEntryPoints}`,
-    `- **RBAC Requirements**: ${graphQuality.rbacRequirements}`,
-    `- **Shared Firestore Touch Points**: ${graphQuality.sharedFirestorePaths}`,
-    `- **Event Endpoints and Candidate Route Groups**: ${eventEndpoints.length}`,
-    ``,
-    `> **Note**: Confirmed edges are backed by exact declaration or import identity. Probable edges use a unique constrained fallback. Ambiguous and unresolved evidence is retained separately.`,
-    ``,
-    `## Confirmed Cross-Module Call Edges`,
-    ``,
-    `| Source Module | Source Context | Target Module | Target Class | Target Method | Resolution Method |`,
-    `| :--- | :--- | :--- | :--- | :--- | :--- |`,
-  ];
+  // 8. Markdown Graph Matrix Generation & Atomic Write
+  let md = `# Resolved Engineering Graph Matrix\n\n`;
+  md += `**Run ID**: \`${runId}\`  \n`;
+  md += `**Repo**: \`${REPO_NAME}\`  \n`;
+  md += `**Status**: \`${status}\`  \n`;
+  md += `**Generated At**: \`${graphPayload.generatedAt}\`  \n\n`;
 
-  for (const edge of confirmedCallEdges) {
-    markdownLines.push(`| \`${edge.sourceModule}\` | \`${edge.sourceContext}\` | \`${edge.targetModule}\` | \`${edge.targetClass}\` | \`${edge.targetMethod}\` | \`${edge.resolutionMethod}\` |`);
+  md += `## Executive Summary\n\n`;
+  md += `- **Confirmed Call Edges**: ${confirmedCallEdges.length}\n`;
+  md += `- **Probable Call Edges**: ${probableCallEdges.length}\n`;
+  md += `- **Unresolved Calls**: ${unresolvedCallEdges.length}\n`;
+  md += `- **API Entry Points**: ${apiEntryPoints.length}\n`;
+  md += `- **RBAC Requirements**: ${rbacRequirements.length}\n`;
+  md += `- **Shared Firestore Touch Points**: ${firestoreSharedTouches.length}\n`;
+  md += `- **Event Endpoints and Candidate Route Groups**: ${eventEndpoints.length}\n\n`;
+
+  md += `> **Note**: Confirmed edges are backed by exact declaration or import identity. Probable edges use a unique constrained fallback. Ambiguous and unresolved evidence is retained separately.\n\n`;
+
+  md += `## Confirmed Cross-Module Call Edges\n\n`;
+  if (confirmedCallEdges.length === 0) {
+    md += `*No confirmed cross-module call edges detected.*\n\n`;
+  } else {
+    md += `| Source Module | Source Context | Target Module | Target Class | Target Method | Resolution Method |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- | :--- |\n`;
+    for (const edge of confirmedCallEdges) {
+      md += `| \`${edge.sourceModule}\` | \`${edge.sourceContext}\` | \`${edge.targetModule}\` | \`${edge.targetClass}\` | \`${edge.targetMethod}\` | \`${edge.resolutionMethod}\` |\n`;
+    }
+    md += `\n`;
   }
 
-  markdownLines.push(
-    ``,
-    `## RBAC Entitlements Matrix`,
-    ``,
-    `| Permission | Modules Requiring | Files Count | Checks Count |`,
-    `| :--- | :--- | :--- | :--- |`
-  );
-
-  for (const rbac of rbacRequirements) {
-    markdownLines.push(`| \`${rbac.permission}\` | \`${rbac.requiredByModules.join(", ")}\` | ${rbac.touchingFilesCount} | ${rbac.checkCount} |`);
+  md += `## Probable Cross-Module Call Edges\n\n`;
+  if (probableCallEdges.length === 0) {
+    md += `*No probable cross-module call edges detected.*\n\n`;
+  } else {
+    md += `| Source Module | Source Context | Target Module | Target Class | Target Method | Resolution Method |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- | :--- |\n`;
+    for (const edge of probableCallEdges) {
+      md += `| \`${edge.sourceModule}\` | \`${edge.sourceContext}\` | \`${edge.targetModule}\` | \`${edge.targetClass}\` | \`${edge.targetMethod}\` | \`${edge.resolutionMethod}\` |\n`;
+    }
+    md += `\n`;
   }
 
-  const markdownContent = markdownLines.join("\n");
-  assertNoLocalAbsolutePaths(markdownContent, "knowledge-pipeline/resolved-graph-matrix.md");
+  md += `## API Entry Points & Linked Service Edges\n\n`;
+  if (apiEntryPoints.length === 0) {
+    md += `*No API entry points detected.*\n\n`;
+  } else {
+    md += `| Module | Handler Name | Type | Linked Services Count | Handler Declaration File |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+    for (const api of apiEntryPoints) {
+      md += `| \`${api.module}\` | \`${api.handlerName}\` | \`${api.contractType}\` | ${api.linkedServiceMethodsCount} | \`${api.handlerDeclarationFile}\` |\n`;
+    }
+    md += `\n`;
+  }
+
+  md += `## Shared Firestore Touch Points\n\n`;
+  if (firestoreSharedTouches.length === 0) {
+    md += `*No shared Firestore touch points detected.*\n\n`;
+  } else {
+    md += `| Path Pattern | Shared Cross-Module | Modules Count | Operations | Touch Points |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+    for (const fsTouch of firestoreSharedTouches) {
+      md += `| \`${fsTouch.pathPattern}\` | \`${fsTouch.isSharedCrossModule}\` | ${fsTouch.modulesTouchedCount} | \`${fsTouch.operations.join(", ") || "none"}\` | ${fsTouch.touchPointsCount} |\n`;
+    }
+    md += `\n`;
+  }
+
+  md += `## Event Endpoints and Candidate Route Groups\n\n`;
+  if (eventEndpoints.length === 0) {
+    md += `*No event endpoints detected.*\n\n`;
+  } else {
+    md += `| Tech | Event Key | Subscriber Extraction Status | Publishers | Triggers |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+    for (const ev of eventEndpoints) {
+      md += `| \`${ev.technology}\` | \`${ev.eventKey}\` | \`${ev.eventSubscriberExtractionStatus}\` | ${ev.publishersCount} | ${ev.triggersCount} |\n`;
+    }
+    md += `\n`;
+  }
+
+  md += `## RBAC Requirements Matrix\n\n`;
+  if (rbacRequirements.length === 0) {
+    md += `*No RBAC requirements detected.*\n\n`;
+  } else {
+    md += `| Permission Requirement | Check Count | Sample Check File |\n`;
+    md += `| :--- | :--- | :--- |\n`;
+    for (const rbac of rbacRequirements) {
+      const sampleFile = rbac.checks[0]?.file || "unknown";
+      md += `| \`${rbac.permission}\` | ${rbac.checkCount} | \`${sampleFile}\` |\n`;
+    }
+    md += `\n`;
+  }
 
   const matrixMdPath = path.join(kpDir, "resolved-graph-matrix.md");
-  fs.writeFileSync(matrixMdPath, markdownContent, "utf8");
+  writeMarkdownAtomically(matrixMdPath, md);
 
-  console.log(`Phase 1.75 completed with status: [${graphQuality.status}]`);
-  console.log(`   - JSON Artifact: ${graphJsonPath}`);
-  console.log(`   - Markdown Matrix: ${matrixMdPath}`);
-  console.log(`   - Confirmed Cross-Module Calls: ${graphQuality.confirmedCallEdges}`);
-  console.log(`   - Probable Cross-Module Calls: ${graphQuality.probableCallEdges}`);
-  console.log(`   - Unresolved Calls: ${graphQuality.unresolvedCalls}`);
-  console.log(`   - Shared Firestore Paths: ${graphQuality.sharedFirestorePaths}`);
-  console.log(`   - Event Endpoints: ${eventEndpoints.length}`);
-  console.log(`   - RBAC Requirements: ${graphQuality.rbacRequirements}`);
-  console.log(`   - API Entry Points: ${graphQuality.apiEntryPoints}`);
+  console.log("Resolved engineering graph generated successfully.");
+  console.log({
+    status,
+    confirmedCallEdges: confirmedCallEdges.length,
+    probableCallEdges: probableCallEdges.length,
+    unresolvedCalls: unresolvedCallEdges.length,
+    apiEntryPoints: apiEntryPoints.length,
+    rbacRequirements: rbacRequirements.length,
+    sharedFirestoreTouches: firestoreSharedTouches.length,
+    eventEndpoints: eventEndpoints.length,
+  });
+  console.log(`Wrote ${graphJsonPath}`);
+  console.log(`Wrote ${matrixMdPath}`);
 }
 
 main();

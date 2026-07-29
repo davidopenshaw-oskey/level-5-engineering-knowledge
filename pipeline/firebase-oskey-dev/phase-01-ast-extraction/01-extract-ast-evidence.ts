@@ -2,7 +2,8 @@
 // **location:** level-5 phases 1, 2
 
 // © Oskey SAS. All rights reserved.
-// This script extracts AST evidence from TypeScript source code using ts-morph,
+// Script 01: AST Evidence Extractor (Phase 1).
+// Extracts AST evidence from TypeScript source code using ts-morph,
 // capturing imports, exports, classes, methods, functions, type aliases, enums,
 // model properties, calls, firestore hints, permission hints, external hooks,
 // API contracts, and firestore triggers.
@@ -181,17 +182,13 @@ function sanitizeTypeText(typeText: string, clonePath: string): string {
   return cleaned;
 }
 
-function unique<T>(items: T[]): T[] {
-  return Array.from(new Set(items));
-}
-
-// Expression resolution with cycle protection & depth cap
+// Expression resolution with explicit partial status & cycle protection
 function resolveExpressionValue(
   node: Node,
   visitedDeclarations = new Set<string>(),
   depth = 0,
   maxDepth = 20
-): { value: string | null; status: "resolved" | "cycle" | "max_depth" | "unsupported" | "not_found" } {
+): { value: string | null; status: "resolved" | "partial" | "cycle" | "max_depth" | "unsupported" | "not_found" } {
   if (depth >= maxDepth) {
     return { value: null, status: "max_depth" };
   }
@@ -213,7 +210,7 @@ function resolveExpressionValue(
       }
       result += span.getLiteral().getLiteralText();
     }
-    return { value: result, status: hasUnresolved ? "unsupported" : "resolved" };
+    return { value: result, status: hasUnresolved ? "partial" : "resolved" };
   }
 
   if (Node.isIdentifier(node)) {
@@ -251,12 +248,121 @@ function resolveExpressionValue(
     const propName = node.getName();
     const exprRes = resolveExpressionValue(node.getExpression(), visitedDeclarations, depth + 1, maxDepth);
     if (exprRes.value) {
-      return { value: `${exprRes.value}.${propName}`, status: "resolved" };
+      return { value: `${exprRes.value}.${propName}`, status: exprRes.status };
     }
   }
 
   return { value: null, status: "unsupported" };
 }
+
+// Handler Symbol & Declaration Resolver for API Contracts and Triggers
+function resolveHandlerDeclaration(
+  handlerNode: Node,
+  clonePath: string,
+  currentRelativePath: string
+): {
+  handlerName: string | null;
+  handlerExpression: string | null;
+  handlerDeclarationFile: string | null;
+  handlerStartLine: number | null;
+  handlerEndLine: number | null;
+  handlerResolutionStatus: "resolved" | "partial" | "inline" | "unresolved";
+} {
+  if (!handlerNode) {
+    return {
+      handlerName: null,
+      handlerExpression: null,
+      handlerDeclarationFile: currentRelativePath,
+      handlerStartLine: null,
+      handlerEndLine: null,
+      handlerResolutionStatus: "unresolved",
+    };
+  }
+
+  const handlerExpression = handlerNode.getText();
+
+  // Inline arrow function or function expression
+  if (Node.isArrowFunction(handlerNode) || Node.isFunctionExpression(handlerNode)) {
+    return {
+      handlerName: "inline_handler",
+      handlerExpression,
+      handlerDeclarationFile: currentRelativePath,
+      handlerStartLine: handlerNode.getStartLineNumber(),
+      handlerEndLine: handlerNode.getEndLineNumber(),
+      handlerResolutionStatus: "inline",
+    };
+  }
+
+  // Identifier or Property Access Expression reference
+  if (Node.isIdentifier(handlerNode) || Node.isPropertyAccessExpression(handlerNode)) {
+    try {
+      const symbol = handlerNode.getSymbol();
+      if (symbol) {
+        const decl = symbol.getValueDeclaration() || symbol.getDeclarations()[0];
+        if (decl) {
+          const declSf = decl.getSourceFile();
+          const declPath = toRepoPath(declSf.getFilePath(), clonePath);
+
+          let name = symbol.getName();
+          if (Node.isFunctionDeclaration(decl) || Node.isMethodDeclaration(decl) || Node.isVariableDeclaration(decl)) {
+            name = (decl as any).getName() || name;
+          }
+
+          return {
+            handlerName: name,
+            handlerExpression,
+            handlerDeclarationFile: declPath,
+            handlerStartLine: decl.getStartLineNumber(),
+            handlerEndLine: decl.getEndLineNumber(),
+            handlerResolutionStatus: "resolved",
+          };
+        }
+      }
+    } catch {
+      // Fall through to unresolved
+    }
+
+    return {
+      handlerName: handlerNode.getText(),
+      handlerExpression,
+      handlerDeclarationFile: currentRelativePath,
+      handlerStartLine: handlerNode.getStartLineNumber(),
+      handlerEndLine: handlerNode.getEndLineNumber(),
+      handlerResolutionStatus: "unresolved",
+    };
+  }
+
+  return {
+    handlerName: handlerNode.getText(),
+    handlerExpression,
+    handlerDeclarationFile: currentRelativePath,
+    handlerStartLine: handlerNode.getStartLineNumber(),
+    handlerEndLine: handlerNode.getEndLineNumber(),
+    handlerResolutionStatus: "partial",
+  };
+}
+
+const TRIGGER_METHODS = new Set([
+  "onCreate",
+  "onUpdate",
+  "onDelete",
+  "onWrite",
+  "onDocumentCreated",
+  "onDocumentUpdated",
+  "onDocumentDeleted",
+  "onDocumentWritten",
+]);
+
+const AUTH_CHECK_METHODS = new Set([
+  "hasPermission",
+  "checkPermission",
+  "assertPermission",
+  "requirePermission",
+  "authorize",
+  "isAuthorized",
+  "permissionGuard",
+  "accessGuard",
+]);
 
 function main() {
   const runContextPath = path.join(projectRoot, "output", "run-context.json");
@@ -527,16 +633,22 @@ function main() {
         }
       }
 
-      // 8. Calls with Full Compiler Provenance & Range
+      // 8. Call Expressions & AST Structural Extractions
       for (const callExpr of sf.getDescendantsOfKind(SyntaxKind.CallExpression)) {
         const expr = callExpr.getExpression();
         const calleeText = expr.getText();
         const line = callExpr.getStartLineNumber();
 
+        const exactMethodName = Node.isPropertyAccessExpression(expr)
+          ? expr.getName()
+          : Node.isIdentifier(expr)
+          ? expr.getText()
+          : null;
+
         // Enclosing caller context & range
         let callerName: string | null = null;
         let callerClass: string | null = null;
-        let callerDeclarationFile: string | null = null;
+        let callerDeclarationFile: string | null = base.path;
         let callerStartLine: number | null = null;
         let callerEndLine: number | null = null;
 
@@ -557,8 +669,6 @@ function main() {
           callerStartLine = enclosingFn.getStartLineNumber();
           callerEndLine = enclosingFn.getEndLineNumber();
         }
-
-        callerDeclarationFile = base.path;
 
         let calleeSymbol: string | null = null;
         let aliasedCalleeSymbol: string | null = null;
@@ -607,7 +717,7 @@ function main() {
           ...base,
           line,
           expression: calleeText,
-          name: calleeText.split(".").pop() || calleeText,
+          name: exactMethodName || calleeText.split(".").pop() || calleeText,
           arguments: callExpr.getArguments().map(a => a.getText()),
           callerName,
           callerClass,
@@ -625,132 +735,157 @@ function main() {
           resolutionStatus,
         });
 
-        // AST-Node Firestore Path Extraction
-        if (calleeText.includes("collection") || calleeText.includes("doc") || calleeText.includes("collectionGroup") || calleeText.includes("document")) {
+        // 8a. Firestore Path Extraction (Structural)
+        if (exactMethodName && ["collection", "doc", "collectionGroup", "document"].includes(exactMethodName)) {
           const arg0 = callExpr.getArguments()[0];
           if (arg0) {
             const res = resolveExpressionValue(arg0);
             if (res.value) {
-              const method = Node.isTemplateExpression(arg0) ? "template_expression" : (Node.isIdentifier(arg0) ? "resolved_constant" : "literal");
+              let op: string | null = null;
+              // Detect operation on parent or outer call
+              const parentCall = callExpr.getParentIfKind(SyntaxKind.PropertyAccessExpression)?.getParentIfKind(SyntaxKind.CallExpression);
+              if (parentCall) {
+                const parentMethod = parentCall.getExpression().getSymbol()?.getName() || parentCall.getExpression().getText().split(".").pop() || "";
+                if (["get", "set", "create", "update", "delete", "add", "query", "listen"].includes(parentMethod)) {
+                  op = parentMethod;
+                }
+              }
+
               rawFirestoreHints.push({
                 ...base,
                 line,
-                path: res.value,
                 value: res.value,
-                operation: "access",
-                pathResolutionMethod: method,
+                touchType: "path_reference",
+                operation: op,
+                pathResolutionMethod: res.status === "resolved" ? (Node.isTemplateExpression(arg0) ? "template_expression" : (Node.isIdentifier(arg0) ? "resolved_constant" : "literal")) : res.status,
               });
             }
           }
         }
 
-        // Firestore Triggers
-        if (calleeText.includes("onDocumentCreated") || calleeText.includes("onDocumentUpdated") || calleeText.includes("onDocumentDeleted") || calleeText.includes("onDocumentWritten") || calleeText.includes("onCreate") || calleeText.includes("onUpdate") || calleeText.includes("onDelete") || calleeText.includes("onWrite")) {
+        // 8b. Structural Pub/Sub Topic Extraction
+        if (Node.isPropertyAccessExpression(expr) && expr.getName() === "topic") {
+          const topicArg = callExpr.getArguments()[0];
+          if (topicArg) {
+            const res = resolveExpressionValue(topicArg);
+            if (res.value) {
+              let isConfirmedPubSub = false;
+              if (declarationModuleSpecifier?.includes("pubsub") || calleeText.includes("pubsub")) {
+                isConfirmedPubSub = true;
+              }
+
+              rawExternalHooks.push({
+                ...base,
+                line,
+                type: "pubsub_topic",
+                value: res.value,
+                confidence: isConfirmedPubSub ? "confirmed" : "candidate",
+                calleeExpression: calleeText,
+                calleeSymbol,
+                declarationFile,
+                declarationModuleSpecifier,
+                resolutionStatus,
+              });
+            }
+          }
+        }
+
+        // 8c. Firestore Triggers (Exact Method Matching & Symbol Resolution)
+        if (exactMethodName && TRIGGER_METHODS.has(exactMethodName)) {
           const arg0 = callExpr.getArguments()[0];
           const arg1 = callExpr.getArguments()[1];
           let firestorePath: string | null = null;
           let handlerNode = arg1 || arg0;
 
-          if (arg0) {
+          if (arg0 && (arg1 || TRIGGER_METHODS.has(exactMethodName))) {
             const res = resolveExpressionValue(arg0);
             if (res.value) firestorePath = res.value;
           }
 
-          let handlerName: string | null = null;
-          let handlerStartLine: number | null = null;
-          let handlerEndLine: number | null = null;
-
-          if (handlerNode) {
-            handlerStartLine = handlerNode.getStartLineNumber();
-            handlerEndLine = handlerNode.getEndLineNumber();
-            if (Node.isIdentifier(handlerNode)) {
-              handlerName = handlerNode.getText();
-            } else if (Node.isArrowFunction(handlerNode) || Node.isFunctionExpression(handlerNode)) {
-              handlerName = "anonymous_handler";
-            }
-          }
+          const handlerResolution = resolveHandlerDeclaration(handlerNode, clonePath, base.path);
 
           rawTriggers.push({
             ...base,
             line,
             triggerType: "FIRESTORE_TRIGGER",
             firestorePath: firestorePath || "unknown",
-            handlerName: handlerName || "unknown_handler",
-            handlerExpression: handlerNode?.getText() || null,
-            handlerDeclarationFile: base.path,
-            handlerStartLine,
-            handlerEndLine,
             rawText: callExpr.getText(),
             calleeExpression: calleeText,
+            calleeSymbol,
+            aliasedCalleeSymbol,
+            declarationFile,
+            declarationModuleSpecifier,
+            resolutionStatus,
+            ...handlerResolution,
           });
         }
 
-        // API Contracts
-        if (calleeText.includes("onCall") || calleeText.includes("onRequest")) {
+        // 8d. API Contracts (onCall / onRequest Handler Symbol Resolution)
+        if (exactMethodName && ["onCall", "onRequest"].includes(exactMethodName)) {
           const handlerArg = callExpr.getArguments()[1] || callExpr.getArguments()[0];
-          let handlerName: string | null = null;
-          let handlerStartLine: number | null = null;
-          let handlerEndLine: number | null = null;
-
-          if (handlerArg) {
-            handlerStartLine = handlerArg.getStartLineNumber();
-            handlerEndLine = handlerArg.getEndLineNumber();
-            if (Node.isIdentifier(handlerArg)) {
-              handlerName = handlerArg.getText();
-            } else if (Node.isArrowFunction(handlerArg) || Node.isFunctionExpression(handlerArg)) {
-              handlerName = "anonymous_api_handler";
-            }
-          }
+          const handlerResolution = resolveHandlerDeclaration(handlerArg, clonePath, base.path);
 
           rawApiContracts.push({
             ...base,
             line,
-            contractType: calleeText.includes("onCall") ? "callable" : "http",
-            handlerName: handlerName || "unknown_api_handler",
-            handlerExpression: handlerArg?.getText() || null,
-            handlerDeclarationFile: base.path,
-            handlerStartLine,
-            handlerEndLine,
+            contractType: exactMethodName === "onCall" ? "callable" : "http",
             rawText: callExpr.getText(),
-            value: handlerName || calleeText,
+            value: handlerResolution.handlerName || exactMethodName,
+            calleeExpression: calleeText,
+            calleeSymbol,
+            aliasedCalleeSymbol,
+            declarationFile,
+            declarationModuleSpecifier,
+            resolutionStatus,
+            ...handlerResolution,
           });
         }
 
-        // External Hooks (Pub/Sub)
-        if (calleeText.includes(".topic(")) {
-          const topicArg = callExpr.getArguments()[0];
-          if (topicArg) {
-            const res = resolveExpressionValue(topicArg);
-            if (res.value) {
-              rawExternalHooks.push({
-                ...base,
-                line,
-                type: "pubsub_topic",
-                value: res.value,
-                confidence: "confirmed",
-              });
-            }
-          }
+        // 8e. Environment Variables & Storage Path Candidates
+        if (calleeText.includes("process.env")) {
+          rawExternalHooks.push({
+            ...base,
+            line,
+            type: "environment_variable",
+            value: calleeText,
+            confidence: "confirmed",
+          });
         }
       }
 
-      // Permission Hints AST Traversal
+      // 9. Permission Hints AST Traversal (Strict Error & Auth Check Classification)
       for (const lit of sf.getDescendantsOfKind(SyntaxKind.StringLiteral)) {
         const val = lit.getLiteralValue();
         const isVersioned = /^v\d+\.[a-zA-Z0-9_.:-]+$/.test(val);
-        const isConst = val.startsWith("PERMISSION_") || val.startsWith("SCOPE_") || val === "permission-denied";
+        const isError = val === "permission-denied";
+        const isConst = val.startsWith("PERMISSION_") || val.startsWith("SCOPE_") || isError;
 
         if (isVersioned || isConst) {
           const line = lit.getStartLineNumber();
           const parentCall = lit.getFirstAncestorByKind(SyntaxKind.CallExpression);
           const contextExpr = parentCall?.getExpression().getText() || null;
-          const isConfirmed = isVersioned && Boolean(contextExpr && (contextExpr.includes("check") || contextExpr.includes("permission") || contextExpr.includes("guard") || contextExpr.includes("has") || contextExpr.includes("assert")));
+
+          let candidateType: "versioned_permission" | "permission_constant" | "scope_constant" | "permission_error" | "heuristic" = "heuristic";
+          if (isError) {
+            candidateType = "permission_error";
+          } else if (isVersioned) {
+            candidateType = "versioned_permission";
+          } else if (val.startsWith("PERMISSION_")) {
+            candidateType = "permission_constant";
+          } else if (val.startsWith("SCOPE_")) {
+            candidateType = "scope_constant";
+          }
+
+          let isConfirmed = false;
+          if (isVersioned && contextExpr) {
+            isConfirmed = Array.from(AUTH_CHECK_METHODS).some(m => contextExpr.includes(m));
+          }
 
           rawPermissionHints.push({
             ...base,
             line,
             permission: val,
-            permissionCandidateType: isVersioned ? "versioned_permission" : (val.startsWith("PERMISSION_") ? "permission_constant" : "scope_constant"),
+            permissionCandidateType: candidateType,
             confidence: isConfirmed ? "confirmed" : "candidate",
             contextExpression: contextExpr,
           });

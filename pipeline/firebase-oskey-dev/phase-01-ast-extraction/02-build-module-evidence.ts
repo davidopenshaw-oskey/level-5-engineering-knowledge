@@ -163,15 +163,21 @@ function loadNotifications(notificationsPath: string, expectedRunId: string, exp
   return notifs;
 }
 
-function createFactIdGenerator() {
-  const seenFactIds = new Map<string, number>();
-  return function getUniqueFactId(type: string, moduleName: string, file: string, line: number, nameOrVal: string): string {
-    const cleanPath = (file || "").replace(/\\/g, "/");
-    const baseId = `${type}|${moduleName}|${cleanPath}|${line}|${nameOrVal}`;
-    const count = seenFactIds.get(baseId) || 0;
-    seenFactIds.set(baseId, count + 1);
-    return count === 0 ? baseId : `${baseId}#${count}`;
-  };
+function stableFactId(input: {
+  type: string;
+  repo: string;
+  module: string;
+  file: string;
+  line: number | null;
+  primaryKey: string;
+  secondaryKey?: string | null;
+  sourceStart?: number | null;
+}): string {
+  const cleanPath = (input.file || "").replace(/\\/g, "/");
+  const lineStr = input.line !== null && input.line !== undefined ? String(input.line) : "1";
+  const sec = input.secondaryKey ? `|${input.secondaryKey}` : "";
+  const start = input.sourceStart !== null && input.sourceStart !== undefined ? `|${input.sourceStart}` : "";
+  return `${input.type}|${input.module}|${cleanPath}|${lineStr}|${input.primaryKey}${sec}${start}`;
 }
 
 function classifyMethod(className: string): "service_method" | "controller_method" | "class_method" {
@@ -183,6 +189,23 @@ function classifyMethod(className: string): "service_method" | "controller_metho
   }
   return "class_method";
 }
+
+const EXPECTED_EVIDENCE_TYPES = [
+  "imports",
+  "exports",
+  "classes",
+  "methods",
+  "functions",
+  "typeAliases",
+  "enums",
+  "modelProperties",
+  "calls",
+  "firestoreHints",
+  "permissionHints",
+  "externalHooks",
+  "apiContracts",
+  "firestoreTriggers",
+];
 
 function main() {
   const runContextPath = path.join(projectRoot, "output", "run-context.json");
@@ -219,15 +242,48 @@ function main() {
     throw new Error(`[Fail-Closed] Malformed ast-evidence-manifest.json: ${err.message}`);
   }
 
-  if (astManifest.runId !== runId || astManifest.repoName !== REPO_NAME) {
-    addNotification(notifications, "02-build-module-evidence", "fatal", "AST_MANIFEST_IDENTITY_MISMATCH", `AST manifest identity mismatch: expected run '${runId}', got '${astManifest.runId}'.`);
+  // 1. Validate AST Manifest Structure strictly
+  if (
+    typeof astManifest.schemaVersion !== "string" ||
+    astManifest.runId !== runId ||
+    astManifest.repoName !== REPO_NAME ||
+    !Array.isArray(astManifest.artefacts) ||
+    astManifest.artefacts.length === 0 ||
+    typeof astManifest.errors !== "object" ||
+    typeof astManifest.errors?.file !== "string" ||
+    !Number.isFinite(astManifest.errors?.recordCount)
+  ) {
+    addNotification(notifications, "02-build-module-evidence", "fatal", "MALFORMED_AST_MANIFEST_FATAL", `AST manifest structure or identity validation failed.`);
     writeNotificationsAtomically(notificationsPath, notifications);
-    throw new Error(`[Fail-Closed] AST manifest identity mismatch.`);
+    throw new Error(`[Fail-Closed] AST manifest structure or identity validation failed.`);
   }
 
-  // Validate every required AST evidence artifact
-  for (const art of astManifest.artefacts || []) {
+  // 2. Validate Expected AST Evidence Types (Exactly 1 per type)
+  const manifestTypeMap = new Map<string, any>();
+  for (const art of astManifest.artefacts) {
+    if (!art.evidenceType || typeof art.evidenceType !== "string") {
+      addNotification(notifications, "02-build-module-evidence", "fatal", "MALFORMED_AST_MANIFEST_FATAL", `Manifest artifact entry missing 'evidenceType'.`);
+      writeNotificationsAtomically(notificationsPath, notifications);
+      throw new Error(`[Fail-Closed] Manifest artifact entry missing 'evidenceType'.`);
+    }
+    if (manifestTypeMap.has(art.evidenceType)) {
+      addNotification(notifications, "02-build-module-evidence", "fatal", "DUPLICATE_EVIDENCE_TYPE_FATAL", `Duplicate evidenceType '${art.evidenceType}' in ast-evidence-manifest.json.`, { evidenceType: art.evidenceType });
+      writeNotificationsAtomically(notificationsPath, notifications);
+      throw new Error(`[DUPLICATE_EVIDENCE_TYPE_FATAL] Duplicate evidenceType '${art.evidenceType}'.`);
+    }
+    manifestTypeMap.set(art.evidenceType, art);
+  }
+
+  for (const expType of EXPECTED_EVIDENCE_TYPES) {
+    if (!manifestTypeMap.has(expType)) {
+      addNotification(notifications, "02-build-module-evidence", "fatal", "MISSING_EVIDENCE_TYPE_FATAL", `Expected evidenceType '${expType}' missing from ast-evidence-manifest.json.`, { missingEvidenceType: expType });
+      writeNotificationsAtomically(notificationsPath, notifications);
+      throw new Error(`[MISSING_EVIDENCE_TYPE_FATAL] Expected evidenceType '${expType}' missing.`);
+    }
+
+    const art = manifestTypeMap.get(expType);
     const artPath = path.join(rawDir, art.file);
+
     if (!fs.existsSync(artPath)) {
       addNotification(notifications, "02-build-module-evidence", "fatal", "MISSING_EVIDENCE_FILE_FATAL", `Required AST evidence file '${art.file}' missing at '${artPath}'.`);
       writeNotificationsAtomically(notificationsPath, notifications);
@@ -254,6 +310,29 @@ function main() {
       writeNotificationsAtomically(notificationsPath, notifications);
       throw new Error(`[RECORD_COUNT_MISMATCH_FATAL] Record count mismatch in '${art.file}'.`);
     }
+  }
+
+  // 3. Validate AST Errors Artifact
+  const errorsPath = path.join(rawDir, astManifest.errors.file);
+  if (!fs.existsSync(errorsPath)) {
+    addNotification(notifications, "02-build-module-evidence", "fatal", "MISSING_ERRORS_FILE_FATAL", `AST errors file '${astManifest.errors.file}' missing at '${errorsPath}'.`);
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error(`[Fail-Closed] AST errors file '${astManifest.errors.file}' missing.`);
+  }
+
+  let errArr: any[];
+  try {
+    errArr = JSON.parse(fs.readFileSync(errorsPath, "utf8"));
+  } catch (err: any) {
+    addNotification(notifications, "02-build-module-evidence", "fatal", "MALFORMED_ERRORS_FILE_FATAL", `Malformed JSON in AST errors file '${astManifest.errors.file}': ${err.message}`);
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error(`[Fail-Closed] Malformed JSON in AST errors file.`);
+  }
+
+  if (!Array.isArray(errArr) || errArr.length !== astManifest.errors.recordCount) {
+    addNotification(notifications, "02-build-module-evidence", "fatal", "AST_ERRORS_COUNT_MISMATCH_FATAL", `Record count mismatch in '${astManifest.errors.file}': manifest claims ${astManifest.errors.recordCount}, actual is ${errArr.length}.`, { file: astManifest.errors.file, manifestCount: astManifest.errors.recordCount, actualCount: errArr.length });
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error(`[AST_ERRORS_COUNT_MISMATCH_FATAL] AST errors count mismatch.`);
   }
 
   const modulesJsonPath = path.join(rawDir, "modules.json");
@@ -298,13 +377,12 @@ function main() {
     const modDir = path.join(modulesBaseDir, moduleName);
     fs.mkdirSync(modDir, { recursive: true });
 
-    const facts: any[] = [];
-    const stableFactId = createFactIdGenerator();
+    const rawModuleFacts: any[] = [];
 
     // 1. source_file
     for (const item of filesFact.filter(f => f.module === moduleName)) {
-      facts.push({
-        id: stableFactId("source_file", moduleName, item.path, 1, item.path),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "source_file", repo: REPO_NAME, module: moduleName, file: item.path, line: 1, primaryKey: item.path }),
         runId,
         type: "source_file",
         repo: REPO_NAME,
@@ -318,8 +396,8 @@ function main() {
 
     // 2. source_class
     for (const item of classesFact.filter(c => c.module === moduleName)) {
-      facts.push({
-        id: stableFactId("source_class", moduleName, item.path, item.line, item.className),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "source_class", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.className }),
         runId,
         type: "source_class",
         repo: REPO_NAME,
@@ -337,8 +415,8 @@ function main() {
     // 3. methods (service_method / controller_method / class_method)
     for (const item of methodsFact.filter(m => m.module === moduleName)) {
       const factType = classifyMethod(item.className);
-      facts.push({
-        id: stableFactId(factType, moduleName, item.path, item.line, `${item.className}.${item.methodName}`),
+      rawModuleFacts.push({
+        id: stableFactId({ type: factType, repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.className, secondaryKey: item.methodName }),
         runId,
         type: factType,
         repo: REPO_NAME,
@@ -363,8 +441,8 @@ function main() {
 
     // 4. function_declaration
     for (const item of functionsFact.filter(f => f.module === moduleName)) {
-      facts.push({
-        id: stableFactId("function_declaration", moduleName, item.path, item.line, item.name),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "function_declaration", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.name }),
         runId,
         type: "function_declaration",
         repo: REPO_NAME,
@@ -377,10 +455,19 @@ function main() {
       });
     }
 
-    // 5. call_expression (Full compiler provenance retained!)
+    // 5. call_expression (Composite key using caller, callee, and arguments)
     for (const item of callsFact.filter(c => c.module === moduleName)) {
-      facts.push({
-        id: stableFactId("call_expression", moduleName, item.path, item.line, item.expression),
+      const argSig = Array.isArray(item.arguments) ? item.arguments.join(",") : "";
+      rawModuleFacts.push({
+        id: stableFactId({
+          type: "call_expression",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.expression,
+          secondaryKey: `${item.callerName || "anon"}|${argSig}`,
+        }),
         runId,
         type: "call_expression",
         repo: REPO_NAME,
@@ -407,8 +494,8 @@ function main() {
 
     // 6. imports_dependency
     for (const item of importsFact.filter(i => i.module === moduleName)) {
-      facts.push({
-        id: stableFactId("imports_dependency", moduleName, item.path, item.line, item.moduleSpecifier),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "imports_dependency", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.moduleSpecifier }),
         runId,
         type: "imports_dependency",
         repo: REPO_NAME,
@@ -423,8 +510,8 @@ function main() {
     // 7. exported_symbol
     for (const item of exportsFact.filter(e => e.module === moduleName)) {
       const val = item.moduleSpecifier || item.namedExports?.join(",") || "export";
-      facts.push({
-        id: stableFactId("exported_symbol", moduleName, item.path, item.line, val),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "exported_symbol", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: val }),
         runId,
         type: "exported_symbol",
         repo: REPO_NAME,
@@ -438,8 +525,8 @@ function main() {
 
     // 8. firestore_path_touched
     for (const item of firestoreHintsFact.filter(fh => fh.module === moduleName)) {
-      facts.push({
-        id: stableFactId("firestore_path_touched", moduleName, item.path, item.line, item.value || item.path),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "firestore_path_touched", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.value || item.path }),
         runId,
         type: "firestore_path_touched",
         repo: REPO_NAME,
@@ -447,6 +534,7 @@ function main() {
         file: item.path,
         line: item.line,
         value: item.value || item.path,
+        touchType: "path_reference",
         pathResolutionMethod: item.pathResolutionMethod,
         operation: item.operation,
         evidence: { ...item },
@@ -459,8 +547,8 @@ function main() {
       if (item.permissionCandidateType === "permission_error") pType = "permission_error";
       else if (item.confidence === "confirmed") pType = "permission_required";
 
-      facts.push({
-        id: stableFactId(pType, moduleName, item.path, item.line, item.permission),
+      rawModuleFacts.push({
+        id: stableFactId({ type: pType, repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.permission }),
         runId,
         type: pType,
         repo: REPO_NAME,
@@ -483,8 +571,8 @@ function main() {
       else if (item.type === "storage_path_candidate") hType = "storage_path";
       else if (item.type === "http_or_client_path_candidate") hType = "http_or_client_path";
 
-      facts.push({
-        id: stableFactId(hType, moduleName, item.path, item.line, item.value),
+      rawModuleFacts.push({
+        id: stableFactId({ type: hType, repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.value }),
         runId,
         type: hType,
         repo: REPO_NAME,
@@ -498,8 +586,8 @@ function main() {
 
     // 11. firestore_trigger
     for (const item of triggersFact.filter(t => t.module === moduleName)) {
-      facts.push({
-        id: stableFactId("firestore_trigger", moduleName, item.path, item.line, item.firestorePath),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "firestore_trigger", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.firestorePath, secondaryKey: item.handlerName }),
         runId,
         type: "firestore_trigger",
         repo: REPO_NAME,
@@ -510,34 +598,36 @@ function main() {
         handlerName: item.handlerName,
         handlerStartLine: item.handlerStartLine,
         handlerEndLine: item.handlerEndLine,
+        handlerResolutionStatus: item.handlerResolutionStatus,
         evidence: { ...item },
       });
     }
 
     // 12. api_contract
     for (const item of apiContractsFact.filter(a => a.module === moduleName)) {
-      facts.push({
-        id: stableFactId("api_contract", moduleName, item.path, item.line, item.handlerName),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "api_contract", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.handlerName || item.value }),
         runId,
         type: "api_contract",
         repo: REPO_NAME,
         module: moduleName,
         file: item.path,
         line: item.line,
-        value: item.handlerName,
-        method: item.handlerName,
+        value: item.handlerName || item.value,
+        method: item.handlerName || item.value,
         contractType: item.contractType,
         handlerName: item.handlerName,
         handlerStartLine: item.handlerStartLine,
         handlerEndLine: item.handlerEndLine,
+        handlerResolutionStatus: item.handlerResolutionStatus,
         evidence: { ...item },
       });
     }
 
     // 13. type_alias
     for (const item of typeAliasesFact.filter(ta => ta.module === moduleName)) {
-      facts.push({
-        id: stableFactId("type_alias", moduleName, item.path, item.line, item.name),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "type_alias", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.name }),
         runId,
         type: "type_alias",
         repo: REPO_NAME,
@@ -551,8 +641,8 @@ function main() {
 
     // 14. enum_declaration
     for (const item of enumsFact.filter(e => e.module === moduleName)) {
-      facts.push({
-        id: stableFactId("enum_declaration", moduleName, item.path, item.line, item.name),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "enum_declaration", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.name }),
         runId,
         type: "enum_declaration",
         repo: REPO_NAME,
@@ -566,8 +656,8 @@ function main() {
 
     // 15. model_property
     for (const item of modelPropsFact.filter(mp => mp.module === moduleName)) {
-      facts.push({
-        id: stableFactId("model_property", moduleName, item.path, item.line, `${item.parentName}.${item.propertyName}`),
+      rawModuleFacts.push({
+        id: stableFactId({ type: "model_property", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.parentName, secondaryKey: item.propertyName }),
         runId,
         type: "model_property",
         repo: REPO_NAME,
@@ -579,19 +669,48 @@ function main() {
       });
     }
 
-    // Sort facts deterministically
-    facts.sort((a, b) => a.id.localeCompare(b.id));
+    // 4. Property-Based Fact Deduplication & Conflicting Identity Guard
+    const factMap = new Map<string, { fact: any; jsonStr: string }>();
+    let deduplicatedCount = 0;
 
-    // Check fact ID uniqueness
-    const factIds = new Set<string>();
-    for (const f of facts) {
-      if (factIds.has(f.id)) {
-        addNotification(notifications, "02-build-module-evidence", "fatal", "DUPLICATE_FACT_ID_FATAL", `Duplicate fact ID '${f.id}' in module '${moduleName}'.`, { module: moduleName, factId: f.id });
-        writeNotificationsAtomically(notificationsPath, notifications);
-        throw new Error(`[DUPLICATE_FACT_ID_FATAL] Duplicate fact ID '${f.id}'.`);
+    for (const rawFact of rawModuleFacts) {
+      const id = rawFact.id;
+      const jsonStr = JSON.stringify(rawFact);
+
+      if (factMap.has(id)) {
+        const existing = factMap.get(id)!;
+        if (existing.jsonStr === jsonStr) {
+          deduplicatedCount += 1;
+        } else {
+          addNotification(
+            notifications,
+            "02-build-module-evidence",
+            "fatal",
+            "DUPLICATE_FACT_IDENTITY_FATAL",
+            `Materially different facts produced identical ID '${id}' in module '${moduleName}'.`,
+            { module: moduleName, factId: id }
+          );
+          writeNotificationsAtomically(notificationsPath, notifications);
+          throw new Error(`[DUPLICATE_FACT_IDENTITY_FATAL] Conflicting facts for ID '${id}' in module '${moduleName}'.`);
+        }
+      } else {
+        factMap.set(id, { fact: rawFact, jsonStr });
       }
-      factIds.add(f.id);
     }
+
+    if (deduplicatedCount > 0) {
+      addNotification(
+        notifications,
+        "02-build-module-evidence",
+        "warning",
+        "FACT_DEDUPLICATED_WARNING",
+        `Deduplicated ${deduplicatedCount} identical fact(s) in module '${moduleName}'.`,
+        { module: moduleName, count: deduplicatedCount }
+      );
+    }
+
+    const facts = Array.from(factMap.values()).map(e => e.fact);
+    facts.sort((a, b) => a.id.localeCompare(b.id));
 
     const moduleFiles = Array.from(new Set(facts.map(f => f.file))).sort();
     const services = Array.from(new Set(facts.filter(f => f.type === "service_method").map(f => f.className))).sort();
@@ -641,7 +760,7 @@ function main() {
       updatedAt: nowIso,
       artefacts: [
         { file: `${moduleName}-facts.json`, recordCount: facts.length },
-        { file: `${moduleName}-evidence-graph.json`, recordCount: 1 },
+        { file: `${moduleName}-evidence-graph.json`, documentCount: 1, factCount: facts.length },
       ],
       summary: summaryCounts,
     };

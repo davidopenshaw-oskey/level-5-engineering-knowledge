@@ -163,6 +163,27 @@ function loadNotifications(notificationsPath: string, expectedRunId: string, exp
   return notifs;
 }
 
+const REQUIRED_SUMMARY_FIELDS = [
+  "files",
+  "imports",
+  "exports",
+  "classes",
+  "methods",
+  "functions",
+  "typeAliases",
+  "enums",
+  "modelProperties",
+  "calls",
+  "firestoreHints",
+  "permissionHints",
+  "externalHooks",
+  "firestoreTriggers",
+  "apiContracts",
+  "services",
+  "controllers",
+  "facts",
+];
+
 function main() {
   const runContextPath = path.join(projectRoot, "output", "run-context.json");
   if (!fs.existsSync(runContextPath)) {
@@ -182,7 +203,7 @@ function main() {
 
   const rawDir = path.join(repoOutputDir, "facts");
 
-  // Validate AST evidence manifest existence and quality
+  // 10. Validate AST Manifest Identity & Errors Structure
   const astManifestPath = path.join(rawDir, "ast-evidence-manifest.json");
   if (!fs.existsSync(astManifestPath)) {
     addNotification(notifications, "03-build-benchmark", "fatal", "MISSING_AST_MANIFEST_FATAL", `Missing required ast-evidence-manifest.json at '${astManifestPath}'.`);
@@ -199,7 +220,21 @@ function main() {
     throw new Error(`[Fail-Closed] Malformed ast-evidence-manifest.json: ${err.message}`);
   }
 
-  // Load Authoritative Module Inventory from Script 00
+  if (
+    astManifest.runId !== runId ||
+    astManifest.repoName !== REPO_NAME ||
+    typeof astManifest.schemaVersion !== "string" ||
+    !Array.isArray(astManifest.artefacts) ||
+    typeof astManifest.errors !== "object" ||
+    typeof astManifest.errors?.file !== "string" ||
+    !Number.isFinite(astManifest.errors?.recordCount)
+  ) {
+    addNotification(notifications, "03-build-benchmark", "fatal", "AST_MANIFEST_IDENTITY_MISMATCH", `AST manifest identity or structure validation failed.`);
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error(`[Fail-Closed] AST manifest identity or structure validation failed.`);
+  }
+
+  // Load Authoritative Module Inventory
   const modulesJsonPath = path.join(rawDir, "modules.json");
   if (!fs.existsSync(modulesJsonPath)) {
     addNotification(notifications, "03-build-benchmark", "fatal", "MISSING_MODULES_JSON_FATAL", `Missing required modules.json at '${modulesJsonPath}'.`);
@@ -263,7 +298,7 @@ function main() {
       throw new Error(`[MALFORMED_MODULE_OUTPUT_FATAL] Malformed output for module '${moduleName}'.`);
     }
 
-    // Validate module identities
+    // Validate module identities & counts
     if (
       modManifest.runId !== runId ||
       modManifest.repoName !== REPO_NAME ||
@@ -284,15 +319,25 @@ function main() {
       throw new Error(`[MODULE_FACT_COUNT_MISMATCH_FATAL] Fact count mismatch for module '${moduleName}'.`);
     }
 
+    // 11. Validate Module Summary Numbers Strictly
+    const summary = modManifest.summary || {};
+    for (const key of REQUIRED_SUMMARY_FIELDS) {
+      const val = summary[key];
+      if (typeof val !== "number" || !Number.isFinite(val) || val < 0) {
+        addNotification(notifications, "03-build-benchmark", "fatal", "MALFORMED_MODULE_SUMMARY_FATAL", `Invalid or missing summary field '${key}' in module '${moduleName}'.`, { module: moduleName, field: key, value: val });
+        writeNotificationsAtomically(notificationsPath, notifications);
+        throw new Error(`[MALFORMED_MODULE_SUMMARY_FATAL] Invalid summary field '${key}' in module '${moduleName}'.`);
+      }
+    }
+
     totals.modules += 1;
-    // Authoritative facts total: single source of truth from graph.summary.totalFacts
+    // 14. Single Source of Truth Fact Accounting
     totals.facts += modGraph.summary.totalFacts;
 
     // Accumulate other summary keys (skipping 'facts' to prevent double counting)
-    const summary = modManifest.summary || {};
     for (const key of Object.keys(summary)) {
       if (key !== "facts" && key in totals) {
-        totals[key] += Number(summary[key]) || 0;
+        totals[key] += summary[key];
       }
     }
 
@@ -304,30 +349,57 @@ function main() {
     });
   }
 
-  // Add completion notification BEFORE calculating final quality metrics
-  addNotification(
-    notifications,
-    "03-build-benchmark",
-    "info",
-    "BENCHMARK_COMPLETED_SUCCESSFULLY",
-    "Benchmark generated successfully with zero pipeline warnings."
+  // 12. Determine Attention & Completion Notification
+  const hasAttentionCondition = notifications.entries.some(
+    entry => entry.humanAttentionRecommended || entry.severity === "warning" || entry.severity === "error" || entry.severity === "fatal"
   );
+
+  if (hasAttentionCondition) {
+    addNotification(
+      notifications,
+      "03-build-benchmark",
+      "info",
+      "BENCHMARK_COMPLETED_WITH_WARNINGS",
+      `Benchmark completed with pipeline notifications (highest severity: ${notifications.highestSeverity}).`
+    );
+  } else {
+    addNotification(
+      notifications,
+      "03-build-benchmark",
+      "info",
+      "BENCHMARK_COMPLETED_SUCCESSFULLY",
+      "Benchmark generated successfully with zero pipeline warnings."
+    );
+  }
 
   writeNotificationsAtomically(notificationsPath, notifications);
 
   // Re-read final notifications state for quality block
   const finalNotifications = loadNotifications(notificationsPath, runId, REPO_NAME);
 
+  const humanAttentionRecommended = finalNotifications.entries.some(
+    entry => entry.humanAttentionRecommended || entry.severity === "warning" || entry.severity === "error" || entry.severity === "fatal"
+  );
+
+  // 15. Benchmark Status
+  let benchmarkStatus: "complete" | "completed_with_warnings" | "failed" = "complete";
+  if (finalNotifications.highestSeverity === "error" || finalNotifications.highestSeverity === "fatal") {
+    benchmarkStatus = "failed";
+  } else if (finalNotifications.highestSeverity === "warning" || humanAttentionRecommended) {
+    benchmarkStatus = "completed_with_warnings";
+  }
+
   const benchmarkPayload = {
     schemaVersion: "1.0.0",
     runId,
     repoName: REPO_NAME,
+    status: benchmarkStatus,
     generatedAt: new Date().toISOString(),
     quality: {
       notificationHighestSeverity: finalNotifications.highestSeverity,
       notificationCount: finalNotifications.entries.length,
-      humanAttentionRecommended: finalNotifications.entries.some(e => e.humanAttentionRecommended),
-      astExtractionErrors: astManifest.errors?.recordCount || 0,
+      humanAttentionRecommended,
+      astExtractionErrors: astManifest.errors.recordCount,
       modulesExpected: authoritativeModules.length,
       modulesBenchmarked: totals.modules,
     },
