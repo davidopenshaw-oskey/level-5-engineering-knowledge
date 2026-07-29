@@ -1,11 +1,14 @@
-// **version:** 2.5.0
+// **version:** 3.0.0
 // **location:** level-5 phases 1, 2
 
 // © Oskey SAS. All rights reserved.
-// This script builds module evidence and evidence graphs from raw AST evidence, generating JSON outputs for each module.
+// This script builds module evidence and evidence graphs from raw AST evidence,
+// validating against ast-evidence-manifest.json and modules.json, preserving
+// generic compiler evidence and logging quality notifications.
 
 import fs from "fs";
 import path from "path";
+
 const projectRoot = process.cwd();
 
 const runContextPath = path.join(projectRoot, "output", "run-context.json");
@@ -18,62 +21,43 @@ const REPO_NAME: string = runContext.repoName;
 if (!REPO_NAME) {
   throw new Error("Missing 'repoName' in output/run-context.json");
 }
-const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 
+const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 const inputRoot = path.join(repoOutputDir, "facts");
 if (!fs.existsSync(inputRoot)) {
   throw new Error(`Could not find facts directory at '${inputRoot}'. Please run 01-extract-ast-evidence first.`);
 }
 
 const modulesRoot = path.join(repoOutputDir, "knowledge-pipeline", "modules");
+const notificationsPath = path.join(repoOutputDir, "run-notifications.json");
 
-const configPath = path.join(projectRoot, "config", "repos.json");
-if (!fs.existsSync(configPath)) {
-  throw new Error(`Could not find config/repos.json at '${configPath}'.`);
-}
-const repoConfig = JSON.parse(fs.readFileSync(configPath, "utf8"));
-const targetRepo = repoConfig.repositories.find((r: any) => r.name === REPO_NAME);
-if (!targetRepo) {
-  throw new Error(`Could not find repository config for name '${REPO_NAME}' in config/repos.json`);
-}
+type NotificationSeverity = "info" | "warning" | "error";
 
-const governanceRelPath = targetRepo.governancePath || "governance/reference-docs";
-const governanceAbsPath = path.join(projectRoot, governanceRelPath);
-
-function getActiveFirestoreRules(govPath: string): string[] {
-  const rulesFilePath = path.join(govPath, "firestore.rules.txt");
-  if (!fs.existsSync(rulesFilePath)) {
-    throw new Error(`[Fail-Closed] Authoritative rules file missing at: ${rulesFilePath}`);
-  }
-
-  const collections = new Set<string>();
-  try {
-    const content = fs.readFileSync(rulesFilePath, "utf8");
-    const matches = content.matchAll(/match\s+(?:\/databases\/\{database\}\/documents)?\/([a-zA-Z0-9_-]+)/g);
-    for (const match of matches) {
-      if (match[1] && !["databases", "documents"].includes(match[1])) {
-        collections.add(`/${match[1]}`);
-      }
-    }
-  } catch (err: any) {
-    throw new Error(`[Fail-Closed] Failed to parse firestore rules file at: ${rulesFilePath}. Error: ${err.message}`);
-  }
-
-  if (collections.size === 0) {
-    throw new Error(`[Fail-Closed] Parsed firestore rules file but found zero collections at: ${rulesFilePath}`);
-  }
-
-  return Array.from(collections);
+interface NotificationEntry {
+  id: string;
+  timestamp: string;
+  severity: NotificationSeverity;
+  code: string;
+  message: string;
+  details?: any;
+  sourceScript?: string;
+  humanAttentionRecommended?: boolean;
 }
 
-const FIRESTORE_ROOT_COLLECTIONS = getActiveFirestoreRules(governanceAbsPath);
+interface RunNotifications {
+  schemaVersion: string;
+  runId: string;
+  repoName: string;
+  updatedAt: string;
+  highestSeverity: NotificationSeverity;
+  entries: NotificationEntry[];
+}
 
 type AnyRow = {
   repo?: string | null;
   module?: string | null;
   submodule?: string | null;
   path?: string | null;
-  absolutePath?: string | null;
   file?: string | null;
   [key: string]: any;
 };
@@ -114,31 +98,119 @@ type EvidenceFact = {
   evidence: AnyRow;
 };
 
+interface AstManifestArtefact {
+  file: string;
+  evidenceType: string;
+  recordCount: number;
+  required: boolean;
+}
+
+interface AstManifest {
+  schemaVersion: string;
+  runId: string;
+  repoName: string;
+  generatedAt: string;
+  artefacts: AstManifestArtefact[];
+  errors: {
+    file: string;
+    recordCount: number;
+  };
+}
+
+const SUPPORTED_EVIDENCE_TYPES = new Set([
+  "imports",
+  "exports",
+  "classes",
+  "methods",
+  "functions",
+  "typeAliases",
+  "enums",
+  "modelProperties",
+  "calls",
+  "firestoreHints",
+  "permissionHints",
+  "externalHooks",
+  "apiContracts",
+  "firestoreTriggers",
+]);
+
+function loadNotifications(): RunNotifications {
+  if (fs.existsSync(notificationsPath)) {
+    try {
+      return JSON.parse(fs.readFileSync(notificationsPath, "utf8"));
+    } catch {
+      // Return fresh object
+    }
+  }
+  return {
+    schemaVersion: "1.0.0",
+    runId,
+    repoName: REPO_NAME,
+    updatedAt: new Date().toISOString(),
+    highestSeverity: "info",
+    entries: [],
+  };
+}
+
+function addNotification(
+  notifications: RunNotifications,
+  severity: NotificationSeverity,
+  code: string,
+  message: string,
+  details?: any,
+  sourceScript = "02-build-module-evidence",
+  humanAttentionRecommended = false
+) {
+  const entry: NotificationEntry = {
+    id: `notif_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+    timestamp: new Date().toISOString(),
+    severity,
+    code,
+    message,
+    details,
+    sourceScript,
+    humanAttentionRecommended,
+  };
+  notifications.entries.push(entry);
+  notifications.updatedAt = entry.timestamp;
+
+  const severityOrder: Record<NotificationSeverity, number> = {
+    info: 1,
+    warning: 2,
+    error: 3,
+  };
+  if (severityOrder[severity] > severityOrder[notifications.highestSeverity]) {
+    notifications.highestSeverity = severity;
+  }
+}
+
+function writeNotifications(notifications: RunNotifications) {
+  fs.writeFileSync(notificationsPath, JSON.stringify(notifications, null, 2));
+}
+
+function stripAbsolutePath<T>(obj: T): T {
+  if (!obj || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(stripAbsolutePath) as any;
+  const copy = { ...obj } as any;
+  delete copy.absolutePath;
+  for (const key of Object.keys(copy)) {
+    if (typeof copy[key] === "object" && copy[key] !== null) {
+      copy[key] = stripAbsolutePath(copy[key]);
+    }
+  }
+  return copy;
+}
+
 function readJson<T>(fileName: string): T[] {
   const fullPath = path.join(inputRoot, fileName);
   if (!fs.existsSync(fullPath)) return [];
-  // Add a basic check for empty files which can cause JSON.parse to fail
   const content = fs.readFileSync(fullPath, "utf8");
   if (content.trim() === "") return [];
-  return JSON.parse(fs.readFileSync(fullPath, "utf8")) as T[];
+  return stripAbsolutePath(JSON.parse(content) as T[]);
 }
 
 function writeJson(filePath: string, data: unknown) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
-
-function getModules(rows: AnyRow[]) {
-  return Array.from(
-    new Set(
-      rows
-        .map(r => r.module)
-        .filter((m): m is string => typeof m === "string" && m.length > 0),
-    ),
-  ).sort();
-}
-
-function isTarget(row: AnyRow, targetModule: string) {
-  return row.module === targetModule;
+  fs.writeFileSync(filePath, JSON.stringify(stripAbsolutePath(data), null, 2));
 }
 
 function unique<T>(items: T[]): T[] {
@@ -204,68 +276,113 @@ function submoduleOf(record: AnyRow): string | null {
 }
 
 function fileOf(record: AnyRow): string | null {
-  return safeString(record.path) ?? safeString(record.file);
+  return safeString(record.file) ?? safeString(record.path);
 }
 
-function lineOf(record: AnyRow): number | null {
-  return typeof record.line === "number" ? record.line : null;
-}
+function fact(input: {
+  type: EvidenceFact["type"];
+  runId: string;
+  repo?: string | null;
+  module: string;
+  submodule?: string | null;
+  file?: string | null;
+  line?: number | null;
+  value?: string | null;
+  symbol?: string | null;
+  method?: string | null;
+  className?: string | null;
+  evidence: AnyRow;
+}): EvidenceFact {
+  const repo = input.repo ?? REPO_NAME;
+  const submodule = input.submodule ?? null;
+  const file = input.file ?? null;
+  const line = input.line ?? null;
+  const value = input.value ?? null;
+  const symbol = input.symbol ?? null;
+  const method = input.method ?? null;
+  const className = input.className ?? null;
 
-function fact(input: Omit<EvidenceFact, "id">): EvidenceFact {
+  const id = stableId([
+    input.type,
+    repo,
+    input.module,
+    submodule,
+    file,
+    line,
+    value,
+    symbol,
+    className,
+    method,
+  ]);
+
   return {
-    ...input,
-    runId: runId,
-    id: stableId([
-      input.type,
-      input.repo ?? null,
-      input.module,
-      input.submodule,
-      input.file,
-      input.line ?? null,
-      input.value ?? null,
-      input.symbol ?? null,
-      input.className ?? null,
-      input.method ?? null,
-    ]),
+    id,
+    runId: input.runId,
+    type: input.type,
+    repo,
+    module: input.module,
+    submodule,
+    file,
+    line,
+    value,
+    symbol,
+    className,
+    method,
+    evidence: stripAbsolutePath(input.evidence),
   };
 }
 
-function dedupeFacts(facts: EvidenceFact[]) {
+function dedupFacts(facts: EvidenceFact[], notifications: RunNotifications): EvidenceFact[] {
   const map = new Map<string, EvidenceFact>();
+  let duplicateCount = 0;
 
   for (const f of facts) {
-    if (!map.has(f.id)) map.set(f.id, f);
+    if (map.has(f.id)) {
+      duplicateCount++;
+    }
+    map.set(f.id, f);
+  }
+
+  if (duplicateCount > 0) {
+    addNotification(
+      notifications,
+      "warning",
+      "DUPLICATE_EVIDENCE_ID_WARNING",
+      `Deduplicated ${duplicateCount} evidence facts with identical composite IDs.`,
+      { duplicateCount }
+    );
   }
 
   return Array.from(map.values()).sort((a, b) => {
-    const af = a.file ?? "";
-    const bf = b.file ?? "";
-    if (af !== bf) return af.localeCompare(bf);
-
-    const al = a.line ?? 0;
-    const bl = b.line ?? 0;
-    if (al !== bl) return al - bl;
-
+    if (a.module !== b.module) return a.module.localeCompare(b.module);
+    if ((a.file ?? "") !== (b.file ?? ""))
+      return (a.file ?? "").localeCompare(b.file ?? "");
+    if ((a.line ?? 0) !== (b.line ?? 0))
+      return (a.line ?? 0) - (b.line ?? 0);
     return a.type.localeCompare(b.type);
   });
 }
 
-function buildModuleEvidence(targetModule: string, raw: {
-  imports: AnyRow[];
-  exports_: AnyRow[];
-  classes: AnyRow[];
-  methods: AnyRow[];
-  functions: AnyRow[];
-  typeAliases: AnyRow[];
-  enums: AnyRow[];
-  modelProperties: AnyRow[];
-  calls: AnyRow[];
-  firestoreHints: AnyRow[];
-  permissionHints: AnyRow[];
-  externalHooks: AnyRow[];
-  firestoreTriggers: AnyRow[];
-  apiContracts: AnyRow[];
-}) {
+function buildModuleEvidence(
+  targetModule: string,
+  raw: {
+    imports: AnyRow[];
+    exports_: AnyRow[];
+    classes: AnyRow[];
+    methods: AnyRow[];
+    functions: AnyRow[];
+    typeAliases: AnyRow[];
+    enums: AnyRow[];
+    modelProperties: AnyRow[];
+    calls: AnyRow[];
+    firestoreHints: AnyRow[];
+    permissionHints: AnyRow[];
+    externalHooks: AnyRow[];
+    firestoreTriggers: AnyRow[];
+    apiContracts: AnyRow[];
+  },
+  notifications: RunNotifications
+) {
   const isTarget = (row: AnyRow, target: string) => row.module === target;
 
   const imports = raw.imports.filter(r => isTarget(r, targetModule));
@@ -289,6 +406,9 @@ function buildModuleEvidence(targetModule: string, raw: {
     ...classes,
     ...methods,
     ...functions,
+    ...typeAliases,
+    ...enums,
+    ...modelProperties,
     ...calls,
     ...firestoreHints,
     ...permissionHints,
@@ -296,6 +416,16 @@ function buildModuleEvidence(targetModule: string, raw: {
     ...firestoreTriggers,
     ...apiContracts,
   ];
+
+  if (allRows.length === 0) {
+    addNotification(
+      notifications,
+      "warning",
+      "EMPTY_MODULE_EVIDENCE_WARNING",
+      `Module [${targetModule}] is declared in modules.json but has zero extracted AST evidence.`,
+      { module: targetModule }
+    );
+  }
 
   const filePaths = unique(
     allRows
@@ -308,6 +438,9 @@ function buildModuleEvidence(targetModule: string, raw: {
   const classesByFile = groupByPath(classes);
   const methodsByFile = groupByPath(methods);
   const functionsByFile = groupByPath(functions);
+  const typeAliasesByFile = groupByPath(typeAliases);
+  const enumsByFile = groupByPath(enums);
+  const modelPropertiesByFile = groupByPath(modelProperties);
   const callsByFile = groupByPath(calls);
   const firestoreByFile = groupByPath(firestoreHints);
   const permissionsByFile = groupByPath(permissionHints);
@@ -317,13 +450,16 @@ function buildModuleEvidence(targetModule: string, raw: {
 
   const files = filePaths.map(filePath => ({
     path: filePath,
-    repo: allRows.find(r => r.path === filePath)?.repo ?? null,
+    repo: allRows.find(r => r.path === filePath)?.repo ?? REPO_NAME,
     submodule: allRows.find(r => r.path === filePath)?.submodule ?? null,
     imports: importsByFile.get(filePath) ?? [],
     exports: exportsByFile.get(filePath) ?? [],
     classes: classesByFile.get(filePath) ?? [],
     methods: methodsByFile.get(filePath) ?? [],
     functions: functionsByFile.get(filePath) ?? [],
+    typeAliases: typeAliasesByFile.get(filePath) ?? [],
+    enums: enumsByFile.get(filePath) ?? [],
+    modelProperties: modelPropertiesByFile.get(filePath) ?? [],
     calls: callsByFile.get(filePath) ?? [],
     firestoreHints: firestoreByFile.get(filePath) ?? [],
     permissionHints: permissionsByFile.get(filePath) ?? [],
@@ -332,11 +468,21 @@ function buildModuleEvidence(targetModule: string, raw: {
     apiContracts: apiContractsByFile.get(filePath) ?? [],
   }));
 
+  if (files.length === 0 && allRows.length > 0) {
+    addNotification(
+      notifications,
+      "warning",
+      "MISSING_RELATIVE_PATH_WARNING",
+      `Module [${targetModule}] has ${allRows.length} evidence row(s) but zero could be mapped to relative file paths.`,
+      { module: targetModule, rowCount: allRows.length }
+    );
+  }
+
   const services = classes
     .filter(c => String(c.name ?? "").endsWith("Service"))
     .map(c => ({
       name: c.name,
-      repo: c.repo ?? null,
+      repo: c.repo ?? REPO_NAME,
       path: c.path,
       submodule: c.submodule ?? null,
       methods: methods
@@ -357,7 +503,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     .filter(c => String(c.name ?? "").endsWith("Controller"))
     .map(c => ({
       name: c.name,
-      repo: c.repo ?? null,
+      repo: c.repo ?? REPO_NAME,
       path: c.path,
       submodule: c.submodule ?? null,
       methods: methods
@@ -380,7 +526,7 @@ function buildModuleEvidence(targetModule: string, raw: {
       return spec.includes("modules/") || spec.includes("src/modules/");
     })
     .map(i => ({
-      repo: i.repo ?? null,
+      repo: i.repo ?? REPO_NAME,
       sourceFile: i.path,
       submodule: i.submodule ?? null,
       importedFrom: i.moduleSpecifier,
@@ -396,6 +542,9 @@ function buildModuleEvidence(targetModule: string, raw: {
     classes: classes.length,
     methods: methods.length,
     functions: functions.length,
+    typeAliases: typeAliases.length,
+    enums: enums.length,
+    modelProperties: modelProperties.length,
     calls: calls.length,
     firestoreHints: firestoreHints.length,
     permissionHints: permissionHints.length,
@@ -410,7 +559,7 @@ function buildModuleEvidence(targetModule: string, raw: {
   fs.mkdirSync(moduleOutputRoot, { recursive: true });
 
   writeJson(path.join(moduleOutputRoot, `${targetModule}-manifest.json`), {
-    runId: runId,
+    runId,
     generatedAt: new Date().toISOString(),
     module: targetModule,
     summary,
@@ -426,7 +575,7 @@ function buildModuleEvidence(targetModule: string, raw: {
 
   const evidence = {
     firestoreEvidence: firestoreHints.map(h => ({
-      repo: h.repo ?? null,
+      repo: h.repo ?? REPO_NAME,
       module: h.module ?? targetModule,
       path: h.path,
       submodule: h.submodule ?? null,
@@ -435,7 +584,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     })),
 
     permissionEvidence: permissionHints.map(h => ({
-      repo: h.repo ?? null,
+      repo: h.repo ?? REPO_NAME,
       module: h.module ?? targetModule,
       path: h.path,
       submodule: h.submodule ?? null,
@@ -444,7 +593,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     })),
 
     callEvidence: calls.map(c => ({
-      repo: c.repo ?? null,
+      repo: c.repo ?? REPO_NAME,
       module: c.module ?? targetModule,
       path: c.path,
       submodule: c.submodule ?? null,
@@ -455,7 +604,7 @@ function buildModuleEvidence(targetModule: string, raw: {
     })),
 
     externalHooks: externalHooks.map(h => ({
-      repo: h.repo ?? null,
+      repo: h.repo ?? REPO_NAME,
       module: h.module ?? targetModule,
       path: h.path,
       submodule: h.submodule ?? null,
@@ -466,7 +615,7 @@ function buildModuleEvidence(targetModule: string, raw: {
 
     apiContractEvidence: apiContracts.map(c => ({
       ...c,
-      repo: c.repo ?? null,
+      repo: c.repo ?? REPO_NAME,
       module: c.module ?? targetModule,
       path: c.path,
       submodule: c.submodule ?? null,
@@ -474,7 +623,7 @@ function buildModuleEvidence(targetModule: string, raw: {
 
     typeAliases: typeAliases.map(item => ({
       ...item,
-      repo: item.repo ?? null,
+      repo: item.repo ?? REPO_NAME,
       module: item.module ?? targetModule,
       path: item.path,
       submodule: item.submodule ?? null,
@@ -482,7 +631,7 @@ function buildModuleEvidence(targetModule: string, raw: {
 
     enums: enums.map(item => ({
       ...item,
-      repo: item.repo ?? null,
+      repo: item.repo ?? REPO_NAME,
       module: item.module ?? targetModule,
       path: item.path,
       submodule: item.submodule ?? null,
@@ -490,7 +639,7 @@ function buildModuleEvidence(targetModule: string, raw: {
 
     modelProperties: modelProperties.map(item => ({
       ...item,
-      repo: item.repo ?? null,
+      repo: item.repo ?? REPO_NAME,
       module: item.module ?? targetModule,
       path: item.path,
       submodule: item.submodule ?? null,
@@ -502,7 +651,7 @@ function buildModuleEvidence(targetModule: string, raw: {
 
     exports: exports_.map(e => ({
       ...e,
-      repo: e.repo ?? null,
+      repo: e.repo ?? REPO_NAME,
       module: e.module ?? targetModule,
       path: e.path,
       submodule: e.submodule ?? null,
@@ -519,14 +668,14 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "source_file",
-        runId: runId,
-        repo: fileRecord.repo ?? null,
+        runId,
+        repo: fileRecord.repo ?? REPO_NAME,
         module: targetModule,
         submodule: submoduleOf(fileRecord),
         file: fileOf(fileRecord),
         value: fileOf(fileRecord),
         evidence: {
-          repo: fileRecord.repo ?? null,
+          repo: fileRecord.repo ?? REPO_NAME,
           path: fileRecord.path,
           submodule: fileRecord.submodule ?? null,
         },
@@ -542,12 +691,12 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "firestore_path_touched",
-        runId: runId,
-        repo: item.repo ?? null,
+        runId,
+        repo: item.repo ?? REPO_NAME,
         module: moduleOf(item, targetModule),
         submodule: submoduleOf(item),
         file: fileOf(item),
-        line: lineOf(item),
+        line: item.line,
         value,
         evidence: item,
       }),
@@ -562,12 +711,12 @@ function buildModuleEvidence(targetModule: string, raw: {
       facts.push(
         fact({
           type: "permission_required",
-          runId: runId,
-          repo: item.repo ?? null,
+          runId,
+          repo: item.repo ?? REPO_NAME,
           module: moduleOf(item, targetModule),
           submodule: submoduleOf(item),
           file: fileOf(item),
-          line: lineOf(item),
+          line: item.line,
           value,
           evidence: item,
         }),
@@ -579,12 +728,12 @@ function buildModuleEvidence(targetModule: string, raw: {
       facts.push(
         fact({
           type: "permission_error",
-          runId: runId,
-          repo: item.repo ?? null,
+          runId,
+          repo: item.repo ?? REPO_NAME,
           module: moduleOf(item, targetModule),
           submodule: submoduleOf(item),
           file: fileOf(item),
-          line: lineOf(item),
+          line: item.line,
           value,
           evidence: item,
         }),
@@ -599,51 +748,40 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "call_expression",
-        runId: runId,
-        repo: item.repo ?? null,
+        runId,
+        repo: item.repo ?? REPO_NAME,
         module: moduleOf(item, targetModule),
         submodule: submoduleOf(item),
         file: fileOf(item),
-        line: lineOf(item),
+        line: item.line,
         value: expression,
-        symbol: cleanValue(item.name),
+        method: item.name ?? expression,
         evidence: item,
       }),
     );
   }
 
   for (const item of evidence.externalHooks) {
-    const value = cleanValue(item.value);
-    if (!value) continue;
-
     const hookType = cleanValue(item.type);
-
+    const value = cleanValue(item.value);
     let factType: EvidenceFact["type"] = "external_hook";
 
-    if (hookType === "environment_variable") {
-      factType = "environment_variable";
-    } else if (hookType === "pubsub_or_notification_candidate") {
-      factType = "pubsub_topic";
-    } else if (hookType === "http_or_client_path_candidate") {
-      factType = "http_or_client_path";
-    } else if (hookType === "storage_path_candidate") {
-      factType = "storage_path";
-    }
+    if (hookType === "pubsub_topic") factType = "pubsub_topic";
+    else if (hookType === "http_or_client_path_candidate") factType = "http_or_client_path";
+    else if (hookType === "environment_variable") factType = "environment_variable";
+    else if (hookType === "storage_path_candidate") factType = "storage_path";
 
     facts.push(
       fact({
         type: factType,
-        runId: runId,
-        repo: item.repo ?? null,
+        runId,
+        repo: item.repo ?? REPO_NAME,
         module: moduleOf(item, targetModule),
         submodule: submoduleOf(item),
         file: fileOf(item),
-        line: lineOf(item),
+        line: item.line,
         value,
-        evidence: {
-          ...item,
-          externalBoundaryStatus: "candidate",
-        },
+        evidence: item,
       }),
     );
   }
@@ -655,60 +793,45 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "api_contract",
-        runId: runId,
-        repo: item.repo ?? null,
+        runId,
+        repo: item.repo ?? REPO_NAME,
         module: moduleOf(item, targetModule),
         submodule: submoduleOf(item),
         file: fileOf(item),
-        line: lineOf(item),
+        line: item.line,
         value: handlerName,
+        method: handlerName,
         evidence: item,
       }),
     );
   }
 
   for (const item of firestoreTriggers) {
-    const triggerType = cleanValue(item.triggerType) ?? "unknown";
-    const handlerName = cleanValue(item.handlerName);
     const firestorePath = cleanValue(item.firestorePath);
-    const rawText = cleanValue(item.rawText);
-
-    const value =
-      firestorePath ??
-      handlerName ??
-      rawText ??
-      `${triggerType} trigger`;
-
     facts.push(
       fact({
         type: "firestore_trigger",
-        runId: runId,
-        repo: item.repo ?? null,
+        runId,
+        repo: item.repo ?? REPO_NAME,
         module: moduleOf(item, targetModule),
         submodule: submoduleOf(item),
         file: fileOf(item),
-        line: lineOf(item),
-        value,
-        symbol: handlerName,
-        evidence: {
-          ...item,
-          triggerType,
-          firestorePath: firestorePath ?? null,
-          handlerName: handlerName ?? null,
-        },
+        line: item.line,
+        value: firestorePath ?? item.triggerType,
+        evidence: item,
       }),
     );
   }
 
-  for (const item of evidence.crossModuleDependencies) {
+  for (const item of crossModuleDependencies) {
     const importedFrom = cleanValue(item.importedFrom);
     if (!importedFrom) continue;
 
     facts.push(
       fact({
         type: "imports_dependency",
-        runId: runId,
-        repo: item.repo ?? null,
+        runId,
+        repo: item.repo ?? REPO_NAME,
         module: targetModule,
         submodule: submoduleOf(item),
         file: safeString(item.sourceFile),
@@ -725,8 +848,8 @@ function buildModuleEvidence(targetModule: string, raw: {
     facts.push(
       fact({
         type: "exported_symbol",
-        runId: runId,
-        repo: item.repo ?? null,
+        runId,
+        repo: item.repo ?? REPO_NAME,
         module: targetModule,
         submodule: submoduleOf(item),
         file: fileOf(item),
@@ -737,118 +860,113 @@ function buildModuleEvidence(targetModule: string, raw: {
     );
   }
 
-  for (const service of services) {
-    const serviceName = cleanValue(service.name);
-
-    for (const method of service.methods ?? []) {
-      const methodName = cleanValue(method.name);
-      if (!serviceName || !methodName) continue;
-
+  for (const item of services) {
+    for (const method of item.methods) {
       facts.push(
         fact({
           type: "service_method",
-          runId: runId,
-          repo: service.repo ?? null,
+          runId,
+          repo: item.repo ?? REPO_NAME,
           module: targetModule,
-          submodule: submoduleOf(service),
-          file: fileOf(service),
-          className: serviceName,
-          method: methodName,
-          value: `${serviceName}.${methodName}`,
-          evidence: { service, method },
+          submodule: submoduleOf(item),
+          file: safeString(item.path),
+          value: `${item.name}.${method.name}`,
+          className: item.name,
+          method: method.name,
+          evidence: {
+            serviceName: item.name,
+            servicePath: item.path,
+            method,
+          },
         }),
       );
     }
   }
 
-  for (const controller of controllers) {
-    const controllerName = cleanValue(controller.name);
-
-    for (const method of controller.methods ?? []) {
-      const methodName = cleanValue(method.name);
-      if (!controllerName || !methodName) continue;
-
+  for (const item of controllers) {
+    for (const method of item.methods) {
       facts.push(
         fact({
           type: "controller_method",
-          runId: runId,
-          repo: controller.repo ?? null,
+          runId,
+          repo: item.repo ?? REPO_NAME,
           module: targetModule,
-          submodule: submoduleOf(controller),
-          file: fileOf(controller),
-          className: controllerName,
-          method: methodName,
-          value: `${controllerName}.${methodName}`,
-          evidence: { controller, method },
+          submodule: submoduleOf(item),
+          file: safeString(item.path),
+          value: `${item.name}.${method.name}`,
+          className: item.name,
+          method: method.name,
+          evidence: {
+            controllerName: item.name,
+            controllerPath: item.path,
+            method,
+          },
         }),
       );
     }
   }
 
   for (const item of typeAliases) {
-    const name = cleanValue(item.name);
-    if (!name) continue;
     facts.push(
       fact({
         type: "type_alias",
         runId,
-        repo: item.repo ?? null,
+        repo: item.repo ?? REPO_NAME,
         module: targetModule,
         submodule: submoduleOf(item),
         file: fileOf(item),
-        line: lineOf(item),
-        value: name,
+        line: item.line,
+        value: item.name,
+        symbol: item.name,
         evidence: item,
-      })
+      }),
     );
   }
 
   for (const item of enums) {
-    const name = cleanValue(item.name);
-    if (!name) continue;
     facts.push(
       fact({
         type: "enum_declaration",
         runId,
-        repo: item.repo ?? null,
+        repo: item.repo ?? REPO_NAME,
         module: targetModule,
         submodule: submoduleOf(item),
         file: fileOf(item),
-        line: lineOf(item),
-        value: name,
+        line: item.line,
+        value: item.name,
+        symbol: item.name,
         evidence: item,
-      })
+      }),
     );
   }
 
   for (const item of modelProperties) {
-    const parentName = cleanValue(item.parentName);
-    const propName = cleanValue(item.propertyName);
-    if (!parentName || !propName) continue;
     facts.push(
       fact({
         type: "model_property",
         runId,
-        repo: item.repo ?? null,
+        repo: item.repo ?? REPO_NAME,
         module: targetModule,
         submodule: submoduleOf(item),
         file: fileOf(item),
-        line: lineOf(item),
-        value: `${parentName}.${propName}`,
+        line: item.line,
+        value: `${item.containerName}.${item.propertyName}`,
+        className: item.containerName,
+        symbol: item.propertyName,
         evidence: item,
-      })
+      }),
     );
   }
 
-  const dedupedFacts = dedupeFacts(facts);
+  const dedupedFacts = dedupFacts(facts, notifications);
 
-  const countsByType = dedupedFacts.reduce<Record<string, number>>((acc, f) => {
-    acc[f.type] = (acc[f.type] ?? 0) + 1;
-    return acc;
-  }, {});
+  const countsByType: Record<string, number> = {};
+  for (const f of dedupedFacts) {
+    countsByType[f.type] = (countsByType[f.type] ?? 0) + 1;
+  }
 
   writeJson(path.join(moduleOutputRoot, `${targetModule}-evidence-graph.json`), {
-    runId: runId,
+    runId,
     generatedAt: new Date().toISOString(),
     module: targetModule,
     source: {
@@ -860,12 +978,7 @@ function buildModuleEvidence(targetModule: string, raw: {
       evidence: `${targetModule}-evidence.json`,
     },
     summary: {
-      inputSummary: {
-        ...summary,
-        typeAliases: typeAliases.length,
-        enums: enums.length,
-        modelProperties: modelProperties.length,
-      },
+      inputSummary: summary,
       totalFacts: dedupedFacts.length,
       countsByType,
     },
@@ -884,36 +997,171 @@ function kebabToCamel(str: string): string {
 }
 
 function main() {
+  const notifications = loadNotifications();
+
+  // Requirement 2: Use AST Evidence Manifest
+  const manifestPath = path.join(inputRoot, "ast-evidence-manifest.json");
+  if (!fs.existsSync(manifestPath)) {
+    addNotification(
+      notifications,
+      "error",
+      "MISSING_AST_MANIFEST_ERROR",
+      `Missing required AST evidence manifest at path [${manifestPath}].`
+    );
+    writeNotifications(notifications);
+    throw new Error(`[Fail-Closed] Missing required ast-evidence-manifest.json at '${manifestPath}'.`);
+  }
+
+  let astManifest: AstManifest;
+  try {
+    astManifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  } catch (err: any) {
+    addNotification(
+      notifications,
+      "error",
+      "MALFORMED_AST_JSON_ERROR",
+      `AST evidence manifest at [${manifestPath}] is malformed JSON: ${err.message}`
+    );
+    writeNotifications(notifications);
+    throw new Error(`[Fail-Closed] Malformed AST manifest JSON at '${manifestPath}'.`);
+  }
+
+  if (astManifest.runId !== runId || astManifest.repoName !== REPO_NAME) {
+    addNotification(
+      notifications,
+      "error",
+      "RUN_REPO_MISMATCH_ERROR",
+      `AST manifest contract mismatch: expected repo [${REPO_NAME}] run [${runId}], but found repo [${astManifest.repoName}] run [${astManifest.runId}].`
+    );
+    writeNotifications(notifications);
+    throw new Error(`[Fail-Closed] AST manifest runId/repoName mismatch.`);
+  }
+
+  // Validate required artifacts listed in manifest
+  for (const artefact of astManifest.artefacts) {
+    const filePath = path.join(inputRoot, artefact.file);
+    if (artefact.required) {
+      if (!fs.existsSync(filePath)) {
+        addNotification(
+          notifications,
+          "error",
+          "MISSING_REQUIRED_ARTIFACT_ERROR",
+          `Required AST evidence artifact [${artefact.file}] listed in manifest is missing on disk.`
+        );
+        writeNotifications(notifications);
+        throw new Error(`[Fail-Closed] Required AST evidence artifact '${artefact.file}' is missing.`);
+      }
+
+      try {
+        const content = fs.readFileSync(filePath, "utf8");
+        const parsed = JSON.parse(content);
+        if (Array.isArray(parsed) && parsed.length !== artefact.recordCount) {
+          addNotification(
+            notifications,
+            "warning",
+            "RECORD_COUNT_MISMATCH_WARNING",
+            `Record count mismatch for [${artefact.file}]: manifest recorded ${artefact.recordCount}, on-disk file contains ${parsed.length}.`
+          );
+        }
+      } catch (err: any) {
+        addNotification(
+          notifications,
+          "error",
+          "MALFORMED_AST_JSON_ERROR",
+          `Required AST artifact [${artefact.file}] contains malformed JSON: ${err.message}`
+        );
+        writeNotifications(notifications);
+        throw new Error(`[Fail-Closed] Malformed AST JSON in artifact '${artefact.file}'.`);
+      }
+    }
+  }
+
+  // Requirement 3: Detect and record unknown AST evidence
+  const physicalFiles = fs.readdirSync(inputRoot)
+    .filter((f: string) => f.startsWith("ast-") && f.endsWith(".json") && f !== "ast-errors.json" && f !== "ast-evidence-manifest.json");
+
+  for (const file of physicalFiles) {
+    const fileBase = file.slice(4, -5);
+    const propertyName = kebabToCamel(fileBase);
+
+    if (!SUPPORTED_EVIDENCE_TYPES.has(propertyName) && !SUPPORTED_EVIDENCE_TYPES.has(fileBase)) {
+      let recordCount = 0;
+      try {
+        const parsed = JSON.parse(fs.readFileSync(path.join(inputRoot, file), "utf8"));
+        recordCount = Array.isArray(parsed) ? parsed.length : 0;
+      } catch {
+        // Ignored
+      }
+
+      addNotification(
+        notifications,
+        "warning",
+        "UNKNOWN_AST_EVIDENCE_TYPE",
+        "AST evidence was generated but has no module synthesis handler.",
+        {
+          file,
+          evidenceType: fileBase,
+          recordCount,
+          retained: true,
+        },
+        "02-build-module-evidence",
+        true
+      );
+    }
+  }
+
+  // Load raw facts data
   const rawData: Record<string, AnyRow[]> = {};
-  
   const raw = new Proxy(rawData, {
     get(target, prop: string) {
       return target[prop] ?? [];
     }
   });
 
-  const files = fs.readdirSync(inputRoot)
-    .filter((f: string) => f.startsWith("ast-") && f.endsWith(".json") && f !== "ast-errors.json");
-
-  console.log(`Discovered ${files.length} raw AST evidence files in facts root.`);
-
-  for (const file of files) {
+  for (const file of physicalFiles) {
     const fileBase = file.slice(4, -5);
     const propertyName = kebabToCamel(fileBase);
-
     rawData[propertyName] = readJson<AnyRow>(file);
   }
 
-  const allDiscoveredRows = Object.values(rawData).flat();
-  const modules = getModules(allDiscoveredRows);
+  // Requirement 4: Use Script 00's module inventory as authoritative module list
+  const modulesInventoryPath = path.join(inputRoot, "modules.json");
+  if (!fs.existsSync(modulesInventoryPath)) {
+    addNotification(
+      notifications,
+      "error",
+      "MISSING_MODULES_INVENTORY_ERROR",
+      `Missing required modules.json inventory at path [${modulesInventoryPath}].`
+    );
+    writeNotifications(notifications);
+    throw new Error(`[Fail-Closed] Missing required modules.json inventory at '${modulesInventoryPath}'.`);
+  }
+
+  const moduleInventory = readJson<{ module: string }>("modules.json");
+  const moduleList = unique(moduleInventory.map(m => m.module)).sort();
+
+  if (moduleList.length === 0) {
+    addNotification(
+      notifications,
+      "error",
+      "ZERO_MODULES_INVENTORY_ERROR",
+      `Authoritative modules.json inventory contains zero modules.`
+    );
+    writeNotifications(notifications);
+    throw new Error(`[Fail-Closed] Zero modules declared in modules.json.`);
+  }
 
   fs.mkdirSync(modulesRoot, { recursive: true });
 
-  console.log(`Building module evidence and evidence graphs for ${modules.length} modules`);
+  console.log(`Discovered ${physicalFiles.length} raw AST evidence files in facts root.`);
+  console.log(`Building module evidence and evidence graphs for ${moduleList.length} authoritative modules`);
 
-  for (const moduleName of modules) {
-    buildModuleEvidence(moduleName, raw as any);
+  for (const moduleName of moduleList) {
+    buildModuleEvidence(moduleName, raw as any, notifications);
   }
+
+  // Write updated run-notifications.json
+  writeNotifications(notifications);
 
   console.log("Complete");
   console.log("Wrote output/knowledge-pipeline/modules/*");

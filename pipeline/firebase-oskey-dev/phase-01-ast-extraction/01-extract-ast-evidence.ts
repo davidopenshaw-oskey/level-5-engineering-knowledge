@@ -1,8 +1,10 @@
-// **version:** 2.5.0
+// **version:** 3.0.0
 // **location:** level-5 phases 1, 2
 
 // © Oskey SAS. All rights reserved.
-// This script extracts evidence from TypeScript source files, including imports, exports, classes, methods, functions, calls, and string hints related to Firestore and permissions.
+// This script extracts evidence from TypeScript source files using ts-morph,
+// generating 14 facts JSON files, ast-errors.json, ast-evidence-manifest.json,
+// and logging extraction quality entries to run-notifications.json.
 
 import fs from "fs";
 import path from "path";
@@ -24,16 +26,43 @@ type FileInfo = {
 type RepoConfig = {
   repositories: {
     name: string;
-    path: string;
+    gitUrl: string;
+    branch?: string;
+    commit?: string;
     modulesRoot: string;
     governancePath?: string;
   }[];
 };
 
 type BaseRecord = Omit<FileInfo, "sizeBytes"> & {
-  absolutePath: string;
   runId: string;
 };
+
+type RuntimeFile = {
+  file: FileInfo;
+  base: BaseRecord;
+  absolutePath: string;
+};
+
+type NotificationSeverity = "info" | "warning" | "error";
+
+interface NotificationEntry {
+  id: string;
+  timestamp: string;
+  severity: NotificationSeverity;
+  code: string;
+  message: string;
+  details?: any;
+}
+
+interface RunNotifications {
+  schemaVersion: string;
+  runId: string;
+  repoName: string;
+  updatedAt: string;
+  highestSeverity: NotificationSeverity;
+  entries: NotificationEntry[];
+}
 
 type FirestoreTriggerRow = BaseRecord & {
   line: number;
@@ -41,6 +70,17 @@ type FirestoreTriggerRow = BaseRecord & {
   firestorePath: string | null;
   handlerName: string | null;
   rawText: string;
+
+  // Generic compiler-derived evidence
+  calleeExpression: string | null;
+  calleeSymbol: string | null;
+  resolvedCalleeSymbol: string | null;
+  declarationFile: string | null;
+  declarationModuleSpecifier: string | null;
+  handlerExpression: string | null;
+  resolvedHandlerName: string | null;
+  resolvedHandlerDeclarationFile: string | null;
+  resolutionStatus: "resolved" | "partial" | "unresolved";
 };
 
 type ApiContractRow = BaseRecord & {
@@ -50,7 +90,19 @@ type ApiContractRow = BaseRecord & {
   requestSchema: Record<string, string> | null;
   responseType: string | null;
   decorators: { name: string; arguments: (string | null)[] }[];
-}
+
+  // Generic compiler-derived evidence
+  calleeExpression: string | null;
+  resolvedSymbol: string | null;
+  aliasedSymbol: string | null;
+  declarationFile: string | null;
+  declarationModule: string | null;
+  handlerExpression: string | null;
+  resolvedHandlerDeclaration: string | null;
+  requestParameterEvidence: any | null;
+  returnTypeEvidence: string | null;
+  resolutionStatus: "resolved" | "partial" | "unresolved";
+};
 
 const projectRoot = process.cwd();
 
@@ -68,6 +120,7 @@ if (!REPO_NAME) {
 const configPath = path.join(projectRoot, "config", "repos.json");
 const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
 const outputRoot = path.join(repoOutputDir, "facts");
+const notificationsPath = path.join(repoOutputDir, "run-notifications.json");
 
 const filesPath = path.join(outputRoot, "files.json");
 if (!fs.existsSync(filesPath)) {
@@ -77,16 +130,67 @@ if (!fs.existsSync(filesPath)) {
 const repoConfig = JSON.parse(fs.readFileSync(configPath, "utf8")) as RepoConfig;
 const files = JSON.parse(fs.readFileSync(filesPath, "utf8")) as FileInfo[];
 
-const targetRepo = repoConfig.repositories.find(r => r.name === REPO_NAME);
+const targetRepo = repoConfig.repositories.find(r => r.name === REPO_NAME)!;
 if (!targetRepo) {
   throw new Error(`Could not find repository config for name '${REPO_NAME}' in config/repos.json`);
 }
 
+const clonePath = path.join(projectRoot, "output", "clones", targetRepo.name);
+
 const governanceRelPath = targetRepo.governancePath || "governance/reference-docs";
 const governanceAbsPath = path.join(projectRoot, governanceRelPath);
 
-// 100% Dynamic rules collection discovery (Fail-Closed, Option A)
 const ACTIVE_ROOT_COLLECTIONS = getActiveFirestoreRules(governanceAbsPath);
+
+function loadNotifications(): RunNotifications {
+  if (fs.existsSync(notificationsPath)) {
+    try {
+      return JSON.parse(fs.readFileSync(notificationsPath, "utf8"));
+    } catch {
+      // Return fresh object
+    }
+  }
+  return {
+    schemaVersion: "1.0.0",
+    runId,
+    repoName: REPO_NAME,
+    updatedAt: new Date().toISOString(),
+    highestSeverity: "info",
+    entries: [],
+  };
+}
+
+function addNotification(
+  notifications: RunNotifications,
+  severity: NotificationSeverity,
+  code: string,
+  message: string,
+  details?: any
+) {
+  const entry: NotificationEntry = {
+    id: `notif_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+    timestamp: new Date().toISOString(),
+    severity,
+    code,
+    message,
+    details,
+  };
+  notifications.entries.push(entry);
+  notifications.updatedAt = entry.timestamp;
+
+  const severityOrder: Record<NotificationSeverity, number> = {
+    info: 1,
+    warning: 2,
+    error: 3,
+  };
+  if (severityOrder[severity] > severityOrder[notifications.highestSeverity]) {
+    notifications.highestSeverity = severity;
+  }
+}
+
+function writeNotifications(notifications: RunNotifications) {
+  fs.writeFileSync(notificationsPath, JSON.stringify(notifications, null, 2));
+}
 
 function getActiveFirestoreRules(govPath: string): string[] {
   const rulesFilePath = path.join(govPath, "firestore.rules.txt");
@@ -114,16 +218,9 @@ function getActiveFirestoreRules(govPath: string): string[] {
   return Array.from(collections);
 }
 
-const repoPathMap = new Map(
-  repoConfig.repositories.map(r => {
-    const clonePath = path.join(projectRoot, "output", "clones", r.name);
-    let effectivePath = clonePath;
-    if (!fs.existsSync(clonePath) && r.path) {
-      effectivePath = path.isAbsolute(r.path) ? r.path : path.join(projectRoot, r.path);
-    }
-    return [r.name, effectivePath];
-  })
-);
+function toRepoPath(p: string): string {
+  return p.replace(/\\/g, "/");
+}
 
 function isTsSource(file: FileInfo) {
   return (
@@ -144,15 +241,13 @@ function safeText(fn: () => (string | undefined | null)): string | null {
   }
 }
 
-function makeBase(file: FileInfo): BaseRecord | null {
-  const repoPath = repoPathMap.get(file.repo);
-  if (!repoPath) return null;
-
-  const absolutePath = path.join(repoPath, file.path);
+function makeRuntimeFile(file: FileInfo): RuntimeFile | null {
+  const absolutePath = path.join(clonePath, file.path);
   if (!fs.existsSync(absolutePath)) return null;
 
   const { sizeBytes, ...rest } = file;
-  return { ...rest, absolutePath, runId };
+  const base: BaseRecord = { ...rest, runId };
+  return { file, base, absolutePath };
 }
 
 function extractDecorators(node: Node) {
@@ -250,53 +345,32 @@ function extractFirestorePaths(sourceFile: SourceFile, base: BaseRecord): any[] 
 function extractPermissions(sourceFile: SourceFile, base: BaseRecord): any[] {
   const permissions: any[] = [];
 
-  // Decorator based matching (e.g. @Permission('v1.permission'))
   sourceFile.forEachDescendant(node => {
-    if (Node.isDecorator(node)) {
-      const name = node.getName();
-      if (name.toLowerCase().includes("permission") || name.toLowerCase().includes("access")) {
-        const args = node.getArguments();
-        if (args.length > 0) {
-          const val = resolveExpressionValue(args[0], sourceFile);
-          if (val) {
-            permissions.push({
-              ...base,
-              value: val,
-              line: node.getStartLineNumber(),
-            });
-          }
-        }
-      }
-    }
-  });
+    if (Node.isStringLiteral(node) || Node.isNoSubstitutionTemplateLiteral(node)) {
+      const value = node.getLiteralText();
+      const isPermissionPattern =
+        (value.includes(":") && (value.includes("read") || value.includes("write") || value.includes("admin") || value.includes("manage") || value.includes("create") || value.includes("delete"))) ||
+        value.startsWith("PERMISSION_") ||
+        value.startsWith("SCOPE_");
 
-  // Structural assertion/checker call matching (e.g. checkPermission(...))
-  sourceFile.forEachDescendant(node => {
-    if (Node.isCallExpression(node)) {
-      const expr = node.getExpression();
-      const name = Node.isIdentifier(expr) ? expr.getText() : (Node.isPropertyAccessExpression(expr) ? expr.getName() : "");
-      if (
-        name === "checkPermission" ||
-        name === "assertPermission" ||
-        name === "hasPermission" ||
-        name === "requirePermission" ||
-        name === "isAuthorized"
-      ) {
-        for (const arg of node.getArguments()) {
-          const val = resolveExpressionValue(arg, sourceFile);
-          if (val && (val.startsWith("v1.") || val.includes("permission-denied"))) {
-            permissions.push({
-              ...base,
-              value: val,
-              line: node.getStartLineNumber(),
-            });
-          }
-        }
+      if (isPermissionPattern) {
+        permissions.push({
+          ...base,
+          value,
+          line: node.getStartLineNumber(),
+        });
       }
     }
   });
 
   return permissions;
+}
+
+function extractStringHints(sourceFile: SourceFile, base: BaseRecord) {
+  return {
+    firestoreLike: extractFirestorePaths(sourceFile, base),
+    permissions: extractPermissions(sourceFile, base),
+  };
 }
 
 function extractFirestoreTriggers(
@@ -345,7 +419,37 @@ function extractFirestoreTriggers(
     }
 
     const triggerArgs = node.getArguments();
-    const handlerName = triggerArgs.length > 0 ? triggerArgs[0].getText() : "unknown";
+    const handlerArg = triggerArgs.length > 0 ? triggerArgs[0] : null;
+    const handlerName = handlerArg ? handlerArg.getText() : "unknown";
+
+    // Generic compiler-derived evidence extraction
+    const calleeExprText = safeText(() => expr.getText());
+    const calleeSym = expr.getSymbol();
+    const calleeSymbolName = safeText(() => calleeSym?.getName());
+    const resolvedCalleeSymbolName = safeText(() => calleeSym?.getAliasedSymbol()?.getName() ?? calleeSym?.getName());
+
+    const calleeDecls = calleeSym?.getDeclarations() ?? [];
+    const declarationFile = calleeDecls.length > 0
+      ? toRepoPath(path.relative(clonePath, calleeDecls[0].getSourceFile().getFilePath()))
+      : null;
+    const declarationModuleSpecifier = calleeDecls.length > 0
+      ? safeText(() => calleeDecls[0].getSourceFile().getFilePath())
+      : null;
+
+    const handlerExpression = handlerArg ? safeText(() => handlerArg.getText()) : null;
+    const handlerSym = handlerArg ? handlerArg.getSymbol() : null;
+    const resolvedHandlerName = safeText(() => handlerSym?.getName() ?? handlerName);
+    const handlerDecls = handlerSym?.getDeclarations() ?? [];
+    const resolvedHandlerDeclarationFile = handlerDecls.length > 0
+      ? toRepoPath(path.relative(clonePath, handlerDecls[0].getSourceFile().getFilePath()))
+      : null;
+
+    let resolutionStatus: FirestoreTriggerRow["resolutionStatus"] = "unresolved";
+    if (calleeSymbolName && resolvedHandlerDeclarationFile) {
+      resolutionStatus = "resolved";
+    } else if (calleeSymbolName || resolvedHandlerDeclarationFile || firestorePath) {
+      resolutionStatus = "partial";
+    }
 
     rows.push({
       ...base,
@@ -354,6 +458,16 @@ function extractFirestoreTriggers(
       firestorePath,
       handlerName,
       rawText: node.getText().slice(0, 500),
+
+      calleeExpression: calleeExprText,
+      calleeSymbol: calleeSymbolName,
+      resolvedCalleeSymbol: resolvedCalleeSymbolName,
+      declarationFile,
+      declarationModuleSpecifier,
+      handlerExpression,
+      resolvedHandlerName,
+      resolvedHandlerDeclarationFile,
+      resolutionStatus,
     });
   });
 
@@ -363,6 +477,7 @@ function extractFirestoreTriggers(
 function extractImports(sourceFile: SourceFile, base: BaseRecord) {
   return sourceFile.getImportDeclarations().map(i => ({
     ...base,
+    line: i.getStartLineNumber(),
     moduleSpecifier: i.getModuleSpecifierValue(),
     defaultImport: safeText(() => i.getDefaultImport()?.getText()),
     namespaceImport: safeText(() => i.getNamespaceImport()?.getText()),
@@ -383,6 +498,7 @@ function extractExports(sourceFile: SourceFile, base: BaseRecord) {
     if (namespaceExport) {
       rows.push({
         ...base,
+        line: e.getStartLineNumber(),
         kind: "namespaceExport",
         name: namespaceExport.getName(),
         moduleSpecifier,
@@ -395,6 +511,7 @@ function extractExports(sourceFile: SourceFile, base: BaseRecord) {
       for (const n of namedExports) {
         rows.push({
           ...base,
+          line: e.getStartLineNumber(),
           kind: "namedExport",
           name: n.getName(),
           alias: safeText(() => n.getAliasNode()?.getText()),
@@ -407,6 +524,7 @@ function extractExports(sourceFile: SourceFile, base: BaseRecord) {
     if (moduleSpecifier) {
       rows.push({
         ...base,
+        line: e.getStartLineNumber(),
         kind: "exportStar",
         name: "*",
         moduleSpecifier,
@@ -420,6 +538,7 @@ function extractExports(sourceFile: SourceFile, base: BaseRecord) {
 
       rows.push({
         ...base,
+        line: d.getStartLineNumber(),
         kind: "localExport",
         name,
         declarationKind: d.getKindName(),
@@ -440,6 +559,7 @@ function extractClassesAndMethods(sourceFile: SourceFile, base: BaseRecord) {
 
     classes.push({
       ...base,
+      line: c.getStartLineNumber(),
       name: className,
       isExported: c.isExported(),
       isDefaultExport: c.isDefaultExport(),
@@ -450,6 +570,7 @@ function extractClassesAndMethods(sourceFile: SourceFile, base: BaseRecord) {
     for (const ctor of c.getConstructors()) {
       methods.push({
         ...base,
+        line: ctor.getStartLineNumber(),
         className,
         kind: "constructor",
         name: "constructor",
@@ -466,6 +587,7 @@ function extractClassesAndMethods(sourceFile: SourceFile, base: BaseRecord) {
     for (const m of c.getMethods()) {
       methods.push({
         ...base,
+        line: m.getStartLineNumber(),
         className,
         kind: "method",
         name: m.getName(),
@@ -494,6 +616,7 @@ function extractClassesAndMethods(sourceFile: SourceFile, base: BaseRecord) {
 function extractFunctions(sourceFile: SourceFile, base: BaseRecord) {
   return sourceFile.getFunctions().map(f => ({
     ...base,
+    line: f.getStartLineNumber(),
     name: f.getName() ?? "anonymous",
     isExported: f.isExported(),
     isDefaultExport: f.isDefaultExport(),
@@ -533,12 +656,39 @@ function extractApiContracts(sourceFile: SourceFile, base: BaseRecord): ApiContr
 
   sourceFile.forEachDescendant(node => {
     if (Node.isCallExpression(node) && node.getExpression().getText().endsWith('https.onCall')) {
+      const calleeExpr = node.getExpression();
+      const calleeSymbol = calleeExpr.getSymbol();
+      const calleeSymbolName = safeText(() => calleeSymbol?.getName());
+      const aliasedSymbolName = safeText(() => calleeSymbol?.getAliasedSymbol()?.getName());
+
+      const calleeDecls = calleeSymbol?.getDeclarations() ?? [];
+      const declarationFile = calleeDecls.length > 0
+        ? toRepoPath(path.relative(clonePath, calleeDecls[0].getSourceFile().getFilePath()))
+        : null;
+      const declarationModule = calleeDecls.length > 0
+        ? safeText(() => calleeDecls[0].getSourceFile().getFilePath())
+        : null;
+
       const handlerArg = node.getArguments()[0];
+      const handlerExprText = handlerArg ? safeText(() => handlerArg.getText()) : null;
+
+      let handlerName = "unknown";
+      let requestType: string | null = null;
+      let requestSchema: Record<string, string> | null = null;
+      let responseType: string | null = null;
+      let decorators: { name: string; arguments: (string | null)[] }[] = [];
+      let resolvedHandlerDeclarationFile: string | null = null;
+
       if (handlerArg && (Node.isIdentifier(handlerArg) || Node.isPropertyAccessExpression(handlerArg))) {
-        const handlerFunc = handlerArg.getSymbol()?.getValueDeclaration();
+        const handlerSym = handlerArg.getSymbol();
+        const handlerFunc = handlerSym?.getValueDeclaration();
+        const handlerDecls = handlerSym?.getDeclarations() ?? [];
+
+        if (handlerDecls.length > 0) {
+          resolvedHandlerDeclarationFile = toRepoPath(path.relative(clonePath, handlerDecls[0].getSourceFile().getFilePath()));
+        }
 
         if (handlerFunc && (Node.isFunctionDeclaration(handlerFunc) || Node.isMethodDeclaration(handlerFunc) || Node.isArrowFunction(handlerFunc) || Node.isFunctionExpression(handlerFunc))) {
-          let handlerName: string;
           if (Node.isFunctionDeclaration(handlerFunc) || Node.isMethodDeclaration(handlerFunc)) {
             handlerName = handlerFunc.getName() ?? handlerArg.getText();
           } else {
@@ -546,62 +696,58 @@ function extractApiContracts(sourceFile: SourceFile, base: BaseRecord): ApiContr
           }
 
           const parameters = handlerFunc.getParameters();
-
           if (parameters.length > 0) {
-            const requestParam = parameters[0];
-            const requestType = requestParam.getType();
-            const requestTypeName = requestParam.getTypeNode()?.getText() ?? requestType.getText() ?? 'unknown';
-            let requestSchema: Record<string, string> | null = null;
+            const firstParam = parameters[0];
+            const paramTypeNode = firstParam.getTypeNode();
+            requestType = paramTypeNode ? paramTypeNode.getText() : null;
 
-            const properties = requestType.getProperties();
-            if (properties.length > 0) {
-              requestSchema = {};
-              properties.forEach(prop => {
-                const propName = prop.getName();
-                const declaration = prop.getValueDeclaration();
-                let propType = declaration ? declaration.getType().getText() : "any";
-                propType = propType.replace(/import\("[^"]+"\)\./g, '');
-                requestSchema![propName] = propType;
-              });
-            } else {
-              const symbol = requestType.getSymbol() ?? requestParam.getTypeNode()?.getType().getSymbol();
-              if (symbol) {
-                const decls = symbol.getDeclarations();
-                for (const decl of decls) {
-                  if (Node.isInterfaceDeclaration(decl) || Node.isClassDeclaration(decl)) {
-                    requestSchema = requestSchema ?? {};
-                    decl.getProperties().forEach(p => {
-                      let pType = p.getTypeNode()?.getText() ?? p.getType().getText() ?? 'any';
-                      pType = pType.replace(/import\("[^"]+"\)\./g, '');
-                      requestSchema![p.getName()] = pType;
-                    });
-                  } else if (Node.isTypeAliasDeclaration(decl)) {
-                    const typeNode = decl.getTypeNode();
-                    if (Node.isTypeLiteral(typeNode)) {
-                      requestSchema = requestSchema ?? {};
-                      typeNode.getProperties().forEach(p => {
-                        let pType = p.getTypeNode()?.getText() ?? p.getType().getText() ?? 'any';
-                        pType = pType.replace(/import\("[^"]+"\)\./g, '');
-                        requestSchema![p.getName()] = pType;
-                      });
-                    }
-                  }
+            if (paramTypeNode && Node.isTypeReference(paramTypeNode)) {
+              const typeName = paramTypeNode.getTypeName().getText();
+              const interfaceDecl = sourceFile.getInterface(typeName) || sourceFile.getProject().getSourceFiles().map(sf => sf.getInterface(typeName)).find(Boolean);
+
+              if (interfaceDecl) {
+                requestSchema = {};
+                for (const prop of interfaceDecl.getProperties()) {
+                  const propTypeNode = prop.getTypeNode();
+                  requestSchema[prop.getName()] = propTypeNode ? propTypeNode.getText() : "any";
                 }
               }
             }
-
-            apiContracts.push({
-              ...base,
-              line: handlerFunc.getStartLineNumber(),
-              handlerName: handlerName,
-              requestType: requestTypeName,
-              requestSchema: requestSchema,
-              responseType: safeText(() => handlerFunc.getReturnType().getText()),
-              decorators: Node.isDecoratable(handlerFunc) ? extractDecorators(handlerFunc) : [],
-            });
           }
+
+          const returnTypeNode = handlerFunc.getReturnTypeNode();
+          responseType = returnTypeNode ? returnTypeNode.getText() : safeText(() => handlerFunc.getReturnType().getText());
+          decorators = extractDecorators(handlerFunc);
         }
       }
+
+      let resolutionStatus: ApiContractRow["resolutionStatus"] = "unresolved";
+      if (handlerName !== "unknown" && resolvedHandlerDeclarationFile) {
+        resolutionStatus = "resolved";
+      } else if (handlerName !== "unknown" || calleeSymbolName) {
+        resolutionStatus = "partial";
+      }
+
+      apiContracts.push({
+        ...base,
+        line: node.getStartLineNumber(),
+        handlerName,
+        requestType,
+        requestSchema,
+        responseType,
+        decorators,
+
+        calleeExpression: safeText(() => calleeExpr.getText()),
+        resolvedSymbol: calleeSymbolName,
+        aliasedSymbol: aliasedSymbolName,
+        declarationFile,
+        declarationModule,
+        handlerExpression: handlerExprText,
+        resolvedHandlerDeclaration: resolvedHandlerDeclarationFile,
+        requestParameterEvidence: requestSchema ?? requestType,
+        returnTypeEvidence: responseType,
+        resolutionStatus,
+      });
     }
   });
 
@@ -614,21 +760,25 @@ function extractTypeAliasesAndEnums(sourceFile: SourceFile, base: BaseRecord) {
 
   for (const alias of sourceFile.getTypeAliases()) {
     const typeNode = alias.getTypeNode();
-    const rawTypeText = typeNode ? typeNode.getText() : alias.getType().getText();
-    const cleanTypeText = rawTypeText.replace(/import\("[^"]+"\)\./g, '');
+    const typeText = alias.getType().getText();
+    const cleanTypeText = typeText.length < 500 ? typeText : (typeNode ? safeText(() => typeNode.getText()) : "complex");
 
-    const literalValues: (string | number)[] = [];
-    if (Node.isUnionTypeNode(typeNode)) {
-      for (const element of typeNode.getTypeNodes()) {
-        if (Node.isLiteralTypeNode(element)) {
-          const literal = element.getLiteral();
-          if (Node.isStringLiteral(literal)) {
-            literalValues.push(literal.getLiteralText());
-          } else if (Node.isNumericLiteral(literal)) {
-            literalValues.push(literal.getLiteralValue());
+    let literalValues: (string | number)[] | null = null;
+    if (typeNode && Node.isUnionTypeNode(typeNode)) {
+      literalValues = typeNode
+        .getTypeNodes()
+        .map(tn => {
+          if (Node.isLiteralTypeNode(tn)) {
+            const lit = tn.getLiteral();
+            if (Node.isStringLiteral(lit) || Node.isNumericLiteral(lit)) {
+              return lit.getLiteralValue();
+            }
           }
-        }
-      }
+          return null;
+        })
+        .filter((v): v is string | number => v !== null);
+
+      if (literalValues.length === 0) literalValues = null;
     }
 
     typeAliases.push({
@@ -667,136 +817,75 @@ function extractTypeAliasesAndEnums(sourceFile: SourceFile, base: BaseRecord) {
 }
 
 function extractModelProperties(sourceFile: SourceFile, base: BaseRecord) {
-  const properties: any[] = [];
+  const modelProperties: any[] = [];
 
-  for (const iface of sourceFile.getInterfaces()) {
-    for (const prop of iface.getProperties()) {
-      let typeText = prop.getTypeNode()?.getText() ?? prop.getType().getText() ?? 'any';
-      typeText = typeText.replace(/import\("[^"]+"\)\./g, '');
+  const processMembers = (containerName: string, members: Node[], isClass: boolean) => {
+    for (const member of members) {
+      if (Node.isPropertyDeclaration(member) || Node.isPropertySignature(member)) {
+        const propName = member.getName();
+        const typeNode = member.getTypeNode();
+        const rawTypeText = typeNode ? safeText(() => typeNode.getText()) : null;
+        const resolvedTypeText = safeText(() => member.getType().getText());
 
-      properties.push({
-        ...base,
-        line: prop.getStartLineNumber(),
-        parentKind: 'interface',
-        parentName: iface.getName(),
-        propertyName: prop.getName(),
-        typeText,
-        isOptional: prop.hasQuestionToken(),
-        isReadonly: prop.isReadonly(),
-        isExported: iface.isExported(),
-      });
+        modelProperties.push({
+          ...base,
+          line: member.getStartLineNumber(),
+          containerName,
+          containerKind: isClass ? "class" : "interface",
+          propertyName: propName,
+          isOptional: member.hasQuestionToken(),
+          isReadonly: member.isReadonly(),
+          rawTypeText,
+          resolvedTypeText,
+          decorators: extractDecorators(member),
+        });
+      }
     }
-  }
+  };
 
   for (const cls of sourceFile.getClasses()) {
-    const className = cls.getName() ?? 'AnonymousClass';
-    for (const prop of cls.getProperties()) {
-      let typeText = prop.getTypeNode()?.getText() ?? prop.getType().getText() ?? 'any';
-      typeText = typeText.replace(/import\("[^"]+"\)\./g, '');
-
-      properties.push({
-        ...base,
-        line: prop.getStartLineNumber(),
-        parentKind: 'class',
-        parentName: className,
-        propertyName: prop.getName(),
-        typeText,
-        isOptional: prop.hasQuestionToken(),
-        isStatic: prop.isStatic(),
-        isReadonly: prop.isReadonly(),
-        isExported: cls.isExported(),
-      });
-    }
+    const className = cls.getName() ?? "anonymous";
+    processMembers(className, cls.getMembers(), true);
   }
 
-  return properties;
-}
+  for (const iface of sourceFile.getInterfaces()) {
+    const interfaceName = iface.getName();
+    processMembers(interfaceName, iface.getMembers(), false);
+  }
 
-function extractStringHints(sourceFile: SourceFile, base: BaseRecord) {
-  const firestoreLike: any[] = [];
-  const permissions: any[] = [];
-
-  // 1. Structural matching for collections
-  const structuralPaths = extractFirestorePaths(sourceFile, base);
-  firestoreLike.push(...structuralPaths);
-
-  // 2. Structural matching for permissions
-  const structuralPermissions = extractPermissions(sourceFile, base);
-  permissions.push(...structuralPermissions);
-
-  // 3. Robust fallback checks using our dynamic rules schema (Option A, Strict Slash-Prefix)
-  sourceFile.forEachDescendant(node => {
-    if (!Node.isStringLiteral(node) && !Node.isNoSubstitutionTemplateLiteral(node)) {
-      return;
-    }
-
-    const text = node.getLiteralText();
-
-    const isDynamicFirestoreTouch = ACTIVE_ROOT_COLLECTIONS.some(col => 
-      text.startsWith(col) || text.includes(col + "/") || text === col
-    );
-
-    if (isDynamicFirestoreTouch) {
-      const alreadyCaptured = firestoreLike.some(f => f.value === text && f.line === node.getStartLineNumber());
-      if (!alreadyCaptured) {
-        firestoreLike.push({
-          ...base,
-          value: text,
-          line: node.getStartLineNumber(),
-        });
-      }
-    }
-
-    const isLegacyPermission = text.startsWith("v1.") || text.includes("permission-denied");
-    if (isLegacyPermission) {
-      const alreadyCaptured = permissions.some(p => p.value === text && p.line === node.getStartLineNumber());
-      if (!alreadyCaptured) {
-        permissions.push({
-          ...base,
-          value: text,
-          line: node.getStartLineNumber(),
-        });
-      }
-    }
-  });
-
-  return { firestoreLike, permissions };
+  return modelProperties;
 }
 
 function extractExternalHooks(sourceFile: SourceFile, base: BaseRecord) {
   const hooks: any[] = [];
 
-  // 1. Structural matching
   sourceFile.forEachDescendant(node => {
     if (!Node.isCallExpression(node)) return;
 
     const expr = node.getExpression();
+
     if (!Node.isPropertyAccessExpression(expr)) return;
 
     const name = expr.getName();
 
-    // Pub/Sub Topics (.topic("topic-name"))
+    // PubSub (.topic)
     if (name === "topic") {
       const args = node.getArguments();
-      if (args.length > 0) {
-        const topicName = resolveExpressionValue(args[0], sourceFile);
-        if (topicName) {
-          const callerType = expr.getExpression().getType().getText();
-          const isPubSub = callerType.includes("PubSub") || callerType.includes("Topic") || callerType.includes("pubsub") || callerType === "any";
-          if (isPubSub) {
-            hooks.push({
-              ...base,
-              type: "pubsub_or_notification_candidate",
-              value: topicName,
-              line: node.getStartLineNumber(),
-            });
-          }
-        }
+      const topicName = args.length > 0 ? resolveExpressionValue(args[0], sourceFile) : "unknown";
+      const callerType = expr.getExpression().getType().getText();
+      const isPubSub = callerType.includes("PubSub") || callerType.includes("pubsub") || callerType === "any";
+      if (isPubSub) {
+        hooks.push({
+          ...base,
+          type: "pubsub_topic",
+          value: topicName || "unknown",
+          line: node.getStartLineNumber(),
+        });
       }
     }
 
-    // Firebase Messaging (.send, .sendToDevice, .sendToTopic)
-    if (name === "send" || name === "sendToDevice" || name === "sendToTopic") {
+    // FCM Notification / messaging
+    if (name === "send" || name === "sendEach" || name === "sendMulticast") {
       hooks.push({
         ...base,
         type: "pubsub_or_notification_candidate",
@@ -909,18 +998,26 @@ function extractExternalHooks(sourceFile: SourceFile, base: BaseRecord) {
 }
 
 function main() {
-  const tsFiles = files.filter(isTsSource);
-  const firstRepo = repoConfig.repositories[0];
+  const notifications = loadNotifications();
 
-  if (!firstRepo) {
-    throw new Error("No repository configured in config/repos.json");
+  const tsFiles = files.filter(isTsSource);
+
+  // Requirement 1: Resolve tsconfig based strictly on targetRepo
+  const tsConfigFilePath = path.join(clonePath, "functions", "tsconfig.json");
+
+  if (!fs.existsSync(tsConfigFilePath)) {
+    addNotification(
+      notifications,
+      "error",
+      "TSCONFIG_MISSING_ERROR",
+      `Missing expected tsconfig.json at path [${tsConfigFilePath}]. Cannot perform trustworthy compiler resolution.`
+    );
+    writeNotifications(notifications);
+    throw new Error(`[Fail-Closed] Missing required tsconfig.json at expected path [${tsConfigFilePath}] for repository [${targetRepo.name}].`);
   }
 
-  const effectiveRepoPath = repoPathMap.get(firstRepo.name) ?? firstRepo.path;
-  const tsConfigFilePath = path.join(effectiveRepoPath, "functions", "tsconfig.json");
-
   const project = new Project({
-    tsConfigFilePath: fs.existsSync(tsConfigFilePath) ? tsConfigFilePath : undefined,
+    tsConfigFilePath,
     skipAddingFilesFromTsConfig: true,
     compilerOptions: {
       allowJs: false,
@@ -929,19 +1026,60 @@ function main() {
     },
   });
 
-  const validFiles = tsFiles
-    .map(file => ({ file, base: makeBase(file) }))
-    .filter((x): x is { file: FileInfo; base: BaseRecord } => Boolean(x.base));
+  // Requirement 2: Make absolutePath runtime-only
+  const missingFiles: string[] = [];
+  const validFiles: RuntimeFile[] = [];
+
+  for (const file of tsFiles) {
+    const rf = makeRuntimeFile(file);
+    if (!rf) {
+      missingFiles.push(file.path);
+    } else {
+      validFiles.push(rf);
+    }
+  }
+
+  if (missingFiles.length > 0) {
+    addNotification(
+      notifications,
+      "warning",
+      "MISSING_SOURCE_FILE_WARNING",
+      `${missingFiles.length} source file(s) listed in files.json were missing on disk inside the clone repository.`,
+      { count: missingFiles.length, files: missingFiles.slice(0, 10) }
+    );
+  }
+
+  if (validFiles.length === 0) {
+    addNotification(
+      notifications,
+      "error",
+      "ZERO_VALID_FILES_ERROR",
+      `Zero valid TypeScript source files could be found on disk for repository [${targetRepo.name}].`
+    );
+    writeNotifications(notifications);
+    throw new Error(`[Fail-Closed] Zero valid TypeScript source files found for AST extraction in [${targetRepo.name}].`);
+  }
 
   console.log(`Manifest files: ${files.length}`);
   console.log(`TS files selected: ${validFiles.length}`);
 
-  for (const { base } of validFiles) {
+  const addErrors: string[] = [];
+  for (const rf of validFiles) {
     try {
-      project.addSourceFileAtPath(base.absolutePath);
-    } catch {
-      console.warn(`Could not add source file: ${base.path}`);
+      project.addSourceFileAtPath(rf.absolutePath);
+    } catch (err: any) {
+      addErrors.push(rf.base.path);
     }
+  }
+
+  if (addErrors.length > 0) {
+    addNotification(
+      notifications,
+      "warning",
+      "TS_MORPH_ADD_ERROR",
+      `Failed to add ${addErrors.length} source file(s) to ts-morph project.`,
+      { count: addErrors.length, files: addErrors.slice(0, 10) }
+    );
   }
 
   const output = {
@@ -962,39 +1100,113 @@ function main() {
     errors: [] as any[]
   };
 
-  for (const { base } of validFiles) {
-    const sourceFile = project.getSourceFile(base.absolutePath);
-    if (!sourceFile) continue;
+  const getErrors: string[] = [];
+
+  for (const rf of validFiles) {
+    const sourceFile = project.getSourceFile(rf.absolutePath);
+    if (!sourceFile) {
+      getErrors.push(rf.base.path);
+      continue;
+    }
 
     try {
-      output.imports.push(...extractImports(sourceFile, base));
-      output.exports.push(...extractExports(sourceFile, base));
+      output.imports.push(...extractImports(sourceFile, rf.base));
+      output.exports.push(...extractExports(sourceFile, rf.base));
 
-      const cm = extractClassesAndMethods(sourceFile, base);
+      const cm = extractClassesAndMethods(sourceFile, rf.base);
       output.classes.push(...cm.classes);
       output.methods.push(...cm.methods);
 
-      output.functions.push(...extractFunctions(sourceFile, base));
-      output.calls.push(...extractCalls(sourceFile, base));
-      output.firestoreTriggers.push(...extractFirestoreTriggers(sourceFile, base));
+      output.functions.push(...extractFunctions(sourceFile, rf.base));
+      output.calls.push(...extractCalls(sourceFile, rf.base));
+      output.firestoreTriggers.push(...extractFirestoreTriggers(sourceFile, rf.base));
 
-      const te = extractTypeAliasesAndEnums(sourceFile, base);
+      const te = extractTypeAliasesAndEnums(sourceFile, rf.base);
       output.typeAliases.push(...te.typeAliases);
       output.enums.push(...te.enums);
 
-      output.modelProperties.push(...extractModelProperties(sourceFile, base));
+      output.modelProperties.push(...extractModelProperties(sourceFile, rf.base));
 
-      const hints = extractStringHints(sourceFile, base);
+      const hints = extractStringHints(sourceFile, rf.base);
       output.firestoreHints.push(...hints.firestoreLike);
       output.permissionHints.push(...hints.permissions);
 
-      output.apiContracts.push(...extractApiContracts(sourceFile, base));
-      output.externalHooks.push(...extractExternalHooks(sourceFile, base));
+      output.apiContracts.push(...extractApiContracts(sourceFile, rf.base));
+      output.externalHooks.push(...extractExternalHooks(sourceFile, rf.base));
     } catch (err: any) {
       output.errors.push({
-        path: base.path,
+        path: rf.base.path,
         message: err?.message ?? String(err),
       });
+    }
+  }
+
+  if (getErrors.length > 0) {
+    addNotification(
+      notifications,
+      "warning",
+      "TS_MORPH_GET_ERROR",
+      `Could not retrieve ${getErrors.length} source file(s) after loading into ts-morph project.`,
+      { count: getErrors.length, files: getErrors.slice(0, 10) }
+    );
+  }
+
+  if (output.errors.length > 0) {
+    addNotification(
+      notifications,
+      "warning",
+      "EXTRACTION_ERROR",
+      `${output.errors.length} per-file extraction error(s) occurred during AST parsing.`,
+      { count: output.errors.length, files: output.errors.map(e => e.path).slice(0, 10) }
+    );
+  }
+
+  const errorRate = output.errors.length / validFiles.length;
+  if (errorRate > 0.05) {
+    addNotification(
+      notifications,
+      "warning",
+      "HIGH_ERROR_RATE_WARNING",
+      `Unusually high AST extraction error rate: ${(errorRate * 100).toFixed(1)}% of files encountered errors.`,
+      { errorRate, totalFiles: validFiles.length, errorCount: output.errors.length }
+    );
+  }
+
+  // Check unresolved callables/triggers rate
+  const totalCallableAndTriggers = output.apiContracts.length + output.firestoreTriggers.length;
+  if (totalCallableAndTriggers > 0) {
+    const unresolvedCount =
+      output.apiContracts.filter(c => c.resolutionStatus === "unresolved").length +
+      output.firestoreTriggers.filter(t => t.resolutionStatus === "unresolved").length;
+    const unresolvedRate = unresolvedCount / totalCallableAndTriggers;
+
+    if (unresolvedRate > 0.20) {
+      addNotification(
+        notifications,
+        "warning",
+        "HIGH_UNRESOLVED_RATE_WARNING",
+        `Unresolved callable/trigger rate is ${(unresolvedRate * 100).toFixed(1)}% (${unresolvedCount}/${totalCallableAndTriggers}), exceeding 20% threshold.`,
+        { unresolvedRate, unresolvedCount, totalCallableAndTriggers }
+      );
+    }
+  }
+
+  // Check zero records in major evidence categories
+  const majorCategories = [
+    { name: "imports", count: output.imports.length },
+    { name: "exports", count: output.exports.length },
+    { name: "classes", count: output.classes.length },
+    { name: "calls", count: output.calls.length },
+  ];
+
+  for (const cat of majorCategories) {
+    if (cat.count === 0) {
+      addNotification(
+        notifications,
+        "warning",
+        "ZERO_RECORDS_WARNING",
+        `Anomalous extraction result: zero records extracted for major evidence category [${cat.name}].`
+      );
     }
   }
 
@@ -1019,6 +1231,39 @@ function main() {
   );
   fs.writeFileSync(path.join(outputRoot, "ast-errors.json"), JSON.stringify(output.errors, null, 2));
 
+  // Requirement 7: Write ast-evidence-manifest.json
+  const astManifest = {
+    schemaVersion: "1.0.0",
+    runId,
+    repoName: REPO_NAME,
+    generatedAt: new Date().toISOString(),
+    artefacts: [
+      { file: "ast-imports.json", evidenceType: "imports", recordCount: output.imports.length, required: true },
+      { file: "ast-exports.json", evidenceType: "exports", recordCount: output.exports.length, required: true },
+      { file: "ast-classes.json", evidenceType: "classes", recordCount: output.classes.length, required: true },
+      { file: "ast-methods.json", evidenceType: "methods", recordCount: output.methods.length, required: true },
+      { file: "ast-functions.json", evidenceType: "functions", recordCount: output.functions.length, required: true },
+      { file: "ast-type-aliases.json", evidenceType: "typeAliases", recordCount: output.typeAliases.length, required: true },
+      { file: "ast-enums.json", evidenceType: "enums", recordCount: output.enums.length, required: true },
+      { file: "ast-model-properties.json", evidenceType: "modelProperties", recordCount: output.modelProperties.length, required: true },
+      { file: "ast-calls.json", evidenceType: "calls", recordCount: output.calls.length, required: true },
+      { file: "ast-firestore-hints.json", evidenceType: "firestoreHints", recordCount: output.firestoreHints.length, required: true },
+      { file: "ast-permission-hints.json", evidenceType: "permissionHints", recordCount: output.permissionHints.length, required: true },
+      { file: "ast-external-hooks.json", evidenceType: "externalHooks", recordCount: output.externalHooks.length, required: true },
+      { file: "ast-api-contracts.json", evidenceType: "apiContracts", recordCount: output.apiContracts.length, required: true },
+      { file: "ast-firestore-triggers.json", evidenceType: "firestoreTriggers", recordCount: output.firestoreTriggers.length, required: true },
+    ],
+    errors: {
+      file: "ast-errors.json",
+      recordCount: output.errors.length,
+    },
+  };
+
+  fs.writeFileSync(path.join(outputRoot, "ast-evidence-manifest.json"), JSON.stringify(astManifest, null, 2));
+
+  // Write updated run-notifications.json
+  writeNotifications(notifications);
+
   console.log("AST evidence extraction complete");
   console.log({
     imports: output.imports.length,
@@ -1037,6 +1282,7 @@ function main() {
     firestoreTriggers: output.firestoreTriggers.length,
     errors: output.errors.length,
   });
+  console.log(`AST evidence manifest written to: ${path.join(outputRoot, "ast-evidence-manifest.json")}`);
 }
 
 main();
