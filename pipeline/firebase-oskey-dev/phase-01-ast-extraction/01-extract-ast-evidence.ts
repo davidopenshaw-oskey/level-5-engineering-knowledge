@@ -170,6 +170,17 @@ function toRepoPath(absolutePath: string, repoRoot: string): string {
   return relative.replace(/\\/g, "/");
 }
 
+function sanitizeTypeText(typeText: string, clonePath: string): string {
+  if (!typeText) return "";
+  const normalizedClone = clonePath.replace(/\\/g, "/");
+  let cleaned = typeText.replace(/\\/g, "/");
+  if (cleaned.includes(normalizedClone)) {
+    cleaned = cleaned.split(normalizedClone + "/").join("");
+    cleaned = cleaned.split(normalizedClone).join("");
+  }
+  return cleaned;
+}
+
 function unique<T>(items: T[]): T[] {
   return Array.from(new Set(items));
 }
@@ -406,7 +417,7 @@ function main() {
 
       for (const method of cls.getMethods()) {
         const methodName = method.getName();
-        const returnType = method.getReturnType().getText();
+        const returnType = sanitizeTypeText(method.getReturnType().getText(), clonePath);
         const isAsync = method.isAsync();
         const isStatic = method.isStatic();
         const visibility = method.getScope();
@@ -429,7 +440,7 @@ function main() {
       const name = fn.getName() || "AnonymousFunction";
       const isExported = fn.isExported();
       const isAsync = fn.isAsync();
-      const returnType = fn.getReturnType().getText();
+      const returnType = sanitizeTypeText(fn.getReturnType().getText(), clonePath);
 
       rawFunctions.push({
         ...base,
@@ -470,7 +481,7 @@ function main() {
           line: prop.getStartLineNumber(),
           parentName: iface.getName(),
           propertyName: prop.getName(),
-          propertyType: prop.getType().getText(),
+          propertyType: sanitizeTypeText(prop.getType().getText(), clonePath),
           isOptional: prop.hasQuestionToken(),
         });
       }

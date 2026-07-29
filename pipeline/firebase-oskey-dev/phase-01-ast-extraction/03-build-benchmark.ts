@@ -122,7 +122,7 @@ function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): 
   }
   if (typeof data === "object") {
     for (const key of Object.keys(data as object)) {
-      if (key === "absolutePath") continue;
+      if (key === "absolutePath" || key === "clonePath") continue; // runtime-only local bindings
       assertNoLocalAbsolutePaths((data as any)[key], `${contextDescription}.${key}`);
     }
   }
