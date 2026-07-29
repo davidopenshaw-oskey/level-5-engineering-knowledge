@@ -10,40 +10,19 @@ import fs from "fs";
 import path from "path";
 
 const projectRoot = process.cwd();
-const runContextPath = path.join(projectRoot, "output", "run-context.json");
-
-if (!fs.existsSync(runContextPath)) {
-  throw new Error("Could not find run-context.json. Please run `00-scan-repo` first.");
-}
-
-const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
-const runId: string = runContext.runId;
-const REPO_NAME: string = runContext.repoName;
-if (!REPO_NAME) {
-  throw new Error("Missing 'repoName' in output/run-context.json");
-}
-
-const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
-if (!fs.existsSync(repoOutputDir)) {
-  throw new Error(`Run directory not found at '${repoOutputDir}'.`);
-}
-
-const notificationsPath = path.join(repoOutputDir, "run-notifications.json");
-const rawDir = path.join(repoOutputDir, "facts");
-const modulesRootDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
-const kpDir = path.join(repoOutputDir, "knowledge-pipeline");
 
 type NotificationSeverity = "info" | "warning" | "error" | "fatal";
 
 interface NotificationEntry {
   id: string;
-  timestamp: string;
+  sourceScript: string;
   severity: NotificationSeverity;
   code: string;
   message: string;
-  details?: any;
-  sourceScript?: string;
-  humanAttentionRecommended?: boolean;
+  details?: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+  humanAttentionRecommended: boolean;
 }
 
 interface RunNotifications {
@@ -55,61 +34,56 @@ interface RunNotifications {
   entries: NotificationEntry[];
 }
 
-type EvidenceFact = {
-  id: string;
-  runId: string;
-  type: string;
-  repo?: string | null;
-  module: string;
-  submodule?: string | null;
-  file?: string | null;
-  line?: number | null;
-  value?: string | null;
-  symbol?: string | null;
-  method?: string | null;
-  className?: string | null;
-  evidence: Record<string, any>;
-};
-
-function loadNotifications(): RunNotifications {
-  if (fs.existsSync(notificationsPath)) {
-    try {
-      return JSON.parse(fs.readFileSync(notificationsPath, "utf8"));
-    } catch {
-      // Return fresh object
-    }
-  }
-  return {
-    schemaVersion: "1.0.0",
-    runId,
-    repoName: REPO_NAME,
-    updatedAt: new Date().toISOString(),
-    highestSeverity: "info",
-    entries: [],
-  };
+function buildNotificationId(sourceScript: string, code: string, details?: Record<string, unknown>): string {
+  const parts = [
+    sourceScript,
+    code,
+    details?.module ? String(details.module) : "",
+    details?.file ? String(details.file) : "",
+    details?.missingArtifact ? String(details.missingArtifact) : "",
+    details?.key ? String(details.key) : "",
+  ].filter(Boolean);
+  return parts.join("::").toLowerCase();
 }
 
 function addNotification(
   notifications: RunNotifications,
+  sourceScript: string,
   severity: NotificationSeverity,
   code: string,
   message: string,
-  details?: any,
-  sourceScript = "04-build-resolved-graph",
+  details?: Record<string, unknown>,
   humanAttentionRecommended = false
 ) {
-  const entry: NotificationEntry = {
-    id: `notif_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-    timestamp: new Date().toISOString(),
-    severity,
-    code,
-    message,
-    details,
-    sourceScript,
-    humanAttentionRecommended,
-  };
-  notifications.entries.push(entry);
-  notifications.updatedAt = entry.timestamp;
+  const id = buildNotificationId(sourceScript, code, details);
+  const now = new Date().toISOString();
+
+  const existingIdx = notifications.entries.findIndex(e => e.id === id);
+  if (existingIdx >= 0) {
+    const existing = notifications.entries[existingIdx];
+    notifications.entries[existingIdx] = {
+      ...existing,
+      severity,
+      message,
+      details,
+      updatedAt: now,
+      humanAttentionRecommended: existing.humanAttentionRecommended || humanAttentionRecommended,
+    };
+  } else {
+    notifications.entries.push({
+      id,
+      sourceScript,
+      severity,
+      code,
+      message,
+      details,
+      createdAt: now,
+      updatedAt: now,
+      humanAttentionRecommended,
+    });
+  }
+
+  notifications.updatedAt = now;
 
   const severityOrder: Record<NotificationSeverity, number> = {
     info: 1,
@@ -117,34 +91,48 @@ function addNotification(
     error: 3,
     fatal: 4,
   };
-  if (severityOrder[severity] > severityOrder[notifications.highestSeverity]) {
-    notifications.highestSeverity = severity;
-  }
-}
 
-function writeNotificationsAtomically(notifications: RunNotifications) {
-  const tmpPath = `${notificationsPath}.tmp`;
-  fs.writeFileSync(tmpPath, JSON.stringify(notifications, null, 2), "utf8");
-  fs.renameSync(tmpPath, notificationsPath);
-}
-
-function stripAbsolutePath<T>(obj: T): T {
-  if (!obj || typeof obj !== "object") return obj;
-  if (Array.isArray(obj)) return obj.map(stripAbsolutePath) as any;
-  const copy = { ...obj } as any;
-  delete copy.absolutePath;
-  for (const key of Object.keys(copy)) {
-    if (typeof copy[key] === "object" && copy[key] !== null) {
-      copy[key] = stripAbsolutePath(copy[key]);
+  let maxSev: NotificationSeverity = "info";
+  for (const entry of notifications.entries) {
+    if (severityOrder[entry.severity] > severityOrder[maxSev]) {
+      maxSev = entry.severity;
     }
   }
-  return copy;
+  notifications.highestSeverity = maxSev;
 }
 
-function writeJsonAtomically(filePath: string, data: unknown) {
+function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): void {
+  if (data === null || data === undefined) return;
+  if (typeof data === "string") {
+    if (
+      data.includes("/Users/") ||
+      data.includes("/home/") ||
+      /^[a-zA-Z]:\\/.test(data) ||
+      data.startsWith("file://")
+    ) {
+      throw new Error(`[Local Path Contamination] Found local absolute path '${data}' in context '${contextDescription}'.`);
+    }
+    return;
+  }
+  if (Array.isArray(data)) {
+    for (let i = 0; i < data.length; i++) {
+      assertNoLocalAbsolutePaths(data[i], `${contextDescription}[${i}]`);
+    }
+    return;
+  }
+  if (typeof data === "object") {
+    for (const key of Object.keys(data as object)) {
+      if (key === "absolutePath") continue;
+      assertNoLocalAbsolutePaths((data as any)[key], `${contextDescription}.${key}`);
+    }
+  }
+}
+
+function writeJsonAtomically(filePath: string, data: unknown, contextDescription: string) {
+  assertNoLocalAbsolutePaths(data, contextDescription);
   const tmpPath = `${filePath}.tmp`;
-  const sanitized = stripAbsolutePath(data);
-  fs.writeFileSync(tmpPath, JSON.stringify(sanitized, null, 2), "utf8");
+  fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2), "utf8");
+  JSON.parse(fs.readFileSync(tmpPath, "utf8"));
   fs.renameSync(tmpPath, filePath);
 }
 
@@ -154,48 +142,47 @@ function writeTextAtomically(filePath: string, text: string) {
   fs.renameSync(tmpPath, filePath);
 }
 
-function readRequiredJson<T>(filePath: string, contextDescription: string, notifications: RunNotifications): T {
-  if (!fs.existsSync(filePath)) {
-    addNotification(
-      notifications,
-      "fatal",
-      "FATAL_INPUT_ERROR",
-      `Missing required input file [${contextDescription}] at path [${filePath}].`
-    );
-    writeNotificationsAtomically(notifications);
-    throw new Error(`[Fail-Closed] Missing required input file '${contextDescription}' at '${filePath}'.`);
-  }
-
-  try {
-    const content = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(content) as T;
-  } catch (err: any) {
-    addNotification(
-      notifications,
-      "fatal",
-      "MALFORMED_INPUT_JSON_ERROR",
-      `Malformed JSON in required input file [${contextDescription}] at path [${filePath}]: ${err.message}`
-    );
-    writeNotificationsAtomically(notifications);
-    throw new Error(`[Fail-Closed] Malformed JSON in required input file '${contextDescription}' at '${filePath}'.`);
-  }
+function writeNotificationsAtomically(filePath: string, notifications: RunNotifications) {
+  assertNoLocalAbsolutePaths(notifications, "run-notifications.json");
+  const tmpPath = `${filePath}.tmp`;
+  fs.writeFileSync(tmpPath, JSON.stringify(notifications, null, 2), "utf8");
+  JSON.parse(fs.readFileSync(tmpPath, "utf8"));
+  fs.renameSync(tmpPath, filePath);
 }
 
-function readOptionalJson<T>(filePath: string, contextDescription: string, notifications: RunNotifications): T | null {
-  if (!fs.existsSync(filePath)) return null;
+function loadNotifications(notificationsPath: string, expectedRunId: string, expectedRepoName: string): RunNotifications {
+  if (!fs.existsSync(notificationsPath)) {
+    throw new Error(`[Fail-Closed] Missing required run-notifications.json at '${notificationsPath}'.`);
+  }
+
+  let notifs: RunNotifications;
+  try {
+    notifs = JSON.parse(fs.readFileSync(notificationsPath, "utf8"));
+  } catch (err: any) {
+    throw new Error(`[Fail-Closed] Malformed run-notifications.json at '${notificationsPath}': ${err.message}`);
+  }
+
+  if (notifs.runId !== expectedRunId || notifs.repoName !== expectedRepoName) {
+    throw new Error(`[Fail-Closed] run-notifications.json identity mismatch: expected runId '${expectedRunId}', got '${notifs.runId}'.`);
+  }
+
+  return notifs;
+}
+
+function readRequiredJson<T>(filePath: string, contextDescription: string, notificationsPath: string, notifications: RunNotifications): T {
+  if (!fs.existsSync(filePath)) {
+    addNotification(notifications, "04-build-resolved-graph", "fatal", "MISSING_REQUIRED_GRAPH_INPUT", `Missing required file '${contextDescription}' at '${filePath}'.`);
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error(`[Fail-Closed] Missing required file '${contextDescription}' at '${filePath}'.`);
+  }
 
   try {
     const content = fs.readFileSync(filePath, "utf8");
     return JSON.parse(content) as T;
   } catch (err: any) {
-    addNotification(
-      notifications,
-      "fatal",
-      "MALFORMED_INPUT_JSON_ERROR",
-      `Malformed JSON in optional input file [${contextDescription}] at path [${filePath}]: ${err.message}`
-    );
-    writeNotificationsAtomically(notifications);
-    throw new Error(`[Fail-Closed] Malformed JSON in optional input file '${contextDescription}' at '${filePath}'.`);
+    addNotification(notifications, "04-build-resolved-graph", "fatal", "MALFORMED_GRAPH_INPUT", `Malformed JSON in required file '${contextDescription}' at '${filePath}': ${err.message}`);
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error(`[Fail-Closed] Malformed JSON in required file '${contextDescription}' at '${filePath}'.`);
   }
 }
 
@@ -208,7 +195,8 @@ function stableId(parts: Array<string | number | null | undefined>): string {
     .map(part => String(part ?? ""))
     .join("|")
     .replace(/\s+/g, " ")
-    .trim();
+    .trim()
+    .toLowerCase();
 }
 
 type ServiceMethodDef = {
@@ -322,35 +310,61 @@ type ApiEntryPoint = {
 };
 
 function main() {
-  const notifications = loadNotifications();
+  const runContextPath = path.join(projectRoot, "output", "run-context.json");
+  if (!fs.existsSync(runContextPath)) {
+    throw new Error("[Fail-Closed] Could not find output/run-context.json. Please run `00-scan-repo` first.");
+  }
 
-  // 1. Validate Run Context
+  const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
+  const runId: string = runContext.runId;
+  const REPO_NAME: string = runContext.repoName;
+  if (!REPO_NAME || !runId) {
+    throw new Error("[Fail-Closed] Missing repoName or runId in output/run-context.json");
+  }
+
+  const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
+  const notificationsPath = path.join(repoOutputDir, "run-notifications.json");
+  const notifications = loadNotifications(notificationsPath, runId, REPO_NAME);
+
+  const rawDir = path.join(repoOutputDir, "facts");
+  const modulesRootDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
+  const kpDir = path.join(repoOutputDir, "knowledge-pipeline");
+
+  // Load Authoritative Module Inventory
   const modulesJsonPath = path.join(rawDir, "modules.json");
-  const moduleInventory = readRequiredJson<{ module: string }[]>(modulesJsonPath, "facts/modules.json", notifications);
+  const moduleInventory = readRequiredJson<{ module: string }[]>(modulesJsonPath, "facts/modules.json", notificationsPath, notifications);
   const expectedModules = unique(moduleInventory.map(m => m.module)).sort();
 
   if (expectedModules.length === 0) {
-    addNotification(
-      notifications,
-      "fatal",
-      "ZERO_MODULES_ERROR",
-      `Authoritative modules.json inventory contains zero modules.`
-    );
-    writeNotificationsAtomically(notifications);
-    throw new Error(`[Fail-Closed] Authoritative modules.json contains zero modules.`);
+    addNotification(notifications, "04-build-resolved-graph", "fatal", "ZERO_MODULES_FATAL", "Authoritative modules.json inventory contains zero modules.");
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error("[Fail-Closed] Authoritative modules.json contains zero modules.");
   }
 
-  const allFacts: EvidenceFact[] = [];
+  const allFacts: any[] = [];
   const processedModules: string[] = [];
 
-  // 2. Validate Module Completeness and Collect Normalized Evidence Facts
+  // Validate Module Manifests & Evidence Graphs
   for (const moduleName of expectedModules) {
     const moduleDir = path.join(modulesRootDir, moduleName);
     const manifestPath = path.join(moduleDir, `${moduleName}-manifest.json`);
     const graphPath = path.join(moduleDir, `${moduleName}-evidence-graph.json`);
 
-    readRequiredJson<any>(manifestPath, `modules/${moduleName}/${moduleName}-manifest.json`, notifications);
-    const graph = readRequiredJson<{ facts?: EvidenceFact[] }>(graphPath, `modules/${moduleName}/${moduleName}-evidence-graph.json`, notifications);
+    const manifest = readRequiredJson<any>(manifestPath, `modules/${moduleName}/${moduleName}-manifest.json`, notificationsPath, notifications);
+    const graph = readRequiredJson<{ runId?: string; module?: string; facts?: any[] }>(graphPath, `modules/${moduleName}/${moduleName}-evidence-graph.json`, notificationsPath, notifications);
+
+    if (manifest.runId !== runId || manifest.module !== moduleName || graph.runId !== runId || graph.module !== moduleName) {
+      addNotification(
+        notifications,
+        "04-build-resolved-graph",
+        "fatal",
+        "MODULE_IDENTITY_MISMATCH_FATAL",
+        `Module graph or manifest identity mismatch for module [${moduleName}].`,
+        { module: moduleName }
+      );
+      writeNotificationsAtomically(notificationsPath, notifications);
+      throw new Error(`[Fail-Closed] Module graph or manifest identity mismatch for '${moduleName}'.`);
+    }
 
     processedModules.push(moduleName);
     if (graph.facts && Array.isArray(graph.facts)) {
@@ -382,7 +396,7 @@ function main() {
     serviceMethodMap.get(fullKey)!.push(def);
   }
 
-  // 3. Resolve Cross-Module Calls
+  // Resolve Cross-Module Calls
   const callFacts = allFacts.filter(f => f.type === "call_expression");
   const resolvedCallEdges: ResolvedCallEdge[] = [];
   const unresolvedCallEdges: UnresolvedCallEdge[] = [];
@@ -417,22 +431,33 @@ function main() {
     const objectName = parts[parts.length - 2];
     const fullKey = `${objectName}.${methodName}`.toLowerCase();
 
-    // Check candidate matches across other modules
+    // Check if compiler-resolved declaration file exists
     let candidates: ServiceMethodDef[] = [];
+    let isCompilerConfirmed = false;
 
-    if (serviceMethodMap.has(fullKey)) {
+    if (ev.declarationFile && ev.declarationMethod) {
+      // Find candidate matching declaration file & method
+      for (const [key, defs] of serviceMethodMap.entries()) {
+        for (const def of defs) {
+          if (def.module !== sourceModule && def.file === ev.declarationFile && def.methodName.toLowerCase() === ev.declarationMethod.toLowerCase()) {
+            candidates.push(def);
+            isCompilerConfirmed = true;
+          }
+        }
+      }
+    }
+
+    if (candidates.length === 0 && serviceMethodMap.has(fullKey)) {
       candidates = serviceMethodMap.get(fullKey)!.filter(c => c.module !== sourceModule);
     }
 
     if (candidates.length === 0) {
-      // Search by method name across all service method defs in other modules
       for (const [key, defs] of serviceMethodMap.entries()) {
         for (const def of defs) {
           if (def.module !== sourceModule && def.methodName.toLowerCase() === methodName.toLowerCase()) {
-            // Match class name exactly or stripped OSK prefix
             const targetClassClean = def.className.toLowerCase().replace(/^osk/, "");
             const objectNameClean = objectName.toLowerCase().replace(/^osk/, "").replace(/service$/, "");
-            if (targetClassClean.includes(objectNameClean) || objectNameClean.includes(targetClassClean)) {
+            if (targetClassClean === objectNameClean) {
               candidates.push(def);
             }
           }
@@ -440,7 +465,6 @@ function main() {
       }
     }
 
-    // Deduplicate candidates by module/className/methodName
     const uniqueCandidates = candidates.filter((c, index, self) =>
       index === self.findIndex(t => t.module === c.module && t.className === c.className && t.methodName === c.methodName)
     );
@@ -452,13 +476,13 @@ function main() {
       if (!edgeSet.has(edgeId)) {
         edgeSet.add(edgeId);
 
-        let confidence: ResolvedCallEdge["confidence"] = "confirmed";
-        let resolutionMethod: ResolvedCallEdge["resolutionMethod"] = "compiler_symbol";
+        let confidence: ResolvedCallEdge["confidence"] = "probable";
+        let resolutionMethod: ResolvedCallEdge["resolutionMethod"] = "unique_signature_heuristic";
 
-        if (ev.calleeSymbol || ev.resolvedSymbol) {
+        if (isCompilerConfirmed || (ev.calleeSymbol && ev.declarationFile)) {
           confidence = "confirmed";
           resolutionMethod = "compiler_symbol";
-        } else if (ev.importedFrom || ev.moduleSpecifier) {
+        } else if (ev.declarationModuleSpecifier || ev.importedFrom) {
           confidence = "confirmed";
           resolutionMethod = "import_declaration";
         } else {
@@ -482,8 +506,11 @@ function main() {
           confidence,
           candidateCount: 1,
           evidence: {
-            sourceCall: calleeText,
-            declarationFile: targetDef.file,
+            sourceCallExpression: calleeText,
+            resolvedDeclarationFile: targetDef.file,
+            resolvedDeclarationLine: targetDef.line,
+            resolvedDeclarationClass: targetDef.className,
+            resolvedDeclarationMethod: targetDef.methodName,
           },
         });
       }
@@ -514,11 +541,10 @@ function main() {
     }
   }
 
-  // Sort resolved call edges deterministically
   resolvedCallEdges.sort((a, b) => a.id.localeCompare(b.id));
   unresolvedCallEdges.sort((a, b) => a.id.localeCompare(b.id));
 
-  // 4. Resolve Shared Firestore Paths
+  // Resolve Shared Firestore Paths
   const firestoreFacts = allFacts.filter(f => f.type === "firestore_path_touched");
   const pathMap = new Map<string, { modules: Set<string>; count: number; locations: Array<{ module: string; file: string | null; line: number | null }> }>();
 
@@ -527,7 +553,6 @@ function main() {
     const moduleName = f.module;
     if (!rawPath || !moduleName) continue;
 
-    // Preserve compiler dynamic placeholders and literal collection names
     const pathPattern = rawPath.startsWith("/") ? rawPath : "/" + rawPath;
 
     if (!pathMap.has(pathPattern)) {
@@ -553,19 +578,18 @@ function main() {
       evidenceLocations: data.locations,
       operationResolutionStatus: "not_available",
       rawPath: pathPattern,
-      normalizationMethod: pathPattern.includes("{") ? "compiler_dynamic_segment" : "literal",
+      normalizationMethod: pathPattern.includes("{") ? "already_parameterized" : "literal",
     });
   }
   sharedFirestorePaths.sort((a, b) => a.pathPattern.localeCompare(b.pathPattern));
 
-  // 5. Build Event Endpoints & Event Routes
+  // Build Event Endpoints & Event Routes
   const eventEndpoints: EventEndpoint[] = [];
   const triggerFacts = allFacts.filter(f => f.type === "firestore_trigger");
   const pubsubFacts = allFacts.filter(f => f.type === "pubsub_topic");
-  const hookFacts = allFacts.filter(f => f.type === "external_hook");
 
   for (const trig of triggerFacts) {
-    const eventKey = trig.value || "unknown_trigger";
+    const eventKey = `firestore|${trig.value || "unknown_trigger"}`;
     eventEndpoints.push({
       id: stableId(["event-endpoint", eventKey, "trigger", trig.module, trig.file, trig.line]),
       eventKey,
@@ -581,7 +605,7 @@ function main() {
   }
 
   for (const ps of pubsubFacts) {
-    const eventKey = ps.value || "unknown_topic";
+    const eventKey = `pubsub|${ps.value || "unknown_topic"}`;
     eventEndpoints.push({
       id: stableId(["event-endpoint", eventKey, "publisher", ps.module, ps.file, ps.line]),
       eventKey,
@@ -594,25 +618,6 @@ function main() {
       confidence: "confirmed",
       evidence: ps.evidence ?? {},
     });
-  }
-
-  for (const hk of hookFacts) {
-    if (hk.value) {
-      const isFcm = hk.value.includes("FCM") || hk.value.includes("messaging");
-      const eventTech: EventEndpoint["eventTechnology"] = isFcm ? "notification" : "pubsub";
-      eventEndpoints.push({
-        id: stableId(["event-endpoint", hk.value, "publisher", hk.module, hk.file, hk.line]),
-        eventKey: hk.value,
-        endpointType: "publisher",
-        module: hk.module,
-        file: hk.file || "",
-        line: hk.line ?? null,
-        symbol: hk.symbol ?? null,
-        eventTechnology: eventTech,
-        confidence: "candidate",
-        evidence: hk.evidence ?? {},
-      });
-    }
   }
 
   eventEndpoints.sort((a, b) => a.id.localeCompare(b.id));
@@ -631,7 +636,6 @@ function main() {
   }
 
   const resolvedEventRoutes: ResolvedEventRoute[] = [];
-  let unresolvedEventRoutesCount = 0;
 
   for (const [eventKey, group] of routeMap.entries()) {
     let resolutionStatus: ResolvedEventRoute["resolutionStatus"] = "ambiguous";
@@ -639,10 +643,8 @@ function main() {
       resolutionStatus = "resolved";
     } else if (group.publishers.length > 0) {
       resolutionStatus = "publisher_only";
-      unresolvedEventRoutesCount++;
     } else if (group.subscribers.length > 0) {
       resolutionStatus = "subscriber_only";
-      unresolvedEventRoutesCount++;
     } else if (group.triggers.length > 0) {
       resolutionStatus = "trigger_only";
     }
@@ -657,7 +659,10 @@ function main() {
   }
   resolvedEventRoutes.sort((a, b) => a.eventKey.localeCompare(b.eventKey));
 
-  // 6. Resolve RBAC Entitlement Matrix
+  // Count all non-resolved routes as unresolved
+  const unresolvedEventGroups = resolvedEventRoutes.filter(r => r.resolutionStatus !== "resolved").length;
+
+  // Resolve RBAC Entitlement Matrix
   const reqPermFacts = allFacts.filter(f => f.type === "permission_required");
   const rbacMap = new Map<string, { modules: Set<string>; count: number; locations: Array<{ module: string; file: string | null; line: number | null }> }>();
 
@@ -691,20 +696,20 @@ function main() {
   }
   resolvedRbacMatrix.sort((a, b) => a.permissionString.localeCompare(b.permissionString));
 
-  // 7. Resolve API Entry Points
+  // Resolve API Entry Points
   const apiFacts = allFacts.filter(f => f.type === "api_contract");
   const apiEntryPoints: ApiEntryPoint[] = [];
 
   for (const f of apiFacts) {
     const handlerName = f.value || "unknown_handler";
     const ev = f.evidence ?? {};
-
     const entryId = stableId(["api-entry", f.module, f.file, f.line, handlerName]);
 
-    // Link API handler to resolved service methods if available
+    // Context-aware linking: match call edges occurring in the same file & function context
     const linkedServiceMethods: ApiEntryPoint["linkedServiceMethods"] = [];
-    const matchedEdge = resolvedCallEdges.find(e => e.sourceModule === f.module && e.sourceFile === f.file);
-    if (matchedEdge) {
+    const matchedEdges = resolvedCallEdges.filter(e => e.sourceModule === f.module && e.sourceFile === f.file && e.sourceContext === handlerName);
+
+    for (const matchedEdge of matchedEdges) {
       linkedServiceMethods.push({
         targetModule: matchedEdge.targetModule,
         targetClass: matchedEdge.targetClass,
@@ -731,7 +736,7 @@ function main() {
   }
   apiEntryPoints.sort((a, b) => a.id.localeCompare(b.id));
 
-  // 8. Quality Summary & Overall Status
+  // Quality Summary & Overall Status
   const confirmedEdges = resolvedCallEdges.filter(e => e.confidence === "confirmed");
   const probableEdges = resolvedCallEdges.filter(e => e.confidence === "probable");
   const ambiguousCount = unresolvedCallEdges.filter(e => e.reason === "multiple_candidates").length;
@@ -739,6 +744,7 @@ function main() {
   if (unresolvedCallEdges.length > 0) {
     addNotification(
       notifications,
+      "04-build-resolved-graph",
       "warning",
       "UNRESOLVED_CALLS_WARNING",
       `${unresolvedCallEdges.length} cross-module call expression(s) could not be deterministically resolved to a single target declaration.`,
@@ -747,7 +753,7 @@ function main() {
   }
 
   const humanAttentionRecommended = notifications.entries.some(
-    e => e.humanAttentionRecommended || e.severity === "error" || e.severity === "warning"
+    e => e.humanAttentionRecommended || e.severity === "error" || e.severity === "warning" || e.severity === "fatal"
   );
 
   const status = notifications.highestSeverity === "fatal" || notifications.highestSeverity === "error"
@@ -765,8 +771,9 @@ function main() {
     unresolvedCalls: unresolvedCallEdges.length,
     sharedFirestorePaths: sharedFirestorePaths.length,
     firestorePathsWithoutOperationEvidence: sharedFirestorePaths.length,
+    eventSubscriberExtractionStatus: "not_implemented",
     resolvedEventRoutes: resolvedEventRoutes.filter(r => r.resolutionStatus === "resolved").length,
-    unresolvedEventGroups: unresolvedEventRoutesCount,
+    unresolvedEventGroups,
     rbacRequirements: resolvedRbacMatrix.length,
     apiEntryPoints: apiEntryPoints.length,
   };
@@ -776,7 +783,7 @@ function main() {
     inputFactsByType[f.type] = (inputFactsByType[f.type] ?? 0) + 1;
   }
 
-  // 9. Write Artifact 1: resolved-engineering-graph.json
+  // Write Artifact 1: resolved-engineering-graph.json
   const resolvedGraphArtifact = {
     schemaVersion: "1.0.0",
     metadata: {
@@ -799,9 +806,9 @@ function main() {
   };
 
   const resolvedJsonPath = path.join(kpDir, "resolved-engineering-graph.json");
-  writeJsonAtomically(resolvedJsonPath, resolvedGraphArtifact);
+  writeJsonAtomically(resolvedJsonPath, resolvedGraphArtifact, "knowledge-pipeline/resolved-engineering-graph.json");
 
-  // 10. Write Artifact 2: resolved-graph-matrix.md
+  // Write Artifact 2: resolved-graph-matrix.md
   const markdownMatrix = `<!-- © Oskey SAS. All rights reserved. -->
 
 # Level 5 Engineering Knowledge: Resolved Engineering Graph Matrix
@@ -825,6 +832,7 @@ function main() {
 | **Unresolved Calls** | ${unresolvedCallEdges.length} Calls |
 | **Shared Firestore Paths** | ${sharedFirestorePaths.length} Collection Paths |
 | **Resolved Event Routes** | ${resolvedEventRoutes.filter(r => r.resolutionStatus === "resolved").length} Routes |
+| **Unresolved Event Groups** | ${unresolvedEventGroups} Groups |
 | **RBAC Permission Checks** | ${resolvedRbacMatrix.length} Checks |
 | **API Entry Points** | ${apiEntryPoints.length} Handlers |
 | **Generated Date** | ${new Date().toISOString().split("T")[0]} |
@@ -833,7 +841,7 @@ function main() {
 
 ## 1. Confirmed Cross-Module Method Calls (${confirmedEdges.length} Edges)
 
-| ID | Source Module | Source Context | Target Module | Target Class | Target Method | Method |
+| ID | Source Module | Source Context | Target Module | Target Class | Target Method | Resolution Method |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 ${confirmedEdges.slice(0, 50).map(e => `| \`${e.id}\` | \`${e.sourceModule}\` | \`${e.sourceContext ?? "unknown"}\` | \`${e.targetModule}\` | \`${e.targetClass ?? "none"}\` | \`${e.targetMethod}\` | \`${e.resolutionMethod}\` |`).join("\n")}
 ${confirmedEdges.length > 50 ? `\n*Showing first 50 of ${confirmedEdges.length} entries. Full evidence available in resolved-engineering-graph.json.*\n` : ""}
@@ -893,22 +901,24 @@ ${apiEntryPoints.map(a => `| \`${a.id}\` | \`${a.module}\` | \`${a.handlerName}\
 
 ## 8. Resolution Limitations & Quality Notes
 
-* **Determinism**: Cross-module call edges are classified as \`confirmed\` or \`probable\` based strictly on compiler symbol resolution and explicit imports.
-* **Firestore Operations**: Operations without explicit write/read evidence are preserved as \`not_available\` without heuristic operation guessing.
+* **Confirmed vs Probable Edges**: Confirmed edges are backed strictly by compiler symbol or import declaration identity. Probable edges use a unique constrained signature fallback.
+* **Firestore Operations**: Operations without explicit write/read evidence remain \`not_available\`.
+* **Event Subscriber Extraction**: Subscriber extraction status is \`not_implemented\`.
 * **Notifications**: Complete pipeline diagnostic log is recorded in \`run-notifications.json\`.
 `;
 
   const resolvedMdPath = path.join(kpDir, "resolved-graph-matrix.md");
   writeTextAtomically(resolvedMdPath, markdownMatrix);
 
-  // 11. Completion Condition Notifications
+  // Completion Notifications
   addNotification(
     notifications,
+    "04-build-resolved-graph",
     "info",
     "GRAPH_RESOLUTION_COMPLETED",
     `Phase 1.75 graph resolution completed with status [${status}].`
   );
-  writeNotificationsAtomically(notifications);
+  writeNotificationsAtomically(notificationsPath, notifications);
 
   console.log(`Phase 1.75 completed with status: [${status}]`);
   console.log(`   - JSON Artifact: ${resolvedJsonPath}`);
@@ -919,6 +929,7 @@ ${apiEntryPoints.map(a => `| \`${a.id}\` | \`${a.module}\` | \`${a.handlerName}\
   console.log(`   - Shared Firestore Paths: ${sharedFirestorePaths.length}`);
   console.log(`   - Event Endpoints: ${eventEndpoints.length}`);
   console.log(`   - Resolved Event Routes: ${resolvedEventRoutes.length}`);
+  console.log(`   - Unresolved Event Groups: ${unresolvedEventGroups}`);
   console.log(`   - RBAC Requirements: ${resolvedRbacMatrix.length}`);
   console.log(`   - API Entry Points: ${apiEntryPoints.length}`);
   console.log(`   - Highest Notification Severity: ${notifications.highestSeverity}`);
