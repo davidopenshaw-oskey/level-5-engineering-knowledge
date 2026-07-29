@@ -8,7 +8,7 @@
 
 import fs from "fs";
 import path from "path";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 
 const projectRoot = process.cwd();
 
@@ -109,7 +109,8 @@ function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): 
       data.includes("/Users/") ||
       data.includes("/home/") ||
       /^[a-zA-Z]:\\/.test(data) ||
-      data.startsWith("file://")
+      data.startsWith("file://") ||
+      data.includes("output/clones")
     ) {
       throw new Error(`[Local Path Contamination] Found local absolute path '${data}' in context '${contextDescription}'.`);
     }
@@ -123,7 +124,6 @@ function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): 
   }
   if (typeof data === "object") {
     for (const key of Object.keys(data as object)) {
-      if (key === "absolutePath" || key === "clonePath") continue; // runtime-only local bindings
       assertNoLocalAbsolutePaths((data as any)[key], `${contextDescription}.${key}`);
     }
   }
@@ -154,6 +154,15 @@ function unique<T>(items: T[]): T[] {
   return Array.from(new Set(items));
 }
 
+type FileRecord = {
+  repo: string;
+  module: string;
+  submodule: string | null;
+  path: string;
+  kindHint: string;
+  sizeBytes: number;
+};
+
 function main() {
   const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
   const configPath = path.join(projectRoot, "config", "repos.json");
@@ -176,6 +185,17 @@ function main() {
     throw new Error(`[Fail-Closed] Target repository '${REPO_NAME}' is missing 'gitUrl'.`);
   }
 
+  if (!targetRepo.modulesRoot) {
+    throw new Error(`[Fail-Closed] Target repository '${REPO_NAME}' is missing 'modulesRoot'.`);
+  }
+
+  const hasBranch = Boolean(targetRepo.branch);
+  const hasCommit = Boolean(targetRepo.commit);
+
+  if ((hasBranch && hasCommit) || (!hasBranch && !hasCommit)) {
+    throw new Error(`[Fail-Closed] Repository '${REPO_NAME}' must configure exactly one of 'branch' or 'commit'.`);
+  }
+
   const clonesDir = path.join(projectRoot, "output", "clones");
   const clonePath = path.join(clonesDir, REPO_NAME);
 
@@ -188,40 +208,51 @@ function main() {
 
   console.log(`Cloning repository ${targetRepo.gitUrl} into ${clonePath}...`);
   try {
-    execSync(`git clone ${targetRepo.gitUrl} "${clonePath}"`, { stdio: "inherit" });
+    execFileSync("git", ["clone", targetRepo.gitUrl, clonePath], { stdio: "inherit" });
   } catch (err: any) {
     throw new Error(`[Fail-Closed] Git clone failed for '${targetRepo.gitUrl}': ${err.message}`);
   }
 
-  const gitBranch = targetRepo.branch || "master";
-  try {
-    execSync(`git fetch origin ${gitBranch}`, { cwd: clonePath, stdio: "inherit" });
-    execSync(`git checkout -B ${gitBranch} origin/${gitBranch}`, { cwd: clonePath, stdio: "inherit" });
-    execSync(`git reset --hard origin/${gitBranch}`, { cwd: clonePath, stdio: "inherit" });
-  } catch (err: any) {
-    throw new Error(`[Fail-Closed] Git checkout/reset failed for branch '${gitBranch}': ${err.message}`);
-  }
+  let resolvedRef = "";
 
-  let actualBranch = "";
-  try {
-    actualBranch = execSync("git rev-parse --abbrev-ref HEAD", { cwd: clonePath, encoding: "utf8" }).trim();
-  } catch {
-    actualBranch = "unknown";
-  }
+  if (hasBranch) {
+    const configuredBranch = targetRepo.branch;
+    try {
+      execFileSync("git", ["fetch", "origin", configuredBranch], { cwd: clonePath, stdio: "inherit" });
+      execFileSync("git", ["checkout", "-B", configuredBranch, `origin/${configuredBranch}`], { cwd: clonePath, stdio: "inherit" });
+      execFileSync("git", ["reset", "--hard", `origin/${configuredBranch}`], { cwd: clonePath, stdio: "inherit" });
+    } catch (err: any) {
+      throw new Error(`[Fail-Closed] Git checkout/reset failed for branch '${configuredBranch}': ${err.message}`);
+    }
 
-  if (actualBranch !== gitBranch) {
-    throw new Error(`[BRANCH_MISMATCH_FATAL] Configured branch '${gitBranch}' does not match checked-out branch '${actualBranch}'.`);
+    const actualBranch = execFileSync("git", ["rev-parse", "--abbrev-ref", "HEAD"], { cwd: clonePath, encoding: "utf8" }).trim();
+    if (actualBranch !== configuredBranch) {
+      throw new Error(`[BRANCH_MISMATCH_FATAL] Configured branch '${configuredBranch}' does not match checked-out branch '${actualBranch}'.`);
+    }
+    resolvedRef = configuredBranch;
+  } else {
+    const configuredCommit = targetRepo.commit;
+    try {
+      execFileSync("git", ["checkout", "--detach", configuredCommit], { cwd: clonePath, stdio: "inherit" });
+    } catch (err: any) {
+      throw new Error(`[Fail-Closed] Git checkout --detach failed for commit '${configuredCommit}': ${err.message}`);
+    }
+    resolvedRef = configuredCommit;
   }
 
   let commitSha = "";
   try {
-    commitSha = execSync("git rev-parse HEAD", { cwd: clonePath, encoding: "utf8" }).trim();
+    commitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: clonePath, encoding: "utf8" }).trim();
   } catch (err: any) {
     throw new Error(`[COMMIT_SHA_RESOLVE_FATAL] Failed to resolve git commit SHA: ${err.message}`);
   }
 
-  if (!commitSha || commitSha === "unknown" || commitSha.length < 7) {
+  if (!commitSha || commitSha.length < 7) {
     throw new Error(`[COMMIT_SHA_RESOLVE_FATAL] Invalid commit SHA resolved: '${commitSha}'.`);
+  }
+
+  if (hasCommit && !commitSha.startsWith(targetRepo.commit)) {
+    throw new Error(`[COMMIT_SHA_MISMATCH_FATAL] Resolved commit SHA '${commitSha}' does not match configured commit '${targetRepo.commit}'.`);
   }
 
   // Generate Run ID
@@ -253,38 +284,55 @@ function main() {
     "info",
     "RUN_INITIALIZED",
     `Initialized pipeline run [${runId}] for repo [${REPO_NAME}] at commit [${commitSha}].`,
-    { commitSha, branch: actualBranch }
+    { commitSha, ref: resolvedRef }
   );
 
-  const runContext = {
+  // Unpersisted local runtime context (contains only portable run ID and repo name)
+  const runContext: Record<string, any> = {
     runId,
     repoName: REPO_NAME,
     commitSha,
-    branch: actualBranch,
-    clonePath,
     createdAt: now.toISOString(),
   };
+  if (hasBranch) runContext.branch = targetRepo.branch;
+  if (hasCommit) runContext.commit = targetRepo.commit;
 
-  const modulesDir = path.join(clonePath, "functions", "src", "modules");
-  let modules: string[] = [];
+  // Scan Configured Modules Root
+  const modulesRootAbsolute = path.join(clonePath, targetRepo.modulesRoot);
+  if (!fs.existsSync(modulesRootAbsolute)) {
+    addNotification(
+      notifications,
+      "00-scan-repo",
+      "fatal",
+      "ZERO_MODULES_FATAL",
+      `Configured modulesRoot '${targetRepo.modulesRoot}' does not exist in target repository.`
+    );
+    writeNotificationsAtomically(notificationsFilePath, notifications);
+    throw new Error(`[ZERO_MODULES_FATAL] Configured modulesRoot '${targetRepo.modulesRoot}' does not exist in repository.`);
+  }
 
-  if (fs.existsSync(modulesDir)) {
-    modules = fs
-      .readdirSync(modulesDir, { withFileTypes: true })
-      .filter((entry: fs.Dirent) => entry.isDirectory())
-      .map((entry: fs.Dirent) => entry.name)
-      .sort();
+  const modules = fs
+    .readdirSync(modulesRootAbsolute, { withFileTypes: true })
+    .filter((entry: fs.Dirent) => entry.isDirectory())
+    .map((entry: fs.Dirent) => entry.name)
+    .sort();
+
+  if (modules.length === 0) {
+    addNotification(
+      notifications,
+      "00-scan-repo",
+      "fatal",
+      "ZERO_MODULES_FATAL",
+      `Zero modules found under configured modulesRoot '${targetRepo.modulesRoot}'.`
+    );
+    writeNotificationsAtomically(notificationsFilePath, notifications);
+    throw new Error(`[ZERO_MODULES_FATAL] Zero modules found under configured modulesRoot '${targetRepo.modulesRoot}'.`);
   }
 
   const moduleEntries = modules.map(m => ({ module: m }));
 
-  const filesList: Array<{
-    repo: string;
-    module: string;
-    submodule: string | null;
-    file: string;
-    absolutePath: string;
-  }> = [];
+  // Scan File Inventory (TypeScript source files only, detecting submodules)
+  const filesList: FileRecord[] = [];
 
   function scanDirectory(dir: string, currentModule: string, currentSubmodule: string | null) {
     if (!fs.existsSync(dir)) return;
@@ -293,28 +341,71 @@ function main() {
     for (const item of items) {
       const fullPath = path.join(dir, item.name);
       if (item.isDirectory()) {
-        if (item.name === "node_modules" || item.name === ".git" || item.name === "dist") continue;
-        scanDirectory(fullPath, currentModule, currentSubmodule);
+        if (
+          item.name === "node_modules" ||
+          item.name === ".git" ||
+          item.name === "dist" ||
+          item.name === "lib" ||
+          item.name === "build" ||
+          item.name === "coverage"
+        ) {
+          continue;
+        }
+
+        let detectedSubmodule = currentSubmodule;
+        if (item.name === "modules") {
+          // Check for nested submodules under {module}/modules/{submodule}
+          const subItems = fs.readdirSync(fullPath, { withFileTypes: true });
+          for (const subItem of subItems) {
+            if (subItem.isDirectory()) {
+              scanDirectory(path.join(fullPath, subItem.name), currentModule, subItem.name);
+            }
+          }
+          continue;
+        }
+
+        scanDirectory(fullPath, currentModule, detectedSubmodule);
       } else if (item.isFile()) {
         const repoPath = toRepoPath(fullPath, clonePath);
-        filesList.push({
-          repo: REPO_NAME,
-          module: currentModule,
-          submodule: currentSubmodule,
-          file: repoPath,
-          absolutePath: fullPath,
-        });
+
+        // Include .ts files only; exclude .d.ts, .spec.ts, .test.ts
+        if (
+          repoPath.endsWith(".ts") &&
+          !repoPath.endsWith(".d.ts") &&
+          !repoPath.endsWith(".spec.ts") &&
+          !repoPath.endsWith(".test.ts")
+        ) {
+          const stat = fs.statSync(fullPath);
+          filesList.push({
+            repo: REPO_NAME,
+            module: currentModule,
+            submodule: currentSubmodule,
+            path: repoPath,
+            kindHint: "typescript",
+            sizeBytes: stat.size,
+          });
+        }
       }
     }
   }
 
-  if (fs.existsSync(modulesDir)) {
-    for (const m of modules) {
-      scanDirectory(path.join(modulesDir, m), m, null);
-    }
+  for (const m of modules) {
+    scanDirectory(path.join(modulesRootAbsolute, m), m, null);
   }
 
-  filesList.sort((a, b) => a.file.localeCompare(b.file));
+  filesList.sort((a, b) => a.path.localeCompare(b.path));
+
+  if (filesList.length === 0) {
+    addNotification(
+      notifications,
+      "00-scan-repo",
+      "fatal",
+      "ZERO_SOURCE_FILES_FATAL",
+      `Zero TypeScript source files found under configured modulesRoot '${targetRepo.modulesRoot}'.`
+    );
+    writeNotificationsAtomically(notificationsFilePath, notifications);
+    throw new Error(`[ZERO_SOURCE_FILES_FATAL] Zero TypeScript source files found under configured modulesRoot '${targetRepo.modulesRoot}'.`);
+  }
 
   // Write all run artifacts atomically
   writeJsonAtomically(path.join(projectRoot, "output", "run-context.json"), runContext, "output/run-context.json");
@@ -322,12 +413,12 @@ function main() {
   writeJsonAtomically(path.join(factsDir, "files.json"), filesList, "facts/files.json");
   writeNotificationsAtomically(notificationsFilePath, notifications);
 
-  // Update latest manifest atomically last
+  // Update latest manifest atomically LAST
   const latestManifest = {
     runId,
     repoName: REPO_NAME,
     commitSha,
-    branch: actualBranch,
+    ref: resolvedRef,
     updatedAt: now.toISOString(),
     modulesCount: modules.length,
     filesCount: filesList.length,
@@ -337,7 +428,7 @@ function main() {
   console.log(`Starting pipeline run for repo [${REPO_NAME}] with Run ID: ${runId}`);
   console.log(`Repo: ${REPO_NAME}`);
   console.log(`Modules found: ${modules.length}`);
-  console.log(`Files found: ${filesList.length}`);
+  console.log(`TypeScript files found: ${filesList.length}`);
   console.log(`Raw facts written to: ${factsDir}`);
   console.log(`Run notifications initialized at: ${notificationsFilePath}`);
 }

@@ -2,8 +2,9 @@
 // **location:** level-5 phases 1, 2
 
 // © Oskey SAS. All rights reserved.
-// This script processes raw AST facts into module-level evidence, module manifests,
-// and normalized module evidence graphs for all authoritative modules declared by Script 00.
+// Script 02: Module Evidence Builder and Evidence Graph Synthesizer (Phase 1).
+// Validates raw AST evidence, maps evidence into 23 normalized fact categories,
+// classifies methods by class role, and generates atomic module evidence graphs.
 
 import fs from "fs";
 import path from "path";
@@ -107,7 +108,8 @@ function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): 
       data.includes("/Users/") ||
       data.includes("/home/") ||
       /^[a-zA-Z]:\\/.test(data) ||
-      data.startsWith("file://")
+      data.startsWith("file://") ||
+      data.includes("output/clones")
     ) {
       throw new Error(`[Local Path Contamination] Found local absolute path '${data}' in context '${contextDescription}'.`);
     }
@@ -121,7 +123,6 @@ function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): 
   }
   if (typeof data === "object") {
     for (const key of Object.keys(data as object)) {
-      if (key === "absolutePath" || key === "clonePath") continue; // runtime-only local bindings
       assertNoLocalAbsolutePaths((data as any)[key], `${contextDescription}.${key}`);
     }
   }
@@ -162,29 +163,25 @@ function loadNotifications(notificationsPath: string, expectedRunId: string, exp
   return notifs;
 }
 
-function readRequiredJson<T>(filePath: string, contextDescription: string, notificationsPath: string, notifications: RunNotifications): T {
-  if (!fs.existsSync(filePath)) {
-    addNotification(notifications, "02-build-module-evidence", "fatal", "MISSING_REQUIRED_FACT_FILE", `Missing required fact file '${contextDescription}' at '${filePath}'.`);
-    writeNotificationsAtomically(notificationsPath, notifications);
-    throw new Error(`[Fail-Closed] Missing required fact file '${contextDescription}' at '${filePath}'.`);
-  }
-
-  try {
-    const content = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(content) as T;
-  } catch (err: any) {
-    addNotification(notifications, "02-build-module-evidence", "fatal", "MALFORMED_FACT_FILE", `Malformed JSON in fact file '${contextDescription}' at '${filePath}': ${err.message}`);
-    writeNotificationsAtomically(notificationsPath, notifications);
-    throw new Error(`[Fail-Closed] Malformed JSON in fact file '${contextDescription}' at '${filePath}'.`);
-  }
+function createFactIdGenerator() {
+  const seenFactIds = new Map<string, number>();
+  return function getUniqueFactId(type: string, moduleName: string, file: string, line: number, nameOrVal: string): string {
+    const cleanPath = (file || "").replace(/\\/g, "/");
+    const baseId = `${type}|${moduleName}|${cleanPath}|${line}|${nameOrVal}`;
+    const count = seenFactIds.get(baseId) || 0;
+    seenFactIds.set(baseId, count + 1);
+    return count === 0 ? baseId : `${baseId}#${count}`;
+  };
 }
 
-function unique<T>(items: T[]): T[] {
-  return Array.from(new Set(items));
-}
-
-function stableFactId(type: string, repo: string, module: string, file: string, line: number | null, key: string): string {
-  return [type, repo, module, file, line ?? 0, key].join("|").toLowerCase();
+function classifyMethod(className: string): "service_method" | "controller_method" | "class_method" {
+  if (className.endsWith("Service") || className.endsWith("Publisher") || className.endsWith("Processor")) {
+    return "service_method";
+  }
+  if (className.endsWith("Controller") || className.endsWith("Handler")) {
+    return "controller_method";
+  }
+  return "class_method";
 }
 
 function main() {
@@ -205,246 +202,423 @@ function main() {
   const notifications = loadNotifications(notificationsPath, runId, REPO_NAME);
 
   const rawDir = path.join(repoOutputDir, "facts");
-  const kpModulesDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
-  fs.mkdirSync(kpModulesDir, { recursive: true });
-
-  // Load AST Manifest
   const manifestPath = path.join(rawDir, "ast-evidence-manifest.json");
-  const astManifest = readRequiredJson<any>(manifestPath, "facts/ast-evidence-manifest.json", notificationsPath, notifications);
+
+  if (!fs.existsSync(manifestPath)) {
+    addNotification(notifications, "02-build-module-evidence", "fatal", "MISSING_AST_MANIFEST_FATAL", `Missing required ast-evidence-manifest.json at '${manifestPath}'.`);
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error(`[Fail-Closed] Missing required ast-evidence-manifest.json at '${manifestPath}'.`);
+  }
+
+  let astManifest: any;
+  try {
+    astManifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  } catch (err: any) {
+    addNotification(notifications, "02-build-module-evidence", "fatal", "MALFORMED_AST_MANIFEST_FATAL", `Malformed ast-evidence-manifest.json: ${err.message}`);
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error(`[Fail-Closed] Malformed ast-evidence-manifest.json: ${err.message}`);
+  }
 
   if (astManifest.runId !== runId || astManifest.repoName !== REPO_NAME) {
-    addNotification(notifications, "02-build-module-evidence", "fatal", "AST_MANIFEST_IDENTITY_MISMATCH", `AST manifest runId or repoName mismatch.`);
+    addNotification(notifications, "02-build-module-evidence", "fatal", "AST_MANIFEST_IDENTITY_MISMATCH", `AST manifest identity mismatch: expected run '${runId}', got '${astManifest.runId}'.`);
     writeNotificationsAtomically(notificationsPath, notifications);
     throw new Error(`[Fail-Closed] AST manifest identity mismatch.`);
   }
 
-  // Load and validate all required raw AST artifact counts
-  const rawFactTables: Record<string, any[]> = {};
-  for (const item of astManifest.artefacts) {
-    const filePath = path.join(rawDir, item.file);
-    const data = readRequiredJson<any[]>(filePath, `facts/${item.file}`, notificationsPath, notifications);
-
-    if (item.required && data.length !== item.recordCount) {
-      addNotification(
-        notifications,
-        "02-build-module-evidence",
-        "fatal",
-        "RECORD_COUNT_MISMATCH_FATAL",
-        `Required fact file '${item.file}' length (${data.length}) does not match manifest count (${item.recordCount}).`,
-        { file: item.file, actualLength: data.length, manifestCount: item.recordCount }
-      );
+  // Validate every required AST evidence artifact
+  for (const art of astManifest.artefacts || []) {
+    const artPath = path.join(rawDir, art.file);
+    if (!fs.existsSync(artPath)) {
+      addNotification(notifications, "02-build-module-evidence", "fatal", "MISSING_EVIDENCE_FILE_FATAL", `Required AST evidence file '${art.file}' missing at '${artPath}'.`);
       writeNotificationsAtomically(notificationsPath, notifications);
-      throw new Error(`[RECORD_COUNT_MISMATCH_FATAL] Fact file '${item.file}' length mismatch.`);
+      throw new Error(`[Fail-Closed] Required AST evidence file '${art.file}' missing.`);
     }
 
-    rawFactTables[item.evidenceType] = data;
+    let arr: any[];
+    try {
+      arr = JSON.parse(fs.readFileSync(artPath, "utf8"));
+    } catch (err: any) {
+      addNotification(notifications, "02-build-module-evidence", "fatal", "MALFORMED_EVIDENCE_FILE_FATAL", `Malformed JSON in AST evidence file '${art.file}': ${err.message}`);
+      writeNotificationsAtomically(notificationsPath, notifications);
+      throw new Error(`[Fail-Closed] Malformed JSON in AST evidence file '${art.file}'.`);
+    }
+
+    if (!Array.isArray(arr)) {
+      addNotification(notifications, "02-build-module-evidence", "fatal", "INVALID_EVIDENCE_ARRAY_FATAL", `AST evidence file '${art.file}' must contain a JSON array.`);
+      writeNotificationsAtomically(notificationsPath, notifications);
+      throw new Error(`[Fail-Closed] AST evidence file '${art.file}' is not a JSON array.`);
+    }
+
+    if (arr.length !== art.recordCount) {
+      addNotification(notifications, "02-build-module-evidence", "fatal", "RECORD_COUNT_MISMATCH_FATAL", `Record count mismatch in '${art.file}': manifest claims ${art.recordCount}, actual is ${arr.length}.`, { file: art.file, manifestCount: art.recordCount, actualCount: arr.length });
+      writeNotificationsAtomically(notificationsPath, notifications);
+      throw new Error(`[RECORD_COUNT_MISMATCH_FATAL] Record count mismatch in '${art.file}'.`);
+    }
   }
 
-  // Load authoritative module inventory
   const modulesJsonPath = path.join(rawDir, "modules.json");
-  const moduleEntries = readRequiredJson<{ module: string }[]>(modulesJsonPath, "facts/modules.json", notificationsPath, notifications);
-  const expectedModules = unique(moduleEntries.map(m => m.module)).sort();
+  if (!fs.existsSync(modulesJsonPath)) {
+    addNotification(notifications, "02-build-module-evidence", "fatal", "MISSING_MODULES_JSON_FATAL", `Missing required modules.json at '${modulesJsonPath}'.`);
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error(`[Fail-Closed] Missing required modules.json.`);
+  }
 
-  console.log(`Building module evidence and evidence graphs for ${expectedModules.length} authoritative modules`);
+  const modulesList: Array<{ module: string }> = JSON.parse(fs.readFileSync(modulesJsonPath, "utf8"));
+  const authoritativeModules = modulesList.map(m => m.module).sort();
 
-  for (const moduleName of expectedModules) {
-    const moduleKpDir = path.join(kpModulesDir, moduleName);
-    fs.mkdirSync(moduleKpDir, { recursive: true });
+  console.log(`Building module evidence and evidence graphs for ${authoritativeModules.length} authoritative modules`);
 
-    // Filter raw rows for this module
-    const filterMod = (arr?: any[]) => (arr || []).filter(r => r.module === moduleName);
+  // Helper loader
+  const loadFactFile = (filename: string): any[] => {
+    const filePath = path.join(rawDir, filename);
+    if (!fs.existsSync(filePath)) return [];
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  };
 
-    const modImports = filterMod(rawFactTables.imports);
-    const modExports = filterMod(rawFactTables.exports);
-    const modClasses = filterMod(rawFactTables.classes);
-    const modMethods = filterMod(rawFactTables.methods);
-    const modFunctions = filterMod(rawFactTables.functions);
-    const modTypeAliases = filterMod(rawFactTables.typeAliases);
-    const modEnums = filterMod(rawFactTables.enums);
-    const modModelProps = filterMod(rawFactTables.modelProperties);
-    const modCalls = filterMod(rawFactTables.calls);
-    const modFirestoreHints = filterMod(rawFactTables.firestoreHints);
-    const modPermissionHints = filterMod(rawFactTables.permissionHints);
-    const modExternalHooks = filterMod(rawFactTables.externalHooks);
-    const modApiContracts = filterMod(rawFactTables.apiContracts);
-    const modTriggers = filterMod(rawFactTables.firestoreTriggers);
+  const filesFact = loadFactFile("files.json");
+  const importsFact = loadFactFile("ast-imports.json");
+  const exportsFact = loadFactFile("ast-exports.json");
+  const classesFact = loadFactFile("ast-classes.json");
+  const methodsFact = loadFactFile("ast-methods.json");
+  const functionsFact = loadFactFile("ast-functions.json");
+  const typeAliasesFact = loadFactFile("ast-type-aliases.json");
+  const enumsFact = loadFactFile("ast-enums.json");
+  const modelPropsFact = loadFactFile("ast-model-properties.json");
+  const callsFact = loadFactFile("ast-calls.json");
+  const firestoreHintsFact = loadFactFile("ast-firestore-hints.json");
+  const permissionHintsFact = loadFactFile("ast-permission-hints.json");
+  const externalHooksFact = loadFactFile("ast-external-hooks.json");
+  const apiContractsFact = loadFactFile("ast-api-contracts.json");
+  const triggersFact = loadFactFile("ast-firestore-triggers.json");
 
-    // Identify unique files for this module
-    const allModRows = [
-      ...modImports,
-      ...modExports,
-      ...modClasses,
-      ...modMethods,
-      ...modFunctions,
-      ...modTypeAliases,
-      ...modEnums,
-      ...modModelProps,
-      ...modCalls,
-      ...modFirestoreHints,
-      ...modPermissionHints,
-      ...modExternalHooks,
-      ...modApiContracts,
-      ...modTriggers,
-    ];
+  const modulesBaseDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
+  fs.mkdirSync(modulesBaseDir, { recursive: true });
 
-    const filePaths = unique(allModRows.map(r => r.file).filter(Boolean)).sort();
+  for (const moduleName of authoritativeModules) {
+    const modDir = path.join(modulesBaseDir, moduleName);
+    fs.mkdirSync(modDir, { recursive: true });
 
-    // Build per-file records
-    const filesSummary = filePaths.map(filePath => {
-      const fileFilter = (arr: any[]) => arr.filter(r => r.file === filePath);
-      return {
-        file: filePath,
-        importsCount: fileFilter(modImports).length,
-        exportsCount: fileFilter(modExports).length,
-        classesCount: fileFilter(modClasses).length,
-        methodsCount: fileFilter(modMethods).length,
-        functionsCount: fileFilter(modFunctions).length,
-        typeAliasesCount: fileFilter(modTypeAliases).length,
-        enumsCount: fileFilter(modEnums).length,
-        modelPropertiesCount: fileFilter(modModelProps).length,
-        callsCount: fileFilter(modCalls).length,
-        firestoreHintsCount: fileFilter(modFirestoreHints).length,
-        permissionHintsCount: fileFilter(modPermissionHints).length,
-        externalHooksCount: fileFilter(modExternalHooks).length,
-        apiContractsCount: fileFilter(modApiContracts).length,
-        firestoreTriggersCount: fileFilter(modTriggers).length,
-      };
-    });
-
-    // Build Services and Controllers
-    const services = modClasses
-      .filter(c => c.className.endsWith("Service") || c.className.endsWith("Publisher") || c.className.endsWith("Processor"))
-      .map(c => {
-        const cMethods = modMethods.filter(m => m.className === c.className);
-        return {
-          serviceName: c.className,
-          file: c.file,
-          line: c.line,
-          extendsClass: c.extendsClass,
-          methods: cMethods.map(m => ({
-            methodName: m.methodName,
-            line: m.line,
-            returnType: m.returnType,
-            isAsync: m.isAsync,
-            isStatic: m.isStatic,
-            visibility: m.visibility,
-          })),
-        };
-      })
-      .sort((a, b) => a.serviceName.localeCompare(b.serviceName));
-
-    const controllers = modClasses
-      .filter(c => c.className.endsWith("Controller") || c.className.endsWith("Handler"))
-      .map(c => {
-        const cMethods = modMethods.filter(m => m.className === c.className);
-        return {
-          controllerName: c.className,
-          file: c.file,
-          line: c.line,
-          extendsClass: c.extendsClass,
-          methods: cMethods.map(m => ({
-            methodName: m.methodName,
-            line: m.line,
-            returnType: m.returnType,
-            isAsync: m.isAsync,
-            isStatic: m.isStatic,
-            visibility: m.visibility,
-          })),
-        };
-      })
-      .sort((a, b) => a.controllerName.localeCompare(b.controllerName));
-
-    // Build normalized facts for evidence graph
     const facts: any[] = [];
-    const factSet = new Set<string>();
+    const stableFactId = createFactIdGenerator();
 
-    const addFact = (type: string, file: string, line: number | null, key: string, value: string, symbol: string | null, method: string | null, className: string | null, evidence: any) => {
-      const id = stableFactId(type, REPO_NAME, moduleName, file, line, key);
-      if (!factSet.has(id)) {
-        factSet.add(id);
-        facts.push({
-          id,
-          runId,
-          type,
-          repo: REPO_NAME,
-          module: moduleName,
-          submodule: null,
-          file,
-          line,
-          value,
-          symbol,
-          method,
-          className,
-          evidence,
-        });
-      }
-    };
+    // 1. source_file
+    for (const item of filesFact.filter(f => f.module === moduleName)) {
+      facts.push({
+        id: stableFactId("source_file", moduleName, item.path, 1, item.path),
+        runId,
+        type: "source_file",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: 1,
+        value: item.path,
+        evidence: { sizeBytes: item.sizeBytes, kindHint: item.kindHint },
+      });
+    }
 
-    for (const f of modClasses) addFact("source_class", f.file, f.line, f.className, f.className, f.className, null, f.className, f);
-    for (const f of modMethods) addFact("service_method", f.file, f.line, `${f.className}.${f.methodName}`, f.methodName, f.methodName, f.methodName, f.className, f);
-    for (const f of modCalls) addFact("call_expression", f.file, f.line, f.expression || f.name, f.expression || f.name, f.calleeSymbol, f.name, f.callerClass, f);
-    for (const f of modFirestoreHints) addFact("firestore_path_touched", f.file, f.line, f.path, f.path, null, null, null, f);
-    for (const f of modPermissionHints) addFact("permission_required", f.file, f.line, f.permission, f.permission, null, null, null, f);
-    for (const f of modTriggers) addFact("firestore_trigger", f.file, f.line, f.handlerName, f.firestorePath, null, f.handlerName, null, f);
-    for (const f of modApiContracts) addFact("api_contract", f.file, f.line, f.rawText, f.contractType, null, null, null, f);
+    // 2. source_class
+    for (const item of classesFact.filter(c => c.module === moduleName)) {
+      facts.push({
+        id: stableFactId("source_class", moduleName, item.path, item.line, item.className),
+        runId,
+        type: "source_class",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.className,
+        className: item.className,
+        extendsClass: item.extendsClass,
+        isExported: item.isExported,
+        evidence: { ...item },
+      });
+    }
 
+    // 3. methods (service_method / controller_method / class_method)
+    for (const item of methodsFact.filter(m => m.module === moduleName)) {
+      const factType = classifyMethod(item.className);
+      facts.push({
+        id: stableFactId(factType, moduleName, item.path, item.line, `${item.className}.${item.methodName}`),
+        runId,
+        type: factType,
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: `${item.className}.${item.methodName}`,
+        symbol: item.methodName,
+        method: item.methodName,
+        className: item.className,
+        evidence: {
+          serviceName: item.className,
+          methodName: item.methodName,
+          line: item.line,
+          returnType: item.returnType,
+          isAsync: item.isAsync,
+          isStatic: item.isStatic,
+          visibility: item.visibility,
+        },
+      });
+    }
+
+    // 4. function_declaration
+    for (const item of functionsFact.filter(f => f.module === moduleName)) {
+      facts.push({
+        id: stableFactId("function_declaration", moduleName, item.path, item.line, item.name),
+        runId,
+        type: "function_declaration",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.name,
+        name: item.name,
+        evidence: { ...item },
+      });
+    }
+
+    // 5. call_expression (Full compiler provenance retained!)
+    for (const item of callsFact.filter(c => c.module === moduleName)) {
+      facts.push({
+        id: stableFactId("call_expression", moduleName, item.path, item.line, item.expression),
+        runId,
+        type: "call_expression",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.expression,
+        callerName: item.callerName,
+        callerClass: item.callerClass,
+        callerDeclarationFile: item.callerDeclarationFile,
+        callerStartLine: item.callerStartLine,
+        callerEndLine: item.callerEndLine,
+        calleeExpression: item.calleeExpression,
+        calleeSymbol: item.calleeSymbol,
+        declarationFile: item.declarationFile,
+        declarationLine: item.declarationLine,
+        declarationClass: item.declarationClass,
+        declarationMethod: item.declarationMethod,
+        declarationModuleSpecifier: item.declarationModuleSpecifier,
+        resolutionStatus: item.resolutionStatus,
+        evidence: { ...item },
+      });
+    }
+
+    // 6. imports_dependency
+    for (const item of importsFact.filter(i => i.module === moduleName)) {
+      facts.push({
+        id: stableFactId("imports_dependency", moduleName, item.path, item.line, item.moduleSpecifier),
+        runId,
+        type: "imports_dependency",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.moduleSpecifier,
+        evidence: { ...item },
+      });
+    }
+
+    // 7. exported_symbol
+    for (const item of exportsFact.filter(e => e.module === moduleName)) {
+      const val = item.moduleSpecifier || item.namedExports?.join(",") || "export";
+      facts.push({
+        id: stableFactId("exported_symbol", moduleName, item.path, item.line, val),
+        runId,
+        type: "exported_symbol",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: val,
+        evidence: { ...item },
+      });
+    }
+
+    // 8. firestore_path_touched
+    for (const item of firestoreHintsFact.filter(fh => fh.module === moduleName)) {
+      facts.push({
+        id: stableFactId("firestore_path_touched", moduleName, item.path, item.line, item.value || item.path),
+        runId,
+        type: "firestore_path_touched",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.value || item.path,
+        pathResolutionMethod: item.pathResolutionMethod,
+        operation: item.operation,
+        evidence: { ...item },
+      });
+    }
+
+    // 9. permission_required / permission_candidate / permission_error
+    for (const item of permissionHintsFact.filter(ph => ph.module === moduleName)) {
+      let pType = "permission_candidate";
+      if (item.permissionCandidateType === "permission_error") pType = "permission_error";
+      else if (item.confidence === "confirmed") pType = "permission_required";
+
+      facts.push({
+        id: stableFactId(pType, moduleName, item.path, item.line, item.permission),
+        runId,
+        type: pType,
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.permission,
+        permission: item.permission,
+        permissionCandidateType: item.permissionCandidateType,
+        confidence: item.confidence,
+        evidence: { ...item },
+      });
+    }
+
+    // 10. external_hook / pubsub_topic / http_or_client_path / environment_variable / storage_path
+    for (const item of externalHooksFact.filter(eh => eh.module === moduleName)) {
+      let hType = "external_hook";
+      if (item.type === "pubsub_topic") hType = "pubsub_topic";
+      else if (item.type === "environment_variable") hType = "environment_variable";
+      else if (item.type === "storage_path_candidate") hType = "storage_path";
+      else if (item.type === "http_or_client_path_candidate") hType = "http_or_client_path";
+
+      facts.push({
+        id: stableFactId(hType, moduleName, item.path, item.line, item.value),
+        runId,
+        type: hType,
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.value,
+        evidence: { ...item },
+      });
+    }
+
+    // 11. firestore_trigger
+    for (const item of triggersFact.filter(t => t.module === moduleName)) {
+      facts.push({
+        id: stableFactId("firestore_trigger", moduleName, item.path, item.line, item.firestorePath),
+        runId,
+        type: "firestore_trigger",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.firestorePath,
+        handlerName: item.handlerName,
+        handlerStartLine: item.handlerStartLine,
+        handlerEndLine: item.handlerEndLine,
+        evidence: { ...item },
+      });
+    }
+
+    // 12. api_contract
+    for (const item of apiContractsFact.filter(a => a.module === moduleName)) {
+      facts.push({
+        id: stableFactId("api_contract", moduleName, item.path, item.line, item.handlerName),
+        runId,
+        type: "api_contract",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.handlerName,
+        method: item.handlerName,
+        contractType: item.contractType,
+        handlerName: item.handlerName,
+        handlerStartLine: item.handlerStartLine,
+        handlerEndLine: item.handlerEndLine,
+        evidence: { ...item },
+      });
+    }
+
+    // 13. type_alias
+    for (const item of typeAliasesFact.filter(ta => ta.module === moduleName)) {
+      facts.push({
+        id: stableFactId("type_alias", moduleName, item.path, item.line, item.name),
+        runId,
+        type: "type_alias",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.name,
+        evidence: { ...item },
+      });
+    }
+
+    // 14. enum_declaration
+    for (const item of enumsFact.filter(e => e.module === moduleName)) {
+      facts.push({
+        id: stableFactId("enum_declaration", moduleName, item.path, item.line, item.name),
+        runId,
+        type: "enum_declaration",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: item.name,
+        evidence: { ...item },
+      });
+    }
+
+    // 15. model_property
+    for (const item of modelPropsFact.filter(mp => mp.module === moduleName)) {
+      facts.push({
+        id: stableFactId("model_property", moduleName, item.path, item.line, `${item.parentName}.${item.propertyName}`),
+        runId,
+        type: "model_property",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: `${item.parentName}.${item.propertyName}`,
+        evidence: { ...item },
+      });
+    }
+
+    // Sort facts deterministically
     facts.sort((a, b) => a.id.localeCompare(b.id));
 
-    // Compute Summary
-    const summary = {
-      files: filePaths.length,
-      imports: modImports.length,
-      exports: modExports.length,
-      classes: modClasses.length,
-      methods: modMethods.length,
-      functions: modFunctions.length,
-      typeAliases: modTypeAliases.length,
-      enums: modEnums.length,
-      modelProperties: modModelProps.length,
-      calls: modCalls.length,
-      firestoreHints: modFirestoreHints.length,
-      permissionHints: modPermissionHints.length,
-      externalHooks: modExternalHooks.length,
-      firestoreTriggers: modTriggers.length,
-      apiContracts: modApiContracts.length,
+    // Check fact ID uniqueness
+    const factIds = new Set<string>();
+    for (const f of facts) {
+      if (factIds.has(f.id)) {
+        addNotification(notifications, "02-build-module-evidence", "fatal", "DUPLICATE_FACT_ID_FATAL", `Duplicate fact ID '${f.id}' in module '${moduleName}'.`, { module: moduleName, factId: f.id });
+        writeNotificationsAtomically(notificationsPath, notifications);
+        throw new Error(`[DUPLICATE_FACT_ID_FATAL] Duplicate fact ID '${f.id}'.`);
+      }
+      factIds.add(f.id);
+    }
+
+    const moduleFiles = Array.from(new Set(facts.map(f => f.file))).sort();
+    const services = Array.from(new Set(facts.filter(f => f.type === "service_method").map(f => f.className))).sort();
+    const controllers = Array.from(new Set(facts.filter(f => f.type === "controller_method").map(f => f.className))).sort();
+
+    const summaryCounts = {
+      files: moduleFiles.length,
+      imports: facts.filter(f => f.type === "imports_dependency").length,
+      exports: facts.filter(f => f.type === "exported_symbol").length,
+      classes: facts.filter(f => f.type === "source_class").length,
+      methods: facts.filter(f => f.type === "service_method" || f.type === "controller_method" || f.type === "class_method").length,
+      functions: facts.filter(f => f.type === "function_declaration").length,
+      typeAliases: facts.filter(f => f.type === "type_alias").length,
+      enums: facts.filter(f => f.type === "enum_declaration").length,
+      modelProperties: facts.filter(f => f.type === "model_property").length,
+      calls: facts.filter(f => f.type === "call_expression").length,
+      firestoreHints: facts.filter(f => f.type === "firestore_path_touched").length,
+      permissionHints: facts.filter(f => f.type === "permission_required" || f.type === "permission_candidate" || f.type === "permission_error").length,
+      externalHooks: facts.filter(f => f.type === "external_hook" || f.type === "pubsub_topic" || f.type === "http_or_client_path" || f.type === "environment_variable" || f.type === "storage_path").length,
+      firestoreTriggers: facts.filter(f => f.type === "firestore_trigger").length,
+      apiContracts: facts.filter(f => f.type === "api_contract").length,
       services: services.length,
       controllers: controllers.length,
       facts: facts.length,
     };
 
-    console.log(`${moduleName}:`, summary);
-
-    // Build Module Manifest
-    const moduleManifest = {
-      schemaVersion: "1.0.0",
-      runId,
-      repoName: REPO_NAME,
-      module: moduleName,
-      generatedAt: new Date().toISOString(),
-      summary,
-      artifacts: [
-        { file: `${moduleName}-files.json`, recordCount: filesSummary.length },
-        { file: `${moduleName}-services.json`, recordCount: services.length },
-        { file: `${moduleName}-controllers.json`, recordCount: controllers.length },
-        { file: `${moduleName}-firestore-triggers.json`, recordCount: modTriggers.length },
-        { file: `${moduleName}-evidence.json`, recordCount: allModRows.length },
-        { file: `${moduleName}-evidence-graph.json`, recordCount: facts.length },
-      ],
-    };
-
-    // Write module artifacts atomically
-    writeJsonAtomically(path.join(moduleKpDir, `${moduleName}-files.json`), filesSummary, `modules/${moduleName}/${moduleName}-files.json`);
-    writeJsonAtomically(path.join(moduleKpDir, `${moduleName}-services.json`), services, `modules/${moduleName}/${moduleName}-services.json`);
-    writeJsonAtomically(path.join(moduleKpDir, `${moduleName}-controllers.json`), controllers, `modules/${moduleName}/${moduleName}-controllers.json`);
-    writeJsonAtomically(path.join(moduleKpDir, `${moduleName}-firestore-triggers.json`), modTriggers, `modules/${moduleName}/${moduleName}-firestore-triggers.json`);
-    writeJsonAtomically(path.join(moduleKpDir, `${moduleName}-evidence.json`), allModRows, `modules/${moduleName}/${moduleName}-evidence.json`);
-
-    const graphCountsByType: Record<string, number> = {};
-    for (const f of facts) {
-      graphCountsByType[f.type] = (graphCountsByType[f.type] ?? 0) + 1;
-    }
-
-    const evidenceGraph = {
+    const graphPayload = {
       schemaVersion: "1.0.0",
       runId,
       repoName: REPO_NAME,
@@ -452,13 +626,31 @@ function main() {
       generatedAt: new Date().toISOString(),
       summary: {
         totalFacts: facts.length,
-        countsByType: graphCountsByType,
+        ...summaryCounts,
       },
       facts,
     };
 
-    writeJsonAtomically(path.join(moduleKpDir, `${moduleName}-evidence-graph.json`), evidenceGraph, `modules/${moduleName}/${moduleName}-evidence-graph.json`);
-    writeJsonAtomically(path.join(moduleKpDir, `${moduleName}-manifest.json`), moduleManifest, `modules/${moduleName}/${moduleName}-manifest.json`);
+    const nowIso = new Date().toISOString();
+    const manifestPayload = {
+      schemaVersion: "1.0.0",
+      runId,
+      repoName: REPO_NAME,
+      module: moduleName,
+      generatedAt: nowIso,
+      updatedAt: nowIso,
+      artefacts: [
+        { file: `${moduleName}-facts.json`, recordCount: facts.length },
+        { file: `${moduleName}-evidence-graph.json`, recordCount: 1 },
+      ],
+      summary: summaryCounts,
+    };
+
+    writeJsonAtomically(path.join(modDir, `${moduleName}-facts.json`), facts, `${moduleName}-facts.json`);
+    writeJsonAtomically(path.join(modDir, `${moduleName}-evidence-graph.json`), graphPayload, `${moduleName}-evidence-graph.json`);
+    writeJsonAtomically(path.join(modDir, `${moduleName}-manifest.json`), manifestPayload, `${moduleName}-manifest.json`);
+
+    console.log(`${moduleName}:`, summaryCounts);
   }
 
   addNotification(notifications, "02-build-module-evidence", "info", "MODULE_EVIDENCE_COMPLETED", "Module evidence synthesis completed successfully.");

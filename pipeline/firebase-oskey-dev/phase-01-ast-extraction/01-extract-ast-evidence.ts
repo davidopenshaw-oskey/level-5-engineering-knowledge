@@ -110,7 +110,8 @@ function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): 
       data.includes("/Users/") ||
       data.includes("/home/") ||
       /^[a-zA-Z]:\\/.test(data) ||
-      data.startsWith("file://")
+      data.startsWith("file://") ||
+      data.includes("output/clones")
     ) {
       throw new Error(`[Local Path Contamination] Found local absolute path '${data}' in context '${contextDescription}'.`);
     }
@@ -124,7 +125,6 @@ function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): 
   }
   if (typeof data === "object") {
     for (const key of Object.keys(data as object)) {
-      if (key === "absolutePath" || key === "clonePath") continue; // runtime-only local bindings
       assertNoLocalAbsolutePaths((data as any)[key], `${contextDescription}.${key}`);
     }
   }
@@ -202,12 +202,18 @@ function resolveExpressionValue(
 
   if (Node.isTemplateExpression(node)) {
     let result = node.getHead().getLiteralText();
+    let hasUnresolved = false;
     for (const span of node.getTemplateSpans()) {
       const exprRes = resolveExpressionValue(span.getExpression(), visitedDeclarations, depth + 1, maxDepth);
-      result += exprRes.value !== null ? exprRes.value : `{${span.getExpression().getText()}}`;
+      if (exprRes.value !== null) {
+        result += exprRes.value;
+      } else {
+        hasUnresolved = true;
+        result += `{${span.getExpression().getText()}}`;
+      }
       result += span.getLiteral().getLiteralText();
     }
-    return { value: result, status: "resolved" };
+    return { value: result, status: hasUnresolved ? "unsupported" : "resolved" };
   }
 
   if (Node.isIdentifier(node)) {
@@ -282,7 +288,7 @@ function main() {
     throw new Error(`[Fail-Closed] Repository '${REPO_NAME}' not found in config/repos.json.`);
   }
 
-  const clonePath = runContext.clonePath || path.join(projectRoot, "output", "clones", REPO_NAME);
+  const clonePath = path.join(projectRoot, "output", "clones", REPO_NAME);
   const tsconfigPath = path.join(clonePath, "functions", "tsconfig.json");
 
   if (!fs.existsSync(tsconfigPath)) {
@@ -314,11 +320,12 @@ function main() {
     repo: string;
     module: string;
     submodule: string | null;
-    file: string;
-    absolutePath: string;
+    path: string;
+    kindHint: string;
+    sizeBytes: number;
   }> = JSON.parse(fs.readFileSync(filesJsonPath, "utf8"));
 
-  const tsFiles = manifestFiles.filter(f => f.file.endsWith(".ts") && !f.file.endsWith(".d.ts"));
+  const tsFiles = manifestFiles.filter(f => f.path.endsWith(".ts") && !f.path.endsWith(".d.ts"));
 
   console.log(`Manifest files: ${manifestFiles.length}`);
   console.log(`TS files selected: ${tsFiles.length}`);
@@ -334,21 +341,53 @@ function main() {
     absolutePath: string;
   }> = [];
 
+  const missingSourceFiles: string[] = [];
+
   for (const f of tsFiles) {
-    if (fs.existsSync(f.absolutePath)) {
-      project.addSourceFileAtPath(f.absolutePath);
-      runtimeFiles.push({
-        file: f,
-        base: {
-          runId,
-          repo: REPO_NAME,
-          module: f.module,
-          submodule: f.submodule,
-          file: f.file,
-        },
-        absolutePath: f.absolutePath,
-      });
+    const absPath = path.join(clonePath, f.path);
+    if (fs.existsSync(absPath)) {
+      try {
+        project.addSourceFileAtPath(absPath);
+        runtimeFiles.push({
+          file: f,
+          base: {
+            runId,
+            repo: REPO_NAME,
+            module: f.module,
+            submodule: f.submodule,
+            path: f.path,
+          },
+          absolutePath: absPath,
+        });
+      } catch (err: any) {
+        missingSourceFiles.push(f.path);
+      }
+    } else {
+      missingSourceFiles.push(f.path);
     }
+  }
+
+  if (runtimeFiles.length === 0) {
+    addNotification(
+      notifications,
+      "01-extract-ast-evidence",
+      "fatal",
+      "ZERO_SOURCE_FILES_FATAL",
+      "Zero valid TypeScript source files could be loaded into ts-morph project."
+    );
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error("[ZERO_SOURCE_FILES_FATAL] Zero valid TypeScript source files loaded.");
+  }
+
+  if (missingSourceFiles.length > 0) {
+    addNotification(
+      notifications,
+      "01-extract-ast-evidence",
+      "warning",
+      "MISSING_SOURCE_FILES_WARNING",
+      `${missingSourceFiles.length} source file(s) listed in files.json could not be loaded into ts-morph.`,
+      { count: missingSourceFiles.length, samples: missingSourceFiles.slice(0, 5) }
+    );
   }
 
   const rawImports: any[] = [];
@@ -371,280 +410,363 @@ function main() {
     const sf = project.getSourceFile(absolutePath);
     if (!sf) continue;
 
-    // 1. Imports
-    for (const imp of sf.getImportDeclarations()) {
-      const moduleSpecifier = imp.getModuleSpecifierValue();
-      const defaultImport = imp.getDefaultImport()?.getText();
-      const namedImports = imp.getNamedImports().map(n => n.getName());
-      const isTypeOnly = imp.isTypeOnly();
+    try {
+      // 1. Imports
+      for (const imp of sf.getImportDeclarations()) {
+        const moduleSpecifier = imp.getModuleSpecifierValue();
+        const defaultImport = imp.getDefaultImport()?.getText();
+        const namedImports = imp.getNamedImports().map(n => n.getName());
+        const isTypeOnly = imp.isTypeOnly();
 
-      rawImports.push({
-        ...base,
-        line: imp.getStartLineNumber(),
-        moduleSpecifier,
-        defaultImport: defaultImport || null,
-        namedImports,
-        isTypeOnly,
-      });
-    }
-
-    // 2. Exports
-    for (const exp of sf.getExportDeclarations()) {
-      const moduleSpecifier = exp.getModuleSpecifierValue();
-      const namedExports = exp.getNamedExports().map(n => n.getName());
-
-      rawExports.push({
-        ...base,
-        line: exp.getStartLineNumber(),
-        moduleSpecifier: moduleSpecifier || null,
-        namedExports,
-      });
-    }
-
-    // 3. Classes & Methods
-    for (const cls of sf.getClasses()) {
-      const className = cls.getName() || "AnonymousClass";
-      const extendsClass = cls.getBaseClass()?.getName() || null;
-      const isExported = cls.isExported();
-
-      rawClasses.push({
-        ...base,
-        line: cls.getStartLineNumber(),
-        className,
-        extendsClass,
-        isExported,
-      });
-
-      for (const method of cls.getMethods()) {
-        const methodName = method.getName();
-        const returnType = sanitizeTypeText(method.getReturnType().getText(), clonePath);
-        const isAsync = method.isAsync();
-        const isStatic = method.isStatic();
-        const visibility = method.getScope();
-
-        rawMethods.push({
+        rawImports.push({
           ...base,
-          line: method.getStartLineNumber(),
+          line: imp.getStartLineNumber(),
+          moduleSpecifier,
+          defaultImport: defaultImport || null,
+          namedImports,
+          isTypeOnly,
+        });
+      }
+
+      // 2. Exports
+      for (const exp of sf.getExportDeclarations()) {
+        const moduleSpecifier = exp.getModuleSpecifierValue();
+        const namedExports = exp.getNamedExports().map(n => n.getName());
+
+        rawExports.push({
+          ...base,
+          line: exp.getStartLineNumber(),
+          moduleSpecifier: moduleSpecifier || null,
+          namedExports,
+        });
+      }
+
+      // 3. Classes & Methods
+      for (const cls of sf.getClasses()) {
+        const className = cls.getName() || "AnonymousClass";
+        const extendsClass = cls.getBaseClass()?.getName() || null;
+        const isExported = cls.isExported();
+
+        rawClasses.push({
+          ...base,
+          line: cls.getStartLineNumber(),
           className,
-          methodName,
-          returnType,
-          isAsync,
-          isStatic,
-          visibility,
+          extendsClass,
+          isExported,
         });
+
+        for (const method of cls.getMethods()) {
+          const methodName = method.getName();
+          const returnType = sanitizeTypeText(method.getReturnType().getText(), clonePath);
+          const isAsync = method.isAsync();
+          const isStatic = method.isStatic();
+          const visibility = method.getScope();
+
+          rawMethods.push({
+            ...base,
+            line: method.getStartLineNumber(),
+            className,
+            methodName,
+            returnType,
+            isAsync,
+            isStatic,
+            visibility,
+          });
+        }
       }
-    }
 
-    // 4. Functions
-    for (const fn of sf.getFunctions()) {
-      const name = fn.getName() || "AnonymousFunction";
-      const isExported = fn.isExported();
-      const isAsync = fn.isAsync();
-      const returnType = sanitizeTypeText(fn.getReturnType().getText(), clonePath);
+      // 4. Functions
+      for (const fn of sf.getFunctions()) {
+        const name = fn.getName() || "AnonymousFunction";
+        const isExported = fn.isExported();
+        const isAsync = fn.isAsync();
+        const returnType = sanitizeTypeText(fn.getReturnType().getText(), clonePath);
 
-      rawFunctions.push({
-        ...base,
-        line: fn.getStartLineNumber(),
-        name,
-        isExported,
-        isAsync,
-        returnType,
-      });
-    }
-
-    // 5. Type Aliases
-    for (const ta of sf.getTypeAliases()) {
-      rawTypeAliases.push({
-        ...base,
-        line: ta.getStartLineNumber(),
-        name: ta.getName(),
-        isExported: ta.isExported(),
-      });
-    }
-
-    // 6. Enums
-    for (const en of sf.getEnums()) {
-      rawEnums.push({
-        ...base,
-        line: en.getStartLineNumber(),
-        name: en.getName(),
-        members: en.getMembers().map(m => m.getName()),
-        isExported: en.isExported(),
-      });
-    }
-
-    // 7. Model Properties (Interfaces / Classes)
-    for (const iface of sf.getInterfaces()) {
-      for (const prop of iface.getProperties()) {
-        rawModelProperties.push({
+        rawFunctions.push({
           ...base,
-          line: prop.getStartLineNumber(),
-          parentName: iface.getName(),
-          propertyName: prop.getName(),
-          propertyType: sanitizeTypeText(prop.getType().getText(), clonePath),
-          isOptional: prop.hasQuestionToken(),
+          line: fn.getStartLineNumber(),
+          name,
+          isExported,
+          isAsync,
+          returnType,
         });
       }
-    }
 
-    // 8. Calls with Full Compiler Provenance
-    for (const callExpr of sf.getDescendantsOfKind(SyntaxKind.CallExpression)) {
-      const expr = callExpr.getExpression();
-      const calleeText = expr.getText();
-      const line = callExpr.getStartLineNumber();
-
-      // Find enclosing caller context
-      let callerName: string | null = null;
-      let callerClass: string | null = null;
-      let callerDeclarationFile: string | null = null;
-
-      const enclosingMethod = callExpr.getFirstAncestorByKind(SyntaxKind.MethodDeclaration);
-      const enclosingFn = callExpr.getFirstAncestorByKind(SyntaxKind.FunctionDeclaration);
-      const enclosingClass = callExpr.getFirstAncestorByKind(SyntaxKind.ClassDeclaration);
-
-      if (enclosingClass) {
-        callerClass = enclosingClass.getName() || "AnonymousClass";
+      // 5. Type Aliases
+      for (const ta of sf.getTypeAliases()) {
+        rawTypeAliases.push({
+          ...base,
+          line: ta.getStartLineNumber(),
+          name: ta.getName(),
+          isExported: ta.isExported(),
+        });
       }
-      if (enclosingMethod) {
-        callerName = enclosingMethod.getName();
-      } else if (enclosingFn) {
-        callerName = enclosingFn.getName() || "AnonymousFunction";
+
+      // 6. Enums
+      for (const en of sf.getEnums()) {
+        rawEnums.push({
+          ...base,
+          line: en.getStartLineNumber(),
+          name: en.getName(),
+          members: en.getMembers().map(m => m.getName()),
+          isExported: en.isExported(),
+        });
       }
-      callerDeclarationFile = base.file;
 
-      let calleeSymbol: string | null = null;
-      let aliasedCalleeSymbol: string | null = null;
-      let declarationFile: string | null = null;
-      let declarationLine: number | null = null;
-      let declarationClass: string | null = null;
-      let declarationMethod: string | null = null;
-      let declarationModuleSpecifier: string | null = null;
-      let resolutionStatus: "resolved" | "partial" | "unresolved" = "unresolved";
+      // 7. Model Properties (Interfaces / Classes)
+      for (const iface of sf.getInterfaces()) {
+        for (const prop of iface.getProperties()) {
+          rawModelProperties.push({
+            ...base,
+            line: prop.getStartLineNumber(),
+            parentName: iface.getName(),
+            propertyName: prop.getName(),
+            propertyType: sanitizeTypeText(prop.getType().getText(), clonePath),
+            isOptional: prop.hasQuestionToken(),
+          });
+        }
+      }
 
-      try {
-        const symbol = expr.getSymbol();
-        if (symbol) {
-          calleeSymbol = symbol.getName();
-          const aliased = symbol.getAliasedSymbol();
-          if (aliased) aliasedCalleeSymbol = aliased.getName();
+      // 8. Calls with Full Compiler Provenance & Range
+      for (const callExpr of sf.getDescendantsOfKind(SyntaxKind.CallExpression)) {
+        const expr = callExpr.getExpression();
+        const calleeText = expr.getText();
+        const line = callExpr.getStartLineNumber();
 
-          const decl = symbol.getValueDeclaration() || symbol.getDeclarations()[0];
-          if (decl) {
-            const declSf = decl.getSourceFile();
-            declarationFile = toRepoPath(declSf.getFilePath(), clonePath);
-            declarationLine = decl.getStartLineNumber();
+        // Enclosing caller context & range
+        let callerName: string | null = null;
+        let callerClass: string | null = null;
+        let callerDeclarationFile: string | null = null;
+        let callerStartLine: number | null = null;
+        let callerEndLine: number | null = null;
 
-            const declClass = decl.getFirstAncestorByKind(SyntaxKind.ClassDeclaration);
-            if (declClass) declarationClass = declClass.getName() || null;
+        const enclosingMethod = callExpr.getFirstAncestorByKind(SyntaxKind.MethodDeclaration);
+        const enclosingFn = callExpr.getFirstAncestorByKind(SyntaxKind.FunctionDeclaration);
+        const enclosingClass = callExpr.getFirstAncestorByKind(SyntaxKind.ClassDeclaration);
 
-            if (Node.isMethodDeclaration(decl)) {
-              declarationMethod = decl.getName();
-            } else if (Node.isFunctionDeclaration(decl)) {
-              declarationMethod = decl.getName() || null;
+        if (enclosingClass) {
+          callerClass = enclosingClass.getName() || "AnonymousClass";
+        }
+
+        if (enclosingMethod) {
+          callerName = enclosingMethod.getName();
+          callerStartLine = enclosingMethod.getStartLineNumber();
+          callerEndLine = enclosingMethod.getEndLineNumber();
+        } else if (enclosingFn) {
+          callerName = enclosingFn.getName() || "AnonymousFunction";
+          callerStartLine = enclosingFn.getStartLineNumber();
+          callerEndLine = enclosingFn.getEndLineNumber();
+        }
+
+        callerDeclarationFile = base.path;
+
+        let calleeSymbol: string | null = null;
+        let aliasedCalleeSymbol: string | null = null;
+        let declarationFile: string | null = null;
+        let declarationLine: number | null = null;
+        let declarationClass: string | null = null;
+        let declarationMethod: string | null = null;
+        let declarationModuleSpecifier: string | null = null;
+        let resolutionStatus: "resolved" | "partial" | "unresolved" = "unresolved";
+
+        try {
+          const symbol = expr.getSymbol();
+          if (symbol) {
+            calleeSymbol = symbol.getName();
+            const aliased = symbol.getAliasedSymbol();
+            if (aliased) aliasedCalleeSymbol = aliased.getName();
+
+            const decl = symbol.getValueDeclaration() || symbol.getDeclarations()[0];
+            if (decl) {
+              const declSf = decl.getSourceFile();
+              declarationFile = toRepoPath(declSf.getFilePath(), clonePath);
+              declarationLine = decl.getStartLineNumber();
+
+              const declClass = decl.getFirstAncestorByKind(SyntaxKind.ClassDeclaration);
+              if (declClass) declarationClass = declClass.getName() || null;
+
+              if (Node.isMethodDeclaration(decl)) {
+                declarationMethod = decl.getName();
+              } else if (Node.isFunctionDeclaration(decl)) {
+                declarationMethod = decl.getName() || null;
+              }
+
+              const impDecl = decl.getFirstAncestorByKind(SyntaxKind.ImportDeclaration);
+              if (impDecl) {
+                declarationModuleSpecifier = impDecl.getModuleSpecifierValue();
+              }
+
+              resolutionStatus = declarationFile ? "resolved" : "partial";
             }
+          }
+        } catch {
+          resolutionStatus = "unresolved";
+        }
 
-            // Check if imported from external or separate module
-            const impDecl = decl.getFirstAncestorByKind(SyntaxKind.ImportDeclaration);
-            if (impDecl) {
-              declarationModuleSpecifier = impDecl.getModuleSpecifierValue();
+        rawCalls.push({
+          ...base,
+          line,
+          expression: calleeText,
+          name: calleeText.split(".").pop() || calleeText,
+          arguments: callExpr.getArguments().map(a => a.getText()),
+          callerName,
+          callerClass,
+          callerDeclarationFile,
+          callerStartLine,
+          callerEndLine,
+          calleeExpression: calleeText,
+          calleeSymbol,
+          aliasedCalleeSymbol,
+          declarationFile,
+          declarationLine,
+          declarationClass,
+          declarationMethod,
+          declarationModuleSpecifier,
+          resolutionStatus,
+        });
+
+        // AST-Node Firestore Path Extraction
+        if (calleeText.includes("collection") || calleeText.includes("doc") || calleeText.includes("collectionGroup") || calleeText.includes("document")) {
+          const arg0 = callExpr.getArguments()[0];
+          if (arg0) {
+            const res = resolveExpressionValue(arg0);
+            if (res.value) {
+              const method = Node.isTemplateExpression(arg0) ? "template_expression" : (Node.isIdentifier(arg0) ? "resolved_constant" : "literal");
+              rawFirestoreHints.push({
+                ...base,
+                line,
+                path: res.value,
+                value: res.value,
+                operation: "access",
+                pathResolutionMethod: method,
+              });
             }
-
-            resolutionStatus = declarationFile ? "resolved" : "partial";
           }
         }
-      } catch {
-        resolutionStatus = "unresolved";
-      }
 
-      rawCalls.push({
-        ...base,
-        line,
-        expression: calleeText,
-        name: calleeText.split(".").pop() || calleeText,
-        arguments: callExpr.getArguments().map(a => a.getText()),
-        callerName,
-        callerClass,
-        callerDeclarationFile,
-        calleeExpression: calleeText,
-        calleeSymbol,
-        aliasedCalleeSymbol,
-        declarationFile,
-        declarationLine,
-        declarationClass,
-        declarationMethod,
-        declarationModuleSpecifier,
-        resolutionStatus,
-      });
-    }
+        // Firestore Triggers
+        if (calleeText.includes("onDocumentCreated") || calleeText.includes("onDocumentUpdated") || calleeText.includes("onDocumentDeleted") || calleeText.includes("onDocumentWritten") || calleeText.includes("onCreate") || calleeText.includes("onUpdate") || calleeText.includes("onDelete") || calleeText.includes("onWrite")) {
+          const arg0 = callExpr.getArguments()[0];
+          const arg1 = callExpr.getArguments()[1];
+          let firestorePath: string | null = null;
+          let handlerNode = arg1 || arg0;
 
-    // 9. Firestore Path Hints
-    const fullText = sf.getFullText();
-    const docMatches = Array.from(fullText.matchAll(/collection\(['"]([^'"]+)['"]\)|doc\(['"]([^'"]+)['"]\)/g));
-    for (const match of docMatches) {
-      const pathVal = match[1] || match[2];
-      if (pathVal) {
-        rawFirestoreHints.push({
-          ...base,
-          line: 1,
-          path: pathVal,
-          operation: "access",
-        });
-      }
-    }
+          if (arg0) {
+            const res = resolveExpressionValue(arg0);
+            if (res.value) firestorePath = res.value;
+          }
 
-    // 10. Permission Candidate Hints (including versioned Oskey permissions)
-    const permStringMatches = Array.from(fullText.matchAll(/['"](v\d+\.[a-zA-Z0-9_.:-]+|PERMISSION_[A-Z0-9_]+|SCOPE_[A-Z0-9_]+)['"]/g));
-    for (const match of permStringMatches) {
-      const permStr = match[1];
-      const isVersioned = /^v\d+\.[a-zA-Z0-9_.:-]+$/.test(permStr);
+          let handlerName: string | null = null;
+          let handlerStartLine: number | null = null;
+          let handlerEndLine: number | null = null;
 
-      rawPermissionHints.push({
-        ...base,
-        line: 1,
-        permission: permStr,
-        permissionCandidateType: isVersioned ? "versioned_permission" : "permission_constant",
-        confidence: isVersioned ? "confirmed" : "candidate",
-      });
-    }
+          if (handlerNode) {
+            handlerStartLine = handlerNode.getStartLineNumber();
+            handlerEndLine = handlerNode.getEndLineNumber();
+            if (Node.isIdentifier(handlerNode)) {
+              handlerName = handlerNode.getText();
+            } else if (Node.isArrowFunction(handlerNode) || Node.isFunctionExpression(handlerNode)) {
+              handlerName = "anonymous_handler";
+            }
+          }
 
-    // 11. Firestore Triggers & API Contracts
-    for (const callExpr of sf.getDescendantsOfKind(SyntaxKind.CallExpression)) {
-      const text = callExpr.getText();
-
-      if (text.includes("onDocumentCreated") || text.includes("onDocumentUpdated") || text.includes("onDocumentDeleted") || text.includes("onDocumentWritten")) {
-        const calleeText = callExpr.getExpression().getText();
-        let firestorePath: string | null = null;
-        const arg0 = callExpr.getArguments()[0];
-        if (arg0) {
-          const res = resolveExpressionValue(arg0);
-          firestorePath = res.value;
+          rawTriggers.push({
+            ...base,
+            line,
+            triggerType: "FIRESTORE_TRIGGER",
+            firestorePath: firestorePath || "unknown",
+            handlerName: handlerName || "unknown_handler",
+            handlerExpression: handlerNode?.getText() || null,
+            handlerDeclarationFile: base.path,
+            handlerStartLine,
+            handlerEndLine,
+            rawText: callExpr.getText(),
+            calleeExpression: calleeText,
+          });
         }
 
-        rawTriggers.push({
-          ...base,
-          line: callExpr.getStartLineNumber(),
-          triggerType: "FIRESTORE_TRIGGER",
-          firestorePath: firestorePath || "unknown",
-          handlerName: calleeText,
-          rawText: text,
-          calleeExpression: calleeText,
-        });
+        // API Contracts
+        if (calleeText.includes("onCall") || calleeText.includes("onRequest")) {
+          const handlerArg = callExpr.getArguments()[1] || callExpr.getArguments()[0];
+          let handlerName: string | null = null;
+          let handlerStartLine: number | null = null;
+          let handlerEndLine: number | null = null;
+
+          if (handlerArg) {
+            handlerStartLine = handlerArg.getStartLineNumber();
+            handlerEndLine = handlerArg.getEndLineNumber();
+            if (Node.isIdentifier(handlerArg)) {
+              handlerName = handlerArg.getText();
+            } else if (Node.isArrowFunction(handlerArg) || Node.isFunctionExpression(handlerArg)) {
+              handlerName = "anonymous_api_handler";
+            }
+          }
+
+          rawApiContracts.push({
+            ...base,
+            line,
+            contractType: calleeText.includes("onCall") ? "callable" : "http",
+            handlerName: handlerName || "unknown_api_handler",
+            handlerExpression: handlerArg?.getText() || null,
+            handlerDeclarationFile: base.path,
+            handlerStartLine,
+            handlerEndLine,
+            rawText: callExpr.getText(),
+            value: handlerName || calleeText,
+          });
+        }
+
+        // External Hooks (Pub/Sub)
+        if (calleeText.includes(".topic(")) {
+          const topicArg = callExpr.getArguments()[0];
+          if (topicArg) {
+            const res = resolveExpressionValue(topicArg);
+            if (res.value) {
+              rawExternalHooks.push({
+                ...base,
+                line,
+                type: "pubsub_topic",
+                value: res.value,
+                confidence: "confirmed",
+              });
+            }
+          }
+        }
       }
 
-      if (text.includes("onCall") || text.includes("onRequest")) {
-        rawApiContracts.push({
-          ...base,
-          line: callExpr.getStartLineNumber(),
-          contractType: text.includes("onCall") ? "callable" : "http",
-          rawText: text,
-          value: callExpr.getExpression().getText(),
-        });
+      // Permission Hints AST Traversal
+      for (const lit of sf.getDescendantsOfKind(SyntaxKind.StringLiteral)) {
+        const val = lit.getLiteralValue();
+        const isVersioned = /^v\d+\.[a-zA-Z0-9_.:-]+$/.test(val);
+        const isConst = val.startsWith("PERMISSION_") || val.startsWith("SCOPE_") || val === "permission-denied";
+
+        if (isVersioned || isConst) {
+          const line = lit.getStartLineNumber();
+          const parentCall = lit.getFirstAncestorByKind(SyntaxKind.CallExpression);
+          const contextExpr = parentCall?.getExpression().getText() || null;
+          const isConfirmed = isVersioned && Boolean(contextExpr && (contextExpr.includes("check") || contextExpr.includes("permission") || contextExpr.includes("guard") || contextExpr.includes("has") || contextExpr.includes("assert")));
+
+          rawPermissionHints.push({
+            ...base,
+            line,
+            permission: val,
+            permissionCandidateType: isVersioned ? "versioned_permission" : (val.startsWith("PERMISSION_") ? "permission_constant" : "scope_constant"),
+            confidence: isConfirmed ? "confirmed" : "candidate",
+            contextExpression: contextExpr,
+          });
+        }
       }
+    } catch (err: any) {
+      rawErrors.push({
+        file: base.path,
+        stage: "ast_extraction",
+        message: err.message,
+      });
     }
   }
 
   // Sort raw outputs deterministically
-  const sortFn = (a: any, b: any) => (a.file || "").localeCompare(b.file || "") || (a.line ?? 0) - (b.line ?? 0);
+  const sortFn = (a: any, b: any) => (a.path || "").localeCompare(b.path || "") || (a.line ?? 0) - (b.line ?? 0) || (a.name || a.value || "").localeCompare(b.name || b.value || "");
 
   rawImports.sort(sortFn);
   rawExports.sort(sortFn);
@@ -660,6 +782,7 @@ function main() {
   rawExternalHooks.sort(sortFn);
   rawApiContracts.sort(sortFn);
   rawTriggers.sort(sortFn);
+  rawErrors.sort(sortFn);
 
   // Write raw facts atomically
   writeJsonAtomically(path.join(rawDir, "ast-imports.json"), rawImports, "facts/ast-imports.json");
