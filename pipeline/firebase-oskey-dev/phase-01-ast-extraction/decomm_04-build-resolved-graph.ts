@@ -8,27 +8,167 @@
 
 import fs from "fs";
 import path from "path";
-import {
-  RunNotifications,
-  addNotification,
-  writeJsonAtomically,
-  writeNotificationsAtomically,
-  loadNotifications,
-  assertNoLocalAbsolutePaths,
-  runContextPath,
-} from "./_shared/run-utils";
 
 const projectRoot = process.cwd();
 
-// writeMarkdownAtomically stays local to this script -- it's the only script
-// in this repo's pipeline that emits a Markdown artifact, so it doesn't
-// belong in the shared, repo-pipeline-wide utils module.
+type NotificationSeverity = "info" | "warning" | "error" | "fatal";
+
+interface NotificationEntry {
+  id: string;
+  sourceScript: string;
+  severity: NotificationSeverity;
+  code: string;
+  message: string;
+  details?: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+  humanAttentionRecommended: boolean;
+}
+
+interface RunNotifications {
+  schemaVersion: string;
+  runId: string;
+  repoName: string;
+  updatedAt: string;
+  highestSeverity: NotificationSeverity;
+  entries: NotificationEntry[];
+}
+
+function buildNotificationId(sourceScript: string, code: string, details?: Record<string, unknown>): string {
+  const parts = [
+    sourceScript,
+    code,
+    details?.module ? String(details.module) : "",
+    details?.file ? String(details.file) : "",
+    details?.missingArtifact ? String(details.missingArtifact) : "",
+    details?.key ? String(details.key) : "",
+  ].filter(Boolean);
+  return parts.join("::").toLowerCase();
+}
+
+function addNotification(
+  notifications: RunNotifications,
+  sourceScript: string,
+  severity: NotificationSeverity,
+  code: string,
+  message: string,
+  details?: Record<string, unknown>,
+  humanAttentionRecommended = false
+) {
+  const id = buildNotificationId(sourceScript, code, details);
+  const now = new Date().toISOString();
+
+  const existingIdx = notifications.entries.findIndex(e => e.id === id);
+  if (existingIdx >= 0) {
+    const existing = notifications.entries[existingIdx];
+    notifications.entries[existingIdx] = {
+      ...existing,
+      severity,
+      message,
+      details,
+      updatedAt: now,
+      humanAttentionRecommended: existing.humanAttentionRecommended || humanAttentionRecommended,
+    };
+  } else {
+    notifications.entries.push({
+      id,
+      sourceScript,
+      severity,
+      code,
+      message,
+      details,
+      createdAt: now,
+      updatedAt: now,
+      humanAttentionRecommended,
+    });
+  }
+
+  notifications.updatedAt = now;
+
+  const severityOrder: Record<NotificationSeverity, number> = {
+    info: 1,
+    warning: 2,
+    error: 3,
+    fatal: 4,
+  };
+
+  let maxSev: NotificationSeverity = "info";
+  for (const entry of notifications.entries) {
+    if (severityOrder[entry.severity] > severityOrder[maxSev]) {
+      maxSev = entry.severity;
+    }
+  }
+  notifications.highestSeverity = maxSev;
+}
+
+function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): void {
+  if (data === null || data === undefined) return;
+  if (typeof data === "string") {
+    if (
+      data.includes("/Users/") ||
+      data.includes("/home/") ||
+      /^[a-zA-Z]:\\/.test(data) ||
+      data.startsWith("file://") ||
+      data.includes("output/clones")
+    ) {
+      throw new Error(`[Local Path Contamination] Found local absolute path '${data}' in context '${contextDescription}'.`);
+    }
+    return;
+  }
+  if (Array.isArray(data)) {
+    for (let i = 0; i < data.length; i++) {
+      assertNoLocalAbsolutePaths(data[i], `${contextDescription}[${i}]`);
+    }
+    return;
+  }
+  if (typeof data === "object") {
+    for (const key of Object.keys(data as object)) {
+      assertNoLocalAbsolutePaths((data as any)[key], `${contextDescription}.${key}`);
+    }
+  }
+}
+
+function writeJsonAtomically(filePath: string, data: unknown, contextDescription: string) {
+  assertNoLocalAbsolutePaths(data, contextDescription);
+  const tmpPath = `${filePath}.tmp`;
+  fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2), "utf8");
+  JSON.parse(fs.readFileSync(tmpPath, "utf8"));
+  fs.renameSync(tmpPath, filePath);
+}
+
 function writeMarkdownAtomically(filePath: string, content: string) {
   assertNoLocalAbsolutePaths(content, "resolved-graph-matrix.md");
   const tmpPath = `${filePath}.tmp`;
   fs.writeFileSync(tmpPath, content, "utf8");
   fs.readFileSync(tmpPath, "utf8");
   fs.renameSync(tmpPath, filePath);
+}
+
+function writeNotificationsAtomically(filePath: string, notifications: RunNotifications) {
+  assertNoLocalAbsolutePaths(notifications, "run-notifications.json");
+  const tmpPath = `${filePath}.tmp`;
+  fs.writeFileSync(tmpPath, JSON.stringify(notifications, null, 2), "utf8");
+  JSON.parse(fs.readFileSync(tmpPath, "utf8"));
+  fs.renameSync(tmpPath, filePath);
+}
+
+function loadNotifications(notificationsPath: string, expectedRunId: string, expectedRepoName: string): RunNotifications {
+  if (!fs.existsSync(notificationsPath)) {
+    throw new Error(`[Fail-Closed] Missing required run-notifications.json at '${notificationsPath}'.`);
+  }
+
+  let notifs: RunNotifications;
+  try {
+    notifs = JSON.parse(fs.readFileSync(notificationsPath, "utf8"));
+  } catch (err: any) {
+    throw new Error(`[Fail-Closed] Malformed run-notifications.json at '${notificationsPath}': ${err.message}`);
+  }
+
+  if (notifs.runId !== expectedRunId || notifs.repoName !== expectedRepoName) {
+    throw new Error(`[Fail-Closed] run-notifications.json identity mismatch: expected runId '${expectedRunId}', got '${notifs.runId}'.`);
+  }
+
+  return notifs;
 }
 
 function extractInvokedObject(expression: string): string | null {
@@ -40,57 +180,13 @@ function extractInvokedObject(expression: string): string | null {
   return parts.length >= 2 ? parts[parts.length - 2] : null;
 }
 
-interface NormalizationRules {
-  stripPrefixes: string[];
-  // Suffixes stripped when normalizing a name for object/class matching
-  // (e.g. "OSKPaymentService" -> "payment"). Distinct from serviceClassSuffixes
-  // below, which is used for eligibility classification, not name matching --
-  // the original code used different suffix sets for these two purposes and
-  // this preserves that distinction.
-  stripServiceSuffixes: string[];
-  stripControllerSuffixes: string[];
-  // Suffixes used to classify a declaration's class as a "service" for call
-  // graph eligibility purposes (broader than stripServiceSuffixes).
-  serviceClassSuffixes: string[];
-}
-
-// Previously hardcoded to strip a literal "OSK" prefix and "Service"/
-// "Controller" suffixes -- entirely specific to this repo's own naming
-// convention. Now config-driven per repo (config/repos.json ->
-// normalizationRules), defaulting to this repo's existing behavior.
-// Set once in main() from config, then read by normalizeObjectOrClassName
-// and classifyCallEligibility below -- module-level rather than threaded
-// through every call site, since both functions are called from many places.
-const DEFAULT_NORMALIZATION_RULES: NormalizationRules = {
-  stripPrefixes: ["OSK"],
-  stripServiceSuffixes: ["Service"],
-  stripControllerSuffixes: ["Controller"],
-  serviceClassSuffixes: ["Service", "Publisher", "Processor"],
-};
-let activeNormalizationRules: NormalizationRules = DEFAULT_NORMALIZATION_RULES;
-
 function normalizeObjectOrClassName(raw: string): string {
   if (!raw) return "";
   let clean = raw.trim();
   if (clean.startsWith("this.")) clean = clean.slice(5);
-  for (const prefix of activeNormalizationRules.stripPrefixes) {
-    if (clean.startsWith(prefix)) {
-      clean = clean.slice(prefix.length);
-      break;
-    }
-  }
-  for (const suffix of activeNormalizationRules.stripServiceSuffixes) {
-    if (clean.endsWith(suffix)) {
-      clean = clean.slice(0, -suffix.length);
-      break;
-    }
-  }
-  for (const suffix of activeNormalizationRules.stripControllerSuffixes) {
-    if (clean.endsWith(suffix)) {
-      clean = clean.slice(0, -suffix.length);
-      break;
-    }
-  }
+  if (clean.startsWith("OSK")) clean = clean.slice(3);
+  if (clean.endsWith("Service")) clean = clean.slice(0, -7);
+  if (clean.endsWith("Controller")) clean = clean.slice(0, -10);
   return clean.toLowerCase();
 }
 
@@ -142,7 +238,7 @@ function classifyCallEligibility(
 
   // Known declaration class
   if (declClass) {
-    const isServiceClass = activeNormalizationRules.serviceClassSuffixes.some(suffix => declClass.endsWith(suffix));
+    const isServiceClass = declClass.endsWith("Service") || declClass.endsWith("Publisher") || declClass.endsWith("Processor");
     if (isServiceClass) {
       const targetMod = moduleByClass.get(declClass);
       return targetMod && targetMod !== call.module ? "cross_module_service_candidate" : "service_candidate";
@@ -168,32 +264,21 @@ function classifyCallEligibility(
 }
 
 function main() {
-  const REPO_NAME = process.env.REPO_NAME;
-  if (!REPO_NAME) {
-    throw new Error("[Fail-Closed] REPO_NAME environment variable is required and was not set.");
+  const runContextPath = path.join(projectRoot, "output", "run-context.json");
+  if (!fs.existsSync(runContextPath)) {
+    throw new Error("[Fail-Closed] Could not find output/run-context.json. Please run `00-scan-repo` first.");
   }
 
-  const runCtxPath = runContextPath(projectRoot, REPO_NAME);
-  if (!fs.existsSync(runCtxPath)) {
-    throw new Error(`[Fail-Closed] Could not find output/${REPO_NAME}/run-context.json. Please run \`00-scan-repo\` first.`);
-  }
-
-  const runContext = JSON.parse(fs.readFileSync(runCtxPath, "utf8"));
+  const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
   const runId: string = runContext.runId;
-  if (runContext.repoName !== REPO_NAME || !runId) {
-    throw new Error(`[Fail-Closed] Missing or mismatched repoName/runId in output/${REPO_NAME}/run-context.json`);
+  const REPO_NAME: string = runContext.repoName;
+  if (!REPO_NAME || !runId) {
+    throw new Error("[Fail-Closed] Missing repoName or runId in output/run-context.json");
   }
 
   const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);
   const notificationsPath = path.join(repoOutputDir, "run-notifications.json");
   const notifications = loadNotifications(notificationsPath, runId, REPO_NAME);
-
-  // Load per-repo normalization rules from config, falling back to this
-  // repo's existing OSK/Service/Controller conventions if none configured.
-  const repoConfigPath = path.join(projectRoot, "config", "repos.json");
-  const repoConfig = JSON.parse(fs.readFileSync(repoConfigPath, "utf8"));
-  const targetRepoCfg = repoConfig.repositories?.find((r: any) => r.name === REPO_NAME);
-  activeNormalizationRules = targetRepoCfg?.normalizationRules || DEFAULT_NORMALIZATION_RULES;
 
   const rawDir = path.join(repoOutputDir, "facts");
   const modulesJsonPath = path.join(rawDir, "modules.json");
@@ -269,7 +354,7 @@ function main() {
         apiContracts.push(fact);
       } else if (fact.type === "firestore_path_touched") {
         firestoreTouches.push(fact);
-      } else if (fact.type === "permission_required" || fact.type === "permission_candidate") {
+      } else if (fact.type === "permission_required") {
         rbacFacts.push(fact);
       } else if (fact.type === "firestore_trigger") {
         triggers.push(fact);
@@ -523,12 +608,6 @@ function main() {
       file: ft.file,
       line: ft.line,
       operation: ft.operation || null,
-      // Self-describing: distinguishes "no read/write happens here"
-      // (doesn't apply -- e.g. this touch is a trigger registration, not a
-      // CRUD call) from "a read/write likely happens but wasn't detected"
-      // (e.g. performed via transaction.get()/batch.set() on a variable
-      // assigned elsewhere, which static chain analysis cannot see).
-      operationDetectionScope: ft.operationDetectionScope || "undetermined_may_be_indirect",
       pathResolutionMethod: ft.pathResolutionMethod || "literal",
     });
 
@@ -563,12 +642,7 @@ function main() {
     eventGroupMap.set(key, group);
   }
   for (const tr of triggers) {
-    // NOTE: normalized firestore_trigger facts (script 02) store the path
-    // under `value`, not `firestorePath` -- using the wrong field here
-    // silently evaluated to the literal string "undefined" for every
-    // trigger, collapsing all 28 real triggers into a single meaningless
-    // group instead of grouping them per Firestore path as intended.
-    const key = `firestore_trigger|${tr.value}`;
+    const key = `firestore_trigger|${tr.firestorePath}`;
     const group = eventGroupMap.get(key) || { publishers: [], triggers: [] };
     group.triggers.push({ module: tr.module, file: tr.file, line: tr.line, handlerName: tr.handlerName });
     eventGroupMap.set(key, group);
@@ -595,28 +669,11 @@ function main() {
   }
 
   // 6. RBAC Requirements Matrix
-  // Previously only fact.type === "permission_required" (extraction-time
-  // "confirmed") facts were included here, and permission_candidate facts
-  // were silently dropped -- with no notification. In this repo that meant
-  // 110 distinct real permission strings extracted at Phase 1 collapsed to
-  // just 4 surfaced in the graph, because "confirmed" here only means "found
-  // inside a call matching one of 8 hardcoded auth-check method names" --
-  // a real, legitimate permission check outside that whitelist was
-  // discarded rather than surfaced with lower confidence. Now every
-  // permission requirement is retained and tagged with its confidence tier,
-  // mirroring how confirmedCallEdges/probableCallEdges/unresolvedCallEdges
-  // are handled -- consumers can filter by confidence, but nothing is lost
-  // silently.
-  const rbacMap = new Map<string, { requirement: string; checks: any[]; confidence: "confirmed" | "candidate" }>();
-  let rbacCandidateCount = 0;
+  const rbacMap = new Map<string, { requirement: string; checks: any[] }>();
   for (const rbac of rbacFacts) {
     const perm = rbac.permission || rbac.value;
-    const confidence: "confirmed" | "candidate" = rbac.type === "permission_required" ? "confirmed" : "candidate";
-    if (confidence === "candidate") rbacCandidateCount += 1;
-    const entry = rbacMap.get(perm) || { requirement: perm, checks: [] as any[], confidence };
-    // If any check for this permission is confirmed, the aggregate entry is confirmed.
-    if (confidence === "confirmed") entry.confidence = "confirmed";
-    entry.checks.push({ module: rbac.module, file: rbac.file, line: rbac.line, contextExpression: rbac.evidence?.contextExpression || null, confidence });
+    const entry = rbacMap.get(perm) || { requirement: perm, checks: [] as any[] };
+    entry.checks.push({ module: rbac.module, file: rbac.file, line: rbac.line, contextExpression: rbac.evidence?.contextExpression || null });
     rbacMap.set(perm, entry);
   }
 
@@ -624,21 +681,9 @@ function main() {
   for (const [permission, data] of rbacMap.entries()) {
     rbacRequirements.push({
       permission,
-      confidence: data.confidence,
       checkCount: data.checks.length,
       checks: data.checks,
     });
-  }
-
-  if (rbacCandidateCount > 0) {
-    addNotification(
-      notifications,
-      "04-build-resolved-graph",
-      "info",
-      "RBAC_CANDIDATE_PERMISSIONS_INCLUDED",
-      `${rbacCandidateCount} permission check(s) were extracted outside the known auth-check method whitelist and are included in rbacRequirements tagged confidence: "candidate" rather than discarded.`,
-      { count: rbacCandidateCount }
-    );
   }
 
   // Deterministic Sorting
@@ -670,17 +715,6 @@ function main() {
       "EVENT_SUBSCRIBER_EXTRACTION_LIMITATION",
       `Event subscriber extraction status is 'not_implemented' for ${eventEndpoints.length} event endpoint group(s).`,
       { count: eventEndpoints.length }
-    );
-  }
-
-  if (firestorePathsWithoutOperationEvidence > 0) {
-    addNotification(
-      notifications,
-      "04-build-resolved-graph",
-      "info",
-      "FIRESTORE_OPERATION_DETECTION_LIMITATION",
-      `${firestorePathsWithoutOperationEvidence} of ${firestoreSharedTouches.length} shared Firestore path(s) have no detected read/write operation. This does not necessarily mean no operation occurs: detection covers direct method chains only (e.g. db.collection(x).doc(y).get()) and cannot see operations performed via a variable assigned elsewhere and later passed into transaction.get()/batch.set()/etc, nor does it apply to trigger registrations (onCreate/onUpdate/etc, which are not CRUD operations). See operationDetectionScope on each touch point.`,
-      { count: firestorePathsWithoutOperationEvidence, total: firestoreSharedTouches.length }
     );
   }
 

@@ -8,16 +8,160 @@
 
 import fs from "fs";
 import path from "path";
-import {
-  RunNotifications,
-  addNotification,
-  writeJsonAtomically,
-  writeNotificationsAtomically,
-  loadNotifications,
-  runContextPath,
-} from "./_shared/run-utils";
 
 const projectRoot = process.cwd();
+
+type NotificationSeverity = "info" | "warning" | "error" | "fatal";
+
+interface NotificationEntry {
+  id: string;
+  sourceScript: string;
+  severity: NotificationSeverity;
+  code: string;
+  message: string;
+  details?: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+  humanAttentionRecommended: boolean;
+}
+
+interface RunNotifications {
+  schemaVersion: string;
+  runId: string;
+  repoName: string;
+  updatedAt: string;
+  highestSeverity: NotificationSeverity;
+  entries: NotificationEntry[];
+}
+
+function buildNotificationId(sourceScript: string, code: string, details?: Record<string, unknown>): string {
+  const parts = [
+    sourceScript,
+    code,
+    details?.module ? String(details.module) : "",
+    details?.file ? String(details.file) : "",
+    details?.missingArtifact ? String(details.missingArtifact) : "",
+    details?.key ? String(details.key) : "",
+  ].filter(Boolean);
+  return parts.join("::").toLowerCase();
+}
+
+function addNotification(
+  notifications: RunNotifications,
+  sourceScript: string,
+  severity: NotificationSeverity,
+  code: string,
+  message: string,
+  details?: Record<string, unknown>,
+  humanAttentionRecommended = false
+) {
+  const id = buildNotificationId(sourceScript, code, details);
+  const now = new Date().toISOString();
+
+  const existingIdx = notifications.entries.findIndex(e => e.id === id);
+  if (existingIdx >= 0) {
+    const existing = notifications.entries[existingIdx];
+    notifications.entries[existingIdx] = {
+      ...existing,
+      severity,
+      message,
+      details,
+      updatedAt: now,
+      humanAttentionRecommended: existing.humanAttentionRecommended || humanAttentionRecommended,
+    };
+  } else {
+    notifications.entries.push({
+      id,
+      sourceScript,
+      severity,
+      code,
+      message,
+      details,
+      createdAt: now,
+      updatedAt: now,
+      humanAttentionRecommended,
+    });
+  }
+
+  notifications.updatedAt = now;
+
+  const severityOrder: Record<NotificationSeverity, number> = {
+    info: 1,
+    warning: 2,
+    error: 3,
+    fatal: 4,
+  };
+
+  let maxSev: NotificationSeverity = "info";
+  for (const entry of notifications.entries) {
+    if (severityOrder[entry.severity] > severityOrder[maxSev]) {
+      maxSev = entry.severity;
+    }
+  }
+  notifications.highestSeverity = maxSev;
+}
+
+function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): void {
+  if (data === null || data === undefined) return;
+  if (typeof data === "string") {
+    if (
+      data.includes("/Users/") ||
+      data.includes("/home/") ||
+      /^[a-zA-Z]:\\/.test(data) ||
+      data.startsWith("file://") ||
+      data.includes("output/clones")
+    ) {
+      throw new Error(`[Local Path Contamination] Found local absolute path '${data}' in context '${contextDescription}'.`);
+    }
+    return;
+  }
+  if (Array.isArray(data)) {
+    for (let i = 0; i < data.length; i++) {
+      assertNoLocalAbsolutePaths(data[i], `${contextDescription}[${i}]`);
+    }
+    return;
+  }
+  if (typeof data === "object") {
+    for (const key of Object.keys(data as object)) {
+      assertNoLocalAbsolutePaths((data as any)[key], `${contextDescription}.${key}`);
+    }
+  }
+}
+
+function writeJsonAtomically(filePath: string, data: unknown, contextDescription: string) {
+  assertNoLocalAbsolutePaths(data, contextDescription);
+  const tmpPath = `${filePath}.tmp`;
+  fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2), "utf8");
+  JSON.parse(fs.readFileSync(tmpPath, "utf8"));
+  fs.renameSync(tmpPath, filePath);
+}
+
+function writeNotificationsAtomically(filePath: string, notifications: RunNotifications) {
+  assertNoLocalAbsolutePaths(notifications, "run-notifications.json");
+  const tmpPath = `${filePath}.tmp`;
+  fs.writeFileSync(tmpPath, JSON.stringify(notifications, null, 2), "utf8");
+  JSON.parse(fs.readFileSync(tmpPath, "utf8"));
+  fs.renameSync(tmpPath, filePath);
+}
+
+function loadNotifications(notificationsPath: string, expectedRunId: string, expectedRepoName: string): RunNotifications {
+  if (!fs.existsSync(notificationsPath)) {
+    throw new Error(`[Fail-Closed] Missing required run-notifications.json at '${notificationsPath}'.`);
+  }
+
+  let notifs: RunNotifications;
+  try {
+    notifs = JSON.parse(fs.readFileSync(notificationsPath, "utf8"));
+  } catch (err: any) {
+    throw new Error(`[Fail-Closed] Malformed run-notifications.json at '${notificationsPath}': ${err.message}`);
+  }
+
+  if (notifs.runId !== expectedRunId || notifs.repoName !== expectedRepoName) {
+    throw new Error(`[Fail-Closed] run-notifications.json identity mismatch: expected runId '${expectedRunId}', got '${notifs.runId}'.`);
+  }
+
+  return notifs;
+}
 
 const REQUIRED_SUMMARY_FIELDS = [
   "files",
@@ -41,20 +185,16 @@ const REQUIRED_SUMMARY_FIELDS = [
 ];
 
 function main() {
-  const REPO_NAME = process.env.REPO_NAME;
-  if (!REPO_NAME) {
-    throw new Error("[Fail-Closed] REPO_NAME environment variable is required and was not set.");
+  const runContextPath = path.join(projectRoot, "output", "run-context.json");
+  if (!fs.existsSync(runContextPath)) {
+    throw new Error("[Fail-Closed] Could not find output/run-context.json. Please run `00-scan-repo` first.");
   }
 
-  const runCtxPath = runContextPath(projectRoot, REPO_NAME);
-  if (!fs.existsSync(runCtxPath)) {
-    throw new Error(`[Fail-Closed] Could not find output/${REPO_NAME}/run-context.json. Please run \`00-scan-repo\` first.`);
-  }
-
-  const runContext = JSON.parse(fs.readFileSync(runCtxPath, "utf8"));
+  const runContext = JSON.parse(fs.readFileSync(runContextPath, "utf8"));
   const runId: string = runContext.runId;
-  if (runContext.repoName !== REPO_NAME || !runId) {
-    throw new Error(`[Fail-Closed] Missing or mismatched repoName/runId in output/${REPO_NAME}/run-context.json`);
+  const REPO_NAME: string = runContext.repoName;
+  if (!REPO_NAME || !runId) {
+    throw new Error("[Fail-Closed] Missing repoName or runId in output/run-context.json");
   }
 
   const repoOutputDir = path.join(projectRoot, "output", "runs", REPO_NAME, runId);

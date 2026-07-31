@@ -5,19 +5,24 @@
       "gitUrl": "git@github.com:oskey-io/firebase-oskey-dev.git",
       "branch": "master",
       "modulesRoot": "functions/src/modules",
-      "governancePath": "governance/reference-docs"
-    },
-    {
-      "name": "angular-pgo-oskey-dev",
-      "gitUrl": "git@github.com:oskey-io/angular-app-oskey-io.git",
-      "branch": "master",
-      "modulesRoot": "hosting/web-app/src/app"
-    },
-    {
-      "name": "angular-admin-oskey-io",
-      "gitUrl": "git@github.com:oskey-io/angular-app-oskey-io.git",
-      "branch": "master",
-      "modulesRoot": "hosting/web-admin/src/app"
+
+      "tsconfigRelativePath": "functions/tsconfig.json",
+
+      "astErrorTolerancePercent": 0,
+
+      "governancePath": "governance/reference-docs",
+
+      "classificationRules": {
+        "serviceSuffixes": ["Service", "Publisher", "Processor"],
+        "controllerSuffixes": ["Controller", "Handler"]
+      },
+
+      "normalizationRules": {
+        "stripPrefixes": ["OSK"],
+        "stripServiceSuffixes": ["Service"],
+        "stripControllerSuffixes": ["Controller"],
+        "serviceClassSuffixes": ["Service", "Publisher", "Processor"]
+      }
     }
   ]
 }

@@ -1,38 +1,158 @@
-// **version:** 3.1.0
+// **version:** 3.0.0
 // **location:** level-5 phase 0
 // © Oskey SAS. All rights reserved.
 //
 // Script 00: Repository Scanner and Run Authority (Phase 0).
 // Establishes immutable run context, clones and checks out exact repository state,
 // initializes run notifications, and writes authoritative module and file inventories.
-//
-// CHANGELOG (3.1.0):
-// - REPO_NAME now REQUIRED via env var; no silent default (was a footgun once
-//   multiple repos exist).
-// - Run-state (run-context.json, latest-repo-manifest.json) is now namespaced
-//   under output/{repoName}/ instead of a single global output/ file, so
-//   multiple repos' pipelines cannot collide on disk.
-// - Git command output is captured (not inherited) and folded into
-//   run-notifications.json, so it is visible in a headless/agent execution
-//   context where there is no attached terminal.
-// - Shared notification / atomic-write / path-safety helpers now imported from
-//   _shared/run-utils.ts instead of being duplicated in this file.
 
 import fs from "fs";
 import path from "path";
 import { execFileSync } from "child_process";
-import {
-  RunNotifications,
-  addNotification,
-  writeJsonAtomically,
-  writeNotificationsAtomically,
-  toRepoPath,
-  runContextPath,
-  latestManifestPath,
-  requireRepoNameEnv,
-} from "./_shared/run-utils";
 
 const projectRoot = process.cwd();
+
+type NotificationSeverity = "info" | "warning" | "error" | "fatal";
+
+interface NotificationEntry {
+  id: string;
+  sourceScript: string;
+  severity: NotificationSeverity;
+  code: string;
+  message: string;
+  details?: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+  humanAttentionRecommended: boolean;
+}
+
+interface RunNotifications {
+  schemaVersion: string;
+  runId: string;
+  repoName: string;
+  updatedAt: string;
+  highestSeverity: NotificationSeverity;
+  entries: NotificationEntry[];
+}
+
+function buildNotificationId(sourceScript: string, code: string, details?: Record<string, unknown>): string {
+  const parts = [
+    sourceScript,
+    code,
+    details?.module ? String(details.module) : "",
+    details?.file ? String(details.file) : "",
+    details?.missingArtifact ? String(details.missingArtifact) : "",
+    details?.key ? String(details.key) : "",
+  ].filter(Boolean);
+  return parts.join("::").toLowerCase();
+}
+
+function addNotification(
+  notifications: RunNotifications,
+  sourceScript: string,
+  severity: NotificationSeverity,
+  code: string,
+  message: string,
+  details?: Record<string, unknown>,
+  humanAttentionRecommended = false
+) {
+  const id = buildNotificationId(sourceScript, code, details);
+  const now = new Date().toISOString();
+
+  const existingIdx = notifications.entries.findIndex(e => e.id === id);
+  if (existingIdx >= 0) {
+    const existing = notifications.entries[existingIdx];
+    notifications.entries[existingIdx] = {
+      ...existing,
+      severity,
+      message,
+      details,
+      updatedAt: now,
+      humanAttentionRecommended: existing.humanAttentionRecommended || humanAttentionRecommended,
+    };
+  } else {
+    notifications.entries.push({
+      id,
+      sourceScript,
+      severity,
+      code,
+      message,
+      details,
+      createdAt: now,
+      updatedAt: now,
+      humanAttentionRecommended,
+    });
+  }
+
+  notifications.updatedAt = now;
+
+  const severityOrder: Record<NotificationSeverity, number> = {
+    info: 1,
+    warning: 2,
+    error: 3,
+    fatal: 4,
+  };
+
+  let maxSev: NotificationSeverity = "info";
+  for (const entry of notifications.entries) {
+    if (severityOrder[entry.severity] > severityOrder[maxSev]) {
+      maxSev = entry.severity;
+    }
+  }
+  notifications.highestSeverity = maxSev;
+}
+
+function assertNoLocalAbsolutePaths(data: unknown, contextDescription: string): void {
+  if (data === null || data === undefined) return;
+  if (typeof data === "string") {
+    if (
+      data.includes("/Users/") ||
+      data.includes("/home/") ||
+      /^[a-zA-Z]:\\/.test(data) ||
+      data.startsWith("file://") ||
+      data.includes("output/clones")
+    ) {
+      throw new Error(`[Local Path Contamination] Found local absolute path '${data}' in context '${contextDescription}'.`);
+    }
+    return;
+  }
+  if (Array.isArray(data)) {
+    for (let i = 0; i < data.length; i++) {
+      assertNoLocalAbsolutePaths(data[i], `${contextDescription}[${i}]`);
+    }
+    return;
+  }
+  if (typeof data === "object") {
+    for (const key of Object.keys(data as object)) {
+      assertNoLocalAbsolutePaths((data as any)[key], `${contextDescription}.${key}`);
+    }
+  }
+}
+
+function writeJsonAtomically(filePath: string, data: unknown, contextDescription: string) {
+  assertNoLocalAbsolutePaths(data, contextDescription);
+  const tmpPath = `${filePath}.tmp`;
+  fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2), "utf8");
+  JSON.parse(fs.readFileSync(tmpPath, "utf8"));
+  fs.renameSync(tmpPath, filePath);
+}
+
+function writeNotificationsAtomically(filePath: string, notifications: RunNotifications) {
+  assertNoLocalAbsolutePaths(notifications, "run-notifications.json");
+  const tmpPath = `${filePath}.tmp`;
+  fs.writeFileSync(tmpPath, JSON.stringify(notifications, null, 2), "utf8");
+  JSON.parse(fs.readFileSync(tmpPath, "utf8"));
+  fs.renameSync(tmpPath, filePath);
+}
+
+function toRepoPath(absolutePath: string, repoRoot: string): string {
+  const relative = path.relative(repoRoot, absolutePath);
+  return relative.replace(/\\/g, "/");
+}
+
+function unique<T>(items: T[]): T[] {
+  return Array.from(new Set(items));
+}
 
 type FileRecord = {
   repo: string;
@@ -43,64 +163,8 @@ type FileRecord = {
   sizeBytes: number;
 };
 
-/** Redacts any argument that looks like an absolute local filesystem path
- * (e.g. the clone destination) before it is logged into notifications,
- * keeping git subcommands/refs/URLs (which are safe and useful to see)
- * while never letting an absolute path reach a written artifact. */
-function sanitizeGitArgsForLog(args: string[]): string[] {
-  return args.map(arg => {
-    const isAbsoluteUnix = arg.startsWith("/");
-    const isAbsoluteWindows = /^[a-zA-Z]:\\/.test(arg);
-    return isAbsoluteUnix || isAbsoluteWindows ? "<local-path-redacted>" : arg;
-  });
-}
-
-/** Redacts absolute-path-looking substrings from free-text content (e.g. git
- * stderr), which can otherwise embed the local clone path in ways that a
- * simple per-argument check (sanitizeGitArgsForLog) would miss. */
-function sanitizeTextForLog(text: string): string {
-  return text
-    .replace(/\/Users\/[^\s'"]*/g, "<local-path-redacted>")
-    .replace(/\/home\/[^\s'"]*/g, "<local-path-redacted>")
-    .replace(/[a-zA-Z]:\\[^\s'"]*/g, "<local-path-redacted>");
-}
-
-/** Runs a git command with captured output instead of inherited stdio, so the
- * result is observable in headless/agent runtimes (no attached terminal) and
- * can be logged into run-notifications.json rather than lost to a console
- * that nobody is watching. Logged args are sanitized -- raw argv can contain
- * the absolute clone path, which must never reach a written artifact. */
-function runGitCaptured(args: string[], cwd: string, notifications: RunNotifications, repoName: string): string {
-  const safeArgs = sanitizeGitArgsForLog(args);
-  try {
-    const output = execFileSync("git", args, { cwd, encoding: "utf8" });
-    addNotification(
-      notifications,
-      "00-scan-repo",
-      "info",
-      "GIT_COMMAND_OK",
-      `git ${safeArgs.join(" ")} succeeded.`,
-      { key: safeArgs.join("_") }
-    );
-    return output;
-  } catch (err: any) {
-    const rawStderr = err?.stderr ? String(err.stderr) : err?.message || String(err);
-    const stderr = sanitizeTextForLog(rawStderr);
-    addNotification(
-      notifications,
-      "00-scan-repo",
-      "fatal",
-      "GIT_COMMAND_FAILED",
-      `git ${safeArgs.join(" ")} failed: ${stderr}`,
-      { key: safeArgs.join("_") },
-      true
-    );
-    throw new Error(`[Fail-Closed] git ${args.join(" ")} failed: ${stderr}`);
-  }
-}
-
 function main() {
-  const REPO_NAME = requireRepoNameEnv();
+  const REPO_NAME = process.env.REPO_NAME || "firebase-oskey-dev";
   const configPath = path.join(projectRoot, "config", "repos.json");
 
   if (!fs.existsSync(configPath)) {
@@ -142,42 +206,46 @@ function main() {
 
   fs.mkdirSync(clonesDir, { recursive: true });
 
-  // Notifications are created after clone so we have a runId-free bootstrap
-  // ledger; it gets folded into the real, namespaced notifications once runId
-  // is known below. We still want git failures during clone to be captured,
-  // so we track them in a provisional ledger first.
-  const provisionalNotifications: RunNotifications = {
-    schemaVersion: "1.0.0",
-    runId: "pending",
-    repoName: REPO_NAME,
-    updatedAt: new Date().toISOString(),
-    highestSeverity: "info",
-    entries: [],
-  };
-
   console.log(`Cloning repository ${targetRepo.gitUrl} into ${clonePath}...`);
-  runGitCaptured(["clone", targetRepo.gitUrl, clonePath], projectRoot, provisionalNotifications, REPO_NAME);
+  try {
+    execFileSync("git", ["clone", targetRepo.gitUrl, clonePath], { stdio: "inherit" });
+  } catch (err: any) {
+    throw new Error(`[Fail-Closed] Git clone failed for '${targetRepo.gitUrl}': ${err.message}`);
+  }
 
   let resolvedRef = "";
 
   if (hasBranch) {
     const configuredBranch = targetRepo.branch;
-    runGitCaptured(["fetch", "origin", configuredBranch], clonePath, provisionalNotifications, REPO_NAME);
-    runGitCaptured(["checkout", "-B", configuredBranch, `origin/${configuredBranch}`], clonePath, provisionalNotifications, REPO_NAME);
-    runGitCaptured(["reset", "--hard", `origin/${configuredBranch}`], clonePath, provisionalNotifications, REPO_NAME);
+    try {
+      execFileSync("git", ["fetch", "origin", configuredBranch], { cwd: clonePath, stdio: "inherit" });
+      execFileSync("git", ["checkout", "-B", configuredBranch, `origin/${configuredBranch}`], { cwd: clonePath, stdio: "inherit" });
+      execFileSync("git", ["reset", "--hard", `origin/${configuredBranch}`], { cwd: clonePath, stdio: "inherit" });
+    } catch (err: any) {
+      throw new Error(`[Fail-Closed] Git checkout/reset failed for branch '${configuredBranch}': ${err.message}`);
+    }
 
-    const actualBranch = runGitCaptured(["rev-parse", "--abbrev-ref", "HEAD"], clonePath, provisionalNotifications, REPO_NAME).trim();
+    const actualBranch = execFileSync("git", ["rev-parse", "--abbrev-ref", "HEAD"], { cwd: clonePath, encoding: "utf8" }).trim();
     if (actualBranch !== configuredBranch) {
       throw new Error(`[BRANCH_MISMATCH_FATAL] Configured branch '${configuredBranch}' does not match checked-out branch '${actualBranch}'.`);
     }
     resolvedRef = configuredBranch;
   } else {
     const configuredCommit = targetRepo.commit;
-    runGitCaptured(["checkout", "--detach", configuredCommit], clonePath, provisionalNotifications, REPO_NAME);
+    try {
+      execFileSync("git", ["checkout", "--detach", configuredCommit], { cwd: clonePath, stdio: "inherit" });
+    } catch (err: any) {
+      throw new Error(`[Fail-Closed] Git checkout --detach failed for commit '${configuredCommit}': ${err.message}`);
+    }
     resolvedRef = configuredCommit;
   }
 
-  const commitSha = runGitCaptured(["rev-parse", "HEAD"], clonePath, provisionalNotifications, REPO_NAME).trim();
+  let commitSha = "";
+  try {
+    commitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: clonePath, encoding: "utf8" }).trim();
+  } catch (err: any) {
+    throw new Error(`[COMMIT_SHA_RESOLVE_FATAL] Failed to resolve git commit SHA: ${err.message}`);
+  }
 
   if (!commitSha || commitSha.length < 7) {
     throw new Error(`[COMMIT_SHA_RESOLVE_FATAL] Invalid commit SHA resolved: '${commitSha}'.`);
@@ -201,13 +269,13 @@ function main() {
   fs.mkdirSync(kpDir, { recursive: true });
 
   const notificationsFilePath = path.join(runDir, "run-notifications.json");
-
-  // Promote provisional (clone/checkout) notifications into the real,
-  // runId-stamped ledger now that runId is known.
   const notifications: RunNotifications = {
-    ...provisionalNotifications,
+    schemaVersion: "1.0.0",
     runId,
+    repoName: REPO_NAME,
     updatedAt: now.toISOString(),
+    highestSeverity: "info",
+    entries: [],
   };
 
   addNotification(
@@ -339,10 +407,8 @@ function main() {
     throw new Error(`[ZERO_SOURCE_FILES_FATAL] Zero TypeScript source files found under configured modulesRoot '${targetRepo.modulesRoot}'.`);
   }
 
-  // Write all run artifacts atomically. run-context.json and
-  // latest-repo-manifest.json are namespaced under output/{repoName}/ so
-  // multiple repos' pipelines cannot collide on a shared global path.
-  writeJsonAtomically(runContextPath(projectRoot, REPO_NAME), runContext, `output/${REPO_NAME}/run-context.json`);
+  // Write all run artifacts atomically
+  writeJsonAtomically(path.join(projectRoot, "output", "run-context.json"), runContext, "output/run-context.json");
   writeJsonAtomically(path.join(factsDir, "modules.json"), moduleEntries, "facts/modules.json");
   writeJsonAtomically(path.join(factsDir, "files.json"), filesList, "facts/files.json");
   writeNotificationsAtomically(notificationsFilePath, notifications);
@@ -357,7 +423,7 @@ function main() {
     modulesCount: modules.length,
     filesCount: filesList.length,
   };
-  writeJsonAtomically(latestManifestPath(projectRoot, REPO_NAME), latestManifest, `output/${REPO_NAME}/latest-repo-manifest.json`);
+  writeJsonAtomically(path.join(projectRoot, "output", "latest-repo-manifest.json"), latestManifest, "output/latest-repo-manifest.json");
 
   console.log(`Starting pipeline run for repo [${REPO_NAME}] with Run ID: ${runId}`);
   console.log(`Repo: ${REPO_NAME}`);

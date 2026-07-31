@@ -6,7 +6,7 @@
     "typescript": "^6.0.3"
   },
   "scripts": {
-    "pipeline:firebase": "npm run cloud:00-scan-repo && npm run cloud:01-extract-ast && npm run cloud:02-build-evidence && npm run cloud:03-build-benchmark && npm run cloud:04-build-resolved-graph",
+    "pipeline:firebase": "export REPO_NAME=firebase-oskey-dev && npm run cloud:00-scan-repo && npm run cloud:01-extract-ast && npm run cloud:02-build-evidence && npm run cloud:03-build-benchmark && npm run cloud:04-build-resolved-graph",
     "cloud:00-scan-repo": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/00-scan-repo.ts",
     "cloud:01-extract-ast": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/01-extract-ast-evidence.ts",
     "cloud:02-build-evidence": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/02-build-module-evidence.ts",

@@ -660,17 +660,6 @@ function main() {
                 value: res.value,
                 touchType: "path_reference",
                 operation: op,
-                // Self-describing scope label: a null `operation` does NOT
-                // mean "no read/write happens here" -- it means detection
-                // only covers direct method chains (e.g.
-                // db.collection(x).doc(y).get()). It cannot see operations
-                // performed via a variable assigned elsewhere and later
-                // passed into transaction.get()/batch.set()/etc, which is a
-                // common pattern in this codebase. A consumer (including
-                // Phase 2 synthesis) should treat operation: null as
-                // "undetermined by static chain analysis", not "read-only"
-                // or "no operation".
-                operationDetectionScope: op ? "direct_chain_detected" : "undetermined_may_be_indirect",
                 pathResolutionMethod: res.status === "resolved" ? (Node.isTemplateExpression(arg0) ? "template_expression" : (Node.isIdentifier(arg0) ? "resolved_constant" : "literal")) : res.status,
               });
             }
