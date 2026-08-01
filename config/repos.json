@@ -43,6 +43,28 @@
             "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/module-engineering-profile-task-instructions.md",
             "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/module-engineering-profile-task-template.md"
           ]
+        },
+        "capabilityBasedProfile": {
+          "_note": "Same grounding docs as moduleProfile above (duplicated, not shared by reference -- JSON has no cross-references, and this is small enough that duplication is simpler than a config restructure). Used by 01-generate-capability-based-profile.ts: capabilitySynthesisContractPaths for the per-capability fan-out calls, moduleSynthesisContractPaths for the final reduce call. See governance/roadmap/00-capability-based-module-synthesis.md.",
+          "contractsRoot": "",
+          "contractsRootBase": "pipelineRoot",
+          "architecturalGroundingPaths": [
+            "governance/reference-docs/Oskey Architecture.md",
+            "governance/reference-docs/OSkey Backend Services & Data Architecture.md",
+            "governance/reference-docs/Oskey Personas and Authority models.md",
+            "governance/reference-docs/firestore-schema.md",
+            "governance/reference-docs/firestore.rules.txt",
+            "governance/reference-docs/firestore.indexes.json",
+            "governance/reference-docs/rbac-roles.json"
+          ],
+          "capabilitySynthesisContractPaths": [
+            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/contracts/00-capability-synthesis.md"
+          ],
+          "moduleSynthesisContractPaths": [
+            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/contracts/01-module-synthesis-reduce.md",
+            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/module-engineering-profile-task-instructions.md",
+            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/module-engineering-profile-task-template.md"
+          ]
         }
       }
     }

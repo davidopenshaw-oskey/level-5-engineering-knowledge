@@ -205,3 +205,52 @@ export function requireRepoNameEnv(): string {
   }
   return repoName;
 }
+
+/**
+ * Converts a flat array of evidence-graph facts into compact, per-type
+ * TSV-style tables for LLM-prompt consumption -- NOT for canonical storage
+ * (see ADR-003: canonical facts stay raw JSON; this is an ephemeral,
+ * prompt-assembly-time projection, applied by whatever script assembles a
+ * prompt, not persisted as its own pipeline artifact). Drops the duplicated
+ * nested `evidence` blob (same data as the flattened top-level fields) and
+ * states each type's column names once instead of repeating them per
+ * record -- where most of JSON's per-record overhead comes from for large
+ * arrays of uniform-schema facts. TSV rather than CSV specifically because
+ * raw call expressions/text fields routinely contain commas, which would
+ * need proper quoting in CSV; tabs/newlines are rare in this data and are
+ * simply replaced with a space rather than escaped, since exact
+ * preservation of embedded whitespace has no narrative value here.
+ */
+export function factsToCompactTable(facts: any[]): string {
+  const byType = new Map<string, any[]>();
+  for (const f of facts) {
+    const list = byType.get(f.type) || [];
+    list.push(f);
+    byType.set(f.type, list);
+  }
+
+  const sanitizeCell = (v: unknown): string => {
+    if (v === null || v === undefined) return "";
+    const s = typeof v === "object" ? JSON.stringify(v) : String(v);
+    return s.replace(/[\t\n\r]+/g, " ");
+  };
+
+  const sections: string[] = [];
+  for (const [type, items] of Array.from(byType.entries()).sort((a, b) => a[0].localeCompare(b[0]))) {
+    const cols = new Set<string>();
+    for (const it of items) {
+      for (const k of Object.keys(it)) {
+        if (k !== "evidence") cols.add(k);
+      }
+    }
+    const columns = Array.from(cols).sort();
+
+    const lines: string[] = [`## ${type} (${items.length})`, columns.join("\t")];
+    for (const it of items) {
+      lines.push(columns.map(c => sanitizeCell(it[c])).join("\t"));
+    }
+    sections.push(lines.join("\n"));
+  }
+
+  return sections.join("\n\n");
+}

@@ -38,12 +38,18 @@ import path from "path";
 import {
   RunNotifications,
   addNotification,
-  writeJsonAtomically,
   writeNotificationsAtomically,
   loadNotifications,
   runContextPath,
 } from "../phase-01-ast-extraction/_shared/run-utils";
-import { callLlm, LlmProviderConfig } from "./_shared/llm-adapter";
+import { LlmProviderConfig } from "./_shared/llm-adapter";
+import {
+  readRequiredFile,
+  resolveContractsRootAbs,
+  loadDocs,
+  runDocumentCalls,
+  DocumentCallSpec,
+} from "./_shared/synthesis-orchestrator";
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-00-run-module-profile";
@@ -63,60 +69,6 @@ interface ModuleProfileConfig {
   contractsRootBase?: "clone" | "pipelineRoot";
   architecturalGroundingPaths: string[];
   supportingContractPaths: string[];
-}
-
-// Defaults match the paths actually referenced in the work-order document
-// this was built from. Override per-repo via config/repos.json ->
-// phase2.moduleProfile if a repo's contracts live elsewhere.
-const DEFAULT_MODULE_PROFILE_CONFIG: ModuleProfileConfig = {
-  contractsRoot: "ai-runtime/contracts",
-  architecturalGroundingPaths: [
-    "docs/Oskey Architecture.md",
-    "docs/Oskey Backend Services & Data Architecture.md",
-    "docs/firestore-schema.md",
-    "docs/firestore.rules.txt",
-    "docs/firestore.indexes.json",
-    "docs/rbac-roles.json",
-    "module-engineering-profile/cross-repository-architecture.md",
-  ],
-  supportingContractPaths: [
-    "module-engineering-profile/work-order.md",
-    "module-engineering-profile/rules.md",
-    "module-engineering-profile/persona.md",
-    "module-engineering-profile/output-schema.md",
-  ],
-};
-
-function readRequiredFile(absPath: string, description: string): string {
-  if (!fs.existsSync(absPath)) {
-    throw new Error(`[Fail-Closed] Required ${description} not found at '${absPath}'.`);
-  }
-  return fs.readFileSync(absPath, "utf8");
-}
-
-/** Splits an LLM response into files using explicit markers we instruct the
- * model to emit. Fails closed (throws) if the expected markers aren't found
- * or don't cover the expected output paths, rather than silently writing a
- * malformed or partial document. */
-function splitMarkedFiles(responseText: string, expectedPaths: string[]): Map<string, string> {
-  const filePattern = /===FILE:\s*(.+?)\s*===\r?\n([\s\S]*?)(?:\r?\n===END FILE===|$)/g;
-  const found = new Map<string, string>();
-  let match: RegExpExecArray | null;
-  while ((match = filePattern.exec(responseText)) !== null) {
-    const filePath = match[1].trim();
-    const content = match[2].trim();
-    found.set(filePath, content);
-  }
-
-  const missing = expectedPaths.filter(p => !found.has(p));
-  if (missing.length > 0) {
-    throw new Error(
-      `[LLM_OUTPUT_PARSE_FAILED] Response did not contain expected ===FILE: ...=== markers for: ${missing.join(", ")}. ` +
-        `Found markers for: ${Array.from(found.keys()).join(", ") || "(none)"}.`
-    );
-  }
-
-  return found;
 }
 
 function main() {
@@ -159,7 +111,18 @@ function main() {
   if (!targetRepoCfg) {
     throw new Error(`[Fail-Closed] Repository '${REPO_NAME}' not found in config/repos.json.`);
   }
-  const moduleProfileCfg: ModuleProfileConfig = targetRepoCfg.phase2?.moduleProfile || DEFAULT_MODULE_PROFILE_CONFIG;
+  // No hardcoded fallback default here deliberately (there used to be one --
+  // see governance/roadmap/tasks.md and adr-003.md's sibling discussion on
+  // this exact file). A hardcoded default silently goes stale the moment
+  // the real contract docs move, exactly as happened before this was fixed.
+  // Every repo must explicitly configure this in config/repos.json.
+  if (!targetRepoCfg.phase2?.moduleProfile) {
+    throw new Error(
+      `[Fail-Closed] Repository '${REPO_NAME}' has no phase2.moduleProfile configured in config/repos.json. ` +
+        `Every repo must explicitly set contractsRoot/contractsRootBase/architecturalGroundingPaths/supportingContractPaths -- there is no default.`
+    );
+  }
+  const moduleProfileCfg: ModuleProfileConfig = targetRepoCfg.phase2.moduleProfile;
 
   // --- Dynamic module resolution: NEVER hardcode module names/count ---
   const modulesJsonPath = path.join(repoOutputDir, "facts", "modules.json");
@@ -178,23 +141,10 @@ function main() {
   const evidenceGraph = JSON.parse(evidenceGraphRaw);
 
   // --- Load architectural grounding + supporting contract docs ---
-  // Resolved against either the cloned TARGET repo ("clone", default) or
-  // THIS pipeline's own repo ("pipelineRoot") -- see contractsRootBase.
   const clonePath = path.join(projectRoot, "output", "clones", REPO_NAME);
-  const contractsRootAbs =
-    moduleProfileCfg.contractsRootBase === "pipelineRoot"
-      ? path.join(projectRoot, moduleProfileCfg.contractsRoot)
-      : path.join(clonePath, moduleProfileCfg.contractsRoot);
-
-  const groundingDocs = moduleProfileCfg.architecturalGroundingPaths.map(relPath => ({
-    relPath,
-    content: readRequiredFile(path.join(contractsRootAbs, relPath), `architectural grounding doc '${relPath}'`),
-  }));
-
-  const contractDocs = moduleProfileCfg.supportingContractPaths.map(relPath => ({
-    relPath,
-    content: readRequiredFile(path.join(contractsRootAbs, relPath), `supporting contract doc '${relPath}'`),
-  }));
+  const contractsRootAbs = resolveContractsRootAbs(projectRoot, clonePath, moduleProfileCfg);
+  const groundingDocs = loadDocs(contractsRootAbs, moduleProfileCfg.architecturalGroundingPaths, "architectural grounding doc");
+  const contractDocs = loadDocs(contractsRootAbs, moduleProfileCfg.supportingContractPaths, "supporting contract doc");
 
   // --- Output paths ---
   // Deliberately OUTSIDE /output (which is entirely gitignored -- it holds
@@ -281,42 +231,12 @@ function main() {
       `Do not include any conversational preamble, explanation, or text outside this marked block. Do not produce the Module Engineering Profile document in this response -- it is requested separately.`,
   ].join("\n\n---\n\n");
 
-  type GeneratedDoc = { relPath: string; prompt: string; kind: "profile" | "api-reference" };
-  const docsToGenerate: GeneratedDoc[] = [
+  const specs: DocumentCallSpec[] = [
     { relPath: profileRelPath, prompt: profilePrompt, kind: "profile" },
     { relPath: apiRefRelPath, prompt: apiRefPrompt, kind: "api-reference" },
   ];
 
-  Promise.all(
-    docsToGenerate.map(doc => {
-      addNotification(
-        notifications,
-        SOURCE_SCRIPT,
-        "info",
-        "MODULE_PROFILE_LLM_CALL_STARTED",
-        `Calling LLM provider '${llmConfig.provider}' (model '${llmConfig.model}', config key '${LLM_CONFIG_KEY}') for module '${MODULE_NAME}' (${doc.kind}).`,
-        { module: MODULE_NAME, kind: doc.kind, provider: llmConfig.provider, model: llmConfig.model, llmConfigKey: LLM_CONFIG_KEY }
-      );
-
-      return callLlm(doc.prompt, llmConfig).then(result => {
-        addNotification(
-          notifications,
-          SOURCE_SCRIPT,
-          "info",
-          "MODULE_PROFILE_LLM_CALL_COMPLETED",
-          `LLM call completed for module '${MODULE_NAME}' (${doc.kind}).`,
-          { module: MODULE_NAME, kind: doc.kind, usage: result.usage }
-        );
-
-        const files = splitMarkedFiles(result.text, [doc.relPath]);
-        const content = files.get(doc.relPath)!;
-        const outPath = path.join(outputDocsDir, doc.relPath);
-        fs.mkdirSync(path.dirname(outPath), { recursive: true });
-        fs.writeFileSync(outPath, content, "utf8");
-        console.log(`Wrote: ${outPath}`);
-      });
-    })
-  )
+  return runDocumentCalls(specs, llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}'`)
     .then(() => {
       addNotification(
         notifications,

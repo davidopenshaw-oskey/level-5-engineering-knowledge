@@ -141,6 +141,16 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
   const data: any = await res.json();
   const text: string = (data?.candidates?.[0]?.content?.parts ?? []).map((p: any) => p.text ?? "").join("");
 
+  // Fail closed on truncation -- see the matching check in callAnthropic for
+  // why this can't be left to the empty-text branch below alone (a
+  // MAX_TOKENS finish can still return non-empty, but incomplete, text).
+  if (data?.candidates?.[0]?.finishReason === "MAX_TOKENS" && text) {
+    throw new Error(
+      `[LLM_OUTPUT_TRUNCATED] Gemini (Vertex AI) response for model '${config.model}' was cut off (finishReason: MAX_TOKENS, ` +
+        `maxTokens configured: ${config.maxTokens ?? 8192}). Increase 'maxTokens' in config/llm-providers.json for this provider key.`
+    );
+  }
+
   if (!text) {
     // Gemini 2.5 models spend part of maxOutputTokens on internal
     // "thinking" tokens (usageMetadata.thoughtsTokenCount) before producing
@@ -205,6 +215,20 @@ async function callAnthropic(prompt: string, config: LlmProviderConfig, apiKey: 
     throw new Error(`[LLM_CALL_FAILED] Anthropic response contained no text. Raw response (truncated): ${JSON.stringify(data).slice(0, 1000)}`);
   }
 
+  // Fail closed on truncation rather than silently returning partial text --
+  // stop_reason "max_tokens" means the response was cut off mid-content, not
+  // that the model chose to stop. Confirmed empirically 2026-08-01: every
+  // call in the first `building` capability-based test run hit this and went
+  // undetected until a manual tail-check, because nothing here or in
+  // splitMarkedFiles was checking for it.
+  if (data?.stop_reason === "max_tokens") {
+    throw new Error(
+      `[LLM_OUTPUT_TRUNCATED] Anthropic response for model '${config.model}' was cut off (stop_reason: max_tokens, ` +
+        `maxTokens configured: ${config.maxTokens ?? 8192}, output_tokens used: ${data?.usage?.output_tokens ?? "unknown"}). ` +
+        `Increase 'maxTokens' in config/llm-providers.json for this provider key, or reduce the requested output size.`
+    );
+  }
+
   return {
     text,
     provider: "anthropic",
@@ -245,6 +269,15 @@ async function callOpenAI(prompt: string, config: LlmProviderConfig, apiKey: str
 
   if (!text) {
     throw new Error(`[LLM_CALL_FAILED] OpenAI response contained no text. Raw response (truncated): ${JSON.stringify(data).slice(0, 1000)}`);
+  }
+
+  // Fail closed on truncation -- see the matching check in callAnthropic.
+  if (data?.choices?.[0]?.finish_reason === "length") {
+    throw new Error(
+      `[LLM_OUTPUT_TRUNCATED] OpenAI response for model '${config.model}' was cut off (finish_reason: length, ` +
+        `maxTokens configured: ${config.maxTokens ?? 8192}, completion_tokens used: ${data?.usage?.completion_tokens ?? "unknown"}). ` +
+        `Increase 'maxTokens' in config/llm-providers.json for this provider key.`
+    );
   }
 
   return {
