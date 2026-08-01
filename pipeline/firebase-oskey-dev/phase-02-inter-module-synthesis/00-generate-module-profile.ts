@@ -42,6 +42,17 @@ const SOURCE_SCRIPT = "phase2-00-run-module-profile";
 
 interface ModuleProfileConfig {
   contractsRoot: string;
+  // Where contractsRoot is resolved from. "clone" (default) resolves it
+  // against the cloned TARGET repo -- for a repo that keeps its own
+  // grounding/contract docs versioned alongside its own code. "pipelineRoot"
+  // resolves it against THIS pipeline's own repo instead -- for the
+  // firebase-oskey-dev POC, the grounding docs (governance/reference-docs)
+  // and contract docs (rules/, phase-02-inter-module-synthesis/) are
+  // versioned here, not in the target repo. This field is the seam: moving
+  // those docs to a different location later (e.g. a mounted GCS bucket
+  // path once/if this runs on Gemini Enterprise in CI/CD) is a config
+  // change here, not a script change.
+  contractsRootBase?: "clone" | "pipelineRoot";
   architecturalGroundingPaths: string[];
   supportingContractPaths: string[];
 }
@@ -158,9 +169,14 @@ function main() {
   const evidenceGraphRaw = readRequiredFile(evidenceGraphPath, `evidence graph for module '${MODULE_NAME}'`);
   const evidenceGraph = JSON.parse(evidenceGraphRaw);
 
-  // --- Load architectural grounding + supporting contract docs from the CLONED repo ---
+  // --- Load architectural grounding + supporting contract docs ---
+  // Resolved against either the cloned TARGET repo ("clone", default) or
+  // THIS pipeline's own repo ("pipelineRoot") -- see contractsRootBase.
   const clonePath = path.join(projectRoot, "output", "clones", REPO_NAME);
-  const contractsRootAbs = path.join(clonePath, moduleProfileCfg.contractsRoot);
+  const contractsRootAbs =
+    moduleProfileCfg.contractsRootBase === "pipelineRoot"
+      ? path.join(projectRoot, moduleProfileCfg.contractsRoot)
+      : path.join(clonePath, moduleProfileCfg.contractsRoot);
 
   const groundingDocs = moduleProfileCfg.architecturalGroundingPaths.map(relPath => ({
     relPath,

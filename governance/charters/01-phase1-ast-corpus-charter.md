@@ -64,6 +64,10 @@ Preferred evidence sources include:
 
 Interpretation should be minimised.
 
+## Facts stay raw. 
+
+Extraction should emit facts in their most literal, unmodified form. Where a fact could be reformatted, simplified, or made more convenient for a human reader, that reformatting is a synthesis-layer decision, not an extraction-layer one — even when the underlying fact is fully certain.
+
 ---
 
 ## Deterministic extraction

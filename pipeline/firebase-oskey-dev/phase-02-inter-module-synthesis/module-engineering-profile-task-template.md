@@ -15,7 +15,7 @@ Generate the Module Engineering Profile and API Reference for the module specifi
 - runId: `20260731_154240-1aa319b1`
 - generatedAt: `2026-07-31T15:42:42.912Z`
 - repoName: `firebase-oskey-dev`
-- targetModule: `core`
+- targetModule: `building`
 
 ## Current Modules in This Repository
 

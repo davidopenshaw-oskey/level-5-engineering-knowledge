@@ -22,6 +22,28 @@
         "stripServiceSuffixes": ["Service"],
         "stripControllerSuffixes": ["Controller"],
         "serviceClassSuffixes": ["Service", "Publisher", "Processor"]
+      },
+
+      "phase2": {
+        "moduleProfile": {
+          "_note": "Grounding/contract docs are versioned in THIS pipeline repo, not in firebase-oskey-dev itself -- hence contractsRootBase: pipelineRoot. If this pipeline later runs on Gemini Enterprise / CI-CD with docs pulled from a bucket instead, only this block needs to change.",
+          "contractsRoot": "",
+          "contractsRootBase": "pipelineRoot",
+          "architecturalGroundingPaths": [
+            "governance/reference-docs/Oskey Architecture.md",
+            "governance/reference-docs/OSkey Backend Services & Data Architecture.md",
+            "governance/reference-docs/Oskey Personas and Authority models.md",
+            "governance/reference-docs/firestore-schema.md",
+            "governance/reference-docs/firestore.rules.txt",
+            "governance/reference-docs/firestore.indexes.json",
+            "governance/reference-docs/rbac-roles.json"
+          ],
+          "_note_supportingContractPaths": "Checked and deliberately EXCLUDED: rules/00-global-synthesis-hierarchy.md, prompt-template.md, contract-system-architecture.md -- all three are the contract for the separate INV-002 cross-module investigation (output filename 'INV-002 Architectural Topology Discovery.md', 12-module scope), not this single-module profile task, and none appear in HANDOVER.md's documented input list for the original building profile run. The two paths below were verified directly against 00-generate-module-profile.ts's own FILE marker format and against building-engineering-profile.md's actual section structure (0-14) -- confirmed match.",
+          "supportingContractPaths": [
+            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/module-engineering-profile-task-instructions.md",
+            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/module-engineering-profile-task-template.md"
+          ]
+        }
       }
     }
   ]

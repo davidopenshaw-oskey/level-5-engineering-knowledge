@@ -34,6 +34,54 @@ function sanitizeTypeText(typeText: string, clonePath: string): string {
   return cleaned;
 }
 
+// Unwraps a single-type-argument generic wrapper (e.g. "Promise<X>" -> "X").
+// Deliberately limited to framework/language-level wrappers (Promise from
+// TS/JS itself, CallableRequest from the Firebase SDK) -- NOT
+// business-specific wrapper classes like OSKHttpsSuccessResponse. Unwrapping
+// those would bake one repo's domain conventions into a supposedly
+// repo-agnostic extractor; if that's wanted later it belongs in config
+// (alongside normalizationRules in config/repos.json), not hardcoded here.
+function unwrapGenericSingleArg(typeText: string, wrapperNames: string[]): string {
+  for (const wrapper of wrapperNames) {
+    const match = typeText.match(new RegExp(`^${wrapper}<([\\s\\S]+)>$`));
+    if (match) return match[1].trim();
+  }
+  return typeText;
+}
+
+// Resolves the request/response payload types for a handler function --
+// i.e. the type of its first parameter (the request/data payload for a
+// Firebase callable, or the change/event payload for a trigger) and its
+// return type. Only handles actual function-like nodes (function
+// declarations, methods, arrow functions, function expressions); anything
+// else returns nulls rather than guessing.
+function extractHandlerSignatureTypes(
+  fnLikeNode: Node | undefined,
+  clonePath: string
+): { requestType: string | null; responseType: string | null } {
+  if (
+    !fnLikeNode ||
+    (!Node.isFunctionDeclaration(fnLikeNode) &&
+      !Node.isMethodDeclaration(fnLikeNode) &&
+      !Node.isArrowFunction(fnLikeNode) &&
+      !Node.isFunctionExpression(fnLikeNode))
+  ) {
+    return { requestType: null, responseType: null };
+  }
+
+  const params = fnLikeNode.getParameters();
+  let requestType: string | null = null;
+  if (params.length > 0) {
+    const rawParamType = sanitizeTypeText(params[0].getType().getText(), clonePath);
+    requestType = unwrapGenericSingleArg(rawParamType, ["CallableRequest"]);
+  }
+
+  const rawReturnType = sanitizeTypeText(fnLikeNode.getReturnType().getText(), clonePath);
+  const responseType = unwrapGenericSingleArg(rawReturnType, ["Promise"]);
+
+  return { requestType, responseType };
+}
+
 // Terminal Firestore operation methods we're looking for when walking a
 // chain forward from a .collection()/.doc() call. Query-builder methods
 // (where/orderBy/limit/etc.) are deliberately excluded -- they're not
@@ -161,6 +209,8 @@ function resolveHandlerDeclaration(
   handlerStartLine: number | null;
   handlerEndLine: number | null;
   handlerResolutionStatus: "resolved" | "partial" | "inline" | "unresolved";
+  requestType: string | null;
+  responseType: string | null;
 } {
   if (!handlerNode) {
     return {
@@ -170,6 +220,8 @@ function resolveHandlerDeclaration(
       handlerStartLine: null,
       handlerEndLine: null,
       handlerResolutionStatus: "unresolved",
+      requestType: null,
+      responseType: null,
     };
   }
 
@@ -184,6 +236,7 @@ function resolveHandlerDeclaration(
       handlerStartLine: handlerNode.getStartLineNumber(),
       handlerEndLine: handlerNode.getEndLineNumber(),
       handlerResolutionStatus: "inline",
+      ...extractHandlerSignatureTypes(handlerNode, clonePath),
     };
   }
 
@@ -202,6 +255,18 @@ function resolveHandlerDeclaration(
             name = (decl as any).getName() || name;
           }
 
+          // The resolved declaration is directly function-like (a function
+          // or method declaration) in the common case here -- e.g.
+          // `https.onCall(OSKBuildingService.getAllBuildings)`. If instead
+          // it's a variable declaration (`const handler = (data) => ...`),
+          // the function-like node is its initializer, not the declaration
+          // itself.
+          let fnLikeNode: Node | undefined = decl;
+          if (Node.isVariableDeclaration(decl)) {
+            const init = decl.getInitializer();
+            fnLikeNode = init && (Node.isArrowFunction(init) || Node.isFunctionExpression(init)) ? init : undefined;
+          }
+
           return {
             handlerName: name,
             handlerExpression,
@@ -209,6 +274,7 @@ function resolveHandlerDeclaration(
             handlerStartLine: decl.getStartLineNumber(),
             handlerEndLine: decl.getEndLineNumber(),
             handlerResolutionStatus: "resolved",
+            ...extractHandlerSignatureTypes(fnLikeNode, clonePath),
           };
         }
       }
@@ -223,6 +289,8 @@ function resolveHandlerDeclaration(
       handlerStartLine: handlerNode.getStartLineNumber(),
       handlerEndLine: handlerNode.getEndLineNumber(),
       handlerResolutionStatus: "unresolved",
+      requestType: null,
+      responseType: null,
     };
   }
 
@@ -233,6 +301,8 @@ function resolveHandlerDeclaration(
     handlerStartLine: handlerNode.getStartLineNumber(),
     handlerEndLine: handlerNode.getEndLineNumber(),
     handlerResolutionStatus: "partial",
+    requestType: null,
+    responseType: null,
   };
 }
 
@@ -537,6 +607,39 @@ function main() {
             ...base,
             line: prop.getStartLineNumber(),
             parentName: iface.getName(),
+            propertyName: prop.getName(),
+            propertyType: sanitizeTypeText(prop.getType().getText(), clonePath),
+            isOptional: prop.hasQuestionToken(),
+          });
+        }
+      }
+
+      // 7b. Model Properties (Type Aliases declared as object literals, or
+      // intersections containing one -- e.g. `type X = { a: string }` or
+      // `type X = Base & { a: string }`. Only the alias's own inline
+      // literal members are captured here, matching getInterfaces() above,
+      // which likewise only returns properties declared directly on the
+      // interface rather than ones inherited via `extends`.
+      const collectTypeLiteralProperties = (typeNode: Node): Node[] => {
+        if (Node.isTypeLiteral(typeNode)) {
+          return typeNode.getProperties();
+        }
+        if (Node.isIntersectionTypeNode(typeNode)) {
+          return typeNode.getTypeNodes().flatMap(collectTypeLiteralProperties);
+        }
+        return [];
+      };
+
+      for (const ta of sf.getTypeAliases()) {
+        const typeNode = ta.getTypeNode();
+        if (!typeNode) continue;
+
+        for (const prop of collectTypeLiteralProperties(typeNode)) {
+          if (!Node.isPropertySignature(prop)) continue;
+          rawModelProperties.push({
+            ...base,
+            line: prop.getStartLineNumber(),
+            parentName: ta.getName(),
             propertyName: prop.getName(),
             propertyType: sanitizeTypeText(prop.getType().getText(), clonePath),
             isOptional: prop.hasQuestionToken(),
