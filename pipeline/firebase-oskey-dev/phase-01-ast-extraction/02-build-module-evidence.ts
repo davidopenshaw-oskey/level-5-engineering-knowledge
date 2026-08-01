@@ -233,7 +233,7 @@ function main() {
   const modulesList: Array<{ module: string }> = JSON.parse(fs.readFileSync(modulesJsonPath, "utf8"));
   const authoritativeModules = modulesList.map(m => m.module).sort();
 
-  console.log(`Building module evidence and evidence graphs for ${authoritativeModules.length} authoritative modules`);
+  console.log(`Creating module evidence and evidence graphs for ${authoritativeModules.length} authoritative modules`);
 
   // Helper loader
   const loadFactFile = (filename: string): any[] => {
