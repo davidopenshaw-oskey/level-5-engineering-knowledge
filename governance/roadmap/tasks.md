@@ -57,3 +57,62 @@ We drifted off the original HANDOVER.md next-steps list to go fix P2's LLM infra
 All four were explicitly checked for hardcoding risk — confirmed no domain values (topic name strings, specific enum names/members, collection names) are hardcoded anywhere in any of the fixes; only two narrow, self-documenting convention assumptions remain (the wrapper-method-name fallback in fix 1, tagged in the data), both flagged rather than silently assumed.
 
 **Still true, unchanged from the earlier checkpoint:** the split-call profile generator has still not been live-tested against a real module's full evidence graph — only tiny smoke-test calls have gone through it. That, plus items 3 and 4, remain the actual next actions.
+
+**Noted, still open:** `00-generate-module-profile.ts`'s `DEFAULT_MODULE_PROFILE_CONFIG` still hardcodes stale contract/grounding-doc paths (`ai-runtime/contracts`, `module-engineering-profile/work-order.md`, etc.) directly in the script — the same class of problem already fixed for the *active* path via `config/repos.json`'s `phase2.moduleProfile` override, but the fallback default itself was never moved to config. Only matters for a repo with no override configured; `firebase-oskey-dev` already has one, so this hasn't bitten yet, but it should still move to config for consistency and to stop the stale defaults from being a trap for the next repo added.
+
+---
+
+## CHECKPOINT UPDATE 2 (2026-08-01, still later)
+
+**Metadata + output-path fixes landed, verified clean, nothing generated yet:**
+- `00-generate-module-profile.ts` now records `llmConfigKey`/`llmProvider`/`llmModel` in the shared prompt metadata (self-describing provenance, deliberately kept out of the file path — see the corpus-location decision below).
+- Output path moved from `output/docs/runs/{runId}/...` (fully gitignored, no git-visible home) to a new always-tracked `knowledge-corpus/<repo>/<runId>/...` at repo root — deliberately model-agnostic path (no provider/model folder), provisional pending a real DevOps/engineering decision on long-term artefact storage (same open question as item 5 above).
+- `module-engineering-profile-task-instructions.md` and its template got 5 more fixes based on a deliberate pre-flight review against everything found this session: template was missing the new metadata fields (self-inflicted, now fixed); §7/API-Reference §1 now explain that `requestType`/`responseType` are bare type names requiring a `model_property` cross-reference to build an actual schema (a gap `requestType`/`responseType` create now, since it didn't exist before today); §11 now has explicit Pub/Sub guidance distinguishing publish-call confidence tiers from receiver routing tables; §5/§10 now warn about the `@oskey/<module>/<submodule>` intra-module coupling pattern (the still-open item-3 finding) so it doesn't get missed the same way twice; Output Format section's two-documents-per-call vs one-per-call contradiction resolved with an explicit precedence note.
+
+**First live-test attempt against `building` — surfaced a major, previously-unknown architectural blocker, not a bug in anything built today:**
+1. `gemini-3.6-flash` (the model actually configured) returned HTTP 404 on Vertex AI in `dev-oskey-io`/`europe-west1` — "not found or your project does not have access to it." The error's own doc link pointed at `gemini-enterprise-agent-platform`, not classic Vertex AI, suggesting this model may need a different product surface or explicit enablement. Not investigated further — fell back to `gemini-2.5-pro` (already confirmed working earlier today) to keep testing the actual pipeline.
+2. Re-ran with `gemini-2.5-pro` — failed differently: **HTTP 400, input token count 1,376,733 exceeds the 1,048,576 max.** Measured precisely where that comes from:
+   - Contract docs (instructions + template): ~14.6 KB (~3,700 tokens) — trivial.
+   - All 7 grounding docs combined: ~408 KB (~102,000 tokens) — meaningful but not dominant.
+   - **`building-evidence-graph.json` alone: ~4.19 MB (~1,047,000 tokens)** — almost exactly Gemini's *entire* context window, by itself, before anything else is added.
+   - Likely contributor: nearly every fact in the evidence graph is stored twice — flattened at the top level and duplicated again inside a nested `evidence: {...item}` blob (visible throughout `02-build-module-evidence.ts`). Fine for a general JSON consumer; pure waste for a "paste the whole file into a prompt" use case.
+
+This is the exact shape of problem raised earlier in an "architecturally, we'll need to loop through creating..." discussion (module → repo → cross-repo context growth) — except it appeared immediately, at the single-module level, on the first real busy module tested, not several pipeline levels up as expected. `building` isn't even the busiest module in this repo, so this will only get worse, not better, on its own.
+
+**Mitigation options raised for next session (not decided, not implemented — deliberately left as options to think over, not a plan):**
+1. De-duplicate the flattened+nested evidence redundancy for the LLM-prompt path specifically (quick, safe, roughly halves payload — not sufficient alone: ~1.37M/2 ≈ 685K is still enormous for a busy module).
+2. Feed the already-resolved `confirmedCallEdges`/`probableCallEdges` from `resolved-engineering-graph.json` instead of raw `call_expression` facts (building has ~1,000+ raw call facts, most already classified `non_graph_call` — i.e. noise — by `04-build-resolved-graph.ts`'s own logic; reuse that filtering instead of re-sending everything).
+3. Pre-aggregate high-volume fact types (e.g. building's 428 raw `model_property` facts) into compact type→fields tables before they reach the prompt, rather than sending one fact per field with AST location metadata the LLM doesn't need narratively.
+4. Map-reduce within a module: split the single call per document into multiple smaller calls, each fed only the fact-category slice relevant to the section(s) it's drafting, then a reduce call to stitch the narrative together. Same shape as the module→repo→cross-repo fan-in already discussed, one level down.
+5. Route by evidence-graph size to whichever provider has more context room (workaround, not a fix — doesn't address the underlying waste, will still fail at the next scale-up).
+6. Longer-term: let the LLM query facts on demand via tool calls rather than receiving the whole graph inline (biggest lift, but the only option here that doesn't reappear as a problem again at repo-level or cross-repo synthesis). This is the RAG (retrieval-augmented generation) pattern by its standard industry name.
+7. **Stop using JSON as the prompt format for high-volume, uniform-schema fact arrays.** JSON pays token cost for every key name on every record — 428 `model_property` facts each repeating `"parentName":`/`"propertyName":`/etc. is exactly the shape that wastes the most tokens in JSON specifically. Converting those arrays to CSV/TSV or a Markdown table (column names stated once, then just values per row) before they reach the prompt is a distinct, real technique on top of 1–3, not a restatement of them — keep JSON as the canonical *storage* format (other tooling depends on it), add a conversion step between storage and prompt-assembly.
+
+Loose recommendation floated (not agreed): try 1+2+3+7 together first, next session, before reaching for 4 or 6.
+
+**UPDATE — measured 1+7 directly against the real `building` graph (2,498 facts), not estimated:**
+
+| Fact type | Count | JSON | CSV (evidence dup dropped) |
+|---|---|---|---|
+| `call_expression` | 1,003 | 2,200 KB | 779 KB |
+| `model_property` | 428 | 379 KB | 167 KB |
+| `imports_dependency` | 387 | 330 KB | 141 KB |
+| *(14 more types)* | | | |
+| **Total** | **2,498** | **3.43 MB** | **1.34 MB (2.55x smaller)** |
+
+`call_expression` alone is ~64% of the whole graph's JSON size (2.2MB of 3.43MB) — makes option 2 (feed resolved call edges instead of raw call facts) look like the single highest-leverage individual fix, bigger than expected before measuring.
+
+Converting per-type to CSV (header row once, then just values — dropping the duplicated nested `evidence` blob in the same pass) takes the whole graph to ~352,000 tokens. Combined with grounding docs (~102,000) and contract docs (~4,000): **~458,000 tokens total — comfortably under Gemini's 1,048,576 ceiling, with room to spare.** This suggests options **1+7 together might already be *sufficient* on their own** for a module the size of `building`, without needing 2/3/4/6 at all — upgrade from "try these first" to "try these first and possibly stop there, re-measure before reaching for anything bigger."
+
+One more near-free thing to check next session: the real stored file is 4.19MB but a compact (non-pretty-printed) re-serialization of just its facts came to 3.43MB — the gap is likely indentation whitespace, which costs real tokens if the raw file is pasted verbatim into a prompt but costs nothing if stripped at prompt-assembly time. Worth confirming and taking for free alongside whatever else gets built.
+
+**Net result: `building` has still not been successfully generated end-to-end.** Both HANDOVER items 3 and 4 remain blocked on this context-size finding as much as on the earlier open decisions — but the fix now looks smaller/cheaper than it did before measuring.
+
+---
+
+## NEW WORKFLOW CONVENTION (2026-08-01)
+
+Going forward: when we surface and design something non-trivial (like the capability-partitioning idea below), it gets its own numbered implementation plan file under `governance/roadmap/` (`NN-name.md`), with a concrete, checkable task list, worked through one item at a time — explicitly so a mid-work distraction (like the HANDOVER drift earlier this session) leaves a resumable list behind instead of relying on conversation memory. This file (`tasks.md`) stays the general index/checkpoint; numbered plan files hold the detailed task lists for specific pieces of work.
+
+**First one created: [`00-capability-based-module-synthesis.md`](00-capability-based-module-synthesis.md)** — covers both the `submodule`-dropping bug in `02-build-module-evidence.ts` (small, standalone fix) and the bigger capability-partitioning Phase 2 redesign it enables (evidence graph → per-submodule capability packs → per-capability synthesis → module-level reduce, instead of one shot over the raw graph). Real numbers already gathered: `building` splits into 11 packs, largest 450 facts/710KB — comfortably within context even before CSV re-encoding. This is the current active piece of work; see that file for status, not this one.
+

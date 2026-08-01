@@ -3,8 +3,9 @@
   "_note_gemini": "Gemini runs via Vertex AI (not the consumer Generative Language API), authenticated with ADC ('gcloud auth application-default login') rather than an API key -- reflects SSO/enterprise access, no apiKeyEnvVar needed or used for this provider. projectId/location verified working 2026-08-01 against dev-oskey-io under identity david.openshaw@oskey.io; us-central1 also confirmed working as a fallback if europe-west1 has an outage or access issue.",
   "providers": {
     "gemini-default": {
+      "_note": "Temporarily on gemini-2.5-pro -- gemini-3.6-flash returned HTTP 404 'not found or your project does not have access to it' on this exact Vertex AI endpoint/project/region (2026-08-01). Error's own doc link pointed at gemini-enterprise-agent-platform, not classic Vertex AI, suggesting 3.6-flash may need a different product surface or explicit enablement. Not yet investigated further.",
       "provider": "gemini",
-      "model": "gemini-3.6-flash",
+      "model": "gemini-2.5-pro",
       "projectId": "dev-oskey-io",
       "location": "europe-west1",
       "maxTokens": 8192,

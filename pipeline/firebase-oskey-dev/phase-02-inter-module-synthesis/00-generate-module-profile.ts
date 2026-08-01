@@ -196,8 +196,20 @@ function main() {
     content: readRequiredFile(path.join(contractsRootAbs, relPath), `supporting contract doc '${relPath}'`),
   }));
 
-  // --- Output paths (per the work order's Required Output section) ---
-  const outputDocsDir = path.join(projectRoot, "output", "docs", "runs", runId);
+  // --- Output paths ---
+  // Deliberately OUTSIDE /output (which is entirely gitignored -- it holds
+  // repo clones and raw AST facts, neither of which belong in git). These
+  // finished synthesis documents are the actual knowledge-corpus
+  // deliverable, so they get their own always-tracked home. Path is
+  // deliberately model-agnostic (no provider/model in the path) -- which
+  // LLM produced a given document is metadata about how it was made, not
+  // part of its identity, and is recorded inside the document itself (see
+  // Generation Metadata below) rather than forking the corpus by model.
+  // Provisional location pending a real DevOps/engineering decision on
+  // where synthesis artifacts should live long-term (see governance/roadmap
+  // /tasks.md item 5) -- easy to redirect later, since this is the only
+  // place that constructs the path.
+  const outputDocsDir = path.join(projectRoot, "knowledge-corpus", REPO_NAME, runId);
   const profileRelPath = path.join("engineering-profiles", `${MODULE_NAME}-engineering-profile.md`);
   const apiRefRelPath = path.join("apis", `${MODULE_NAME}-api-reference.md`);
 
@@ -235,7 +247,10 @@ function main() {
       `- runId: ${evidenceGraph.runId}\n` +
       `- generatedAt: ${evidenceGraph.generatedAt}\n` +
       `- repoName: ${REPO_NAME}\n` +
-      `- targetModule: ${MODULE_NAME}`
+      `- targetModule: ${MODULE_NAME}\n` +
+      `- llmConfigKey: ${LLM_CONFIG_KEY}\n` +
+      `- llmProvider: ${llmConfig.provider}\n` +
+      `- llmModel: ${llmConfig.model}`
   );
 
   sharedSections.push(`## Target Module Evidence Graph (${MODULE_NAME}-evidence-graph.json)\n\n\`\`\`json\n${evidenceGraphRaw}\n\`\`\``);

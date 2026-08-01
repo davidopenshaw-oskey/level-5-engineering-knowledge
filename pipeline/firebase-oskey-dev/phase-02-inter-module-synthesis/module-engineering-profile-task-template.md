@@ -10,12 +10,15 @@ Generate the Module Engineering Profile and API Reference for the module specifi
 
 ## Generation Metadata
 
-*(copy these three values from the root of the evidence graph JSON below before pasting — do not make Claude extract them from inside the blob)*
+*(copy these values before pasting — do not make Claude extract them from inside the evidence JSON blob. runId/generatedAt come from the root of the evidence graph JSON below; llmConfigKey/llmProvider/llmModel describe whichever LLM you're running this chat with — fill in the actual values for your session, the ones below are placeholders.)*
 
 - runId: `20260731_154240-1aa319b1`
 - generatedAt: `2026-07-31T15:42:42.912Z`
 - repoName: `firebase-oskey-dev`
 - targetModule: `building`
+- llmConfigKey: `claude-default`
+- llmProvider: `anthropic`
+- llmModel: `claude-sonnet-5`
 
 ## Current Modules in This Repository
 
