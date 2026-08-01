@@ -82,6 +82,77 @@ function extractHandlerSignatureTypes(
   return { requestType, responseType };
 }
 
+// Pub/Sub push-subscription handlers are plain HTTP endpoints (registered
+// via https.onRequest, indistinguishable from a real REST endpoint in the
+// api_contract facts) that receive Pub/Sub's standard push envelope --
+// `{ message: { data: <base64>, ... }, ... }`. Detected structurally (a
+// `.data` property access on a `.message` property access, anywhere in the
+// handler body) rather than by variable/parameter name, since the envelope
+// shape itself is the reliable, framework-level signal. Confirmed
+// empirically 2026-08-01 against core's processPubSubMessage handler, which
+// checks `req.body.message.data`.
+function detectsPubSubPushEnvelope(fnLikeNode: Node): boolean {
+  const body = Node.isFunctionDeclaration(fnLikeNode) || Node.isMethodDeclaration(fnLikeNode) || Node.isArrowFunction(fnLikeNode) || Node.isFunctionExpression(fnLikeNode)
+    ? fnLikeNode.getBody()
+    : undefined;
+  if (!body) return false;
+
+  for (const propAccess of body.getDescendantsOfKind(SyntaxKind.PropertyAccessExpression)) {
+    if (propAccess.getName() !== "data") continue;
+    const inner = propAccess.getExpression();
+    if (Node.isPropertyAccessExpression(inner) && inner.getName() === "message") {
+      return true;
+    }
+  }
+  return false;
+}
+
+type PubSubEventRoute = {
+  dataType: string | null;
+  dataTypeResolutionStatus: string;
+  targetCalls: string[];
+};
+
+// Pub/Sub push receivers commonly dispatch on a `switch` over a message
+// "type" field to route to entirely different downstream services -- this
+// walks every switch statement in the handler body and records each case's
+// literal test value alongside every call expression found within that
+// case, giving an Event Routing Table (per rules/00-global-synthesis-
+// hierarchy.md Directive 5) directly from evidence rather than requiring a
+// human/LLM to read the handler body and infer it. Only meaningful when
+// detectsPubSubPushEnvelope is also true for the same handler -- an
+// unrelated switch statement elsewhere would produce noise, so callers
+// should gate on that flag before trusting these routes as Pub/Sub-specific.
+function extractPubSubEventRoutes(fnLikeNode: Node): PubSubEventRoute[] {
+  const body = Node.isFunctionDeclaration(fnLikeNode) || Node.isMethodDeclaration(fnLikeNode) || Node.isArrowFunction(fnLikeNode) || Node.isFunctionExpression(fnLikeNode)
+    ? fnLikeNode.getBody()
+    : undefined;
+  if (!body) return [];
+
+  const routes: PubSubEventRoute[] = [];
+  for (const switchStatement of body.getDescendantsOfKind(SyntaxKind.SwitchStatement)) {
+    for (const clause of switchStatement.getCaseBlock().getClauses()) {
+      if (!Node.isCaseClause(clause)) continue; // skip the `default:` clause -- no literal to route on
+
+      const testRes = resolveExpressionValue(clause.getExpression());
+      const targetCalls = new Set<string>();
+      for (const callExpr of clause.getDescendantsOfKind(SyntaxKind.CallExpression)) {
+        const calleeExpr = callExpr.getExpression();
+        if (Node.isPropertyAccessExpression(calleeExpr) || Node.isIdentifier(calleeExpr)) {
+          targetCalls.add(calleeExpr.getText());
+        }
+      }
+
+      routes.push({
+        dataType: testRes.value,
+        dataTypeResolutionStatus: testRes.status,
+        targetCalls: Array.from(targetCalls),
+      });
+    }
+  }
+  return routes;
+}
+
 // Terminal Firestore operation methods we're looking for when walking a
 // chain forward from a .collection()/.doc() call. Query-builder methods
 // (where/orderBy/limit/etc.) are deliberately excluded -- they're not
@@ -187,6 +258,27 @@ function resolveExpressionValue(
   }
 
   if (Node.isPropertyAccessExpression(node)) {
+    // Enum member access (`EnumName.MEMBER`, e.g. `ActivityUserType.USER`).
+    // The WHOLE property-access expression's own symbol resolves directly
+    // to the specific member's declaration -- distinct from the symbol of
+    // the enum name alone (which the generic fallback below would recurse
+    // into and fail to resolve, since an enum declaration itself is
+    // neither a variable, property assignment, nor enum member). Checked
+    // first, generically, for any enum -- not specific to any one enum
+    // name. Confirmed empirically 2026-08-01: this exact gap caused case
+    // labels like `case ActivityUserType.USER:` inside a switch statement
+    // to resolve as null/"unsupported" even though the case values
+    // themselves (USER, SUPPLIER_STAFF_MEMBER, NON_APP_USER) are fully
+    // static and knowable.
+    const ownSymbol = node.getSymbol();
+    if (ownSymbol) {
+      const ownDeclaration = ownSymbol.getValueDeclaration() || ownSymbol.getDeclarations()[0];
+      if (ownDeclaration && Node.isEnumMember(ownDeclaration)) {
+        const val = ownDeclaration.getValue();
+        if (val !== undefined) return { value: String(val), status: "resolved" };
+      }
+    }
+
     const propName = node.getName();
     const exprRes = resolveExpressionValue(node.getExpression(), visitedDeclarations, depth + 1, maxDepth);
     if (exprRes.value) {
@@ -211,6 +303,8 @@ function resolveHandlerDeclaration(
   handlerResolutionStatus: "resolved" | "partial" | "inline" | "unresolved";
   requestType: string | null;
   responseType: string | null;
+  pubsubPushReceiver: boolean;
+  pubsubEventRoutes: PubSubEventRoute[];
 } {
   if (!handlerNode) {
     return {
@@ -222,6 +316,8 @@ function resolveHandlerDeclaration(
       handlerResolutionStatus: "unresolved",
       requestType: null,
       responseType: null,
+      pubsubPushReceiver: false,
+      pubsubEventRoutes: [],
     };
   }
 
@@ -237,6 +333,8 @@ function resolveHandlerDeclaration(
       handlerEndLine: handlerNode.getEndLineNumber(),
       handlerResolutionStatus: "inline",
       ...extractHandlerSignatureTypes(handlerNode, clonePath),
+      pubsubPushReceiver: detectsPubSubPushEnvelope(handlerNode),
+      pubsubEventRoutes: extractPubSubEventRoutes(handlerNode),
     };
   }
 
@@ -251,18 +349,23 @@ function resolveHandlerDeclaration(
           const declPath = toRepoPath(declSf.getFilePath(), clonePath);
 
           let name = symbol.getName();
-          if (Node.isFunctionDeclaration(decl) || Node.isMethodDeclaration(decl) || Node.isVariableDeclaration(decl)) {
+          if (Node.isFunctionDeclaration(decl) || Node.isMethodDeclaration(decl) || Node.isVariableDeclaration(decl) || Node.isPropertyDeclaration(decl)) {
             name = (decl as any).getName() || name;
           }
 
           // The resolved declaration is directly function-like (a function
           // or method declaration) in the common case here -- e.g.
           // `https.onCall(OSKBuildingService.getAllBuildings)`. If instead
-          // it's a variable declaration (`const handler = (data) => ...`),
-          // the function-like node is its initializer, not the declaration
-          // itself.
+          // it's a variable declaration (`const handler = (data) => ...`) or
+          // a class property assigned an arrow function
+          // (`processPubSubMessage = async (req, res) => {...}`, confirmed
+          // 2026-08-01 in core/services/pub_sub_receiver.service.ts -- this
+          // case was previously missed, which is why that handler's
+          // requestType/responseType came back null even after the type-
+          // resolution fix), the function-like node is its initializer, not
+          // the declaration itself.
           let fnLikeNode: Node | undefined = decl;
-          if (Node.isVariableDeclaration(decl)) {
+          if (Node.isVariableDeclaration(decl) || Node.isPropertyDeclaration(decl)) {
             const init = decl.getInitializer();
             fnLikeNode = init && (Node.isArrowFunction(init) || Node.isFunctionExpression(init)) ? init : undefined;
           }
@@ -275,6 +378,8 @@ function resolveHandlerDeclaration(
             handlerEndLine: decl.getEndLineNumber(),
             handlerResolutionStatus: "resolved",
             ...extractHandlerSignatureTypes(fnLikeNode, clonePath),
+            pubsubPushReceiver: fnLikeNode ? detectsPubSubPushEnvelope(fnLikeNode) : false,
+            pubsubEventRoutes: fnLikeNode ? extractPubSubEventRoutes(fnLikeNode) : [],
           };
         }
       }
@@ -291,6 +396,8 @@ function resolveHandlerDeclaration(
       handlerResolutionStatus: "unresolved",
       requestType: null,
       responseType: null,
+      pubsubPushReceiver: false,
+      pubsubEventRoutes: [],
     };
   }
 
@@ -303,8 +410,24 @@ function resolveHandlerDeclaration(
     handlerResolutionStatus: "partial",
     requestType: null,
     responseType: null,
+    pubsubPushReceiver: false,
+    pubsubEventRoutes: [],
   };
 }
+
+// Methods that ultimately wrap the real @google-cloud/pubsub SDK call
+// (OSKMessageController._publishMessage / OSKMessageControllerInternal
+// .publishMessage, confirmed 2026-08-01 in core/controllers/
+// message.controller.ts and document_and_message.controller.ts). The topic
+// name is that method's first parameter, which is unresolvable to a literal
+// AT the SDK call site itself (it's a pass-through parameter there) -- but
+// is often a literal or named constant at the CALLER's call site, e.g.
+// `this._publishMessage(OSK_PUBSUB_TOPIC_ACD_ACCESSES, ...)`. So this set
+// is checked at every call site, not just the one place that calls
+// pubSub.topic() directly, and unresolved call sites are still recorded
+// (as candidates) rather than silently dropped, since even an unresolved
+// call site confirms a publish happens there.
+const PUBSUB_PUBLISH_METHODS = new Set(["_publishMessage", "publishMessage"]);
 
 const TRIGGER_METHODS = new Set([
   "onCreate",
@@ -491,6 +614,7 @@ function main() {
   const rawExternalHooks: any[] = [];
   const rawApiContracts: any[] = [];
   const rawTriggers: any[] = [];
+  const rawPubSubEventRoutes: any[] = [];
   const rawErrors: any[] = [];
 
   for (const { file, base, absolutePath } of runtimeFiles) {
@@ -807,6 +931,78 @@ function main() {
           }
         }
 
+        // 8b-alt. Pub/Sub Publish Call Sites
+        // Two independent detection strategies for the same underlying
+        // event (a message being published), tried in order so a real
+        // publish call site is caught however it's shaped in the source:
+        //
+        //  1. Structural chain: `<expr>.topic(x).publish(y)` /
+        //     `.publishMessage(y)` chained directly off one object. Matches
+        //     the actual @google-cloud/pubsub SDK's own fluent API shape,
+        //     so it works regardless of what any particular repo names its
+        //     own wrapper methods -- no repo-specific convention assumed.
+        //  2. Known wrapper method names (PUBSUB_PUBLISH_METHODS): catches
+        //     calls to a repo's OWN internal wrapper (e.g.
+        //     OSKMessageController._publishMessage) where the raw SDK call
+        //     is several hops away and the wrapper's own parameter can
+        //     never resolve to a literal -- only the wrapper's CALLERS can
+        //     supply an actual literal/constant. This one IS specific to
+        //     this codebase's naming convention, unlike (1), and won't
+        //     follow if that convention changes.
+        //
+        // (2) is skipped whenever (1) already matched, so the one call site
+        // where both patterns are simultaneously true (message.controller
+        // .ts's pubSub.topic(...).publishMessage(...)) isn't recorded twice.
+        let matchedStructuralPubSubChain = false;
+        if (exactMethodName === "publish" || exactMethodName === "publishMessage") {
+          const calleeObject = Node.isPropertyAccessExpression(expr) ? expr.getExpression() : undefined;
+          if (calleeObject && Node.isCallExpression(calleeObject)) {
+            const innerExpr = calleeObject.getExpression();
+            if (Node.isPropertyAccessExpression(innerExpr) && innerExpr.getName() === "topic") {
+              const topicArg = calleeObject.getArguments()[0];
+              if (topicArg) {
+                const res = resolveExpressionValue(topicArg);
+                rawExternalHooks.push({
+                  ...base,
+                  line,
+                  type: "pubsub_publish_call",
+                  value: res.value || topicArg.getText(),
+                  confidence: res.status === "resolved" ? "confirmed" : "candidate",
+                  topicResolutionStatus: res.status,
+                  detectionMethod: "structural_chain",
+                  calleeExpression: calleeText,
+                  calleeSymbol,
+                  declarationFile,
+                  declarationModuleSpecifier,
+                  resolutionStatus,
+                });
+                matchedStructuralPubSubChain = true;
+              }
+            }
+          }
+        }
+
+        if (!matchedStructuralPubSubChain && exactMethodName && PUBSUB_PUBLISH_METHODS.has(exactMethodName)) {
+          const topicArg = callExpr.getArguments()[0];
+          if (topicArg) {
+            const res = resolveExpressionValue(topicArg);
+            rawExternalHooks.push({
+              ...base,
+              line,
+              type: "pubsub_publish_call",
+              value: res.value || topicArg.getText(),
+              confidence: res.status === "resolved" ? "confirmed" : "candidate",
+              topicResolutionStatus: res.status,
+              detectionMethod: "known_wrapper_method_name",
+              calleeExpression: calleeText,
+              calleeSymbol,
+              declarationFile,
+              declarationModuleSpecifier,
+              resolutionStatus,
+            });
+          }
+        }
+
         // 8c. Firestore Triggers (Exact Method Matching & Symbol Resolution)
         if (exactMethodName && TRIGGER_METHODS.has(exactMethodName)) {
           const arg0 = callExpr.getArguments()[0];
@@ -840,7 +1036,13 @@ function main() {
         // 8d. API Contracts (onCall / onRequest Handler Symbol Resolution)
         if (exactMethodName && ["onCall", "onRequest"].includes(exactMethodName)) {
           const handlerArg = callExpr.getArguments()[1] || callExpr.getArguments()[0];
-          const handlerResolution = resolveHandlerDeclaration(handlerArg, clonePath, base.path);
+          // pubsubEventRoutes is pulled out and recorded as its own fact
+          // type below rather than spread flatly into the api_contract
+          // fact -- it's an array of routing entries, not a scalar field,
+          // and keeping it separate makes it directly queryable as an
+          // Event Routing Table instead of nested inside every http
+          // contract's evidence blob.
+          const { pubsubEventRoutes, ...handlerResolution } = resolveHandlerDeclaration(handlerArg, clonePath, base.path);
 
           rawApiContracts.push({
             ...base,
@@ -856,6 +1058,26 @@ function main() {
             resolutionStatus,
             ...handlerResolution,
           });
+
+          if (handlerResolution.pubsubPushReceiver && pubsubEventRoutes.length > 0) {
+            // routeIndex disambiguates facts when dataType can't be
+            // resolved (e.g. a nested switch keyed on an enum member access
+            // like `case ActivityUserType.USER:`, confirmed 2026-08-01 --
+            // resolveExpressionValue doesn't resolve enum member access via
+            // the enum's own name yet) or, in principle, if two cases ever
+            // resolved to the same literal -- either way, dataType alone
+            // isn't a safe uniqueness key on its own.
+            pubsubEventRoutes.forEach((route, routeIndex) => {
+              rawPubSubEventRoutes.push({
+                ...base,
+                line,
+                sourceHandler: handlerResolution.handlerName,
+                sourceHandlerFile: handlerResolution.handlerDeclarationFile,
+                routeIndex,
+                ...route,
+              });
+            });
+          }
         }
 
         // 8e. Environment Variables & Storage Path Candidates
@@ -934,6 +1156,7 @@ function main() {
   rawExternalHooks.sort(sortFn);
   rawApiContracts.sort(sortFn);
   rawTriggers.sort(sortFn);
+  rawPubSubEventRoutes.sort(sortFn);
   rawErrors.sort(sortFn);
 
   // Write raw facts atomically
@@ -951,6 +1174,7 @@ function main() {
   writeJsonAtomically(path.join(rawDir, "ast-external-hooks.json"), rawExternalHooks, "facts/ast-external-hooks.json");
   writeJsonAtomically(path.join(rawDir, "ast-api-contracts.json"), rawApiContracts, "facts/ast-api-contracts.json");
   writeJsonAtomically(path.join(rawDir, "ast-firestore-triggers.json"), rawTriggers, "facts/ast-firestore-triggers.json");
+  writeJsonAtomically(path.join(rawDir, "ast-pubsub-event-routes.json"), rawPubSubEventRoutes, "facts/ast-pubsub-event-routes.json");
   writeJsonAtomically(path.join(rawDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
 
   // AST error-tolerance gate: previously rawErrors were collected and
@@ -1008,6 +1232,7 @@ function main() {
       { file: "ast-external-hooks.json", evidenceType: "externalHooks", recordCount: rawExternalHooks.length, required: true },
       { file: "ast-api-contracts.json", evidenceType: "apiContracts", recordCount: rawApiContracts.length, required: true },
       { file: "ast-firestore-triggers.json", evidenceType: "firestoreTriggers", recordCount: rawTriggers.length, required: true },
+      { file: "ast-pubsub-event-routes.json", evidenceType: "pubsubEventRoutes", recordCount: rawPubSubEventRoutes.length, required: true },
     ],
     errors: {
       file: "ast-errors.json",
@@ -1036,6 +1261,7 @@ function main() {
     externalHooks: rawExternalHooks.length,
     apiContracts: rawApiContracts.length,
     firestoreTriggers: rawTriggers.length,
+    pubsubEventRoutes: rawPubSubEventRoutes.length,
     errors: rawErrors.length,
   });
   console.log(`AST evidence manifest written to: ${path.join(rawDir, "ast-evidence-manifest.json")}`);

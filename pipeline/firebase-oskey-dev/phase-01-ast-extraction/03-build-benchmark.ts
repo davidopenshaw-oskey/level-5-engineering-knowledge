@@ -35,6 +35,7 @@ const REQUIRED_SUMMARY_FIELDS = [
   "externalHooks",
   "firestoreTriggers",
   "apiContracts",
+  "pubsubEventRoutes",
   "services",
   "controllers",
   "facts",
@@ -130,6 +131,7 @@ function main() {
     externalHooks: 0,
     firestoreTriggers: 0,
     apiContracts: 0,
+    pubsubEventRoutes: 0,
     services: 0,
     controllers: 0,
   };

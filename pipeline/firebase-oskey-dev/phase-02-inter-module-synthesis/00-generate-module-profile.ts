@@ -25,6 +25,14 @@
 //   they describe, so they are automatically commit-matched to the same
 //   evidence they're being used to interpret.
 
+// Loads .env (repo root, gitignored -- see .env.example) into process.env
+// before anything else runs. Only relevant for API-key-based providers
+// (e.g. ANTHROPIC_API_KEY) -- Gemini needs no key here, it authenticates
+// via Vertex AI + ADC instead. POC-stage credential storage; migrating to
+// Secret Manager or similar later only means changing this one import,
+// since every consumer already just reads process.env like it does today.
+import "dotenv/config";
+
 import fs from "fs";
 import path from "path";
 import {
@@ -193,32 +201,36 @@ function main() {
   const profileRelPath = path.join("engineering-profiles", `${MODULE_NAME}-engineering-profile.md`);
   const apiRefRelPath = path.join("apis", `${MODULE_NAME}-api-reference.md`);
 
-  // --- Assemble the prompt ---
-  const promptSections: string[] = [];
+  // --- Assemble the SHARED context (everything both calls need) ---
+  // Split into two separate LLM calls (profile, then API reference) rather
+  // than one combined call producing both marker-delimited files. Reason:
+  // asking for two full documents in a single response means a single
+  // maxTokens budget has to cover both -- if output gets cut off partway
+  // through the second document, splitMarkedFiles fails closed and BOTH
+  // documents are lost, even if the first completed cleanly. Two calls
+  // isolate that failure per-document and roughly double the effective
+  // output budget available across the two documents combined, for the
+  // same per-call maxTokens setting.
+  const sharedSections: string[] = [];
 
-  promptSections.push(
-    `You are generating a Module Engineering Profile. Follow the supporting contract documents below exactly. ` +
-      `Where they conflict with anything in this instruction, the contract documents govern.`
-  );
-
-  promptSections.push(`## Supporting Contracts (persona, rules, output schema, task definition)`);
+  sharedSections.push(`## Supporting Contracts (persona, rules, output schema, task definition)`);
   for (const doc of contractDocs) {
-    promptSections.push(`### ${doc.relPath}\n\n${doc.content}`);
+    sharedSections.push(`### ${doc.relPath}\n\n${doc.content}`);
   }
 
-  promptSections.push(`## Architectural Grounding Documents`);
+  sharedSections.push(`## Architectural Grounding Documents`);
   for (const doc of groundingDocs) {
-    promptSections.push(`### ${doc.relPath}\n\n${doc.content}`);
+    sharedSections.push(`### ${doc.relPath}\n\n${doc.content}`);
   }
 
   // Dynamic, live-resolved module list -- never hardcoded in a contract doc.
-  promptSections.push(
+  sharedSections.push(
     `## Current Modules in This Repository (resolved live from this run's facts/modules.json -- ` +
       `treat this as authoritative for module-name matching, do not assume any other module exists)\n\n` +
       moduleNames.map(m => `- ${m}`).join("\n")
   );
 
-  promptSections.push(
+  sharedSections.push(
     `## Generation Metadata (use these exact values verbatim -- do not copy them from within the evidence JSON below, use these)\n\n` +
       `- runId: ${evidenceGraph.runId}\n` +
       `- generatedAt: ${evidenceGraph.generatedAt}\n` +
@@ -226,52 +238,71 @@ function main() {
       `- targetModule: ${MODULE_NAME}`
   );
 
-  promptSections.push(`## Target Module Evidence Graph (${MODULE_NAME}-evidence-graph.json)\n\n\`\`\`json\n${evidenceGraphRaw}\n\`\`\``);
+  sharedSections.push(`## Target Module Evidence Graph (${MODULE_NAME}-evidence-graph.json)\n\n\`\`\`json\n${evidenceGraphRaw}\n\`\`\``);
 
-  promptSections.push(
+  const sharedContext = sharedSections.join("\n\n---\n\n");
+
+  const profilePrompt = [
+    `You are generating a Module Engineering Profile. Follow the supporting contract documents below exactly. ` +
+      `Where they conflict with anything in this instruction, the contract documents govern.`,
+    sharedContext,
     `## Output Format (mandatory)\n\n` +
-      `Produce exactly two files. Wrap each one EXACTLY as follows, with no other text before, between, or after:\n\n` +
+      `Produce exactly one file. Wrap it EXACTLY as follows, with no other text before, between, or after:\n\n` +
       `===FILE: ${profileRelPath}===\n` +
       `<full content of the Module Engineering Profile per the output schema>\n` +
       `===END FILE===\n\n` +
+      `Do not include any conversational preamble, explanation, or text outside this marked block. Do not produce the API Reference document in this response -- it is requested separately.`,
+  ].join("\n\n---\n\n");
+
+  const apiRefPrompt = [
+    `You are generating an API Reference document (a companion to a Module Engineering Profile). Follow the supporting contract documents below exactly. ` +
+      `Where they conflict with anything in this instruction, the contract documents govern.`,
+    sharedContext,
+    `## Output Format (mandatory)\n\n` +
+      `Produce exactly one file. Wrap it EXACTLY as follows, with no other text before, between, or after:\n\n` +
       `===FILE: ${apiRefRelPath}===\n` +
       `<full content of the API Reference per the output schema>\n` +
       `===END FILE===\n\n` +
-      `Do not include any conversational preamble, explanation, or text outside these two marked blocks.`
-  );
+      `Do not include any conversational preamble, explanation, or text outside this marked block. Do not produce the Module Engineering Profile document in this response -- it is requested separately.`,
+  ].join("\n\n---\n\n");
 
-  const fullPrompt = promptSections.join("\n\n---\n\n");
+  type GeneratedDoc = { relPath: string; prompt: string; kind: "profile" | "api-reference" };
+  const docsToGenerate: GeneratedDoc[] = [
+    { relPath: profileRelPath, prompt: profilePrompt, kind: "profile" },
+    { relPath: apiRefRelPath, prompt: apiRefPrompt, kind: "api-reference" },
+  ];
 
-  addNotification(
-    notifications,
-    SOURCE_SCRIPT,
-    "info",
-    "MODULE_PROFILE_LLM_CALL_STARTED",
-    `Calling LLM provider '${llmConfig.provider}' (model '${llmConfig.model}', config key '${LLM_CONFIG_KEY}') for module '${MODULE_NAME}'.`,
-    { module: MODULE_NAME, provider: llmConfig.provider, model: llmConfig.model, llmConfigKey: LLM_CONFIG_KEY }
-  );
-  writeNotificationsAtomically(notificationsPath, notifications);
-
-  callLlm(fullPrompt, llmConfig)
-    .then(result => {
+  Promise.all(
+    docsToGenerate.map(doc => {
       addNotification(
         notifications,
         SOURCE_SCRIPT,
         "info",
-        "MODULE_PROFILE_LLM_CALL_COMPLETED",
-        `LLM call completed for module '${MODULE_NAME}'.`,
-        { module: MODULE_NAME, usage: result.usage }
+        "MODULE_PROFILE_LLM_CALL_STARTED",
+        `Calling LLM provider '${llmConfig.provider}' (model '${llmConfig.model}', config key '${LLM_CONFIG_KEY}') for module '${MODULE_NAME}' (${doc.kind}).`,
+        { module: MODULE_NAME, kind: doc.kind, provider: llmConfig.provider, model: llmConfig.model, llmConfigKey: LLM_CONFIG_KEY }
       );
 
-      const files = splitMarkedFiles(result.text, [profileRelPath, apiRefRelPath]);
+      return callLlm(doc.prompt, llmConfig).then(result => {
+        addNotification(
+          notifications,
+          SOURCE_SCRIPT,
+          "info",
+          "MODULE_PROFILE_LLM_CALL_COMPLETED",
+          `LLM call completed for module '${MODULE_NAME}' (${doc.kind}).`,
+          { module: MODULE_NAME, kind: doc.kind, usage: result.usage }
+        );
 
-      for (const [relPath, content] of files.entries()) {
-        const outPath = path.join(outputDocsDir, relPath);
+        const files = splitMarkedFiles(result.text, [doc.relPath]);
+        const content = files.get(doc.relPath)!;
+        const outPath = path.join(outputDocsDir, doc.relPath);
         fs.mkdirSync(path.dirname(outPath), { recursive: true });
         fs.writeFileSync(outPath, content, "utf8");
         console.log(`Wrote: ${outPath}`);
-      }
-
+      });
+    })
+  )
+    .then(() => {
       addNotification(
         notifications,
         SOURCE_SCRIPT,

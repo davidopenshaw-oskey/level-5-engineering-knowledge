@@ -217,6 +217,7 @@ function main() {
   const rbacFacts: any[] = [];
   const triggers: any[] = [];
   const externalHooks: any[] = [];
+  const pubsubEventRoutes: any[] = [];
 
   const moduleByClass = new Map<string, string>();
 
@@ -276,11 +277,14 @@ function main() {
       } else if (
         fact.type === "external_hook" ||
         fact.type === "pubsub_topic" ||
+        fact.type === "pubsub_publish_call" ||
         fact.type === "http_or_client_path" ||
         fact.type === "environment_variable" ||
         fact.type === "storage_path"
       ) {
         externalHooks.push(fact);
+      } else if (fact.type === "pubsub_event_route") {
+        pubsubEventRoutes.push(fact);
       }
     }
   }
@@ -584,6 +588,15 @@ function main() {
     eventEndpoints.push({
       technology: tech,
       eventKey,
+      // Still honestly "not_implemented" from THIS join's perspective:
+      // matching a specific publisher's topic argument to the specific
+      // Pub/Sub push-subscription endpoint that receives it would require
+      // knowing the subscription's push config (topic -> endpoint URL
+      // binding), which isn't extracted anywhere -- there is no evidenced
+      // way to say "this publisher's messages end up at that receiver."
+      // See pubsubEventRoutingTable below for what IS now resolved: each
+      // receiver's OWN internal routing logic, independent of which
+      // publisher(s) feed it.
       eventSubscriberExtractionStatus: "not_implemented",
       resolvedEventRoutes: 0,
       publishersCount: data.publishers.length,
@@ -591,6 +604,40 @@ function main() {
       triggersCount: data.triggers.length,
       triggers: data.triggers,
       status: data.publishers.length > 0 && data.triggers.length === 0 ? "publisher_only" : "trigger_only",
+    });
+  }
+
+  // 5b. Pub/Sub Event Routing Table (per receiver, not joined to publishers)
+  // Each pubsub_event_route fact already only exists because its source
+  // handler was structurally confirmed as a Pub/Sub push receiver (see
+  // 01-extract-ast-evidence.ts's detectsPubSubPushEnvelope) -- so grouping
+  // by sourceHandler here is a receiver-side Event Routing Table per
+  // rules/00-global-synthesis-hierarchy.md Directive 5, distinct from (and
+  // not resolving) the publisher/trigger correlation gap noted just above.
+  const pubsubReceiverMap = new Map<string, { module: string; file: string; line: number; routes: any[] }>();
+  for (const route of pubsubEventRoutes) {
+    const key = `${route.module}|${route.sourceHandler}`;
+    const entry = pubsubReceiverMap.get(key) || { module: route.module, file: route.file, line: route.line, routes: [] as any[] };
+    entry.routes.push({
+      dataType: route.dataType,
+      dataTypeResolutionStatus: route.dataTypeResolutionStatus,
+      targetCallsCount: (route.targetCalls || []).length,
+      targetCalls: route.targetCalls || [],
+    });
+    pubsubReceiverMap.set(key, entry);
+  }
+
+  const pubsubEventRoutingTable: any[] = [];
+  for (const [key, data] of pubsubReceiverMap.entries()) {
+    const sourceHandler = key.split("|")[1];
+    pubsubEventRoutingTable.push({
+      module: data.module,
+      file: data.file,
+      line: data.line,
+      sourceHandler,
+      routesCount: data.routes.length,
+      resolvedRoutesCount: data.routes.filter(r => r.dataTypeResolutionStatus === "resolved").length,
+      routes: data.routes,
     });
   }
 
@@ -648,6 +695,7 @@ function main() {
   apiEntryPoints.sort((a, b) => a.id.localeCompare(b.id));
   firestoreSharedTouches.sort((a, b) => a.pathPattern.localeCompare(b.pathPattern));
   eventEndpoints.sort((a, b) => a.eventKey.localeCompare(b.eventKey));
+  pubsubEventRoutingTable.sort((a, b) => a.sourceHandler.localeCompare(b.sourceHandler));
   rbacRequirements.sort((a, b) => a.permission.localeCompare(b.permission));
 
   // 7. Notifications & Quality Calculation Sequence
@@ -729,6 +777,8 @@ function main() {
     firestorePathsWithoutOperationEvidence,
     eventEndpointsCount: eventEndpoints.length,
     unresolvedEventGroups,
+    pubsubReceiversCount: pubsubEventRoutingTable.length,
+    pubsubEventRoutesCount: pubsubEventRoutes.length,
   };
 
   const graphPayload = {
@@ -744,6 +794,7 @@ function main() {
     apiEntryPoints,
     firestoreSharedTouches,
     eventEndpoints,
+    pubsubEventRoutingTable,
     rbacRequirements,
   };
 
@@ -767,7 +818,8 @@ function main() {
   md += `- **API Entry Points**: ${apiEntryPoints.length}\n`;
   md += `- **RBAC Requirements**: ${rbacRequirements.length}\n`;
   md += `- **Shared Firestore Touch Points**: ${firestoreSharedTouches.length}\n`;
-  md += `- **Event Endpoints and Candidate Route Groups**: ${eventEndpoints.length}\n\n`;
+  md += `- **Event Endpoints and Candidate Route Groups**: ${eventEndpoints.length}\n`;
+  md += `- **Pub/Sub Receivers with Resolved Routing**: ${pubsubEventRoutingTable.length} (${pubsubEventRoutes.length} total routes)\n\n`;
 
   md += `> **Note**: Confirmed edges are backed by exact declaration or import identity. Probable edges use a unique constrained fallback. Ambiguous and unresolved evidence is retained separately.\n\n`;
 
@@ -831,6 +883,21 @@ function main() {
     md += `\n`;
   }
 
+  md += `## Pub/Sub Event Routing Table\n\n`;
+  md += `*Per-receiver internal routing only -- NOT joined to the publishers/triggers above (see note on that section): there is no evidenced link from a publisher's topic argument to the specific push-subscription endpoint that receives it.*\n\n`;
+  if (pubsubEventRoutingTable.length === 0) {
+    md += `*No Pub/Sub push-receiver routing detected.*\n\n`;
+  } else {
+    md += `| Module | Source Handler | Data Type | Resolution | Target Calls |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+    for (const receiver of pubsubEventRoutingTable) {
+      for (const route of receiver.routes) {
+        md += `| \`${receiver.module}\` | \`${receiver.sourceHandler}\` | \`${route.dataType ?? "unresolved"}\` | \`${route.dataTypeResolutionStatus}\` | ${route.targetCallsCount} |\n`;
+      }
+    }
+    md += `\n`;
+  }
+
   md += `## RBAC Requirements Matrix\n\n`;
   if (rbacRequirements.length === 0) {
     md += `*No RBAC requirements detected.*\n\n`;
@@ -857,6 +924,8 @@ function main() {
     rbacRequirements: rbacRequirements.length,
     sharedFirestoreTouches: firestoreSharedTouches.length,
     eventEndpoints: eventEndpoints.length,
+    pubsubReceivers: pubsubEventRoutingTable.length,
+    pubsubEventRoutes: pubsubEventRoutes.length,
   });
   console.log(`Wrote ${graphJsonPath}`);
   console.log(`Wrote ${matrixMdPath}`);

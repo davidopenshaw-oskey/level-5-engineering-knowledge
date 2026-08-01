@@ -257,6 +257,7 @@ function main() {
   const externalHooksFact = loadFactFile("ast-external-hooks.json");
   const apiContractsFact = loadFactFile("ast-api-contracts.json");
   const triggersFact = loadFactFile("ast-firestore-triggers.json");
+  const pubsubEventRoutesFact = loadFactFile("ast-pubsub-event-routes.json");
 
   const modulesBaseDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
   fs.mkdirSync(modulesBaseDir, { recursive: true });
@@ -513,6 +514,25 @@ function main() {
       });
     }
 
+    // 12b. pubsub_event_route
+    for (const item of pubsubEventRoutesFact.filter(r => r.module === moduleName)) {
+      rawModuleFacts.push({
+        id: stableFactId({ type: "pubsub_event_route", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.sourceHandler, secondaryKey: `${item.dataType ?? "unresolved"}#${item.routeIndex}` }),
+        runId,
+        type: "pubsub_event_route",
+        repo: REPO_NAME,
+        module: moduleName,
+        file: item.path,
+        line: item.line,
+        value: `${item.sourceHandler}[${item.dataType}]`,
+        sourceHandler: item.sourceHandler,
+        dataType: item.dataType,
+        dataTypeResolutionStatus: item.dataTypeResolutionStatus,
+        targetCalls: item.targetCalls,
+        evidence: { ...item },
+      });
+    }
+
     // 13. type_alias
     for (const item of typeAliasesFact.filter(ta => ta.module === moduleName)) {
       rawModuleFacts.push({
@@ -618,9 +638,10 @@ function main() {
       calls: facts.filter(f => f.type === "call_expression").length,
       firestoreHints: facts.filter(f => f.type === "firestore_path_touched").length,
       permissionHints: facts.filter(f => f.type === "permission_required" || f.type === "permission_candidate" || f.type === "permission_error").length,
-      externalHooks: facts.filter(f => f.type === "external_hook" || f.type === "pubsub_topic" || f.type === "http_or_client_path" || f.type === "environment_variable" || f.type === "storage_path").length,
+      externalHooks: facts.filter(f => f.type === "external_hook" || f.type === "pubsub_topic" || f.type === "pubsub_publish_call" || f.type === "http_or_client_path" || f.type === "environment_variable" || f.type === "storage_path").length,
       firestoreTriggers: facts.filter(f => f.type === "firestore_trigger").length,
       apiContracts: facts.filter(f => f.type === "api_contract").length,
+      pubsubEventRoutes: facts.filter(f => f.type === "pubsub_event_route").length,
       services: services.length,
       controllers: controllers.length,
       facts: facts.length,
