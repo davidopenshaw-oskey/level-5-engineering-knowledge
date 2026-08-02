@@ -398,6 +398,15 @@ function main() {
         file: item.path,
         line: item.line,
         value: item.moduleSpecifier,
+        // Promoted to top-level (not just nested in evidence) because the
+        // cross-module dependency graph (06-build-cross-module-dependency-
+        // graph.ts) reads these directly, and factsToCompactTable drops the
+        // evidence blob entirely when preparing LLM-facing prompt input --
+        // same reasoning as why `submodule` above is top-level, not
+        // evidence-only. See governance/roadmap/01-cross-module-dependency-graph.md.
+        resolvedTargetModule: item.resolvedTargetModule,
+        resolvedTargetSubmodule: item.resolvedTargetSubmodule,
+        importResolutionStatus: item.importResolutionStatus,
         evidence: { ...item },
       });
     }

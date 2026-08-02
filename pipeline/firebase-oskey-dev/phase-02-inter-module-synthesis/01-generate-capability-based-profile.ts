@@ -220,6 +220,16 @@ async function main() {
   const profileRelPath = path.join("engineering-profiles", `${MODULE_NAME}-engineering-profile.md`);
   const apiRefRelPath = path.join("apis", `${MODULE_NAME}-api-reference.md`);
 
+  // Deterministic cross-module dependency graph (06-build-cross-module-
+  // dependency-graph.ts) -- given ONLY to the reduce step, not each
+  // capability call. It's module-scoped (not submodule-scoped), so it
+  // doesn't map onto individual capability packs, and resending it to every
+  // one of N capability calls would just be repeated cost for no benefit --
+  // the reduce step is the one place doing whole-module-level synthesis
+  // anyway. See governance/roadmap/01-cross-module-dependency-graph.md.
+  const crossModuleDepsPath = path.join(moduleDir, "cross-module-dependencies.json");
+  const crossModuleDepsRaw = readRequiredFile(crossModuleDepsPath, `cross-module dependency graph for module '${MODULE_NAME}'`);
+
   const reduceSections: string[] = [];
   reduceSections.push(`## Supporting Contracts (persona, rules, output schema, task definition, reduce-specific reconciliation duties)`);
   for (const doc of moduleSynthesisDocs) {
@@ -229,6 +239,13 @@ async function main() {
   for (const doc of groundingDocs) {
     reduceSections.push(`### ${doc.relPath}\n\n${doc.content}`);
   }
+  reduceSections.push(
+    `## Cross-Module Dependency Graph (${MODULE_NAME}/cross-module-dependencies.json -- deterministic, derived from AST import ` +
+      `resolution, NOT LLM inference)\n\n` +
+      `Every entry below is **Confirmed** -- report inbound and outbound relationships from this graph as Confirmed, not Inferred. ` +
+      `No capability output above can see inbound coupling on its own (each only sees its own outbound imports) -- this graph is ` +
+      `the authoritative source for which OTHER modules depend on this one.\n\n\`\`\`json\n${crossModuleDepsRaw}\n\`\`\``
+  );
   reduceSections.push(moduleListSection);
   reduceSections.push(
     `## Generation Metadata (use these exact values verbatim -- do not copy them from within any capability output below, use these)\n\n` +

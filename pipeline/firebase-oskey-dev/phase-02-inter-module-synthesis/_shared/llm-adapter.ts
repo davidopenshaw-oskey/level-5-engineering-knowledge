@@ -1,19 +1,29 @@
-// **version:** 1.0.0
+// **version:** 1.1.0
 // **location:** level-5 phase 2 (shared)
 // © Oskey SAS. All rights reserved.
 //
-// Provider-agnostic LLM adapter. Deliberately built on native fetch against
-// each provider's REST API rather than pulling in three separate SDKs --
-// keeps this pipeline's dependency footprint minimal (consistent with using
-// ts-morph as effectively the only heavy dependency in Phase 1), and REST is
-// the lowest common denominator across providers, which matters for an
-// adapter whose whole purpose is running the SAME prompt against DIFFERENT
-// providers for evaluation.
+// Provider-agnostic LLM adapter. Anthropic and OpenAI are deliberately still
+// native fetch against their own REST APIs -- keeps the dependency footprint
+// minimal, and REST is the lowest common denominator, which matters for
+// providers (or local runners like LM Studio) that will never be reached
+// through Google's own infrastructure.
+//
+// Gemini is the one exception (2026-08-02): this pipeline is expected to
+// eventually run on Google's Gemini Enterprise Agent Platform (formerly
+// Vertex AI), where the recommended, actively-maintained path is Google's
+// own SDK (@google/genai) rather than hand-rolled fetch + a
+// gcloud-CLI-shell-out for the access token. @google-cloud/vertexai (the
+// older SDK) is deprecated (removal by June 2026); @google/genai supersedes
+// it and explicitly supports the Enterprise Agent Platform target. If/when
+// Anthropic access also moves through that platform's Model Garden, that is
+// a SEPARATE mechanism (a different publisher path with Anthropic's own
+// request shape, likely via Anthropic's own Vertex-flavored SDK) -- not
+// covered by this change, and not assumed here.
 //
 // Callers should never hardcode a provider -- always resolve an
 // LlmProviderConfig from config/llm-providers.json and pass it to callLlm().
 
-import { execSync } from "child_process";
+import { GoogleGenAI } from "@google/genai";
 
 export type LlmProviderName = "gemini" | "anthropic" | "openai";
 
@@ -90,33 +100,16 @@ function requireApiKey(config: LlmProviderConfig): string {
   return apiKey;
 }
 
-// Obtains a short-lived OAuth access token via Application Default
-// Credentials by shelling out to the gcloud CLI, rather than pulling in
-// google-auth-library -- consistent with this adapter's "native fetch, no
-// provider SDKs" design (see file header). Requires the caller to have
-// already run `gcloud auth application-default login` with an identity
-// that has Vertex AI access on the target project; this is deliberately
-// the SSO/enterprise-appropriate mechanism (as opposed to a Gemini API
-// key), and the same call also works unmodified against a service account
-// or Workload Identity Federation credential in CI/CD -- only the
-// credential source underneath ADC changes, not this code.
-function getVertexAccessToken(): string {
-  try {
-    const token = execSync("gcloud auth application-default print-access-token", {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
-    }).trim();
-    if (!token) throw new Error("empty token returned");
-    return token;
-  } catch (err: any) {
-    throw new Error(
-      `[Fail-Closed] Could not obtain a Vertex AI access token via 'gcloud auth application-default login' -- ` +
-        `run that command (with an identity that has Vertex AI access on the target GCP project) before calling Gemini. ` +
-        `Underlying error: ${err.message}`
-    );
-  }
-}
-
+// Uses @google/genai in "enterprise" mode (the current recommended flag --
+// the SDK also accepts the older `vertexai` name, but `enterprise` is what
+// its own type declarations recommend as of the Gemini Enterprise Agent
+// Platform rebrand). Authenticates via Application Default Credentials
+// in-process (google-auth-library, bundled with the SDK) -- no gcloud CLI
+// shell-out, no API key. Requires the caller to have already run `gcloud
+// auth application-default login` with an identity that has access on the
+// target project; the same code works unmodified against a service account
+// or Workload Identity Federation credential in CI/CD, only the credential
+// source underneath ADC changes.
 async function callGemini(prompt: string, config: LlmProviderConfig): Promise<LlmCallResult> {
   if (!config.projectId) {
     throw new Error(`[Fail-Closed] 'projectId' is required in config/llm-providers.json for Gemini (Vertex AI) calls (model '${config.model}').`);
@@ -125,39 +118,31 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
     throw new Error(`[Fail-Closed] 'location' is required in config/llm-providers.json for Gemini (Vertex AI) calls (model '${config.model}').`);
   }
 
-  const accessToken = getVertexAccessToken();
-  const url = `https://${config.location}-aiplatform.googleapis.com/v1/projects/${config.projectId}/locations/${config.location}/publishers/google/models/${config.model}:generateContent`;
-  const body = {
-    contents: [{ role: "user", parts: [{ text: prompt }] }],
-    generationConfig: {
-      maxOutputTokens: config.maxTokens ?? 8192,
-      temperature: config.temperature ?? 0.2,
-    },
-  };
+  const ai = new GoogleGenAI({ enterprise: true, project: config.projectId, location: config.location });
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify(body),
-  });
-
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`[LLM_CALL_FAILED] Gemini (Vertex AI) request failed (HTTP ${res.status}): ${errText.slice(0, 1000)}`);
+  let response;
+  try {
+    response = await ai.models.generateContent({
+      model: config.model,
+      contents: prompt,
+      config: {
+        maxOutputTokens: config.maxTokens ?? 8192,
+        temperature: config.temperature ?? 0.2,
+      },
+    });
+  } catch (err: any) {
+    throw new Error(`[LLM_CALL_FAILED] Gemini (Enterprise Agent Platform) request failed: ${err.message}`);
   }
 
-  const data: any = await res.json();
-  const text: string = (data?.candidates?.[0]?.content?.parts ?? []).map((p: any) => p.text ?? "").join("");
+  const finishReason = response.candidates?.[0]?.finishReason;
+  const text = response.text;
 
   // Fail closed on truncation -- see the matching check in callAnthropic for
   // why this can't be left to the empty-text branch below alone (a
   // MAX_TOKENS finish can still return non-empty, but incomplete, text).
-  if (data?.candidates?.[0]?.finishReason === "MAX_TOKENS" && text) {
+  if (finishReason === "MAX_TOKENS" && text) {
     throw new Error(
-      `[LLM_OUTPUT_TRUNCATED] Gemini (Vertex AI) response for model '${config.model}' was cut off (finishReason: MAX_TOKENS, ` +
+      `[LLM_OUTPUT_TRUNCATED] Gemini response for model '${config.model}' was cut off (finishReason: MAX_TOKENS, ` +
         `maxTokens configured: ${config.maxTokens ?? 8192}). Increase 'maxTokens' in config/llm-providers.json for this provider key.`
     );
   }
@@ -167,12 +152,11 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
     // "thinking" tokens (usageMetadata.thoughtsTokenCount) before producing
     // visible output -- an empty response with finishReason MAX_TOKENS
     // usually means maxTokens was too small for this model, not a failed
-    // call. Confirmed empirically 2026-08-01 while testing this endpoint.
-    const finishReason = data?.candidates?.[0]?.finishReason ?? "unknown";
+    // call. Confirmed empirically 2026-08-01 while testing the raw REST
+    // endpoint; unchanged by the SDK swap.
     throw new Error(
-      `[LLM_CALL_FAILED] Gemini (Vertex AI) response contained no text (finishReason: ${finishReason}). ` +
-        `If finishReason is MAX_TOKENS, this model likely spent its token budget on internal reasoning -- try increasing maxTokens. ` +
-        `Raw response (truncated): ${JSON.stringify(data).slice(0, 1000)}`
+      `[LLM_CALL_FAILED] Gemini response contained no text (finishReason: ${finishReason ?? "unknown"}). ` +
+        `If finishReason is MAX_TOKENS, this model likely spent its token budget on internal reasoning -- try increasing maxTokens.`
     );
   }
 
@@ -180,12 +164,12 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
     text,
     provider: "gemini",
     model: config.model,
-    raw: data,
+    raw: response,
     usage: {
-      inputTokens: data?.usageMetadata?.promptTokenCount,
-      outputTokens: data?.usageMetadata?.candidatesTokenCount,
+      inputTokens: response.usageMetadata?.promptTokenCount,
+      outputTokens: response.usageMetadata?.candidatesTokenCount,
     },
-    finishReason: data?.candidates?.[0]?.finishReason === "STOP" ? "stop" : "other",
+    finishReason: finishReason === "STOP" ? "stop" : "other",
   };
 }
 

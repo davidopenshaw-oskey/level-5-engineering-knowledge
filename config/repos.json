@@ -31,7 +31,6 @@
           "contractsRootBase": "pipelineRoot",
           "architecturalGroundingPaths": [
             "governance/reference-docs/Oskey Architecture.md",
-            "governance/reference-docs/OSkey Backend Services & Data Architecture.md",
             "governance/reference-docs/Oskey Personas and Authority models.md",
             "governance/reference-docs/firestore-schema.md",
             "governance/reference-docs/firestore.rules.txt",
@@ -50,7 +49,6 @@
           "contractsRootBase": "pipelineRoot",
           "architecturalGroundingPaths": [
             "governance/reference-docs/Oskey Architecture.md",
-            "governance/reference-docs/OSkey Backend Services & Data Architecture.md",
             "governance/reference-docs/Oskey Personas and Authority models.md",
             "governance/reference-docs/firestore-schema.md",
             "governance/reference-docs/firestore.rules.txt",

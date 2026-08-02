@@ -140,6 +140,14 @@ function main() {
   const evidenceGraphRaw = readRequiredFile(evidenceGraphPath, `evidence graph for module '${MODULE_NAME}'`);
   const evidenceGraph = JSON.parse(evidenceGraphRaw);
 
+  // --- Load the deterministic cross-module dependency graph (06-build-
+  // cross-module-dependency-graph.ts) -- gives this module's own evidence
+  // pack the INBOUND coupling it cannot see on its own (a module's own
+  // imports_dependency facts only show its outbound imports). See
+  // governance/roadmap/01-cross-module-dependency-graph.md.
+  const crossModuleDepsPath = path.join(repoOutputDir, "knowledge-pipeline", "modules", MODULE_NAME, "cross-module-dependencies.json");
+  const crossModuleDepsRaw = readRequiredFile(crossModuleDepsPath, `cross-module dependency graph for module '${MODULE_NAME}'`);
+
   // --- Load architectural grounding + supporting contract docs ---
   const clonePath = path.join(projectRoot, "output", "clones", REPO_NAME);
   const contractsRootAbs = resolveContractsRootAbs(projectRoot, clonePath, moduleProfileCfg);
@@ -204,6 +212,14 @@ function main() {
   );
 
   sharedSections.push(`## Target Module Evidence Graph (${MODULE_NAME}-evidence-graph.json)\n\n\`\`\`json\n${evidenceGraphRaw}\n\`\`\``);
+
+  sharedSections.push(
+    `## Cross-Module Dependency Graph (${MODULE_NAME}/cross-module-dependencies.json -- deterministic, derived from AST import ` +
+      `resolution, NOT LLM inference)\n\n` +
+      `Every entry below is **Confirmed** -- report inbound and outbound relationships from this graph as Confirmed, not Inferred. ` +
+      `This is the module's ONLY source of inbound coupling (who depends on it) -- its own evidence graph above only shows outbound ` +
+      `imports, by construction.\n\n\`\`\`json\n${crossModuleDepsRaw}\n\`\`\``
+  );
 
   const sharedContext = sharedSections.join("\n\n---\n\n");
 

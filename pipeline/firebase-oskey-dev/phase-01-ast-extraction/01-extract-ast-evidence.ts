@@ -540,6 +540,18 @@ function main() {
   console.log(`Manifest files: ${manifestFiles.length}`);
   console.log(`TS files selected: ${tsFiles.length}`);
 
+  // Repo-relative-path -> module/submodule lookup, built once from the same
+  // authoritative file->module classification 00-scan-repo.ts already
+  // computed for every file in the repo. Used below to resolve each import
+  // to a real target module deterministically (via ts-morph's own compiler
+  // resolution, not string-matching the import specifier), so that
+  // cross-module coupling (see governance/roadmap/01-cross-module-dependency-graph.md)
+  // can be built downstream without any further path-parsing guesswork.
+  const fileToModuleMap = new Map<string, { module: string; submodule: string | null }>();
+  for (const f of manifestFiles) {
+    fileToModuleMap.set(f.path, { module: f.module, submodule: f.submodule });
+  }
+
   const project = new Project({
     tsConfigFilePath: tsconfigPath,
     skipAddingFilesFromTsConfig: true,
@@ -629,12 +641,39 @@ function main() {
         const namedImports = imp.getNamedImports().map(n => n.getName());
         const isTypeOnly = imp.isTypeOnly();
 
+        // Resolve the import to its real target module deterministically,
+        // via ts-morph's own compiler resolution (handles both relative
+        // imports and @oskey/* tsconfig path aliases correctly) plus the
+        // same file->module classification 00-scan-repo.ts already computed
+        // -- not by string-matching moduleSpecifier ourselves. Feeds the
+        // cross-module dependency graph (see governance/roadmap/
+        // 01-cross-module-dependency-graph.md); has no effect on any
+        // existing fact type.
+        let resolvedTargetModule: string | null = null;
+        let resolvedTargetSubmodule: string | null = null;
+        let importResolutionStatus: "resolved_in_repo" | "resolved_outside_module_boundary" | "unresolved_by_compiler" = "unresolved_by_compiler";
+        const targetSf = imp.getModuleSpecifierSourceFile();
+        if (targetSf) {
+          const targetRepoPath = toRepoPath(targetSf.getFilePath(), clonePath);
+          const targetEntry = fileToModuleMap.get(targetRepoPath);
+          if (targetEntry?.module) {
+            resolvedTargetModule = targetEntry.module;
+            resolvedTargetSubmodule = targetEntry.submodule;
+            importResolutionStatus = "resolved_in_repo";
+          } else {
+            importResolutionStatus = "resolved_outside_module_boundary";
+          }
+        }
+
         rawImports.push({
           ...base,
           line: imp.getStartLineNumber(),
           moduleSpecifier,
           defaultImport: defaultImport || null,
           namedImports,
+          resolvedTargetModule,
+          resolvedTargetSubmodule,
+          importResolutionStatus,
           isTypeOnly,
         });
       }
