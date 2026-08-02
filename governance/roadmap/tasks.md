@@ -16,3 +16,4 @@
     - "governance/reference-docs/firestore.rules.txt",
     - "governance/reference-docs/firestore.indexes.json",
     - "governance/reference-docs/rbac-roles.json"
+13. When hitting limitations wit hthe rbac.json, a point to discuss is that maybe we should focus on the composite roles rather than the granular roles within the llms. each composite contains the add, edit, delete, list, view anyway.

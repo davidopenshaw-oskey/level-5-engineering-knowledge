@@ -101,6 +101,11 @@ The system operates on two distinct hierarchical authority chains:
                 - Owner Non Resident Tenant Co-Inhabitant (Inherits access scope from primary LLD tenant)
             - Owner Non Resident LCD (Temporary booking-centric access, PIN-only, no app installation or Mon Foyer participation)
 
+3.  The commercialTenant, commercialOwner, commercialStaff and commercialClient:
+    - inhabitant types or guests that exist on the roadmap
+    - no development has yet been started on these workflows or personas.
+    
+
 --------------------------------------------------------------------------------
 
 # Access Mechanisms & Onboarding Types

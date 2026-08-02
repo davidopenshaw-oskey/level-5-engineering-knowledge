@@ -64,41 +64,10 @@ A Unit is an individual apartment, office lot, commercial studio, or residential
 
 The Oskey platform distinguishes between users who interact with the physical hardware (ACDs), the client mobile applications, and the backend administrative portal (PGO). These personas dictate access permissions, invitations, and identity verification workflows.
 
-#### Inhabitant Personas
+#### Oskey Personas and Authority models
 
-ResidentAdmin: The primary tenant or ownerResident of a specific Unit, created inside the PGO by a Property Manager. A ResidentAdmin profile includes their assigned building, unit, authorized doors, legal name, phone number, and email. They hold administrative privileges over their specific unit, allowing them to invite co-inhabitants and manage guest access.
+The complete list of the Oskey Personas and Authority models and contained in the "Oskey Personas and Authority models.md" document.
 
-A Property Manager can also provision a non-app user who will receive a unique PIN code distributed manually by the PM.
-
-Resident: A secondary co-inhabitant of a Unit. Residents are invited directly into the ecosystem by a ResidentAdmin via the "Mon Foyer" (My Home) section of the mobile application. They enjoy permanent access rights matching the unit's boundary rules but lack primary structural administrative capabilities.
-
-A resident can be either an app-user or a non-app user that only has been issued a unique pincode
-
-ownerNonResidentAdmin: The owner of a specific Unit, created inside the PGO by a Property Manager. A residentOwnerAdmin profile includes their assigned building, unit, authorized doors, legal name, phone number, and email. They hold administrative privileges over their specific unit. THey differ slightly to a residentAdmin in that they can configure the unit specifically to their own tenants who are either LLD : Location Longue Durée (Long-Term Rental) and LCD : Location Courte Durée (Short-Term Rental). An LLD tenant will be on a long term contract. An LCD tenant would be a short term renter, suchas an airbnb type user.
-
-ownerNonResidentTenant: Added into a unit by a ownerNonResidentAdmin
-
-ownerNonResidentTenantCoInhabitant: Added into a unit by a ownerNonResidentTenant
-
-ownerNonResidentShortTermRental: An LCD tenant. They do not have permissions to add other resident types. They are managed as a non-app user. The ownerNonResidentAdmin will issue and share a unique pincode with the ownerNonResidentShortTermRental user.
-
-commercialTenant, commercialOwner, commercialStaff and commercialClient are inhabitant types or guests that exist on the roadmap, but no development has yet been started on.
-
-#### External & Visitor Personas
-
-Guest / Invited User: A temporary visitor (e.g., friends, family, dinner guests) invited by an inhabitant (ResidentAdmin or Resident) via the mobile app. They receive a time-bound invitation link to download the app, giving them secure entry capabilities via SecureBLE or a custom PIN for the duration of the scheduled event.
-
-Quickcode Recipient: Single-use or highly restricted entry interactions (e.g., delivery drivers). Inhabitants can generate a "Quickcode"—a unique, temporary PIN—from their mobile app and share it directly with the courier.
-
-#### Supplier: Third-party workers, delivery personnel, or maintenance staff
-
-They are added to the PGO by the Property Manager and receive unique PIN codes to grant building access without requiring the mobile application, functioning similarly to Non-App Users.
-
-#### Administrative Personas
-
-Organization User (PGO User): Internal property management and administrative staff.
-
-PGO SuperAdmin: A top-level enterprise user who can provision new property manager accounts, configure operational parameters within their Organization or Entity boundaries, and assign granular Role-Based Access Control (RBAC) permissions across various PGO software modules.
 
 ### The Inhabitant Lifecycle States
 
@@ -223,9 +192,57 @@ Oskey splits its persistence layer between Google Firestore and MongoDB to isola
 
 Firestore serves as the primary database for mobile applications and the PGO portal. It operates predominantly via Cloud Function queries and direct real-time document snapshots on the mobile apps. It maintains the definitive records for user accounts, unit structural configurations, lease timelines, and active security rules.
 
+Within Firestore, OSkey adopts the principles of Least Privilege and Client-Scoped Data Isolation (Security-First Design).
+
+Data duplication within Firestore is intentional. Rather than representing redundant storage, duplicated documents provide security boundaries and isolated views optimised for specific consumers.
+
+For example, OSkey Mobile App users interact only with data contained within their authorised /users hierarchy. They never directly access organisation, property or other tenant-owned collections.
+
+Firestore therefore represents the authoritative business data store for the platform.
+
+### Firestore as the System of Record
+
+Firestore is the authoritative source for business entities including:
+
+organisations
+buildings
+units
+users
+suppliers
+invitations
+access configuration
+business workflows
+
+Business services perform validation and orchestration against Firestore before any downstream systems are updated.
+
+
 ### MongoDB (Edge Device Mirror & Event Ingestion)
 
-MongoDB acts as the decoupled database layer engineered specifically for consumption by physical field hardware.
+MongoDB is not a second system of record.
+
+Instead, it acts as a projection database optimised for hardware communication.
+
+Access Controllers (ACDs), intercoms and other edge devices require a denormalised, hardware-friendly representation of access information.
+
+Relevant Firestore changes are transformed into hardware projections and synchronised into MongoDB.
+
+Hardware therefore consumes projections rather than authoritative business data.
+
+### Pub/Sub as the Synchronisation Backbone
+
+OSkey uses Pub/Sub to decouple business workflows from downstream processing.
+
+Business events generated from Firestore updates may publish messages for asynchronous processing.
+
+Consumers may include:
+
+hardware synchronisation
+activity aggregation
+notification processing
+audit updates
+projection generation
+
+This architecture allows business operations to complete independently of hardware or background processing.
 
 ### Hardware Read Path
 
@@ -255,9 +272,14 @@ Signaling and Gateway Framework: (Architectural Placeholder) A dedicated SIP/Web
 
 This section maps the operational execution paths of the Oskey platform, illustrating how cloud-native data models translate into immediate physical interactions at the building barrier.
 
-### Access & Authentication (The Door Unlocking Flow)
+### Access Orchestration Services (The Door Unlocking Flow)
 
-The platform supports both proximity-based cryptographic authentication and keypad-based alphanumeric credentialing.
+The platform has a central access-provisioning orchestration layer, conceptually separate from the modules that trigger it — no module grants or revokes physical access directly; they call into this layer instead.
+
+- Granting access triggers PIN generation, a denormalized dual-write access ledger optimized for both user-centric and building-centric reads (the Paired Document Pattern), and mobile BLE device-token issuance.
+- Every grant or revocation synchronizes to physical hardware asynchronously via Pub/Sub — the application publishes intended state rather than talking to devices directly, decoupling business logic from hardware/device availability (Event-Driven IoT pattern).
+- Architectural pattern: Orchestration Service (coordinates specialized services, owns no data of its own).
+
 
 #### SecureBLE Edge Verification (Mobile App Entry)
 
@@ -272,6 +294,24 @@ Cloud-First Generation: Static PIN codes (for regular visitors and suppliers) an
 Edge Synchronization: Once created, the cloud binds the alphanumeric string to a specific user entity and pushes the payload down through the GCP Pub/Sub and MongoDB pipeline to the designated building's ACDs.
 
 Offline Keypad Entry: When a user types an alphanumeric PIN or Quickcode into the physical keypad of an Intercom or Digicom, the device evaluates the string entirely offline against its internal cache. If a match is confirmed and the current timestamp falls within the code's valid window, the door relay fires instantly.
+
+### Identity & Secret Management
+
+The platform delegates identity verification to an external provider (Auth0) rather than managing credentials itself. Reconciling a login against the platform's own user records follows a three-path resolution: an already-linked identity resolves directly; an existing account discovered by matching email links the external identity to it; only if neither matches is a new account created. This migration-aware resolution order matters — a match should always be preferred over creating a duplicate identity.
+
+
+### File Upload Delegation
+
+File uploads (images, documents) follow a delegated-upload pattern: the backend issues a short-lived, permission-checked signed URL, and the client uploads directly to Google Cloud Storage rather than routing file bytes through the application layer. A completion trigger performs any necessary follow-up (e.g., recording the file's location). This offloads bandwidth-intensive transfer from application compute entirely.
+
+### Hardware Event Ingestion
+
+Physical-device-originated events (PIN attempts, door events, SecureBLE activity) arrive through a single Pub/Sub ingress point, not directly into Firestore — consistent with the platform's edge-activity principle (see Data Storage Philosophy) that edge devices never write authoritative records themselves. Before being persisted, a raw hardware event is enriched with business context (resolving the device/PIN/token into "who did what, where") so that what's stored is a meaningful activity record, not a bare hardware signal. Enrichment routes to per-actor activity logs and aggregates depending on who triggered the event (resident, staff, non-app user), and can trigger further cleanup workflows (e.g., single-use code consumption revoking itself after use).
+
+### Notification Delivery
+
+A single "notify this user" concept fans out across whichever physical channels are appropriate for the notification type (push, email, SMS) via a type-driven routing table — this decouples *what* to communicate from *how* it gets delivered, so adding a new notification type or channel doesn't require changing dispatch logic. Delivery failures self-heal: a channel token that repeatedly fails is assumed stale and pruned, preventing wasted delivery attempts. Non-production environments carry additional guardrails (e.g., outbound email/SMS restricted to approved domains or disabled entirely) to prevent test traffic reaching real users.
+
 
 ### User Onboarding & Invitations (App Users)
 
