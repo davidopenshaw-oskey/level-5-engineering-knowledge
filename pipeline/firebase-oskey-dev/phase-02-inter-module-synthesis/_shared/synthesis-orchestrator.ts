@@ -31,14 +31,28 @@ export function readRequiredFile(absPath: string, description: string): string {
  * model to emit. Fails closed (throws) if the expected markers aren't found
  * or don't cover the expected output paths, rather than silently writing a
  * malformed or partial document. The closing ===END FILE=== marker is
- * REQUIRED, not optional -- a response truncated by hitting maxTokens ends
+ * REQUIRED by default -- a response truncated by hitting maxTokens ends
  * mid-content with no closing marker, and matching to end-of-string as a
- * fallback (the previous behavior here) silently accepts that truncated
- * text as if it were the complete document. Confirmed empirically 2026-08-01:
- * every capability-synthesis and reduce call in the first `building` test
- * run was truncated this way and went undetected until a manual tail-check
- * of the written files. */
-export function splitMarkedFiles(responseText: string, expectedPaths: string[]): Map<string, string> {
+ * fallback silently accepts that truncated text as if it were the complete
+ * document. Confirmed empirically 2026-08-01: every capability-synthesis and
+ * reduce call in the first `building` test run was truncated this way and
+ * went undetected until a manual tail-check of the written files.
+ *
+ * `finishReason` (from LlmCallResult) gates a narrow, verified-safe
+ * exception to that rule: when the provider itself confirms the model
+ * finished naturally ("stop", not a truncation), AND there is exactly one
+ * expected path (so there's no ambiguity about where one file's content
+ * ends and the next begins), a missing closing marker is treated as the
+ * model simply omitting it rather than as truncation, and the response is
+ * accepted up to end-of-string. Added 2026-08-02: Gemini 2.5 Pro reliably
+ * finishes with finishReason STOP but does not reliably emit our instructed
+ * ===END FILE=== marker even on a fully complete, well-formed response --
+ * confirmed by inspecting a raw-parse-failure dump that contained a complete
+ * 7-section capability synthesis with no truncation, just no closing marker.
+ * Without this exception every Gemini call would fail closed permanently,
+ * which is not the right tradeoff once truncation is independently ruled out
+ * by the provider's own finish signal. */
+export function splitMarkedFiles(responseText: string, expectedPaths: string[], finishReason?: "stop" | "other"): Map<string, string> {
   const filePattern = /===FILE:\s*(.+?)\s*===\r?\n([\s\S]*?)\r?\n===END FILE===/g;
   const found = new Map<string, string>();
   let match: RegExpExecArray | null;
@@ -46,6 +60,14 @@ export function splitMarkedFiles(responseText: string, expectedPaths: string[]):
     const filePath = match[1].trim();
     const content = match[2].trim();
     found.set(filePath, content);
+  }
+
+  if (found.size === 0 && finishReason === "stop" && expectedPaths.length === 1) {
+    const lenientPattern = /===FILE:\s*(.+?)\s*===\r?\n([\s\S]*)$/;
+    const lenientMatch = lenientPattern.exec(responseText);
+    if (lenientMatch && lenientMatch[1].trim() === expectedPaths[0]) {
+      found.set(lenientMatch[1].trim(), lenientMatch[2].trim());
+    }
   }
 
   const missing = expectedPaths.filter(p => !found.has(p));
@@ -136,7 +158,23 @@ export async function runDocumentCalls(
         { contextLabel, kind: spec.kind, usage: result.usage }
       );
 
-      const files = splitMarkedFiles(result.text, [spec.relPath]);
+      let files: Map<string, string>;
+      try {
+        files = splitMarkedFiles(result.text, [spec.relPath], result.finishReason);
+      } catch (parseErr: any) {
+        // Dump the raw response before re-throwing -- without this, a
+        // parse failure gives no way to see what the model actually
+        // returned (wrong marker format, wrapped in a code fence,
+        // conversational preamble, etc.) without spending another call
+        // just to look. Confirmed needed 2026-08-02: Gemini's response for
+        // this same contract produced zero markers, cause unknown without
+        // the raw text.
+        const rawDumpPath = path.join(outputDocsDir, `${spec.relPath}.raw-parse-failed.txt`);
+        fs.mkdirSync(path.dirname(rawDumpPath), { recursive: true });
+        fs.writeFileSync(rawDumpPath, result.text, "utf8");
+        console.error(`Raw response dumped for inspection: ${rawDumpPath}`);
+        throw parseErr;
+      }
       const content = files.get(spec.relPath)!;
       const outPath = path.join(outputDocsDir, spec.relPath);
       fs.mkdirSync(path.dirname(outPath), { recursive: true });

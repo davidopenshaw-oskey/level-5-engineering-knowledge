@@ -11,3 +11,8 @@
 9. `maxTokens: 65536` for `claude-default` (config/llm-providers.json) was set empirically 2026-08-01 by re-testing after a real truncation bug — confirmed sufficient for `tasks` and all of `building`'s calls, but not verified as a true ceiling for every possible call shape. If a future run throws `LLM_OUTPUT_TRUNCATED`, raise it further and re-verify by tail-checking output files, don't just suppress the error.
 10. Add prompt/context caching (e.g. Anthropic's `cache_control`) for the grounding + contract docs in `llm-adapter.ts` — every one of the 32 Anthropic calls made 2026-08-01 resent the same ~150-200K tokens of grounding/contract-doc content uncached, which is very likely the dominant cost driver behind the $10+ burned testing this pipeline, independent of the truncation-bug waste.
 11. Before implementing item 10: investigate whether Gemini (Vertex AI) and OpenAI also support context/prompt caching for the same supporting docs, and on what terms (API shape, minimum cacheable size, cache lifetime, cost model) — don't assume Anthropic's mechanism generalizes across all three providers in `llm-adapter.ts`.
+12. We should think about the following files soon. They need to be dynamic. Looking at them, they might come out of the repo once its cloned. Maybe the schema comes from a script, the rbacs need to discuss
+    - "governance/reference-docs/firestore-schema.md",
+    - "governance/reference-docs/firestore.rules.txt",
+    - "governance/reference-docs/firestore.indexes.json",
+    - "governance/reference-docs/rbac-roles.json"

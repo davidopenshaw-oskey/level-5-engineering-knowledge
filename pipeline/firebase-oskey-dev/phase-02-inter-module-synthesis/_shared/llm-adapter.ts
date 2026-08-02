@@ -43,6 +43,17 @@ export interface LlmCallResult {
     inputTokens?: number;
     outputTokens?: number;
   };
+  // Normalized across providers. "stop" means the model finished naturally
+  // (Anthropic end_turn / Gemini STOP / OpenAI stop) -- by the time this is
+  // returned, "max_tokens" truncation has ALREADY been thrown on above, so
+  // "stop" here specifically means "the model itself decided it was done,"
+  // not "the response is definitely well-formed." "other" covers anything
+  // else (content-filter stops, tool_use, unexpected values) -- callers
+  // should NOT treat an "other" finish as safe to complete via a lenient
+  // fallback. Added because Gemini reliably finishes with STOP but doesn't
+  // reliably emit our instructed closing ===END FILE=== marker even on a
+  // fully complete response -- confirmed empirically 2026-08-02.
+  finishReason: "stop" | "other";
 }
 
 export async function callLlm(prompt: string, config: LlmProviderConfig): Promise<LlmCallResult> {
@@ -174,6 +185,7 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
       inputTokens: data?.usageMetadata?.promptTokenCount,
       outputTokens: data?.usageMetadata?.candidatesTokenCount,
     },
+    finishReason: data?.candidates?.[0]?.finishReason === "STOP" ? "stop" : "other",
   };
 }
 
@@ -238,6 +250,7 @@ async function callAnthropic(prompt: string, config: LlmProviderConfig, apiKey: 
       inputTokens: data?.usage?.input_tokens,
       outputTokens: data?.usage?.output_tokens,
     },
+    finishReason: data?.stop_reason === "end_turn" ? "stop" : "other",
   };
 }
 
@@ -289,5 +302,6 @@ async function callOpenAI(prompt: string, config: LlmProviderConfig, apiKey: str
       inputTokens: data?.usage?.prompt_tokens,
       outputTokens: data?.usage?.completion_tokens,
     },
+    finishReason: data?.choices?.[0]?.finish_reason === "stop" ? "stop" : "other",
   };
 }
