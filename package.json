@@ -6,7 +6,7 @@
     "typescript": "^6.0.3"
   },
   "scripts": {
-    "pipeline:firebase": "export REPO_NAME=firebase-oskey-dev && npm run cloud:00-scan-repo && npm run cloud:01-extract-ast && npm run cloud:02-build-evidence && npm run cloud:03-build-benchmark && npm run cloud:04-build-resolved-graph && npm run cloud:05-partition-capability-packs && npm run cloud:06-build-cross-module-dependency-graph",
+    "pipeline:firebase": "export REPO_NAME=firebase-oskey-dev && npm run cloud:00-scan-repo && npm run cloud:01-extract-ast && npm run cloud:02-build-evidence && npm run cloud:03-build-benchmark && npm run cloud:04-build-resolved-graph && npm run cloud:05-partition-capability-packs && npm run cloud:06-build-cross-module-dependency-graph && npm run cloud:07-build-intra-module-coupling-graph",
     "cloud:00-scan-repo": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/00-scan-repo.ts",
     "cloud:01-extract-ast": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/01-extract-ast-evidence.ts",
     "cloud:02-build-evidence": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/02-build-module-evidence.ts",
@@ -14,6 +14,7 @@
     "cloud:04-build-resolved-graph": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/04-build-resolved-graph.ts",
     "cloud:05-partition-capability-packs": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/05-partition-capability-packs.ts",
     "cloud:06-build-cross-module-dependency-graph": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/06-build-cross-module-dependency-graph.ts",
+    "cloud:07-build-intra-module-coupling-graph": "node -r ts-node/register pipeline/firebase-oskey-dev/phase-01-ast-extraction/07-build-intra-module-coupling-graph.ts",
     "synthesize:cross-repo": "node -r ts-node/register pipeline/cross-repo-synthesis/phase-03-ecosystem-topology/06-build-cross-repo-graph.ts"
   },
   "dependencies": {

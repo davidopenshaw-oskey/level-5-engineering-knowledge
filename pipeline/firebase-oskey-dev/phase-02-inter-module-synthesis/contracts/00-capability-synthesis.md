@@ -56,7 +56,7 @@ One or two sentences: what does this capability do, within the module. Confidenc
 Every distinct responsibility/feature this capability provides, each with its own confidence tag. Preserve specific engineering terms (method names, Firestore paths, permission strings) exactly as they appear in evidence — do not compress `deleteBuildingPincodeAndMoveToTrash` into "delete operation."
 
 ### 3. Public Interfaces
-API contracts (`api_contract` facts) and Firestore triggers owned by this capability, if any. Request/response schemas: `requestType`/`responseType` are bare type names, not expanded field lists (see ADR-002) — cross-reference `model_property` facts by `parentName` to build an actual schema; if none match, say so rather than presenting the bare name as if it were a schema.
+API contracts (`api_contract` facts) and Firestore triggers owned by this capability, if any. Request/response schemas: `requestType`/`responseType` are full type expressions, not expanded field lists (see ADR-002). **A "Resolved API Request/Response Schemas" section is provided in the task message, scoped to this capability's own pack — use it directly, do not re-derive the join yourself.** If an endpoint's type isn't listed there, no `model_property` facts matched within this pack — say so rather than presenting the bare type expression as if it were a schema.
 
 ### 4. Data Ownership
 Firestore paths this capability's facts show being touched, with confidence/operation-detection-scope preserved exactly as tagged on the fact.

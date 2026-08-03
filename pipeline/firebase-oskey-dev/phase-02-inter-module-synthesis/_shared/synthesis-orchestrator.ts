@@ -144,7 +144,7 @@ export async function runDocumentCalls(
         "info",
         "SYNTHESIS_LLM_CALL_STARTED",
         `Calling LLM provider '${llmConfig.provider}' (model '${llmConfig.model}') for '${contextLabel}' (${spec.kind}).`,
-        { contextLabel, kind: spec.kind, provider: llmConfig.provider, model: llmConfig.model }
+        { contextLabel, kind: spec.kind, provider: llmConfig.provider, model: llmConfig.model, file: spec.relPath }
       );
 
       const result = await callLlm(spec.prompt, llmConfig);
@@ -155,7 +155,7 @@ export async function runDocumentCalls(
         "info",
         "SYNTHESIS_LLM_CALL_COMPLETED",
         `LLM call completed for '${contextLabel}' (${spec.kind}).`,
-        { contextLabel, kind: spec.kind, usage: result.usage }
+        { contextLabel, kind: spec.kind, usage: result.usage, file: spec.relPath }
       );
 
       let files: Map<string, string>;

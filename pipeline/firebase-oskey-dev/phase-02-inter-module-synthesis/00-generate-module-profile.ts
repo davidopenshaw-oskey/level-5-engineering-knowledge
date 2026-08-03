@@ -50,6 +50,11 @@ import {
   runDocumentCalls,
   DocumentCallSpec,
 } from "./_shared/synthesis-orchestrator";
+import { flattenRbacRoles } from "./_shared/rbac-flatten";
+import { resolveApiSchemas, formatResolvedApiSchemas } from "./_shared/api-schema-resolver";
+import { filterCallEdgesForModule, formatCallEdges } from "./_shared/call-edges";
+import { computeOwnershipHints, formatOwnershipHints } from "./_shared/ownership-hints";
+import { validateCitations, formatCitationValidation } from "./_shared/citation-validator";
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-00-run-module-profile";
@@ -148,11 +153,37 @@ function main() {
   const crossModuleDepsPath = path.join(repoOutputDir, "knowledge-pipeline", "modules", MODULE_NAME, "cross-module-dependencies.json");
   const crossModuleDepsRaw = readRequiredFile(crossModuleDepsPath, `cross-module dependency graph for module '${MODULE_NAME}'`);
 
+  // Same reasoning, one level down: deterministic intra-module (cross-
+  // submodule) coupling (07-build-intra-module-coupling-graph.ts).
+  const intraModuleCouplingPath = path.join(repoOutputDir, "knowledge-pipeline", "modules", MODULE_NAME, "intra-module-coupling.json");
+  const intraModuleCouplingRaw = readRequiredFile(intraModuleCouplingPath, `intra-module coupling graph for module '${MODULE_NAME}'`);
+
+  // Repo-wide resolved cross-module CALL edges (04-build-resolved-graph.ts)
+  // -- built since Phase 1.75, never previously fed to P2 at all (found
+  // during the Stage 3 audit). Complements the import-based cross-module
+  // dependency graph above with method-level specificity: not just "module
+  // A imports from module B" but "module A calls method M of class C in
+  // module B". See governance/roadmap/02-structural-narrative-synthesis-
+  // tiers.md Stage 3.
+  const resolvedGraphPath = path.join(repoOutputDir, "knowledge-pipeline", "resolved-engineering-graph.json");
+  const resolvedGraph = JSON.parse(readRequiredFile(resolvedGraphPath, "repo-wide resolved engineering graph"));
+  const callEdgesForModule = filterCallEdgesForModule(resolvedGraph, MODULE_NAME);
+
   // --- Load architectural grounding + supporting contract docs ---
   const clonePath = path.join(projectRoot, "output", "clones", REPO_NAME);
   const contractsRootAbs = resolveContractsRootAbs(projectRoot, clonePath, moduleProfileCfg);
   const groundingDocs = loadDocs(contractsRootAbs, moduleProfileCfg.architecturalGroundingPaths, "architectural grounding doc");
   const contractDocs = loadDocs(contractsRootAbs, moduleProfileCfg.supportingContractPaths, "supporting contract doc");
+
+  // Flatten rbac-roles.json to its leaf permission strings + English
+  // descriptions only -- drops French and composite-role nesting that
+  // synthesis never uses. See _shared/rbac-flatten.ts and
+  // governance/roadmap/02-structural-narrative-synthesis-tiers.md Stage 3.
+  for (const doc of groundingDocs) {
+    if (doc.relPath.endsWith("rbac-roles.json")) {
+      doc.content = flattenRbacRoles(doc.content);
+    }
+  }
 
   // --- Output paths ---
   // Deliberately OUTSIDE /output (which is entirely gitignored -- it holds
@@ -213,12 +244,51 @@ function main() {
 
   sharedSections.push(`## Target Module Evidence Graph (${MODULE_NAME}-evidence-graph.json)\n\n\`\`\`json\n${evidenceGraphRaw}\n\`\`\``);
 
+  // Deterministic join of api_contract requestType/responseType against
+  // model_property facts -- use this directly for Section 7 (API Endpoints)
+  // rather than re-deriving the join yourself. See _shared/api-schema-
+  // resolver.ts and governance/roadmap/02-structural-narrative-synthesis-
+  // tiers.md Stage 3.
+  const resolvedApiSchemas = resolveApiSchemas(evidenceGraph.facts);
+  sharedSections.push(
+    `## Resolved API Request/Response Schemas (deterministic join, not narrative -- use this directly)\n\n` +
+      formatResolvedApiSchemas(resolvedApiSchemas)
+  );
+
   sharedSections.push(
     `## Cross-Module Dependency Graph (${MODULE_NAME}/cross-module-dependencies.json -- deterministic, derived from AST import ` +
       `resolution, NOT LLM inference)\n\n` +
       `Every entry below is **Confirmed** -- report inbound and outbound relationships from this graph as Confirmed, not Inferred. ` +
       `This is the module's ONLY source of inbound coupling (who depends on it) -- its own evidence graph above only shows outbound ` +
       `imports, by construction.\n\n\`\`\`json\n${crossModuleDepsRaw}\n\`\`\``
+  );
+
+  sharedSections.push(
+    `## Intra-Module Coupling Graph (${MODULE_NAME}/intra-module-coupling.json -- deterministic, derived from AST import resolution, ` +
+      `NOT LLM inference)\n\n` +
+      `Every entry below is **Confirmed** -- use this directly for Section 5 (Internal Structure)'s intra-module, cross-submodule ` +
+      `coupling discussion rather than reconstructing it yourself from raw imports_dependency facts.\n\n\`\`\`json\n${intraModuleCouplingRaw}\n\`\`\``
+  );
+
+  sharedSections.push(
+    `## Resolved Cross-Module Call Edges (deterministic, method-level -- from the compiler's own symbol resolution, NOT LLM inference)\n\n` +
+      `More specific than the Cross-Module Dependency Graph above: not just "depends on module X" but the exact class/method called. ` +
+      `Use this for Section 10 (Cross-Module Relationships) and Section 12 (Architectural Observations) where the specific method ` +
+      `matters (e.g. distinguishing a read call from a write/orchestration call). Report entries as **Confirmed** or per their own ` +
+      `listed confidence.\n\n${formatCallEdges(callEdgesForModule)}`
+  );
+
+  // Firestore/data ownership HINT, not a label -- a class called into by
+  // many other submodules/modules is LIKELY the true owner of whatever
+  // data it manages, but this is a signal for Section 6, not an automated
+  // verdict. See _shared/ownership-hints.ts and governance/roadmap/
+  // 02-structural-narrative-synthesis-tiers.md Stage 3.
+  const ownershipHints = computeOwnershipHints(evidenceGraph.facts, MODULE_NAME, resolvedGraph);
+  sharedSections.push(
+    `## Data Ownership Hints (deterministic SIGNAL, not a label -- for Section 6 Firestore & Data Ownership)\n\n` +
+      `A class called into by multiple other submodules/modules is likely the true owner of whatever data it manages -- but this is ` +
+      `a hint for your judgment, not an automated verdict. Do not present it as Confirmed ownership on its own; combine it with the ` +
+      `class's own evidenced Firestore paths.\n\n${formatOwnershipHints(ownershipHints)}`
   );
 
   const sharedContext = sharedSections.join("\n\n---\n\n");
@@ -253,7 +323,36 @@ function main() {
   ];
 
   return runDocumentCalls(specs, llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}'`)
-    .then(() => {
+    .then(written => {
+      // Generate-then-verify citation check (Stage 3, adr-004.md) -- the
+      // LLM still writes citations as it always has; this only checks
+      // AFTER generation that cited files/lines actually exist in this
+      // module's own evidence, catching fabrication without pretending to
+      // replace the citation itself.
+      for (const [relPath, content] of written.entries()) {
+        const validation = validateCitations(content, evidenceGraph.facts);
+        if (validation.fileNotFound.length > 0) {
+          addNotification(
+            notifications,
+            SOURCE_SCRIPT,
+            "warning",
+            "CITATION_FILE_NOT_FOUND",
+            `${relPath}: ${validation.fileNotFound.length} citation(s) reference a file not found anywhere in module '${MODULE_NAME}''s evidence -- likely fabricated.`,
+            { module: MODULE_NAME, relPath, file: relPath, details: formatCitationValidation(validation) },
+            true
+          );
+        } else if (validation.totalCitations > 0) {
+          addNotification(
+            notifications,
+            SOURCE_SCRIPT,
+            "info",
+            "CITATION_VALIDATION_PASSED",
+            `${relPath}: ${validation.totalCitations} citation(s) checked, ${validation.verified} verified, ${validation.lineUnverified.length} line-unverified (weak signal), 0 file-not-found.`,
+            { module: MODULE_NAME, relPath, file: relPath }
+          );
+        }
+      }
+
       addNotification(
         notifications,
         SOURCE_SCRIPT,

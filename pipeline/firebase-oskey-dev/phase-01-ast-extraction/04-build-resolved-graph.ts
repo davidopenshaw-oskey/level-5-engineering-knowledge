@@ -289,9 +289,21 @@ function main() {
     }
   }
 
-  // Fast service method lookup index by exact declaration file & method name
+  // Combined candidate pool for call resolution -- previously this was
+  // serviceMethods only, meaning any call into a Controller class (very
+  // common in this codebase for Firestore-mediated access, e.g.
+  // OSKBuildingAccessesController) was invisible to Rule A/B/C entirely and
+  // fell through to non_graph_call/unresolved, for BOTH cross-module and
+  // intra-module resolution. Found 2026-08-02 investigating why a known
+  // real intra-module coupling case (building_door calling into
+  // building_accesses' controller) didn't show up in the new intra-module
+  // edges. Purely additive -- serviceMethods/controllerMethods themselves
+  // are unchanged, this is just a bigger candidate list for matching.
+  const resolvableMethods = [...serviceMethods, ...controllerMethods];
+
+  // Fast lookup index by exact declaration file & method name
   const serviceByFileMethod = new Map<string, any[]>();
-  for (const s of serviceMethods) {
+  for (const s of resolvableMethods) {
     const key = `${s.file}::${s.method || s.symbol}`;
     const list = serviceByFileMethod.get(key) || [];
     list.push(s);
@@ -301,6 +313,15 @@ function main() {
   const confirmedCallEdges: any[] = [];
   const probableCallEdges: any[] = [];
   const unresolvedCallEdges: any[] = [];
+  // Same-module, different-submodule call edges -- previously discarded
+  // entirely (only counted via sameModuleServiceCalls below), added
+  // 2026-08-02 to give the intra-module coupling story (see
+  // governance/roadmap/02-structural-narrative-synthesis-tiers.md Stage 3)
+  // method-level specificity the same way confirmedCallEdges/
+  // probableCallEdges already do for cross-module coupling. Does not
+  // change any existing array's population -- purely additive.
+  const confirmedIntraModuleCallEdges: any[] = [];
+  const probableIntraModuleCallEdges: any[] = [];
 
   let inputCallExpressions = allCalls.length;
   let graphEligibleCallExpressions = 0;
@@ -312,7 +333,7 @@ function main() {
 
   // 2. Cross-Module Service Call Resolution
   for (const call of allCalls) {
-    const eligibility = classifyCallEligibility(call, serviceMethods, moduleByClass);
+    const eligibility = classifyCallEligibility(call, resolvableMethods, moduleByClass);
 
     if (eligibility === "non_graph_call") {
       nonGraphCallExpressions += 1;
@@ -342,6 +363,28 @@ function main() {
       const target = compilerMatches[0];
       if (target.module === sourceModule) {
         sameModuleServiceCalls += 1;
+        // Genuine cross-submodule coupling within the same module -- see
+        // the new arrays' header comment above.
+        if (call.submodule && target.submodule && call.submodule !== target.submodule) {
+          confirmedIntraModuleCallEdges.push({
+            id: `intra_module_call_edge|${call.id}|${target.id}`,
+            module: sourceModule,
+            sourceSubmodule: call.submodule,
+            sourceFile,
+            sourceLine,
+            sourceContext,
+            targetSubmodule: target.submodule,
+            targetFile: target.file,
+            targetLine: target.line,
+            targetClass: target.className,
+            targetMethod: target.method || target.symbol,
+            evidenceCallText: calleeExpr,
+            resolutionMethod: "compiler_symbol",
+            confidence: "confirmed",
+            sourceCallFactId: call.id,
+            targetFactId: target.id,
+          });
+        }
         continue;
       }
 
@@ -389,7 +432,7 @@ function main() {
     if (invObj && declMethod) {
       const normObj = normalizeObjectOrClassName(invObj);
       if (normObj) {
-        heuristicCandidates = serviceMethods.filter(s => {
+        heuristicCandidates = resolvableMethods.filter(s => {
           const normClass = normalizeObjectOrClassName(s.className || "");
           return normClass === normObj && (s.method === declMethod || s.symbol === declMethod);
         });
@@ -431,8 +474,38 @@ function main() {
       continue;
     }
 
+    // Rule B-intra: same module, different submodule, unique heuristic
+    // match -- see confirmedIntraModuleCallEdges' header comment above.
+    // Only reached if Rule A and the cross-module Rule B above didn't
+    // already resolve this call, so it never double-processes a call.
+    const uniqueIntraModuleCandidates = heuristicCandidates.filter(
+      s => s.module === sourceModule && s.submodule && call.submodule && s.submodule !== call.submodule
+    );
+    if (uniqueIntraModuleCandidates.length === 1) {
+      const target = uniqueIntraModuleCandidates[0];
+      probableIntraModuleCallEdges.push({
+        id: `intra_module_call_edge|${call.id}|${target.id}`,
+        module: sourceModule,
+        sourceSubmodule: call.submodule,
+        sourceFile,
+        sourceLine,
+        sourceContext,
+        targetSubmodule: target.submodule,
+        targetFile: target.file,
+        targetLine: target.line,
+        targetClass: target.className,
+        targetMethod: target.method || target.symbol,
+        evidenceCallText: calleeExpr,
+        resolutionMethod: "unique_signature_heuristic",
+        confidence: "probable",
+        sourceCallFactId: call.id,
+        targetFactId: target.id,
+      });
+      continue;
+    }
+
     // Rule C: Unresolved Candidate Record
-    const distinctCandidates = (heuristicCandidates.length > 0 ? heuristicCandidates : serviceMethods.filter(s => s.method === declMethod || s.symbol === declMethod)).map(s => ({
+    const distinctCandidates = (heuristicCandidates.length > 0 ? heuristicCandidates : resolvableMethods.filter(s => s.method === declMethod || s.symbol === declMethod)).map(s => ({
       factId: s.id,
       module: s.module,
       file: s.file,
@@ -692,6 +765,8 @@ function main() {
   confirmedCallEdges.sort((a, b) => a.id.localeCompare(b.id));
   probableCallEdges.sort((a, b) => a.id.localeCompare(b.id));
   unresolvedCallEdges.sort((a, b) => a.id.localeCompare(b.id));
+  confirmedIntraModuleCallEdges.sort((a, b) => a.id.localeCompare(b.id));
+  probableIntraModuleCallEdges.sort((a, b) => a.id.localeCompare(b.id));
   apiEntryPoints.sort((a, b) => a.id.localeCompare(b.id));
   firestoreSharedTouches.sort((a, b) => a.pathPattern.localeCompare(b.pathPattern));
   eventEndpoints.sort((a, b) => a.eventKey.localeCompare(b.eventKey));
@@ -771,6 +846,8 @@ function main() {
     confirmedCrossModuleCalls: confirmedCallEdges.length,
     probableCrossModuleCalls: probableCallEdges.length,
     unresolvedCrossModuleCandidates: unresolvedCallEdges.length,
+    confirmedIntraModuleCalls: confirmedIntraModuleCallEdges.length,
+    probableIntraModuleCalls: probableIntraModuleCallEdges.length,
     apiEntryPointsCount: apiEntryPoints.length,
     rbacRequirementsCount: rbacRequirements.length,
     sharedFirestorePathsCount: firestoreSharedTouches.length,
@@ -791,6 +868,8 @@ function main() {
     confirmedCallEdges,
     probableCallEdges,
     unresolvedCallEdges,
+    confirmedIntraModuleCallEdges,
+    probableIntraModuleCallEdges,
     apiEntryPoints,
     firestoreSharedTouches,
     eventEndpoints,
@@ -815,6 +894,8 @@ function main() {
   md += `- **Confirmed Call Edges**: ${confirmedCallEdges.length}\n`;
   md += `- **Probable Call Edges**: ${probableCallEdges.length}\n`;
   md += `- **Unresolved Calls**: ${unresolvedCallEdges.length}\n`;
+  md += `- **Confirmed Intra-Module (Cross-Submodule) Call Edges**: ${confirmedIntraModuleCallEdges.length}\n`;
+  md += `- **Probable Intra-Module (Cross-Submodule) Call Edges**: ${probableIntraModuleCallEdges.length}\n`;
   md += `- **API Entry Points**: ${apiEntryPoints.length}\n`;
   md += `- **RBAC Requirements**: ${rbacRequirements.length}\n`;
   md += `- **Shared Firestore Touch Points**: ${firestoreSharedTouches.length}\n`;
@@ -920,6 +1001,8 @@ function main() {
     confirmedCallEdges: confirmedCallEdges.length,
     probableCallEdges: probableCallEdges.length,
     unresolvedCalls: unresolvedCallEdges.length,
+    confirmedIntraModuleCallEdges: confirmedIntraModuleCallEdges.length,
+    probableIntraModuleCallEdges: probableIntraModuleCallEdges.length,
     apiEntryPoints: apiEntryPoints.length,
     rbacRequirements: rbacRequirements.length,
     sharedFirestoreTouches: firestoreSharedTouches.length,
