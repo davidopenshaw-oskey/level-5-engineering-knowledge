@@ -1,6 +1,6 @@
 # Implementation Plan 02 — Structural/Narrative Synthesis Tiers
 
-**Status:** ✅ Stages 1-3 done 2026-08-02. **Paused 2026-08-02 before Stage 4** for an economics reassessment triggered by a real full-cost `building` run — see "Economics reassessment" section below. Resume there, not at Stage 4, when this picks back up.
+**Status:** ✅ Stages 1-3 done 2026-08-02. Paused 2026-08-02 before Stage 4 for an economics reassessment (see "Economics reassessment" section below) — that reassessment, plus two rounds of cross-model review, resolved into `03-token-economics-remediation-plan.md` on 2026-08-03. Resume Stage 4 planning only after Plan 03's Stage 3 (assembly experiment) has real results, since it reframes what Stage 4 needs to batch.
 **Created:** 2026-08-02
 
 *Third plan under the numbered-plan-file convention (see `00-capability-based-module-synthesis.md`, `01-cross-module-dependency-graph.md`). Work through one item at a time; check items off as `[x]` only once actually done and verified. See `governance/adrs/adr-004.md` for the decision this implements.*

@@ -33,6 +33,32 @@ import {
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "06-build-cross-module-dependency-graph";
 
+// governance/roadmap/03-token-economics-remediation-plan.md Stage 1: the full
+// per-import touchpoint list (file/line/importPath/namedImports for every
+// single resolved import behind a relationship) was measured against the
+// real `building` run and found to be a large, avoidable share of this
+// artifact's size -- e.g. one single outbound relationship carried 6 full
+// import records. The only consumer of this file is the P2 reduce step's
+// prompt (it's read as raw text and pasted in whole, never parsed field-by-
+// field downstream), and the reduce step's own instructions only need "this
+// relationship exists, report it as Confirmed" -- not every import line. Cap
+// the touchpoints actually included per relationship; keep the count exact.
+const MAX_SAMPLE_TOUCHPOINTS_PER_RELATIONSHIP = 3;
+
+// Field name stays `touchpoints` in both cases -- only add `touchpointCount`
+// when truncation actually happened. Verified against real data 2026-08-03:
+// without this, relationships that already had few touchpoints (the common
+// case for intra-module coupling) grew slightly from the added count field
+// with nothing removed to offset it. This keeps the untruncated case
+// byte-for-byte identical to before this fix.
+function summarizeTouchpoints(touchpoints: Touchpoint[]): { touchpoints: Touchpoint[]; touchpointCount?: number } {
+  const sample = touchpoints.slice(0, MAX_SAMPLE_TOUCHPOINTS_PER_RELATIONSHIP);
+  if (touchpoints.length > sample.length) {
+    return { touchpoints: sample, touchpointCount: touchpoints.length };
+  }
+  return { touchpoints: sample };
+}
+
 interface Touchpoint {
   file: string;
   line: number;
@@ -157,11 +183,11 @@ function main() {
 
     const outbound = Array.from(outboundTargets.entries())
       .sort((a, b) => a[0].localeCompare(b[0]))
-      .map(([targetModule, touchpoints]) => ({ targetModule, touchpoints }));
+      .map(([targetModule, touchpoints]) => ({ targetModule, ...summarizeTouchpoints(touchpoints) }));
 
     const inbound = Array.from(inboundSources.entries())
       .sort((a, b) => a[0].localeCompare(b[0]))
-      .map(([sourceModule, touchpoints]) => ({ sourceModule, touchpoints }));
+      .map(([sourceModule, touchpoints]) => ({ sourceModule, ...summarizeTouchpoints(touchpoints) }));
 
     const payload = {
       schemaVersion: "1.0.0",

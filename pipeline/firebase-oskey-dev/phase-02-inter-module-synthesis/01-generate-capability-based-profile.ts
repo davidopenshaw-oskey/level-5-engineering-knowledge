@@ -3,11 +3,24 @@
 // © Oskey SAS. All rights reserved.
 //
 // Script (Phase 2 / 01): Capability-Based Module Profile Runner.
-// Alternative to 00-generate-module-profile.ts for modules whose full
-// evidence graph doesn't fit in a single prompt (the `building` overflow
-// that motivated this whole design -- see governance/adrs/adr-003.md and
-// governance/roadmap/00-capability-based-module-synthesis.md). Instead of
-// one call over the whole evidence graph, this runs:
+//
+// Stage A (the per-capability loop below) is still valid and still used --
+// but as of 2026-08-11 (governance/roadmap/04-complete-repo-run-and-repo-
+// reports-plan.md Stage 1) it has its own standalone runner,
+// 01a-generate-capability-syntheses.ts, which shares the exact same
+// prompt-construction logic (_shared/capability-synthesis.ts) without also
+// paying for this script's Stage B below. Stage B here is RETIRED for new
+// work -- 01c-generate-assembly-first-profile.ts is the standard reduce/
+// assembly step now, validated by governance/roadmap/03-token-economics-
+// remediation-plan.md Stage 3 to produce the same document shape at lower
+// cost. Use 01a + 01c for new modules; this script's Stage B is kept only
+// as a historical/comparison baseline.
+//
+// Alternative to 00-generate-module-profile.ts (also retired) for modules
+// whose full evidence graph doesn't fit in a single prompt (the `building`
+// overflow that motivated this whole design -- see governance/adrs/
+// adr-003.md and governance/roadmap/00-capability-based-module-synthesis.md).
+// Instead of one call over the whole evidence graph, this runs:
 //
 //   capability packs (already partitioned by 05-partition-capability-packs.ts)
 //     -> one capability-synthesis call per pack (contracts/00-capability-synthesis.md)
@@ -33,7 +46,7 @@ import {
   runContextPath,
   factsToCompactTable,
 } from "../phase-01-ast-extraction/_shared/run-utils";
-import { LlmProviderConfig } from "./_shared/llm-adapter";
+import { LlmProviderConfig, CACHE_BREAKPOINT_MARKER } from "./_shared/llm-adapter";
 import {
   readRequiredFile,
   resolveContractsRootAbs,
@@ -192,17 +205,26 @@ async function main() {
     const resolvedApiSchemas = formatResolvedApiSchemas(resolveApiSchemas(pack.facts));
     const capRelPath = `${packName}.md`;
 
-    const capSections: string[] = [];
-    capSections.push(`## Supporting Contracts (persona, rules, output schema, task definition)`);
+    // Stable prefix (identical across all N capability calls for this
+    // module, this run) split from variable per-capability content -- see
+    // CACHE_BREAKPOINT_MARKER's comment in llm-adapter.ts. This is the
+    // confirmed dominant cost driver per governance/roadmap/03-token-
+    // economics-remediation-plan.md's real Stage 3 measurement: these N
+    // sequential calls all resend this identical block uncached today.
+    const stableSections: string[] = [];
+    stableSections.push(`You are performing capability-level synthesis for one capability inside one module. Follow the supporting contract documents below exactly.`);
+    stableSections.push(`## Supporting Contracts (persona, rules, output schema, task definition)`);
     for (const doc of capabilitySynthesisDocs) {
-      capSections.push(`### ${doc.relPath}\n\n${doc.content}`);
+      stableSections.push(`### ${doc.relPath}\n\n${doc.content}`);
     }
-    capSections.push(`## Architectural Grounding Documents`);
+    stableSections.push(`## Architectural Grounding Documents`);
     for (const doc of groundingDocs) {
-      capSections.push(`### ${doc.relPath}\n\n${doc.content}`);
+      stableSections.push(`### ${doc.relPath}\n\n${doc.content}`);
     }
-    capSections.push(moduleListSection);
-    capSections.push(
+    stableSections.push(moduleListSection);
+
+    const variableSections: string[] = [];
+    variableSections.push(
       `## Generation Metadata (use these exact values verbatim)\n\n` +
         `- runId: ${runId}\n` +
         `- generatedAt: ${pack.generatedAt}\n` +
@@ -213,21 +235,20 @@ async function main() {
         `- llmProvider: ${llmConfig.provider}\n` +
         `- llmModel: ${llmConfig.model}`
     );
-    capSections.push(`## Capability Evidence Pack (${packName}, ${pack.summary.factCount} facts, compact table encoding)\n\n${compactFacts}`);
-    capSections.push(
+    variableSections.push(`## Capability Evidence Pack (${packName}, ${pack.summary.factCount} facts, compact table encoding)\n\n${compactFacts}`);
+    variableSections.push(
       `## Resolved API Request/Response Schemas (deterministic join, not narrative -- use this directly)\n\n${resolvedApiSchemas}`
     );
-
-    const capabilityPrompt = [
-      `You are performing capability-level synthesis for one capability inside one module. Follow the supporting contract documents below exactly.`,
-      capSections.join("\n\n---\n\n"),
+    variableSections.push(
       `## Output Format (mandatory)\n\n` +
         `Produce exactly one file. Wrap it EXACTLY as follows, with no other text before, between, or after:\n\n` +
         `===FILE: ${capRelPath}===\n` +
         `<full content of the capability synthesis per the output schema>\n` +
         `===END FILE===\n\n` +
-        `Do not include any conversational preamble, explanation, or text outside this marked block.`,
-    ].join("\n\n---\n\n");
+        `Do not include any conversational preamble, explanation, or text outside this marked block.`
+    );
+
+    const capabilityPrompt = stableSections.join("\n\n---\n\n") + CACHE_BREAKPOINT_MARKER + variableSections.join("\n\n---\n\n");
 
     const spec: DocumentCallSpec = { relPath: capRelPath, prompt: capabilityPrompt, kind: `capability:${packName}` };
     const written = await runDocumentCalls(

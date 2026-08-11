@@ -19,6 +19,30 @@ import {
 
 const projectRoot = process.cwd();
 
+// governance/roadmap/03-token-economics-remediation-plan.md Stage 1: line
+// number is deliberately EXCLUDED from fact identity. A line-based ID means
+// any edit that shifts lines below it (e.g. inserting a comment) changes
+// every downstream fact's ID even though nothing semantic changed --
+// confirmed independently by two external models as the flaw that would
+// otherwise silently break any future incrementality/caching scheme built on
+// top of these IDs. `line` is still stored as its own top-level field on the
+// fact object (provenance), just no longer folded into the ID string. The
+// `input.line` parameter is intentionally unused below -- kept in the
+// signature so every call site's existing argument list stays valid.
+//
+// Removing line does reopen a real risk this file's own "Conflicting Identity
+// Guard" (below) was silently relying on: several fact types don't have a
+// primaryKey+secondaryKey that's guaranteed unique per file on its own (e.g.
+// the same Firestore path or permission string can legitimately be
+// referenced from multiple lines in one file; the same call expression with
+// the same arguments can legitimately appear more than once). For exactly
+// those fact types, callers pass `occurrenceOrdinal` -- the Nth time this
+// exact (type, file, primaryKey, secondaryKey) combination has been seen, in
+// source order. An ordinal is stable under line-shifting edits (inserting a
+// line elsewhere doesn't change how many times a pattern occurs, or in what
+// order); a raw line number is not. Fact types where the key is already
+// structurally unique per file (class names, type/enum names, etc.) don't
+// need one.
 function stableFactId(input: {
   type: string;
   repo: string;
@@ -28,12 +52,22 @@ function stableFactId(input: {
   primaryKey: string;
   secondaryKey?: string | null;
   sourceStart?: number | null;
+  occurrenceOrdinal?: number;
 }): string {
   const cleanPath = (input.file || "").replace(/\\/g, "/");
-  const lineStr = input.line !== null && input.line !== undefined ? String(input.line) : "1";
   const sec = input.secondaryKey ? `|${input.secondaryKey}` : "";
-  const start = input.sourceStart !== null && input.sourceStart !== undefined ? `|${input.sourceStart}` : "";
-  return `${input.type}|${input.module}|${cleanPath}|${lineStr}|${input.primaryKey}${sec}${start}`;
+  const ord = input.occurrenceOrdinal !== undefined ? `|#${input.occurrenceOrdinal}` : "";
+  return `${input.type}|${input.module}|${cleanPath}|${input.primaryKey}${sec}${ord}`;
+}
+
+// Per-module, per-(type|file|primaryKey|secondaryKey) occurrence counter for
+// the fact types that need an ordinal disambiguator (see stableFactId above).
+// Reset per module below, alongside rawModuleFacts.
+function nextOccurrenceOrdinal(counterMap: Map<string, number>, type: string, file: string, primaryKey: string, secondaryKey?: string | null): number {
+  const key = `${type}|${file}|${primaryKey}|${secondaryKey ?? ""}`;
+  const next = (counterMap.get(key) ?? 0) + 1;
+  counterMap.set(key, next);
+  return next;
 }
 
 interface ClassificationRules {
@@ -267,6 +301,7 @@ function main() {
     fs.mkdirSync(modDir, { recursive: true });
 
     const rawModuleFacts: any[] = [];
+    const occurrenceCounters = new Map<string, number>();
 
     // 1. source_file
     for (const item of filesFact.filter(f => f.module === moduleName)) {
@@ -307,7 +342,16 @@ function main() {
     for (const item of methodsFact.filter(m => m.module === moduleName)) {
       const factType = classifyMethod(item.className, classificationRules);
       rawModuleFacts.push({
-        id: stableFactId({ type: factType, repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.className, secondaryKey: item.methodName }),
+        id: stableFactId({
+          type: factType,
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.className,
+          secondaryKey: item.methodName,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, factType, item.path, item.className, item.methodName),
+        }),
         runId,
         type: factType,
         repo: REPO_NAME,
@@ -334,7 +378,15 @@ function main() {
     // 4. function_declaration
     for (const item of functionsFact.filter(f => f.module === moduleName)) {
       rawModuleFacts.push({
-        id: stableFactId({ type: "function_declaration", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.name }),
+        id: stableFactId({
+          type: "function_declaration",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.name,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "function_declaration", item.path, item.name),
+        }),
         runId,
         type: "function_declaration",
         repo: REPO_NAME,
@@ -351,6 +403,7 @@ function main() {
     // 5. call_expression (Composite key using caller, callee, and arguments)
     for (const item of callsFact.filter(c => c.module === moduleName)) {
       const argSig = Array.isArray(item.arguments) ? item.arguments.join(",") : "";
+      const callSecondaryKey = `${item.callerName || "anon"}|${argSig}`;
       rawModuleFacts.push({
         id: stableFactId({
           type: "call_expression",
@@ -359,7 +412,8 @@ function main() {
           file: item.path,
           line: item.line,
           primaryKey: item.expression,
-          secondaryKey: `${item.callerName || "anon"}|${argSig}`,
+          secondaryKey: callSecondaryKey,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "call_expression", item.path, item.expression, callSecondaryKey),
         }),
         runId,
         type: "call_expression",
@@ -389,7 +443,15 @@ function main() {
     // 6. imports_dependency
     for (const item of importsFact.filter(i => i.module === moduleName)) {
       rawModuleFacts.push({
-        id: stableFactId({ type: "imports_dependency", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.moduleSpecifier }),
+        id: stableFactId({
+          type: "imports_dependency",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.moduleSpecifier,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "imports_dependency", item.path, item.moduleSpecifier),
+        }),
         runId,
         type: "imports_dependency",
         repo: REPO_NAME,
@@ -415,7 +477,15 @@ function main() {
     for (const item of exportsFact.filter(e => e.module === moduleName)) {
       const val = item.moduleSpecifier || item.namedExports?.join(",") || "export";
       rawModuleFacts.push({
-        id: stableFactId({ type: "exported_symbol", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: val }),
+        id: stableFactId({
+          type: "exported_symbol",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: val,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "exported_symbol", item.path, val),
+        }),
         runId,
         type: "exported_symbol",
         repo: REPO_NAME,
@@ -430,8 +500,17 @@ function main() {
 
     // 8. firestore_path_touched
     for (const item of firestoreHintsFact.filter(fh => fh.module === moduleName)) {
+      const firestoreKey = item.value || item.path;
       rawModuleFacts.push({
-        id: stableFactId({ type: "firestore_path_touched", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.value || item.path }),
+        id: stableFactId({
+          type: "firestore_path_touched",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: firestoreKey,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "firestore_path_touched", item.path, firestoreKey),
+        }),
         runId,
         type: "firestore_path_touched",
         repo: REPO_NAME,
@@ -455,7 +534,15 @@ function main() {
       else if (item.confidence === "confirmed") pType = "permission_required";
 
       rawModuleFacts.push({
-        id: stableFactId({ type: pType, repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.permission }),
+        id: stableFactId({
+          type: pType,
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.permission,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, pType, item.path, item.permission),
+        }),
         runId,
         type: pType,
         repo: REPO_NAME,
@@ -480,7 +567,15 @@ function main() {
       else if (item.type === "http_or_client_path_candidate") hType = "http_or_client_path";
 
       rawModuleFacts.push({
-        id: stableFactId({ type: hType, repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.value }),
+        id: stableFactId({
+          type: hType,
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.value,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, hType, item.path, item.value),
+        }),
         runId,
         type: hType,
         repo: REPO_NAME,
@@ -496,7 +591,19 @@ function main() {
     // 11. firestore_trigger
     for (const item of triggersFact.filter(t => t.module === moduleName)) {
       rawModuleFacts.push({
-        id: stableFactId({ type: "firestore_trigger", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.firestorePath, secondaryKey: item.handlerName }),
+        id: stableFactId({
+          type: "firestore_trigger",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.firestorePath,
+          secondaryKey: item.handlerName,
+          // Verified necessary against real data 2026-08-03: multiple triggers
+          // with an unresolved firestorePath ("unknown") and the same handler
+          // name pattern legitimately collide in the same file without this.
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "firestore_trigger", item.path, item.firestorePath, item.handlerName),
+        }),
         runId,
         type: "firestore_trigger",
         repo: REPO_NAME,
@@ -516,7 +623,15 @@ function main() {
     // 12. api_contract
     for (const item of apiContractsFact.filter(a => a.module === moduleName)) {
       rawModuleFacts.push({
-        id: stableFactId({ type: "api_contract", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.handlerName || item.value }),
+        id: stableFactId({
+          type: "api_contract",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.handlerName || item.value,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "api_contract", item.path, item.handlerName || item.value),
+        }),
         runId,
         type: "api_contract",
         repo: REPO_NAME,
@@ -558,7 +673,15 @@ function main() {
     // 13. type_alias
     for (const item of typeAliasesFact.filter(ta => ta.module === moduleName)) {
       rawModuleFacts.push({
-        id: stableFactId({ type: "type_alias", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.name }),
+        id: stableFactId({
+          type: "type_alias",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.name,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "type_alias", item.path, item.name),
+        }),
         runId,
         type: "type_alias",
         repo: REPO_NAME,
@@ -574,7 +697,15 @@ function main() {
     // 14. enum_declaration
     for (const item of enumsFact.filter(e => e.module === moduleName)) {
       rawModuleFacts.push({
-        id: stableFactId({ type: "enum_declaration", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.name }),
+        id: stableFactId({
+          type: "enum_declaration",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.name,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "enum_declaration", item.path, item.name),
+        }),
         runId,
         type: "enum_declaration",
         repo: REPO_NAME,
@@ -590,7 +721,22 @@ function main() {
     // 15. model_property
     for (const item of modelPropsFact.filter(mp => mp.module === moduleName)) {
       rawModuleFacts.push({
-        id: stableFactId({ type: "model_property", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.parentName, secondaryKey: item.propertyName }),
+        id: stableFactId({
+          type: "model_property",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey: item.parentName,
+          secondaryKey: item.propertyName,
+          // Added defensively, not yet confirmed necessary against real data
+          // (unlike firestore_trigger below, which did collide): TS
+          // interface declaration merging allows the same parentName to be
+          // declared more than once in a file, each contributing
+          // properties, so parentName+propertyName alone isn't provably
+          // unique per file even though no real collision has been observed.
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "model_property", item.path, item.parentName, item.propertyName),
+        }),
         runId,
         type: "model_property",
         repo: REPO_NAME,

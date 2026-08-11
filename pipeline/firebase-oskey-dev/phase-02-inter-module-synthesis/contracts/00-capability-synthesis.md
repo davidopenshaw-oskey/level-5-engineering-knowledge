@@ -55,20 +55,32 @@ One or two sentences: what does this capability do, within the module. Confidenc
 ### 2. Primary Responsibilities
 Every distinct responsibility/feature this capability provides, each with its own confidence tag. Preserve specific engineering terms (method names, Firestore paths, permission strings) exactly as they appear in evidence — do not compress `deleteBuildingPincodeAndMoveToTrash` into "delete operation."
 
-### 3. Public Interfaces
+### 3. Public Interfaces (Controllers & Entry Points)
+Controllers, exported services, and other public entry points this capability exposes — the components, not their individual endpoints (those belong in Section 4). Named specifically (class/service names), not described generically.
+
+### 4. API Contracts & Firestore Triggers
 API contracts (`api_contract` facts) and Firestore triggers owned by this capability, if any. Request/response schemas: `requestType`/`responseType` are full type expressions, not expanded field lists (see ADR-002). **A "Resolved API Request/Response Schemas" section is provided in the task message, scoped to this capability's own pack — use it directly, do not re-derive the join yourself.** If an endpoint's type isn't listed there, no `model_property` facts matched within this pack — say so rather than presenting the bare type expression as if it were a schema.
 
-### 4. Data Ownership
+### 5. Data Ownership
 Firestore paths this capability's facts show being touched, with confidence/operation-detection-scope preserved exactly as tagged on the fact.
 
-### 5. Outbound Coupling
+### 6. Outbound Coupling
 Every other module/submodule this capability's `imports_dependency` facts show it depending on, named specifically, with the evidence (file, import path). Distinguish cross-module (imports a different top-level module) from intra-module cross-submodule coupling (imports a sibling submodule of the same module via the same `@oskey/<name>/<submodule>` pattern) — these are architecturally different things, don't conflate them.
 
-### 6. Permissions & Security
+### 7. Permissions & Security
 Permission strings referenced by this capability's evidence. Cross-check each against the supplied RBAC roles document; report any mismatch here, don't silently reconcile it.
 
-### 7. Open Questions
+### 8. External Hooks
+Candidate external boundaries evidenced within this capability's own pack: `external_hook`, `pubsub_topic`/`pubsub_publish_call`, `http_or_client_path`, `environment_variable`, `storage_path` facts. Distinguish confirmed integrations from architectural candidates, same as whole-module synthesis. If this capability's pack has none, say so briefly rather than omitting the section.
+
+### 9. Open Questions
 Missing evidence, uncertainty, anything you were tempted to guess at and didn't. List — do not resolve.
+
+---
+
+## Section-to-document mapping (for the calling script, not part of what you write)
+
+Sections 3, 4, 5, 7, and 8 are assembled directly into the final Module Engineering Profile's Sections 4, 7+8, 6, 9, and 11 respectively, by the calling script — not re-synthesized by the reduce step. Section 2 assembles into the final profile's Section 3. This is why the headers above must stay exact and in order: the assembly step parses them by heading text, not by re-reading your prose for meaning.
 
 ---
 

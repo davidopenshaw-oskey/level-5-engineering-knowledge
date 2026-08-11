@@ -1,14 +1,14 @@
 {
   "_note": "Verify each 'model' string against the provider's current model list before running -- these are placeholders and model IDs change independently of this config. Never put an API key value in this file; apiKeyEnvVar names the environment variable to read it from.",
   "_note_maxTokens": "8192 was empirically confirmed too small 2026-08-01: every capability-synthesis and reduce call in the first building test run hit it and was silently truncated (fixed now to fail closed instead -- see llm-adapter.ts's stop_reason/finishReason checks and synthesis-orchestrator.ts's splitMarkedFiles). Raised to 16384 as a first re-tested guess, not a verified ceiling -- if a future call still throws LLM_OUTPUT_TRUNCATED, raise further and re-test rather than assuming this value is enough for every call shape.",
-  "_note_gemini": "Gemini runs via Vertex AI (not the consumer Generative Language API), authenticated with ADC ('gcloud auth application-default login') rather than an API key -- reflects SSO/enterprise access, no apiKeyEnvVar needed or used for this provider. projectId/location verified working 2026-08-01 against dev-oskey-io under identity david.openshaw@oskey.io; us-central1 also confirmed working as a fallback if europe-west1 has an outage or access issue.",
+  "_note_gemini": "Gemini runs via Vertex AI (not the consumer Generative Language API), authenticated with ADC ('gcloud auth application-default login') rather than an API key -- reflects SSO/enterprise access, no apiKeyEnvVar needed or used for this provider. projectId/location verified working 2026-08-01 against dev-oskey-io under identity david.openshaw@oskey.io. Region matters for MODEL AVAILABILITY, not just uptime -- confirmed 2026-08-11 that europe-west1 only serves the 2.5 generation while us-central1 (and the 'global' endpoint) already serve 3.x models on this same project/identity. Check with a free ai.models.list() call before assuming a model doesn't exist just because one region 404s it.",
   "providers": {
     "gemini-default": {
-      "_note": "Temporarily on gemini-2.5-pro -- gemini-3.6-flash returned HTTP 404 'not found or your project does not have access to it' on this exact Vertex AI endpoint/project/region (2026-08-01). Error's own doc link pointed at gemini-enterprise-agent-platform, not classic Vertex AI, suggesting 3.6-flash may need a different product surface or explicit enablement. Not yet investigated further.",
+      "_note": "2026-08-11: CONFIRMED WORKING via a real generateContent call (module 'tasks', both capability-synthesis and connective-tissue calls succeeded end to end). us-central1 showed gemini-3.5-flash as catalog-visible (ai.models.list()/.get()) but generateContent 404'd there -- catalog visibility is NOT the same as generation entitlement per-region. 'global' has both catalog visibility AND real generation access for this model on this project/identity. If adding another 3.x model, verify generateContent specifically (not just .get()/.list()) before trusting it, and prefer 'global' over a specific region for the newer generation until region-by-region entitlement is otherwise confirmed.",
       "provider": "gemini",
-      "model": "gemini-2.5-pro",
-      "projectId": "dev-oskey-io",
-      "location": "europe-west1",
+      "model": "gemini-3.5-flash",
+      "projectId": "test-ai-oskey-io",
+      "location": "global",
       "maxTokens": 65536,
       "temperature": 0.2
     },

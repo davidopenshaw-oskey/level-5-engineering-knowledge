@@ -39,6 +39,28 @@ interface Touchpoint {
   namedImports: string[];
 }
 
+// governance/roadmap/03-token-economics-remediation-plan.md Stage 1: same fix
+// as 06-build-cross-module-dependency-graph.ts's summarizeTouchpoints -- the
+// full per-import touchpoint list is a large, avoidable share of this
+// artifact's size, and its only consumer (the P2 reduce step's prompt) only
+// needs "this coupling exists, report it as Confirmed," not every import
+// line. See that file's comment for the full reasoning.
+const MAX_SAMPLE_TOUCHPOINTS_PER_RELATIONSHIP = 3;
+
+// Field name stays `touchpoints` in both cases -- only add `touchpointCount`
+// when truncation actually happened. Verified against real data 2026-08-03:
+// without this, relationships that already had few touchpoints (the common
+// case here) grew slightly from the added count field with nothing removed
+// to offset it. This keeps the untruncated case byte-for-byte identical to
+// before this fix.
+function summarizeTouchpoints(touchpoints: Touchpoint[]): { touchpoints: Touchpoint[]; touchpointCount?: number } {
+  const sample = touchpoints.slice(0, MAX_SAMPLE_TOUCHPOINTS_PER_RELATIONSHIP);
+  if (touchpoints.length > sample.length) {
+    return { touchpoints: sample, touchpointCount: touchpoints.length };
+  }
+  return { touchpoints: sample };
+}
+
 interface ImportsDependencyFact {
   type: string;
   module: string;
@@ -148,10 +170,10 @@ function main() {
       submodulesPayload[submodule] = {
         outbound: Array.from(outboundTargets.entries())
           .sort((a, b) => a[0].localeCompare(b[0]))
-          .map(([targetSubmodule, touchpoints]) => ({ targetSubmodule, touchpoints })),
+          .map(([targetSubmodule, touchpoints]) => ({ targetSubmodule, ...summarizeTouchpoints(touchpoints) })),
         inbound: Array.from(inboundSources.entries())
           .sort((a, b) => a[0].localeCompare(b[0]))
-          .map(([sourceSubmodule, touchpoints]) => ({ sourceSubmodule, touchpoints })),
+          .map(([sourceSubmodule, touchpoints]) => ({ sourceSubmodule, ...summarizeTouchpoints(touchpoints) })),
       };
     }
 

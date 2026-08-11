@@ -29,11 +29,22 @@ export interface Citation {
   contextSnippet: string;
 }
 
+export type CitationStatus = "verified" | "line-unverified" | "file-not-found";
+
 export interface CitationValidationResult {
   totalCitations: number;
   fileNotFound: Citation[];
   lineUnverified: Citation[];
   verified: number;
+  // Decision A1 (governance/roadmap/phase 2-llm q&a/01 facts-vs-decisions-
+  // for-review.md): every citation this validation pass looked at, each
+  // tagged with its outcome -- not just the failures. Before this, a
+  // verified citation's content was discarded (only a count survived); a
+  // downstream consumer (a RAG retrieval layer indexing this document, or
+  // our own future invalidation work) had no structured record of which
+  // specific citations actually held up, only prose text buried in a log
+  // notification.
+  allCitations: Array<Citation & { status: CitationStatus }>;
 }
 
 // Two citation styles are both explicitly allowed by module-engineering-
@@ -116,12 +127,14 @@ export function validateCitations(text: string, facts: any[]): CitationValidatio
 
   const fileNotFound: Citation[] = [];
   const lineUnverified: Citation[] = [];
+  const allCitations: Array<Citation & { status: CitationStatus }> = [];
   let verified = 0;
 
   for (const citation of citations) {
     if (citation.kind === "fact-id") {
       if (factIdSet.has(citation.factId)) {
         verified += 1;
+        allCitations.push({ ...citation, status: "verified" });
         continue;
       }
       // Exact match failed -- try the abbreviation-tolerant fallback
@@ -144,8 +157,10 @@ export function validateCitations(text: string, facts: any[]): CitationValidatio
       });
       if (fuzzyMatch) {
         verified += 1;
+        allCitations.push({ ...citation, status: "verified" });
       } else {
         fileNotFound.push(citation);
+        allCitations.push({ ...citation, status: "file-not-found" });
       }
       continue;
     }
@@ -154,17 +169,20 @@ export function validateCitations(text: string, facts: any[]): CitationValidatio
     const knownLines = linesByBasename.get(citation.file) ?? linesByBasename.get(basename);
     if (!knownLines) {
       fileNotFound.push(citation);
+      allCitations.push({ ...citation, status: "file-not-found" });
       continue;
     }
     const anyLineMatches = citation.lineRanges.some(range => knownLines.some(line => line >= range.start && line <= range.end));
     if (anyLineMatches) {
       verified += 1;
+      allCitations.push({ ...citation, status: "verified" });
     } else {
       lineUnverified.push(citation);
+      allCitations.push({ ...citation, status: "line-unverified" });
     }
   }
 
-  return { totalCitations: citations.length, fileNotFound, lineUnverified, verified };
+  return { totalCitations: citations.length, fileNotFound, lineUnverified, verified, allCitations };
 }
 
 export function formatCitationValidation(result: CitationValidationResult): string {

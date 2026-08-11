@@ -3,6 +3,19 @@
 // © Oskey SAS. All rights reserved.
 //
 // Script (Phase 2 / 00): Module Engineering Profile Runner.
+//
+// RETIRED for new work (2026-08-11, governance/roadmap/
+// 04-complete-repo-run-and-repo-reports-plan.md Stage 1): every module,
+// regardless of size, now goes through 01a-generate-capability-syntheses.ts
+// + 01c-generate-assembly-first-profile.ts instead -- 05-partition-
+// capability-packs.ts already groups any facts without a real submodule
+// into a catch-all `_module_root` pack, so a small module produces exactly
+// one capability pack and goes through the same path as a large one, with
+// no separate single-call script needed. This file is kept only for
+// historical reference (some already-generated knowledge-corpus documents
+// were produced by it) and as a possible comparison baseline -- do not run
+// it against a new module.
+//
 // Assembles the module-profile task contract, rules, persona, output schema,
 // architectural grounding docs, and the target module's Phase 1 evidence
 // graph into a single prompt; calls a configurable LLM provider; splits the

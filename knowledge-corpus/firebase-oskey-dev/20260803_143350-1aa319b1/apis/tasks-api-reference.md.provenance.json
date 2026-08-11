@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260803_143350-1aa319b1/apis/tasks-api-reference.md",
+  "generatedAt": "2026-08-11T14:20:52.809Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "tasks",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [],
+  "citationSummary": {
+    "total": 0,
+    "verified": 0,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}
