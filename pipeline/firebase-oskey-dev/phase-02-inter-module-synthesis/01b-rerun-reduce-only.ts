@@ -244,7 +244,7 @@ async function main() {
   // shared knowledge-corpus path for this comparison exercise.
   const outputDocsDir = path.join(repoOutputDir, "llm-comparison", LLM_CONFIG_KEY);
 
-  const written = await runDocumentCalls(reduceSpecs, llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (reduce, comparison: ${LLM_CONFIG_KEY})`);
+  const written = await runDocumentCalls(reduceSpecs, llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (reduce, comparison: ${LLM_CONFIG_KEY})`, LLM_CONFIG_KEY);
 
   for (const [relPath, content] of written.entries()) {
     const validation = validateCitations(content, evidenceGraphForHints.facts);

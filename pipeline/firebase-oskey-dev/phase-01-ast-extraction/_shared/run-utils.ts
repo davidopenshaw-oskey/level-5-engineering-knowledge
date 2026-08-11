@@ -46,6 +46,17 @@ export function buildNotificationId(sourceScript: string, code: string, details?
     details?.file ? String(details.file) : "",
     details?.missingArtifact ? String(details.missingArtifact) : "",
     details?.key ? String(details.key) : "",
+    // Added 2026-08-11: a second occurrence of the same class of bug fixed
+    // earlier by adding `file` -- COMPARISON_MODE (governance/roadmap/
+    // 04-complete-repo-run-and-repo-reports-plan.md Stage 6) runs the SAME
+    // module/relPath through multiple LLM_CONFIG_KEYs, which all produced
+    // the identical notification ID (sourceScript+code+module+file are all
+    // the same across configs), so the second config's usage/servedModel
+    // data silently overwrote the first's -- confirmed lost in practice for
+    // `building`'s connective-tissue call (gemini-default vs
+    // gemini-default-highthinking). Fixed by distinguishing on
+    // llmConfigKey too, when present.
+    details?.llmConfigKey ? String(details.llmConfigKey) : "",
   ].filter(Boolean);
   return parts.join("::").toLowerCase();
 }

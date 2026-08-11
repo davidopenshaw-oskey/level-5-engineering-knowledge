@@ -32,6 +32,15 @@ Every non-trivial claim gets **Confirmed** / **Inferred** / **Unknown**, exactly
 
 **Never invent.** If evidence doesn't cover something, say so under Open Questions — do not fill the gap to make the narrative feel complete.
 
+### Citing evidence inline (required, not optional)
+
+Every non-trivial claim in Sections 1-9 must be traceable to a specific fact — cite it inline, right where you make the claim, using one of these two exact forms (copy values verbatim from the evidence pack's columns, do not paraphrase them):
+
+- **Fact ID** (preferred when the claim comes from one specific fact): backtick-quote the fact's own `id` column value exactly as it appears in the compact table, e.g. `` `api_contract|building|functions/src/modules/building/index.ts|assigningBuildingToProperty|#1` ``.
+- **File + line** (when citing a code location more generally, e.g. summarizing several related facts in one file): backtick-quote the `file` column's path, followed by a parenthetical containing the word "line" or "lines" and the number(s) from the `line` column, e.g. `` `functions/src/modules/tasks/services/task_handler.service.ts` (lines 38-49) ``.
+
+This is NOT the same thing as Section 14 (see "What NOT to include" below) — that's a separate, standalone list the calling script builds deterministically and you never write. Inline citations are different: they belong inside the sections you DO write, one per claim, exactly like the two examples above.
+
 ---
 
 ## Coupling — read this carefully, it's the part specific to capability-level synthesis
@@ -86,4 +95,4 @@ Sections 3, 4, 5, 7, and 8 are assembled directly into the final Module Engineer
 
 ## What NOT to include
 
-Do not attempt an executive summary of the whole module, an architectural-position statement, cross-capability risk synthesis, or an evidence-references section with fact IDs — those belong to the module-synthesis (reduce) step, which has visibility this capability-level pass doesn't.
+Do not attempt an executive summary of the whole module, an architectural-position statement, or cross-capability risk synthesis — those belong to the module-synthesis (reduce) step, which has visibility this capability-level pass doesn't. Do not write a separate, standalone "Evidence References" list/section (that's Section 14 of the final document, generated deterministically by the calling script from the inline citations you write in Sections 1-9 — see "Citing evidence inline" above). These are different things: no standalone list, but yes to inline citations throughout your actual sections.

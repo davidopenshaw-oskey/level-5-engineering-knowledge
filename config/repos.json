@@ -63,6 +63,22 @@
             "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/module-engineering-profile-task-instructions.md",
             "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/module-engineering-profile-task-template.md"
           ]
+        },
+        "repoSynthesis": {
+          "_note": "Same grounding docs as the other phase2 blocks. Used by 02-generate-repo-report.ts's single connective call -- see governance/roadmap/04-complete-repo-run-and-repo-reports-plan.md Stage 4 and contracts/02-repo-synthesis-reduce.md.",
+          "contractsRoot": "",
+          "contractsRootBase": "pipelineRoot",
+          "architecturalGroundingPaths": [
+            "governance/reference-docs/Oskey Architecture.md",
+            "governance/reference-docs/Oskey Personas and Authority models.md",
+            "governance/reference-docs/firestore-schema.md",
+            "governance/reference-docs/firestore.rules.txt",
+            "governance/reference-docs/firestore.indexes.json",
+            "governance/reference-docs/rbac-roles.json"
+          ],
+          "repoSynthesisContractPaths": [
+            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/contracts/02-repo-synthesis-reduce.md"
+          ]
         }
       }
     }

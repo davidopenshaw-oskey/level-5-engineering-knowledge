@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(export REPO_NAME=firebase-oskey-dev MODULE_NAME=apps LLM_CONFIG_KEY=gemini-default COMPARISON_MODE=true)"
+    ]
+  }
+}

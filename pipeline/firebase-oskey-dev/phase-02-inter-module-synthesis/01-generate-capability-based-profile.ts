@@ -257,7 +257,8 @@ async function main() {
       capabilitySynthesesDir,
       notifications,
       SOURCE_SCRIPT,
-      `module '${MODULE_NAME}' capability '${packName}'`
+      `module '${MODULE_NAME}' capability '${packName}'`,
+      LLM_CONFIG_KEY
     );
     capabilityOutputs.push({ packName, content: written.get(capRelPath)! });
   }
@@ -382,7 +383,7 @@ async function main() {
     { relPath: apiRefRelPath, prompt: apiRefPrompt, kind: "api-reference" },
   ];
 
-  const written = await runDocumentCalls(reduceSpecs, llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (reduce)`);
+  const written = await runDocumentCalls(reduceSpecs, llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (reduce)`, LLM_CONFIG_KEY);
 
   // Generate-then-verify citation check (Stage 3, adr-004.md) -- checked
   // against the full module evidence graph (already loaded for ownership

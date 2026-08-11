@@ -133,7 +133,14 @@ export async function runDocumentCalls(
   outputDocsDir: string,
   notifications: RunNotifications,
   sourceScript: string,
-  contextLabel: string
+  contextLabel: string,
+  // Optional -- distinguishes notification IDs when the same module/relPath
+  // is run through multiple LLM_CONFIG_KEYs (governance/roadmap/
+  // 04-complete-repo-run-and-repo-reports-plan.md Stage 6's COMPARISON_MODE).
+  // Without it, buildNotificationId() collides across configs and the
+  // second config's usage/servedModel data silently overwrites the first's
+  // -- confirmed lost in practice for `building`'s connective-tissue call.
+  llmConfigKey?: string
 ): Promise<Map<string, string>> {
   const written = new Map<string, string>();
   await Promise.all(
@@ -144,7 +151,7 @@ export async function runDocumentCalls(
         "info",
         "SYNTHESIS_LLM_CALL_STARTED",
         `Calling LLM provider '${llmConfig.provider}' (model '${llmConfig.model}') for '${contextLabel}' (${spec.kind}).`,
-        { contextLabel, kind: spec.kind, provider: llmConfig.provider, model: llmConfig.model, file: spec.relPath }
+        { contextLabel, kind: spec.kind, provider: llmConfig.provider, model: llmConfig.model, file: spec.relPath, llmConfigKey }
       );
 
       const result = await callLlm(spec.prompt, llmConfig);
@@ -155,7 +162,7 @@ export async function runDocumentCalls(
         "info",
         "SYNTHESIS_LLM_CALL_COMPLETED",
         `LLM call completed for '${contextLabel}' (${spec.kind}).`,
-        { contextLabel, kind: spec.kind, usage: result.usage, file: spec.relPath }
+        { contextLabel, kind: spec.kind, usage: result.usage, servedModel: result.servedModel, file: spec.relPath, llmConfigKey }
       );
 
       let files: Map<string, string>;

@@ -154,7 +154,7 @@ async function main() {
 
     const { prompt, capRelPath } = buildCapabilityPrompt(packName, pack, ctx);
     const spec: DocumentCallSpec = { relPath: capRelPath, prompt, kind: `capability:${packName}` };
-    await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${packName}'`);
+    await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${packName}'`, LLM_CONFIG_KEY);
   }
 
   addNotification(

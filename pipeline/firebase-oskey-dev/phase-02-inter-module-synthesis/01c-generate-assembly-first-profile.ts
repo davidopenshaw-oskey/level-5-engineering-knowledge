@@ -52,6 +52,7 @@ import { filterCallEdgesForModule, formatCallEdges } from "./_shared/call-edges"
 import { computeOwnershipHints, formatOwnershipHints } from "./_shared/ownership-hints";
 import { validateCitations, formatCitationValidation } from "./_shared/citation-validator";
 import { writeProvenanceSidecar } from "./_shared/provenance-sidecar";
+import { splitNumberedSections } from "./_shared/document-sections";
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-01c-generate-assembly-first-profile";
@@ -95,30 +96,6 @@ const CONNECTIVE_SECTION = {
   RISKS: 13,
 } as const;
 
-/** Splits a document written to the "### N. Title" numbered-header
- * convention into its sections, keyed by section number. Tolerant of
- * surrounding whitespace; does not assume a fixed total section count, since
- * capability outputs and the connective call's output use different subsets
- * of the numbering. */
-function splitNumberedSections(content: string): Map<number, { title: string; body: string }> {
-  // Tolerant of heading level (#, ##, ###...) -- verified against real data
-  // 2026-08-11 that the LLM does not reliably reproduce the exact "###"
-  // level the contract specifies (6 of 11 real capability outputs used "##"
-  // instead), even though it reliably gets the number+title right. The
-  // heading level isn't semantically load-bearing here; the number is.
-  const headerPattern = /^#{1,6}\s*(\d+)\.\s*(.+)$/gm;
-  const matches = Array.from(content.matchAll(headerPattern));
-  const sections = new Map<number, { title: string; body: string }>();
-  for (let i = 0; i < matches.length; i++) {
-    const m = matches[i];
-    const num = parseInt(m[1], 10);
-    const title = m[2].trim();
-    const start = (m.index ?? 0) + m[0].length;
-    const end = i + 1 < matches.length ? matches[i + 1].index! : content.length;
-    sections.set(num, { title, body: content.slice(start, end).trim() });
-  }
-  return sections;
-}
 
 interface ParsedCapability {
   packName: string;
@@ -364,7 +341,7 @@ async function main() {
   // path used above for the read side, so a comparison run can never
   // overwrite the canonical output for the same runId.
   const outputDocsDir = COMPARISON_MODE ? comparisonModuleDir : path.join(projectRoot, "knowledge-corpus", REPO_NAME, runId);
-  const written = await runDocumentCalls([connectiveSpec], llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (connective-tissue)`);
+  const written = await runDocumentCalls([connectiveSpec], llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (connective-tissue)`, LLM_CONFIG_KEY);
   const connectiveRaw = written.get(profileRelPath)!;
   const connectiveSections = splitNumberedSections(connectiveRaw);
 

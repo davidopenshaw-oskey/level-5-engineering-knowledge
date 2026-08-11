@@ -23,7 +23,7 @@
 // Callers should never hardcode a provider -- always resolve an
 // LlmProviderConfig from config/llm-providers.json and pass it to callLlm().
 
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 
 export type LlmProviderName = "gemini" | "anthropic" | "openai";
 
@@ -42,12 +42,35 @@ export interface LlmProviderConfig {
   location?: string;
   maxTokens?: number;
   temperature?: number;
+  // Gemini-only. Maps to the @google/genai SDK's ThinkingConfig.thinkingLevel
+  // ("MINIMAL"|"LOW"|"MEDIUM"|"HIGH") -- Gemini's equivalent of Claude's
+  // adaptive-thinking effort control. Left unset by default (the model's own
+  // default applies, which for flash-tier models favors speed over depth).
+  // Added 2026-08-11 after a real, verified finding: gemini-3.5-flash's
+  // connective-tissue output on `building` was accurate and fully cited but
+  // consistently thinner than Claude's on cross-capability judgment work
+  // (Sections 12/13 -- spotting patterns like inconsistent RBAC coverage
+  // across sibling capabilities) -- exactly the kind of task more reasoning
+  // effort should help with. Not yet validated with a real call.
+  thinkingLevel?: keyof typeof ThinkingLevel;
 }
 
 export interface LlmCallResult {
   text: string;
   provider: LlmProviderName;
+  // The model we ASKED for (config.model, echoed back) -- not necessarily
+  // what actually served the request. See servedModel.
   model: string;
+  // What the provider's own response says actually served the request:
+  // Gemini's `response.modelVersion`, Anthropic's `data.model`, OpenAI's
+  // `data.model`. Added 2026-08-11 after being asked directly "are we sure
+  // we're using gemini-3.5-flash" -- until this field existed, every caller
+  // only ever echoed back the requested model name, with no verification
+  // against what the provider's own response reported. callLlm() below
+  // console.warns (does not throw) if this doesn't match `model`, since a
+  // provider silently substituting a model is a real, worth-noticing event
+  // but not necessarily fatal (e.g. a documented fallback).
+  servedModel?: string;
   raw: unknown;
   usage: {
     inputTokens?: number;
@@ -104,14 +127,18 @@ export interface LlmCallResult {
 export const CACHE_BREAKPOINT_MARKER = "\n\n<<<CACHE_BREAKPOINT_DO_NOT_INCLUDE_IN_OUTPUT>>>\n\n";
 
 export async function callLlm(prompt: string, config: LlmProviderConfig): Promise<LlmCallResult> {
+  let result: LlmCallResult;
   switch (config.provider) {
     case "gemini":
       // Vertex AI + ADC -- no API key involved, see callGemini.
-      return callGemini(prompt, config);
+      result = await callGemini(prompt, config);
+      break;
     case "anthropic":
-      return callAnthropic(prompt, config, requireApiKey(config));
+      result = await callAnthropic(prompt, config, requireApiKey(config));
+      break;
     case "openai":
-      return callOpenAI(prompt, config, requireApiKey(config));
+      result = await callOpenAI(prompt, config, requireApiKey(config));
+      break;
     default: {
       // Exhaustiveness check: if a new provider is added to LlmProviderName
       // without a case here, this fails to compile rather than silently
@@ -120,6 +147,18 @@ export async function callLlm(prompt: string, config: LlmProviderConfig): Promis
       throw new Error(`[Fail-Closed] Unknown LLM provider '${_exhaustive}'.`);
     }
   }
+
+  // See servedModel's own comment -- verify what the provider says actually
+  // served the request against what we asked for. Warn, don't throw: a
+  // provider substituting an equivalent/aliased model is worth knowing about
+  // but isn't necessarily a failure.
+  if (result.servedModel && result.servedModel !== result.model) {
+    console.warn(
+      `[LLM_MODEL_MISMATCH] Requested model '${result.model}' but provider '${config.provider}' reports it was served by '${result.servedModel}'.`
+    );
+  }
+
+  return result;
 }
 
 function requireApiKey(config: LlmProviderConfig): string {
@@ -174,6 +213,7 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
       config: {
         maxOutputTokens: config.maxTokens ?? 8192,
         temperature: config.temperature ?? 0.2,
+        ...(config.thinkingLevel ? { thinkingConfig: { thinkingLevel: ThinkingLevel[config.thinkingLevel] } } : {}),
       },
     });
   } catch (err: any) {
@@ -210,10 +250,23 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
     text,
     provider: "gemini",
     model: config.model,
+    servedModel: response.modelVersion,
     raw: response,
     usage: {
       inputTokens: response.usageMetadata?.promptTokenCount,
       outputTokens: response.usageMetadata?.candidatesTokenCount,
+      // Added 2026-08-11, asked directly "are we using caching at Gemini":
+      // answer was no -- CACHE_BREAKPOINT_MARKER is Anthropic-only (see its
+      // own comment) and callGemini just strips it. Vertex AI's own caching
+      // (per @google/genai's `ai.caches` namespace and the `cachedContent`
+      // config field) looks to be EXPLICIT -- create a cache resource, then
+      // reference it -- not automatic, unlike Anthropic's inline
+      // cache_control blocks. This field reports the real number either
+      // way: 0/undefined confirms no caching occurred on a given call
+      // (expected, since we never create or reference a cache resource);
+      // a nonzero value here without us doing anything would mean Vertex AI
+      // applies some caching implicitly, which isn't otherwise documented.
+      cacheReadInputTokens: response.usageMetadata?.cachedContentTokenCount,
     },
     finishReason: finishReason === "STOP" ? "stop" : "other",
   };
@@ -291,6 +344,7 @@ async function callAnthropic(prompt: string, config: LlmProviderConfig, apiKey: 
     text,
     provider: "anthropic",
     model: config.model,
+    servedModel: data?.model,
     raw: data,
     usage: {
       inputTokens: data?.usage?.input_tokens,
@@ -348,6 +402,7 @@ async function callOpenAI(prompt: string, config: LlmProviderConfig, apiKey: str
     text,
     provider: "openai",
     model: config.model,
+    servedModel: data?.model,
     raw: data,
     usage: {
       inputTokens: data?.usage?.prompt_tokens,

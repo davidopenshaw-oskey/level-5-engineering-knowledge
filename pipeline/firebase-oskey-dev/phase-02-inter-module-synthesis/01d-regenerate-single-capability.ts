@@ -137,7 +137,7 @@ async function main() {
   const { prompt: capabilityPrompt, capRelPath } = buildCapabilityPrompt(CAPABILITY_NAME, pack, ctx);
 
   const spec: DocumentCallSpec = { relPath: capRelPath, prompt: capabilityPrompt, kind: `capability:${CAPABILITY_NAME}` };
-  const written = await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${CAPABILITY_NAME}' (single-capability regen)`);
+  const written = await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${CAPABILITY_NAME}' (single-capability regen)`, LLM_CONFIG_KEY);
 
   writeProvenanceSidecar(
     path.join(capabilitySynthesesDir, capRelPath),

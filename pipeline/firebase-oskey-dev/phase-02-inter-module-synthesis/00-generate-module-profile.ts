@@ -335,7 +335,7 @@ function main() {
     { relPath: apiRefRelPath, prompt: apiRefPrompt, kind: "api-reference" },
   ];
 
-  return runDocumentCalls(specs, llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}'`)
+  return runDocumentCalls(specs, llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}'`, LLM_CONFIG_KEY)
     .then(written => {
       // Generate-then-verify citation check (Stage 3, adr-004.md) -- the
       // LLM still writes citations as it always has; this only checks

@@ -38,17 +38,30 @@ function collectLeafRoles(node: RbacNode, out: Map<string, string>): void {
   }
 }
 
+/** Same leaf-role extraction as flattenRbacRoles below, returned as a Map
+ * (permissionString -> English description) instead of a formatted string
+ * -- for callers that need a real membership check (does this permission
+ * string actually exist in the authoritative roles doc?) rather than
+ * LLM-facing prompt text. Added for 02-generate-repo-report.ts's
+ * deterministic RBAC Requirements Catalog, which cross-checks each
+ * repo-wide permission requirement against this doc without asking an LLM
+ * to eyeball it. */
+export function getFlattenedRbacRolesMap(rawJson: string): Map<string, string> {
+  const tree: Record<string, RbacNode> = JSON.parse(rawJson);
+  const leaves = new Map<string, string>();
+  for (const root of Object.values(tree)) {
+    collectLeafRoles(root, leaves);
+  }
+  return leaves;
+}
+
 /** Takes the raw rbac-roles.json file content (as a string) and returns a
  * compact, English-only, TSV-style lookup of every leaf permission string
  * to its description -- consistent with the compact-table convention used
  * elsewhere in this pipeline for LLM-facing prompt input (see
  * factsToCompactTable in phase-01's run-utils). */
 export function flattenRbacRoles(rawJson: string): string {
-  const tree: Record<string, RbacNode> = JSON.parse(rawJson);
-  const leaves = new Map<string, string>();
-  for (const root of Object.values(tree)) {
-    collectLeafRoles(root, leaves);
-  }
+  const leaves = getFlattenedRbacRolesMap(rawJson);
 
   const lines = ["permissionString\tdescription"];
   for (const [permissionString, description] of Array.from(leaves.entries()).sort((a, b) => a[0].localeCompare(b[0]))) {
