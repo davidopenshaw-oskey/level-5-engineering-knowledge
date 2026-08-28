@@ -5,15 +5,8 @@ import * as path from 'path';
 
 const baseDir = process.cwd();
 
-// 1. Resolve current active run context
-const runContextPath = path.join(baseDir, 'output', 'run-context.json');
-let runId = '20260724_101041-1aa319b1';
-if (fs.existsSync(runContextPath)) {
-  const ctx = JSON.parse(fs.readFileSync(runContextPath, 'utf8'));
-  if (ctx.runId) runId = ctx.runId;
-}
-
-console.log(`Synthesizing Enterprise Topology Graph for Run ID: ${runId}`);
+const synthesisId = new Date().toISOString().replace(/[-:]/g, "").replace("T", "_").slice(0, 15);
+console.log(`Synthesizing Enterprise Topology Graph (Synthesis ID: ${synthesisId})`);
 
 // 2. Load configured repositories
 const reposConfigPath = path.join(baseDir, 'config', 'repos.json');
@@ -35,59 +28,92 @@ interface CrossRepoEdge {
   targetRepo: string;
   targetSymbol: string;
   connectionType: 'HTTP_API_CALL' | 'FIRESTORE_EVENT_TRIGGER' | 'HARDWARE_SOCKET_PAYLOAD' | 'SHARED_COLLECTION';
+  resolutionStatus: 'resolved' | 'unresolved';
   details: string;
 }
 
 const ecosystemNodes: Array<{ repo: string; nodeType: string; name: string; details: any }> = [];
 const crossRepoEdges: CrossRepoEdge[] = [];
 
-// 3. Scan all repository sandboxes under output/runs/${runId}/repos/
-const reposDir = path.join(baseDir, `output/runs/${runId}/repos`);
-
-if (fs.existsSync(reposDir)) {
-  const repoFolders = fs.readdirSync(reposDir, { withFileTypes: true })
-    .filter(d => d.isDirectory())
-    .map(d => d.name);
-
-  for (const repoName of repoFolders) {
-    const graphCandidates = [
-      path.join(reposDir, repoName, 'knowledge-pipeline', 'resolved-engineering-graph.json'),
-      path.join(baseDir, `output/runs/${runId}/knowledge-pipeline/resolved-engineering-graph.json`),
-    ];
-
-    let resolvedGraphPath = '';
-    for (const cand of graphCandidates) {
-      if (fs.existsSync(cand)) {
-        resolvedGraphPath = cand;
-        break;
-      }
+// 3. Resolve active runs per repo & load facts
+const reposWithRuns: any[] = [];
+activeRepos.forEach((r: any) => {
+  const ctxPath = path.join(baseDir, 'output', r.name, 'run-context.json');
+  if (fs.existsSync(ctxPath)) {
+    const ctx = JSON.parse(fs.readFileSync(ctxPath, 'utf8'));
+    if (ctx.runId) {
+      reposWithRuns.push({ ...r, runId: ctx.runId });
+      console.log(`  -> Resolved runId [${ctx.runId}] for ${r.name}`);
     }
+  }
+});
 
-    if (resolvedGraphPath) {
-      const graphData = JSON.parse(fs.readFileSync(resolvedGraphPath, 'utf8'));
-      console.log(`Loaded resolved graph for [${repoName}] with ${graphData.metadata?.resolvedCrossModuleCallEdgesCount || 0} intra-repo edges.`);
+// Populate ecosystem nodes (modules)
+for (const r of reposWithRuns) {
+  const modulesPath = path.join(baseDir, 'output', 'runs', r.name, r.runId, 'facts', 'modules.json');
+  if (fs.existsSync(modulesPath)) {
+    const mods = JSON.parse(fs.readFileSync(modulesPath, 'utf8'));
+    for (const m of mods) {
+      ecosystemNodes.push({ repo: r.name, nodeType: 'module', name: m.module, details: {} });
+    }
+  }
+}
 
-      if (graphData.modulePersonalities) {
-        for (const mod of graphData.modulePersonalities) {
-          ecosystemNodes.push({
-            repo: repoName,
-            nodeType: 'module',
-            name: mod.module,
-            details: mod
-          });
-        }
+// Build the cross-repo join
+const targetCallables = new Map<string, any>();
+
+// 3a. Load target API contracts (Firebase)
+for (const r of reposWithRuns) {
+  const apiContractsPath = path.join(baseDir, 'output', 'runs', r.name, r.runId, 'facts', 'ast-api-contracts.json');
+  if (fs.existsSync(apiContractsPath)) {
+    const contracts = JSON.parse(fs.readFileSync(apiContractsPath, 'utf8'));
+    for (const c of contracts) {
+      if (c.contractType === 'callable' && c.callableExportName) {
+        targetCallables.set(c.callableExportName, { repo: r.name, ...c });
       }
     }
   }
 }
 
-// 4. Generate Enterprise Topology Artifacts under output/runs/${runId}/enterprise-topology/
+let resolvedCount = 0;
+let unresolvedCount = 0;
+
+// 3b. Load source calls (Angular) and join
+for (const r of reposWithRuns) {
+  const callsPath = path.join(baseDir, 'output', 'runs', r.name, r.runId, 'facts', 'ast-firebase-callable-calls.json');
+  if (fs.existsSync(callsPath)) {
+    const calls = JSON.parse(fs.readFileSync(callsPath, 'utf8'));
+    for (const call of calls) {
+      const originalName = call.functionName;
+      if (!originalName) continue;
+
+      const dashIdx = originalName.indexOf('-');
+      const strippedName = dashIdx >= 0 ? originalName.substring(dashIdx + 1) : originalName;
+
+      const match = targetCallables.get(strippedName);
+      if (match) resolvedCount++; else unresolvedCount++;
+
+      crossRepoEdges.push({
+        sourceRepo: r.name,
+        sourceSymbol: `${call.path}:${call.line} -> ${originalName}`,
+        targetRepo: match ? match.repo : 'unknown',
+        targetSymbol: strippedName,
+        connectionType: 'HTTP_API_CALL',
+        resolutionStatus: match ? 'resolved' : 'unresolved',
+        details: `req: ${call.requestTypeText || 'undefined'}, res: ${call.responseTypeText || 'undefined'}, data: ${call.hasDataArgument}`
+      });
+    }
+  }
+}
+console.log(`Cross-repo callable join: ${resolvedCount} resolved, ${unresolvedCount} unresolved.`);
+
+// 4. Generate Enterprise Topology Artifacts under output/cross-repo-synthesis/${synthesisId}/
 const ecosystemOutput = {
-  runId,
+  synthesisId,
   generatedAt: new Date().toISOString(),
-  repositoriesAnalyzed: activeRepos.map((r: any) => r.name),
+  repositoriesAnalyzed: reposWithRuns.map((r: any) => r.name),
   stats: {
-    totalActiveRepositories: activeRepos.length,
+    totalActiveRepositories: reposWithRuns.length,
     totalEcosystemNodes: ecosystemNodes.length,
     totalCrossRepoEdges: crossRepoEdges.length
   },
@@ -95,7 +121,7 @@ const ecosystemOutput = {
   crossRepoEdges
 };
 
-const enterpriseTopologyDir = path.join(baseDir, `output/runs/${runId}/enterprise-topology`);
+const enterpriseTopologyDir = path.join(baseDir, `output/cross-repo-synthesis/${synthesisId}`);
 fs.mkdirSync(enterpriseTopologyDir, { recursive: true });
 
 const ecosystemJsonPath = path.join(enterpriseTopologyDir, 'enterprise-topology-graph.json');
@@ -115,8 +141,8 @@ const matrixLines: string[] = [
   '',
   '| Property | Value |',
   '| :--- | :--- |',
-  `| **Run ID** | \`${runId}\` |`,
-  `| **Repositories Analyzed** | ${activeRepos.map((r: any) => r.name).join(', ')} |`,
+  `| **Synthesis ID** | \`${synthesisId}\` |`,
+  `| **Repositories Analyzed** | ${reposWithRuns.map((r: any) => r.name).join(', ')} |`,
   `| **Ecosystem Nodes** | ${ecosystemNodes.length} |`,
   `| **Cross-Repo Edges** | ${crossRepoEdges.length} |`,
   `| **Generated Date** | ${ecosystemOutput.generatedAt.split('T')[0]} |`,
@@ -129,7 +155,7 @@ const matrixLines: string[] = [
   ''
 ];
 
-activeRepos.forEach((r: any) => {
+reposWithRuns.forEach((r: any) => {
   const loc = r.gitUrl ? `Git \`${r.gitUrl}\`` : `Path \`${r.path}\``;
   matrixLines.push(`- **${r.name}**: ${loc} (Branch \`${r.branch || 'master'}\`)`);
 });
@@ -140,14 +166,15 @@ matrixLines.push('');
 matrixLines.push('## 2. Cross-Repository Integrations', '');
 
 if (crossRepoEdges.length === 0) {
-  matrixLines.push(`Currently **${activeRepos.length}** repository (${activeRepos.map((r: any) => r.name).join(', ')}) is active in the evidence graph.`);
+  matrixLines.push(`Currently **${reposWithRuns.length}** repository (${reposWithRuns.map((r: any) => r.name).join(', ')}) is active in the evidence graph.`);
   matrixLines.push('');
-  matrixLines.push('As additional repositories (`node-iot-oskey-dev`, `angular-app-oskey-io`) complete Phase 1 AST extraction, cross-repository API HTTP calls, Firestore event triggers, and hardware socket payloads will automatically resolve here.');
+  matrixLines.push('As additional repositories (`node-iot-api-oskey-io`, `angular-app-oskey-io`) complete Phase 1 AST extraction, cross-repository API HTTP calls, Firestore event triggers, and hardware socket payloads will automatically resolve here.');
 } else {
-  matrixLines.push('| Source Repo | Source Symbol | Connection Type | Target Repo | Target Symbol | Details |');
-  matrixLines.push('| :--- | :--- | :--- | :--- | :--- | :--- |');
+  matrixLines.push('| Source Repo | Source Symbol | Connection Type | Status | Target Repo | Target Symbol | Details |');
+  matrixLines.push('| :--- | :--- | :--- | :--- | :--- | :--- | :--- |');
   crossRepoEdges.forEach(e => {
-    matrixLines.push(`| \`${e.sourceRepo}\` | \`${e.sourceSymbol}\` | \`${e.connectionType}\` | \`${e.targetRepo}\` | \`${e.targetSymbol}\` | ${e.details} |`);
+    const statusIcon = e.resolutionStatus === 'resolved' ? '✅' : '❌';
+    matrixLines.push(`| \`${e.sourceRepo}\` | \`${e.sourceSymbol}\` | \`${e.connectionType}\` | ${statusIcon} ${e.resolutionStatus} | \`${e.targetRepo}\` | \`${e.targetSymbol}\` | ${e.details} |`);
   });
 }
 
@@ -155,13 +182,11 @@ matrixLines.push('');
 matrixLines.push('---');
 matrixLines.push('');
 matrixLines.push('## 3. Registered Repository Modules', '');
-matrixLines.push('| Repository | Module Name | CRUD Methods | High Risk Methods |');
-matrixLines.push('| :--- | :--- | :--- | :--- |');
+matrixLines.push('| Repository | Module Name |');
+matrixLines.push('| :--- | :--- |');
 
 ecosystemNodes.forEach(n => {
-  const crud = n.details?.crudMethodsCount || 0;
-  const highRisk = n.details?.highRiskRepairMethodsCount || 0;
-  matrixLines.push(`| \`${n.repo}\` | \`${n.name}\` | ${crud} | ${highRisk} |`);
+  matrixLines.push(`| \`${n.repo}\` | \`${n.name}\` |`);
 });
 
 const matrixMdPath = path.join(enterpriseTopologyDir, 'enterprise-integration-matrix.md');
@@ -170,5 +195,5 @@ fs.writeFileSync(matrixMdPath, matrixLines.join('\n'), 'utf8');
 console.log(`\n✅ Phase 3 Complete: Synthesized Enterprise Topology Graph`);
 console.log(`   - JSON Artifact: ${ecosystemJsonPath}`);
 console.log(`   - Markdown Matrix: ${matrixMdPath}`);
-console.log(`   - Active Repositories: ${activeRepos.length}`);
+console.log(`   - Active Repositories: ${reposWithRuns.length}`);
 console.log(`   - Cross-Repo Edges: ${crossRepoEdges.length}`);

@@ -34,165 +34,74 @@ function sanitizeTypeText(typeText: string, clonePath: string): string {
   return cleaned;
 }
 
-// Unwraps a single-type-argument generic wrapper (e.g. "Promise<X>" -> "X").
-// Deliberately limited to framework/language-level wrappers (Promise from
-// TS/JS itself, CallableRequest from the Firebase SDK) -- NOT
-// business-specific wrapper classes like OSKHttpsSuccessResponse. Unwrapping
-// those would bake one repo's domain conventions into a supposedly
-// repo-agnostic extractor; if that's wanted later it belongs in config
-// (alongside normalizationRules in config/repos.json), not hardcoded here.
-function unwrapGenericSingleArg(typeText: string, wrapperNames: string[]): string {
-  for (const wrapper of wrapperNames) {
-    const match = typeText.match(new RegExp(`^${wrapper}<([\\s\\S]+)>$`));
-    if (match) return match[1].trim();
-  }
-  return typeText;
-}
+const MONGO_OPERATION_METHODS = new Set(["findOne", "findMany", "insertOne", "updateOne", "deleteOne"]);
 
-// Resolves the request/response payload types for a handler function --
-// i.e. the type of its first parameter (the request/data payload for a
-// Firebase callable, or the change/event payload for a trigger) and its
-// return type. Only handles actual function-like nodes (function
-// declarations, methods, arrow functions, function expressions); anything
-// else returns nulls rather than guessing.
-function extractHandlerSignatureTypes(
-  fnLikeNode: Node | undefined,
-  clonePath: string
-): { requestType: string | null; responseType: string | null } {
-  if (
-    !fnLikeNode ||
-    (!Node.isFunctionDeclaration(fnLikeNode) &&
-      !Node.isMethodDeclaration(fnLikeNode) &&
-      !Node.isArrowFunction(fnLikeNode) &&
-      !Node.isFunctionExpression(fnLikeNode))
-  ) {
-    return { requestType: null, responseType: null };
-  }
-
-  const params = fnLikeNode.getParameters();
-  let requestType: string | null = null;
-  if (params.length > 0) {
-    const rawParamType = sanitizeTypeText(params[0].getType().getText(), clonePath);
-    requestType = unwrapGenericSingleArg(rawParamType, ["CallableRequest"]);
-  }
-
-  const rawReturnType = sanitizeTypeText(fnLikeNode.getReturnType().getText(), clonePath);
-  const responseType = unwrapGenericSingleArg(rawReturnType, ["Promise"]);
-
-  return { requestType, responseType };
-}
-
-// Pub/Sub push-subscription handlers are plain HTTP endpoints (registered
-// via https.onRequest, indistinguishable from a real REST endpoint in the
-// api_contract facts) that receive Pub/Sub's standard push envelope --
-// `{ message: { data: <base64>, ... }, ... }`. Detected structurally (a
-// `.data` property access on a `.message` property access, anywhere in the
-// handler body) rather than by variable/parameter name, since the envelope
-// shape itself is the reliable, framework-level signal. Confirmed
-// empirically 2026-08-01 against core's processPubSubMessage handler, which
-// checks `req.body.message.data`.
-function detectsPubSubPushEnvelope(fnLikeNode: Node): boolean {
-  const body = Node.isFunctionDeclaration(fnLikeNode) || Node.isMethodDeclaration(fnLikeNode) || Node.isArrowFunction(fnLikeNode) || Node.isFunctionExpression(fnLikeNode)
-    ? fnLikeNode.getBody()
-    : undefined;
-  if (!body) return false;
-
-  for (const propAccess of body.getDescendantsOfKind(SyntaxKind.PropertyAccessExpression)) {
-    if (propAccess.getName() !== "data") continue;
-    const inner = propAccess.getExpression();
-    if (Node.isPropertyAccessExpression(inner) && inner.getName() === "message") {
-      return true;
-    }
-  }
-  return false;
-}
-
-type PubSubEventRoute = {
-  dataType: string | null;
-  dataTypeResolutionStatus: string;
-  targetCalls: string[];
-};
-
-// Pub/Sub push receivers commonly dispatch on a `switch` over a message
-// "type" field to route to entirely different downstream services -- this
-// walks every switch statement in the handler body and records each case's
-// literal test value alongside every call expression found within that
-// case, giving an Event Routing Table (per rules/00-global-synthesis-
-// hierarchy.md Directive 5) directly from evidence rather than requiring a
-// human/LLM to read the handler body and infer it. Only meaningful when
-// detectsPubSubPushEnvelope is also true for the same handler -- an
-// unrelated switch statement elsewhere would produce noise, so callers
-// should gate on that flag before trusting these routes as Pub/Sub-specific.
-function extractPubSubEventRoutes(fnLikeNode: Node): PubSubEventRoute[] {
-  const body = Node.isFunctionDeclaration(fnLikeNode) || Node.isMethodDeclaration(fnLikeNode) || Node.isArrowFunction(fnLikeNode) || Node.isFunctionExpression(fnLikeNode)
-    ? fnLikeNode.getBody()
-    : undefined;
-  if (!body) return [];
-
-  const routes: PubSubEventRoute[] = [];
-  for (const switchStatement of body.getDescendantsOfKind(SyntaxKind.SwitchStatement)) {
-    for (const clause of switchStatement.getCaseBlock().getClauses()) {
-      if (!Node.isCaseClause(clause)) continue; // skip the `default:` clause -- no literal to route on
-
-      const testRes = resolveExpressionValue(clause.getExpression());
-      const targetCalls = new Set<string>();
-      for (const callExpr of clause.getDescendantsOfKind(SyntaxKind.CallExpression)) {
-        const calleeExpr = callExpr.getExpression();
-        if (Node.isPropertyAccessExpression(calleeExpr) || Node.isIdentifier(calleeExpr)) {
-          targetCalls.add(calleeExpr.getText());
-        }
+function resolveSimpleRef(node: Node | undefined, clonePath: string): {
+  name: string | null;
+  declarationFile: string | null;
+  declarationLine: number | null;
+  className: string | null;
+} {
+  if (!node) return { name: null, declarationFile: null, declarationLine: null, className: null };
+  try {
+    const rawSymbol = node.getSymbol();
+    // For an imported identifier (e.g. `schema: pubSubMessageSchema`), getSymbol()
+    // returns the LOCAL import-binding symbol, whose getValueDeclaration() is the
+    // ImportSpecifier in THIS file, not the real declaration -- getAliasedSymbol()
+    // follows through to the actual exported declaration. A non-aliased symbol
+    // (e.g. a class member access, unaffected by import aliasing) has no aliased
+    // symbol, so this falls back to the original symbol unchanged.
+    const symbol = rawSymbol?.getAliasedSymbol() || rawSymbol;
+    if (symbol) {
+      const decl = symbol.getValueDeclaration() || symbol.getDeclarations()[0];
+      if (decl) {
+        const declSf = decl.getSourceFile();
+        const declClass = decl.getFirstAncestorByKind(SyntaxKind.ClassDeclaration);
+        return {
+          name: symbol.getName(),
+          declarationFile: toRepoPath(declSf.getFilePath(), clonePath),
+          declarationLine: decl.getStartLineNumber(),
+          className: declClass ? declClass.getName() || null : null,
+        };
       }
-
-      routes.push({
-        dataType: testRes.value,
-        dataTypeResolutionStatus: testRes.status,
-        targetCalls: Array.from(targetCalls),
-      });
     }
+  } catch {
+    // fall through to unresolved below
   }
-  return routes;
+  return { name: node.getText(), declarationFile: null, declarationLine: null, className: null };
 }
 
-// Terminal Firestore operation methods we're looking for when walking a
-// chain forward from a .collection()/.doc() call. Query-builder methods
-// (where/orderBy/limit/etc.) are deliberately excluded -- they're not
-// operations themselves, and excluding them lets the walk continue *through*
-// them to find the actual terminal operation further down the chain
-// (e.g. .collection('x').where(...).orderBy(...).get()).
-const FIRESTORE_OPERATION_METHODS = new Set(["get", "set", "create", "update", "delete", "add", "onSnapshot", "listen", "query"]);
+function walkJoiChain(node: Node): { baseType: string | null; required: boolean; validValues: string[] | null } {
+  let current: Node = node;
+  let required = false;
+  let validValues: string[] | null = null;
 
-/**
- * Walks forward through a Firestore method chain starting from a
- * .collection()/.doc() call to find the terminal read/write operation.
- *
- * Previously this only checked ONE hop ahead (the immediate next chained
- * call), which only matched a simple `db.collection('x').get()` shape. Any
- * realistic nested document path -- e.g.
- * `db.collection('a').doc(id).collection('b').doc(id2).get()` -- has the
- * actual operation several chain-links past the specific .collection()/.doc()
- * call that produced the raw path hint, so the one-hop check silently missed
- * almost every real case (confirmed: only 1 of 18 shared Firestore paths in
- * a real run had operation evidence). This walks the full remaining chain
- * instead of just one hop, bounded by maxHops as a cycle/pathological-chain
- * safeguard consistent with resolveExpressionValue's maxDepth pattern below.
- */
-function findChainedFirestoreOperation(startCall: Node, maxHops = 15): string | null {
-  let current: Node = startCall;
-  for (let hop = 0; hop < maxHops; hop++) {
-    const propAccess = current.getParentIfKind(SyntaxKind.PropertyAccessExpression);
-    if (!propAccess) return null; // chain ends here (assigned to a var, passed as an arg, etc.)
+  while (Node.isCallExpression(current)) {
+    const callee = current.getExpression();
+    if (!Node.isPropertyAccessExpression(callee)) break;
 
-    const nextCall = propAccess.getParentIfKind(SyntaxKind.CallExpression);
-    if (!nextCall) return null; // property access not followed by a call -- not a chain continuation
+    const methodName = callee.getName();
+    const calleeBase = callee.getExpression();
 
-    const methodName = propAccess.getName();
-    if (FIRESTORE_OPERATION_METHODS.has(methodName)) {
-      return methodName;
+    // Base case: this call IS `Joi.<type>(...)` itself (e.g. Joi.string()) --
+    // its own callee's base is the bare `Joi` identifier, not another chained call.
+    if (Node.isIdentifier(calleeBase) && calleeBase.getText() === "Joi") {
+      return { baseType: methodName, required, validValues };
     }
 
-    current = nextCall;
+    // Otherwise this call is a modifier chained onto an earlier call
+    // (e.g. .required(), .valid(...), .optional(), .items(...)) -- record
+    // what it tells us, then descend into what it's chained onto.
+    if (methodName === "required") required = true;
+    if (methodName === "valid") {
+      validValues = current.getArguments()
+        .filter((a): a is any => Node.isStringLiteral(a))
+        .map(a => (a as any).getLiteralValue());
+    }
+
+    current = calleeBase;
   }
-  return null; // exceeded maxHops without finding a terminal operation
+  return { baseType: null, required, validValues };
 }
 
 // Expression resolution with explicit partial status & cycle protection
@@ -289,132 +198,6 @@ function resolveExpressionValue(
   return { value: null, status: "unsupported" };
 }
 
-// Handler Symbol & Declaration Resolver for API Contracts and Triggers
-function resolveHandlerDeclaration(
-  handlerNode: Node,
-  clonePath: string,
-  currentRelativePath: string
-): {
-  handlerName: string | null;
-  handlerExpression: string | null;
-  handlerDeclarationFile: string | null;
-  handlerStartLine: number | null;
-  handlerEndLine: number | null;
-  handlerResolutionStatus: "resolved" | "partial" | "inline" | "unresolved";
-  requestType: string | null;
-  responseType: string | null;
-  pubsubPushReceiver: boolean;
-  pubsubEventRoutes: PubSubEventRoute[];
-} {
-  if (!handlerNode) {
-    return {
-      handlerName: null,
-      handlerExpression: null,
-      handlerDeclarationFile: currentRelativePath,
-      handlerStartLine: null,
-      handlerEndLine: null,
-      handlerResolutionStatus: "unresolved",
-      requestType: null,
-      responseType: null,
-      pubsubPushReceiver: false,
-      pubsubEventRoutes: [],
-    };
-  }
-
-  const handlerExpression = handlerNode.getText();
-
-  // Inline arrow function or function expression
-  if (Node.isArrowFunction(handlerNode) || Node.isFunctionExpression(handlerNode)) {
-    return {
-      handlerName: "inline_handler",
-      handlerExpression,
-      handlerDeclarationFile: currentRelativePath,
-      handlerStartLine: handlerNode.getStartLineNumber(),
-      handlerEndLine: handlerNode.getEndLineNumber(),
-      handlerResolutionStatus: "inline",
-      ...extractHandlerSignatureTypes(handlerNode, clonePath),
-      pubsubPushReceiver: detectsPubSubPushEnvelope(handlerNode),
-      pubsubEventRoutes: extractPubSubEventRoutes(handlerNode),
-    };
-  }
-
-  // Identifier or Property Access Expression reference
-  if (Node.isIdentifier(handlerNode) || Node.isPropertyAccessExpression(handlerNode)) {
-    try {
-      const symbol = handlerNode.getSymbol();
-      if (symbol) {
-        const decl = symbol.getValueDeclaration() || symbol.getDeclarations()[0];
-        if (decl) {
-          const declSf = decl.getSourceFile();
-          const declPath = toRepoPath(declSf.getFilePath(), clonePath);
-
-          let name = symbol.getName();
-          if (Node.isFunctionDeclaration(decl) || Node.isMethodDeclaration(decl) || Node.isVariableDeclaration(decl) || Node.isPropertyDeclaration(decl)) {
-            name = (decl as any).getName() || name;
-          }
-
-          // The resolved declaration is directly function-like (a function
-          // or method declaration) in the common case here -- e.g.
-          // `https.onCall(OSKBuildingService.getAllBuildings)`. If instead
-          // it's a variable declaration (`const handler = (data) => ...`) or
-          // a class property assigned an arrow function
-          // (`processPubSubMessage = async (req, res) => {...}`, confirmed
-          // 2026-08-01 in core/services/pub_sub_receiver.service.ts -- this
-          // case was previously missed, which is why that handler's
-          // requestType/responseType came back null even after the type-
-          // resolution fix), the function-like node is its initializer, not
-          // the declaration itself.
-          let fnLikeNode: Node | undefined = decl;
-          if (Node.isVariableDeclaration(decl) || Node.isPropertyDeclaration(decl)) {
-            const init = decl.getInitializer();
-            fnLikeNode = init && (Node.isArrowFunction(init) || Node.isFunctionExpression(init)) ? init : undefined;
-          }
-
-          return {
-            handlerName: name,
-            handlerExpression,
-            handlerDeclarationFile: declPath,
-            handlerStartLine: decl.getStartLineNumber(),
-            handlerEndLine: decl.getEndLineNumber(),
-            handlerResolutionStatus: "resolved",
-            ...extractHandlerSignatureTypes(fnLikeNode, clonePath),
-            pubsubPushReceiver: fnLikeNode ? detectsPubSubPushEnvelope(fnLikeNode) : false,
-            pubsubEventRoutes: fnLikeNode ? extractPubSubEventRoutes(fnLikeNode) : [],
-          };
-        }
-      }
-    } catch {
-      // Fall through to unresolved
-    }
-
-    return {
-      handlerName: handlerNode.getText(),
-      handlerExpression,
-      handlerDeclarationFile: currentRelativePath,
-      handlerStartLine: handlerNode.getStartLineNumber(),
-      handlerEndLine: handlerNode.getEndLineNumber(),
-      handlerResolutionStatus: "unresolved",
-      requestType: null,
-      responseType: null,
-      pubsubPushReceiver: false,
-      pubsubEventRoutes: [],
-    };
-  }
-
-  return {
-    handlerName: handlerNode.getText(),
-    handlerExpression,
-    handlerDeclarationFile: currentRelativePath,
-    handlerStartLine: handlerNode.getStartLineNumber(),
-    handlerEndLine: handlerNode.getEndLineNumber(),
-    handlerResolutionStatus: "partial",
-    requestType: null,
-    responseType: null,
-    pubsubPushReceiver: false,
-    pubsubEventRoutes: [],
-  };
-}
-
 // Methods that ultimately wrap the real @google-cloud/pubsub SDK call
 // (OSKMessageController._publishMessage / OSKMessageControllerInternal
 // .publishMessage, confirmed 2026-08-01 in core/controllers/
@@ -428,28 +211,6 @@ function resolveHandlerDeclaration(
 // (as candidates) rather than silently dropped, since even an unresolved
 // call site confirms a publish happens there.
 const PUBSUB_PUBLISH_METHODS = new Set(["_publishMessage", "publishMessage"]);
-
-const TRIGGER_METHODS = new Set([
-  "onCreate",
-  "onUpdate",
-  "onDelete",
-  "onWrite",
-  "onDocumentCreated",
-  "onDocumentUpdated",
-  "onDocumentDeleted",
-  "onDocumentWritten",
-]);
-
-const AUTH_CHECK_METHODS = new Set([
-  "hasPermission",
-  "checkPermission",
-  "assertPermission",
-  "requirePermission",
-  "authorize",
-  "isAuthorized",
-  "permissionGuard",
-  "accessGuard",
-]);
 
 function main() {
   const REPO_NAME = process.env.REPO_NAME;
@@ -621,12 +382,10 @@ function main() {
   const rawEnums: any[] = [];
   const rawModelProperties: any[] = [];
   const rawCalls: any[] = [];
-  const rawFirestoreHints: any[] = [];
-  const rawPermissionHints: any[] = [];
   const rawExternalHooks: any[] = [];
-  const rawApiContracts: any[] = [];
-  const rawTriggers: any[] = [];
-  const rawPubSubEventRoutes: any[] = [];
+  const rawMongoOperations: any[] = [];
+  const rawRouteDefinitions: any[] = [];
+  const rawJoiSchemaFields: any[] = [];
   const rawErrors: any[] = [];
 
   for (const { file, base, absolutePath } of runtimeFiles) {
@@ -810,6 +569,76 @@ function main() {
         }
       }
 
+      // 7c. Route Definitions (OSKRoutes object literals)
+      for (const varStmt of sf.getVariableStatements()) {
+        if (!varStmt.isExported()) continue;
+        for (const decl of varStmt.getDeclarations()) {
+          const typeNode = decl.getTypeNode();
+          if (!typeNode || typeNode.getText() !== "OSKRoutes") continue;
+          const routesObj = decl.getInitializer();
+          if (!routesObj || !Node.isObjectLiteralExpression(routesObj)) continue;
+
+          for (const pathProp of routesObj.getProperties()) {
+            if (!Node.isPropertyAssignment(pathProp)) continue;
+            const pathNameNode = pathProp.getNameNode();
+            const httpPath = Node.isStringLiteral(pathNameNode) ? pathNameNode.getLiteralValue() : pathNameNode.getText();
+
+            const methodsObj = pathProp.getInitializer();
+            if (!methodsObj || !Node.isObjectLiteralExpression(methodsObj)) continue;
+
+            for (const methodProp of methodsObj.getProperties()) {
+              if (!Node.isPropertyAssignment(methodProp)) continue;
+              const methodNameNode = methodProp.getNameNode();
+              const method = Node.isStringLiteral(methodNameNode) ? methodNameNode.getLiteralValue() : methodNameNode.getText();
+
+              const versionsObj = methodProp.getInitializer();
+              if (!versionsObj || !Node.isObjectLiteralExpression(versionsObj)) continue;
+
+              for (const versionProp of versionsObj.getProperties()) {
+                if (!Node.isPropertyAssignment(versionProp)) continue;
+                const versionNameNode = versionProp.getNameNode();
+                const versionDate = Node.isStringLiteral(versionNameNode) ? versionNameNode.getLiteralValue() : versionNameNode.getText();
+
+                const entryObj = versionProp.getInitializer();
+                if (!entryObj || !Node.isObjectLiteralExpression(entryObj)) continue;
+
+                const requestHandlerProp = entryObj.getProperties().find(p => Node.isPropertyAssignment(p) && p.getName() === "requestHandler");
+                const schemaProp = entryObj.getProperties().find(p => Node.isPropertyAssignment(p) && p.getName() === "schema");
+
+                const handlerRef = resolveSimpleRef(
+                  requestHandlerProp && Node.isPropertyAssignment(requestHandlerProp) ? requestHandlerProp.getInitializer() : undefined,
+                  clonePath
+                );
+                const schemaRef = resolveSimpleRef(
+                  schemaProp && Node.isPropertyAssignment(schemaProp) ? schemaProp.getInitializer() : undefined,
+                  clonePath
+                );
+
+                rawRouteDefinitions.push({
+                  ...base,
+                  line: entryObj.getStartLineNumber(),
+                  // NOT `path:` -- base.path is the real source FILE path (every
+                  // other fact type relies on this meaning), and every route
+                  // record already carries it via the ...base spread above.
+                  // `httpPath` is the registered HTTP route path -- a different,
+                  // additional piece of information, not a replacement for it.
+                  httpPath,
+                  method,
+                  versionDate,
+                  handlerClass: handlerRef.className,
+                  handlerMethod: handlerRef.name,
+                  handlerDeclarationFile: handlerRef.declarationFile,
+                  handlerStartLine: handlerRef.declarationLine,
+                  schemaName: schemaRef.name,
+                  schemaDeclarationFile: schemaRef.declarationFile,
+                  isPubSubPushRoute: schemaRef.name === "pubSubMessageSchema",
+                });
+              }
+            }
+          }
+        }
+      }
+
       // 8. Call Expressions & AST Structural Extractions
       for (const callExpr of sf.getDescendantsOfKind(SyntaxKind.CallExpression)) {
         const expr = callExpr.getExpression();
@@ -912,37 +741,6 @@ function main() {
           resolutionStatus,
         });
 
-        // 8a. Firestore Path Extraction (Structural)
-        if (exactMethodName && ["collection", "doc", "collectionGroup", "document"].includes(exactMethodName)) {
-          const arg0 = callExpr.getArguments()[0];
-          if (arg0) {
-            const res = resolveExpressionValue(arg0);
-            if (res.value) {
-              const op = findChainedFirestoreOperation(callExpr);
-
-              rawFirestoreHints.push({
-                ...base,
-                line,
-                value: res.value,
-                touchType: "path_reference",
-                operation: op,
-                // Self-describing scope label: a null `operation` does NOT
-                // mean "no read/write happens here" -- it means detection
-                // only covers direct method chains (e.g.
-                // db.collection(x).doc(y).get()). It cannot see operations
-                // performed via a variable assigned elsewhere and later
-                // passed into transaction.get()/batch.set()/etc, which is a
-                // common pattern in this codebase. A consumer (including
-                // Phase 2 synthesis) should treat operation: null as
-                // "undetermined by static chain analysis", not "read-only"
-                // or "no operation".
-                operationDetectionScope: op ? "direct_chain_detected" : "undetermined_may_be_indirect",
-                pathResolutionMethod: res.status === "resolved" ? (Node.isTemplateExpression(arg0) ? "template_expression" : (Node.isIdentifier(arg0) ? "resolved_constant" : "literal")) : res.status,
-              });
-            }
-          }
-        }
-
         // 8b. Structural Pub/Sub Topic Extraction
         if (Node.isPropertyAccessExpression(expr) && expr.getName() === "topic") {
           const topicArg = callExpr.getArguments()[0];
@@ -1042,85 +840,98 @@ function main() {
           }
         }
 
-        // 8c. Firestore Triggers (Exact Method Matching & Symbol Resolution)
-        if (exactMethodName && TRIGGER_METHODS.has(exactMethodName)) {
-          const arg0 = callExpr.getArguments()[0];
-          const arg1 = callExpr.getArguments()[1];
-          let firestorePath: string | null = null;
-          let handlerNode = arg1 || arg0;
+        // 8f. MongoDB Operation Call Sites
+        if (
+          exactMethodName &&
+          MONGO_OPERATION_METHODS.has(exactMethodName) &&
+          Node.isPropertyAccessExpression(expr) &&
+          expr.getExpression().getText() === "this._mongoDBService"
+        ) {
+          const dbNameArg = callExpr.getArguments()[0];
+          const collectionArg = callExpr.getArguments()[1];
 
-          if (arg0 && (arg1 || TRIGGER_METHODS.has(exactMethodName))) {
-            const res = resolveExpressionValue(arg0);
-            if (res.value) firestorePath = res.value;
+          let collectionName: string | null = null;
+          let collectionResolutionStatus: "resolved_from_collections_map" | "resolved_property_name_only" | "unresolved_dynamic" | "no_argument" = "no_argument";
+
+          if (collectionArg) {
+            if (Node.isPropertyAccessExpression(collectionArg) && collectionArg.getExpression().getText() === "collections") {
+              const propName = collectionArg.getName();
+              let resolvedValue: string | null = null;
+              try {
+                const rawBaseSymbol = collectionArg.getExpression().getSymbol();
+                // Same import-aliasing issue as resolveSimpleRef above: `collections`
+                // is itself an imported identifier, so getSymbol() alone resolves to
+                // the local import binding (its declaration is an ImportSpecifier,
+                // not the real `export const collections = {...}`) unless the
+                // aliased symbol is followed first.
+                const baseSymbol = rawBaseSymbol?.getAliasedSymbol() || rawBaseSymbol;
+                const baseDecl = baseSymbol?.getValueDeclaration();
+                if (baseDecl && Node.isVariableDeclaration(baseDecl)) {
+                  const objInit = baseDecl.getInitializer();
+                  if (objInit && Node.isObjectLiteralExpression(objInit)) {
+                    const matchingProp = objInit.getProperties().find(p => Node.isPropertyAssignment(p) && p.getName() === propName);
+                    if (matchingProp && Node.isPropertyAssignment(matchingProp)) {
+                      const valueNode = matchingProp.getInitializer();
+                      if (valueNode && Node.isStringLiteral(valueNode)) {
+                        resolvedValue = valueNode.getLiteralValue();
+                      }
+                    }
+                  }
+                }
+              } catch {
+                // fall through -- resolvedValue stays null, handled below
+              }
+              collectionName = resolvedValue ?? propName;
+              collectionResolutionStatus = resolvedValue ? "resolved_from_collections_map" : "resolved_property_name_only";
+            } else {
+              collectionResolutionStatus = "unresolved_dynamic";
+            }
           }
 
-          const handlerResolution = resolveHandlerDeclaration(handlerNode, clonePath, base.path);
-
-          rawTriggers.push({
+          rawMongoOperations.push({
             ...base,
             line,
-            triggerType: "FIRESTORE_TRIGGER",
-            firestorePath: firestorePath || "unknown",
-            rawText: callExpr.getText(),
-            calleeExpression: calleeText,
-            calleeSymbol,
-            aliasedCalleeSymbol,
-            declarationFile,
-            declarationModuleSpecifier,
-            resolutionStatus,
-            ...handlerResolution,
+            operation: exactMethodName,
+            collectionName,
+            collectionResolutionStatus,
+            dbNameExpression: dbNameArg ? dbNameArg.getText() : null,
+            callerName,
+            callerClass,
           });
         }
 
-        // 8d. API Contracts (onCall / onRequest Handler Symbol Resolution)
-        if (exactMethodName && ["onCall", "onRequest"].includes(exactMethodName)) {
-          const handlerArg = callExpr.getArguments()[1] || callExpr.getArguments()[0];
+        // 8g. Joi Schema Field Shapes
+        if (Node.isPropertyAccessExpression(expr) && expr.getExpression().getText() === "Joi" && expr.getName() === "object") {
+          const varDecl = callExpr.getParentIfKind(SyntaxKind.VariableDeclaration);
+          const varDeclList = varDecl?.getParent();
+          const varStmt = varDeclList?.getParent();
+          const isTopLevelExportedSchema =
+            varDecl && varStmt && Node.isVariableStatement(varStmt) && varStmt.isExported() && varStmt.getParent() === sf;
 
-          const parent = callExpr.getParent();
-          const callableExportName = Node.isPropertyAssignment(parent) ? parent.getName() : null;
+          if (isTopLevelExportedSchema && varDecl) {
+            const schemaExportName = varDecl.getName();
+            const objArg = callExpr.getArguments()[0];
+            if (objArg && Node.isObjectLiteralExpression(objArg)) {
+              for (const prop of objArg.getProperties()) {
+                if (!Node.isPropertyAssignment(prop)) continue;
+                const nameNode = prop.getNameNode();
+                const fieldName = Node.isStringLiteral(nameNode) ? nameNode.getLiteralValue() : nameNode.getText();
+                const fieldInit = prop.getInitializer();
+                if (!fieldInit) continue;
 
-          // pubsubEventRoutes is pulled out and recorded as its own fact
-          // type below rather than spread flatly into the api_contract
-          // fact -- it's an array of routing entries, not a scalar field,
-          // and keeping it separate makes it directly queryable as an
-          // Event Routing Table instead of nested inside every http
-          // contract's evidence blob.
-          const { pubsubEventRoutes, ...handlerResolution } = resolveHandlerDeclaration(handlerArg, clonePath, base.path);
+                const { baseType, required, validValues } = walkJoiChain(fieldInit);
 
-          rawApiContracts.push({
-            ...base,
-            line,
-            contractType: exactMethodName === "onCall" ? "callable" : "http",
-            rawText: callExpr.getText(),
-            value: handlerResolution.handlerName || exactMethodName,
-            callableExportName,
-            calleeExpression: calleeText,
-            calleeSymbol,
-            aliasedCalleeSymbol,
-            declarationFile,
-            declarationModuleSpecifier,
-            resolutionStatus,
-            ...handlerResolution,
-          });
-
-          if (handlerResolution.pubsubPushReceiver && pubsubEventRoutes.length > 0) {
-            // routeIndex disambiguates facts when dataType can't be
-            // resolved (e.g. a nested switch keyed on an enum member access
-            // like `case ActivityUserType.USER:`, confirmed 2026-08-01 --
-            // resolveExpressionValue doesn't resolve enum member access via
-            // the enum's own name yet) or, in principle, if two cases ever
-            // resolved to the same literal -- either way, dataType alone
-            // isn't a safe uniqueness key on its own.
-            pubsubEventRoutes.forEach((route, routeIndex) => {
-              rawPubSubEventRoutes.push({
-                ...base,
-                line,
-                sourceHandler: handlerResolution.handlerName,
-                sourceHandlerFile: handlerResolution.handlerDeclarationFile,
-                routeIndex,
-                ...route,
-              });
-            });
+                rawJoiSchemaFields.push({
+                  ...base,
+                  line: prop.getStartLineNumber(),
+                  schemaExportName,
+                  fieldName,
+                  joiType: baseType,
+                  required,
+                  validValues,
+                });
+              }
+            }
           }
         }
 
@@ -1136,44 +947,6 @@ function main() {
         }
       }
 
-      // 9. Permission Hints AST Traversal (Strict Error & Auth Check Classification)
-      for (const lit of sf.getDescendantsOfKind(SyntaxKind.StringLiteral)) {
-        const val = lit.getLiteralValue();
-        const isVersioned = /^v\d+\.[a-zA-Z0-9_.:-]+$/.test(val);
-        const isError = val === "permission-denied";
-        const isConst = val.startsWith("PERMISSION_") || val.startsWith("SCOPE_") || isError;
-
-        if (isVersioned || isConst) {
-          const line = lit.getStartLineNumber();
-          const parentCall = lit.getFirstAncestorByKind(SyntaxKind.CallExpression);
-          const contextExpr = parentCall?.getExpression().getText() || null;
-
-          let candidateType: "versioned_permission" | "permission_constant" | "scope_constant" | "permission_error" | "heuristic" = "heuristic";
-          if (isError) {
-            candidateType = "permission_error";
-          } else if (isVersioned) {
-            candidateType = "versioned_permission";
-          } else if (val.startsWith("PERMISSION_")) {
-            candidateType = "permission_constant";
-          } else if (val.startsWith("SCOPE_")) {
-            candidateType = "scope_constant";
-          }
-
-          let isConfirmed = false;
-          if (isVersioned && contextExpr) {
-            isConfirmed = Array.from(AUTH_CHECK_METHODS).some(m => contextExpr.includes(m));
-          }
-
-          rawPermissionHints.push({
-            ...base,
-            line,
-            permission: val,
-            permissionCandidateType: candidateType,
-            confidence: isConfirmed ? "confirmed" : "candidate",
-            contextExpression: contextExpr,
-          });
-        }
-      }
     } catch (err: any) {
       rawErrors.push({
         file: base.path,
@@ -1195,12 +968,10 @@ function main() {
   rawEnums.sort(sortFn);
   rawModelProperties.sort(sortFn);
   rawCalls.sort(sortFn);
-  rawFirestoreHints.sort(sortFn);
-  rawPermissionHints.sort(sortFn);
   rawExternalHooks.sort(sortFn);
-  rawApiContracts.sort(sortFn);
-  rawTriggers.sort(sortFn);
-  rawPubSubEventRoutes.sort(sortFn);
+  rawMongoOperations.sort(sortFn);
+  rawRouteDefinitions.sort(sortFn);
+  rawJoiSchemaFields.sort(sortFn);
   rawErrors.sort(sortFn);
 
   // Write raw facts atomically
@@ -1213,12 +984,10 @@ function main() {
   writeJsonAtomically(path.join(rawDir, "ast-enums.json"), rawEnums, "facts/ast-enums.json");
   writeJsonAtomically(path.join(rawDir, "ast-model-properties.json"), rawModelProperties, "facts/ast-model-properties.json");
   writeJsonAtomically(path.join(rawDir, "ast-calls.json"), rawCalls, "facts/ast-calls.json");
-  writeJsonAtomically(path.join(rawDir, "ast-firestore-hints.json"), rawFirestoreHints, "facts/ast-firestore-hints.json");
-  writeJsonAtomically(path.join(rawDir, "ast-permission-hints.json"), rawPermissionHints, "facts/ast-permission-hints.json");
   writeJsonAtomically(path.join(rawDir, "ast-external-hooks.json"), rawExternalHooks, "facts/ast-external-hooks.json");
-  writeJsonAtomically(path.join(rawDir, "ast-api-contracts.json"), rawApiContracts, "facts/ast-api-contracts.json");
-  writeJsonAtomically(path.join(rawDir, "ast-firestore-triggers.json"), rawTriggers, "facts/ast-firestore-triggers.json");
-  writeJsonAtomically(path.join(rawDir, "ast-pubsub-event-routes.json"), rawPubSubEventRoutes, "facts/ast-pubsub-event-routes.json");
+  writeJsonAtomically(path.join(rawDir, "ast-mongo-operations.json"), rawMongoOperations, "facts/ast-mongo-operations.json");
+  writeJsonAtomically(path.join(rawDir, "ast-route-definitions.json"), rawRouteDefinitions, "facts/ast-route-definitions.json");
+  writeJsonAtomically(path.join(rawDir, "ast-joi-schema-fields.json"), rawJoiSchemaFields, "facts/ast-joi-schema-fields.json");
   writeJsonAtomically(path.join(rawDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
 
   // AST error-tolerance gate: previously rawErrors were collected and
@@ -1271,12 +1040,10 @@ function main() {
       { file: "ast-enums.json", evidenceType: "enums", recordCount: rawEnums.length, required: true },
       { file: "ast-model-properties.json", evidenceType: "modelProperties", recordCount: rawModelProperties.length, required: true },
       { file: "ast-calls.json", evidenceType: "calls", recordCount: rawCalls.length, required: true },
-      { file: "ast-firestore-hints.json", evidenceType: "firestoreHints", recordCount: rawFirestoreHints.length, required: true },
-      { file: "ast-permission-hints.json", evidenceType: "permissionHints", recordCount: rawPermissionHints.length, required: true },
       { file: "ast-external-hooks.json", evidenceType: "externalHooks", recordCount: rawExternalHooks.length, required: true },
-      { file: "ast-api-contracts.json", evidenceType: "apiContracts", recordCount: rawApiContracts.length, required: true },
-      { file: "ast-firestore-triggers.json", evidenceType: "firestoreTriggers", recordCount: rawTriggers.length, required: true },
-      { file: "ast-pubsub-event-routes.json", evidenceType: "pubsubEventRoutes", recordCount: rawPubSubEventRoutes.length, required: true },
+      { file: "ast-mongo-operations.json", evidenceType: "mongoOperations", recordCount: rawMongoOperations.length, required: true },
+      { file: "ast-route-definitions.json", evidenceType: "routeDefinitions", recordCount: rawRouteDefinitions.length, required: true },
+      { file: "ast-joi-schema-fields.json", evidenceType: "joiSchemaFields", recordCount: rawJoiSchemaFields.length, required: true },
     ],
     errors: {
       file: "ast-errors.json",
@@ -1300,12 +1067,10 @@ function main() {
     enums: rawEnums.length,
     modelProperties: rawModelProperties.length,
     calls: rawCalls.length,
-    firestoreHints: rawFirestoreHints.length,
-    permissionHints: rawPermissionHints.length,
     externalHooks: rawExternalHooks.length,
-    apiContracts: rawApiContracts.length,
-    firestoreTriggers: rawTriggers.length,
-    pubsubEventRoutes: rawPubSubEventRoutes.length,
+    mongoOperations: rawMongoOperations.length,
+    routeDefinitions: rawRouteDefinitions.length,
+    joiSchemaFields: rawJoiSchemaFields.length,
     errors: rawErrors.length,
   });
   console.log(`AST evidence manifest written to: ${path.join(rawDir, "ast-evidence-manifest.json")}`);

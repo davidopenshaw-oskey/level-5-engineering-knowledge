@@ -81,6 +81,55 @@
           ]
         }
       }
+    },
+    {
+      "name": "angular-app-oskey-io",
+      "_note": "web-app (PGO Portal for property managers) only, per governance/roadmap/angular-app-oskey-io/00-phase1-ast-extraction-design.md Decision 1. web-admin is a planned second, separate entry once this one is proven. Phase 2 block deliberately omitted -- no contracts/grounding docs exist for this repo yet; add once Phase 1's fact shape is settled.",
+      "gitUrl": "https://github.com/oskey-io/angular-app-oskey-io.git",
+      "branch": "staging",
+      "modulesRoot": "hosting/web-app/src/app",
+
+      "tsconfigRelativePath": "hosting/web-app/tsconfig.json",
+
+      "astErrorTolerancePercent": 0,
+
+      "classificationRules": {
+        "_note": "Provisional -- Firebase's service-vs-controller suffix classification may not be the right model for Angular at all (decorator type, e.g. @Component/@Injectable/@Directive, is likely more meaningful than name suffix). Revisit once Stage 3's extraction logic is actually designed.",
+        "serviceSuffixes": ["Service"],
+        "controllerSuffixes": []
+      },
+
+      "normalizationRules": {
+        "stripPrefixes": ["OSK"],
+        "stripServiceSuffixes": ["Service"],
+        "stripControllerSuffixes": [],
+        "serviceClassSuffixes": ["Service"]
+      }
+    },
+    {
+      "name": "node-iot-api-oskey-io",
+      "_note": "Decisions 1-3 approved 2026-08-28 -- see governance/roadmap/node-iot-api-oskey-io/00-phase1-ast-extraction-design.md. Verified finding: this repo has exactly ONE business domain (access_control_device, not 'e.g.' one of several) spread across 6 technical-layer folders (controllers/, routes/, handlers/, models/, schema/, core/) as a FILENAME PREFIX, with 5 real sub-resources (accesses/configs/firmwares/intercom_entries/activities) recoverable via import-graph reachability from the 5 routes/*.route.ts files -- NOT via prefix string-matching (verified unreliable, see doc point 4). Neither Firebase's folder-based module convention nor Angular's route-tree convention applies as-is; 00-scan-repo.ts needs a real repo-specific rewrite (Decision 1: hardcode module=\"access_control_device\"; Decision 2: submodule via import-graph reachability from the 5 route roots, submodule=null for shared/core files, submodule=\"_unreferenced\" for the 4 verified-dead files) -- Handoff 1 done and verified 2026-08-28, all 44 files match expected output exactly. Same OSK-prefix/Controller-suffix naming convention as Firebase confirmed by inspection, so stripPrefixes/stripControllerSuffixes below are NOT a guess.",
+      "gitUrl": "https://github.com/oskey-io/node-iot-api-oskey-io.git",
+      "branch": "staging",
+      "modulesRoot": "src/v1",
+
+      "tsconfigRelativePath": "tsconfig.json",
+
+      "astErrorTolerancePercent": 0,
+
+      "classificationRules": {
+        "serviceSuffixes": ["Service"],
+        "controllerSuffixes": ["Controller"],
+        "routeHandlerSuffixes": ["RouteHandler"]
+      },
+
+      "normalizationRules": {
+        "stripPrefixes": ["OSK"],
+        "stripServiceSuffixes": ["Service"],
+        "stripControllerSuffixes": ["Controller"],
+        "stripRouteHandlerSuffixes": ["RouteHandler"],
+        "serviceClassSuffixes": ["Service"]
+      }
     }
   ]
 }

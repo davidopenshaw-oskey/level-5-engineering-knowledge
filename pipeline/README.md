@@ -14,7 +14,7 @@ pipeline/
 │   ├── phase-01.75-graph-resolution/
 │   └── phase-02-inter-module-synthesis/
 │
-├── node-iot-oskey-dev/                   ◄── Node-IoT Middleware Knowledge Pipeline (Joi, Mongo, ACDS)
+├── node-iot-api-oskey-io/                ◄── Node-IoT Middleware Knowledge Pipeline (Joi, MongoDB, Pub/Sub, ACDS)
 │   ├── phase-00-repo-scanner/
 │   └── phase-01-ast-extraction/
 │

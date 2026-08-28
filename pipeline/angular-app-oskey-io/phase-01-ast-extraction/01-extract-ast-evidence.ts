@@ -10,6 +10,7 @@
 
 import fs from "fs";
 import path from "path";
+import { parseTemplate } from "@angular/compiler";
 import { Project, SyntaxKind, Node, ClassDeclaration, MethodDeclaration, FunctionDeclaration, Identifier, Symbol, Type, SourceFile } from "ts-morph";
 import {
   RunNotifications,
@@ -627,6 +628,13 @@ function main() {
   const rawApiContracts: any[] = [];
   const rawTriggers: any[] = [];
   const rawPubSubEventRoutes: any[] = [];
+  const rawAngularDecorators: any[] = [];
+  const rawFirebaseCallableCalls: any[] = [];
+  const rawAngularRoutes: any[] = [];
+  const rawAngularGuards: any[] = [];
+  const rawAngularSignals: any[] = [];
+  const rawAngularTemplateComposition: any[] = [];
+  const rawAngularTemplateBindings: any[] = [];
   const rawErrors: any[] = [];
 
   for (const { file, base, absolutePath } of runtimeFiles) {
@@ -704,6 +712,182 @@ function main() {
           extendsClass,
           isExported,
         });
+
+      const componentDecorator = cls.getDecorator("Component");
+      const injectableDecorator = cls.getDecorator("Injectable");
+
+      if (componentDecorator || injectableDecorator) {
+        const decorator = componentDecorator || injectableDecorator!;
+        const decoratorType = componentDecorator ? "Component" : "Injectable";
+
+        let selector: string | null = null;
+        let standalone: boolean | null = null;
+        let templateUrl: string | null = null;
+        let styleUrls: string[] | null = null;
+        let imports: string[] | null = null;
+        let providedIn: string | null = null;
+
+        const args = decorator.getArguments();
+        if (args.length > 0 && Node.isObjectLiteralExpression(args[0])) {
+          const obj = args[0];
+
+          const getStringVal = (propName: string) => {
+            const prop = obj.getProperty(propName);
+            if (prop && Node.isPropertyAssignment(prop)) {
+              const init = prop.getInitializer();
+              if (init && (Node.isStringLiteral(init) || Node.isNoSubstitutionTemplateLiteral(init))) {
+                return init.getLiteralValue();
+              }
+            }
+            return null;
+          };
+
+          if (decoratorType === "Component") {
+            selector = getStringVal("selector");
+            templateUrl = getStringVal("templateUrl");
+
+            const stdProp = obj.getProperty("standalone");
+            if (stdProp && Node.isPropertyAssignment(stdProp)) {
+              const initText = stdProp.getInitializer()?.getText();
+              if (initText === "true") standalone = true;
+              else if (initText === "false") standalone = false;
+            }
+
+            const stylesArrProp = obj.getProperty("styleUrls");
+            if (stylesArrProp && Node.isPropertyAssignment(stylesArrProp)) {
+              const init = stylesArrProp.getInitializer();
+              if (init && Node.isArrayLiteralExpression(init)) {
+                styleUrls = init.getElements().map(e => {
+                  if (Node.isStringLiteral(e) || Node.isNoSubstitutionTemplateLiteral(e)) return e.getLiteralValue();
+                  return null;
+                }).filter((s): s is string => s !== null);
+              }
+            } else {
+              const styleStrVal = getStringVal("styleUrl");
+              if (styleStrVal !== null) styleUrls = [styleStrVal];
+            }
+
+            const impProp = obj.getProperty("imports");
+            if (impProp && Node.isPropertyAssignment(impProp)) {
+              const init = impProp.getInitializer();
+              if (init && Node.isArrayLiteralExpression(init)) {
+                imports = init.getElements().map(e => e.getText());
+              }
+            }
+          } else {
+            providedIn = getStringVal("providedIn");
+          }
+        }
+
+        rawAngularDecorators.push({
+          ...base,
+          line: cls.getStartLineNumber(),
+          className,
+          decoratorType,
+          selector,
+          standalone,
+          templateUrl,
+          styleUrls,
+          imports,
+          providedIn
+        });
+
+        if (decoratorType === "Component" && templateUrl) {
+          try {
+            const templateAbsolutePath = path.resolve(path.dirname(absolutePath), templateUrl);
+            if (fs.existsSync(templateAbsolutePath)) {
+              const templateRepoPath = toRepoPath(templateAbsolutePath, clonePath);
+              const templateHtml = fs.readFileSync(templateAbsolutePath, 'utf8');
+              const parsed = parseTemplate(templateHtml, templateRepoPath);
+
+              const visitNode = (node: any) => {
+                if (!node) return;
+
+                // Check for Element-like structures that have names
+                if (node.name && node.sourceSpan && node.sourceSpan.start !== undefined) {
+                  const templateLine = node.sourceSpan.start.line + 1;
+                  const elementTag = node.name;
+
+                  if (elementTag.includes("-")) {
+                    rawAngularTemplateComposition.push({
+                      ...base,
+                      className,
+                      templatePath: templateRepoPath,
+                      templateLine,
+                      elementTag
+                    });
+                  }
+
+                  if (Array.isArray(node.inputs)) {
+                    for (const input of node.inputs) {
+                      rawAngularTemplateBindings.push({
+                        ...base,
+                        className,
+                        templatePath: templateRepoPath,
+                        templateLine,
+                        elementTag,
+                        bindingKind: "input",
+                        bindingName: input.name,
+                        bindingValueRaw: input.value?.source || ""
+                      });
+                    }
+                  }
+
+                  if (Array.isArray(node.outputs)) {
+                    for (const output of node.outputs) {
+                      rawAngularTemplateBindings.push({
+                        ...base,
+                        className,
+                        templatePath: templateRepoPath,
+                        templateLine,
+                        elementTag,
+                        bindingKind: "output",
+                        bindingName: output.name,
+                        bindingValueRaw: output.handler?.source || ""
+                      });
+                    }
+                  }
+                }
+
+                if (Array.isArray(node.children)) node.children.forEach(visitNode);
+                if (Array.isArray(node.branches)) {
+                  node.branches.forEach((branch: any) => {
+                    if (Array.isArray(branch.children)) branch.children.forEach(visitNode);
+                  });
+                }
+              };
+
+              if (Array.isArray(parsed.nodes)) parsed.nodes.forEach(visitNode);
+            }
+          } catch (err: any) {
+            rawErrors.push({ file: base.path, stage: 'template_parsing', message: err.message });
+          }
+        }
+      }
+
+        for (const prop of cls.getProperties()) {
+          const init = prop.getInitializer();
+          if (init && Node.isCallExpression(init)) {
+            const calleeText = init.getExpression().getText();
+            if (calleeText === "signal" || calleeText === "computed") {
+              let accessModifier: "public" | "protected" | "private" | null = null;
+              if (prop.hasModifier(SyntaxKind.PrivateKeyword)) accessModifier = "private";
+              else if (prop.hasModifier(SyntaxKind.ProtectedKeyword)) accessModifier = "protected";
+              else if (prop.hasModifier(SyntaxKind.PublicKeyword)) accessModifier = "public";
+
+              rawAngularSignals.push({
+                ...base,
+                line: prop.getStartLineNumber(),
+                className,
+                propertyName: prop.getName(),
+                signalKind: calleeText,
+                isReadonly: prop.isReadonly(),
+                accessModifier,
+                typeAnnotationText: prop.getTypeNode()?.getText() || null,
+              });
+            }
+          }
+        }
 
         for (const method of cls.getMethods()) {
           const methodName = method.getName();
@@ -1075,10 +1259,6 @@ function main() {
         // 8d. API Contracts (onCall / onRequest Handler Symbol Resolution)
         if (exactMethodName && ["onCall", "onRequest"].includes(exactMethodName)) {
           const handlerArg = callExpr.getArguments()[1] || callExpr.getArguments()[0];
-
-          const parent = callExpr.getParent();
-          const callableExportName = Node.isPropertyAssignment(parent) ? parent.getName() : null;
-
           // pubsubEventRoutes is pulled out and recorded as its own fact
           // type below rather than spread flatly into the api_contract
           // fact -- it's an array of routing entries, not a scalar field,
@@ -1093,7 +1273,6 @@ function main() {
             contractType: exactMethodName === "onCall" ? "callable" : "http",
             rawText: callExpr.getText(),
             value: handlerResolution.handlerName || exactMethodName,
-            callableExportName,
             calleeExpression: calleeText,
             calleeSymbol,
             aliasedCalleeSymbol,
@@ -1133,6 +1312,35 @@ function main() {
             value: calleeText,
             confidence: "confirmed",
           });
+        }
+
+        // 8f. Firebase Https Callable extraction (by type resolution)
+        if (exactMethodName === "call" && Node.isPropertyAccessExpression(expr)) {
+          const objectExpr = expr.getExpression();
+          try {
+            const objectType = objectExpr.getType();
+            const typeSymbolName = objectType.getSymbol()?.getName();
+
+            if (typeSymbolName === "OSKFirebaseHttpsService") {
+              const callArgs = callExpr.getArguments();
+              const firstArg = callArgs[0];
+
+              if (firstArg && (Node.isStringLiteral(firstArg) || Node.isNoSubstitutionTemplateLiteral(firstArg))) {
+                const typeArgs = callExpr.getTypeArguments();
+
+                rawFirebaseCallableCalls.push({
+                  ...base,
+                  line,
+                  functionName: firstArg.getLiteralValue(),
+                  requestTypeText: typeArgs[0] ? typeArgs[0].getText() : null,
+                  responseTypeText: typeArgs[1] ? typeArgs[1].getText() : null,
+                  hasDataArgument: callArgs.length > 1,
+                });
+              }
+            }
+          } catch {
+            // Ignore type resolution failures on malformed AST segments
+          }
         }
       }
 
@@ -1174,6 +1382,78 @@ function main() {
           });
         }
       }
+
+      // 10. Angular Routes
+      for (const varDecl of sf.getVariableDeclarations()) {
+        if (varDecl.getName() === "routes" && varDecl.isExported()) {
+          const init = varDecl.getInitializer();
+          if (init && Node.isArrayLiteralExpression(init)) {
+            for (const element of init.getElements()) {
+              if (Node.isObjectLiteralExpression(element)) {
+                const pathProp = element.getProperty("path");
+                if (pathProp && Node.isPropertyAssignment(pathProp)) {
+                  const pathInit = pathProp.getInitializer();
+                  if (pathInit && (Node.isStringLiteral(pathInit) || Node.isNoSubstitutionTemplateLiteral(pathInit))) {
+                    
+                    const getStringVal = (propName: string) => {
+                      const prop = element.getProperty(propName);
+                      if (prop && Node.isPropertyAssignment(prop)) {
+                        const pInit = prop.getInitializer();
+                        if (pInit && (Node.isStringLiteral(pInit) || Node.isNoSubstitutionTemplateLiteral(pInit))) {
+                          return pInit.getLiteralValue();
+                        }
+                      }
+                      return null;
+                    };
+
+                    const getRawVal = (propName: string) => {
+                      const prop = element.getProperty(propName);
+                      return prop && Node.isPropertyAssignment(prop) ? prop.getInitializer()?.getText() || null : null;
+                    };
+
+                    const getArrayRawVals = (propName: string) => {
+                      const prop = element.getProperty(propName);
+                      if (prop && Node.isPropertyAssignment(prop)) {
+                        const pInit = prop.getInitializer();
+                        if (pInit && Node.isArrayLiteralExpression(pInit)) return pInit.getElements().map(e => e.getText());
+                      }
+                      return null;
+                    };
+
+                    rawAngularRoutes.push({
+                      ...base,
+                      line: element.getStartLineNumber(),
+                      routePath: pathInit.getLiteralValue(),
+                      pathMatch: getStringVal("pathMatch"),
+                      loadComponentRaw: getRawVal("loadComponent"),
+                      loadChildrenRaw: getRawVal("loadChildren"),
+                      redirectTo: getStringVal("redirectTo"),
+                      canActivate: getArrayRawVals("canActivate"),
+                    });
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // 11. Angular Guards
+      for (const varDecl of sf.getVariableDeclarations()) {
+        const typeNode = varDecl.getTypeNode();
+        if (typeNode) {
+          const typeText = typeNode.getText();
+          if (typeText === "CanActivateFn" || typeText === "CanMatchFn") {
+            rawAngularGuards.push({
+              ...base,
+              line: varDecl.getStartLineNumber(),
+              guardName: varDecl.getName(),
+              guardType: typeText,
+              isExported: varDecl.isExported(),
+            });
+          }
+        }
+      }
     } catch (err: any) {
       rawErrors.push({
         file: base.path,
@@ -1201,6 +1481,13 @@ function main() {
   rawApiContracts.sort(sortFn);
   rawTriggers.sort(sortFn);
   rawPubSubEventRoutes.sort(sortFn);
+  rawAngularDecorators.sort(sortFn);
+  rawFirebaseCallableCalls.sort(sortFn);
+  rawAngularRoutes.sort(sortFn);
+  rawAngularGuards.sort(sortFn);
+  rawAngularSignals.sort(sortFn);
+  rawAngularTemplateComposition.sort(sortFn);
+  rawAngularTemplateBindings.sort(sortFn);
   rawErrors.sort(sortFn);
 
   // Write raw facts atomically
@@ -1219,6 +1506,13 @@ function main() {
   writeJsonAtomically(path.join(rawDir, "ast-api-contracts.json"), rawApiContracts, "facts/ast-api-contracts.json");
   writeJsonAtomically(path.join(rawDir, "ast-firestore-triggers.json"), rawTriggers, "facts/ast-firestore-triggers.json");
   writeJsonAtomically(path.join(rawDir, "ast-pubsub-event-routes.json"), rawPubSubEventRoutes, "facts/ast-pubsub-event-routes.json");
+  writeJsonAtomically(path.join(rawDir, "ast-angular-decorators.json"), rawAngularDecorators, "facts/ast-angular-decorators.json");
+  writeJsonAtomically(path.join(rawDir, "ast-firebase-callable-calls.json"), rawFirebaseCallableCalls, "facts/ast-firebase-callable-calls.json");
+  writeJsonAtomically(path.join(rawDir, "ast-angular-routes.json"), rawAngularRoutes, "facts/ast-angular-routes.json");
+  writeJsonAtomically(path.join(rawDir, "ast-angular-guards.json"), rawAngularGuards, "facts/ast-angular-guards.json");
+  writeJsonAtomically(path.join(rawDir, "ast-angular-signals.json"), rawAngularSignals, "facts/ast-angular-signals.json");
+  writeJsonAtomically(path.join(rawDir, "ast-angular-template-composition.json"), rawAngularTemplateComposition, "facts/ast-angular-template-composition.json");
+  writeJsonAtomically(path.join(rawDir, "ast-angular-template-bindings.json"), rawAngularTemplateBindings, "facts/ast-angular-template-bindings.json");
   writeJsonAtomically(path.join(rawDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
 
   // AST error-tolerance gate: previously rawErrors were collected and
@@ -1277,6 +1571,13 @@ function main() {
       { file: "ast-api-contracts.json", evidenceType: "apiContracts", recordCount: rawApiContracts.length, required: true },
       { file: "ast-firestore-triggers.json", evidenceType: "firestoreTriggers", recordCount: rawTriggers.length, required: true },
       { file: "ast-pubsub-event-routes.json", evidenceType: "pubsubEventRoutes", recordCount: rawPubSubEventRoutes.length, required: true },
+      { file: "ast-angular-decorators.json", evidenceType: "angularDecorators", recordCount: rawAngularDecorators.length, required: true },
+      { file: "ast-firebase-callable-calls.json", evidenceType: "firebaseCallableCalls", recordCount: rawFirebaseCallableCalls.length, required: true },
+      { file: "ast-angular-routes.json", evidenceType: "angularRoutes", recordCount: rawAngularRoutes.length, required: true },
+      { file: "ast-angular-guards.json", evidenceType: "angularGuards", recordCount: rawAngularGuards.length, required: true },
+      { file: "ast-angular-signals.json", evidenceType: "angularSignals", recordCount: rawAngularSignals.length, required: true },
+      { file: "ast-angular-template-composition.json", evidenceType: "angularTemplateComposition", recordCount: rawAngularTemplateComposition.length, required: true },
+      { file: "ast-angular-template-bindings.json", evidenceType: "angularTemplateBindings", recordCount: rawAngularTemplateBindings.length, required: true },
     ],
     errors: {
       file: "ast-errors.json",
@@ -1306,6 +1607,13 @@ function main() {
     apiContracts: rawApiContracts.length,
     firestoreTriggers: rawTriggers.length,
     pubsubEventRoutes: rawPubSubEventRoutes.length,
+    angularDecorators: rawAngularDecorators.length,
+    firebaseCallableCalls: rawFirebaseCallableCalls.length,
+    angularRoutes: rawAngularRoutes.length,
+    angularGuards: rawAngularGuards.length,
+    angularSignals: rawAngularSignals.length,
+    angularTemplateComposition: rawAngularTemplateComposition.length,
+    angularTemplateBindings: rawAngularTemplateBindings.length,
     errors: rawErrors.length,
   });
   console.log(`AST evidence manifest written to: ${path.join(rawDir, "ast-evidence-manifest.json")}`);
