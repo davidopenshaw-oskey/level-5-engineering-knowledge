@@ -1,0 +1,315 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/apis/user-api-reference.md",
+  "generatedAt": "2026-08-27T16:57:23.956Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "user",
+    "sourceCapabilities": [
+      "_module_root",
+      "user_access",
+      "user_activity",
+      "user_call",
+      "user_device",
+      "user_intercoms",
+      "user_invitation",
+      "user_notification",
+      "user_organization",
+      "user_pincode",
+      "user_settings"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_activity/index.ts` (lines 42-51)",
+      "file": "functions/src/modules/user/modules/user_activity/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/index.ts` (lines 54-135)",
+      "file": "functions/src/modules/user/modules/user_notification/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/index.ts` (lines 137-187)",
+      "file": "functions/src/modules/user/modules/user_notification/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/index.ts` (lines 24-71)",
+      "file": "functions/src/modules/user/modules/user_notification/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/index.ts` (lines 39-56)",
+      "file": "functions/src/modules/user/modules/user_organization/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/index.ts` (lines 58-176)",
+      "file": "functions/src/modules/user/modules/user_organization/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/index.ts` (lines 178-244)",
+      "file": "functions/src/modules/user/modules/user_organization/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_settings/index.ts` (lines 36-45)",
+      "file": "functions/src/modules/user/modules/user_settings/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|deleteUserProfileImage|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|deleteUserProfileImage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|getCurrentUserUnits|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|getCurrentUserUnits|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|getInhabitantType|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|getInhabitantType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|getUserIdsByEmailOrPhone|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|getUserIdsByEmailOrPhone|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|initiateEmailChange|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|initiateEmailChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|initiatePhoneNumberChange|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|initiatePhoneNumberChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|onUpdatePhoneNumberCalled|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|onUpdatePhoneNumberCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|onUpdatePublicProfileCalled|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|onUpdatePublicProfileCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|onUpdateUserOnboardingStatusCalled|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|onUpdateUserOnboardingStatusCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|onUpdateUserProfileAndPhoneNumberCalled|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|onUpdateUserProfileAndPhoneNumberCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|onUpdateUserSettingsLanguageCalled|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|onUpdateUserSettingsLanguageCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|requestMyAccountDeletion|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|requestMyAccountDeletion|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|verifyAndCompleteEmailChange|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|verifyAndCompleteEmailChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|verifyAndCompletePhoneNumberChange|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|verifyAndCompletePhoneNumberChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/index.ts|pubsub.schedule('00 00 * * *').onRun|getScheduledFunctionTriggers|async () => OSKUserService.onDeleteAccount()|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/index.ts|pubsub.schedule('00 00 * * *').onRun|getScheduledFunctionTriggers|async () => OSKUserService.onDeleteAccount()|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|delete|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|deleteAll|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|deleteAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getActivityByBuildingId|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getActivityByBuildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getActivityById|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getActivityById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getAllUserActivities|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getAllUserActivities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|user|functions/src/modules/user/modules/user_device/index.ts|/users/{userId}/devices/{deviceId}|#1`",
+      "factId": "firestore_path_touched|user|functions/src/modules/user/modules/user_device/index.ts|/users/{userId}/devices/{deviceId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_device/index.ts|db.document(userDevicePath).onCreate|getFirestoreTriggers|OSKUserDeviceService.onDocumentCreated|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_device/index.ts|db.document(userDevicePath).onCreate|getFirestoreTriggers|OSKUserDeviceService.onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_device/index.ts|db.document(userDevicePath).onUpdate|getFirestoreTriggers|OSKUserDeviceService.onDocumentUpdated|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_device/index.ts|db.document(userDevicePath).onUpdate|getFirestoreTriggers|OSKUserDeviceService.onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_device/index.ts|db.document(userDevicePath).onDelete|getFirestoreTriggers|OSKUserDeviceService.onDocumentDeleted|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_device/index.ts|db.document(userDevicePath).onDelete|getFirestoreTriggers|OSKUserDeviceService.onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|createUserInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|createUserInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|deleteInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|deleteInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|editInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|editInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|getExternalUserInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|getExternalUserInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviteeAcceptsInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviteeAcceptsInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviteeRejectsInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviteeRejectsInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviterCancelsInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviterCancelsInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|onGetAllInvitationsByUser|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|onGetAllInvitationsByUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|processExternalUserInvitations|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|processExternalUserInvitations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 47,
+    "verified": 45,
+    "lineUnverified": 2,
+    "fileNotFound": 0
+  }
+}

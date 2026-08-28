@@ -1,0 +1,226 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/engineering-profiles/access_control_device-engineering-profile.md",
+  "generatedAt": "2026-08-27T16:40:51.093Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "access_control_device",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device.controller.ts` (lines 28-54)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device.controller.ts` (lines 56-103)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts` (lines 27-84)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts` (lines 90-93)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts` (lines 26-72)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts` (lines 110-202)",
+      "file": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts` (lines 74-89)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts` (lines 40-174)",
+      "file": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts` (lines 20-73)",
+      "file": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device.controller.ts` (lines 28-103)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts` (lines 27-84)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts` (lines 26-72)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts` (lines 16-33)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts` (lines 16-35)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts` (lines 16-38)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (lines 110-155)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (lines 157-202)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (line 78)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (line 81)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (line 84)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (line 87)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (line 90)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (line 93)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (line 96)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts` (line 141)",
+      "file": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts` (line 84)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts` (line 92)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts` (lines 51-73)",
+      "file": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts` (lines 20-44)",
+      "file": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts` (line 46)",
+      "file": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts` (line 141)",
+      "file": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onAddAccessControlDevicePublicKeyCalled|#1`",
+      "factId": "api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onAddAccessControlDevicePublicKeyCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onDeleteAccessControlDevicePublicKeyCalled|#1`",
+      "factId": "api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onDeleteAccessControlDevicePublicKeyCalled|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 33,
+    "verified": 32,
+    "lineUnverified": 1,
+    "fileNotFound": 0
+  }
+}

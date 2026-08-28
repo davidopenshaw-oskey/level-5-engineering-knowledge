@@ -1,0 +1,1433 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/engineering-profiles/organization-engineering-profile.md",
+  "generatedAt": "2026-08-27T17:07:01.484Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "organization",
+    "sourceCapabilities": [
+      "_module_root",
+      "organization_building",
+      "organization_building_invitation",
+      "organization_entity",
+      "organization_inhabitant",
+      "organization_intercom_ communication",
+      "organization_onboarding_inhabitant",
+      "organization_pending",
+      "organization_prompt_templates",
+      "organization_property",
+      "organization_residents",
+      "organization_user",
+      "organization_user_access",
+      "organization_user_invitation"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building/controllers/organization_building.controller.ts` (lines 16-48)",
+      "file": "functions/src/modules/organization/modules/organization_building/controllers/organization_building.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts` (lines 41-174)",
+      "file": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts` (lines 176-224)",
+      "file": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts` (lines 226-293)",
+      "file": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts` (lines 295-397)",
+      "file": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts` (lines 28-54)",
+      "file": "functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts` (lines 177-201)",
+      "file": "functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts` (lines 56-109)",
+      "file": "functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (lines 575-719)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (lines 339-360)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (lines 362-373)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (line 653)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (lines 720-835)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (lines 922-1052)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (lines 837-920)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts` (lines 22-39)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (lines 1431-1493)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts` (lines 77-78)",
+      "file": "functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts` (line 99)",
+      "file": "functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts` (lines 66-70)",
+      "file": "functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/services/property.service.ts` (lines 39-294)",
+      "file": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/services/property.service.ts` (lines 295-361)",
+      "file": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/services/property.service.ts` (lines 363-421)",
+      "file": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/services/property.service.ts` (lines 422-467)",
+      "file": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/services/property.service.ts` (lines 105-110, 133-134)",
+      "file": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts` (lines 41-128)",
+      "file": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts` (lines 130-205)",
+      "file": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts` (lines 207-255)",
+      "file": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts` (lines 257-311)",
+      "file": "functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts` (lines 46-62)",
+      "file": "functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts` (lines 543-558)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts` (lines 226-238)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building/index.ts` (lines 39-51)",
+      "file": "functions/src/modules/organization/modules/organization_building/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building_invitation/index.ts` (lines 40-47)",
+      "file": "functions/src/modules/organization/modules/organization_building_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts` (line 38)",
+      "file": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/controllers/organization_onboarding_inhabitant.controller.ts` (lines 15-78)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/controllers/organization_onboarding_inhabitant.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (lines 67-1493)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts` (lines 19-109)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_prompt_templates/index.ts` (lines 35-44)",
+      "file": "functions/src/modules/organization/modules/organization_prompt_templates/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts` (lines 9-67)",
+      "file": "functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/services/property.service.ts` (lines 35-522)",
+      "file": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/index.ts` (lines 46-58)",
+      "file": "functions/src/modules/organization/modules/organization_property/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_pmp_user_invitation.controller.ts` (lines 10-25)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_pmp_user_invitation.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation_pending.controller.ts` (lines 11-24)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation_pending.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts` (lines 15-107)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts` (lines 44-738)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/controllers/organization.controller.ts` (lines 20-26)",
+      "file": "functions/src/modules/organization/controllers/organization.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/controllers/organization.controller.ts` (lines 28-61)",
+      "file": "functions/src/modules/organization/controllers/organization.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/utils/get_organization_user.util.ts` (lines 37-38)",
+      "file": "functions/src/modules/organization/utils/get_organization_user.util.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/utils/get_organization_user.util.ts` (lines 25-26)",
+      "file": "functions/src/modules/organization/utils/get_organization_user.util.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 174)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts` (lines 102, 150, 204, 258, 343, 384)",
+      "file": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts` (line 382)",
+      "file": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/controllers/organization_onboarding_inhabitant.controller.ts` (lines 18-78)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/controllers/organization_onboarding_inhabitant.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_prompt_templates/controllers/oraganization_prompt_templates.controller.ts` (lines 18-52)",
+      "file": "functions/src/modules/organization/modules/organization_prompt_templates/controllers/oraganization_prompt_templates.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts` (line 13)",
+      "file": "functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/services/property.service.ts` (lines 171, 289)",
+      "file": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/services/property.service.ts` (lines 350, 354)",
+      "file": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts` (lines 18-44)",
+      "file": "functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/index.ts` (lines 89-109)",
+      "file": "functions/src/modules/organization/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/index.ts` (lines 89-109)",
+      "file": "functions/src/modules/organization/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/index.ts` (lines 39-57)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/index.ts` (lines 51-61)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (lines 107, 145)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 145)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (lines 108, 219)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 219)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 106)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 109)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 105)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 110)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 111)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts` (lines 60, 195, 245, 326)",
+      "file": "functions/src/modules/organization/modules/organization_building_invitation/services/organization_building_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_entity/services/entity.service.ts` (lines 30, 50, 84, 134, 184, 228, 279, 343)",
+      "file": "functions/src/modules/organization/modules/organization_entity/services/entity.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (lines 90, 179, 254, 317, 617, 964)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts` (line 61)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (line 1439)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts` (lines 26, 40, 61, 85, 110)",
+      "file": "functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts` (lines 166, 304)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts` (lines 166, 304, 437)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts` (line 59)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/controllers/organization.controller.ts` (line 62)",
+      "file": "functions/src/modules/organization/controllers/organization.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/controllers/organization.controller.ts` (line 65)",
+      "file": "functions/src/modules/organization/controllers/organization.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 265)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 316)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts` (line 24)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_mail.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (line 1404)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts` (line 1403)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/services/organization_onboarding_inhabitant.service.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_prompt_templates/index.ts` (line 36)",
+      "file": "functions/src/modules/organization/modules/organization_prompt_templates/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts` (lines 42-44, 64-66)",
+      "file": "functions/src/modules/organization/modules/organization_property/controllers/property.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts` (line 540)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts` (line 576)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts` (line 553)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/services/organization_user_invitation.service.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/index.ts` (line 52)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/services/organization.service.ts` (line 38)",
+      "file": "functions/src/modules/organization/services/organization.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/index.ts` (lines 89-109)",
+      "file": "functions/src/modules/organization/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_property/services/property.service.ts` (line 319)",
+      "file": "functions/src/modules/organization/modules/organization_property/services/property.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|createAnOrganization|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|createAnOrganization|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|updateAnOrganization|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|updateAnOrganization|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|getAllOrganizations|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|getAllOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|deleteOrganizationLogo|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|deleteOrganizationLogo|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|uploadimage|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|uploadimage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`class_method|organization|functions/src/modules/organization/utils/get_organization_user.util.ts|OSKOrganizationUserUtils|getOrganizationUser|#1`",
+      "factId": "class_method|organization|functions/src/modules/organization/utils/get_organization_user.util.ts|OSKOrganizationUserUtils|getOrganizationUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|OSKOrganizationBuildingService|getAllOrganizationBuildings|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|OSKOrganizationBuildingService|getAllOrganizationBuildings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|OSKOrganizationBuildingService|getAllOrganizationBuildingsForOnboardingCards|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|OSKOrganizationBuildingService|getAllOrganizationBuildingsForOnboardingCards|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|OSKOrganizationBuildingService|getOrganizationBuildingById|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|OSKOrganizationBuildingService|getOrganizationBuildingById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|createEntity|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|createEntity|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|deleteEntity|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|deleteEntity|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|updateEntity|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|updateEntity|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|getEntityById|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|getEntityById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|getAllEntities|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|getAllEntities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|assignSubEntityToParent|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|assignSubEntityToParent|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|getEntityDashboardStatics|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|getEntityDashboardStatics|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|getBuildingsByEntityId|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService|getBuildingsByEntityId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts|OSKConsolidatedRolesController.default.checkUserPermissions|getAllOrganizationInhabitants|organizationUser.roles,rolesToCheck|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts|OSKConsolidatedRolesController.default.checkUserPermissions|getAllOrganizationInhabitants|organizationUser.roles,rolesToCheck|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|createPendingOrganization|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|createPendingOrganization|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|getAllPendingOrganizations|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|getAllPendingOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|getCurrentUserPendingOrganizations|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|getCurrentUserPendingOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|getPendingOrganizationById|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|getPendingOrganizationById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|approvePendingOrganizationRequest|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|approvePendingOrganizationRequest|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|rejectPendingOrganizationRequest|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_pending/index.ts|rejectPendingOrganizationRequest|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts|OSKOrganizationPromptTemplateService|get|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts|OSKOrganizationPromptTemplateService|get|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts|OSKOrganizationPromptTemplateService|getAll|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts|OSKOrganizationPromptTemplateService|getAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts|OSKOrganizationPromptTemplateService|delete|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts|OSKOrganizationPromptTemplateService|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts|OSKUserSecurityChecks|create|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts|OSKUserSecurityChecks|create|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|bulkCreateResidents|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|bulkCreateResidents|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|createAppUserResident|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|createAppUserResident|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|createNonAppUserResident|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|createNonAppUserResident|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|deleteResident|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|deleteResident|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService.logger.logInfo|checkInhabitantTypeAndDeleteAllInhabitantresident|Last main resident...|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService.logger.logInfo|checkInhabitantTypeAndDeleteAllInhabitantresident|Last main resident...|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|getAllResidents|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|getAllResidents|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|getAllResidentsByPropertyId|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|getAllResidentsByPropertyId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|updateResident|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService|updateResident|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|OSKOrganizationUserAccessService|setupOrganizationUserAccess|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|OSKOrganizationUserAccessService|setupOrganizationUserAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|OSKAccessUtilsService.generateAccessId|setupOrganizationUserAccess||#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|OSKAccessUtilsService.generateAccessId|setupOrganizationUserAccess||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|OSKAccessUtilsService.getAccessInviterName|setupOrganizationUserAccess|inviterId|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|OSKAccessUtilsService.getAccessInviterName|setupOrganizationUserAccess|inviterId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|Timestamp.now|setupOrganizationUserAccess||#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|Timestamp.now|setupOrganizationUserAccess||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|inviteUserWithInvitation|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|inviteUserWithInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|invitePMPUserWithInvitation|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|invitePMPUserWithInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|createPMPUserWithInvitation|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|createPMPUserWithInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|cancelUsersInvitation|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|cancelUsersInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|processPMPInvitation|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|processPMPInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|queryPMPInvitations|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|queryPMPInvitations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/controllers/organization.controller.ts|OSKOrganizationController`",
+      "factId": "source_class|organization|functions/src/modules/organization/controllers/organization.controller.ts|OSKOrganizationController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService`",
+      "factId": "source_class|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/utils/get_organization_user.util.ts|OSKOrganizationUserUtils`",
+      "factId": "source_class|organization|functions/src/modules/organization/utils/get_organization_user.util.ts|OSKOrganizationUserUtils",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_building/controllers/organization_building.controller.ts|OSKOrganizationBuildingController|#1`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_building/controllers/organization_building.controller.ts|OSKOrganizationBuildingController|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|OSKOrganizationBuildingService|#1`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|OSKOrganizationBuildingService|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_building/index.ts|getAllOrganizationBuildings|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_building/index.ts|getAllOrganizationBuildings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_building/index.ts|getAllOrganizationBuildingsForOnboardingCards|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_building/index.ts|getAllOrganizationBuildingsForOnboardingCards|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_building/index.ts|getOrganizationBuildingById|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_building/index.ts|getOrganizationBuildingById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts|OSKEntityController`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts|OSKEntityController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|organization|functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts|OSKEntityController|getCollectionPath|#1`",
+      "factId": "controller_method|organization|functions/src/modules/organization/modules/organization_entity/controllers/entity.controller.ts|OSKEntityController|getCollectionPath|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_inhabitant/controllers/organization_inhabitant.controller.ts|OSKOrganizationInhabitantController`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_inhabitant/controllers/organization_inhabitant.controller.ts|OSKOrganizationInhabitantController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts|OSKOrganizationInhabitantService`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts|OSKOrganizationInhabitantService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getAllOrganizationInhabitants|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getAllOrganizationInhabitants|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getInhabitantDetailsById|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getInhabitantDetailsById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_prompt_templates/controllers/oraganization_prompt_templates.controller.ts|OSKOrganizationPromptTemplateController`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_prompt_templates/controllers/oraganization_prompt_templates.controller.ts|OSKOrganizationPromptTemplateController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts|OSKOrganizationPromptTemplateService`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_prompt_templates/services/organization_prompt_templates.service.ts|OSKOrganizationPromptTemplateService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_residents/controllers/organization_residents.controller.ts|OSKOrganizationResidentsController`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_residents/controllers/organization_residents.controller.ts|OSKOrganizationResidentsController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKOrganizationResidentsService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts|OSKOrganizationUserController`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts|OSKOrganizationUserController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|OSKOrganizationUserService`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|OSKOrganizationUserService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|OSKOrganizationUserAccessService`",
+      "factId": "source_class|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|OSKOrganizationUserAccessService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|organization|functions/src/modules/organization/modules/organization_user_access/index.ts|./services/organization_user_access.service|#1`",
+      "factId": "exported_symbol|organization|functions/src/modules/organization/modules/organization_user_access/index.ts|./services/organization_user_access.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_building/controllers/organization_building.controller.ts|OSKOrganizationBuildingController.default._set|save|`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_building/controllers/organization_building.controller.ts|OSKOrganizationBuildingController.default._set|save|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|organization|functions/src/modules/organization/modules/organization_building/models/documents/organization_building_document_model.ts|OSKOrganizationBuilding|#1`",
+      "factId": "type_alias|organization|functions/src/modules/organization/modules/organization_building/models/documents/organization_building_document_model.ts|OSKOrganizationBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKOrganizationController.default.update|assignSubEntityToParent|oldOrganizationId,{             entityP: newParentEntityId,         }|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKOrganizationController.default.update|assignSubEntityToParent|oldOrganizationId,{             entityP: newParentEntityId,         }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityController.default.update|deleteEntity|propertiesId,{ entityId: '' }|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityController.default.update|deleteEntity|propertiesId,{ entityId: '' }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_inhabitant/controllers/organization_inhabitant.controller.ts|OSKOrganizationInhabitantController.default._queryCollectionGroup|queryInhabitants|collectionName,queryFilters|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_inhabitant/controllers/organization_inhabitant.controller.ts|OSKOrganizationInhabitantController.default._queryCollectionGroup|queryInhabitants|collectionName,queryFilters|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|organization|functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts|default|#1`",
+      "factId": "firestore_path_touched|organization|functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts|default|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|organization|functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts|default|#2`",
+      "factId": "firestore_path_touched|organization|functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts|default|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|organization|functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts|default|#3`",
+      "factId": "firestore_path_touched|organization|functions/src/modules/organization/modules/organization_intercom_ communication/services/organization_intercom_communication.service.ts|default|#3",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|OSKOrganizationUserInvitationController.getAll|getAllOrganizationUser|organizationId|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|OSKOrganizationUserInvitationController.getAll|getAllOrganizationUser|organizationId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|OSKUserOrganizationController.default.update|updateOrganizationUser|...|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|OSKUserOrganizationController.default.update|updateOrganizationUser|...|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|firebase-admin/firestore|#1`",
+      "factId": "imports_dependency|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|firebase-admin/firestore|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|Timestamp.now|setupOrganizationUserAccess||#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user_access/services/organization_user_access.service.ts|Timestamp.now|setupOrganizationUserAccess||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation_pending.controller.ts|OSKOrganizationUserInvitationPendingController.default._set|save|\\`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation_pending.controller.ts|OSKOrganizationUserInvitationPendingController.default._set|save|\\",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts|OSKOrganizationUserInvitationController.default._get|getUsersOrganization|\\`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts|OSKOrganizationUserInvitationController.default._get|getUsersOrganization|\\",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts|OSKOrganizationUserInvitationController.default._set|save|\\`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts|OSKOrganizationUserInvitationController.default._set|save|\\",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts|OSKOrganizationUserInvitationController.default._delete|deleteOrganizationUserInvitation|\\`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts|OSKOrganizationUserInvitationController.default._delete|deleteOrganizationUserInvitation|\\",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts|OSKOrganizationUserInvitationController.default._set|moveOrganizationUserInvitation|\\`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts|OSKOrganizationUserInvitationController.default._set|moveOrganizationUserInvitation|\\",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts|OSKOrganizationUserInvitationController.default._set|saveOrganizationUserInvitationCancelled|\\`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_user_invitation/controllers/organization_user_invitation.controller.ts|OSKOrganizationUserInvitationController.default._set|saveOrganizationUserInvitationCancelled|\\",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|createAnOrganization|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|createAnOrganization|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|updateAnOrganization|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|updateAnOrganization|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|getAllOrganizations|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|getAllOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|deleteOrganizationLogo|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|deleteOrganizationLogo|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|create|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|delete|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|get|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|get|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|getAll|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|getAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|update|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|update|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|assigningPropertyToEntity|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|assigningPropertyToEntity|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|createProperty|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|createProperty|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|deleteProperty|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|deleteProperty|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|deletePropertyImage|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|deletePropertyImage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getAllProperties|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getAllProperties|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getPropertyById|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getPropertyById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getPropertyDashboardStatics|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getPropertyDashboardStatics|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|updateProperty|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|updateProperty|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|v1.org.buildings.view|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|v1.org.buildings.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|v1.org.buildings.view|#2`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|v1.org.buildings.view|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|v1.org.residents.view|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_building/services/organization_building.service.ts|v1.org.residents.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|v1.org.entity.create|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|v1.org.entity.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|v1.org.entity.view|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|v1.org.entity.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|v1.org.entity.edit|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|v1.org.entity.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|v1.org.entity.delete|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|v1.org.entity.delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts|v1.org.view|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts|v1.org.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_error|organization|functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts|permission-denied|#1`",
+      "factId": "permission_error|organization|functions/src/modules/organization/modules/organization_inhabitant/services/organization_inhabitant.service.ts|permission-denied|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts|v1.admin.org.validate|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts|v1.admin.org.validate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts|v1.org|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts|v1.org|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts|v1.org.user.create|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_pending/services/organization_pending.service.ts|v1.org.user.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_property/services/property.service.ts|v1.org.property.view|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_property/services/property.service.ts|v1.org.property.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_property/services/property.service.ts|v1.org.property.create|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_property/services/property.service.ts|v1.org.property.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_property/services/property.service.ts|v1.org.property.edit|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_property/services/property.service.ts|v1.org.property.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_property/services/property.service.ts|v1.org.entity.create|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_property/services/property.service.ts|v1.org.entity.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|v1.org.residents.create|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|v1.org.residents.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|v1.org.residents.delete|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|v1.org.residents.delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|v1.org.residents.edit|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|v1.org.residents.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|v1.org.residents.list|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|v1.org.residents.list|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|v1.org.residents.view|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|v1.org.residents.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|v1.org.user.create|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|v1.org.user.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|v1.org.user.edit|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|v1.org.user.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|v1.org.user.view|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|v1.org.user.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts|v1.org.admin|#1`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_user/controllers/organization_user.controller.ts|v1.org.admin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|v1.org.user.edit|#2`",
+      "factId": "permission_candidate|organization|functions/src/modules/organization/modules/organization_user/services/organization_user.service.ts|v1.org.user.edit|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKAccessMessagePublisherService.publishMessageToAllACDs|deleteAppUserResident|userId,accessBuildingId...|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|OSKAccessMessagePublisherService.publishMessageToAllACDs|deleteAppUserResident|userId,accessBuildingId...|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_residents/index.ts|functionBuilder.runWith|getCallableResidentsFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_residents/index.ts|functionBuilder.runWith|getCallableResidentsFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|parseInt|bulkCreateResidents|process.env.MAX_BATCH_SIZE,10|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_residents/services/organization_resident.service.ts|parseInt|bulkCreateResidents|process.env.MAX_BATCH_SIZE,10|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|organization|functions/src/modules/organization/modules/organization_building/models/documents/organization_building_document_model.ts|OSKOrganizationBuilding|numberOfUnits|#1`",
+      "factId": "model_property|organization|functions/src/modules/organization/modules/organization_building/models/documents/organization_building_document_model.ts|OSKOrganizationBuilding|numberOfUnits|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityController.default.update|deleteEntity|propertiesId,{ entityId: '' }|#1`",
+      "factId": "call_expression|organization|functions/src/modules/organization/modules/organization_entity/services/entity.service.ts|OSKEntityController.default.update|deleteEntity|propertiesId,{ entityId: '' }|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 232,
+    "verified": 229,
+    "lineUnverified": 3,
+    "fileNotFound": 0
+  }
+}

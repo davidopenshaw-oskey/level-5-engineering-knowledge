@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/engineering-profiles/unit_management-engineering-profile.md",
+  "generatedAt": "2026-08-27T16:42:09.736Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "unit_management",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts` (lines 16-87)",
+      "file": "functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts` (lines 254-264)",
+      "file": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts` (lines 215-234)",
+      "file": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts` (line 271)",
+      "file": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts` (line 241)",
+      "file": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts` (line 281)",
+      "file": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts` (line 244)",
+      "file": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts` (line 214)",
+      "file": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts` (line 32)",
+      "file": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts` (lines 109-110)",
+      "file": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts` (line 237, line 367)",
+      "file": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts` (line 208)",
+      "file": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|createUnitInvitation|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|createUnitInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|getAllUnitInhabitantsAndGuests|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|getAllUnitInhabitantsAndGuests|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|updateInhabitant|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|updateInhabitant|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|removeInhabitantFromUnit|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|removeInhabitantFromUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|removePermanentGuest|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|removePermanentGuest|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|removePendingInvitation|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|removePendingInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUnitManagementCreationInvitationService`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUnitManagementCreationInvitationService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts|OSKUnitManagementCreationOskeyUserInvitationService`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts|OSKUnitManagementCreationOskeyUserInvitationService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation.service.ts|OSKUnitManagementInvitationService`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation.service.ts|OSKUnitManagementInvitationService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKUnitManagementPermanentGuestService`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKUnitManagementPermanentGuestService",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 25,
+    "verified": 25,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

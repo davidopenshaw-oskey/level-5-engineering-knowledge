@@ -1,0 +1,771 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/engineering-profiles/core-engineering-profile.md",
+  "generatedAt": "2026-08-27T17:16:31.069Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "core",
+    "sourceCapabilities": [
+      "_module_root",
+      "access",
+      "auth0",
+      "country",
+      "public_key",
+      "storage"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/controllers/document.controller.ts` (lines 30-488)",
+      "file": "functions/src/modules/core/controllers/document.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/services/pub_sub_receiver.service.ts` (lines 36-233)",
+      "file": "functions/src/modules/core/services/pub_sub_receiver.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/services/pub_sub_receiver.service.ts` (lines 244-327)",
+      "file": "functions/src/modules/core/services/pub_sub_receiver.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/services/logging.service.ts` (lines 47-164)",
+      "file": "functions/src/modules/core/services/logging.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/services/secret.service.ts` (lines 33-203)",
+      "file": "functions/src/modules/core/services/secret.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/index.ts` (lines 54-79)",
+      "file": "functions/src/modules/core/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 111-226)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 555-606)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/country/services/country.service.ts` (lines 17-43)",
+      "file": "functions/src/modules/core/modules/country/services/country.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/country/services/country.service.ts` (lines 45-56)",
+      "file": "functions/src/modules/core/modules/country/services/country.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/controllers/access.controller.ts` (lines 16-78)",
+      "file": "functions/src/modules/core/modules/access/controllers/access.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/services/access.service.ts` (lines 68-815)",
+      "file": "functions/src/modules/core/modules/access/services/access.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/services/access_pincode.service.ts` (lines 64-751)",
+      "file": "functions/src/modules/core/modules/access/services/access_pincode.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/services/access_message_publisher.service.ts` (lines 46-326)",
+      "file": "functions/src/modules/core/modules/access/services/access_message_publisher.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/services/access_update.service.ts` (lines 14-237)",
+      "file": "functions/src/modules/core/modules/access/services/access_update.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/index.ts` (lines 22-35)",
+      "file": "functions/src/modules/core/modules/auth0/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts` (line 14)",
+      "file": "functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/controllers/document.controller.ts` (lines 34-261)",
+      "file": "functions/src/modules/core/controllers/document.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/services/pub_sub_receiver.service.ts` (lines 244-327)",
+      "file": "functions/src/modules/core/services/pub_sub_receiver.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/controllers/document.controller.ts` (lines 377-488)",
+      "file": "functions/src/modules/core/controllers/document.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/services/secret.service.ts` (lines 114-198)",
+      "file": "functions/src/modules/core/services/secret.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/index.ts` (lines 54-59)",
+      "file": "functions/src/modules/core/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/index.ts` (lines 71-89)",
+      "file": "functions/src/modules/core/modules/access/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/index.ts` (lines 91-113)",
+      "file": "functions/src/modules/core/modules/access/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/index.ts` (lines 284-388)",
+      "file": "functions/src/modules/core/modules/access/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/services/access_pincode.service.ts` (line 284)",
+      "file": "functions/src/modules/core/modules/access/services/access_pincode.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/services/access_pincode.service.ts` (line 285)",
+      "file": "functions/src/modules/core/modules/access/services/access_pincode.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/services/access_pincode.service.ts` (line 338)",
+      "file": "functions/src/modules/core/modules/access/services/access_pincode.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/country/index.ts` (lines 9-15)",
+      "file": "functions/src/modules/core/modules/country/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/access/services/access_message_publisher.service.ts` (lines 136, 169, 192, 225)",
+      "file": "functions/src/modules/core/modules/access/services/access_message_publisher.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 52-86)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 78-83)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 574-588)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 677, 708)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 472, 646)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 231-239)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 363-373)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 408-419)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/services/auth0.service.ts` (lines 52-86)",
+      "file": "functions/src/modules/core/modules/auth0/services/auth0.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/access/services/access.service.ts|OSKAccessService|createAccess|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/access/services/access.service.ts|OSKAccessService|createAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access.service.ts|OSKBuildingAccessService.createOrUpdateBuildingAccess|createAccess|userId,buildingId,userData,newAccess|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access.service.ts|OSKBuildingAccessService.createOrUpdateBuildingAccess|createAccess|userId,buildingId,userData,newAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/access/services/access_pincode_generation.service.ts|OSKPincodeGenerationService|generatePincode|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/access/services/access_pincode_generation.service.ts|OSKPincodeGenerationService|generatePincode|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_pincode_generation.service.ts|OSKBuildingPincodeController.default.get|_isPincodeUnique|pincode,buildingId|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_pincode_generation.service.ts|OSKBuildingPincodeController.default.get|_isPincodeUnique|pincode,buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_pincode_generation.service.ts|Object.values(counts).some|_isPincodeValid|(count) => count >= 3|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_pincode_generation.service.ts|Object.values(counts).some|_isPincodeValid|(count) => count >= 3|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/access/services/access_message_publisher.service.ts|OSKAccessMessagePublisherService|publishMessageToAllACDs|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/access/services/access_message_publisher.service.ts|OSKAccessMessagePublisherService|publishMessageToAllACDs|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_message_publisher.service.ts|OSKAccessController.default.publishMessage|publishMessageAccessInsertToACD|buildingDoorACD.accessControlDeviceId,payload|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_message_publisher.service.ts|OSKAccessController.default.publishMessage|publishMessageAccessInsertToACD|buildingDoorACD.accessControlDeviceId,payload|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/access/services/access_update.service.ts|OSKAccessUpdateService|updateUserAccessesDoorInfo|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/access/services/access_update.service.ts|OSKAccessUpdateService|updateUserAccessesDoorInfo|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_update.service.ts|OSKUserDeviceService.createAccessDeviceToken|updateUserAccessDevices|{                                 buildingId: userAccess.buildingId,                                 doorId: door.doorId,                                 userId: userAccess.userId,                                 accessRights: access.accessRights,                                 accessId: access.accessId,                             },isMainAccess|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_update.service.ts|OSKUserDeviceService.createAccessDeviceToken|updateUserAccessDevices|{                                 buildingId: userAccess.buildingId,                                 doorId: door.doorId,                                 userId: userAccess.userId,                                 accessRights: access.accessRights,                                 accessId: access.accessId,                             },isMainAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKPincodeService|deleteBuildingPincodeAndMoveToTrash|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKPincodeService|deleteBuildingPincodeAndMoveToTrash|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/access/services/access_utils_dates.service.ts|OSKAccessUtilsDatesService|convertAccessRightToDateObject|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/access/services/access_utils_dates.service.ts|OSKAccessUtilsDatesService|convertAccessRightToDateObject|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/access/services/access_utils_dates.service.ts|OSKAccessUtilsDatesService|convertAccessRightsToFirebaseTimestamp|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/access/services/access_utils_dates.service.ts|OSKAccessUtilsDatesService|convertAccessRightsToFirebaseTimestamp|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|exchangeAuth0Token|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|exchangeAuth0Token|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|enableMfa|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|enableMfa|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|disableMfa|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|disableMfa|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|sendOTPEmail|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|sendOTPEmail|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|verifyOwnershipOTP|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|verifyOwnershipOTP|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|getMfaPhoneNumber|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|getMfaPhoneNumber|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|syncMfaPhoneNumberToProfile|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|syncMfaPhoneNumberToProfile|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|updateUserEmail|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|updateUserEmail|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|updateUserPhoneNumber|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|updateUserPhoneNumber|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|deleteAuth0User|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service|deleteAuth0User|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/country/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/country/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|Buffer.concat([                     Buffer.from(jwk.x, 'base64'),                     Buffer.from(jwk.y, 'base64'),                 ]).toString|addPublicKey|'base64'|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|Buffer.concat([                     Buffer.from(jwk.x, 'base64'),                     Buffer.from(jwk.y, 'base64'),                 ]).toString|addPublicKey|'base64'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|crypto.createPublicKey|addPublicKey|publicKey|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|crypto.createPublicKey|addPublicKey|publicKey|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|db.collection(collection).doc(documentId).set|addPublicKey|newPublicKey|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|db.collection(collection).doc(documentId).set|addPublicKey|newPublicKey|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|db.collection(collection).doc(documentId).update|deletePublicKey|updatedPublicKey|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|db.collection(collection).doc(documentId).update|deletePublicKey|updatedPublicKey|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|bucket.file(filePath).getSignedUrl|generateUploadSignedUrlCallable|options|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|bucket.file(filePath).getSignedUrl|generateUploadSignedUrlCallable|options|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|uuidv4|generateUploadSignedUrlCallable||#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|uuidv4|generateUploadSignedUrlCallable||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|['image/png', 'image/jpeg', 'image/gif'].includes|generateUploadSignedUrlCallable|request.contentType|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|['image/png', 'image/jpeg', 'image/gif'].includes|generateUploadSignedUrlCallable|request.contentType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKUserSecurityChecks|generateUploadSignedUrlCallable|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKUserSecurityChecks|generateUploadSignedUrlCallable|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|onFinalize|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|onFinalize|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|storage().bucket(object.bucket).file(object.name).setMetadata|processFile|{ contentType: contentType }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|storage().bucket(object.bucket).file(object.name).setMetadata|processFile|{ contentType: contentType }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|registeredTrigger.exec|processFile|object.bucket,object.name,contentType|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|registeredTrigger.exec|processFile|object.bucket,object.name,contentType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service`",
+      "factId": "source_class|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKCountryService`",
+      "factId": "source_class|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKCountryService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKCountryService|onGetCountries|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKCountryService|onGetCountries|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKCountryService|onGetCountriesNoAuth|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKCountryService|onGetCountriesNoAuth|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|OSKPublicKeysController`",
+      "factId": "source_class|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|OSKPublicKeysController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|OSKPublicKeysController|addPublicKey|#1`",
+      "factId": "controller_method|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|OSKPublicKeysController|addPublicKey|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|OSKPublicKeysController|deletePublicKey|#1`",
+      "factId": "controller_method|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|OSKPublicKeysController|deletePublicKey|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|OSKStorageController`",
+      "factId": "source_class|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|OSKStorageController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|OSKStorageController|registerTriggers|#1`",
+      "factId": "controller_method|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|OSKStorageController|registerTriggers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|OSKStorageController|processFile|#1`",
+      "factId": "controller_method|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|OSKStorageController|processFile|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService`",
+      "factId": "source_class|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|generateUploadSignedUrlCallable|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|generateUploadSignedUrlCallable|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|onFinalize|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|onFinalize|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/controllers/access.controller.ts|OSKAccessController.default._update|updateUserAccess|`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/controllers/access.controller.ts|OSKAccessController.default._update|updateUserAccess|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKBuildingPincodeController.default.delete|deleteBuildingPincodeAndMoveToTrash|pincodeId,buildingId|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKBuildingPincodeController.default.delete|deleteBuildingPincodeAndMoveToTrash|pincodeId,buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKBuildingPincodeTrashController.default.set|addPincodeDocumentsToNonAppUserAccess|trashDoc|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKBuildingPincodeTrashController.default.set|addPincodeDocumentsToNonAppUserAccess|trashDoc|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKSupplierStaffPincodeService.createPincodeDocument|addPincodeDocumentsToSupplierStaffAccess|{                 pincode,                 supplierId,                 staffId,                 buildingId,                 accessId: newAccess.accessId,             }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKSupplierStaffPincodeService.createPincodeDocument|addPincodeDocumentsToSupplierStaffAccess|{                 pincode,                 supplierId,                 staffId,                 buildingId,                 accessId: newAccess.accessId,             }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKNonAppUserPincodeService.createPincodeDocument|addPincodeDocumentsToNonAppUserAccess|{                 pincode,                 nonAppUserId,                 buildingId,                 unitId,                 accessId: newAccess.accessId,             }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKNonAppUserPincodeService.createPincodeDocument|addPincodeDocumentsToNonAppUserAccess|{                 pincode,                 nonAppUserId,                 buildingId,                 unitId,                 accessId: newAccess.accessId,             }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKUserPincodeController.default.delete|deletePincodeDocuments|pincodeId,userId|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKUserPincodeController.default.delete|deletePincodeDocuments|pincodeId,userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKUserInvitationController.default.update|createPincodeGuestDocuments|userId,invitationId,{                 pincode,             }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKUserInvitationController.default.update|createPincodeGuestDocuments|userId,invitationId,{                 pincode,             }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKUserSentInvitationController.save|createPincodeAnonymousDocuments|invitationObject.senderUserId,invitationObject.invitationId,{                 ...invitationObject,             }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKUserSentInvitationController.save|createPincodeAnonymousDocuments|invitationObject.senderUserId,invitationObject.invitationId,{                 ...invitationObject,             }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKUserInvitationBuildingController.default.save|createPincodeAnonymousDocuments|buildingId,unitId,invitationObject.invitationId,invitationObject|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/access/services/access_pincode.service.ts|OSKUserInvitationBuildingController.default.save|createPincodeAnonymousDocuments|buildingId,unitId,invitationObject.invitationId,invitationObject|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKUserController.default.updateFields|exchangeAuth0Token|existingUid,{ auth0Sub: uid }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKUserController.default.updateFields|exchangeAuth0Token|existingUid,{ auth0Sub: uid }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKUserController.default.get|onGetCountries|userId|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKUserController.default.get|onGetCountries|userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|db.collection(collection).doc(documentId).get|addPublicKey||#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|db.collection(collection).doc(documentId).get|addPublicKey||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|db.collection(collection).doc(documentId).set|addPublicKey|newPublicKey|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/public_key/controllers/public_keys.controller.ts|db.collection(collection).doc(documentId).set|addPublicKey|newPublicKey|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|storage().bucket(object.bucket).file|processFile|object.name|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|storage().bucket(object.bucket).file|processFile|object.name|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|storage().bucket(object.bucket).file(object.name).setMetadata|processFile|{ contentType: contentType }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|storage().bucket(object.bucket).file(object.name).setMetadata|processFile|{ contentType: contentType }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|core|functions/src/modules/core/index.ts|processPubSubMessage|#1`",
+      "factId": "api_contract|core|functions/src/modules/core/index.ts|processPubSubMessage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|core|functions/src/modules/core/modules/country/index.ts|onGetCountries|#1`",
+      "factId": "api_contract|core|functions/src/modules/core/modules/country/index.ts|onGetCountries|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|core|functions/src/modules/core/modules/country/index.ts|onGetCountriesNoAuth|#1`",
+      "factId": "api_contract|core|functions/src/modules/core/modules/country/index.ts|onGetCountriesNoAuth|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|core|functions/src/modules/core/modules/storage/index.ts|generateUploadSignedUrlCallable|#1`",
+      "factId": "api_contract|core|functions/src/modules/core/modules/storage/index.ts|generateUploadSignedUrlCallable|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|core|functions/src/modules/core/modules/storage/models/functions/storage_request_document.model.ts|GenerateUploadUrlRequest|#1`",
+      "factId": "type_alias|core|functions/src/modules/core/modules/storage/models/functions/storage_request_document.model.ts|GenerateUploadUrlRequest|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|core|functions/src/modules/core/modules/storage/models/functions/storage_request_document.model.ts|GenerateUploadUrlResponse|#1`",
+      "factId": "type_alias|core|functions/src/modules/core/modules/storage/models/functions/storage_request_document.model.ts|GenerateUploadUrlResponse|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageController.default.processFile|onFinalize|object,context|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageController.default.processFile|onFinalize|object,context|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKSecurityChecks.checkParameters|enableMfa|[{ name: 'context', value: context, type: 'object' }, { name: 'userId', value: request.userId, type: 'string' }]|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKSecurityChecks.checkParameters|enableMfa|[{ name: 'context', value: context, type: 'object' }, { name: 'userId', value: request.userId, type: 'string' }]|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKUserSecurityChecks|enableMfa||#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKUserSecurityChecks|enableMfa||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKUserSecurityChecks|disableMfa||#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKUserSecurityChecks|disableMfa||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKSecurityChecks.validateEmailFormat|sendOTPEmail|request.email|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKSecurityChecks.validateEmailFormat|sendOTPEmail|request.email|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/country/services/country.service.ts|auth().getUser|onGetCountries|userId|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/country/services/country.service.ts|auth().getUser|onGetCountries|userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|core|functions/src/modules/core/modules/storage/services/storage.service.ts|v1.org.edit|#1`",
+      "factId": "permission_candidate|core|functions/src/modules/core/modules/storage/services/storage.service.ts|v1.org.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKUserSecurityChecks|generateUploadSignedUrlCallable|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKUserSecurityChecks|generateUploadSignedUrlCallable|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_error|core|functions/src/modules/core/modules/storage/services/storage.service.ts|permission-denied|#2`",
+      "factId": "permission_error|core|functions/src/modules/core/modules/storage/services/storage.service.ts|permission-denied|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_error|core|functions/src/modules/core/modules/storage/services/storage.service.ts|permission-denied|#3`",
+      "factId": "permission_error|core|functions/src/modules/core/modules/storage/services/storage.service.ts|permission-denied|#3",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/country/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/country/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|bucket.file(filePath).getSignedUrl|generateUploadSignedUrlCallable|options|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/services/storage.service.ts|bucket.file(filePath).getSignedUrl|generateUploadSignedUrlCallable|options|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|storage().bucket(object.bucket).file(object.name).setMetadata|processFile|{ contentType: contentType }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/storage/controllers/storage.controller.ts|storage().bucket(object.bucket).file(object.name).setMetadata|processFile|{ contentType: contentType }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|onFinalize|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|onFinalize|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service._updateUserMetadata|enableMfa|userId,{ enable_mfa: true }|#1`",
+      "factId": "call_expression|core|functions/src/modules/core/modules/auth0/services/auth0.service.ts|OSKAuth0Service._updateUserMetadata|enableMfa|userId,{ enable_mfa: true }|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 123,
+    "verified": 120,
+    "lineUnverified": 3,
+    "fileNotFound": 0
+  }
+}

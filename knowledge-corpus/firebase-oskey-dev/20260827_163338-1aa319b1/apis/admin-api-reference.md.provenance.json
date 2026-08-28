@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/apis/admin-api-reference.md",
+  "generatedAt": "2026-08-27T16:49:36.171Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "admin",
+    "sourceCapabilities": [
+      "_module_root",
+      "admin_buildings",
+      "admin_maintenance",
+      "admin_organization",
+      "admin_users"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_buildings/index.ts` (line 12)",
+      "file": "functions/src/modules/admin/modules/admin_buildings/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_buildings/index.ts|getAllBuildingsWithUnits|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_buildings/index.ts|getAllBuildingsWithUnits|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 2,
+    "verified": 2,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

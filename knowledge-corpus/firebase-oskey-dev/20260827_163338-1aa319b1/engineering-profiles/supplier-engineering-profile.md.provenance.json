@@ -1,0 +1,425 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/engineering-profiles/supplier-engineering-profile.md",
+  "generatedAt": "2026-08-27T16:45:34.735Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "supplier",
+    "sourceCapabilities": [
+      "_module_root",
+      "supplierStaff"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/controllers/supplier.controller.ts` (lines 11-56)",
+      "file": "functions/src/modules/supplier/controllers/supplier.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/services/supplier.service.ts` (lines 30-245)",
+      "file": "functions/src/modules/supplier/services/supplier.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/index.ts` (lines 40-50)",
+      "file": "functions/src/modules/supplier/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/controllers/supplier.controller.ts` (lines 19-56)",
+      "file": "functions/src/modules/supplier/controllers/supplier.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts` (lines 19-21)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts` (lines 13-15)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts` (lines 16-18)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts` (lines 13-15)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts` (lines 17-19)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts` (lines 521-527, 707-713)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/index.ts` (lines 40-50)",
+      "file": "functions/src/modules/supplier/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService|createSupplier|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService|createSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierController.default.create|createSupplier|supplierId,supplierDocument|#1`",
+      "factId": "call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierController.default.create|createSupplier|supplierId,supplierDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService|getSupplier|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService|getSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService|getAllSuppliers|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService|getAllSuppliers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService|updateSupplier|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService|updateSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierController.default.update|updateSupplier|request.supplierId,dataToUpdate|#1`",
+      "factId": "call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierController.default.update|updateSupplier|request.supplierId,dataToUpdate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService|deleteSupplier|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService|deleteSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierStaffService._deleteStaffMemberAndRelatedData|deleteSupplier|supplierId,staff.id|#1`",
+      "factId": "call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierStaffService._deleteStaffMemberAndRelatedData|deleteSupplier|supplierId,staff.id|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|createStaffMember|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|createStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|updateStaffMember|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|updateStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|deleteStaffMember|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|deleteStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|createSupplierStaffAccess|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|createSupplierStaffAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|updateSupplierStaffAccessDoors|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|updateSupplierStaffAccessDoors|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts|OSKSupplierStaffPincodeService|createPincodeDocument|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts|OSKSupplierStaffPincodeService|createPincodeDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|getAllStaffMemberPincodes|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKSupplierStaffService|getAllStaffMemberPincodes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts|OSKSupplierStaffActivityService|ActivityReceivedForSupplierStaff|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts|OSKSupplierStaffActivityService|ActivityReceivedForSupplierStaff|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts|OSKSupplierStaffActivityAggregatesService|ActivityReceivedForSupplierStaff|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts|OSKSupplierStaffActivityAggregatesService|ActivityReceivedForSupplierStaff|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKAccessMessagePublisherService.publishMessageToAllACDs|_deleteAccessSideEffects|staffId,buildingId,{                 operation: OSKAccessMessageOperation.Delete,                 accessId: access.accessId,                 creationDate: access.creationDate,             },access.authorizedDoors|#1`",
+      "factId": "call_expression|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKAccessMessagePublisherService.publishMessageToAllACDs|_deleteAccessSideEffects|staffId,buildingId,{                 operation: OSKAccessMessageOperation.Delete,                 accessId: access.accessId,                 creationDate: access.creationDate,             },access.authorizedDoors|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|supplier|functions/src/modules/supplier/controllers/supplier.controller.ts|OSKSupplierController`",
+      "factId": "source_class|supplier|functions/src/modules/supplier/controllers/supplier.controller.ts|OSKSupplierController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService`",
+      "factId": "source_class|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|supplier|functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts|OSKSupplierStaffController`",
+      "factId": "source_class|supplier|functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts|OSKSupplierStaffController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|supplier|functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts|OSKSupplierStaffAccessController`",
+      "factId": "source_class|supplier|functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts|OSKSupplierStaffAccessController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|supplier|functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts|OSKSupplierStaffPincodeController`",
+      "factId": "source_class|supplier|functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts|OSKSupplierStaffPincodeController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|supplier|functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts|OSKSupplierStaffActivitiesController`",
+      "factId": "source_class|supplier|functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts|OSKSupplierStaffActivitiesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|supplier|functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts|OSKSupplierStaffActivityAggregatesController`",
+      "factId": "source_class|supplier|functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts|OSKSupplierStaffActivityAggregatesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|createSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|createSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|getSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|getSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|getAllSuppliers|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|getAllSuppliers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|updateSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|updateSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|deleteSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|deleteSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createStaffMember|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createSupplierStaffAccess|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createSupplierStaffAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createSupplierStaffWithAccess|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createSupplierStaffWithAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|deleteStaffMember|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|deleteStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|deleteSupplierStaffAccess|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|deleteSupplierStaffAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllAccessesForAllBuildings|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllAccessesForAllBuildings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllStaffMemberPincodes|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllStaffMemberPincodes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllStaffMembers|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllStaffMembers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getStaffMember|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|updateStaffMember|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|updateStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|updateSupplierStaffAccessDoors|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|updateSupplierStaffAccessDoors|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.create|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.view|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.view|#2`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.view|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.edit|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.delete|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKUserSecurityChecks|createSupplier|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKUserSecurityChecks|createSupplier|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|v1.org.suppliers.create|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|v1.org.suppliers.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|v1.org.suppliers.delete|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|v1.org.suppliers.delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|v1.org.suppliers.edit|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|v1.org.suppliers.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|v1.org.suppliers.view|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|v1.org.suppliers.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKAccessMessagePublisherService.publishMessageToAllACDs|updateSupplierStaffAccessDoors|staffId,buildingId,{                 operation: OSKAccessMessageOperation.Update,                 accessId: accessToUpdate.accessId,                 accessRights: accessToUpdate.accessRights,                 creationDate: accessToUpdate.creationDate,                 isMainAccess: accessToUpdate.isMainAccess,             },newAuthorizedDoors,{ category: 'supplierStaff', supplierId: supplierId }|#1`",
+      "factId": "call_expression|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts|OSKAccessMessagePublisherService.publishMessageToAllACDs|updateSupplierStaffAccessDoors|staffId,buildingId,{                 operation: OSKAccessMessageOperation.Update,                 accessId: accessToUpdate.accessId,                 accessRights: accessToUpdate.accessRights,                 creationDate: accessToUpdate.creationDate,                 isMainAccess: accessToUpdate.isMainAccess,             },newAuthorizedDoors,{ category: 'supplierStaff', supplierId: supplierId }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts|OSKSupplierStaffPincodeService|createPincodeDocument|#1`",
+      "factId": "service_method|supplier|functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts|OSKSupplierStaffPincodeService|createPincodeDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSecurityChecks.checkParameters|createSupplier|[...]|#1`",
+      "factId": "call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSecurityChecks.checkParameters|createSupplier|[...]|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|supplier|functions/src/modules/supplier/index.ts|./modules/supplierStaff|#1`",
+      "factId": "imports_dependency|supplier|functions/src/modules/supplier/index.ts|./modules/supplierStaff|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 66,
+    "verified": 66,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

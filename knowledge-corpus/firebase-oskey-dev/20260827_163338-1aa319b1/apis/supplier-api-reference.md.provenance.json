@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/apis/supplier-api-reference.md",
+  "generatedAt": "2026-08-27T16:45:34.736Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "supplier",
+    "sourceCapabilities": [
+      "_module_root",
+      "supplierStaff"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/index.ts` (lines 40-50)",
+      "file": "functions/src/modules/supplier/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|createSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|createSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|getSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|getSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|getAllSuppliers|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|getAllSuppliers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|updateSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|updateSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|deleteSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|deleteSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createStaffMember|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createSupplierStaffAccess|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createSupplierStaffAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createSupplierStaffWithAccess|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|createSupplierStaffWithAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|deleteStaffMember|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|deleteStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|deleteSupplierStaffAccess|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|deleteSupplierStaffAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllAccessesForAllBuildings|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllAccessesForAllBuildings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllStaffMemberPincodes|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllStaffMemberPincodes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllStaffMembers|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getAllStaffMembers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getStaffMember|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|getStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|updateStaffMember|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|updateStaffMember|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|updateSupplierStaffAccessDoors|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/modules/supplierStaff/index.ts|updateSupplierStaffAccessDoors|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 17,
+    "verified": 17,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

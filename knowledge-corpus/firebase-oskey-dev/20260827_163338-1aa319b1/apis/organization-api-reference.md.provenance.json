@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/apis/organization-api-reference.md",
+  "generatedAt": "2026-08-27T17:07:01.486Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "organization",
+    "sourceCapabilities": [
+      "_module_root",
+      "organization_building",
+      "organization_building_invitation",
+      "organization_entity",
+      "organization_inhabitant",
+      "organization_intercom_ communication",
+      "organization_onboarding_inhabitant",
+      "organization_pending",
+      "organization_prompt_templates",
+      "organization_property",
+      "organization_residents",
+      "organization_user",
+      "organization_user_access",
+      "organization_user_invitation"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/index.ts` (lines 89-109)",
+      "file": "functions/src/modules/organization/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/index.ts` (lines 89-109)",
+      "file": "functions/src/modules/organization/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_onboarding_inhabitant/index.ts` (lines 39-57)",
+      "file": "functions/src/modules/organization/modules/organization_onboarding_inhabitant/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_user_invitation/index.ts` (lines 51-61)",
+      "file": "functions/src/modules/organization/modules/organization_user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|createAnOrganization|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|createAnOrganization|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|updateAnOrganization|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|updateAnOrganization|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|getAllOrganizations|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|getAllOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|deleteOrganizationLogo|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|deleteOrganizationLogo|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|create|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|delete|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|get|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|get|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|getAll|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|getAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|update|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|update|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|assigningPropertyToEntity|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|assigningPropertyToEntity|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|createProperty|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|createProperty|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|deleteProperty|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|deleteProperty|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|deletePropertyImage|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|deletePropertyImage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getAllProperties|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getAllProperties|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getPropertyById|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getPropertyById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getPropertyDashboardStatics|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|getPropertyDashboardStatics|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|updateProperty|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_property/index.ts|updateProperty|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 21,
+    "verified": 21,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

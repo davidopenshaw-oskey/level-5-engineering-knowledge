@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/apis/call-api-reference.md",
+  "generatedAt": "2026-08-27T17:08:47.258Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "call",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 56-65)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (line 182)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 199-210)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (line 336)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 350-352)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (line 425)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 6,
+    "verified": 6,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

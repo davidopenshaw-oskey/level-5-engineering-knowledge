@@ -1,0 +1,1550 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260827_163338-1aa319b1/engineering-profiles/building-engineering-profile.md",
+  "generatedAt": "2026-08-28T07:48:09.678Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260827_163338-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "building",
+    "sourceCapabilities": [
+      "_module_root",
+      "building_accesses",
+      "building_activity",
+      "building_door",
+      "building_intercom",
+      "building_pincode",
+      "building_pincode_trash",
+      "building_settings",
+      "building_unit",
+      "building_unit_nonAppUser",
+      "building_user"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts` (lines 52-70)",
+      "file": "functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts` (lines 18-61)",
+      "file": "functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts` (lines 28-35, 42-51)",
+      "file": "functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts` (lines 11-16)",
+      "file": "functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/controllers/building.controller.ts` (lines 12-73)",
+      "file": "functions/src/modules/building/controllers/building.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/services/building.service.ts` (lines 47-601)",
+      "file": "functions/src/modules/building/services/building.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/index.ts` (lines 45-63)",
+      "file": "functions/src/modules/building/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/index.ts` (lines 39-44)",
+      "file": "functions/src/modules/building/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 18-32)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 34-37)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 49-52)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 54-57)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 59-62)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 64-67)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 69-72)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 74-77)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/services/building_access.service.ts` (lines 16-41)",
+      "file": "functions/src/modules/building/modules/building_accesses/services/building_access.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/services/building_access.service.ts` (lines 43-65)",
+      "file": "functions/src/modules/building/modules/building_accesses/services/building_access.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_activity/index.ts` (lines 38-46)",
+      "file": "functions/src/modules/building/modules/building_activity/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_pincode/index.ts` (lines 9-19)",
+      "file": "functions/src/modules/building/modules/building_pincode/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 18-37)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 49-62)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/services/building_access.service.ts` (lines 16-65)",
+      "file": "functions/src/modules/building/modules/building_accesses/services/building_access.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 64-72)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_activity/controllers/building_activities.controller.ts` (lines 20-53)",
+      "file": "functions/src/modules/building/modules/building_activity/controllers/building_activities.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts` (lines 15-17)",
+      "file": "functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts` (lines 24-82)",
+      "file": "functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts` (line 14)",
+      "file": "functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts` (lines 21-66)",
+      "file": "functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_settings/services/building_settings.service.ts` (lines 373, 430, 491)",
+      "file": "functions/src/modules/building/modules/building_settings/services/building_settings.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser.controller.ts` (lines 22-25)",
+      "file": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_access.controller.ts` (lines 14-17)",
+      "file": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_access.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_pincode.controller.ts` (lines 15-18)",
+      "file": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_pincode.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity.controller.ts` (lines 13-16)",
+      "file": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity_aggregates.controller.ts` (lines 17-20)",
+      "file": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity_aggregates.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_unit/index.ts` (lines 67-77)",
+      "file": "functions/src/modules/building/modules/building_unit/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts` (lines 48-60)",
+      "file": "functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts` (lines 28-35, 42-51)",
+      "file": "functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/index.ts|createOrganizationBuilding|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/index.ts|createOrganizationBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/services/building.service.ts|Promise.all|createOrganizationBuilding|[                 OSKBuildingController.default.save(buildingId, building),                 OSKOrganizationBuildingController.default.save(organizationId, buildingId, organizationBuilding),                 OSKPropertyController.default.update(propertyId, {                     buildings: FieldValue.arrayUnion(building),                 }),             ]|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/services/building.service.ts|Promise.all|createOrganizationBuilding|[                 OSKBuildingController.default.save(buildingId, building),                 OSKOrganizationBuildingController.default.save(organizationId, buildingId, organizationBuilding),                 OSKPropertyController.default.update(propertyId, {                     buildings: FieldValue.arrayUnion(building),                 }),             ]|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/index.ts|updateBuilding|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/index.ts|updateBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/services/building.service.ts|OSKAccessUpdateService.updateUserAccessesBuildingInfo|updateBuilding|request.buildingId,buildingInfo|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/services/building.service.ts|OSKAccessUpdateService.updateUserAccessesBuildingInfo|updateBuilding|request.buildingId,buildingInfo|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/index.ts|assigningBuildingToProperty|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/index.ts|assigningBuildingToProperty|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/services/building.service.ts|OSKPropertyController.default.removeBuildingFromProperty|assigningBuildingToProperty|oldProperty.propertyId!,'buildings','buildingId',buildingId|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/services/building.service.ts|OSKPropertyController.default.removeBuildingFromProperty|assigningBuildingToProperty|oldProperty.propertyId!,'buildings','buildingId',buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/index.ts|getAllBuildings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/index.ts|getAllBuildings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/index.ts|getBuildingById|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/index.ts|getBuildingById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/index.ts|getBuildingsByPropertyId|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/index.ts|getBuildingsByPropertyId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/index.ts|deleteBuildingImage|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/index.ts|deleteBuildingImage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/services/building.service.ts|OSKBuildingController.default.uploadImage|uploadImage|bucket,imagePath,contentType|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/services/building.service.ts|OSKBuildingController.default.uploadImage|uploadImage|bucket,imagePath,contentType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/services/building.service.ts|OSKBuildingService|deleteBuilding|#1`",
+      "factId": "service_method|building|functions/src/modules/building/services/building.service.ts|OSKBuildingService|deleteBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_accesses/services/building_access.service.ts|OSKBuildingAccessService|createOrUpdateBuildingAccess|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_accesses/services/building_access.service.ts|OSKBuildingAccessService|createOrUpdateBuildingAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_accesses/services/building_access.service.ts|OSKBuildingAccessService|createOrUpdateBuildingAccessForStaffOrNonAppUser|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_accesses/services/building_access.service.ts|OSKBuildingAccessService|createOrUpdateBuildingAccessForStaffOrNonAppUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts|OSKBuildingAccessesController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts|OSKBuildingAccessesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService|ActivityReceivedForBuilding|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService|ActivityReceivedForBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|../../../../access_control_device/services/access_control_device_activity_enrichment.service|#1`",
+      "factId": "imports_dependency|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|../../../../access_control_device/services/access_control_device_activity_enrichment.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesController.default.save|ActivityReceivedForBuilding|enrichedData.building.buildingId,enrichedData.door.doorId,activity.activityId,activityDocument|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesController.default.save|ActivityReceivedForBuilding|enrichedData.building.buildingId,enrichedData.door.doorId,activity.activityId,activityDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService|getActivityById|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService|getActivityById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService|getAllBuildingActivities|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService|getAllBuildingActivities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService|deleteBuildingActivityById|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService|deleteBuildingActivityById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService|deleteAllBuildingActivities|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService|deleteAllBuildingActivities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKSecurityChecks.checkParameters|getActivityById|[             { name: 'context', value: context, type: 'object' },             { name: 'buildingId', value: request.buildingId, type: 'string' },             { name: 'doorId', value: request.doorId, type: 'string' },             { name: 'activityId', value: request.activityId, type: 'string' },         ]|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKSecurityChecks.checkParameters|getActivityById|[             { name: 'context', value: context, type: 'object' },             { name: 'buildingId', value: request.buildingId, type: 'string' },             { name: 'doorId', value: request.doorId, type: 'string' },             { name: 'activityId', value: request.activityId, type: 'string' },         ]|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKUserSecurityChecks|getActivityById|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKUserSecurityChecks|getActivityById|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_door/index.ts|organizationUserCreateBuildingDoor|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_door/index.ts|organizationUserCreateBuildingDoor|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_door/index.ts|organizationUserUpdateBuildingDoor|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_door/index.ts|organizationUserUpdateBuildingDoor|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_door/index.ts|deleteBuildingDoor|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_door/index.ts|deleteBuildingDoor|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|building|functions/src/modules/building/modules/building_door/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|building|functions/src/modules/building/modules/building_door/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|building|functions/src/modules/building/modules/building_door/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|building|functions/src/modules/building/modules/building_door/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|crypto.generateKeyPairSync|generateKeys|'ec',{             namedCurve: 'prime256v1',         }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|crypto.generateKeyPairSync|generateKeys|'ec',{             namedCurve: 'prime256v1',         }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|OSKSecretService.createPrivateKeySecret|generateKeys|accessControlDeviceId,privateKey|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|OSKSecretService.createPrivateKeySecret|generateKeys|accessControlDeviceId,privateKey|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_door/services/building_door_access_control_device.service.ts|OSKBuildingIntercomService.createIntercomEntry|onDocumentCreated|deviceId,buildingId,doorId|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_door/services/building_door_access_control_device.service.ts|OSKBuildingIntercomService.createIntercomEntry|onDocumentCreated|deviceId,buildingId,doorId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|OSKAccessUpdateService.removeDoorFromUserAccesses|deleteBuildingDoor|request.doorId,request.buildingId|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|OSKAccessUpdateService.removeDoorFromUserAccesses|deleteBuildingDoor|request.doorId,request.buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|OSKAccessUpdateService.updateUserAccessesDoorInfo|organizationUserUpdateBuildingDoor|oldBuildingDoor,doorInfo|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|OSKAccessUpdateService.updateUserAccessesDoorInfo|organizationUserUpdateBuildingDoor|oldBuildingDoor,doorInfo|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts|OSKBuildingIntercomService|addInhabitantInIntercom|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts|OSKBuildingIntercomService|addInhabitantInIntercom|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts|OSKBuildingIntercomService|deleteIntercomEntryUser|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts|OSKBuildingIntercomService|deleteIntercomEntryUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|updateIntercomDisplayName|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|updateIntercomDisplayName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|deleteIntercomDisplayName|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|deleteIntercomDisplayName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts|OSKBuildingIntercomService|createIntercomDisplayName|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts|OSKBuildingIntercomService|createIntercomDisplayName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKBuildingIntercomCallTransferListService|onUpdateBuildingIntercomsTransferList|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKBuildingIntercomCallTransferListService|onUpdateBuildingIntercomsTransferList|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKBuildingIntercomCallTransferListService|convertCallTransferListFromOrderedToSequenceNumber|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKBuildingIntercomCallTransferListService|convertCallTransferListFromOrderedToSequenceNumber|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKBuildingIntercomCallTransferListService|checkCallTransferList|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKBuildingIntercomCallTransferListService|checkCallTransferList|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts|OSKIntercomMessagePublisherService|publishMessageIntercomUpdate|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts|OSKIntercomMessagePublisherService|publishMessageIntercomUpdate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService|createPincodeInhabitantDocument|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService|createPincodeInhabitantDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService|createPincodeGuestDocument|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService|createPincodeGuestDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService|createPincodePermanentGuestDocument|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService|createPincodePermanentGuestDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService|createPincodeAnonymousDocument|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService|createPincodeAnonymousDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService|createPincodeSupplierDocument|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService|createPincodeSupplierDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|set|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|set|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|get|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|get|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|getSafe|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|getSafe|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|getAll|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|getAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|getAllByType|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|getAllByType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|getByAccessId|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|getByAccessId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|delete|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService|createBuildingSettings|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService|createBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService|updateBuildingSettings|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService|updateBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService|getResidentSettings|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService|getResidentSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService|deleteBuildingSettings|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService|deleteBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService|resetBuildingSettings|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService|resetBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_unit/index.ts|organizationUserCreateBuildingUnit|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_unit/index.ts|organizationUserCreateBuildingUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_unit/index.ts|organizationUserUpdateBuildingUnit|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_unit/index.ts|organizationUserUpdateBuildingUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_unit/index.ts|deleteBuildingUnit|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_unit/index.ts|deleteBuildingUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|OSKBuildingUnitService.logger.logInfo|deleteBuildingUnit|`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|OSKBuildingUnitService.logger.logInfo|deleteBuildingUnit|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts|OSKBuildingUnitDoorService|createBuildingUnitDoor|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts|OSKBuildingUnitDoorService|createBuildingUnitDoor|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts|inhabitants.forEach|createBuildingUnitDoor|async (inhabitant) => { ... }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts|inhabitants.forEach|createBuildingUnitDoor|async (inhabitant) => { ... }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts|OSKBuildingUnitInhabitantService|addInhabitant|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts|OSKBuildingUnitInhabitantService|addInhabitant|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts|OSKBuildingUnitInhabitantService|removeInhabitant|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts|OSKBuildingUnitInhabitantService|removeInhabitant|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts|OSKBuildingUnitPermanentGuestController|create|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts|OSKBuildingUnitPermanentGuestController|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts|OSKBuildingUnitPermanentGuestController|delete|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts|OSKBuildingUnitPermanentGuestController|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_invitation.controller.ts|OSKBuildingUnitInvitationController|addInvitation|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_invitation.controller.ts|OSKBuildingUnitInvitationController|addInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|createNonAppUser|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|createNonAppUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|deleteNonAppUser|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|deleteNonAppUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|updateNonAppUser|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|updateNonAppUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|createNonAppUserAccess|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|createNonAppUserAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|updateNonAppUserAccessDoors|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|updateNonAppUserAccessDoors|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|createNonAppUserWithAccess|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/index.ts|createNonAppUserWithAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|_deleteAccessSideEffects|pincodeId,buildingId|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|_deleteAccessSideEffects|pincodeId,buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity.service.ts|OSKNonAppUserActivityService|ActivityReceivedForNonAppUser|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity.service.ts|OSKNonAppUserActivityService|ActivityReceivedForNonAppUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity_aggregates.service.ts|OSKNonAppUserActivityAggregatesService|ActivityReceivedForNonAppUser|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser_activity_aggregates.service.ts|OSKNonAppUserActivityAggregatesService|ActivityReceivedForNonAppUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKAccessMessagePublisherService.publishMessageToAllACDs|updateNonAppUserAccessDoors|nonAppUserId,buildingId,{                 operation: OSKAccessMessageOperation.Update,                 accessId: updatedAccess.accessId,                 accessRights: updatedAccess.accessRights,                 creationDate: updatedAccess.creationDate,                 isMainAccess: updatedAccess.isMainAccess,             },newAuthorizedDoors,{ category: 'nonAppUser', buildingId, unitId }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKAccessMessagePublisherService.publishMessageToAllACDs|updateNonAppUserAccessDoors|nonAppUserId,buildingId,{                 operation: OSKAccessMessageOperation.Update,                 accessId: updatedAccess.accessId,                 accessRights: updatedAccess.accessRights,                 creationDate: updatedAccess.creationDate,                 isMainAccess: updatedAccess.isMainAccess,             },newAuthorizedDoors,{ category: 'nonAppUser', buildingId, unitId }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|OSKBuildingUserService|createBuildingUser|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|OSKBuildingUserService|createBuildingUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_user/controllers/building_user.controller.ts|OSKBuildingUserController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_user/controllers/building_user.controller.ts|OSKBuildingUserController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|OSKBuildingUserService|onDocumentDeleted|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|OSKBuildingUserService|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts|OSKBuildingAccessesController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts|OSKBuildingAccessesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts|OSKBuildingAccessesController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts|OSKBuildingAccessesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_accesses/services/building_access.service.ts|OSKBuildingAccessService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_accesses/services/building_access.service.ts|OSKBuildingAccessService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_activity/controllers/building_activities.controller.ts|OSKBuildingActivitiesController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_activity/controllers/building_activities.controller.ts|OSKBuildingActivitiesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKBuildingActivitiesService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_door/controllers/building_door.controller.ts|OSKBuildingDoorController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_door/controllers/building_door.controller.ts|OSKBuildingDoorController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device.controller.ts|OSKBuildingDoorAccessControlDeviceController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device.controller.ts|OSKBuildingDoorAccessControlDeviceController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|OSKBuildingDoorAccessControlDeviceKeysController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|OSKBuildingDoorAccessControlDeviceKeysController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|OSKBuildingDoorService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|OSKBuildingDoorService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_door/services/building_door_access_control_device.service.ts|OSKBuildingDoorAccessControlDeviceService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_door/services/building_door_access_control_device.service.ts|OSKBuildingDoorAccessControlDeviceService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts|OSKBuildingIntercomController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts|OSKBuildingIntercomController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_intercom/controllers/building_intercom_calltransferlist.controller.ts|OSKBuildingIntercomCallTransferListController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_intercom/controllers/building_intercom_calltransferlist.controller.ts|OSKBuildingIntercomCallTransferListController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKBuildingIntercomCallTransferListService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKBuildingIntercomCallTransferListService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts|OSKBuildingIntercomService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts|OSKBuildingIntercomService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts|OSKIntercomMessagePublisherService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts|OSKIntercomMessagePublisherService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_pincode/services/building_pincode.service.ts|OSKBuildingPincodeService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|building|functions/src/modules/building/modules/building_pincode/index.ts|./controllers/building_pincode.controller|#1`",
+      "factId": "exported_symbol|building|functions/src/modules/building/modules/building_pincode/index.ts|./controllers/building_pincode.controller|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|building|functions/src/modules/building/modules/building_pincode/index.ts|./services/building_pincode.service|#1`",
+      "factId": "exported_symbol|building|functions/src/modules/building/modules/building_pincode/index.ts|./services/building_pincode.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|building|functions/src/modules/building/modules/building_pincode/index.ts|./models/documents/building_pincode_document.model|#1`",
+      "factId": "exported_symbol|building|functions/src/modules/building/modules/building_pincode/index.ts|./models/documents/building_pincode_document.model|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts|OSKBuildingPincodeTrashController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_pincode_trash/controllers/building_pincode_trash.controller.ts|OSKBuildingPincodeTrashController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_pincode_trash/services/building_pincode_trash.service.ts|OSKBuildingPincodeTrashService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_pincode_trash/services/building_pincode_trash.service.ts|OSKBuildingPincodeTrashService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts|OSKBuildingSettingsController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts|OSKBuildingSettingsController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|OSKBuildingSettingsService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/controllers/building_unit.controller.ts|OSKBuildingUnitController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/controllers/building_unit.controller.ts|OSKBuildingUnitController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_door.controller.ts|OSKBuildingUnitDoorController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_door.controller.ts|OSKBuildingUnitDoorController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_inhabitant.controller.ts|OSKBuildingUnitInhabitantController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_inhabitant.controller.ts|OSKBuildingUnitInhabitantController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_invitation.controller.ts|OSKBuildingUnitInvitationController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_invitation.controller.ts|OSKBuildingUnitInvitationController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts|OSKBuildingUnitPermanentGuestController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts|OSKBuildingUnitPermanentGuestController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|OSKBuildingUnitService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|OSKBuildingUnitService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts|OSKBuildingUnitInhabitantService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/services/building_unit_inhabitant.service.ts|OSKBuildingUnitInhabitantService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts|OSKBuildingUnitDoorService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts|OSKBuildingUnitDoorService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser.controller.ts|OSKBuildingUnitNonAppUserController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser.controller.ts|OSKBuildingUnitNonAppUserController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_access.controller.ts|OSKNonAppUserAccessController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_access.controller.ts|OSKNonAppUserAccessController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_pincode.controller.ts|OSKNonAppUserPincodeController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_pincode.controller.ts|OSKNonAppUserPincodeController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity.controller.ts|OSKNonAppUserActivitiesController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity.controller.ts|OSKNonAppUserActivitiesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity_aggregates.controller.ts|OSKNonAppUserActivityAggregatesController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/controllers/building_unit_nonAppUser_activity_aggregates.controller.ts|OSKNonAppUserActivityAggregatesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKBuildingUnitNonAppUserService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKBuildingUnitNonAppUserService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_user/controllers/building_user.controller.ts|OSKBuildingUserController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_user/controllers/building_user.controller.ts|OSKBuildingUserController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|OSKBuildingUserService`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|OSKBuildingUserService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/controllers/building.controller.ts|OSKBuildingController.default._delete|delete|OSKBuildingController.collection,buildingId|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/controllers/building.controller.ts|OSKBuildingController.default._delete|delete|OSKBuildingController.collection,buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/controllers/building.controller.ts|OSKBuildingController.default._set|save|OSKBuildingController.collection,buildingId,data|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/controllers/building.controller.ts|OSKBuildingController.default._set|save|OSKBuildingController.collection,buildingId,data|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/services/building.service.ts|OSKOrganizationBuildingController.default.save|createOrganizationBuilding|organizationId,buildingId,organizationBuilding|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/services/building.service.ts|OSKOrganizationBuildingController.default.save|createOrganizationBuilding|organizationId,buildingId,organizationBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/services/building.service.ts|OSKPropertyController.default.update|createOrganizationBuilding|propertyId,{                     buildings: FieldValue.arrayUnion(building),                 }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/services/building.service.ts|OSKPropertyController.default.update|createOrganizationBuilding|propertyId,{                     buildings: FieldValue.arrayUnion(building),                 }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/services/building.service.ts|OSKBuildingSettingsController.default.delete|deleteBuilding|settingsId,request.buildingId|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/services/building.service.ts|OSKBuildingSettingsController.default.delete|deleteBuilding|settingsId,request.buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|building|functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts|OSKBuildingAccess|buildingId|#1`",
+      "factId": "model_property|building|functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts|OSKBuildingAccess|buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|building|functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts|OSKBuildingAccess|userId|#1`",
+      "factId": "model_property|building|functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts|OSKBuildingAccess|userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|building|functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts|OSKBuildingAccess|userFirstName|#1`",
+      "factId": "model_property|building|functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts|OSKBuildingAccess|userFirstName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|building|functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts|OSKBuildingAccess|userLastName|#1`",
+      "factId": "model_property|building|functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts|OSKBuildingAccess|userLastName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|building|functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts|OSKBuildingAccess|accesses|#1`",
+      "factId": "model_property|building|functions/src/modules/building/modules/building_accesses/models/documents/building_access_document.model.ts|OSKBuildingAccess|accesses|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_activity/controllers/building_activities.controller.ts|OSKBuildingActivitiesController.default.getCollectionPath|get|buildingId,doorId|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_activity/controllers/building_activities.controller.ts|OSKBuildingActivitiesController.default.getCollectionPath|get|buildingId,doorId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|/buildings/{buildingId}/doors/{doorId}/accessControlDevices/{accessControlDeviceId}/keys|#1`",
+      "factId": "firestore_path_touched|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|/buildings/{buildingId}/doors/{doorId}/accessControlDevices/{accessControlDeviceId}/keys|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|/buildings/{buildingId}/doors/{doorId}/accessControlDevices/{deviceId}/keys|#1`",
+      "factId": "firestore_path_touched|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|/buildings/{buildingId}/doors/{doorId}/accessControlDevices/{deviceId}/keys|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|/buildings/{buildingId}/doors/{doorId}/accessControlDevices/{deviceId}/keys|#3`",
+      "factId": "firestore_path_touched|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|/buildings/{buildingId}/doors/{doorId}/accessControlDevices/{deviceId}/keys|#3",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|building|functions/src/modules/building/modules/building_door/index.ts|/buildings/{buildingId}/doors/{doorId}/accessControlDevices/{deviceId}|#1`",
+      "factId": "firestore_path_touched|building|functions/src/modules/building/modules/building_door/index.ts|/buildings/{buildingId}/doors/{doorId}/accessControlDevices/{deviceId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts|OSKBuildingIntercomController|getCollectionPath|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts|OSKBuildingIntercomController|getCollectionPath|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_intercom/controllers/building_intercom_calltransferlist.controller.ts|OSKBuildingIntercomCallTransferListController|getCollectionPath|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_intercom/controllers/building_intercom_calltransferlist.controller.ts|OSKBuildingIntercomCallTransferListController|getCollectionPath|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|set|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|set|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|delete|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|building|functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts|OSKBuildingPincodeTrashDocument|#1`",
+      "factId": "type_alias|building|functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts|OSKBuildingPincodeTrashDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|building|functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts|OSKBuildingPincodeTrashDocument|status|#1`",
+      "factId": "model_property|building|functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts|OSKBuildingPincodeTrashDocument|status|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|building|functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts|OSKBuildingPincodeTrashDocument|lastStatusUpdate|#1`",
+      "factId": "model_property|building|functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts|OSKBuildingPincodeTrashDocument|lastStatusUpdate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|building|functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts|OSKBuildingPincodeTrashDocument|expirationDate|#1`",
+      "factId": "model_property|building|functions/src/modules/building/modules/building_pincode_trash/models/documents/building_pincode_trash_document.model.ts|OSKBuildingPincodeTrashDocument|expirationDate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/controllers/building_unit.controller.ts|OSKBuildingUnitController.default._create|create|`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/controllers/building_unit.controller.ts|OSKBuildingUnitController.default._create|create|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_door.controller.ts|OSKBuildingUnitDoorController.default._query|getAll|`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_door.controller.ts|OSKBuildingUnitDoorController.default._query|getAll|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_inhabitant.controller.ts|OSKBuildingUnitInhabitantController.default._get|get|collectionPath,userId|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_inhabitant.controller.ts|OSKBuildingUnitInhabitantController.default._get|get|collectionPath,userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts|OSKBuildingUnitPermanentGuestController.default._create|create|`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_permanent_guest.controller.ts|OSKBuildingUnitPermanentGuestController.default._create|create|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_invitation.controller.ts|OSKBuildingUnitInvitationController.default._create|create|collectionPath,invitationId,data|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/controllers/building_unit_invitation.controller.ts|OSKBuildingUnitInvitationController.default._create|create|collectionPath,invitationId,data|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKBuildingAccessesController.default.update|updateNonAppUserAccessDoors|buildingId,nonAppUserId,{                     accesses: updatedBuildingAccesses,                 }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKBuildingAccessesController.default.update|updateNonAppUserAccessDoors|buildingId,nonAppUserId,{                     accesses: updatedBuildingAccesses,                 }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|_deleteAccessSideEffects|pincodeId,buildingId|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|_deleteAccessSideEffects|pincodeId,buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_user/controllers/building_user.controller.ts|OSKBuildingUserController.default._get|get|\\`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_user/controllers/building_user.controller.ts|OSKBuildingUserController.default._get|get|\\",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/index.ts|buildingDoorTriggers.getFirestoreTriggers|getFirestoreTriggers|functionBuilder|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/index.ts|buildingDoorTriggers.getFirestoreTriggers|getFirestoreTriggers|functionBuilder|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|getActivityById|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|getActivityById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|getAllBuildingActivities|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|getAllBuildingActivities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|deleteBuildingActivityById|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|deleteBuildingActivityById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|deleteAllBuildingActivities|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|deleteAllBuildingActivities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_door/index.ts|deleteBuildingDoor|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_door/index.ts|deleteBuildingDoor|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_door/index.ts|organizationUserCreateBuildingDoor|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_door/index.ts|organizationUserCreateBuildingDoor|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_door/index.ts|organizationUserUpdateBuildingDoor|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_door/index.ts|organizationUserUpdateBuildingDoor|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|building|functions/src/modules/building/modules/building_door/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|building|functions/src/modules/building/modules/building_door/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|building|functions/src/modules/building/modules/building_door/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|building|functions/src/modules/building/modules/building_door/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|deleteIntercomDisplayName|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|deleteIntercomDisplayName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|onUpdateBuildingIntercomsTransferList|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|onUpdateBuildingIntercomsTransferList|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|updateIntercomDisplayName|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|updateIntercomDisplayName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|createBuildingSettings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|createBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|deleteBuildingSettings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|deleteBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|getResidentSettings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|getResidentSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|resetBuildingSettings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|resetBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|updateBuildingSettings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|updateBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_user/index.ts|createBuildingUser|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_user/index.ts|createBuildingUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|OSKBuildingUserService|onDocumentDeleted|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|OSKBuildingUserService|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/services/building.service.ts|v1.org.buildings.create|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/services/building.service.ts|v1.org.buildings.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/services/building.service.ts|v1.org.buildings.edit|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/services/building.service.ts|v1.org.buildings.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/services/building.service.ts|v1.org.buildings.view|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/services/building.service.ts|v1.org.buildings.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/services/building.service.ts|v1.org.settings.create|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/services/building.service.ts|v1.org.settings.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/services/building.service.ts|OSKUserSecurityChecks|createOrganizationBuilding|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/services/building.service.ts|OSKUserSecurityChecks|createOrganizationBuilding|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|building|functions/src/modules/building/modules/building_accesses/services/building_access.service.ts|firebase-admin/firestore|#1`",
+      "factId": "imports_dependency|building|functions/src/modules/building/modules/building_accesses/services/building_access.service.ts|firebase-admin/firestore|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKUserSecurityChecks|getActivityById|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_activity/services/building_activities.service.ts|OSKUserSecurityChecks|getActivityById|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|v1.org.buildings.edit|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|v1.org.buildings.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|v1.org.buildings.view|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|v1.org.buildings.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|v1.org.buildings.createManager|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_door/services/building_door.service.ts|v1.org.buildings.createManager|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts|v1.admin.accessControlDevice.edit|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_inhabitant.service.ts|v1.admin.accessControlDevice.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKUserSecurityChecks|onUpdateBuildingIntercomsTransferList|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKUserSecurityChecks|onUpdateBuildingIntercomsTransferList|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKSecurityChecks.checkParameters|onUpdateBuildingIntercomsTransferList|[             { name: 'context', value: context, type: 'object' },             { name: 'userId', value: request.userId, type: 'string' },             { name: 'unitId', value: request.unitId, type: 'string' },             { name: 'buildingId', value: request.buildingId, type: 'string' },             { name: 'callTransferList', value: request.callTransferList, type: 'array' },         ]|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_calltransferlist.service.ts|OSKSecurityChecks.checkParameters|onUpdateBuildingIntercomsTransferList|[             { name: 'context', value: context, type: 'object' },             { name: 'userId', value: request.userId, type: 'string' },             { name: 'unitId', value: request.unitId, type: 'string' },             { name: 'buildingId', value: request.buildingId, type: 'string' },             { name: 'callTransferList', value: request.callTransferList, type: 'array' },         ]|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController`",
+      "factId": "source_class|building|functions/src/modules/building/modules/building_pincode/controllers/building_pincode.controller.ts|OSKBuildingPincodeController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|v1.org.settings.create|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|v1.org.settings.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|v1.org.settings.view|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|v1.org.settings.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|v1.org.settings.edit|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|v1.org.settings.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|v1.org.settings.delete|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_settings/services/building_settings.service.ts|v1.org.settings.delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|v1.org.buildings.create|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|v1.org.buildings.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts|v1.org.buildings.create|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_unit/services/building_unit_door.service.ts|v1.org.buildings.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|v1.org.buildings.edit|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|v1.org.buildings.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|v1.org.buildings.view|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|v1.org.buildings.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|OSKBuildingUnitService.logger.logError|deleteBuildingUnit|'Failed-precondition: deleteBuildingUnit() must be called from an App Check verified app.'|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|OSKBuildingUnitService.logger.logError|deleteBuildingUnit|'Failed-precondition: deleteBuildingUnit() must be called from an App Check verified app.'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKUserSecurityChecks|createNonAppUser|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKUserSecurityChecks|createNonAppUser|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|v1.admin.building.register|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|v1.admin.building.register|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|v1.org.buildings.create|#1`",
+      "factId": "permission_candidate|building|functions/src/modules/building/modules/building_user/services/building_user.service.ts|v1.org.buildings.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/controllers/building.controller.ts|OSKBuildingController.default._uploadImage|uploadImage|bucket,imagePath,contentType,'imageFilename'|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/controllers/building.controller.ts|OSKBuildingController.default._uploadImage|uploadImage|bucket,imagePath,contentType,'imageFilename'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|crypto.generateKeyPairSync|generateKeys|'ec',{             namedCurve: 'prime256v1',         }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_door/controllers/building_door_access_control_device_keys.controller.ts|crypto.generateKeyPairSync|generateKeys|'ec',{             namedCurve: 'prime256v1',         }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`external_hook|building|functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts|{process.env.OSK_PUBSUB_TOPIC_ACD_INTERCOM_ENTRIES}|#1`",
+      "factId": "external_hook|building|functions/src/modules/building/modules/building_intercom/controllers/building_intercom.controller.ts|{process.env.OSK_PUBSUB_TOPIC_ACD_INTERCOM_ENTRIES}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts|OSKIntercomMessagePublisherService|publishMessageIntercomUpdate|#1`",
+      "factId": "service_method|building|functions/src/modules/building/modules/building_intercom/services/building_intercom_message_publisher.service.ts|OSKIntercomMessagePublisherService|publishMessageIntercomUpdate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_intercom/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_intercom/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|OSKBuildingUnitService.logger.logInfo|deleteBuildingUnit|`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/services/building_unit.service.ts|OSKBuildingUnitService.logger.logInfo|deleteBuildingUnit|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKAccessMessagePublisherService.publishMessageToAllACDs|updateNonAppUserAccessDoors|...`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKAccessMessagePublisherService.publishMessageToAllACDs|updateNonAppUserAccessDoors|...",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_user/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_user/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts|OSKBuildingSettingsController.default._set|set|collectionPath,OSKBuildingSettingsController.default.DOCUMENT_ID,document|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_settings/controllers/building_settings.controller.ts|OSKBuildingSettingsController.default._set|set|collectionPath,OSKBuildingSettingsController.default.DOCUMENT_ID,document|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|building|functions/src/modules/building/modules/building_unit/controllers/building_unit|deleteCollection|#1`",
+      "factId": "controller_method|building|functions/src/modules/building/modules/building_unit/controllers/building_unit|deleteCollection|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKBuildingUnitNonAppUserService._createNonAppUserAccess|createNonAppUserAccess|...`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_unit/modules/building_unit_nonAppUser/services/building_unit_nonAppUser.service.ts|OSKBuildingUnitNonAppUserService._createNonAppUserAccess|createNonAppUserAccess|...",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 252,
+    "verified": 252,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}
