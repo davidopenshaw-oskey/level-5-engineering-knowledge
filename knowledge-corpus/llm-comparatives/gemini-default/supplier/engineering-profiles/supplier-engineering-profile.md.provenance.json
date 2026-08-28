@@ -1,0 +1,269 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/supplier/engineering-profiles/supplier-engineering-profile.md",
+  "generatedAt": "2026-08-11T17:00:11.134Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "supplier",
+    "sourceCapabilities": [
+      "_module_root",
+      "supplierStaff"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/services/supplier.service.ts` (lines 55-210)",
+      "file": "functions/src/modules/supplier/services/supplier.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts` (lines 11-68)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts` (lines 10-61)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_access.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts` (lines 13-48)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_pincode.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts` (lines 10-53)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts` (lines 14-61)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/controllers/supplier_staff_activity_aggregates.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts` (lines 48-772)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts` (lines 28-181)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_access.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts` (lines 30-167)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts` (lines 29-160)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_activity_aggregates.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts` (lines 11-24)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff_pincode.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/controllers/supplier.controller.ts` (lines 22-55)",
+      "file": "functions/src/modules/supplier/controllers/supplier.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/index.ts` (lines 49-64)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/services/supplier.service.ts` (line 134)",
+      "file": "functions/src/modules/supplier/services/supplier.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts` (line 73)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts` (lines 119, 150, 759)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts` (lines 198, 288, 635)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts` (line 243)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts` (lines 534, 728)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/services/supplier_staff.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/index.ts` (line 50)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|createSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|createSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|getSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|getSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|getAllSuppliers|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|getAllSuppliers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|updateSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|updateSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|deleteSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|deleteSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSecurityChecks.checkParameters|createSupplier|[             { name: 'context', value: context, type: 'object' },             { name: 'name', value: request.name, type: 'string' },             { name: 'siret', value: request.siret, type: 'string' },             { name: 'phone', value: request.phone, type: 'object', isOptional: true },             { name: 'email', value: request.email, type: 'string' },             { name: 'organizationId', value: request.organizationId, type: 'string' },             { name: 'entityId', value: request.entityId, type: 'string' },         ]|#1`",
+      "factId": "call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSecurityChecks.checkParameters|createSupplier|[             { name: 'context', value: context, type: 'object' },             { name: 'name', value: request.name, type: 'string' },             { name: 'siret', value: request.siret, type: 'string' },             { name: 'phone', value: request.phone, type: 'object', isOptional: true },             { name: 'email', value: request.email, type: 'string' },             { name: 'organizationId', value: request.organizationId, type: 'string' },             { name: 'entityId', value: request.entityId, type: 'string' },         ]|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierStaffService._deleteStaffMemberAndRelatedData|deleteSupplier|supplierId,staff.id|#1`",
+      "factId": "call_expression|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierStaffService._deleteStaffMemberAndRelatedData|deleteSupplier|supplierId,staff.id|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|supplier|functions/src/modules/supplier/controllers/supplier.controller.ts|OSKSupplierController`",
+      "factId": "source_class|supplier|functions/src/modules/supplier/controllers/supplier.controller.ts|OSKSupplierController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService`",
+      "factId": "source_class|supplier|functions/src/modules/supplier/services/supplier.service.ts|OSKSupplierService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|supplier|functions/src/modules/supplier/controllers/supplier.controller.ts|OSKSupplierController|getCollectionPath|#1`",
+      "factId": "controller_method|supplier|functions/src/modules/supplier/controllers/supplier.controller.ts|OSKSupplierController|getCollectionPath|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|createSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|createSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|getSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|getSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|getAllSuppliers|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|getAllSuppliers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|updateSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|updateSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|deleteSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|deleteSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.create|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.view|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.view|#2`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.view|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.edit|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.delete|#1`",
+      "factId": "permission_candidate|supplier|functions/src/modules/supplier/services/supplier.service.ts|v1.org.suppliers.delete|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 40,
+    "verified": 40,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

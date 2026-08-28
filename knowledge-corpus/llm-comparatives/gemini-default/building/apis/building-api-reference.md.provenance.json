@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/building/apis/building-api-reference.md",
+  "generatedAt": "2026-08-11T16:39:24.025Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "building",
+    "sourceCapabilities": [
+      "_module_root",
+      "building_accesses",
+      "building_activity",
+      "building_door",
+      "building_intercom",
+      "building_pincode",
+      "building_pincode_trash",
+      "building_settings",
+      "building_unit",
+      "building_unit_nonAppUser",
+      "building_user"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts` (lines 14-77)",
+      "file": "functions/src/modules/building/modules/building_accesses/controllers/building_accesses.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_door/services/building_door.service.ts` (lines 35-40)",
+      "file": "functions/src/modules/building/modules/building_door/services/building_door.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_door/index.ts` (line 44)",
+      "file": "functions/src/modules/building/modules/building_door/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_door/index.ts` (line 47)",
+      "file": "functions/src/modules/building/modules/building_door/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_settings/index.ts` (lines 50-59)",
+      "file": "functions/src/modules/building/modules/building_settings/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_unit/index.ts` (lines 67-77)",
+      "file": "functions/src/modules/building/modules/building_unit/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_unit/index.ts` (lines 67-77)",
+      "file": "functions/src/modules/building/modules/building_unit/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/building/modules/building_user/services/building_user.service.ts` (lines 290-301)",
+      "file": "functions/src/modules/building/modules/building_user/services/building_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/index.ts|buildingDoorTriggers.getFirestoreTriggers|getFirestoreTriggers|functionBuilder|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/index.ts|buildingDoorTriggers.getFirestoreTriggers|getFirestoreTriggers|functionBuilder|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|deleteAllBuildingActivities|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|deleteAllBuildingActivities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|deleteBuildingActivityById|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|deleteBuildingActivityById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|getActivityById|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|getActivityById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|getAllBuildingActivities|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_activity/index.ts|getAllBuildingActivities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_door/index.ts|db             .document(buildingDoorAccessControlDevicePath)             .onCreate|getFirestoreTriggers|OSKBuildingDoorAccessControlDeviceService.onDocumentCreated|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_door/index.ts|db             .document(buildingDoorAccessControlDevicePath)             .onCreate|getFirestoreTriggers|OSKBuildingDoorAccessControlDeviceService.onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|building|functions/src/modules/building/modules/building_door/index.ts|db             .document(buildingDoorAccessControlDevicePath)             .onDelete|getFirestoreTriggers|OSKBuildingDoorAccessControlDeviceService.onDocumentDeleted|#1`",
+      "factId": "call_expression|building|functions/src/modules/building/modules/building_door/index.ts|db             .document(buildingDoorAccessControlDevicePath)             .onDelete|getFirestoreTriggers|OSKBuildingDoorAccessControlDeviceService.onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|deleteIntercomDisplayName|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|deleteIntercomDisplayName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|onUpdateBuildingIntercomsTransferList|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|onUpdateBuildingIntercomsTransferList|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|updateIntercomDisplayName|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_intercom/index.ts|updateIntercomDisplayName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|createBuildingSettings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|createBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|deleteBuildingSettings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|deleteBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|getResidentSettings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|getResidentSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|resetBuildingSettings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|resetBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|updateBuildingSettings|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_settings/index.ts|updateBuildingSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|building|functions/src/modules/building/modules/building_user/index.ts|createBuildingUser|#1`",
+      "factId": "api_contract|building|functions/src/modules/building/modules/building_user/index.ts|createBuildingUser|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 24,
+    "verified": 24,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

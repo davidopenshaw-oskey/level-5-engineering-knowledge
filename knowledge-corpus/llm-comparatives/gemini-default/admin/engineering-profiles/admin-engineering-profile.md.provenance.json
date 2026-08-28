@@ -1,0 +1,788 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/admin/engineering-profiles/admin-engineering-profile.md",
+  "generatedAt": "2026-08-11T16:46:11.871Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "admin",
+    "sourceCapabilities": [
+      "_module_root",
+      "admin_buildings",
+      "admin_maintenance",
+      "admin_organization",
+      "admin_users"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts` (lines 43-181)",
+      "file": "functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts` (lines 452-466)",
+      "file": "functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts` (lines 50-55)",
+      "file": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts` (lines 98-103)",
+      "file": "functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts` (lines 46-47)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/index.ts` (lines 20-27)",
+      "file": "functions/src/modules/admin/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_maintenance/index.ts` (lines 33-84)",
+      "file": "functions/src/modules/admin/modules/admin_maintenance/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_inhabitant_user.controller.ts` (lines 9-43)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_inhabitant_user.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_user_access.controller.ts` (lines 9-22)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_access.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_user_device.controller.ts` (lines 9-26)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_device.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts` (lines 9-85)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts` (lines 9-23)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts` (lines 38-358)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts` (lines 24-223)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts` (lines 21-136)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts` (lines 29-321)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts` (lines 30-148)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/index.ts` (lines 32-67)",
+      "file": "functions/src/modules/admin/modules/admin_users/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts` (lines 17-27)",
+      "file": "functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_user_access.controller.ts` (lines 16-22)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_access.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_user_device.controller.ts` (lines 16-26)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_device.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts` (lines 18-38)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts` (lines 71-85)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_inhabitant_user.controller.ts` (lines 16-43)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_inhabitant_user.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts` (lines 40-69)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_user_invitation.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts` (lines 17-23)",
+      "file": "functions/src/modules/admin/modules/admin_users/controllers/admin_user.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/utils/get_admin_organization_user.util.ts` (lines 38-39)",
+      "file": "functions/src/modules/admin/modules/admin_users/utils/get_admin_organization_user.util.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/utils/get_admin_organization_user.util.ts` (lines 29-30)",
+      "file": "functions/src/modules/admin/modules/admin_users/utils/get_admin_organization_user.util.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/index.ts` (lines 20-27)",
+      "file": "functions/src/modules/admin/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_maintenance/index.ts` (lines 33-84)",
+      "file": "functions/src/modules/admin/modules/admin_maintenance/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts` (lines 13-28)",
+      "file": "functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts` (line 65)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts` (line 164)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_inhabitant_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts` (line 41)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user_access.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts` (line 41)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts` (line 40)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts` (line 39)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts` (line 46)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_user_invitation.service.ts` (line 46)",
+      "file": "functions/src/modules/admin/modules/admin_user_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts` (line 46)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts` (line 46)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts` (line 46)",
+      "file": "functions/src/modules/admin/modules/admin_users/services/admin_user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts` (lines 90-104)",
+      "file": "functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/index.ts|getAdminBuildingsCallableFunctionTriggers|getAdminCallableFunctionTriggers|functionBuilder|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/index.ts|getAdminBuildingsCallableFunctionTriggers|getAdminCallableFunctionTriggers|functionBuilder|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/index.ts|getAdminOrganizationCallableFunctionTriggers|getAdminCallableFunctionTriggers|functionBuilder|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/index.ts|getAdminOrganizationCallableFunctionTriggers|getAdminCallableFunctionTriggers|functionBuilder|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/index.ts|getAdminUsersCallableFunctionTriggers|getAdminCallableFunctionTriggers|functionBuilder|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/index.ts|getAdminUsersCallableFunctionTriggers|getAdminCallableFunctionTriggers|functionBuilder|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/index.ts|maintenanceCallableFunctions.getCallableFunctionTriggers|getAdminCallableFunctionTriggers|functionBuilder|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/index.ts|maintenanceCallableFunctions.getCallableFunctionTriggers|getAdminCallableFunctionTriggers|functionBuilder|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|admin|functions/src/modules/admin/models/with_admin_organization_id.model.ts|OSKWithAdminOrganizationId|#1`",
+      "factId": "type_alias|admin|functions/src/modules/admin/models/with_admin_organization_id.model.ts|OSKWithAdminOrganizationId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|admin|functions/src/modules/admin/models/with_admin_organization_id.model.ts|OSKWithAdminOrganizationId|adminOrganizationId|#1`",
+      "factId": "model_property|admin|functions/src/modules/admin/models/with_admin_organization_id.model.ts|OSKWithAdminOrganizationId|adminOrganizationId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_buildings/index.ts|getAllBuildingsWithUnits|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_buildings/index.ts|getAllBuildingsWithUnits|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|getAdminOrganizationUser|getAllBuildingsWithUnits|context.auth?.uid,requestData.adminOrganizationId|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|getAdminOrganizationUser|getAllBuildingsWithUnits|context.auth?.uid,requestData.adminOrganizationId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|OSKConsolidatedRolesController.default.checkUserPermissions|getAllBuildingsWithUnits|adminOrganizationUser.roles,rolesToCheck|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|OSKConsolidatedRolesController.default.checkUserPermissions|getAllBuildingsWithUnits|adminOrganizationUser.roles,rolesToCheck|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts|OSKAdminBuildingController.default._query|getAll|OSKAdminBuildingController.collection|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts|OSKAdminBuildingController.default._query|getAll|OSKAdminBuildingController.collection|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|OSKAdminBuildingUnitController.getAll|getAllBuildingsWithUnits|building.buildingId|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|OSKAdminBuildingUnitController.getAll|getAllBuildingsWithUnits|building.buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|units.map|getAllBuildingsWithUnits|(u) => ({ unitId: u.unitId, unitNumber: u.unitNumber, name: u.name })|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|units.map|getAllBuildingsWithUnits|(u) => ({ unitId: u.unitId, unitNumber: u.unitNumber, name: u.name })|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService|recreateAccessDocumentInMongoDbByBuilding|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService|recreateAccessDocumentInMongoDbByBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService|removeNonExistingUserAccessInBuilding|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService|removeNonExistingUserAccessInBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService|syncBuildingAccessesWithUserAccesses|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService|syncBuildingAccessesWithUserAccesses|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService|fixMissingMainAccessFields|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService|fixMissingMainAccessFields|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService|recreateTokensForBuildingUsers|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService|recreateTokensForBuildingUsers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts|OSKDbBuildingSettingsService|onMaintenanceCreateResidentSettingsForBuilding|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts|OSKDbBuildingSettingsService|onMaintenanceCreateResidentSettingsForBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts|OSKDbUserSettingsService|onMaintenanceCreateUnitSettings|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts|OSKDbUserSettingsService|onMaintenanceCreateUnitSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts|OSKDbIntercomService|createBuildingIntercomsBase|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts|OSKDbIntercomService|createBuildingIntercomsBase|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts|OSKDbIntercomService|createAndFillIntercomsByBuilding|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts|OSKDbIntercomService|createAndFillIntercomsByBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts|OSKDbIntercomService|deleteCallTransferLists|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts|OSKDbIntercomService|deleteCallTransferLists|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercom_allowUnitNumber.service.ts|OSKDbIntercomUnitNumberService|onMaintenanceIntercomAddUnitNumberFields|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercom_allowUnitNumber.service.ts|OSKDbIntercomUnitNumberService|onMaintenanceIntercomAddUnitNumberFields|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_organizations/db_organization_prompt.service.ts|OSKDbOrganizationPromptService|onMaintenanceCreateOrganizationsPrompt|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_organizations/db_organization_prompt.service.ts|OSKDbOrganizationPromptService|onMaintenanceCreateOrganizationsPrompt|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts|OSKDbResidentsService|createResidents|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts|OSKDbResidentsService|createResidents|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts|OSKDbResidentsService|onMaintenanceUpdateResidentsWithUnitInfo|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts|OSKDbResidentsService|onMaintenanceUpdateResidentsWithUnitInfo|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts|OSKDbPincodesService|onMaintenanceRefreshPincodes|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts|OSKDbPincodesService|onMaintenanceRefreshPincodes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/pincode_refresh_worker.service.ts|OSKPincodeRefreshWorkerService|executePincodeRefresh|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/pincode_refresh_worker.service.ts|OSKPincodeRefreshWorkerService|executePincodeRefresh|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_propertiesIds/db_propertiesIds.service.ts|OSKDbPropertiesService|onMaintenanceLinkBuildingsToProperties|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_propertiesIds/db_propertiesIds.service.ts|OSKDbPropertiesService|onMaintenanceLinkBuildingsToProperties|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts|OSKDbUserSettingsService|onMaintenanceSyncAuthDisplayNames|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts|OSKDbUserSettingsService|onMaintenanceSyncAuthDisplayNames|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService|getAllOrganizations|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService|getAllOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKUserController.default.get|getAllOrganizations|userId|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKUserController.default.get|getAllOrganizations|userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOrganizationUserController.default.get|getAllOrganizations|adminsOskeyId,userId|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOrganizationUserController.default.get|getAllOrganizations|adminsOskeyId,userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController.default._query|getAll|OSKOragnizationListController.collection|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController.default._query|getAll|OSKOragnizationListController.collection|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService|getOrganizationDetailsById|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService|getOrganizationDetailsById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKUserController.default.get|getOrganizationDetailsById|userId|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKUserController.default.get|getOrganizationDetailsById|userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOrganizationUserController.default.get|getOrganizationDetailsById|adminsOrganizationId,userId|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOrganizationUserController.default.get|getOrganizationDetailsById|adminsOrganizationId,userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController.default._get|getById|OSKOragnizationListController.collection,OrganizationId|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController.default._get|getById|OSKOragnizationListController.collection,OrganizationId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_users/index.ts|deleteUserData|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_users/index.ts|deleteUserData|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_users/index.ts|addInhabitantToUnit|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_users/index.ts|addInhabitantToUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_users/index.ts|getAllUserAccesses|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_users/index.ts|getAllUserAccesses|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_users/index.ts|getAllUserDevices|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_users/index.ts|getAllUserDevices|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_users/index.ts|getAllUserInvitations|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_users/index.ts|getAllUserInvitations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|admin|functions/src/modules/admin/index.ts|./models/with_admin_organization_id.model|#1`",
+      "factId": "exported_symbol|admin|functions/src/modules/admin/index.ts|./models/with_admin_organization_id.model|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_accesses/services/db_accesses.service.ts|OSKDbAccessService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts|OSKDbBuildingSettingsService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_building/db_building_settings.service.ts|OSKDbBuildingSettingsService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercom_allowUnitNumber.service.ts|OSKDbIntercomUnitNumberService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercom_allowUnitNumber.service.ts|OSKDbIntercomUnitNumberService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts|OSKDbIntercomService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_intercoms/services/db_intercoms.service.ts|OSKDbIntercomService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_organizations/db_organization_prompt.service.ts|OSKDbOrganizationPromptService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_organizations/db_organization_prompt.service.ts|OSKDbOrganizationPromptService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts|OSKDbPincodesService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts|OSKDbPincodesService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/pincode_refresh_worker.service.ts|OSKPincodeRefreshWorkerService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/pincode_refresh_worker.service.ts|OSKPincodeRefreshWorkerService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_propertiesIds/db_propertiesIds.service.ts|OSKDbPropertiesService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_propertiesIds/db_propertiesIds.service.ts|OSKDbPropertiesService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts|OSKDbResidentsService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_residents/db_residents.service.ts|OSKDbResidentsService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts|OSKDbUserSettingsService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_maintenance/db_user_settings/db_user_settings.ts|OSKDbUserSettingsService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController|getAll|#1`",
+      "factId": "controller_method|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController|getAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController|getById|#1`",
+      "factId": "controller_method|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController|getById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService|getAllOrganizations|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService|getAllOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService|getOrganizationDetailsById|#1`",
+      "factId": "service_method|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService|getOrganizationDetailsById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts|OSKAdminBuildingController.default._query|getAll|OSKAdminBuildingController.collection|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_buildings/controllers/admin_building.controller.ts|OSKAdminBuildingController.default._query|getAll|OSKAdminBuildingController.collection|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_buildings/controllers/admin_building_unit.controller.ts|OSKAdminBuildingUnitController.default._query|getAll|`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_buildings/controllers/admin_building_unit.controller.ts|OSKAdminBuildingUnitController.default._query|getAll|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController.default._query|getAll|OSKOragnizationListController.collection|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController.default._query|getAll|OSKOragnizationListController.collection|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|../models/documents/organization_listdocument.model|#1`",
+      "factId": "imports_dependency|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|../models/documents/organization_listdocument.model|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_buildings/index.ts|getAllBuildingsWithUnits|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_buildings/index.ts|getAllBuildingsWithUnits|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getAllOrganizations|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getAllOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getOrganizationDetailsById|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getOrganizationDetailsById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|v1.admin.user.accesses.create|#1`",
+      "factId": "permission_candidate|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|v1.admin.user.accesses.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`class_method|admin|functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts|OSKMaintenancePermissionChecks|isOskeyAdmin|#1`",
+      "factId": "class_method|admin|functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts|OSKMaintenancePermissionChecks|isOskeyAdmin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|admin|functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts|v1.admin|#1`",
+      "factId": "permission_candidate|admin|functions/src/modules/admin/modules/admin_maintenance/utils/permissionChecks.util.ts|v1.admin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|v1.admin.org.view|#1`",
+      "factId": "permission_candidate|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|v1.admin.org.view|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|v1.admin.org.register|#1`",
+      "factId": "permission_candidate|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|v1.admin.org.register|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|v1.admin.org.edit|#1`",
+      "factId": "permission_candidate|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|v1.admin.org.edit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|v1.admin.org.delete|#1`",
+      "factId": "permission_candidate|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|v1.admin.org.delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|v1.admin.org.validate|#1`",
+      "factId": "permission_candidate|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|v1.admin.org.validate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_error|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|permission-denied|#1`",
+      "factId": "permission_error|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|permission-denied|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts|OSKTaskSchedulerService.scheduleTask|onMaintenanceRefreshPincodes|scheduleDate,payload,targetUrl|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_maintenance/db_pincodes/services/db_pincodes.service.ts|OSKTaskSchedulerService.scheduleTask|onMaintenanceRefreshPincodes|scheduleDate,payload,targetUrl|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_organization/index.ts|https.onCall|OSKOragnizationListService.getAllOrganizations|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_organization/index.ts|https.onCall|OSKOragnizationListService.getAllOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_organization/index.ts|https.onCall|OSKOragnizationListService.getOrganizationDetailsById|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_organization/index.ts|https.onCall|OSKOragnizationListService.getOrganizationDetailsById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|admin|functions/src/modules/admin/modules/admin_organization/index.ts|functionBuilder.runWith|getAdminOrganizationCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|admin|functions/src/modules/admin/modules/admin_organization/index.ts|functionBuilder.runWith|getAdminOrganizationCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|v1.admin.user.accesses.create|#1`",
+      "factId": "permission_candidate|admin|functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts|v1.admin.user.accesses.create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_organization/controllers/organization_list.controller.ts|OSKOragnizationListController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService`",
+      "factId": "source_class|admin|functions/src/modules/admin/modules/admin_organization/services/organization_list.service.ts|OSKOragnizationListService",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 126,
+    "verified": 126,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

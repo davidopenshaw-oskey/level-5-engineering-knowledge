@@ -1,0 +1,1586 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/user/engineering-profiles/user-engineering-profile.md",
+  "generatedAt": "2026-08-11T17:20:01.209Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "user",
+    "sourceCapabilities": [
+      "_module_root",
+      "user_access",
+      "user_activity",
+      "user_call",
+      "user_device",
+      "user_intercoms",
+      "user_invitation",
+      "user_notification",
+      "user_organization",
+      "user_pincode",
+      "user_settings"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/services/user.service.ts` (lines 444-536)",
+      "file": "functions/src/modules/user/services/user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/services/user.service.ts` (lines 538-629)",
+      "file": "functions/src/modules/user/services/user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/services/user.service.ts` (lines 1336-1443)",
+      "file": "functions/src/modules/user/services/user.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model.ts` (lines 130-292)",
+      "file": "functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_activity/services/user_activities.service.ts` (lines 54-95)",
+      "file": "functions/src/modules/user/modules/user_activity/services/user_activities.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/controllers/user_device.controller.ts` (lines 19-47)",
+      "file": "functions/src/modules/user/modules/user_device/controllers/user_device.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/services/user_device.service.ts` (lines 169-235)",
+      "file": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/services/user_device.service.ts` (lines 73-167)",
+      "file": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/services/user_device.service.ts` (lines 180-224)",
+      "file": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/services/user_device.service.ts` (lines 38-71)",
+      "file": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts` (lines 10-41)",
+      "file": "functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts` (lines 23-64)",
+      "file": "functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts` (lines 214-224)",
+      "file": "functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts` (lines 74-126)",
+      "file": "functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/controllers/user_organization_request.controller.ts` (lines 17-30)",
+      "file": "functions/src/modules/user/modules/user_organization/controllers/user_organization_request.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/controllers/user_organization.controller.ts` (lines 18-36)",
+      "file": "functions/src/modules/user/modules/user_organization/controllers/user_organization.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts` (lines 30-61)",
+      "file": "functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_call/index.ts` (lines 12-21)",
+      "file": "functions/src/modules/user/modules/user_call/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/controllers/user_device.controller.ts` (lines 12-47)",
+      "file": "functions/src/modules/user/modules/user_device/controllers/user_device.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/controllers/user_device_access_control_device_token.controller.ts` (lines 11-44)",
+      "file": "functions/src/modules/user/modules/user_device/controllers/user_device_access_control_device_token.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/services/user_device.service.ts` (lines 35-237)",
+      "file": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/controllers/user_invitation_building.controller.ts` (lines 16-20)",
+      "file": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation_building.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/controllers/user_invitation_external_user.controller.ts` (lines 8-13)",
+      "file": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation_external_user.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/controllers/user_invitation.controller.ts` (lines 15-19)",
+      "file": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/controllers/user_sent_invitation.controller.ts` (lines 12-16)",
+      "file": "functions/src/modules/user/modules/user_invitation/controllers/user_sent_invitation.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/controllers/user_notification_token.controller.ts` (lines 16-50)",
+      "file": "functions/src/modules/user/modules/user_notification/controllers/user_notification_token.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/controllers/user_notification.controller.ts` (lines 13-48)",
+      "file": "functions/src/modules/user/modules/user_notification/controllers/user_notification.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/services/user_notification_token.service.ts` (lines 15-187)",
+      "file": "functions/src/modules/user/modules/user_notification/services/user_notification_token.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/services/user_notification.service.ts` (lines 21-183)",
+      "file": "functions/src/modules/user/modules/user_notification/services/user_notification.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/services/user_notification_test.service.ts` (lines 16-71)",
+      "file": "functions/src/modules/user/modules/user_notification/services/user_notification_test.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_activity/controllers/user_activities.controller.ts` (lines 12-13)",
+      "file": "functions/src/modules/user/modules/user_activity/controllers/user_activities.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_activity/controllers/user_activity_aggregates.controller.ts` (lines 16-17)",
+      "file": "functions/src/modules/user/modules/user_activity/controllers/user_activity_aggregates.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_call/models/user_call_document.model.ts` (lines 13-24)",
+      "file": "functions/src/modules/user/modules/user_call/models/user_call_document.model.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/controllers/user_device_access_control_device_token.controller.ts` (lines 14-44)",
+      "file": "functions/src/modules/user/modules/user_device/controllers/user_device_access_control_device_token.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts` (line 14)",
+      "file": "functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/controllers/user_sent_invitation.controller.ts` (line 20)",
+      "file": "functions/src/modules/user/modules/user_invitation/controllers/user_sent_invitation.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/controllers/user_invitation.controller.ts` (line 27)",
+      "file": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/controllers/user_invitation_building.controller.ts` (line 34)",
+      "file": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation_building.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/controllers/user_invitation_external_user.controller.ts` (line 17)",
+      "file": "functions/src/modules/user/modules/user_invitation/controllers/user_invitation_external_user.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/controllers/user_organization_invitation_pending.controller.ts` (lines 18-39)",
+      "file": "functions/src/modules/user/modules/user_organization/controllers/user_organization_invitation_pending.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/controllers/user_organization_request.controller.ts` (lines 17-30)",
+      "file": "functions/src/modules/user/modules/user_organization/controllers/user_organization_request.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/controllers/user_organization.controller.ts` (lines 18-36)",
+      "file": "functions/src/modules/user/modules/user_organization/controllers/user_organization.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_pincode/controllers/user_pincode.controller.ts` (lines 15-27)",
+      "file": "functions/src/modules/user/modules/user_pincode/controllers/user_pincode.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_settings/controllers/user_building_settings.controller.ts` (lines 18-26)",
+      "file": "functions/src/modules/user/modules/user_settings/controllers/user_building_settings.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_settings/controllers/user_building_settings.controller.ts` (lines 28-85)",
+      "file": "functions/src/modules/user/modules/user_settings/controllers/user_building_settings.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_settings/controllers/user_unit_settings.controller.ts` (lines 18-27)",
+      "file": "functions/src/modules/user/modules/user_settings/controllers/user_unit_settings.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_settings/controllers/user_unit_settings.controller.ts` (lines 29-85)",
+      "file": "functions/src/modules/user/modules/user_settings/controllers/user_unit_settings.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_activity/index.ts` (lines 42-51)",
+      "file": "functions/src/modules/user/modules/user_activity/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/index.ts` (lines 50-63)",
+      "file": "functions/src/modules/user/modules/user_organization/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_pincode/index.ts` (lines 32-38)",
+      "file": "functions/src/modules/user/modules/user_pincode/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_activity/services/user_activities.service.ts` (lines 54, 67, 80, 89)",
+      "file": "functions/src/modules/user/modules/user_activity/services/user_activities.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/services/user_device.service.ts` (lines 38, 54)",
+      "file": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/services/user_invitation_common.service.ts` (line 184)",
+      "file": "functions/src/modules/user/modules/user_invitation/services/user_invitation_common.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/services/user_invitation_accepted.service.ts` (line 29)",
+      "file": "functions/src/modules/user/modules/user_invitation/services/user_invitation_accepted.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/services/user_invitation_external_unit.service.ts` (line 85)",
+      "file": "functions/src/modules/user/modules/user_invitation/services/user_invitation_external_unit.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/services/user_invitation_external_unit.service.ts` (line 115)",
+      "file": "functions/src/modules/user/modules/user_invitation/services/user_invitation_external_unit.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/index.ts` (line 62)",
+      "file": "functions/src/modules/user/modules/user_notification/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_activity/services/user_activity_aggregates.service.ts` (line 78)",
+      "file": "functions/src/modules/user/modules/user_activity/services/user_activity_aggregates.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|initiatePhoneNumberChange|#1`",
+      "factId": "service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|initiatePhoneNumberChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|verifyAndCompletePhoneNumberChange|#1`",
+      "factId": "service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|verifyAndCompletePhoneNumberChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|initiateEmailChange|#1`",
+      "factId": "service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|initiateEmailChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|verifyAndCompleteEmailChange|#1`",
+      "factId": "service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|verifyAndCompleteEmailChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/controllers/user.controller.ts|OSKUserController|setAccountDeletionDate|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/controllers/user.controller.ts|OSKUserController|setAccountDeletionDate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/index.ts|OSKUserService.onDeleteAccount|getScheduledFunctionTriggers||#1`",
+      "factId": "call_expression|user|functions/src/modules/user/index.ts|OSKUserService.onDeleteAccount|getScheduledFunctionTriggers||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|getInhabitantType|#1`",
+      "factId": "service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|getInhabitantType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|getUserIdsByEmailOrPhone|#1`",
+      "factId": "service_method|user|functions/src/modules/user/services/user.service.ts|OSKUserService|getUserIdsByEmailOrPhone|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/controllers/user.controller.ts|OSKUserController|incrementUnreadNotificationCount|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/controllers/user.controller.ts|OSKUserController|incrementUnreadNotificationCount|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_access/controllers/user_accesses.controller.ts|OSKUserAccessesController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_access/controllers/user_accesses.controller.ts|OSKUserAccessesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_access/controllers/user_accesses.controller.ts|OSKUserAccessesController.default.getPerBuilding|getPerBuildingSafe|userId,buildingId|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_access/controllers/user_accesses.controller.ts|OSKUserAccessesController.default.getPerBuilding|getPerBuildingSafe|userId,buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_access/controllers/user_building_unit.controller.ts|OSKUserBuildingUnitController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_access/controllers/user_building_unit.controller.ts|OSKUserBuildingUnitController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_access/controllers/user_building_unit.controller.ts|OSKUserBuildingUnitController.default._create|create|`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_access/controllers/user_building_unit.controller.ts|OSKUserBuildingUnitController.default._create|create|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_access/services/user_access.service.ts|OSKUserAccessService|setupUserAccess|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_access/services/user_access.service.ts|OSKUserAccessService|setupUserAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_access/services/user_access.service.ts|OSKAccessUtilsService.generateAccessId|setupUserAccess||#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_access/services/user_access.service.ts|OSKAccessUtilsService.generateAccessId|setupUserAccess||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_activity/services/user_activities.service.ts|OSKUserActivitiesService|ActivityReceivedForUser|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_activity/services/user_activities.service.ts|OSKUserActivitiesService|ActivityReceivedForUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_activity/services/user_activity_aggregates.service.ts|OSKUserActivityAggregatesService|ActivityReceivedForUser|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_activity/services/user_activity_aggregates.service.ts|OSKUserActivityAggregatesService|ActivityReceivedForUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getActivityById|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getActivityById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getAllUserActivities|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getAllUserActivities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getActivityByBuildingId|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|getActivityByBuildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|delete|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|deleteAll|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_activity/index.ts|deleteAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController|set|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController|set|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController|deleteAll|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController|deleteAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController|getCollectionPath|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController|getCollectionPath|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|#1`",
+      "factId": "type_alias|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|startTime|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|startTime|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|endTime|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|endTime|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|status|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|status|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|buildingId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|unitId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|unitId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|callId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|callId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|callerId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|callerId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|callerType|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|callerType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|contactId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|contactId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|callDuration|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|callDuration|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|callPictureName|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|callPictureName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|activityId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_call/models/user_call_document.model.ts|OSKUserCall|activityId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|create|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|get|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|get|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|getAllIntercomByUser|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|getAllIntercomByUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|update|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|update|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|delete|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService.logger.logInfo|createUserIntercomEntry|'User intercom document already exists, updating it instead to maintain idempotency.',{ userId, acdId: intercomDoc.accessControlDeviceId }|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService.logger.logInfo|createUserIntercomEntry|'User intercom document already exists, updating it instead to maintain idempotency.',{ userId, acdId: intercomDoc.accessControlDeviceId }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService.updateAllUserIntercomEntry|createAndUpdateUsersIntercomEntry|intercomDoc.accessControlDeviceId,otherTenants,data|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService.updateAllUserIntercomEntry|createAndUpdateUsersIntercomEntry|intercomDoc.accessControlDeviceId,otherTenants,data|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|convertCallTransferListFromSequenceNumberToOrdered|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|convertCallTransferListFromSequenceNumberToOrdered|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|cleanUpUserIntercomsAfterInhabitantDeletion|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|cleanUpUserIntercomsAfterInhabitantDeletion|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|userIntercomDoc.inhabitants.filter|cleanUpUserIntercomsAfterInhabitantDeletion|(i) => i.userId !== deletedUserId|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|userIntercomDoc.inhabitants.filter|cleanUpUserIntercomsAfterInhabitantDeletion|(i) => i.userId !== deletedUserId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|userIntercomDoc.callTransferList                     .map((item) => ({                         ...item,                         callRecipients: item.callRecipients.filter((recipient) => recipient.callerId !== deletedUserId),                     }))                     .filter|cleanUpUserIntercomsAfterInhabitantDeletion|(item) => item.callRecipients.length > 0|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|userIntercomDoc.callTransferList                     .map((item) => ({                         ...item,                         callRecipients: item.callRecipients.filter((recipient) => recipient.callerId !== deletedUserId),                     }))                     .filter|cleanUpUserIntercomsAfterInhabitantDeletion|(item) => item.callRecipients.length > 0|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|createUserInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|createUserInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_invitation/services/user_invitation_creation.service.ts|OSKUserInvitationCreationService|constructUserInvitationSentObject|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_invitation/services/user_invitation_creation.service.ts|OSKUserInvitationCreationService|constructUserInvitationSentObject|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_invitation/services/user_invitation_creation.service.ts|OSKUserInvitationCreationService|processInvitee|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_invitation/services/user_invitation_creation.service.ts|OSKUserInvitationCreationService|processInvitee|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviteeAcceptsInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviteeAcceptsInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviteeRejectsInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviteeRejectsInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviterCancelsInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|inviterCancelsInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|deleteInvitation|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|deleteInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|processExternalUserInvitations|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|processExternalUserInvitations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|onGetAllInvitationsByUser|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_invitation/index.ts|onGetAllInvitationsByUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onInsertOrUpdateNotificationToken|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onInsertOrUpdateNotificationToken|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_notification/services/user_notification_token.service.ts|notificationTokenList.map|onInsertOrUpdateNotificationToken|async (notificationToken) => { ... }|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_notification/services/user_notification_token.service.ts|notificationTokenList.map|onInsertOrUpdateNotificationToken|async (notificationToken) => { ... }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onDeleteNotificationToken|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onDeleteNotificationToken|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|user|functions/src/modules/user/modules/user_notification/index.ts|/users/{userId}/notifications/{notificationId}|#1`",
+      "factId": "firestore_path_touched|user|functions/src/modules/user/modules/user_notification/index.ts|/users/{userId}/notifications/{notificationId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onTestNotification|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onTestNotification|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationInvitationService|userOrganizationInvitationAccepted|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationInvitationService|userOrganizationInvitationAccepted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKConsolidatedRolesController.default.generateOrganizationUserRoles|userOrganizationInvitationAccepted|organizationInvitation.roles,organization.userRoles,...|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKConsolidatedRolesController.default.generateOrganizationUserRoles|userOrganizationInvitationAccepted|organizationInvitation.roles,organization.userRoles,...|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationController.default.save|userOrganizationInvitationAccepted|user.userId,request.organizationId,userOrganization|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationController.default.save|userOrganizationInvitationAccepted|user.userId,request.organizationId,userOrganization|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKOrganizationUserController.default.save|userOrganizationInvitationAccepted|request.organizationId,user.userId,organizationUser|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKOrganizationUserController.default.save|userOrganizationInvitationAccepted|request.organizationId,user.userId,organizationUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationInvitationPendingController.default.deleteUsersOrganizationInvitation|userOrganizationInvitationAccepted|user.userId,request.organizationId|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationInvitationPendingController.default.deleteUsersOrganizationInvitation|userOrganizationInvitationAccepted|user.userId,request.organizationId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKOrganizationUserInvitationController.default.deleteOrganizationUserInvitation|userOrganizationInvitationAccepted|request.organizationId,userInvitation.email|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKOrganizationUserInvitationController.default.deleteOrganizationUserInvitation|userOrganizationInvitationAccepted|request.organizationId,userInvitation.email|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationInvitationService|userOrganizationInvitationRejected|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationInvitationService|userOrganizationInvitationRejected|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKOrganizationUserInvitationController.default.moveOrganizationUserInvitation|userOrganizationInvitationRejected|request.organizationId,findUsersInvitation.email,findOrganizationsInvitation|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKOrganizationUserInvitationController.default.moveOrganizationUserInvitation|userOrganizationInvitationRejected|request.organizationId,findUsersInvitation.email,findOrganizationsInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationInvitationPendingController.default.deleteUsersOrganizationInvitation|userOrganizationInvitationRejected|findUser.userId,request.organizationId|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationInvitationPendingController.default.deleteUsersOrganizationInvitation|userOrganizationInvitationRejected|findUser.userId,request.organizationId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKOrganizationUserInvitationController.default.deleteOrganizationUserInvitation|userOrganizationInvitationRejected|request.organizationId,findUsersInvitation.email|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKOrganizationUserInvitationController.default.deleteOrganizationUserInvitation|userOrganizationInvitationRejected|request.organizationId,findUsersInvitation.email|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/controllers/user_organization_invitation_pending.controller.ts|OSKUserOrganizationInvitationPendingController.default._query|getAllInvitations|`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/controllers/user_organization_invitation_pending.controller.ts|OSKUserOrganizationInvitationPendingController.default._query|getAllInvitations|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|createPincodeInhabitantDocument|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|createPincodeInhabitantDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|createPincodeGuestDocument|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|createPincodeGuestDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|createPincodePermanentGuestDocument|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|createPincodePermanentGuestDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|createPincodeAnonymousDocument|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|createPincodeAnonymousDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|onGetUserPincodes|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|onGetUserPincodes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|getAllPincodeStrings|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|getAllPincodeStrings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|deleteUserPincode|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService|deleteUserPincode|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeController.default.delete|deleteUserPincode|request.pincodeId,request.userId|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeController.default.delete|deleteUserPincode|request.pincodeId,request.userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|deleteUserPincode|request.pincodeId,pincodeDoc.buildingId|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|deleteUserPincode|request.pincodeId,pincodeDoc.buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKOrganizationResidentsController.default.save|deleteUserPincode|organizationId,request.userId,residentDoc|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKOrganizationResidentsController.default.save|deleteUserPincode|organizationId,request.userId,residentDoc|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService|createUserSettingsBuilding|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService|createUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService|getUserSettingsBuilding|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService|getUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService|getAllUserSettingsBuilding|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService|getAllUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService|updateUserSettingsBuilding|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService|updateUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService|deleteUserSettingsBuilding|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService|deleteUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|createUserSettingUnit|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|createUserSettingUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|createUserSettingsUnitFromInhabitant|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|createUserSettingsUnitFromInhabitant|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|getUserSettingUnit|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|getUserSettingUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|getAllUserSettingsUnit|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|getAllUserSettingsUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|updateUserSettingUnit|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|updateUserSettingUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|deleteUserSettingUnit|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService|deleteUserSettingUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSecurityChecks|createUserSettingsBuilding|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSecurityChecks|createUserSettingsBuilding|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/controllers/user.controller.ts|OSKUserController`",
+      "factId": "source_class|user|functions/src/modules/user/controllers/user.controller.ts|OSKUserController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/controllers/chnageEmail.controller.ts|OSKEmailChangeController`",
+      "factId": "source_class|user|functions/src/modules/user/controllers/chnageEmail.controller.ts|OSKEmailChangeController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/services/user.service.ts|OSKUserService`",
+      "factId": "source_class|user|functions/src/modules/user/services/user.service.ts|OSKUserService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_activity/controllers/user_activities.controller.ts|OSKUserActivitiesController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_activity/controllers/user_activities.controller.ts|OSKUserActivitiesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_activity/controllers/user_activity_aggregates.controller.ts|OSKUserActivityAggregatesController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_activity/controllers/user_activity_aggregates.controller.ts|OSKUserActivityAggregatesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_activity/services/user_activities.service.ts|OSKUserActivitiesService`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_activity/services/user_activities.service.ts|OSKUserActivitiesService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_activity/services/user_activity_aggregates.service.ts|OSKUserActivityAggregatesService`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_activity/services/user_activity_aggregates.service.ts|OSKUserActivityAggregatesService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|user|functions/src/modules/user/modules/user_call/index.ts|./controllers/user_call.controller|#1`",
+      "factId": "exported_symbol|user|functions/src/modules/user/modules/user_call/index.ts|./controllers/user_call.controller|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|user|functions/src/modules/user/modules/user_call/index.ts|./models/user_call_document.model|#1`",
+      "factId": "exported_symbol|user|functions/src/modules/user/modules/user_call/index.ts|./models/user_call_document.model|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_device/index.ts|getDevicesUserList|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_device/index.ts|getDevicesUserList|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_device/index.ts|removeUserDevice|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_device/index.ts|removeUserDevice|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|getCollectionPath|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|getCollectionPath|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|create|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|get|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|get|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|getAllIntercomByUser|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|getAllIntercomByUser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|update|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|update|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|delete|#1`",
+      "factId": "controller_method|user|functions/src/modules/user/modules/user_intercoms/controllers/user_intercoms.controller.ts|OSKUserIntercomController|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|createAndUpdateUsersIntercomEntry|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|createAndUpdateUsersIntercomEntry|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|updateAllUserIntercomEntry|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|updateAllUserIntercomEntry|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|updateUserIntercomEntry|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|updateUserIntercomEntry|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|deleteUserIntercom|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|deleteUserIntercom|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|cleanUpUserIntercomsAfterInhabitantDeletion|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|cleanUpUserIntercomsAfterInhabitantDeletion|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|createUserIntercomEntry|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|createUserIntercomEntry|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|convertCallTransferListFromSequenceNumberToOrdered|#1`",
+      "factId": "service_method|user|functions/src/modules/user/modules/user_intercoms/services/user_intercom.service.ts|OSKUserIntercomService|convertCallTransferListFromSequenceNumberToOrdered|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_organization/controllers/user_organization_invitation_pending.controller.ts|OSKUserOrganizationInvitationPendingController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_organization/controllers/user_organization_invitation_pending.controller.ts|OSKUserOrganizationInvitationPendingController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/controllers/user_organization_invitation_pending.controller.ts|OSKUserOrganizationInvitationPendingController.default._query|getAllInvitations|`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/controllers/user_organization_invitation_pending.controller.ts|OSKUserOrganizationInvitationPendingController.default._query|getAllInvitations|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_organization/controllers/user_organization_request.controller.ts|OSKUserOrganizationRequestController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_organization/controllers/user_organization_request.controller.ts|OSKUserOrganizationRequestController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/controllers/user_organization_request.controller.ts|OSKUserOrganizationRequestController.default._get|get|`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/controllers/user_organization_request.controller.ts|OSKUserOrganizationRequestController.default._get|get|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_organization/controllers/user_organization.controller.ts|OSKUserOrganizationController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_organization/controllers/user_organization.controller.ts|OSKUserOrganizationController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/controllers/user_organization.controller.ts|OSKUserOrganizationController.default._query|getAll|`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/controllers/user_organization.controller.ts|OSKUserOrganizationController.default._query|getAll|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationInvitationService`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_organization/services/user_organization_invitation.service.ts|OSKUserOrganizationInvitationService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_organization/services/user_organization_request.service.ts|OSKUserOrganizationRequestService`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_organization/services/user_organization_request.service.ts|OSKUserOrganizationRequestService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_organization/services/user_organization.service.ts|OSKUserOrganizationService`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_organization/services/user_organization.service.ts|OSKUserOrganizationService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_pincode/controllers/user_pincode.controller.ts|OSKUserPincodeController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_pincode/controllers/user_pincode.controller.ts|OSKUserPincodeController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserPincodeService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_settings/controllers/user_building_settings.controller.ts|OSKUserSettingsBuildingController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_settings/controllers/user_building_settings.controller.ts|OSKUserSettingsBuildingController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_settings/controllers/user_unit_settings.controller.ts|OSKUserSettingsUnitController`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_settings/controllers/user_unit_settings.controller.ts|OSKUserSettingsUnitController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|OSKUserSettingsBuildingService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService`",
+      "factId": "source_class|user|functions/src/modules/user/modules/user_settings/services/user_unit_settings.service.ts|OSKUserSettingsUnitService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|user|functions/src/modules/user/index.ts|/users/{userId}|#1`",
+      "factId": "firestore_path_touched|user|functions/src/modules/user/index.ts|/users/{userId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|user|functions/src/modules/user/services/user.service.ts|users|#1`",
+      "factId": "firestore_path_touched|user|functions/src/modules/user/services/user.service.ts|users|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_access/controllers/user_accesses.controller.ts|OSKUserAccessesController.default._get|getPerBuilding|collectionPath,buildingId|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_access/controllers/user_accesses.controller.ts|OSKUserAccessesController.default._get|getPerBuilding|collectionPath,buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_access/controllers/user_building_unit.controller.ts|OSKUserBuildingUnitController.default._create|create|`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_access/controllers/user_building_unit.controller.ts|OSKUserBuildingUnitController.default._create|create|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController.default._set|set|OSKUserCallController.default.getCollectionPath(userId),document.callId,document|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController.default._set|set|OSKUserCallController.default.getCollectionPath(userId),document.callId,document|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController.default._deleteAll|deleteAll|OSKUserCallController.default.getCollectionPath(userId)|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_call/controllers/user_call.controller.ts|OSKUserCallController.default._deleteAll|deleteAll|OSKUserCallController.default.getCollectionPath(userId)|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|user|functions/src/modules/user/modules/user_device/index.ts|/users/{userId}/devices/{deviceId}|#1`",
+      "factId": "firestore_path_touched|user|functions/src/modules/user/modules/user_device/index.ts|/users/{userId}/devices/{deviceId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercomDocument|#1`",
+      "factId": "type_alias|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercomDocument|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|accessControlDeviceId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|accessControlDeviceId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|ACDName|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|ACDName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|buildingId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|callSettingsMode|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|callSettingsMode|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|callTimeSlots|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|callTimeSlots|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|callTransferList|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|callTransferList|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|displayName|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|displayName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|doorName|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|doorName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|inhabitants|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|inhabitants|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|unitId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|unitId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|unitNumber|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_intercoms/models/documents/user_intercom_document.model.ts|OSKUserIntercom|unitNumber|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|user|functions/src/modules/user/modules/user_notification/index.ts|/users/{userId}/notifications/{notificationId}|#1`",
+      "factId": "firestore_path_touched|user|functions/src/modules/user/modules/user_notification/index.ts|/users/{userId}/notifications/{notificationId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_notification/controllers/user_notification_token.controller.ts|OSKUserNotificationTokenController.default._set|save|\\`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_notification/controllers/user_notification_token.controller.ts|OSKUserNotificationTokenController.default._set|save|\\",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|deleteUserPincode|request.pincodeId,pincodeDoc.buildingId|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|deleteUserPincode|request.pincodeId,pincodeDoc.buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKOrganizationResidentsController.default.save|deleteUserPincode|organizationId,request.userId,residentDoc|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKOrganizationResidentsController.default.save|deleteUserPincode|organizationId,request.userId,residentDoc|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/index.ts|OSKUserService.onDeleteAccount|getScheduledFunctionTriggers||#1`",
+      "factId": "call_expression|user|functions/src/modules/user/index.ts|OSKUserService.onDeleteAccount|getScheduledFunctionTriggers||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|getCurrentUserOrganizationInvitations|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|getCurrentUserOrganizationInvitations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationAccepted|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationAccepted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationRejected|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationRejected|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_pincode/index.ts|deleteUserPincode|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_pincode/index.ts|deleteUserPincode|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_pincode/index.ts|onGetUserPincodes|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_pincode/index.ts|onGetUserPincodes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|createUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|createUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|deleteUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|deleteUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getAllUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getAllUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|updateUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|updateUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/services/user.service.ts|OSKUserSecurityChecks|onUpdatePublicProfileCalled||#1`",
+      "factId": "call_expression|user|functions/src/modules/user/services/user.service.ts|OSKUserSecurityChecks|onUpdatePublicProfileCalled||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/services/user.service.ts|OSKSecurityChecks.checkParameters|onUpdatePublicProfileCalled|[             { name: 'context', value: context, type: 'object' },             { name: 'userId', value: request.userId, type: 'string' },             { name: 'firstName', value: request.firstName, type: 'string' },             { name: 'lastName', value: request.lastName, type: 'string' },         ]|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/services/user.service.ts|OSKSecurityChecks.checkParameters|onUpdatePublicProfileCalled|[             { name: 'context', value: context, type: 'object' },             { name: 'userId', value: request.userId, type: 'string' },             { name: 'firstName', value: request.firstName, type: 'string' },             { name: 'lastName', value: request.lastName, type: 'string' },         ]|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_error|user|functions/src/modules/user/services/user.service.ts|permission-denied|#1`",
+      "factId": "permission_error|user|functions/src/modules/user/services/user.service.ts|permission-denied|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_error|user|functions/src/modules/user/modules/user_device/services/user_device.service.ts|permission-denied|#1`",
+      "factId": "permission_error|user|functions/src/modules/user/modules/user_device/services/user_device.service.ts|permission-denied|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_notification/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_notification/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_notification/services/user_notification_token.service.ts|OSKUserNotificationTokenService.logger.logError|onDeleteNotificationToken|'Permission-denied: You are not authorized to delete user registration token!',{ request, context }|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_notification/services/user_notification_token.service.ts|OSKUserNotificationTokenService.logger.logError|onDeleteNotificationToken|'Permission-denied: You are not authorized to delete user registration token!',{ request, context }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserSecurityChecks|deleteUserPincode||#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKUserSecurityChecks|deleteUserPincode||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKSecurityChecks.checkParameters|deleteUserPincode|[             { name: 'context', value: context, type: 'object' },             { name: 'userId', value: request.userId, type: 'string' },             { name: 'pincodeId', value: request.pincodeId, type: 'string' },         ]|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts|OSKSecurityChecks.checkParameters|deleteUserPincode|[             { name: 'context', value: context, type: 'object' },             { name: 'userId', value: request.userId, type: 'string' },             { name: 'pincodeId', value: request.pincodeId, type: 'string' },         ]|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|v1.org.admin|#1`",
+      "factId": "permission_candidate|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|v1.org.admin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/services/user.service.ts|axios.post|_sendVerificationSms|url,params.toString(),{ headers }|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/services/user.service.ts|axios.post|_sendVerificationSms|url,params.toString(),{ headers }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/services/user.service.ts|OSKAuth0Service.deleteAuth0User|onAccountDeleted|email|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/services/user.service.ts|OSKAuth0Service.deleteAuth0User|onAccountDeleted|email|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/controllers/user.controller.ts|storage()                 .bucket()                 .deleteFiles|delete|{ prefix: `",
+      "factId": "call_expression|user|functions/src/modules/user/controllers/user.controller.ts|storage()                 .bucket()                 .deleteFiles|delete|{ prefix: ",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/modules/user_organization/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|user|functions/src/modules/user/modules/user_organization/index.ts|functionBuilder.runWith|getCallableFunctionTriggers|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|v1.org.admin|#1`",
+      "factId": "permission_candidate|user|functions/src/modules/user/modules/user_settings/services/user_building_settings.service.ts|v1.org.admin|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 258,
+    "verified": 257,
+    "lineUnverified": 1,
+    "fileNotFound": 0
+  }
+}

@@ -142,7 +142,7 @@ matrixLines.push('## 2. Cross-Repository Integrations', '');
 if (crossRepoEdges.length === 0) {
   matrixLines.push(`Currently **${activeRepos.length}** repository (${activeRepos.map((r: any) => r.name).join(', ')}) is active in the evidence graph.`);
   matrixLines.push('');
-  matrixLines.push('As additional repositories (`node-iot-oskey-dev`, `angular-pgo-oskey-dev`) complete Phase 1 AST extraction, cross-repository API HTTP calls, Firestore event triggers, and hardware socket payloads will automatically resolve here.');
+  matrixLines.push('As additional repositories (`node-iot-oskey-dev`, `angular-app-oskey-io`) complete Phase 1 AST extraction, cross-repository API HTTP calls, Firestore event triggers, and hardware socket payloads will automatically resolve here.');
 } else {
   matrixLines.push('| Source Repo | Source Symbol | Connection Type | Target Repo | Target Symbol | Details |');
   matrixLines.push('| :--- | :--- | :--- | :--- | :--- | :--- |');

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/access_control_device/apis/access_control_device-api-reference.md",
+  "generatedAt": "2026-08-11T16:48:57.358Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "access_control_device",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (line 113)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/index.ts` (line 114)",
+      "file": "functions/src/modules/access_control_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#2`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#2`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#3`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#3",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#3`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#3",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 9,
+    "verified": 9,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

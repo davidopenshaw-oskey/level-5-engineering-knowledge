@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/organization/apis/organization-api-reference.md",
+  "generatedAt": "2026-08-11T17:28:46.505Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "organization",
+    "sourceCapabilities": [
+      "_module_root",
+      "organization_building",
+      "organization_building_invitation",
+      "organization_entity",
+      "organization_inhabitant",
+      "organization_intercom_ communication",
+      "organization_onboarding_inhabitant",
+      "organization_pending",
+      "organization_prompt_templates",
+      "organization_property",
+      "organization_residents",
+      "organization_user",
+      "organization_user_access",
+      "organization_user_invitation"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_entity/index.ts` (lines 30-37)",
+      "file": "functions/src/modules/organization/modules/organization_entity/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_pending/index.ts` (lines 21-35)",
+      "file": "functions/src/modules/organization/modules/organization_pending/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_prompt_templates/index.ts` (lines 38-42)",
+      "file": "functions/src/modules/organization/modules/organization_prompt_templates/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|createAnOrganization|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|createAnOrganization|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|getAllOrganizations|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|getAllOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|updateAnOrganization|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|updateAnOrganization|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/index.ts|deleteOrganizationLogo|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/index.ts|deleteOrganizationLogo|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|onDocumentCreated|#1`",
+      "factId": "service_method|organization|functions/src/modules/organization/services/organization.service.ts|OSKOrganizationService|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getAllOrganizationInhabitants|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getAllOrganizationInhabitants|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getInhabitantDetailsById|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getInhabitantDetailsById|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 10,
+    "verified": 10,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

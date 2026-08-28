@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/user/apis/user-api-reference.md",
+  "generatedAt": "2026-08-11T17:20:01.216Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "user",
+    "sourceCapabilities": [
+      "_module_root",
+      "user_access",
+      "user_activity",
+      "user_call",
+      "user_device",
+      "user_intercoms",
+      "user_invitation",
+      "user_notification",
+      "user_organization",
+      "user_pincode",
+      "user_settings"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_activity/index.ts` (lines 42-51)",
+      "file": "functions/src/modules/user/modules/user_activity/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_organization/index.ts` (lines 50-63)",
+      "file": "functions/src/modules/user/modules/user_organization/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_pincode/index.ts` (lines 32-38)",
+      "file": "functions/src/modules/user/modules/user_pincode/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/index.ts|OSKUserService.onDeleteAccount|getScheduledFunctionTriggers||#1`",
+      "factId": "call_expression|user|functions/src/modules/user/index.ts|OSKUserService.onDeleteAccount|getScheduledFunctionTriggers||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_device/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|getCurrentUserOrganizationInvitations|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|getCurrentUserOrganizationInvitations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationAccepted|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationAccepted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationRejected|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationRejected|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_pincode/index.ts|deleteUserPincode|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_pincode/index.ts|deleteUserPincode|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_pincode/index.ts|onGetUserPincodes|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_pincode/index.ts|onGetUserPincodes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|createUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|createUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|deleteUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|deleteUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getAllUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getAllUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|updateUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|updateUserSettingsBuilding|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 23,
+    "verified": 23,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

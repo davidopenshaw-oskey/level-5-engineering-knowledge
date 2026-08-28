@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/supplier/apis/supplier-api-reference.md",
+  "generatedAt": "2026-08-11T17:00:11.137Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "supplier",
+    "sourceCapabilities": [
+      "_module_root",
+      "supplierStaff"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/supplier/modules/supplierStaff/index.ts` (lines 49-64)",
+      "file": "functions/src/modules/supplier/modules/supplierStaff/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|createSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|createSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|getSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|getSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|getAllSuppliers|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|getAllSuppliers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|updateSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|updateSupplier|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|supplier|functions/src/modules/supplier/index.ts|deleteSupplier|#1`",
+      "factId": "api_contract|supplier|functions/src/modules/supplier/index.ts|deleteSupplier|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 6,
+    "verified": 6,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

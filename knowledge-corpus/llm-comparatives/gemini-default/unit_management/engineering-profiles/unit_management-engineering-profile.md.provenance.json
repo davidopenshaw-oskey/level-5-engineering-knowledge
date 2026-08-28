@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/unit_management/engineering-profiles/unit_management-engineering-profile.md",
+  "generatedAt": "2026-08-11T16:55:08.885Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "unit_management",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts` (lines 9-144)",
+      "file": "functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts` (lines 61-815)",
+      "file": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts` (lines 28-283)",
+      "file": "functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts` (lines 34-222)",
+      "file": "functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_invitation.service.ts` (lines 23-102)",
+      "file": "functions/src/modules/unit_management/services/unit_management_invitation.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts` (lines 38-348)",
+      "file": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/index.ts` (lines 50-64)",
+      "file": "functions/src/modules/unit_management/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|createUnitInvitation|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|createUnitInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementPendingInvitationsController.default.consumeInvitee|removePendingInvitation|request.buildingId,request.unitId,request.inviterId,inviteeToRemove|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementPendingInvitationsController.default.consumeInvitee|removePendingInvitation|request.buildingId,request.unitId,request.inviterId,inviteeToRemove|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|getAllUnitInhabitantsAndGuests|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|getAllUnitInhabitantsAndGuests|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|getSingleUnitInhabitant|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|getSingleUnitInhabitant|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|updateInhabitant|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|updateInhabitant|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|removeInhabitantFromUnit|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|removeInhabitantFromUnit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|getPermanentGuest|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|getPermanentGuest|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKUnitManagementPermanentGuestService|updatePermanentGuest|#1`",
+      "factId": "service_method|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKUnitManagementPermanentGuestService|updatePermanentGuest|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|removePermanentGuest|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|removePermanentGuest|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|unit_management|functions/src/modules/unit_management/index.ts|getUnitPerson|#1`",
+      "factId": "api_contract|unit_management|functions/src/modules/unit_management/index.ts|getUnitPerson|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|removeInhabitantFromUnit|pincodeDoc.pincode,request.buildingId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|removeInhabitantFromUnit|pincodeDoc.pincode,request.buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingIntercomService.deleteIntercomEntryUser|removeInhabitantFromUnit|request.buildingId,request.unitId,request.inhabitantToRemoveId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingIntercomService.deleteIntercomEntryUser|removeInhabitantFromUnit|request.buildingId,request.unitId,request.inhabitantToRemoveId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController.default._create|create|`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController.default._create|create|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingUnitInhabitantController.default.get|removeInhabitantFromUnit|request.buildingId,request.unitId,request.inhabitantToRemoveId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingUnitInhabitantController.default.get|removeInhabitantFromUnit|request.buildingId,request.unitId,request.inhabitantToRemoveId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKBuildingUnitPermanentGuestController.default.get|updatePermanentGuest|request.buildingId,request.unitId,request.permanentGuestUserId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKBuildingUnitPermanentGuestController.default.get|updatePermanentGuest|request.buildingId,request.unitId,request.permanentGuestUserId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingUnitNonAppUserController.default.getAll|getAllUnitInhabitantsAndGuests|request.buildingId,request.unitId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingUnitNonAppUserController.default.getAll|getAllUnitInhabitantsAndGuests|request.buildingId,request.unitId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUserController.default.get|fetchInhabitantData|targetUserId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUserController.default.get|fetchInhabitantData|targetUserId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUserPincodeController.default.delete|removeInhabitantFromUnit|pincodeDoc.pincode,request.inhabitantToRemoveId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUserPincodeController.default.delete|removeInhabitantFromUnit|pincodeDoc.pincode,request.inhabitantToRemoveId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|removeInhabitantFromUnit|pincodeDoc.pincode,request.buildingId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKPincodeService.deleteBuildingPincodeAndMoveToTrash|removeInhabitantFromUnit|pincodeDoc.pincode,request.buildingId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKAccessService.deleteAccessById|removeInhabitantFromUnit|request.inhabitantToRemoveId,request.buildingId,inhabitantToRemove.inhabitantAccessId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKAccessService.deleteAccessById|removeInhabitantFromUnit|request.inhabitantToRemoveId,request.buildingId,inhabitantToRemove.inhabitantAccessId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingIntercomService.deleteIntercomEntryUser|removeInhabitantFromUnit|request.buildingId,request.unitId,request.inhabitantToRemoveId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingIntercomService.deleteIntercomEntryUser|removeInhabitantFromUnit|request.buildingId,request.unitId,request.inhabitantToRemoveId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUserSecurityChecks|updateInhabitant||#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUserSecurityChecks|updateInhabitant||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKSecurityChecks.checkParameters|updateInhabitant|[...]|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKSecurityChecks.checkParameters|updateInhabitant|[...]|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService.logger.logError|updateInhabitant|'Incorrect Caller: Caller must be an Owner or Tenant to change other',...|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService.logger.logError|updateInhabitant|'Incorrect Caller: Caller must be an Owner or Tenant to change other',...|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|['owner', 'tenant'].includes|removeInhabitantFromUnit|requestingInhabitant.inhabitantType|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|['owner', 'tenant'].includes|removeInhabitantFromUnit|requestingInhabitant.inhabitantType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|invite.invitees.forEach|updateOrCreatePendingUnitInvitation|...|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|invite.invitees.forEach|updateOrCreatePendingUnitInvitation|...|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation.service.ts|OSKUnitManagementInvitationService.logger.logError|getUnitInvitationsByUserId|'Failed-precondition: The function must be called from an App Check verified app.'|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation.service.ts|OSKUnitManagementInvitationService.logger.logError|getUnitInvitationsByUserId|'Failed-precondition: The function must be called from an App Check verified app.'|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 35,
+    "verified": 35,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

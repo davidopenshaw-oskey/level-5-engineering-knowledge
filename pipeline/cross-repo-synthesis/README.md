@@ -1,6 +1,6 @@
 # Global Cross-Repository Synthesis (`/pipeline/cross-repo-synthesis`)
 
-This directory houses cross-repository synthesis engines that integrate evidence graphs across `firebase-oskey-dev`, `node-iot-oskey-dev`, and `angular-pgo-oskey-dev`.
+This directory houses cross-repository synthesis engines that integrate evidence graphs across `firebase-oskey-dev`, `node-iot-oskey-dev`, and `angular-app-oskey-io`.
 
 ---
 

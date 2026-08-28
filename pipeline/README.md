@@ -18,7 +18,7 @@ pipeline/
 │   ├── phase-00-repo-scanner/
 │   └── phase-01-ast-extraction/
 │
-├── angular-pgo-oskey-dev/                ◄── Angular PGO & Admin Portal Pipeline (RxJS, Components)
+├── angular-app-oskey-io/                 ◄── Angular Pipeline (PGO Portal + Admin Portal, standalone components, Signals)
 │   ├── phase-00-repo-scanner/
 │   └── phase-01-ast-extraction/
 │

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/tasks/engineering-profiles/tasks-engineering-profile.md",
+  "generatedAt": "2026-08-11T15:28:12.127Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "tasks",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/tasks/services/task_scheduler.service.ts` (lines 47-51)",
+      "file": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/tasks/services/task_scheduler.service.ts` (line 73)",
+      "file": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/tasks/models/pincode_refresh_task.model.ts` (lines 7-12)",
+      "file": "functions/src/modules/tasks/models/pincode_refresh_task.model.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/tasks/models/tasks.model.ts` (lines 10-13)",
+      "file": "functions/src/modules/tasks/models/tasks.model.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/tasks/services/task_handler.service.ts` (lines 25-26)",
+      "file": "functions/src/modules/tasks/services/task_handler.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/tasks/services/task_scheduler.service.ts` (line 37)",
+      "file": "functions/src/modules/tasks/services/task_scheduler.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|tasks|functions/src/modules/tasks/services/task_scheduler.service.ts|OSKTaskSchedulerService|scheduleTask|#1`",
+      "factId": "service_method|tasks|functions/src/modules/tasks/services/task_scheduler.service.ts|OSKTaskSchedulerService|scheduleTask|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|tasks|functions/src/modules/tasks/services/task_scheduler.service.ts|OSKTaskSchedulerService|cancelTask|#1`",
+      "factId": "service_method|tasks|functions/src/modules/tasks/services/task_scheduler.service.ts|OSKTaskSchedulerService|cancelTask|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKTaskHandlerService|handleTask|#1`",
+      "factId": "service_method|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKTaskHandlerService|handleTask|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKPincodeRefreshWorkerService.executePincodeRefresh|handleTask|payload.data|#1`",
+      "factId": "call_expression|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKPincodeRefreshWorkerService.executePincodeRefresh|handleTask|payload.data|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKIntercomCommunicationService.executeScheduledActivation|handleTask|payload.data|#1`",
+      "factId": "call_expression|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKIntercomCommunicationService.executeScheduledActivation|handleTask|payload.data|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKIntercomCommunicationService.executeScheduledDeactivation|handleTask|payload.data|#1`",
+      "factId": "call_expression|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKIntercomCommunicationService.executeScheduledDeactivation|handleTask|payload.data|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKTaskHandlerService|handleTask|#1`",
+      "factId": "service_method|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKTaskHandlerService|handleTask|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|tasks|functions/src/modules/tasks/services/task_scheduler.service.ts|OSKTaskSchedulerService|scheduleTask|#1`",
+      "factId": "service_method|tasks|functions/src/modules/tasks/services/task_scheduler.service.ts|OSKTaskSchedulerService|scheduleTask|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|tasks|functions/src/modules/tasks/services/task_scheduler.service.ts|OSKTaskSchedulerService|cancelTask|#1`",
+      "factId": "service_method|tasks|functions/src/modules/tasks/services/task_scheduler.service.ts|OSKTaskSchedulerService|cancelTask|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|tasks|functions/src/modules/tasks/index.ts|handleTask|#1`",
+      "factId": "api_contract|tasks|functions/src/modules/tasks/index.ts|handleTask|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|tasks|functions/src/modules/tasks/models/tasks.model.ts|OSKTScheduledTaskPayload|#1`",
+      "factId": "type_alias|tasks|functions/src/modules/tasks/models/tasks.model.ts|OSKTScheduledTaskPayload|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|tasks|functions/src/modules/tasks/services/task_scheduler.service.ts|@google-cloud/tasks|#1`",
+      "factId": "imports_dependency|tasks|functions/src/modules/tasks/services/task_scheduler.service.ts|@google-cloud/tasks|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKTaskHandlerService.logger.logError|handleTask|'[TaskHandler] Unauthorized attempt to call task handler.'|#1`",
+      "factId": "call_expression|tasks|functions/src/modules/tasks/services/task_handler.service.ts|OSKTaskHandlerService.logger.logError|handleTask|'[TaskHandler] Unauthorized attempt to call task handler.'|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 19,
+    "verified": 19,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

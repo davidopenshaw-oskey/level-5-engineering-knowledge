@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/unit_management/apis/unit_management-api-reference.md",
+  "generatedAt": "2026-08-11T16:55:08.886Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "unit_management",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/index.ts` (lines 50-64)",
+      "file": "functions/src/modules/unit_management/index.ts",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 1,
+    "verified": 1,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

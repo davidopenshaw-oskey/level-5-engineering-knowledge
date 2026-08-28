@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/core/apis/core-api-reference.md",
+  "generatedAt": "2026-08-11T17:11:39.607Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "core",
+    "sourceCapabilities": [
+      "_module_root",
+      "access",
+      "auth0",
+      "country",
+      "public_key",
+      "storage"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/auth0/index.ts` (lines 22-35)",
+      "file": "functions/src/modules/core/modules/auth0/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/country/index.ts` (lines 17-43)",
+      "file": "functions/src/modules/core/modules/country/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/country/index.ts` (lines 45-56)",
+      "file": "functions/src/modules/core/modules/country/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|core|functions/src/modules/core/index.ts|processPubSubMessage|#1`",
+      "factId": "api_contract|core|functions/src/modules/core/index.ts|processPubSubMessage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|core|functions/src/modules/core/modules/country/index.ts|onGetCountries|#1`",
+      "factId": "api_contract|core|functions/src/modules/core/modules/country/index.ts|onGetCountries|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKCountryService|onGetCountries|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKCountryService|onGetCountries|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|core|functions/src/modules/core/modules/country/index.ts|onGetCountriesNoAuth|#1`",
+      "factId": "api_contract|core|functions/src/modules/core/modules/country/index.ts|onGetCountriesNoAuth|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKCountryService|onGetCountriesNoAuth|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/country/services/country.service.ts|OSKCountryService|onGetCountriesNoAuth|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|core|functions/src/modules/core/modules/storage/index.ts|generateUploadSignedUrlCallable|#1`",
+      "factId": "api_contract|core|functions/src/modules/core/modules/storage/index.ts|generateUploadSignedUrlCallable|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|onFinalize|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|onFinalize|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 10,
+    "verified": 8,
+    "lineUnverified": 2,
+    "fileNotFound": 0
+  }
+}

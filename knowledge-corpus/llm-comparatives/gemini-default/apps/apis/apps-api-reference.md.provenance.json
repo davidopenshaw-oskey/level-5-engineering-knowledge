@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/apps/apis/apps-api-reference.md",
+  "generatedAt": "2026-08-11T17:03:19.095Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "apps",
+    "sourceCapabilities": [
+      "mail",
+      "notification",
+      "qr_code",
+      "sms"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [],
+  "citationSummary": {
+    "total": 0,
+    "verified": 0,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

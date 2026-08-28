@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/admin/apis/admin-api-reference.md",
+  "generatedAt": "2026-08-11T16:46:11.875Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "admin",
+    "sourceCapabilities": [
+      "_module_root",
+      "admin_buildings",
+      "admin_maintenance",
+      "admin_organization",
+      "admin_users"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/index.ts` (lines 20-27)",
+      "file": "functions/src/modules/admin/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_maintenance/index.ts` (lines 33-84)",
+      "file": "functions/src/modules/admin/modules/admin_maintenance/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_buildings/index.ts|getAllBuildingsWithUnits|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_buildings/index.ts|getAllBuildingsWithUnits|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getAllOrganizations|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getAllOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getOrganizationDetailsById|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getOrganizationDetailsById|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 5,
+    "verified": 5,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

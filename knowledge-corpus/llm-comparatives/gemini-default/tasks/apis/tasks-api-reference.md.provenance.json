@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/davidopenshaw/Documents/clients/oskey/development/working/level-5-engineering-knowledge/output/runs/firebase-oskey-dev/20260803_143350-1aa319b1/llm-comparison/gemini-default/tasks/apis/tasks-api-reference.md",
+  "generatedAt": "2026-08-11T15:28:12.128Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260803_143350-1aa319b1",
+    "repoName": "firebase-oskey-dev",
+    "module": "tasks",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/tasks/models/pincode_refresh_task.model.ts` (lines 7-12)",
+      "file": "functions/src/modules/tasks/models/pincode_refresh_task.model.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/tasks/models/tasks.model.ts` (lines 10-13)",
+      "file": "functions/src/modules/tasks/models/tasks.model.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|tasks|functions/src/modules/tasks/index.ts|handleTask|#1`",
+      "factId": "api_contract|tasks|functions/src/modules/tasks/index.ts|handleTask|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|tasks|functions/src/modules/tasks/models/tasks.model.ts|OSKTScheduledTaskPayload|#1`",
+      "factId": "type_alias|tasks|functions/src/modules/tasks/models/tasks.model.ts|OSKTScheduledTaskPayload|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 4,
+    "verified": 4,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}
