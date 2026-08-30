@@ -518,6 +518,7 @@ function main() {
       id: `unresolved_call|${call.id}`,
       sourceCallFactId: call.id,
       sourceModule,
+      sourceSubmodule: call.submodule,
       sourceFile,
       sourceLine,
       sourceContext,
@@ -736,7 +737,7 @@ function main() {
     const entry = rbacMap.get(perm) || { requirement: perm, checks: [] as any[], confidence };
     // If any check for this permission is confirmed, the aggregate entry is confirmed.
     if (confidence === "confirmed") entry.confidence = "confirmed";
-    entry.checks.push({ module: rbac.module, file: rbac.file, line: rbac.line, contextExpression: rbac.evidence?.contextExpression || null, confidence });
+    entry.checks.push({ module: rbac.module, submodule: rbac.submodule, file: rbac.file, line: rbac.line, contextExpression: rbac.evidence?.contextExpression || null, confidence });
     rbacMap.set(perm, entry);
   }
 

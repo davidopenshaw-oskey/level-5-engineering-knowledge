@@ -40,6 +40,50 @@
       "temperature": 0.2,
       "thinkingLevel": "HIGH"
     },
+    "gemini-default-v1ab-old-canonical": {
+      "_note": "2026-08-30: identical to gemini-default. One-off fix for the V1-A/V1-B factorial experiment: `organization_intercom_ communication`'s real canonical capability-synthesis output was regenerated under the NEW (2026-08-30) capability contract during V1-A's own verification (17e), contaminating the 'old contract' baseline for the organization module (13 of its 14 packs are still genuinely old-contract, dated 2026-08-29; this one isn't). This key produces one fresh OLD-contract regeneration of just that pack (via CAPABILITY_CONTRACT_PATHS_OVERRIDE pointed at 00-capability-synthesis.OLD.md) so a clean, fully-old-contract capability-syntheses set exists for the experiment's 'Current'/'B' arms, built by combining this one regenerated file with copies of the other 18 already-old-contract canonical files across tasks/apps/organization.",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-cap-run1": {
+      "_note": "2026-08-30: identical to gemini-default in every respect. Added for the V1-A/V1-B A/B/AB factorial experiment (governance/roadmap/firebase-oskey-dev/06-v1-ab-factorial-experiment-plan.md) -- exists purely to give the NEW capability contract's first self-consistency run its own COMPARISON_MODE output namespace. This run's capability output is also the one fed into arms A and AB's reduce calls (held fixed across both of that arm's reduce self-consistency runs, so reduce-stage variance isn't conflated with capability-stage variance) -- see the plan doc's stage-isolation section.",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-cap-run2": {
+      "_note": "2026-08-30: identical to gemini-default-v1ab-cap-run1. Second, independent new-capability-contract run, compared directly against run1 to measure capability-stage self-consistency in isolation -- never fed into a reduce call itself.",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-current-run1": {
+      "_note": "2026-08-30: identical to gemini-default. V1-A/V1-B factorial experiment, arm 'Current' (old capability contract, old reduce contract), reduce-stage self-consistency run 1 -- reads capability input via CAPABILITY_SOURCE_CONFIG_KEY=canonical (the real, unmodified capability-syntheses already on disk), writes reduce output to its own COMPARISON_MODE namespace.",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-current-run2": {
+      "_note": "2026-08-30: identical to gemini-default-v1ab-current-run1. Arm 'Current', reduce-stage self-consistency run 2 -- same fixed canonical capability input as run1, isolating reduce-stage-only variance.",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-a-run1": {
+      "_note": "2026-08-30: identical to gemini-default. Arm 'A' (new capability contract, old reduce contract), reduce-stage self-consistency run 1 -- reads capability input via CAPABILITY_SOURCE_CONFIG_KEY=gemini-default-v1ab-cap-run1 (fixed across both of this arm's runs).",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-a-run2": {
+      "_note": "2026-08-30: identical to gemini-default-v1ab-a-run1. Arm 'A', reduce-stage self-consistency run 2 -- same fixed capability input as run1.",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-b-run1": {
+      "_note": "2026-08-30: identical to gemini-default. Arm 'B' (old capability contract, new reduce contract), reduce-stage self-consistency run 1 -- reads capability input via CAPABILITY_SOURCE_CONFIG_KEY=canonical, uses REDUCE_CONTRACT_PATHS_OVERRIDE pointed at the current (new) 01-module-synthesis-reduce.md.",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-b-run2": {
+      "_note": "2026-08-30: identical to gemini-default-v1ab-b-run1. Arm 'B', reduce-stage self-consistency run 2 -- same fixed canonical capability input as run1.",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-ab-run1": {
+      "_note": "2026-08-30: identical to gemini-default. Arm 'AB' (new capability contract, new reduce contract), reduce-stage self-consistency run 1 -- reads capability input via CAPABILITY_SOURCE_CONFIG_KEY=gemini-default-v1ab-cap-run1 (same fixed new-capability output arm A uses).",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-ab-run2": {
+      "_note": "2026-08-30: identical to gemini-default-v1ab-ab-run1. Arm 'AB', reduce-stage self-consistency run 2 -- same fixed capability input as run1.",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
     "claude-default": {
       "_note": "No 'temperature' here deliberately -- claude-sonnet-5 rejects the request outright if it's present at all (HTTP 400 'temperature is deprecated for this model'), confirmed 2026-08-01. The adapter omits it entirely for Anthropic; leaving a value here would misleadingly imply it's respected.",
       "provider": "anthropic",

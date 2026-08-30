@@ -34,7 +34,14 @@ import {
 import { LlmProviderConfig } from "./_shared/llm-adapter";
 import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
-import { buildCapabilityPrompt, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { buildCapabilityPrompt, buildPublicInterfacesSection, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { replaceNumberedSection } from "./_shared/document-sections";
+
+// Capability contract's own Section 3 (Public Interfaces & Controllers) --
+// see buildPublicInterfacesSection's own comment for why this is now
+// deterministically overridden after the LLM call returns, rather than
+// left to LLM discovery.
+const CAP_SECTION_PUBLIC_INTERFACES = 3;
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-01a-generate-capability-syntheses";
@@ -114,7 +121,15 @@ async function main() {
   for (const doc of groundingDocs) {
     if (doc.relPath.endsWith("rbac-roles.json")) doc.content = flattenRbacRoles(doc.content);
   }
-  const capabilitySynthesisDocs = loadDocs(contractsRootAbs, capCfg.capabilitySynthesisContractPaths, "capability-synthesis contract doc");
+  // CAPABILITY_CONTRACT_PATHS_OVERRIDE (optional, comma-separated repo-relative
+  // paths): lets a caller point this call at a different capability-synthesis
+  // contract than config/repos.json's default -- added for the V1-A/V1-B A/B/AB
+  // factorial experiment (governance/roadmap/firebase-oskey-dev/06-v1-ab-
+  // factorial-experiment-plan.md), which needs to run the OLD (pre-2026-08-30)
+  // and NEW capability contracts side by side against the same facts. Unset by
+  // default -- every existing caller is unaffected.
+  const capabilityContractPathsOverride = process.env.CAPABILITY_CONTRACT_PATHS_OVERRIDE?.split(",").map(p => p.trim()).filter(Boolean);
+  const capabilitySynthesisDocs = loadDocs(contractsRootAbs, capabilityContractPathsOverride ?? capCfg.capabilitySynthesisContractPaths, "capability-synthesis contract doc");
 
   const moduleListSection =
     `## Current Modules in This Repository (resolved live from this run's facts/modules.json -- ` +
@@ -154,7 +169,12 @@ async function main() {
 
     const { prompt, capRelPath } = buildCapabilityPrompt(packName, pack, ctx);
     const spec: DocumentCallSpec = { relPath: capRelPath, prompt, kind: `capability:${packName}` };
-    await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${packName}'`, LLM_CONFIG_KEY);
+    const written = await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${packName}'`, LLM_CONFIG_KEY);
+
+    const rawContent = written.get(capRelPath)!;
+    const deterministicPublicInterfaces = buildPublicInterfacesSection(pack.facts);
+    const patchedContent = replaceNumberedSection(rawContent, CAP_SECTION_PUBLIC_INTERFACES, deterministicPublicInterfaces);
+    fs.writeFileSync(path.join(capabilitySynthesesDir, capRelPath), patchedContent, "utf8");
   }
 
   addNotification(

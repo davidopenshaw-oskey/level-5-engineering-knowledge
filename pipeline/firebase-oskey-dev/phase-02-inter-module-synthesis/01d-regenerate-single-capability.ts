@@ -34,7 +34,10 @@ import { LlmProviderConfig } from "./_shared/llm-adapter";
 import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
 import { writeProvenanceSidecar } from "./_shared/provenance-sidecar";
-import { buildCapabilityPrompt, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { buildCapabilityPrompt, buildPublicInterfacesSection, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { replaceNumberedSection } from "./_shared/document-sections";
+
+const CAP_SECTION_PUBLIC_INTERFACES = 3;
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-01d-regenerate-single-capability";
@@ -121,7 +124,10 @@ async function main() {
   for (const doc of groundingDocs) {
     if (doc.relPath.endsWith("rbac-roles.json")) doc.content = flattenRbacRoles(doc.content);
   }
-  const capabilitySynthesisDocs = loadDocs(contractsRootAbs, capCfg.capabilitySynthesisContractPaths, "capability-synthesis contract doc");
+  // CAPABILITY_CONTRACT_PATHS_OVERRIDE -- see 01a-generate-capability-syntheses.ts's
+  // identical comment. Added for the V1-A/V1-B A/B/AB factorial experiment.
+  const capabilityContractPathsOverride = process.env.CAPABILITY_CONTRACT_PATHS_OVERRIDE?.split(",").map(p => p.trim()).filter(Boolean);
+  const capabilitySynthesisDocs = loadDocs(contractsRootAbs, capabilityContractPathsOverride ?? capCfg.capabilitySynthesisContractPaths, "capability-synthesis contract doc");
 
   const moduleListSection =
     `## Current Modules in This Repository (resolved live from this run's facts/modules.json -- ` +
@@ -149,9 +155,14 @@ async function main() {
   const spec: DocumentCallSpec = { relPath: capRelPath, prompt: capabilityPrompt, kind: `capability:${CAPABILITY_NAME}` };
   const written = await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${CAPABILITY_NAME}' (single-capability regen)`, LLM_CONFIG_KEY);
 
+  const rawContent = written.get(capRelPath)!;
+  const deterministicPublicInterfaces = buildPublicInterfacesSection(pack.facts);
+  const patchedContent = replaceNumberedSection(rawContent, CAP_SECTION_PUBLIC_INTERFACES, deterministicPublicInterfaces);
+  fs.writeFileSync(path.join(capabilitySynthesesDir, capRelPath), patchedContent, "utf8");
+
   writeProvenanceSidecar(
     path.join(capabilitySynthesesDir, capRelPath),
-    written.get(capRelPath)!,
+    patchedContent,
     pack.facts,
     { runId, repoName: REPO_NAME, module: MODULE_NAME, capability: CAPABILITY_NAME, packFactCount: pack.summary.factCount, packGeneratedAt: pack.generatedAt, llmConfigKey: LLM_CONFIG_KEY },
     "llm"

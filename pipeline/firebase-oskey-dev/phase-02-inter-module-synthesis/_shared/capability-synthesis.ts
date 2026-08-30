@@ -88,3 +88,85 @@ export function buildCapabilityPrompt(
   const prompt = stableSections.join("\n\n---\n\n") + CACHE_BREAKPOINT_MARKER + variableSections.join("\n\n---\n\n");
   return { prompt, capRelPath };
 }
+
+/** Deterministically builds capability contract Section 3 (Public
+ * Interfaces & Controllers) from `source_class` + `controller_method`/
+ * `service_method` facts, replacing what used to be an open-ended LLM
+ * discovery task. Added 2026-08-30, governance/roadmap/
+ * v1-a-capability-synthesis-contract-scope-2026-08-30.md -- confirmed via
+ * real fact checks (apps/mail, and cross-checked against the pipeline's
+ * largest/most complex capabilities: supplierStaff, building_unit_
+ * nonAppUser, organization_intercom_communication) that Phase 1 already
+ * identifies every controller/service class and its public methods, with
+ * classifyMethod()'s controller/service tag (02-build-module-evidence.ts)
+ * already attached per method. Only exported classes are included --
+ * unexported classes aren't "public interfaces" by definition. Only
+ * `visibility: "public"` methods are listed, matching the section's own
+ * intent (public entry points, not internal helpers).
+ *
+ * `exported_symbol` (barrel-file re-exports) and `function_declaration`
+ * (deployment/wiring functions like getCallableFunctionTriggers) are
+ * deliberately NOT included here -- checked directly against real data and
+ * confirmed neither represents a genuine additional public-interface
+ * category: exported_symbol facts just re-point at classes already listed
+ * here, and the one function_declaration checked was Cloud Functions
+ * registration wiring, not a business-facing interface. Revisit only if a
+ * future repo/module surfaces a real counter-example. */
+export function buildPublicInterfacesSection(facts: any[]): string {
+  interface ClassMeta {
+    file: string;
+    line: number;
+    factId: string;
+  }
+  interface MethodEntry {
+    method: string;
+    kind: "controller" | "service";
+    visibility: string;
+    factId: string;
+  }
+
+  const classMeta = new Map<string, ClassMeta>();
+  for (const f of facts) {
+    if (f.type === "source_class" && f.isExported && f.className) {
+      classMeta.set(f.className, { file: f.file, line: f.line, factId: f.id });
+    }
+  }
+
+  const methodsByClass = new Map<string, MethodEntry[]>();
+  for (const f of facts) {
+    if (f.type !== "controller_method" && f.type !== "service_method") continue;
+    if (!f.className || !classMeta.has(f.className)) continue;
+    const kind: "controller" | "service" = f.type === "controller_method" ? "controller" : "service";
+    const entry: MethodEntry = {
+      method: f.method ?? f.symbol ?? "(unnamed)",
+      kind,
+      visibility: f.evidence?.visibility ?? "public",
+      factId: f.id,
+    };
+    const arr = methodsByClass.get(f.className) ?? [];
+    arr.push(entry);
+    methodsByClass.set(f.className, arr);
+  }
+
+  if (classMeta.size === 0) {
+    return "(no exported controller/service classes evidenced in this capability's pack)";
+  }
+
+  const lines: string[] = [];
+  const sortedClasses = Array.from(classMeta.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+  for (const [className, meta] of sortedClasses) {
+    const allMethods = (methodsByClass.get(className) ?? []).sort((a, b) => a.method.localeCompare(b.method));
+    const publicMethods = allMethods.filter(m => m.visibility === "public");
+    const kind = allMethods.length > 0 ? allMethods[0].kind : null;
+    const kindLabel = kind === "controller" ? "Controller" : kind === "service" ? "Service" : "Class";
+    lines.push(`- **${className}** (${kindLabel}) \`\`${meta.factId}\`\``);
+    if (publicMethods.length === 0) {
+      lines.push(`  - (no public controller/service methods evidenced for this class)`);
+    } else {
+      for (const m of publicMethods) {
+        lines.push(`  - \`${m.method}\` \`\`${m.factId}\`\``);
+      }
+    }
+  }
+  return lines.join("\n");
+}

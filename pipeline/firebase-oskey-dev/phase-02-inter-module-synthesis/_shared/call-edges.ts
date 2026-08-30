@@ -115,3 +115,38 @@ export function formatCallEdges(edges: { outbound: CallEdge[]; inbound: CallEdge
   for (const g of inboundGroups) lines.push(formatGroup(g, "->"));
   return lines.join("\n");
 }
+
+// governance/roadmap/v1-b-module-reduce-contract-scope-2026-08-30.md Section
+// 4: 04-build-resolved-graph.ts already computes unresolvedCallEdges
+// repo-wide (calls it could not resolve to a unique cross-module service
+// method), but it was never passed into 01c's reduce call at all -- same
+// wiring gap pattern as the RBAC catalog above. Module-filtered here so it
+// can be supplied as one more free, already-computed input to Section 13.
+export interface UnresolvedCallEdgeForModule {
+  sourceSubmodule: string | null;
+  sourceFile: string;
+  sourceLine: number;
+  evidenceCallText: string;
+  reason: string;
+  candidateCount: number;
+}
+
+export function filterUnresolvedCallEdgesForModule(resolvedGraph: any, moduleName: string): UnresolvedCallEdgeForModule[] {
+  return (resolvedGraph.unresolvedCallEdges ?? [])
+    .filter((e: any) => e.sourceModule === moduleName)
+    .map((e: any) => ({
+      sourceSubmodule: e.sourceSubmodule ?? null,
+      sourceFile: e.sourceFile,
+      sourceLine: e.sourceLine,
+      evidenceCallText: e.evidenceCallText,
+      reason: e.reason,
+      candidateCount: e.candidateCount,
+    }));
+}
+
+export function formatUnresolvedCallEdges(edges: UnresolvedCallEdgeForModule[]): string {
+  if (edges.length === 0) return "*(no unresolved call edges originating in this module)*";
+  return edges
+    .map(e => `- ${e.sourceSubmodule ?? "(submodule unknown)"} — \`${e.evidenceCallText}\` (${e.sourceFile}:${e.sourceLine}) — ${e.reason} (${e.candidateCount} candidate(s))`)
+    .join("\n");
+}

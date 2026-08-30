@@ -44,7 +44,7 @@
           ]
         },
         "capabilityBasedProfile": {
-          "_note": "Same grounding docs as moduleProfile above (duplicated, not shared by reference -- JSON has no cross-references, and this is small enough that duplication is simpler than a config restructure). Used by 01-generate-capability-based-profile.ts: capabilitySynthesisContractPaths for the per-capability fan-out calls, moduleSynthesisContractPaths for the final reduce call. See governance/roadmap/00-capability-based-module-synthesis.md.",
+          "_note": "Same grounding docs as moduleProfile above (duplicated, not shared by reference -- JSON has no cross-references, and this is small enough that duplication is simpler than a config restructure). Used by 01c-generate-assembly-first-profile.ts (the live reduce step; 01/01b are retired historical tools kept only for comparison, still on the old 3-doc list intentionally so they stay reproducible against what they were validated against): capabilitySynthesisContractPaths for the per-capability fan-out calls, moduleSynthesisContractPaths for the final reduce call. See governance/roadmap/00-capability-based-module-synthesis.md. moduleSynthesisContractPaths trimmed to just the reduce contract itself as of the 2026-08-30 V1-B revision (governance/roadmap/v1-b-module-reduce-contract-scope-2026-08-30.md) -- module-engineering-profile-task-instructions.md/-template.md were still being loaded and injected into 01c's prompt here even after 01-module-synthesis-reduce.md's own text was rewritten to be self-contained and stop depending on them; the contract text alone never controlled what actually got fed into the prompt, this config array did. Found and fixed during the V1-B experiment design, not caught by the original 17g/17l verification.",
           "contractsRoot": "",
           "contractsRootBase": "pipelineRoot",
           "architecturalGroundingPaths": [
@@ -59,9 +59,7 @@
             "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/contracts/00-capability-synthesis.md"
           ],
           "moduleSynthesisContractPaths": [
-            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/contracts/01-module-synthesis-reduce.md",
-            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/module-engineering-profile-task-instructions.md",
-            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/module-engineering-profile-task-template.md"
+            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/contracts/01-module-synthesis-reduce.md"
           ]
         },
         "repoSynthesis": {

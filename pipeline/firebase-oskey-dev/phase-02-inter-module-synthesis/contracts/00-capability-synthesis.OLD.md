@@ -62,34 +62,10 @@ Produce exactly one document, in Markdown, wrapped as instructed in the task mes
 One or two sentences: what does this capability do, within the module. Confidence tag required.
 
 ### 2. Primary Responsibilities
-
-Before writing this section, inspect every applicable candidate-evidence source in your pack: public interfaces (controller/service classes and their methods), API contracts, Firestore triggers, persistence operations (Data Ownership facts), permission-controlled operations, external hooks, and outbound coupling. These are candidate *sources to check*, not an output taxonomy — do not produce one responsibility per fact type or per evidence category. A single real responsibility is very often evidenced across several of these sources at once, and your job is to recognize that and merge them into one coherent entry, not report each source's contribution separately.
-
-**Worked example (fictional, illustrative only — do not treat as real):**
-
-```
-Evidence discovered:
-- API contract: sendMessage(...)
-- Firestore write: /messageLogs/{id}
-- external hook: mail provider
-- permission check: send_message
-
-Incorrect synthesis (one responsibility per fact type):
-- Message API responsibility
-- Message logging responsibility
-- External mail responsibility
-- Message permission responsibility
-
-Correct synthesis (grouped by coherent engineering behavior):
-- Send and audit outbound messages
-  Evidence: API contract + message-log persistence + external mail
-  boundary + permission enforcement
-```
-
-Every distinct responsibility/feature this capability provides gets its own confidence tag. Preserve specific engineering terms (method names, Firestore paths, permission strings) exactly as they appear in evidence — do not compress `deleteBuildingPincodeAndMoveToTrash` into "delete operation." Do not target a specific number of responsibilities — the objective is systematic traversal of the candidate evidence surface, not a predetermined count.
+Every distinct responsibility/feature this capability provides, each with its own confidence tag. Preserve specific engineering terms (method names, Firestore paths, permission strings) exactly as they appear in evidence — do not compress `deleteBuildingPincodeAndMoveToTrash` into "delete operation."
 
 ### 3. Public Interfaces (Controllers & Entry Points)
-**Do not write this section — it is generated deterministically by the calling script from `source_class`/`controller_method`/`service_method` facts after your response is received, and your own text here will be discarded and replaced.** This is the same "assembled, not synthesized" treatment Section 14 (Evidence References) already gets, applied one stage earlier: Phase 1 already identifies every exported controller/service class and its public methods, so there's nothing left for you to discover here. Still include the `### 3. Public Interfaces (Controllers & Entry Points)` header in your output (the assembly step locates it by header, not by content), but you may leave its body empty or minimal — anything you write there is replaced, not merged with or corrected.
+Controllers, exported services, and other public entry points this capability exposes — the components, not their individual endpoints (those belong in Section 4). Named specifically (class/service names), not described generically.
 
 ### 4. API Contracts & Firestore Triggers
 API contracts (`api_contract` facts) and Firestore triggers owned by this capability, if any. Request/response schemas: `requestType`/`responseType` are full type expressions, not expanded field lists (see ADR-002). **A "Resolved API Request/Response Schemas" section is provided in the task message, scoped to this capability's own pack — use it directly, do not re-derive the join yourself.** If an endpoint's type isn't listed there, no `model_property` facts matched within this pack — say so rather than presenting the bare type expression as if it were a schema.

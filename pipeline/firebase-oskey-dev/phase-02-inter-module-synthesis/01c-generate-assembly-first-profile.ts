@@ -48,7 +48,8 @@ import {
 import { LlmProviderConfig } from "./_shared/llm-adapter";
 import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
-import { filterCallEdgesForModule, formatCallEdges } from "./_shared/call-edges";
+import { filterCallEdgesForModule, formatCallEdges, filterUnresolvedCallEdgesForModule, formatUnresolvedCallEdges } from "./_shared/call-edges";
+import { filterRbacRequirementsForModule, formatRbacCatalog } from "./_shared/rbac-catalog";
 import { computeOwnershipHints, formatOwnershipHints } from "./_shared/ownership-hints";
 import { validateCitations, formatCitationValidation } from "./_shared/citation-validator";
 import { writeProvenanceSidecar } from "./_shared/provenance-sidecar";
@@ -180,7 +181,27 @@ async function main() {
   // the canonical knowledge-corpus/ profile for a different provider.
   const COMPARISON_MODE = process.env.COMPARISON_MODE === "true";
   const comparisonModuleDir = path.join(repoOutputDir, "llm-comparison", LLM_CONFIG_KEY, MODULE_NAME);
-  const capabilitySynthesesDir = COMPARISON_MODE ? path.join(comparisonModuleDir, "capability-syntheses") : path.join(moduleDir, "capability-syntheses");
+  // CAPABILITY_SOURCE_CONFIG_KEY (optional): decouples "which capability
+  // output do I read" from "which LLM-config namespace does my own reduce
+  // output go to" -- COMPARISON_MODE alone can't express this, since it uses
+  // one LLM_CONFIG_KEY for both. Added for the V1-A/V1-B A/B/AB factorial
+  // experiment (governance/roadmap/firebase-oskey-dev/06-v1-ab-factorial-
+  // experiment-plan.md): e.g. arm B (old capability contract, new reduce
+  // contract) needs to read the real canonical capability output while
+  // writing its reduce output to a non-canonical comparison directory under
+  // a different key. Special value "canonical" means the real
+  // knowledge-corpus capability-syntheses dir, not an llm-comparison
+  // namespace. Unset by default -- falls through to the existing
+  // COMPARISON_MODE-only behavior, so every existing caller is unaffected.
+  const CAPABILITY_SOURCE_CONFIG_KEY = process.env.CAPABILITY_SOURCE_CONFIG_KEY;
+  const capabilitySynthesesDir =
+    CAPABILITY_SOURCE_CONFIG_KEY === "canonical"
+      ? path.join(moduleDir, "capability-syntheses")
+      : CAPABILITY_SOURCE_CONFIG_KEY
+        ? path.join(repoOutputDir, "llm-comparison", CAPABILITY_SOURCE_CONFIG_KEY, MODULE_NAME, "capability-syntheses")
+        : COMPARISON_MODE
+          ? path.join(comparisonModuleDir, "capability-syntheses")
+          : path.join(moduleDir, "capability-syntheses");
   if (!fs.existsSync(packsDir)) {
     throw new Error(`[Fail-Closed] No capability-packs directory for module '${MODULE_NAME}' at '${packsDir}'.`);
   }
@@ -233,7 +254,10 @@ async function main() {
       doc.content = flattenRbacRoles(doc.content);
     }
   }
-  const moduleSynthesisDocs = loadDocs(contractsRootAbs, capCfg.moduleSynthesisContractPaths, "module-synthesis (reduce) contract doc");
+  // REDUCE_CONTRACT_PATHS_OVERRIDE -- same purpose and experiment as
+  // CAPABILITY_CONTRACT_PATHS_OVERRIDE in 01a/01d. Unset by default.
+  const reduceContractPathsOverride = process.env.REDUCE_CONTRACT_PATHS_OVERRIDE?.split(",").map(p => p.trim()).filter(Boolean);
+  const moduleSynthesisDocs = loadDocs(contractsRootAbs, reduceContractPathsOverride ?? capCfg.moduleSynthesisContractPaths, "module-synthesis (reduce) contract doc");
 
   const moduleListSection =
     `## Current Modules in This Repository (resolved live from this run's facts/modules.json -- ` +
@@ -249,6 +273,8 @@ async function main() {
   const resolvedGraphPath = path.join(repoOutputDir, "knowledge-pipeline", "resolved-engineering-graph.json");
   const resolvedGraph = JSON.parse(readRequiredFile(resolvedGraphPath, "repo-wide resolved engineering graph"));
   const callEdgesForModule = filterCallEdgesForModule(resolvedGraph, MODULE_NAME);
+  const rbacRowsForModule = filterRbacRequirementsForModule(resolvedGraph, MODULE_NAME);
+  const unresolvedCallEdgesForModule = filterUnresolvedCallEdgesForModule(resolvedGraph, MODULE_NAME);
 
   const evidenceGraphPath = path.join(moduleDir, `${MODULE_NAME}-evidence-graph.json`);
   const evidenceGraphForHints = JSON.parse(readRequiredFile(evidenceGraphPath, `evidence graph for module '${MODULE_NAME}' (ownership hints only)`));
@@ -299,6 +325,12 @@ async function main() {
   );
   reduceSections.push(
     `## Data Ownership Hints (deterministic SIGNAL, not a label -- for Section 6's ownership conclusion)\n\n${formatOwnershipHints(ownershipHints)}`
+  );
+  reduceSections.push(
+    `## RBAC Requirements Catalog (deterministic, filtered to this module -- for Section 9's enforcement tally; reason from this table, do not reconstruct one from the per-capability Permissions extracts)\n\n${formatRbacCatalog(rbacRowsForModule)}`
+  );
+  reduceSections.push(
+    `## Unresolved Call Edges (deterministic, filtered to this module -- one additional real input for Section 13, not a new inference for you to perform)\n\n${formatUnresolvedCallEdges(unresolvedCallEdgesForModule)}`
   );
   reduceSections.push(moduleListSection);
   reduceSections.push(
@@ -427,7 +459,11 @@ async function main() {
       repoName: REPO_NAME,
       module: MODULE_NAME,
       sourceCapabilities: capabilities.map(c => c.packName),
-      deterministicArtifacts: ["cross-module-dependencies.json", "intra-module-coupling.json", "resolved-engineering-graph.json (call edges + ownership hints)"],
+      deterministicArtifacts: [
+        "cross-module-dependencies.json",
+        "intra-module-coupling.json",
+        "resolved-engineering-graph.json (call edges + ownership hints + module-filtered rbacRequirements + module-filtered unresolvedCallEdges)",
+      ],
       connectiveLlmConfigKey: LLM_CONFIG_KEY,
     },
     "llm"
