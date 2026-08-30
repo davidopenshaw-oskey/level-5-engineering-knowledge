@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/angular-app-oskey-io/20260829_133905-8345d222/angular-app-oskey-io-repo-engineering-report.md",
+  "generatedAt": "2026-08-29T13:57:44.715Z",
+  "generatorType": "llm+deterministic",
+  "generatedFrom": {
+    "runId": "20260829_133905-8345d222",
+    "repoName": "angular-app-oskey-io",
+    "sourceModules": [
+      "components",
+      "core",
+      "features"
+    ],
+    "deterministicArtifacts": [
+      "facts/modules.json",
+      "per-module capability-packs directory counts",
+      "resolved-engineering-graph.json (confirmedCallEdges, rbacRequirements)",
+      "rbac-roles.json (existence cross-check)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default",
+    "note": "Sections 1, 3, 6, and 7 (Executive Summary, Major Subsystems, Cross-Cutting Patterns, Repo-Wide Risks) are LLM-generated from per-module extracts. Sections 2, 4, and 5 (Module Inventory, Module Dependency Overview, RBAC Requirements Catalog) are fully deterministic. Citations in the LLM-generated sections name modules, not fact IDs -- the fact-based citation validator (_shared/citation-validator.ts) does not apply at this level and was NOT run against this document."
+  }
+}

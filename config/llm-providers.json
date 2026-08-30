@@ -12,6 +12,24 @@
       "maxTokens": 65536,
       "temperature": 0.2
     },
+    "gemini-default-temp0": {
+      "_note": "2026-08-29: same model/project/region as gemini-default, temperature dropped to 0.0. Added to test two things at once from the full-repo simulation run: (1) whether temp 0 reduces the run-to-run citation-density/finding-selection variance confirmed real on gemini-default (-42.9%/+36.4% and -29%/+86% swings across two independent same-facts diffs), and (2) a full-scale (~74 real calls) stress test of the retry-with-timeout fix added to llm-adapter.ts the same day. Deliberately excludes 'seed' -- that param isn't wired through llm-adapter.ts yet and isn't needed to answer either question above; add it separately if a strict same-seed repeatability test becomes worthwhile. Must be run with COMPARISON_MODE=true against an existing runId to avoid overwriting that run's canonical gemini-default (temp 0.2) output, which is the baseline this is compared against.",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash",
+      "projectId": "test-ai-oskey-io",
+      "location": "global",
+      "maxTokens": 65536,
+      "temperature": 0.0
+    },
+    "gemini-default-temp0-run2": {
+      "_note": "2026-08-29: identical to gemini-default-temp0 in every respect (same model/project/region/temperature 0.0) -- exists purely so its own distinct LLM_CONFIG_KEY gives it a separate COMPARISON_MODE output path (llm-comparison/gemini-default-temp0-run2/) rather than overwriting gemini-default-temp0's first-pass output. Purpose: the real reproducibility test is temp0-run1 vs temp0-run2 diffed against EACH OTHER, not either one against the temp 0.2 baseline -- comparing against 0.2 just shows two different sampling strategies produce different output, which was never in question and doesn't test whether temp 0 itself is more self-consistent.",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash",
+      "projectId": "test-ai-oskey-io",
+      "location": "global",
+      "maxTokens": 65536,
+      "temperature": 0.0
+    },
     "gemini-default-highthinking": {
       "_note": "2026-08-11: same model/project/region as gemini-default, but adds thinkingLevel: HIGH (@google/genai's ThinkingConfig -- Gemini's equivalent of Claude's adaptive-thinking effort control). Added specifically for 01c-generate-assembly-first-profile.ts's connective-tissue call -- the one place a real quality gap showed up (thinner cross-capability judgment in Sections 12/13 vs Claude on the same `building` facts), not for the cheap per-capability calls in 01a, which were already fine at the default thinking level. Point LLM_CONFIG_KEY at THIS key only for 01c, keep 01a on plain 'gemini-default' -- don't pay for extra thinking on calls that didn't show the gap. Not yet validated with a real call.",
       "provider": "gemini",

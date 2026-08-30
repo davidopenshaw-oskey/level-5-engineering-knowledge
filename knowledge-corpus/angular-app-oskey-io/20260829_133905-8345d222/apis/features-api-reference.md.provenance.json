@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/angular-app-oskey-io/20260829_133905-8345d222/apis/features-api-reference.md",
+  "generatedAt": "2026-08-29T13:57:21.905Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260829_133905-8345d222",
+    "repoName": "angular-app-oskey-io",
+    "module": "features",
+    "sourceCapabilities": [
+      "authentication",
+      "home",
+      "portals",
+      "portals_organization",
+      "portals_organization_entities",
+      "portals_organization_entities_entity",
+      "portals_organization_entities_entity_message-center",
+      "portals_organization_entities_entity_properties",
+      "portals_organization_entities_entity_properties_buildings",
+      "portals_organization_entities_entity_properties_general-rules",
+      "portals_organization_entities_entity_properties_inhabitants",
+      "portals_organization_entities_entity_properties_users",
+      "portals_organization_entities_entity_suppliers",
+      "portals_organization_onboarding-cards",
+      "portals_user",
+      "portals_user_invitations",
+      "portals_user_organizations",
+      "portals_user_organizations_pending-organizations"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/features/portals/organization/organization.routes.ts` (lines 17-32)",
+      "file": "hosting/web-app/src/app/features/portals/organization/organization.routes.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/users/organization-users.routes.ts` (lines 27-28)",
+      "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/users/organization-users.routes.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/features/portals/user/invitations/invitations.routes.ts` (line 4)",
+      "file": "hosting/web-app/src/app/features/portals/user/invitations/invitations.routes.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/features/portals/user/organizations/pending-organizations/pending-organizations.routes.ts` (line 1)",
+      "file": "hosting/web-app/src/app/features/portals/user/organizations/pending-organizations/pending-organizations.routes.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/general-rules/organization-general-rules.routes.ts|import('./features/list-settings/list-settings.component').then|anon|(c) => c.OSKListSettingsComponent|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/general-rules/organization-general-rules.routes.ts|import('./features/list-settings/list-settings.component').then|anon|(c) => c.OSKListSettingsComponent|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts|import|anon|'./features/onboarding-cards-list/onboarding-cards-list.component'|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts|import|anon|'./features/onboarding-cards-list/onboarding-cards-list.component'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts|import|anon|'./features/add-onboarding-cards/add-onboarding-cards.component'|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts|import|anon|'./features/add-onboarding-cards/add-onboarding-cards.component'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts|import|anon|'./features/create-onboarding-cards/create-onboarding-cards.component'|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts|import|anon|'./features/create-onboarding-cards/create-onboarding-cards.component'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts|import|anon|'./features/edit-onboarding-card/edit-onboarding-card.component'|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts|import|anon|'./features/edit-onboarding-card/edit-onboarding-card.component'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/send-user-invitation/services/send-user-invitation/send-user-invitation.service.ts|inject|anon|OSKFirebaseHttpsService|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/send-user-invitation/services/send-user-invitation/send-user-invitation.service.ts|inject|anon|OSKFirebaseHttpsService|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/send-user-invitation/services/send-user-invitation/send-user-invitation.service.ts|this.firebaseHttps.call|getUserUnits|'user-getCurrentUserUnits',{ userId: userId }|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/send-user-invitation/services/send-user-invitation/send-user-invitation.service.ts|this.firebaseHttps.call|getUserUnits|'user-getCurrentUserUnits',{ userId: userId }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/send-user-invitation/services/send-user-invitation/send-user-invitation.service.ts|this.firebaseHttps.call|sendInvitation|'user-createUserInvitation',invitationRequestData|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/send-user-invitation/services/send-user-invitation/send-user-invitation.service.ts|this.firebaseHttps.call|sendInvitation|'user-createUserInvitation',invitationRequestData|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/invitations.routes.ts|import('./send-user-invitation/send-user-invitation.component').then|anon|(c) => c.OSKSendUserInvitationComponent|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/invitations.routes.ts|import('./send-user-invitation/send-user-invitation.component').then|anon|(c) => c.OSKSendUserInvitationComponent|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/user/organizations/organization-invitations/services/organization-invitations/organization-invitations.service.ts|this.firebaseHttps.call|acceptInvitation|'user-userAcceptsOrganizationInvite',data|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/user/organizations/organization-invitations/services/organization-invitations/organization-invitations.service.ts|this.firebaseHttps.call|acceptInvitation|'user-userAcceptsOrganizationInvite',data|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/user/organizations/organization-invitations/services/organization-invitations/organization-invitations.service.ts|this.firebaseHttps.call|rejectInvitation|'user-userRejectsOrganizationInvite',data|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/user/organizations/organization-invitations/services/organization-invitations/organization-invitations.service.ts|this.firebaseHttps.call|rejectInvitation|'user-userRejectsOrganizationInvite',data|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 15,
+    "verified": 15,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

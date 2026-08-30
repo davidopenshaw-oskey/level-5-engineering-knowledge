@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/angular-app-oskey-io/20260829_133905-8345d222/apis/core-api-reference.md",
+  "generatedAt": "2026-08-29T13:56:38.565Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260829_133905-8345d222",
+    "repoName": "angular-app-oskey-io",
+    "module": "core",
+    "sourceCapabilities": [
+      "_module_root",
+      "error-handler",
+      "firebase",
+      "guards",
+      "injection-tokens",
+      "locale",
+      "title-strategy",
+      "translate",
+      "types",
+      "utils"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/firebase/services/https/firebase-https.service.ts|httpsCallable|call|this.functions,functionName|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/firebase/services/https/firebase-https.service.ts|httpsCallable|call|this.functions,functionName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|doc|anon|firestore,'users',fbUser.uid|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|doc|anon|firestore,'users',fbUser.uid|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|collection|anon|firestore,'users/' + fbUser.uid,'organizations'|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|collection|anon|firestore,'users/' + fbUser.uid,'organizations'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|toSignal|anon|router.events.pipe(filter((e) => e instanceof NavigationEnd),map((e) => <NavigationEnd>e))|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|toSignal|anon|router.events.pipe(filter((e) => e instanceof NavigationEnd),map((e) => <NavigationEnd>e))|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|core|hosting/web-app/src/app/core/types/https-response/https-response.type.ts|OSKHttpsSuccessResponse|#1`",
+      "factId": "type_alias|core|hosting/web-app/src/app/core/types/https-response/https-response.type.ts|OSKHttpsSuccessResponse|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|core|hosting/web-app/src/app/core/types/https-response/https-response.type.ts|OSKHttpsErrorResponse|#1`",
+      "factId": "type_alias|core|hosting/web-app/src/app/core/types/https-response/https-response.type.ts|OSKHttpsErrorResponse|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 6,
+    "verified": 6,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

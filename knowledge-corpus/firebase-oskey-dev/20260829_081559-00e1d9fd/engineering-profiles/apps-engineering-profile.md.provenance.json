@@ -1,0 +1,295 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260829_081559-00e1d9fd/engineering-profiles/apps-engineering-profile.md",
+  "generatedAt": "2026-08-29T13:33:14.036Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260829_081559-00e1d9fd",
+    "repoName": "firebase-oskey-dev",
+    "module": "apps",
+    "sourceCapabilities": [
+      "mail",
+      "notification",
+      "qr_code",
+      "sms"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/mail/services/email.service.ts` (lines 34-52)",
+      "file": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/mail/services/email.service.ts` (lines 75-112)",
+      "file": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/mail/services/email.service.ts` (lines 146-188)",
+      "file": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/mail/controllers/email.controller.ts` (lines 11-49)",
+      "file": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/notification.service.ts` (lines 28-62)",
+      "file": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/apns.service.ts` (lines 36-118)",
+      "file": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts` (lines 20-35)",
+      "file": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/notification.service.ts` (lines 296-302)",
+      "file": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/notification.service.ts` (lines 304-375)",
+      "file": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/sms/services/sms.service.ts` (lines 59-118)",
+      "file": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/sms/controllers/sms.controller.ts` (lines 11-49)",
+      "file": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/notification.service.ts` (line 23)",
+      "file": "functions/src/modules/apps/modules/notification/services/notification.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/apns.service.ts` (line 11)",
+      "file": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts` (line 11)",
+      "file": "functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/sms/controllers/sms.controller.ts` (lines 11-49)",
+      "file": "functions/src/modules/apps/modules/sms/controllers/sms.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/sms/services/sms.service.ts` (lines 18-118)",
+      "file": "functions/src/modules/apps/modules/sms/services/sms.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/mail/controllers/email.controller.ts` (lines 19-49)",
+      "file": "functions/src/modules/apps/modules/mail/controllers/email.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/mail/services/email.service.ts` (line 34)",
+      "file": "functions/src/modules/apps/modules/mail/services/email.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/apns.service.ts` (line 109)",
+      "file": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/apns.service.ts` (line 109)",
+      "file": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/apps/modules/notification/services/apns.service.ts` (lines 46-47)",
+      "file": "functions/src/modules/apps/modules/notification/services/apns.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/mail/services/email.service.ts|OSKSecretService.getSecret|send|OSKApiName.MailtrapPassApiKey|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/mail/services/email.service.ts|OSKSecretService.getSecret|send|OSKApiName.MailtrapPassApiKey|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/notification/services/apns.service.ts|OSKUserNotificationTokenController.default.delete|_send|userId,token.tokenId|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/notification/services/apns.service.ts|OSKUserNotificationTokenController.default.delete|_send|userId,token.tokenId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts|OSKUserNotificationTokenController.default.delete|_send|_userId,_tokenId|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts|OSKUserNotificationTokenController.default.delete|_send|_userId,_tokenId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts|QRCode.toDataURL|generateQR|activationCode|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts|QRCode.toDataURL|generateQR|activationCode|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts|OSKQRcodeService.logger.logError|generateQR|`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts|OSKQRcodeService.logger.logError|generateQR|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/sms/services/sms.service.ts|OSKSecretService.getSecret|sendSms|OSKApiName.TwilioAccountSID|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/sms/services/sms.service.ts|OSKSecretService.getSecret|sendSms|OSKApiName.TwilioAccountSID|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/sms/controllers/sms.controller.ts|this._query|queryAllSmsDocs|'/SMSLogs',queryFilters|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/sms/controllers/sms.controller.ts|this._query|queryAllSmsDocs|'/SMSLogs',queryFilters|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/sms/services/sms.service.ts|messageText.replace|sendSms|'${inviterName}',options.template.params.inviterName|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/sms/services/sms.service.ts|messageText.replace|sendSms|'${inviterName}',options.template.params.inviterName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|apps|functions/src/modules/apps/modules/mail/controllers/email.controller.ts|OSKEmailLogController`",
+      "factId": "source_class|apps|functions/src/modules/apps/modules/mail/controllers/email.controller.ts|OSKEmailLogController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|apps|functions/src/modules/apps/modules/mail/services/email.service.ts|OSKEmailService`",
+      "factId": "source_class|apps|functions/src/modules/apps/modules/mail/services/email.service.ts|OSKEmailService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|apps|functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts|OSKQRcodeService`",
+      "factId": "source_class|apps|functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts|OSKQRcodeService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|apps|functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts|OSKQRcodeService|generateQR|#1`",
+      "factId": "service_method|apps|functions/src/modules/apps/modules/qr_code/services/qr.code.service.ts|OSKQRcodeService|generateQR|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|apps|functions/src/modules/apps/modules/qr_code/index.ts|./services/qr.code.service|#1`",
+      "factId": "exported_symbol|apps|functions/src/modules/apps/modules/qr_code/index.ts|./services/qr.code.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/mail/controllers/email.controller.ts|this._query|queryAllSmsDocs|'/EmailLogs',queryFilters|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/mail/controllers/email.controller.ts|this._query|queryAllSmsDocs|'/EmailLogs',queryFilters|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/notification/services/apns.service.ts|OSKUserNotificationTokenController.default.delete|_send|userId,token.tokenId|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/notification/services/apns.service.ts|OSKUserNotificationTokenController.default.delete|_send|userId,token.tokenId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts|OSKUserNotificationTokenController.default.delete|_send|_userId,_tokenId|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts|OSKUserNotificationTokenController.default.delete|_send|_userId,_tokenId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/sms/controllers/sms.controller.ts|this._query|queryAllSmsDocs|'/SMSLogs',queryFilters|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/sms/controllers/sms.controller.ts|this._query|queryAllSmsDocs|'/SMSLogs',queryFilters|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|apps|functions/src/modules/apps/modules/mail/services/email.service.ts|nodemailer|#1`",
+      "factId": "imports_dependency|apps|functions/src/modules/apps/modules/mail/services/email.service.ts|nodemailer|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/mail/services/email.service.ts|OSKSecretService.getSecret|send|OSKApiName.MailtrapPassApiKey|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/mail/services/email.service.ts|OSKSecretService.getSecret|send|OSKApiName.MailtrapPassApiKey|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|apps|functions/src/modules/apps/modules/notification/services/apns.service.ts|@parse/node-apn|#1`",
+      "factId": "imports_dependency|apps|functions/src/modules/apps/modules/notification/services/apns.service.ts|@parse/node-apn|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|apps|functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts|firebase-admin/messaging|#1`",
+      "factId": "imports_dependency|apps|functions/src/modules/apps/modules/notification/services/firebase_cloud_messaging.service.ts|firebase-admin/messaging|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/sms/services/sms.service.ts|client.messages.create|sendSms|{                 body: messageText,                 to: options.template.params.recipientPhone,                 messagingServiceSid: messagingServiceSid,             }|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/sms/services/sms.service.ts|client.messages.create|sendSms|{                 body: messageText,                 to: options.template.params.recipientPhone,                 messagingServiceSid: messagingServiceSid,             }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|apps|functions/src/modules/apps/modules/sms/services/sms.service.ts|OSKSecretService.getSecret|sendSms|OSKApiName.TwilioAccountSID|#1`",
+      "factId": "call_expression|apps|functions/src/modules/apps/modules/sms/services/sms.service.ts|OSKSecretService.getSecret|sendSms|OSKApiName.TwilioAccountSID|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 44,
+    "verified": 44,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

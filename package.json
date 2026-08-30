@@ -33,6 +33,9 @@
     "cloud:node-iot-05-partition-capability-packs": "node -r ts-node/register pipeline/node-iot-api-oskey-io/phase-01-ast-extraction/05-partition-capability-packs.ts",
     "cloud:node-iot-06-build-cross-module-dependency-graph": "node -r ts-node/register pipeline/node-iot-api-oskey-io/phase-01-ast-extraction/06-build-cross-module-dependency-graph.ts",
     "cloud:node-iot-07-build-intra-module-coupling-graph": "node -r ts-node/register pipeline/node-iot-api-oskey-io/phase-01-ast-extraction/07-build-intra-module-coupling-graph.ts",
+    "synthesize:firebase": "export REPO_NAME=firebase-oskey-dev && node -r ts-node/register pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/03-run-full-phase2.ts",
+    "synthesize:angular": "export REPO_NAME=angular-app-oskey-io && node -r ts-node/register pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/03-run-full-phase2.ts",
+    "synthesize:node-iot": "export REPO_NAME=node-iot-api-oskey-io && node -r ts-node/register pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/03-run-full-phase2.ts",
     "synthesize:cross-repo": "node -r ts-node/register pipeline/cross-repo-synthesis/phase-03-ecosystem-topology/06-build-cross-repo-graph.ts"
   },
   "dependencies": {

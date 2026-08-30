@@ -3,7 +3,7 @@
     {
       "name": "firebase-oskey-dev",
       "gitUrl": "git@github.com:oskey-io/firebase-oskey-dev.git",
-      "branch": "master",
+      "branch": "staging",
       "modulesRoot": "functions/src/modules",
 
       "tsconfigRelativePath": "functions/tsconfig.json",
@@ -104,6 +104,32 @@
         "stripServiceSuffixes": ["Service"],
         "stripControllerSuffixes": [],
         "serviceClassSuffixes": ["Service"]
+      },
+
+      "phase2": {
+        "capabilityBasedProfile": {
+          "_note": "Added 2026-08-28, see governance/roadmap/angular-app-oskey-io/02-phase2-contract-design.md. architecturalGroundingPaths deliberately empty -- no grounding docs exist for this repo yet (see that doc's note on whether a PGO/persona reference doc should be added, not yet decided).",
+          "contractsRoot": "",
+          "contractsRootBase": "pipelineRoot",
+          "architecturalGroundingPaths": [],
+          "capabilitySynthesisContractPaths": [
+            "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/contracts/00-capability-synthesis.md"
+          ],
+          "moduleSynthesisContractPaths": [
+            "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/contracts/01-module-synthesis-reduce.md",
+            "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/module-engineering-profile-task-instructions.md",
+            "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/module-engineering-profile-task-template.md"
+          ]
+        },
+        "repoSynthesis": {
+          "_note": "Added 2026-08-29, see governance/roadmap/angular-app-oskey-io/02-phase2-contract-design.md. architecturalGroundingPaths deliberately empty -- unlike Firebase, this repo has no rbac-roles.json (or any other grounding doc) yet. 02-generate-repo-report.ts handles that gracefully for this repo (reports each RBAC catalog entry's roles-doc status as 'not_configured' rather than failing closed the way Firebase's script does on a genuinely missing document).",
+          "contractsRoot": "",
+          "contractsRootBase": "pipelineRoot",
+          "architecturalGroundingPaths": [],
+          "repoSynthesisContractPaths": [
+            "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/contracts/02-repo-synthesis-reduce.md"
+          ]
+        }
       }
     },
     {
@@ -129,6 +155,33 @@
         "stripControllerSuffixes": ["Controller"],
         "stripRouteHandlerSuffixes": ["RouteHandler"],
         "serviceClassSuffixes": ["Service"]
+      },
+
+      "phase2": {
+        "capabilityBasedProfile": {
+          "_note": "Added 2026-08-29, see governance/roadmap/node-iot-api-oskey-io/01-phase2-contract-design.md. architecturalGroundingPaths deliberately empty -- no grounding docs exist for this repo yet, same as angular-app-oskey-io. All 4 contract/task files below now exist (contracts/00-capability-synthesis.md, contracts/01-module-synthesis-reduce.md, module-engineering-profile-task-instructions.md, module-engineering-profile-task-template.md -- the moduleSynthesisContractPaths files that were stubs when this note was first written are done as of the same date). excludeCapabilityPacks is new, generic config (Decision 3 on that plan doc) -- 01/01a/01b/01c-*.ts in this repo's own pipeline copy now read this field (fixed 2026-08-29, found the gap was 4 files deep, not 1 -- see that plan doc's task list for the full account). Still not run for real -- no LLM call has been made for this repo's Phase 2 yet, needs explicit provider/config sign-off first per standing rule.",
+          "contractsRoot": "",
+          "contractsRootBase": "pipelineRoot",
+          "architecturalGroundingPaths": [],
+          "excludeCapabilityPacks": ["_unreferenced"],
+          "capabilitySynthesisContractPaths": [
+            "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/contracts/00-capability-synthesis.md"
+          ],
+          "moduleSynthesisContractPaths": [
+            "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/contracts/01-module-synthesis-reduce.md",
+            "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/module-engineering-profile-task-instructions.md",
+            "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/module-engineering-profile-task-template.md"
+          ]
+        },
+        "repoSynthesis": {
+          "_note": "Added 2026-08-29, see governance/roadmap/node-iot-api-oskey-io/01-phase2-contract-design.md's 'Repo-Report Stage' section. architecturalGroundingPaths deliberately empty -- no grounding docs exist for this repo yet, same as capabilityBasedProfile above. 02-generate-repo-report.ts adapted (not byte-identical to Firebase's/Angular's copies): this repo's contract asks the LLM for exactly ONE connective section (Executive Summary) instead of four -- Major Subsystems, Cross-Cutting Patterns, and Repo-Wide Risks are assembled as fixed deterministic text, since this repo's single-module structure (Decision 1, Phase 1 doc) and zero-RBAC-facts finding (Phase 1) make real cross-module synthesis for those three sections structurally impossible, not just sparse. Also carries the same RBAC-not-configured graceful handling Angular's copy already has (rbac-roles.json isn't required to exist). Not yet run for real -- no LLM call has been made for this repo's Phase 2 yet, needs explicit provider/config sign-off first per standing rule.",
+          "contractsRoot": "",
+          "contractsRootBase": "pipelineRoot",
+          "architecturalGroundingPaths": [],
+          "repoSynthesisContractPaths": [
+            "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/contracts/02-repo-synthesis-reduce.md"
+          ]
+        }
       }
     }
   ]

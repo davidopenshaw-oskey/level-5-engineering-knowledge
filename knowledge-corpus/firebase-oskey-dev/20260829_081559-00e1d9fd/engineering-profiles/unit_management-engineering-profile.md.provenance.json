@@ -1,0 +1,226 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260829_081559-00e1d9fd/engineering-profiles/unit_management-engineering-profile.md",
+  "generatedAt": "2026-08-29T13:37:47.234Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260829_081559-00e1d9fd",
+    "repoName": "firebase-oskey-dev",
+    "module": "unit_management",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts` (lines 240-288)",
+      "file": "functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts` (lines 120-156)",
+      "file": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts` (lines 210-248)",
+      "file": "functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts` (lines 16-87)",
+      "file": "functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/unit_management/index.ts` (lines 50-64)",
+      "file": "functions/src/modules/unit_management/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUnitManagementCreationInvitationService|createUnitInvitation|#1`",
+      "factId": "service_method|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUnitManagementCreationInvitationService|createUnitInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUnitManagementCreationInvitationService|findUserByInvite|#1`",
+      "factId": "service_method|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUnitManagementCreationInvitationService|findUserByInvite|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts|OSKBuildingUnitInhabitantService.addInhabitant|processInvitee|buildingUnitDoc,accessRights|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts|OSKBuildingUnitInhabitantService.addInhabitant|processInvitee|buildingUnitDoc,accessRights|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService|getAllUnitInhabitantsAndGuests|#1`",
+      "factId": "service_method|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService|getAllUnitInhabitantsAndGuests|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService|getSingleUnitInhabitant|#1`",
+      "factId": "service_method|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService|getSingleUnitInhabitant|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService|getUnitPerson|#1`",
+      "factId": "service_method|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService|getUnitPerson|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService|updateInhabitant|#1`",
+      "factId": "service_method|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService|updateInhabitant|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKUnitManagementPermanentGuestService|getPermanentGuest|#1`",
+      "factId": "service_method|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKUnitManagementPermanentGuestService|getPermanentGuest|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService|removePendingInvitation|#1`",
+      "factId": "service_method|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService|removePendingInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/controllers/unit_pending_invitations.controller.ts|OSKUnitManagementPendingInvitationsController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUnitManagementInhabitantService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUnitManagementCreationInvitationService`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUnitManagementCreationInvitationService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts|OSKUnitManagementCreationOskeyUserInvitationService`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts|OSKUnitManagementCreationOskeyUserInvitationService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation.service.ts|OSKUnitManagementInvitationService`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/services/unit_management_invitation.service.ts|OSKUnitManagementInvitationService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKUnitManagementPermanentGuestService`",
+      "factId": "source_class|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKUnitManagementPermanentGuestService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUserController.default.queryOrCollection|findUserByInvite|'/users',queryFilter|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUserController.default.queryOrCollection|findUserByInvite|'/users',queryFilter|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingUnitInhabitantController.default.get|removeInhabitantFromUnit|request.buildingId,request.unitId,request.inhabitantToRemoveId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingUnitInhabitantController.default.get|removeInhabitantFromUnit|request.buildingId,request.unitId,request.inhabitantToRemoveId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts|OSKBuildingUnitPermanentGuestController.default.create|createPermanentGuest|reqParams.buildingId,reqParams.unitId,userDoc.userId,{ ...permanentGuestDocument, ...permanentGuestDocumentPartial }|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation_oskeyuser.service.ts|OSKBuildingUnitPermanentGuestController.default.create|createPermanentGuest|reqParams.buildingId,reqParams.unitId,userDoc.userId,{ ...permanentGuestDocument, ...permanentGuestDocumentPartial }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingUnitNonAppUserController.default.getAll|getAllUnitInhabitantsAndGuests|request.buildingId,request.unitId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKBuildingUnitNonAppUserController.default.getAll|getAllUnitInhabitantsAndGuests|request.buildingId,request.unitId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUserPincodeController.default.delete|removeInhabitantFromUnit|pincodeDoc.pincode,request.inhabitantToRemoveId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUserPincodeController.default.delete|removeInhabitantFromUnit|pincodeDoc.pincode,request.inhabitantToRemoveId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKAccessService.deleteAccessById|removePermanentGuest|permanentGuest.userId,request.buildingId,permanentGuest.accessId|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|OSKAccessService.deleteAccessById|removePermanentGuest|permanentGuest.userId,request.buildingId,permanentGuest.accessId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUserSecurityChecks|getAllUnitInhabitantsAndGuests||#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|OSKUserSecurityChecks|getAllUnitInhabitantsAndGuests||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUserSecurityChecks|createUnitInvitation|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_invitation_creation.service.ts|OSKUserSecurityChecks|createUnitInvitation|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|['owner', 'tenant'].includes|removeInhabitantFromUnit|requestingInhabitant.inhabitantType|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|['owner', 'tenant'].includes|removeInhabitantFromUnit|requestingInhabitant.inhabitantType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|['owner', 'tenant'].includes|removePendingInvitation|requestingInhabitant.inhabitantType|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|['owner', 'tenant'].includes|removePendingInvitation|requestingInhabitant.inhabitantType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|['owner', 'tenant'].includes|removePermanentGuest|inhabitantDocument!.inhabitantType|#1`",
+      "factId": "call_expression|unit_management|functions/src/modules/unit_management/services/unit_management_permanent_guest.service.ts|['owner', 'tenant'].includes|removePermanentGuest|inhabitantDocument!.inhabitantType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_error|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|permission-denied|#1`",
+      "factId": "permission_error|unit_management|functions/src/modules/unit_management/services/unit_management_inhabitant.service.ts|permission-denied|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 33,
+    "verified": 33,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

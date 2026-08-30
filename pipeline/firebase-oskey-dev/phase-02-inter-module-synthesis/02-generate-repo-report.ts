@@ -280,14 +280,23 @@ async function main() {
   const connectiveRaw = written.get(repoReportRelPath)!;
   const connectiveSections = splitNumberedSections(connectiveRaw);
 
+  // Checks presence AND non-empty content -- a header with a blank body
+  // (confirmed to happen on this exact call, 2026-08-29, while building the
+  // Angular equivalent of this script: one real run produced a
+  // "### 4. Repo-Wide Risks" header with nothing after it, likely because
+  // the LLM judged the risk content already covered by Sections 1/3/6's own
+  // "Impact"-style framing and had nothing left to add, rather than writing
+  // "None identified") previously passed this check silently -- `.has()`
+  // only confirms the header was found, not that anything followed it.
   for (const requiredSection of Object.values(REPO_SECTION)) {
-    if (!connectiveSections.has(requiredSection)) {
+    const body = connectiveSections.get(requiredSection)?.body;
+    if (!body || body.trim().length === 0) {
       addNotification(
         notifications,
         SOURCE_SCRIPT,
         "warning",
         "REPO_REPORT_SECTION_MISSING",
-        `Repo-synthesis call did not produce expected section ${requiredSection} for repo '${REPO_NAME}'.`,
+        `Repo-synthesis call did not produce non-empty content for expected section ${requiredSection} for repo '${REPO_NAME}'.`,
         { repoName: REPO_NAME, file: `repo-report-section-${requiredSection}`, missingSection: requiredSection },
         true
       );
@@ -295,7 +304,10 @@ async function main() {
   }
 
   // --- Deterministic assembly of the final Repo Engineering Report ---
-  const sec = (n: number) => connectiveSections.get(n)?.body ?? `*(section ${n} not produced by the repo-synthesis call)*`;
+  const sec = (n: number) => {
+    const body = connectiveSections.get(n)?.body;
+    return body && body.trim().length > 0 ? body : `*(section ${n} not produced by the repo-synthesis call)*`;
+  };
 
   const finalReportParts: string[] = [];
   finalReportParts.push(

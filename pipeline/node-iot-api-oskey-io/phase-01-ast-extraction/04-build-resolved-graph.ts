@@ -210,14 +210,13 @@ function main() {
 
   const serviceMethods: any[] = [];
   const controllerMethods: any[] = [];
+  const routeHandlerMethods: any[] = [];
   const classMethods: any[] = [];
   const allCalls: any[] = [];
-  const apiContracts: any[] = [];
-  const firestoreTouches: any[] = [];
-  const rbacFacts: any[] = [];
-  const triggers: any[] = [];
+  const routeDefinitions: any[] = [];
+  const mongoOperations: any[] = [];
   const externalHooks: any[] = [];
-  const pubsubEventRoutes: any[] = [];
+  const pubsubOperationRoutes: any[] = [];
 
   const moduleByClass = new Map<string, string>();
 
@@ -262,18 +261,17 @@ function main() {
       } else if (fact.type === "controller_method") {
         controllerMethods.push(fact);
         if (fact.className) moduleByClass.set(fact.className, moduleName);
+      } else if (fact.type === "route_handler_method") {
+        routeHandlerMethods.push(fact);
+        if (fact.className) moduleByClass.set(fact.className, moduleName);
       } else if (fact.type === "class_method") {
         classMethods.push(fact);
       } else if (fact.type === "call_expression") {
         allCalls.push(fact);
-      } else if (fact.type === "api_contract") {
-        apiContracts.push(fact);
-      } else if (fact.type === "firestore_path_touched") {
-        firestoreTouches.push(fact);
-      } else if (fact.type === "permission_required" || fact.type === "permission_candidate") {
-        rbacFacts.push(fact);
-      } else if (fact.type === "firestore_trigger") {
-        triggers.push(fact);
+      } else if (fact.type === "route_definition") {
+        routeDefinitions.push(fact);
+      } else if (fact.type === "mongo_operation") {
+        mongoOperations.push(fact);
       } else if (
         fact.type === "external_hook" ||
         fact.type === "pubsub_topic" ||
@@ -283,8 +281,8 @@ function main() {
         fact.type === "storage_path"
       ) {
         externalHooks.push(fact);
-      } else if (fact.type === "pubsub_event_route") {
-        pubsubEventRoutes.push(fact);
+      } else if (fact.type === "pubsub_operation_route") {
+        pubsubOperationRoutes.push(fact);
       }
     }
   }
@@ -299,7 +297,7 @@ function main() {
   // building_accesses' controller) didn't show up in the new intra-module
   // edges. Purely additive -- serviceMethods/controllerMethods themselves
   // are unchanged, this is just a bigger candidate list for matching.
-  const resolvableMethods = [...serviceMethods, ...controllerMethods];
+  const resolvableMethods = [...serviceMethods, ...controllerMethods, ...routeHandlerMethods];
 
   // Fast lookup index by exact declaration file & method name
   const serviceByFileMethod = new Map<string, any[]>();
@@ -529,237 +527,187 @@ function main() {
   }
 
   // 3. API Entry Points & Service Method Linking
+  // See finding 2 above: this repo's real linkage is overwhelmingly
+  // same-module/same-submodule, which section 2's cross-boundary edge maps
+  // never record by design -- so this does its own scoped resolution: for
+  // each route, find calls whose line falls inside its handler's own
+  // [handlerStartLine, handlerEndLine] range, then resolve each via the same
+  // Rule-A-style exact declarationFile+declarationMethod match used in
+  // section 2, directly against resolvableMethods (not via the pre-built
+  // edge maps). linkageScope records whether the resolved target turned out
+  // to be same-submodule, cross-submodule, or cross-module -- same_submodule
+  // is expected to dominate here, which is real and correct for this repo's
+  // shape, not a sign this section is broken.
   const apiEntryPoints: any[] = [];
-  for (const api of apiContracts) {
-    const handlerFile = api.evidence?.handlerDeclarationFile ?? api.handlerDeclarationFile ?? api.file;
-    const handlerStartLine = api.evidence?.handlerStartLine ?? api.handlerStartLine ?? api.line;
-    const handlerEndLine = api.evidence?.handlerEndLine ?? api.handlerEndLine ?? api.line;
-    const handlerName = api.evidence?.handlerName ?? api.handlerName ?? api.value;
-    const handlerResolutionStatus = api.evidence?.handlerResolutionStatus ?? api.handlerResolutionStatus ?? "unresolved";
+  for (const route of routeDefinitions) {
+    const handlerFile = route.handlerDeclarationFile;
+    const handlerStartLine = route.handlerStartLine;
+    const handlerEndLine = route.handlerEndLine;
+    const handlerLinkingStatus =
+      handlerFile && handlerStartLine != null && handlerEndLine != null ? "resolved" : "unresolved_handler_declaration";
 
-    const handlerCalls = allCalls.filter(
-      c => c.module === api.module && c.file === handlerFile && c.line >= handlerStartLine && c.line <= handlerEndLine
-    );
+    const handlerCalls =
+      handlerLinkingStatus === "resolved"
+        ? allCalls.filter(c => c.file === handlerFile && c.line >= handlerStartLine && c.line <= handlerEndLine)
+        : [];
 
     const linkedServiceMethods: any[] = [];
-    if (handlerResolutionStatus !== "unresolved") {
-      for (const callFact of handlerCalls) {
-        const confirmedEdge = confirmedEdgesMapBySourceFactId.get(callFact.id);
-        const probableEdge = probableEdgesMapBySourceFactId.get(callFact.id);
-        const edge = confirmedEdge || probableEdge;
+    for (const callFact of handlerCalls) {
+      if (!callFact.declarationFile || !callFact.declarationMethod) continue;
+      const target = resolvableMethods.find(
+        s => s.file === callFact.declarationFile && (s.method === callFact.declarationMethod || s.symbol === callFact.declarationMethod)
+      );
+      if (!target) continue;
 
-        if (edge) {
-          linkedServiceMethods.push({
-            callFactId: callFact.id,
-            edgeId: edge.id,
-            targetModule: edge.targetModule,
-            targetFile: edge.targetFile,
-            targetClass: edge.targetClass,
-            targetMethod: edge.targetMethod,
-            confidence: edge.confidence,
-            resolutionMethod: edge.resolutionMethod,
-          });
-        }
-      }
+      const linkageScope =
+        target.module !== route.module ? "cross_module" : target.submodule !== route.submodule ? "cross_submodule" : "same_submodule";
+
+      linkedServiceMethods.push({
+        callFactId: callFact.id,
+        targetModule: target.module,
+        targetSubmodule: target.submodule,
+        targetFile: target.file,
+        targetClass: target.className,
+        targetMethod: target.method || target.symbol,
+        linkageScope,
+      });
     }
 
     linkedServiceMethods.sort((a, b) => a.callFactId.localeCompare(b.callFactId));
 
     apiEntryPoints.push({
-      id: `api-entry|${api.module}|${api.file}|${api.line}|${handlerName}`,
-      module: api.module,
-      file: api.file,
-      line: api.line,
-      contractType: api.contractType || "callable",
-      handlerName,
+      id: `api-entry|${route.module}|${route.file}|${route.line}|${route.method}|${route.httpPath}`,
+      module: route.module,
+      submodule: route.submodule,
+      httpPath: route.httpPath,
+      httpMethod: route.method,
+      isPubSubPushRoute: route.isPubSubPushRoute,
+      handlerClass: route.handlerClass,
+      handlerMethod: route.handlerMethod,
       handlerDeclarationFile: handlerFile,
       handlerStartLine,
       handlerEndLine,
-      handlerResolutionStatus,
-      handlerLinkingStatus: handlerResolutionStatus === "unresolved" ? "unresolved_handler_declaration" : "resolved",
+      handlerLinkingStatus,
       rawHandlerCallsCount: handlerCalls.length,
       linkedServiceMethodsCount: linkedServiceMethods.length,
       linkedServiceMethods,
     });
   }
 
-  // 4. Shared Firestore Touch Matrix
-  const firestorePathMap = new Map<string, { touchPoints: any[]; operations: Set<string>; resolutionMethods: Set<string> }>();
-  let firestorePathsWithoutOperationEvidence = 0;
+  // 4. Shared Mongo Collection Touch Matrix
+  // Re-scoped from Firebase's cross-MODULE Firestore touch matrix to
+  // cross-SUBMODULE: this repo has exactly one module, so the original
+  // framing would always report zero shared paths. See finding 3 above for
+  // why unresolved-collection records must be excluded from grouping, not
+  // merged under a fake shared key.
+  const mongoCollectionMap = new Map<string, { touchPoints: any[]; operations: Set<string> }>();
+  const unresolvedMongoTouches: any[] = [];
 
-  for (const ft of firestoreTouches) {
-    const rawPath = ft.value || ft.file;
-    const cleanPath = rawPath.replace(/\{[^}]+\}/g, "{param}");
-    const entry = firestorePathMap.get(cleanPath) || { touchPoints: [], operations: new Set<string>(), resolutionMethods: new Set<string>() };
+  for (const m of mongoOperations) {
+    const touchPoint = {
+      module: m.module,
+      submodule: m.submodule,
+      file: m.file,
+      line: m.line,
+      operation: m.operation,
+      collectionResolutionStatus: m.collectionResolutionStatus,
+      dbNameExpression: m.dbNameExpression,
+    };
 
-    if (ft.operation) entry.operations.add(ft.operation);
-    if (ft.pathResolutionMethod) entry.resolutionMethods.add(ft.pathResolutionMethod);
-
-    entry.touchPoints.push({
-      module: ft.module,
-      file: ft.file,
-      line: ft.line,
-      operation: ft.operation || null,
-      // Self-describing: distinguishes "no read/write happens here"
-      // (doesn't apply -- e.g. this touch is a trigger registration, not a
-      // CRUD call) from "a read/write likely happens but wasn't detected"
-      // (e.g. performed via transaction.get()/batch.set() on a variable
-      // assigned elsewhere, which static chain analysis cannot see).
-      operationDetectionScope: ft.operationDetectionScope || "undetermined_may_be_indirect",
-      pathResolutionMethod: ft.pathResolutionMethod || "literal",
-    });
-
-    firestorePathMap.set(cleanPath, entry);
+    if (m.collectionResolutionStatus === "resolved_from_collections_map" || m.collectionResolutionStatus === "resolved_property_name_only") {
+      const entry = mongoCollectionMap.get(m.collectionName) || { touchPoints: [], operations: new Set<string>() };
+      entry.operations.add(m.operation);
+      entry.touchPoints.push(touchPoint);
+      mongoCollectionMap.set(m.collectionName, entry);
+    } else {
+      unresolvedMongoTouches.push(touchPoint);
+    }
   }
 
-  const firestoreSharedTouches: any[] = [];
-  for (const [pathPattern, data] of firestorePathMap.entries()) {
-    const modulesTouched = Array.from(new Set(data.touchPoints.map(t => t.module))).sort();
-    if (data.operations.size === 0) {
-      firestorePathsWithoutOperationEvidence += 1;
-    }
-
-    firestoreSharedTouches.push({
-      pathPattern,
-      isSharedCrossModule: modulesTouched.length > 1,
-      modulesTouchedCount: modulesTouched.length,
-      modulesTouched,
+  const sharedMongoCollections: any[] = [];
+  for (const [collectionName, data] of mongoCollectionMap.entries()) {
+    const submodulesTouched = Array.from(new Set(data.touchPoints.map(t => t.submodule))).sort();
+    sharedMongoCollections.push({
+      collectionName,
+      isSharedCrossSubmodule: submodulesTouched.length > 1,
+      submodulesTouchedCount: submodulesTouched.length,
+      submodulesTouched,
       operations: Array.from(data.operations).sort(),
-      pathResolutionMethods: Array.from(data.resolutionMethods).sort(),
       touchPointsCount: data.touchPoints.length,
       touchPoints: data.touchPoints,
     });
   }
 
-  // 5. Event Endpoints & Route Groups
-  const eventGroupMap = new Map<string, { publishers: any[]; triggers: any[] }>();
-  for (const hook of externalHooks) {
-    const key = `pubsub|${hook.value}`;
-    const group = eventGroupMap.get(key) || { publishers: [], triggers: [] };
-    group.publishers.push({ module: hook.module, file: hook.file, line: hook.line });
-    eventGroupMap.set(key, group);
-  }
-  for (const tr of triggers) {
-    // NOTE: normalized firestore_trigger facts (script 02) store the path
-    // under `value`, not `firestorePath` -- using the wrong field here
-    // silently evaluated to the literal string "undefined" for every
-    // trigger, collapsing all 28 real triggers into a single meaningless
-    // group instead of grouping them per Firestore path as intended.
-    const key = `firestore_trigger|${tr.value}`;
-    const group = eventGroupMap.get(key) || { publishers: [], triggers: [] };
-    group.triggers.push({ module: tr.module, file: tr.file, line: tr.line, handlerName: tr.handlerName });
-    eventGroupMap.set(key, group);
-  }
+  // 5. Pub/Sub Publishers & Receivers -- deliberately NOT joined into one
+  // structure. Publisher detection checks evidence.type, not the top-level
+  // fact type: pubsub_publish_call facts get normalized with a generic
+  // top-level type "external_hook" in 02-build-module-evidence.ts (a
+  // pre-existing, harmless classification quirk, out of scope for this file
+  // to fix -- the real classification survives in evidence.type either way).
+  // Receivers are route_definition facts flagged isPubSubPushRoute. There is
+  // no evidenced link in source between a publish call's topic-name literal
+  // and a push route's URL path -- correlating a specific publisher to a
+  // specific receiver would require the Pub/Sub subscription's own
+  // push-endpoint config, which lives in cloud infrastructure, not in either
+  // repo's source. Same intellectual honesty the original Firebase code
+  // already modeled for its own unresolved publisher<->subscriber gap.
+  const pubsubPublishers = externalHooks
+    .filter(h => h.evidence?.type === "pubsub_publish_call")
+    .map(h => ({ module: h.module, submodule: h.submodule, file: h.file, line: h.line, topicValue: h.value, confidence: h.evidence?.confidence || "candidate" }));
 
-  const eventEndpoints: any[] = [];
-  let unresolvedEventGroups = 0;
+  const pubsubReceivers = routeDefinitions
+    .filter(r => r.isPubSubPushRoute)
+    .map(r => ({ module: r.module, submodule: r.submodule, file: r.file, line: r.line, httpPath: r.httpPath, handlerClass: r.handlerClass, handlerMethod: r.handlerMethod }));
 
-  for (const [key, data] of eventGroupMap.entries()) {
-    const [tech, eventKey] = key.split("|");
-    unresolvedEventGroups += 1;
-
-    eventEndpoints.push({
-      technology: tech,
-      eventKey,
-      // Still honestly "not_implemented" from THIS join's perspective:
-      // matching a specific publisher's topic argument to the specific
-      // Pub/Sub push-subscription endpoint that receives it would require
-      // knowing the subscription's push config (topic -> endpoint URL
-      // binding), which isn't extracted anywhere -- there is no evidenced
-      // way to say "this publisher's messages end up at that receiver."
-      // See pubsubEventRoutingTable below for what IS now resolved: each
-      // receiver's OWN internal routing logic, independent of which
-      // publisher(s) feed it.
-      eventSubscriberExtractionStatus: "not_implemented",
-      resolvedEventRoutes: 0,
-      publishersCount: data.publishers.length,
-      publishers: data.publishers,
-      triggersCount: data.triggers.length,
-      triggers: data.triggers,
-      status: data.publishers.length > 0 && data.triggers.length === 0 ? "publisher_only" : "trigger_only",
-    });
-  }
-
-  // 5b. Pub/Sub Event Routing Table (per receiver, not joined to publishers)
-  // Each pubsub_event_route fact already only exists because its source
-  // handler was structurally confirmed as a Pub/Sub push receiver (see
-  // 01-extract-ast-evidence.ts's detectsPubSubPushEnvelope) -- so grouping
-  // by sourceHandler here is a receiver-side Event Routing Table per
-  // rules/00-global-synthesis-hierarchy.md Directive 5, distinct from (and
-  // not resolving) the publisher/trigger correlation gap noted just above.
-  const pubsubReceiverMap = new Map<string, { module: string; file: string; line: number; routes: any[] }>();
-  for (const route of pubsubEventRoutes) {
-    const key = `${route.module}|${route.sourceHandler}`;
-    const entry = pubsubReceiverMap.get(key) || { module: route.module, file: route.file, line: route.line, routes: [] as any[] };
+  // 5b. Pub/Sub Operation Routing Table -- this repo's real equivalent of an
+  // Event Routing Table: which `.operation` values each Pub/Sub-receiving
+  // handler dispatches on, and what each dispatch calls. Replaces Firebase's
+  // pubsub_event_route-based version (didn't apply here -- see Handoff 5).
+  const pubsubOperationReceiverMap = new Map<string, { module: string; submodule: string; file: string; handlerClass: string; handlerMethod: string; routes: any[] }>();
+  for (const route of pubsubOperationRoutes) {
+    const key = `${route.module}|${route.handlerClass}.${route.handlerMethod}`;
+    const entry = pubsubOperationReceiverMap.get(key) || {
+      module: route.module,
+      submodule: route.submodule,
+      file: route.file,
+      handlerClass: route.handlerClass,
+      handlerMethod: route.handlerMethod,
+      routes: [] as any[],
+    };
     entry.routes.push({
-      dataType: route.dataType,
-      dataTypeResolutionStatus: route.dataTypeResolutionStatus,
+      line: route.line,
+      dispatchKind: route.dispatchKind,
+      operationValue: route.operationValue,
+      operationResolutionStatus: route.operationResolutionStatus,
       targetCallsCount: (route.targetCalls || []).length,
       targetCalls: route.targetCalls || [],
     });
-    pubsubReceiverMap.set(key, entry);
+    pubsubOperationReceiverMap.set(key, entry);
   }
 
-  const pubsubEventRoutingTable: any[] = [];
-  for (const [key, data] of pubsubReceiverMap.entries()) {
-    const sourceHandler = key.split("|")[1];
-    pubsubEventRoutingTable.push({
+  const pubsubOperationRoutingTable: any[] = [];
+  for (const [, data] of pubsubOperationReceiverMap.entries()) {
+    pubsubOperationRoutingTable.push({
       module: data.module,
+      submodule: data.submodule,
       file: data.file,
-      line: data.line,
-      sourceHandler,
+      handlerClass: data.handlerClass,
+      handlerMethod: data.handlerMethod,
       routesCount: data.routes.length,
-      resolvedRoutesCount: data.routes.filter(r => r.dataTypeResolutionStatus === "resolved").length,
+      resolvedRoutesCount: data.routes.filter(r => r.operationResolutionStatus === "resolved").length,
       routes: data.routes,
     });
   }
 
-  // 6. RBAC Requirements Matrix
-  // Previously only fact.type === "permission_required" (extraction-time
-  // "confirmed") facts were included here, and permission_candidate facts
-  // were silently dropped -- with no notification. In this repo that meant
-  // 110 distinct real permission strings extracted at Phase 1 collapsed to
-  // just 4 surfaced in the graph, because "confirmed" here only means "found
-  // inside a call matching one of 8 hardcoded auth-check method names" --
-  // a real, legitimate permission check outside that whitelist was
-  // discarded rather than surfaced with lower confidence. Now every
-  // permission requirement is retained and tagged with its confidence tier,
-  // mirroring how confirmedCallEdges/probableCallEdges/unresolvedCallEdges
-  // are handled -- consumers can filter by confidence, but nothing is lost
-  // silently.
-  const rbacMap = new Map<string, { requirement: string; checks: any[]; confidence: "confirmed" | "candidate" }>();
-  let rbacCandidateCount = 0;
-  for (const rbac of rbacFacts) {
-    const perm = rbac.permission || rbac.value;
-    const confidence: "confirmed" | "candidate" = rbac.type === "permission_required" ? "confirmed" : "candidate";
-    if (confidence === "candidate") rbacCandidateCount += 1;
-    const entry = rbacMap.get(perm) || { requirement: perm, checks: [] as any[], confidence };
-    // If any check for this permission is confirmed, the aggregate entry is confirmed.
-    if (confidence === "confirmed") entry.confidence = "confirmed";
-    entry.checks.push({ module: rbac.module, file: rbac.file, line: rbac.line, contextExpression: rbac.evidence?.contextExpression || null, confidence });
-    rbacMap.set(perm, entry);
-  }
-
+  // 6. RBAC Requirements Matrix -- this repo has zero auth/RBAC code,
+  // verified directly (no jwt/Guard/RBAC/Authoriz/Permission patterns
+  // anywhere in src/, despite `jsonwebtoken` being a listed dependency --
+  // apparently unused in live code). No fact type feeds this (Handoff 2
+  // dropped permission-hint extraction entirely as N/A for this repo), so
+  // this stays correctly, honestly empty -- the JSON/Markdown output below
+  // already handles the empty case gracefully ("No RBAC requirements
+  // detected"), unchanged from the original.
   const rbacRequirements: any[] = [];
-  for (const [permission, data] of rbacMap.entries()) {
-    rbacRequirements.push({
-      permission,
-      confidence: data.confidence,
-      checkCount: data.checks.length,
-      checks: data.checks,
-    });
-  }
-
-  if (rbacCandidateCount > 0) {
-    addNotification(
-      notifications,
-      "04-build-resolved-graph",
-      "info",
-      "RBAC_CANDIDATE_PERMISSIONS_INCLUDED",
-      `${rbacCandidateCount} permission check(s) were extracted outside the known auth-check method whitelist and are included in rbacRequirements tagged confidence: "candidate" rather than discarded.`,
-      { count: rbacCandidateCount }
-    );
-  }
 
   // Deterministic Sorting
   confirmedCallEdges.sort((a, b) => a.id.localeCompare(b.id));
@@ -768,10 +716,12 @@ function main() {
   confirmedIntraModuleCallEdges.sort((a, b) => a.id.localeCompare(b.id));
   probableIntraModuleCallEdges.sort((a, b) => a.id.localeCompare(b.id));
   apiEntryPoints.sort((a, b) => a.id.localeCompare(b.id));
-  firestoreSharedTouches.sort((a, b) => a.pathPattern.localeCompare(b.pathPattern));
-  eventEndpoints.sort((a, b) => a.eventKey.localeCompare(b.eventKey));
-  pubsubEventRoutingTable.sort((a, b) => a.sourceHandler.localeCompare(b.sourceHandler));
-  rbacRequirements.sort((a, b) => a.permission.localeCompare(b.permission));
+  sharedMongoCollections.sort((a, b) => a.collectionName.localeCompare(b.collectionName));
+  unresolvedMongoTouches.sort((a, b) => a.file.localeCompare(b.file) || a.line - b.line);
+  pubsubPublishers.sort((a, b) => a.file.localeCompare(b.file) || a.line - b.line);
+  pubsubReceivers.sort((a, b) => a.httpPath.localeCompare(b.httpPath));
+  pubsubOperationRoutingTable.sort((a, b) => a.handlerMethod.localeCompare(b.handlerMethod));
+  rbacRequirements.sort((a, b) => (a.permission || "").localeCompare(b.permission || ""));
 
   // 7. Notifications & Quality Calculation Sequence
   if (unresolvedCallEdges.length > 0) {
@@ -785,25 +735,14 @@ function main() {
     );
   }
 
-  if (eventEndpoints.length > 0) {
+  if (pubsubPublishers.length > 0 || pubsubReceivers.length > 0) {
     addNotification(
       notifications,
       "04-build-resolved-graph",
       "info",
-      "EVENT_SUBSCRIBER_EXTRACTION_LIMITATION",
-      `Event subscriber extraction status is 'not_implemented' for ${eventEndpoints.length} event endpoint group(s).`,
-      { count: eventEndpoints.length }
-    );
-  }
-
-  if (firestorePathsWithoutOperationEvidence > 0) {
-    addNotification(
-      notifications,
-      "04-build-resolved-graph",
-      "info",
-      "FIRESTORE_OPERATION_DETECTION_LIMITATION",
-      `${firestorePathsWithoutOperationEvidence} of ${firestoreSharedTouches.length} shared Firestore path(s) have no detected read/write operation. This does not necessarily mean no operation occurs: detection covers direct method chains only (e.g. db.collection(x).doc(y).get()) and cannot see operations performed via a variable assigned elsewhere and later passed into transaction.get()/batch.set()/etc, nor does it apply to trigger registrations (onCreate/onUpdate/etc, which are not CRUD operations). See operationDetectionScope on each touch point.`,
-      { count: firestorePathsWithoutOperationEvidence, total: firestoreSharedTouches.length }
+      "PUBSUB_PUBLISHER_RECEIVER_NOT_JOINED",
+      `Found ${pubsubPublishers.length} Pub/Sub publisher(s) and ${pubsubReceivers.length} Pub/Sub receiver(s) -- not correlated to each other (no evidenced link between a publish call's topic name and a push route's URL path exists in source; would require Pub/Sub subscription config, which lives outside this repo).`,
+      { publishersCount: pubsubPublishers.length, receiversCount: pubsubReceivers.length }
     );
   }
 
@@ -850,12 +789,12 @@ function main() {
     probableIntraModuleCalls: probableIntraModuleCallEdges.length,
     apiEntryPointsCount: apiEntryPoints.length,
     rbacRequirementsCount: rbacRequirements.length,
-    sharedFirestorePathsCount: firestoreSharedTouches.length,
-    firestorePathsWithoutOperationEvidence,
-    eventEndpointsCount: eventEndpoints.length,
-    unresolvedEventGroups,
-    pubsubReceiversCount: pubsubEventRoutingTable.length,
-    pubsubEventRoutesCount: pubsubEventRoutes.length,
+    sharedMongoCollectionsCount: sharedMongoCollections.length,
+    unresolvedMongoTouchesCount: unresolvedMongoTouches.length,
+    pubsubPublishersCount: pubsubPublishers.length,
+    pubsubReceiversCount: pubsubReceivers.length,
+    pubsubOperationReceiversCount: pubsubOperationRoutingTable.length,
+    pubsubOperationRoutesCount: pubsubOperationRoutes.length,
   };
 
   const graphPayload = {
@@ -871,9 +810,11 @@ function main() {
     confirmedIntraModuleCallEdges,
     probableIntraModuleCallEdges,
     apiEntryPoints,
-    firestoreSharedTouches,
-    eventEndpoints,
-    pubsubEventRoutingTable,
+    sharedMongoCollections,
+    unresolvedMongoTouches,
+    pubsubPublishers,
+    pubsubReceivers,
+    pubsubOperationRoutingTable,
     rbacRequirements,
   };
 
@@ -898,9 +839,9 @@ function main() {
   md += `- **Probable Intra-Module (Cross-Submodule) Call Edges**: ${probableIntraModuleCallEdges.length}\n`;
   md += `- **API Entry Points**: ${apiEntryPoints.length}\n`;
   md += `- **RBAC Requirements**: ${rbacRequirements.length}\n`;
-  md += `- **Shared Firestore Touch Points**: ${firestoreSharedTouches.length}\n`;
-  md += `- **Event Endpoints and Candidate Route Groups**: ${eventEndpoints.length}\n`;
-  md += `- **Pub/Sub Receivers with Resolved Routing**: ${pubsubEventRoutingTable.length} (${pubsubEventRoutes.length} total routes)\n\n`;
+  md += `- **Shared Mongo Collection Touch Points**: ${sharedMongoCollections.length}\n`;
+  md += `- **Pub/Sub Publishers & Receivers**: ${pubsubPublishers.length} publishers, ${pubsubReceivers.length} receivers\n`;
+  md += `- **Pub/Sub Operation Receivers**: ${pubsubOperationRoutingTable.length} (${pubsubOperationRoutes.length} total routes)\n\n`;
 
   md += `> **Note**: Confirmed edges are backed by exact declaration or import identity. Probable edges use a unique constrained fallback. Ambiguous and unresolved evidence is retained separately.\n\n`;
 
@@ -932,49 +873,53 @@ function main() {
   if (apiEntryPoints.length === 0) {
     md += `*No API entry points detected.*\n\n`;
   } else {
-    md += `| Module | Handler Name | Type | Linked Services Count | Handler Declaration File |\n`;
-    md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+    md += `| Module | Submodule | HTTP Method | Path | Linked Services Count | Handler |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- | :--- |\n`;
     for (const api of apiEntryPoints) {
-      md += `| \`${api.module}\` | \`${api.handlerName}\` | \`${api.contractType}\` | ${api.linkedServiceMethodsCount} | \`${api.handlerDeclarationFile}\` |\n`;
+      md += `| \`${api.module}\` | \`${api.submodule}\` | \`${api.httpMethod}\` | \`${api.httpPath}\` | ${api.linkedServiceMethodsCount} | \`${api.handlerClass}.${api.handlerMethod}\` |\n`;
     }
     md += `\n`;
   }
 
-  md += `## Shared Firestore Touch Points\n\n`;
-  if (firestoreSharedTouches.length === 0) {
-    md += `*No shared Firestore touch points detected.*\n\n`;
+  md += `## Shared Mongo Collection Touch Points\n\n`;
+  if (sharedMongoCollections.length === 0) {
+    md += `*No shared Mongo collection touch points detected.*\n\n`;
   } else {
-    md += `| Path Pattern | Shared Cross-Module | Modules Count | Operations | Touch Points |\n`;
+    md += `| Collection | Shared Cross-Submodule | Submodules Count | Operations | Touch Points |\n`;
     md += `| :--- | :--- | :--- | :--- | :--- |\n`;
-    for (const fsTouch of firestoreSharedTouches) {
-      md += `| \`${fsTouch.pathPattern}\` | \`${fsTouch.isSharedCrossModule}\` | ${fsTouch.modulesTouchedCount} | \`${fsTouch.operations.join(", ") || "none"}\` | ${fsTouch.touchPointsCount} |\n`;
+    for (const mc of sharedMongoCollections) {
+      md += `| \`${mc.collectionName}\` | \`${mc.isSharedCrossSubmodule}\` | ${mc.submodulesTouchedCount} | \`${mc.operations.join(", ") || "none"}\` | ${mc.touchPointsCount} |\n`;
+    }
+    md += `\n`;
+  }
+  if (unresolvedMongoTouches.length > 0) {
+    md += `*${unresolvedMongoTouches.length} additional touch point(s) use a dynamically-resolved collection name and are excluded from the table above to avoid falsely implying they share a collection.*\n\n`;
+  }
+
+  md += `## Pub/Sub Publishers & Receivers\n\n`;
+  md += `*Not joined, see note in executive summary and notifications. There is no evidenced link in source between a publish call's topic name and a push route's URL path.*\n\n`;
+  if (pubsubPublishers.length === 0 && pubsubReceivers.length === 0) {
+    md += `*No Pub/Sub publishers or receivers detected.*\n\n`;
+  } else {
+    md += `### Publishers\n`;
+    for (const pub of pubsubPublishers) {
+      md += `- \`${pub.module}\` (submodule \`${pub.submodule}\`): \`${pub.topicValue}\` (confidence: ${pub.confidence}) at \`${pub.file}:${pub.line}\`\n`;
+    }
+    md += `\n### Receivers\n`;
+    for (const rec of pubsubReceivers) {
+      md += `- \`${rec.module}\` (submodule \`${rec.submodule}\`): \`${rec.httpPath}\` -> \`${rec.handlerClass}.${rec.handlerMethod}\` at \`${rec.file}:${rec.line}\`\n`;
     }
     md += `\n`;
   }
 
-  md += `## Event Endpoints and Candidate Route Groups\n\n`;
-  if (eventEndpoints.length === 0) {
-    md += `*No event endpoints detected.*\n\n`;
+  md += `## Pub/Sub Operation Routing Table\n\n`;
+  if (pubsubOperationRoutingTable.length === 0) {
+    md += `*No Pub/Sub operation routing detected.*\n\n`;
   } else {
-    md += `| Tech | Event Key | Subscriber Extraction Status | Publishers | Triggers |\n`;
-    md += `| :--- | :--- | :--- | :--- | :--- |\n`;
-    for (const ev of eventEndpoints) {
-      md += `| \`${ev.technology}\` | \`${ev.eventKey}\` | \`${ev.eventSubscriberExtractionStatus}\` | ${ev.publishersCount} | ${ev.triggersCount} |\n`;
-    }
-    md += `\n`;
-  }
-
-  md += `## Pub/Sub Event Routing Table\n\n`;
-  md += `*Per-receiver internal routing only -- NOT joined to the publishers/triggers above (see note on that section): there is no evidenced link from a publisher's topic argument to the specific push-subscription endpoint that receives it.*\n\n`;
-  if (pubsubEventRoutingTable.length === 0) {
-    md += `*No Pub/Sub push-receiver routing detected.*\n\n`;
-  } else {
-    md += `| Module | Source Handler | Data Type | Resolution | Target Calls |\n`;
-    md += `| :--- | :--- | :--- | :--- | :--- |\n`;
-    for (const receiver of pubsubEventRoutingTable) {
-      for (const route of receiver.routes) {
-        md += `| \`${receiver.module}\` | \`${receiver.sourceHandler}\` | \`${route.dataType ?? "unresolved"}\` | \`${route.dataTypeResolutionStatus}\` | ${route.targetCallsCount} |\n`;
-      }
+    md += `| Module | Handler | Operation Count | Resolved Count |\n`;
+    md += `| :--- | :--- | :--- | :--- |\n`;
+    for (const receiver of pubsubOperationRoutingTable) {
+      md += `| \`${receiver.module}\` | \`${receiver.handlerClass}.${receiver.handlerMethod}\` | ${receiver.routesCount} | ${receiver.resolvedRoutesCount} |\n`;
     }
     md += `\n`;
   }
@@ -1005,10 +950,11 @@ function main() {
     probableIntraModuleCallEdges: probableIntraModuleCallEdges.length,
     apiEntryPoints: apiEntryPoints.length,
     rbacRequirements: rbacRequirements.length,
-    sharedFirestoreTouches: firestoreSharedTouches.length,
-    eventEndpoints: eventEndpoints.length,
-    pubsubReceivers: pubsubEventRoutingTable.length,
-    pubsubEventRoutes: pubsubEventRoutes.length,
+    sharedMongoCollections: sharedMongoCollections.length,
+    unresolvedMongoTouches: unresolvedMongoTouches.length,
+    pubsubPublishers: pubsubPublishers.length,
+    pubsubReceivers: pubsubReceivers.length,
+    pubsubOperationRoutingTable: pubsubOperationRoutingTable.length,
   });
   console.log(`Wrote ${graphJsonPath}`);
   console.log(`Wrote ${matrixMdPath}`);

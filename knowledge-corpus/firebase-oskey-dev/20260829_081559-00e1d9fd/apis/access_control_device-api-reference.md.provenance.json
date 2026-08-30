@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260829_081559-00e1d9fd/apis/access_control_device-api-reference.md",
+  "generatedAt": "2026-08-29T11:58:52.401Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260829_081559-00e1d9fd",
+    "repoName": "firebase-oskey-dev",
+    "module": "access_control_device",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onAddAccessControlDevicePublicKeyCalled|#1`",
+      "factId": "api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onAddAccessControlDevicePublicKeyCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onDeleteAccessControlDevicePublicKeyCalled|#1`",
+      "factId": "api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onDeleteAccessControlDevicePublicKeyCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePath)             .onCreate|getFirestoreTriggers|OSKAccessControlDeviceService.onDocumentCreated|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePath)             .onCreate|getFirestoreTriggers|OSKAccessControlDeviceService.onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePath)             .onDelete|getFirestoreTriggers|OSKAccessControlDeviceService.onDocumentDeleted|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePath)             .onDelete|getFirestoreTriggers|OSKAccessControlDeviceService.onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#2`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onCreate|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentCreated|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onCreate|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onUpdate|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentUpdated|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onUpdate|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#2`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onDelete|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentDeleted|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onDelete|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#3`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#3",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePublicKeysPath)             .onCreate|getFirestoreTriggers|OSKAccessControlDevicePublicKeysService.onDocumentCreated|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePublicKeysPath)             .onCreate|getFirestoreTriggers|OSKAccessControlDevicePublicKeysService.onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#3`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#3",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePublicKeysPath)             .onDelete|getFirestoreTriggers|OSKAccessControlDevicePublicKeysService.onDocumentDeleted|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePublicKeysPath)             .onDelete|getFirestoreTriggers|OSKAccessControlDevicePublicKeysService.onDocumentDeleted|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 16,
+    "verified": 16,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

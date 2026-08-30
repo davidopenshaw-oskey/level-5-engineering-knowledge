@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260829_081559-00e1d9fd/apis/core-api-reference.md",
+  "generatedAt": "2026-08-29T13:35:17.707Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260829_081559-00e1d9fd",
+    "repoName": "firebase-oskey-dev",
+    "module": "core",
+    "sourceCapabilities": [
+      "_module_root",
+      "access",
+      "auth0",
+      "country",
+      "public_key",
+      "storage"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/index.ts` (lines 64-71)",
+      "file": "functions/src/modules/core/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/country/index.ts` (lines 17-43)",
+      "file": "functions/src/modules/core/modules/country/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/core/modules/country/index.ts` (lines 45-56)",
+      "file": "functions/src/modules/core/modules/country/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|core|functions/src/modules/core/index.ts|processPubSubMessage|#1`",
+      "factId": "api_contract|core|functions/src/modules/core/index.ts|processPubSubMessage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|functions/src/modules/core/index.ts|storage.bucket().object().onFinalize|getStorageTriggers||#1`",
+      "factId": "call_expression|core|functions/src/modules/core/index.ts|storage.bucket().object().onFinalize|getStorageTriggers||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|core|functions/src/modules/core/modules/storage/index.ts|generateUploadSignedUrlCallable|#1`",
+      "factId": "api_contract|core|functions/src/modules/core/modules/storage/index.ts|generateUploadSignedUrlCallable|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|onFinalize|#1`",
+      "factId": "service_method|core|functions/src/modules/core/modules/storage/services/storage.service.ts|OSKStorageService|onFinalize|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 7,
+    "verified": 5,
+    "lineUnverified": 2,
+    "fileNotFound": 0
+  }
+}

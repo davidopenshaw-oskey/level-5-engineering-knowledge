@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/node-iot-api-oskey-io/20260829_135747-a6cba122/apis/access_control_device-api-reference.md",
+  "generatedAt": "2026-08-29T14:01:27.723Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260829_135747-a6cba122",
+    "repoName": "node-iot-api-oskey-io",
+    "module": "access_control_device",
+    "sourceCapabilities": [
+      "_module_root",
+      "accesses",
+      "activities",
+      "configs",
+      "firmwares",
+      "intercom_entries"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`src/v1/schema/pubsub_message.schema.ts` (line 8)",
+      "file": "src/v1/schema/pubsub_message.schema.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts` (lines 60-103)",
+      "file": "src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|access_control_device|src/v1/core/shared/pubsub.service.ts|OSKPubSubService|publishMessage|#1`",
+      "factId": "service_method|access_control_device|src/v1/core/shared/pubsub.service.ts|OSKPubSubService|publishMessage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`external_hook|access_control_device|src/v1/core/shared/pubsub.service.ts|topicName|#1`",
+      "factId": "external_hook|access_control_device|src/v1/core/shared/pubsub.service.ts|topicName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/core/shared/pubsub.service.ts|this.pubSub.topic(topicName).publishMessage|publishMessage|{                 data: dataBuffer,                 orderingKey: orderingKey,             }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/core/shared/pubsub.service.ts|this.pubSub.topic(topicName).publishMessage|publishMessage|{                 data: dataBuffer,                 orderingKey: orderingKey,             }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`external_hook|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|accessControlDevice_activities|#1`",
+      "factId": "external_hook|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|accessControlDevice_activities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|pubSubService.publishMessage|_processActivity|'accessControlDevice_activities',activity.accessControlDeviceId,{ type: 'activities', entity: data }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|pubSubService.publishMessage|_processActivity|'accessControlDevice_activities',activity.accessControlDeviceId,{ type: 'activities', entity: data }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|JSON.parse|anon|Buffer.from(pubSubMessage.message.data, 'base64').toString('utf-8')|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|JSON.parse|anon|Buffer.from(pubSubMessage.message.data, 'base64').toString('utf-8')|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 8,
+    "verified": 8,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

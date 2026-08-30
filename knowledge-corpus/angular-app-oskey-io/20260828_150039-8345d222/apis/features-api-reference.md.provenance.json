@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/angular-app-oskey-io/20260828_150039-8345d222/apis/features-api-reference.md",
+  "generatedAt": "2026-08-29T06:00:21.083Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260828_150039-8345d222",
+    "repoName": "angular-app-oskey-io",
+    "module": "features",
+    "sourceCapabilities": [
+      "authentication",
+      "home",
+      "portals",
+      "portals_organization",
+      "portals_organization_entities",
+      "portals_organization_entities_entity",
+      "portals_organization_entities_entity_message-center",
+      "portals_organization_entities_entity_properties",
+      "portals_organization_entities_entity_properties_buildings",
+      "portals_organization_entities_entity_properties_general-rules",
+      "portals_organization_entities_entity_properties_inhabitants",
+      "portals_organization_entities_entity_properties_users",
+      "portals_organization_entities_entity_suppliers",
+      "portals_organization_onboarding-cards",
+      "portals_user",
+      "portals_user_invitations",
+      "portals_user_organizations",
+      "portals_user_organizations_pending-organizations"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/features/portals/sidemenu/sidemenu.component.ts` (lines 109-112)",
+      "file": "hosting/web-app/src/app/features/portals/sidemenu/sidemenu.component.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/features/portals/organization/organization.routes.ts` (line 14)",
+      "file": "hosting/web-app/src/app/features/portals/organization/organization.routes.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`organization-inhabitants.routes.ts` (**Confirmed** [`` `hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/inhabitants/organization-inhabitants.routes.ts` (lines 17-24)",
+      "file": "organization-inhabitants.routes.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/suppliers/suppliers.routes.ts` (line 19)",
+      "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/suppliers/suppliers.routes.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/suppliers/suppliers.routes.ts` (line 27)",
+      "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/suppliers/suppliers.routes.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/services/entity.service.ts|this.firebaseHttps.call|getEntityDashboardStatics|'organization-getEntityDashboardStatics',{ organizationId, entityId }|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/services/entity.service.ts|this.firebaseHttps.call|getEntityDashboardStatics|'organization-getEntityDashboardStatics',{ organizationId, entityId }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|import('./features/entity-dashboard/entity-dashboard.component').then|anon|(c) => c.OSKEntityDashboardComponent|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|import('./features/entity-dashboard/entity-dashboard.component').then|anon|(c) => c.OSKEntityDashboardComponent|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|import('./features/properties/properties.routes').then|anon|(r) => r.routes|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|import('./features/properties/properties.routes').then|anon|(r) => r.routes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|import('./features/suppliers/suppliers.routes').then|anon|(r) => r.routes|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|import('./features/suppliers/suppliers.routes').then|anon|(r) => r.routes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|v1.org.suppliers.admin|#1`",
+      "factId": "permission_candidate|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|v1.org.suppliers.admin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|import('../entity/features/properties/features/users/organization-users.routes').then|anon|(r) => r.routes|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|import('../entity/features/properties/features/users/organization-users.routes').then|anon|(r) => r.routes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|v1.org.user.admin|#1`",
+      "factId": "permission_candidate|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|v1.org.user.admin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|import('./features/message-center/message-center.routes').then|anon|(r) => r.routes|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|import('./features/message-center/message-center.routes').then|anon|(r) => r.routes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|v1.org.communications.admin|#1`",
+      "factId": "permission_candidate|features|hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts|v1.org.communications.admin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/send-user-invitation/services/send-user-invitation/send-user-invitation.service.ts|this.firebaseHttps.call|getUserUnits|'user-getCurrentUserUnits',{ userId: userId }|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/send-user-invitation/services/send-user-invitation/send-user-invitation.service.ts|this.firebaseHttps.call|getUserUnits|'user-getCurrentUserUnits',{ userId: userId }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/send-user-invitation/services/send-user-invitation/send-user-invitation.service.ts|this.firebaseHttps.call|sendInvitation|'user-createUserInvitation',invitationRequestData|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/send-user-invitation/services/send-user-invitation/send-user-invitation.service.ts|this.firebaseHttps.call|sendInvitation|'user-createUserInvitation',invitationRequestData|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/invitations.routes.ts|import('./send-user-invitation/send-user-invitation.component').then|anon|(c) => c.OSKSendUserInvitationComponent|#1`",
+      "factId": "call_expression|features|hosting/web-app/src/app/features/portals/user/invitations/invitations.routes.ts|import('./send-user-invitation/send-user-invitation.component').then|anon|(c) => c.OSKSendUserInvitationComponent|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 17,
+    "verified": 17,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/angular-app-oskey-io/20260829_133905-8345d222/apis/components-api-reference.md",
+  "generatedAt": "2026-08-29T13:56:00.459Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260829_133905-8345d222",
+    "repoName": "angular-app-oskey-io",
+    "module": "components",
+    "sourceCapabilities": [
+      "cookie-consent",
+      "footer",
+      "header"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [],
+  "citationSummary": {
+    "total": 0,
+    "verified": 0,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

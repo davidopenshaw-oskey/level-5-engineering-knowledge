@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260829_081559-00e1d9fd/engineering-profiles/call-engineering-profile.md",
+  "generatedAt": "2026-08-29T13:34:29.697Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260829_081559-00e1d9fd",
+    "repoName": "firebase-oskey-dev",
+    "module": "call",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 56-65)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 70-73)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 88-138)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 156-178)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 107-181)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 350-441)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/schema/call_update_body.schema.ts` (lines 30-43)",
+      "file": "functions/src/modules/call/schema/call_update_body.schema.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 199-238)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 239-302)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 303-328)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/controllers/call.controller.ts` (lines 13-39)",
+      "file": "functions/src/modules/call/controllers/call.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 43-538)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/index.ts` (lines 31-35)",
+      "file": "functions/src/modules/call/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/controllers/call.controller.ts` (lines 20-38)",
+      "file": "functions/src/modules/call/controllers/call.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 295-300)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/index.ts` (lines 33-44)",
+      "file": "functions/src/modules/call/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 56-198)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 199-342)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 350-441)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 193-194)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 222-234)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 164-170)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/schema/call_creation_body.schema.ts` (line 6)",
+      "file": "functions/src/modules/call/schema/call_creation_body.schema.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 28, 161)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (lines 8, 44)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/call/services/call.service.ts` (line 88)",
+      "file": "functions/src/modules/call/services/call.service.ts",
+      "status": "line-unverified"
+    }
+  ],
+  "citationSummary": {
+    "total": 26,
+    "verified": 25,
+    "lineUnverified": 1,
+    "fileNotFound": 0
+  }
+}

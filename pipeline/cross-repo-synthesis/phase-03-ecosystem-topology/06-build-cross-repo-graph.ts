@@ -27,10 +27,44 @@ interface CrossRepoEdge {
   sourceSymbol: string;
   targetRepo: string;
   targetSymbol: string;
-  connectionType: 'HTTP_API_CALL' | 'FIRESTORE_EVENT_TRIGGER' | 'HARDWARE_SOCKET_PAYLOAD' | 'SHARED_COLLECTION';
+  connectionType: 'HTTP_API_CALL' | 'FIRESTORE_EVENT_TRIGGER' | 'HARDWARE_SOCKET_PAYLOAD' | 'SHARED_COLLECTION' | 'PUBSUB_TOPIC_BINDING';
   resolutionStatus: 'resolved' | 'unresolved';
   details: string;
 }
+
+// Node-IoT <-> Firebase Pub/Sub topic bindings, confirmed 2026-08-29 --
+// investigated at length as part of the node-iot-api-oskey-io Stage 4 cross-
+// repo join (see governance/roadmap/node-iot-api-oskey-io/01-phase2-contract
+// -design.md and this session's own investigation). This is deliberately
+// NOT derived from AST facts the way the HTTP_API_CALL join below is: the
+// receiving side (Firebase's `processPubSubMessage`, a plain HTTP push
+// endpoint) never references the topic name anywhere in its own source --
+// the topic -> subscription -> push-endpoint binding lives entirely in GCP
+// Pub/Sub subscription config, external to both repos. Confirmed via three
+// independent lines of evidence, none of them AST-derivable: (1) the GCP
+// subscription naming convention `{topic}-{handlerName}` (the real
+// subscription is literally named `accessControlDevice_activities-
+// processPubSubMessage`), (2) an explicit code comment in Firebase's
+// `pub_sub_receiver.service.ts` reading "This case handles the specific
+// payload from node-iot for device activities", and (3) the message shape
+// node-iot's own `pubsub_publish_call` call site publishes matching what
+// that same handler case destructures. Checked for a Terraform/IaC
+// declaration of this binding in either repo (there is none) before
+// concluding a manually-maintained table is the only honest option here --
+// this is a genuine capability boundary of AST-only extraction, not a gap
+// to eventually close with cleverer parsing. Add an entry here ONLY when a
+// binding has been independently confirmed this way, not on a naming-
+// convention guess alone.
+const EXTERNAL_PUBSUB_BINDINGS: Array<{ topicName: string; firebaseHandlerValue: string; confirmedVia: string }> = [
+  {
+    topicName: 'accessControlDevice_activities',
+    firebaseHandlerValue: 'processPubSubMessage',
+    confirmedVia:
+      'GCP subscription "accessControlDevice_activities-processPubSubMessage" (naming convention) + ' +
+      'pub_sub_receiver.service.ts "activities" case code comment ("payload from node-iot for device activities") + ' +
+      'matching message shape (data.entity.activity) -- confirmed 2026-08-29, not AST-derivable.',
+  },
+];
 
 const ecosystemNodes: Array<{ repo: string; nodeType: string; name: string; details: any }> = [];
 const crossRepoEdges: CrossRepoEdge[] = [];
@@ -61,6 +95,7 @@ for (const r of reposWithRuns) {
 
 // Build the cross-repo join
 const targetCallables = new Map<string, any>();
+const targetPubsubReceivers = new Map<string, any>();
 
 // 3a. Load target API contracts (Firebase)
 for (const r of reposWithRuns) {
@@ -70,6 +105,9 @@ for (const r of reposWithRuns) {
     for (const c of contracts) {
       if (c.contractType === 'callable' && c.callableExportName) {
         targetCallables.set(c.callableExportName, { repo: r.name, ...c });
+      }
+      if (c.pubsubPushReceiver && c.value) {
+        targetPubsubReceivers.set(c.value, { repo: r.name, ...c });
       }
     }
   }
@@ -106,6 +144,65 @@ for (const r of reposWithRuns) {
   }
 }
 console.log(`Cross-repo callable join: ${resolvedCount} resolved, ${unresolvedCount} unresolved.`);
+
+// 3c. Load source pubsub publish calls (Node-IoT) and join via
+// EXTERNAL_PUBSUB_BINDINGS -- this is NOT a fact-derived join like 3b above
+// (see that table's own comment for why no AST-based join is possible for
+// this connection type).
+let pubsubResolvedCount = 0;
+let pubsubUnresolvedCount = 0;
+
+for (const r of reposWithRuns) {
+  const externalHooksPath = path.join(baseDir, 'output', 'runs', r.name, r.runId, 'facts', 'ast-external-hooks.json');
+  if (fs.existsSync(externalHooksPath)) {
+    const hooks = JSON.parse(fs.readFileSync(externalHooksPath, 'utf8'));
+    for (const hook of hooks) {
+      if (hook.type !== 'pubsub_publish_call') continue;
+
+      if (hook.topicResolutionStatus !== 'resolved') {
+        pubsubUnresolvedCount++;
+        crossRepoEdges.push({
+          sourceRepo: r.name,
+          sourceSymbol: `${hook.path}:${hook.line} -> ${hook.value}`,
+          targetRepo: 'unknown',
+          targetSymbol: hook.value,
+          connectionType: 'PUBSUB_TOPIC_BINDING',
+          resolutionStatus: 'unresolved',
+          details: `Topic name not statically resolvable in source (topicResolutionStatus: ${hook.topicResolutionStatus}) -- a pass-through parameter at this call site, not a literal.`,
+        });
+        continue;
+      }
+
+      const binding = EXTERNAL_PUBSUB_BINDINGS.find(b => b.topicName === hook.value);
+      if (!binding) {
+        pubsubUnresolvedCount++;
+        crossRepoEdges.push({
+          sourceRepo: r.name,
+          sourceSymbol: `${hook.path}:${hook.line} -> ${hook.value}`,
+          targetRepo: 'unknown',
+          targetSymbol: hook.value,
+          connectionType: 'PUBSUB_TOPIC_BINDING',
+          resolutionStatus: 'unresolved',
+          details: `Topic "${hook.value}" resolved in source, but no external subscription binding is configured for it in EXTERNAL_PUBSUB_BINDINGS -- add one only once independently confirmed (GCP subscription config + code-level evidence), not on a naming guess.`,
+        });
+        continue;
+      }
+
+      const receiver = targetPubsubReceivers.get(binding.firebaseHandlerValue);
+      pubsubResolvedCount++;
+      crossRepoEdges.push({
+        sourceRepo: r.name,
+        sourceSymbol: `${hook.path}:${hook.line} -> ${hook.value}`,
+        targetRepo: receiver ? receiver.repo : 'unknown',
+        targetSymbol: binding.firebaseHandlerValue,
+        connectionType: 'PUBSUB_TOPIC_BINDING',
+        resolutionStatus: 'resolved',
+        details: `Confirmed via external GCP subscription config, NOT AST-derivable -- ${binding.confirmedVia}${receiver ? ` Receiving handler: ${receiver.path}.` : ' WARNING: receiving handler not found in current Firebase facts -- binding may be stale.'}`,
+      });
+    }
+  }
+}
+console.log(`Cross-repo pubsub-binding join: ${pubsubResolvedCount} resolved (externally confirmed), ${pubsubUnresolvedCount} unresolved.`);
 
 // 4. Generate Enterprise Topology Artifacts under output/cross-repo-synthesis/${synthesisId}/
 const ecosystemOutput = {

@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260829_081559-00e1d9fd/apis/admin-api-reference.md",
+  "generatedAt": "2026-08-29T13:32:37.763Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260829_081559-00e1d9fd",
+    "repoName": "firebase-oskey-dev",
+    "module": "admin",
+    "sourceCapabilities": [
+      "_module_root",
+      "admin_buildings",
+      "admin_maintenance",
+      "admin_organization",
+      "admin_users"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts` (line 16)",
+      "file": "functions/src/modules/admin/modules/admin_buildings/services/admin_building.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_buildings/index.ts|getAllBuildingsWithUnits|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_buildings/index.ts|getAllBuildingsWithUnits|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|admin|functions/src/modules/admin/modules/admin_buildings/models/functions/get_all_buildings_with_units_request.type.ts|OSKGetAllBuildingsWithUnitsResponseData|#1`",
+      "factId": "type_alias|admin|functions/src/modules/admin/modules/admin_buildings/models/functions/get_all_buildings_with_units_request.type.ts|OSKGetAllBuildingsWithUnitsResponseData|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onFixMissingMainAccessFieldsAll|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onFixMissingMainAccessFieldsAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceRecreateAccess|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceRecreateAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceRefreshPincodes|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceRefreshPincodes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onRecreateAccessDocumentInMongoDbByBuildingAll|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onRecreateAccessDocumentInMongoDbByBuildingAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onRecreateTokensForBuildingUsersAll|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onRecreateTokensForBuildingUsersAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onRemoveNonExistingUserAccessInBuildingALL|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onRemoveNonExistingUserAccessInBuildingALL|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onSyncBuildingAccessesWithUserAccessesAll|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onSyncBuildingAccessesWithUserAccessesAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|executePincodeRefreshCallable|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|executePincodeRefreshCallable|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceAddIntercomDisplayNameField|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceAddIntercomDisplayNameField|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceAddUnitNumberField|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceAddUnitNumberField|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateBuildingsIntercomBases|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateBuildingsIntercomBases|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateIntercomsByUsers|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateIntercomsByUsers|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateOrganizationsPrompt|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateOrganizationsPrompt|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateResidents|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateResidents|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateResidentSettingsForBuilding|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateResidentSettingsForBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateUnitSettings|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateUnitSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateUserSettings|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceCreateUserSettings|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceDeleteBuildingsIntercoms|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceDeleteBuildingsIntercoms|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceDeleteCallTransferLists|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceDeleteCallTransferLists|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceDeleteIntercomDisplayNameField|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceDeleteIntercomDisplayNameField|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceDeleteUsersIntercoms|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceDeleteUsersIntercoms|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceIntercomAddUnitNumberFields|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceIntercomAddUnitNumberFields|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceLinkBuildingsToProperties|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceLinkBuildingsToProperties|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceSyncAuthDisplayNames|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceSyncAuthDisplayNames|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceUpdateAccessControlDeviceModel|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceUpdateAccessControlDeviceModel|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceUpdateResidentsWithUnitInfo|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_maintenance/index.ts|onMaintenanceUpdateResidentsWithUnitInfo|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getAllOrganizations|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getAllOrganizations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getOrganizationDetailsById|#1`",
+      "factId": "api_contract|admin|functions/src/modules/admin/modules/admin_organization/index.ts|getOrganizationDetailsById|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 31,
+    "verified": 31,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

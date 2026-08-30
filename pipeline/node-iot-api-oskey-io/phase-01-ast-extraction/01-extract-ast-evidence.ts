@@ -40,9 +40,11 @@ function resolveSimpleRef(node: Node | undefined, clonePath: string): {
   name: string | null;
   declarationFile: string | null;
   declarationLine: number | null;
+  declarationEndLine: number | null;
+  declarationNode: Node | undefined;
   className: string | null;
 } {
-  if (!node) return { name: null, declarationFile: null, declarationLine: null, className: null };
+  if (!node) return { name: null, declarationFile: null, declarationLine: null, declarationEndLine: null, declarationNode: undefined, className: null };
   try {
     const rawSymbol = node.getSymbol();
     // For an imported identifier (e.g. `schema: pubSubMessageSchema`), getSymbol()
@@ -61,6 +63,8 @@ function resolveSimpleRef(node: Node | undefined, clonePath: string): {
           name: symbol.getName(),
           declarationFile: toRepoPath(declSf.getFilePath(), clonePath),
           declarationLine: decl.getStartLineNumber(),
+          declarationEndLine: decl.getEndLineNumber(),
+          declarationNode: decl,
           className: declClass ? declClass.getName() || null : null,
         };
       }
@@ -68,7 +72,39 @@ function resolveSimpleRef(node: Node | undefined, clonePath: string): {
   } catch {
     // fall through to unresolved below
   }
-  return { name: node.getText(), declarationFile: null, declarationLine: null, className: null };
+  return { name: node.getText(), declarationFile: null, declarationLine: null, declarationEndLine: null, declarationNode: undefined, className: null };
+}
+
+// Route handlers in this repo are always `static X: OSKAsyncRequestHandler =
+// async (...) => {...}` -- a PropertyDeclaration whose initializer is the
+// arrow function. Falls back to plain method/function declarations for
+// robustness, though every real case in this repo is the property form.
+function getFunctionBody(declNode: Node | undefined): Node | undefined {
+  if (!declNode) return undefined;
+  if (Node.isPropertyDeclaration(declNode)) {
+    const init = declNode.getInitializer();
+    if (init && (Node.isArrowFunction(init) || Node.isFunctionExpression(init))) {
+      return init.getBody();
+    }
+  }
+  if (Node.isMethodDeclaration(declNode) || Node.isFunctionDeclaration(declNode)) {
+    return declNode.getBody();
+  }
+  return undefined;
+}
+
+// Distinct callee expression texts (not call sites) within a node --
+// mirrors the same pattern the file's now-removed Firebase-specific
+// extractPubSubEventRoutes used, just as a small standalone helper here.
+function collectTargetCalls(node: Node): string[] {
+  const calls = new Set<string>();
+  for (const callExpr of node.getDescendantsOfKind(SyntaxKind.CallExpression)) {
+    const calleeExpr = callExpr.getExpression();
+    if (Node.isPropertyAccessExpression(calleeExpr) || Node.isIdentifier(calleeExpr)) {
+      calls.add(calleeExpr.getText());
+    }
+  }
+  return Array.from(calls);
 }
 
 function walkJoiChain(node: Node): { baseType: string | null; required: boolean; validValues: string[] | null } {
@@ -386,6 +422,7 @@ function main() {
   const rawMongoOperations: any[] = [];
   const rawRouteDefinitions: any[] = [];
   const rawJoiSchemaFields: any[] = [];
+  const rawPubSubOperationRoutes: any[] = [];
   const rawErrors: any[] = [];
 
   for (const { file, base, absolutePath } of runtimeFiles) {
@@ -629,10 +666,71 @@ function main() {
                   handlerMethod: handlerRef.name,
                   handlerDeclarationFile: handlerRef.declarationFile,
                   handlerStartLine: handlerRef.declarationLine,
+                  handlerEndLine: handlerRef.declarationEndLine,
                   schemaName: schemaRef.name,
                   schemaDeclarationFile: schemaRef.declarationFile,
                   isPubSubPushRoute: schemaRef.name === "pubSubMessageSchema",
                 });
+
+                if (schemaRef.name === "pubSubMessageSchema") {
+                  const body = getFunctionBody(handlerRef.declarationNode);
+                  if (body) {
+                    for (const switchStmt of body.getDescendantsOfKind(SyntaxKind.SwitchStatement)) {
+                      const discriminant = switchStmt.getExpression();
+                      if (!Node.isPropertyAccessExpression(discriminant) || discriminant.getName() !== "operation") continue;
+
+                      for (const clause of switchStmt.getCaseBlock().getClauses()) {
+                        if (!Node.isCaseClause(clause)) continue; // skip `default:` -- no literal to route on
+
+                        const opRes = resolveExpressionValue(clause.getExpression());
+                        rawPubSubOperationRoutes.push({
+                          ...base,
+                          line: clause.getStartLineNumber(),
+                          handlerClass: handlerRef.className,
+                          handlerMethod: handlerRef.name,
+                          dispatchKind: "switch_case",
+                          operationValue: opRes.value,
+                          operationResolutionStatus: opRes.status,
+                          targetCalls: collectTargetCalls(clause),
+                        });
+                      }
+                    }
+
+                    for (const ifStmt of body.getDescendantsOfKind(SyntaxKind.IfStatement)) {
+                      const condition = ifStmt.getExpression();
+                      const nestedComparisons = condition.getDescendantsOfKind(SyntaxKind.BinaryExpression)
+                        .filter(b => b.getOperatorToken().getText() === "===");
+                      const allComparisons =
+                        Node.isBinaryExpression(condition) && condition.getOperatorToken().getText() === "==="
+                          ? [condition, ...nestedComparisons]
+                          : nestedComparisons;
+
+                      const thenBlock = ifStmt.getThenStatement();
+                      const targetCalls = collectTargetCalls(thenBlock);
+
+                      for (const cmp of allComparisons) {
+                        const left = cmp.getLeft();
+                        const right = cmp.getRight();
+                        const opSide = Node.isPropertyAccessExpression(left) && left.getName() === "operation" ? right
+                          : Node.isPropertyAccessExpression(right) && right.getName() === "operation" ? left
+                          : undefined;
+                        if (!opSide) continue;
+
+                        const opRes = resolveExpressionValue(opSide);
+                        rawPubSubOperationRoutes.push({
+                          ...base,
+                          line: ifStmt.getStartLineNumber(),
+                          handlerClass: handlerRef.className,
+                          handlerMethod: handlerRef.name,
+                          dispatchKind: "if_else_branch",
+                          operationValue: opRes.value,
+                          operationResolutionStatus: opRes.status,
+                          targetCalls,
+                        });
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -972,6 +1070,7 @@ function main() {
   rawMongoOperations.sort(sortFn);
   rawRouteDefinitions.sort(sortFn);
   rawJoiSchemaFields.sort(sortFn);
+  rawPubSubOperationRoutes.sort(sortFn);
   rawErrors.sort(sortFn);
 
   // Write raw facts atomically
@@ -988,6 +1087,7 @@ function main() {
   writeJsonAtomically(path.join(rawDir, "ast-mongo-operations.json"), rawMongoOperations, "facts/ast-mongo-operations.json");
   writeJsonAtomically(path.join(rawDir, "ast-route-definitions.json"), rawRouteDefinitions, "facts/ast-route-definitions.json");
   writeJsonAtomically(path.join(rawDir, "ast-joi-schema-fields.json"), rawJoiSchemaFields, "facts/ast-joi-schema-fields.json");
+  writeJsonAtomically(path.join(rawDir, "ast-pubsub-operation-routes.json"), rawPubSubOperationRoutes, "facts/ast-pubsub-operation-routes.json");
   writeJsonAtomically(path.join(rawDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
 
   // AST error-tolerance gate: previously rawErrors were collected and
@@ -1044,6 +1144,7 @@ function main() {
       { file: "ast-mongo-operations.json", evidenceType: "mongoOperations", recordCount: rawMongoOperations.length, required: true },
       { file: "ast-route-definitions.json", evidenceType: "routeDefinitions", recordCount: rawRouteDefinitions.length, required: true },
       { file: "ast-joi-schema-fields.json", evidenceType: "joiSchemaFields", recordCount: rawJoiSchemaFields.length, required: true },
+      { file: "ast-pubsub-operation-routes.json", evidenceType: "pubsubOperationRoutes", recordCount: rawPubSubOperationRoutes.length, required: true },
     ],
     errors: {
       file: "ast-errors.json",
@@ -1071,6 +1172,7 @@ function main() {
     mongoOperations: rawMongoOperations.length,
     routeDefinitions: rawRouteDefinitions.length,
     joiSchemaFields: rawJoiSchemaFields.length,
+    pubsubOperationRoutes: rawPubSubOperationRoutes.length,
     errors: rawErrors.length,
   });
   console.log(`AST evidence manifest written to: ${path.join(rawDir, "ast-evidence-manifest.json")}`);

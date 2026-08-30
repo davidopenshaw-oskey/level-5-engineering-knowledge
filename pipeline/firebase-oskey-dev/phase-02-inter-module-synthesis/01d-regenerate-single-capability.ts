@@ -98,7 +98,17 @@ async function main() {
 
   const moduleDir = path.join(repoOutputDir, "knowledge-pipeline", "modules", MODULE_NAME);
   const packsDir = path.join(moduleDir, "capability-packs");
-  const capabilitySynthesesDir = path.join(moduleDir, "capability-syntheses");
+  // COMPARISON_MODE (matches 01a-generate-capability-syntheses.ts's own convention) --
+  // added 2026-08-29 after this script's previous unconditional canonical-path write
+  // silently overwrote a capability-synthesis file that belonged to the canonical
+  // gemini-default (temp 0.2) baseline while regenerating just one capability under a
+  // different LLM_CONFIG_KEY for a comparison run. Without this, a single-capability
+  // regen under any non-canonical config always corrupts the canonical baseline it's
+  // meant to be compared against, rather than writing alongside it.
+  const COMPARISON_MODE = process.env.COMPARISON_MODE === "true";
+  const capabilitySynthesesDir = COMPARISON_MODE
+    ? path.join(repoOutputDir, "llm-comparison", LLM_CONFIG_KEY, MODULE_NAME, "capability-syntheses")
+    : path.join(moduleDir, "capability-syntheses");
   const packPath = path.join(packsDir, `${CAPABILITY_NAME}.json`);
   if (!fs.existsSync(packPath)) {
     const available = fs.existsSync(packsDir) ? fs.readdirSync(packsDir).map(f => f.replace(/\.json$/, "")).join(", ") : "(packsDir missing)";

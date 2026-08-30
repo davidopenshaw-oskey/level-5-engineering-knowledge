@@ -119,6 +119,7 @@ const EXPECTED_EVIDENCE_TYPES = [
   "mongoOperations",
   "routeDefinitions",
   "joiSchemaFields",
+  "pubsubOperationRoutes",
 ];
 
 function main() {
@@ -294,6 +295,7 @@ function main() {
   const mongoOperationsFact = loadFactFile("ast-mongo-operations.json");
   const routeDefinitionsFact = loadFactFile("ast-route-definitions.json");
   const joiSchemaFieldsFact = loadFactFile("ast-joi-schema-fields.json");
+  const pubsubOperationRoutesFact = loadFactFile("ast-pubsub-operation-routes.json");
 
   const modulesBaseDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
   fs.mkdirSync(modulesBaseDir, { recursive: true });
@@ -566,9 +568,51 @@ function main() {
         handlerMethod: item.handlerMethod,
         handlerDeclarationFile: item.handlerDeclarationFile,
         handlerStartLine: item.handlerStartLine,
+        handlerEndLine: item.handlerEndLine,
         schemaName: item.schemaName,
         schemaDeclarationFile: item.schemaDeclarationFile,
         isPubSubPushRoute: item.isPubSubPushRoute,
+        evidence: { ...item },
+      });
+    }
+
+    // 9b. pubsub_operation_route
+    for (const item of pubsubOperationRoutesFact.filter(p => p.module === moduleName)) {
+      const primaryKey = item.operationValue || "unresolved_operation";
+      const secondaryKey = `${item.handlerClass}.${item.handlerMethod}`;
+      rawModuleFacts.push({
+        id: stableFactId({
+          type: "pubsub_operation_route",
+          repo: REPO_NAME,
+          module: moduleName,
+          file: item.path,
+          line: item.line,
+          primaryKey,
+          secondaryKey,
+          // Defensive, not yet proven necessary against real data (unlike
+          // mongo_operation's ordinal above, which IS proven necessary): two
+          // records CAN legitimately share a line (this repo's own
+          // compound-OR if/else shape produces exactly that -- 2 records at
+          // the same line, disambiguated by operationValue alone, which
+          // already differs and is already the primaryKey). Added anyway for
+          // the same reason model_property's ordinal was -- costs nothing,
+          // removes any doubt.
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "pubsub_operation_route", item.path, primaryKey, secondaryKey),
+        }),
+        runId,
+        type: "pubsub_operation_route",
+        repo: REPO_NAME,
+        module: moduleName,
+        submodule: item.submodule,
+        file: item.path,
+        line: item.line,
+        value: `${item.handlerMethod}[${primaryKey}]`,
+        handlerClass: item.handlerClass,
+        handlerMethod: item.handlerMethod,
+        dispatchKind: item.dispatchKind,
+        operationValue: item.operationValue,
+        operationResolutionStatus: item.operationResolutionStatus,
+        targetCalls: item.targetCalls,
         evidence: { ...item },
       });
     }
@@ -775,6 +819,7 @@ function main() {
       mongoOperations: facts.filter(f => f.type === "mongo_operation").length,
       routeDefinitions: facts.filter(f => f.type === "route_definition").length,
       joiSchemaFields: facts.filter(f => f.type === "joi_schema_field").length,
+      pubsubOperationRoutes: facts.filter(f => f.type === "pubsub_operation_route").length,
       services: services.length,
       controllers: controllers.length,
       routeHandlers: routeHandlers.length,

@@ -205,19 +205,46 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
   // caching implementation for Gemini.
   const cleanPrompt = prompt.split(CACHE_BREAKPOINT_MARKER).join("");
 
+  // Retry-with-fast-timeout wrapper -- added 2026-08-29 after a real full-
+  // repo test run reproduced the SAME "fetch failed" error 5 times in one
+  // session, at 3 different call sites (01a and 01c both), each time taking
+  // ~16-17 minutes to surface with no explicit timeout set (the SDK's
+  // default has no fixed ceiling, so a stalled request just hangs). That
+  // consistency across independent calls pointed to a stall somewhere in
+  // the request path rather than random flakiness. A single manual retry
+  // recovered every one of the 5 occurrences, so failing fast (3 min instead
+  // of ~16) and retrying automatically turns a ~16-minute dead stop requiring
+  // manual intervention into a same-run, mostly-unattended recovery. Doesn't
+  // change what gets generated -- purely a resilience wrapper around the
+  // same call made before.
+  const MAX_ATTEMPTS = 3;
+  const REQUEST_TIMEOUT_MS = 180_000;
+
   let response;
-  try {
-    response = await ai.models.generateContent({
-      model: config.model,
-      contents: cleanPrompt,
-      config: {
-        maxOutputTokens: config.maxTokens ?? 8192,
-        temperature: config.temperature ?? 0.2,
-        ...(config.thinkingLevel ? { thinkingConfig: { thinkingLevel: ThinkingLevel[config.thinkingLevel] } } : {}),
-      },
-    });
-  } catch (err: any) {
-    throw new Error(`[LLM_CALL_FAILED] Gemini (Enterprise Agent Platform) request failed: ${err.message}`);
+  let lastErr: any = null;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      response = await ai.models.generateContent({
+        model: config.model,
+        contents: cleanPrompt,
+        config: {
+          maxOutputTokens: config.maxTokens ?? 8192,
+          temperature: config.temperature ?? 0.2,
+          ...(config.thinkingLevel ? { thinkingConfig: { thinkingLevel: ThinkingLevel[config.thinkingLevel] } } : {}),
+          httpOptions: { timeout: REQUEST_TIMEOUT_MS },
+        },
+      });
+      lastErr = null;
+      break;
+    } catch (err: any) {
+      lastErr = err;
+      if (attempt < MAX_ATTEMPTS) {
+        console.error(`[LLM_CALL_RETRY] Gemini call attempt ${attempt}/${MAX_ATTEMPTS} failed (${err.message}) -- retrying.`);
+      }
+    }
+  }
+  if (lastErr || !response) {
+    throw new Error(`[LLM_CALL_FAILED] Gemini (Enterprise Agent Platform) request failed after ${MAX_ATTEMPTS} attempts: ${lastErr?.message ?? "no response"}`);
   }
 
   const finishReason = response.candidates?.[0]?.finishReason;

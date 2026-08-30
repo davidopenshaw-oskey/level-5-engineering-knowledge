@@ -1,0 +1,1033 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/angular-app-oskey-io/20260828_150039-8345d222/engineering-profiles/core-engineering-profile.md",
+  "generatedAt": "2026-08-29T06:43:59.761Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260828_150039-8345d222",
+    "repoName": "angular-app-oskey-io",
+    "module": "core",
+    "sourceCapabilities": [
+      "_module_root",
+      "error-handler",
+      "firebase",
+      "guards",
+      "injection-tokens",
+      "locale",
+      "title-strategy",
+      "translate",
+      "types",
+      "utils"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/error-handler/global-error.handler.ts` (line 18)",
+      "file": "hosting/web-app/src/app/core/error-handler/global-error.handler.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/firebase/providers/firebase.provider.ts` (lines 34-90)",
+      "file": "hosting/web-app/src/app/core/firebase/providers/firebase.provider.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/firebase/constants/account-create-restrictions.constant.ts` (lines 47-52)",
+      "file": "hosting/web-app/src/app/core/firebase/constants/account-create-restrictions.constant.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/types/user/user.type.ts` (line 17)",
+      "file": "hosting/web-app/src/app/core/types/user/user.type.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/types/user/user.type.ts` (line 17)",
+      "file": "hosting/web-app/src/app/core/types/user/user.type.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/types/inhabitant/building-unit-inhabitant.type.ts` (line 1)",
+      "file": "hosting/web-app/src/app/core/types/inhabitant/building-unit-inhabitant.type.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/types/organization/pending-organization.type.ts` (line 1)",
+      "file": "hosting/web-app/src/app/core/types/organization/pending-organization.type.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/injection-tokens/current-user.token.ts` (line 220)",
+      "file": "hosting/web-app/src/app/core/injection-tokens/current-user.token.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/firebase/providers/firebase.provider.ts` (lines 37-42)",
+      "file": "hosting/web-app/src/app/core/firebase/providers/firebase.provider.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/firebase/constants/account-create-restrictions.constant.ts` (lines 47-52)",
+      "file": "hosting/web-app/src/app/core/firebase/constants/account-create-restrictions.constant.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/injection-tokens/current-user.token.ts` (line 220)",
+      "file": "hosting/web-app/src/app/core/injection-tokens/current-user.token.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/firebase/providers/firebase.provider.ts` (lines 15-26)",
+      "file": "hosting/web-app/src/app/core/firebase/providers/firebase.provider.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/types/user/current-user.type.ts` (line 14)",
+      "file": "hosting/web-app/src/app/core/types/user/current-user.type.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`hosting/web-app/src/app/core/types/building/building-door.type.ts` (line 1)",
+      "file": "hosting/web-app/src/app/core/types/building/building-door.type.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/error.service|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/error.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/global-error.handler|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/global-error.handler|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./injection-tokens/current-user.token|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./injection-tokens/current-user.token|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./types/https-response/https-response.type|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./types/https-response/https-response.type|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|hosting/web-app/src/app/core/error-handler/error.service.ts|OSKErrorService|showError|#1`",
+      "factId": "service_method|core|hosting/web-app/src/app/core/error-handler/error.service.ts|OSKErrorService|showError|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/error-handler/error.service.ts|this.translate.instant|showError|msgTranslationKey|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/error-handler/error.service.ts|this.translate.instant|showError|msgTranslationKey|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|effect|anon|() => {     authStatus.next(currentUser());   }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|effect|anon|() => {     authStatus.next(currentUser());   }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|map|anon|(user) => {       return user.firebaseUser && user.isOskVerified && user.oskUser ? true : router.parseUrl('/');     }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|map|anon|(user) => {       return user.firebaseUser && user.isOskVerified && user.oskUser ? true : router.parseUrl('/');     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|router.parseUrl|anon|'/'|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|router.parseUrl|anon|'/'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/admin.guard.ts|inject|anon|OSKCurrentUserToken|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/admin.guard.ts|inject|anon|OSKCurrentUserToken|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/admin.guard.ts|currentUser().selectedAccount?.roles.includes|anon|'v1.admin'|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/admin.guard.ts|currentUser().selectedAccount?.roles.includes|anon|'v1.admin'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/admin.guard.ts|router.parseUrl|anon|`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/admin.guard.ts|router.parseUrl|anon|",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|rolesToCheck.some|anon|(r) => selectedAccount?.roles.includes(r)|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|rolesToCheck.some|anon|(r) => selectedAccount?.roles.includes(r)|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|state.url.startsWith|anon|'/organization'|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|state.url.startsWith|anon|'/organization'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|rolesToCheck.unshift|anon|'v1.org.admin'|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|rolesToCheck.unshift|anon|'v1.org.admin'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|toSignal|anon|user(auth).pipe(map((u) => createOSKFirebaseUser(u)))|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|toSignal|anon|user(auth).pipe(map((u) => createOSKFirebaseUser(u)))|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|onSnapshot|anon|docRef,(snapshot) => { ... }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|onSnapshot|anon|docRef,(snapshot) => { ... }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|collectionData|anon|userOrganizationsDocRef|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|collectionData|anon|userOrganizationsDocRef|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|toSignal|anon|router.events.pipe(filter((e) => e instanceof NavigationEnd),map((e) => <NavigationEnd>e))|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|toSignal|anon|router.events.pipe(filter((e) => e instanceof NavigationEnd),map((e) => <NavigationEnd>e))|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|emailsToShowSendInvitationsTo.includes|anon|user.email|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|emailsToShowSendInvitationsTo.includes|anon|user.email|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/locale/providers/locale-initializer/locale-initializer.provider.ts|localeService.initialize|localeInitializerFactory||#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/locale/providers/locale-initializer/locale-initializer.provider.ts|localeService.initialize|localeInitializerFactory||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|OSKLocaleService|setLocale|#1`",
+      "factId": "service_method|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|OSKLocaleService|setLocale|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|this.registeredLocales.includes|setLocale|localeId|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|this.registeredLocales.includes|setLocale|localeId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|OSKLocaleService|registerLocale|#1`",
+      "factId": "service_method|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|OSKLocaleService|registerLocale|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|registerLocaleData|registerLocale|localeFr|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|registerLocaleData|registerLocale|localeFr|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|core|hosting/web-app/src/app/core/locale/providers/localeId/localeId.provider.ts|OSKLocaleId`",
+      "factId": "source_class|core|hosting/web-app/src/app/core/locale/providers/localeId/localeId.provider.ts|OSKLocaleId",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/locale/providers/localeId/localeId.provider.ts|this.localeService.locale|toString||#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/locale/providers/localeId/localeId.provider.ts|this.localeService.locale|toString||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`class_method|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|OSKTitleStrategy|updateTitle|#1`",
+      "factId": "class_method|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|OSKTitleStrategy|updateTitle|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.buildTitle|updateTitle|snapshot|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.buildTitle|updateTitle|snapshot|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.title.setTitle|setTitle|newTitle|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.title.setTitle|setTitle|newTitle|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setTitle|{       name: 'title',       content: newTitle     }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setTitle|{       name: 'title',       content: newTitle     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`class_method|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|OSKTitleStrategy|setDescription|#1`",
+      "factId": "class_method|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|OSKTitleStrategy|setDescription|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setDescription|{         name: 'description',         content: data.description       }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setDescription|{         name: 'description',         content: data.description       }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setDescription|{         name: 'description',         content: this.defaultDescription       }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setDescription|{         name: 'description',         content: this.defaultDescription       }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`class_method|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|OSKTitleStrategy|setAppleItunesTag|#1`",
+      "factId": "class_method|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|OSKTitleStrategy|setAppleItunesTag|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setAppleItunesTag|{       name: 'apple-itunes-app',       content: appItuneAppContent     }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setAppleItunesTag|{       name: 'apple-itunes-app',       content: appItuneAppContent     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|this.ngxTranslate.instant|instant|key,params|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|this.ngxTranslate.instant|instant|key,params|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|computed|getTranslation|() => {       this.localeService.locale();       return this.instant(key, params);     }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|computed|getTranslation|() => {       this.localeService.locale();       return this.instant(key, params);     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/pipes/translate.pipe.ts|Pipe|anon|{   name: 'oskTranslate' }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/pipes/translate.pipe.ts|Pipe|anon|{   name: 'oskTranslate' }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/pipes/boolean.pipe.ts|Pipe|anon|{   name: 'oskBoolean' }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/pipes/boolean.pipe.ts|Pipe|anon|{   name: 'oskBoolean' }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|TranslateModule.forRoot|anon|{     loader: {       provide: TranslateLoader,       useFactory: createTranslateLoader,       deps: [HttpClient]     },     defaultLanguage: environment.defaultLocale   }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|TranslateModule.forRoot|anon|{     loader: {       provide: TranslateLoader,       useFactory: createTranslateLoader,       deps: [HttpClient]     },     defaultLanguage: environment.defaultLocale   }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|date.getTimezoneOffset|removeTimezoneOffset||#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|date.getTimezoneOffset|removeTimezoneOffset||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|date.valueOf|removeTimezoneOffset||#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|date.valueOf|removeTimezoneOffset||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|new Date(date.valueOf() - tzoffset).toISOString().slice|getISOStringWithoutTimezoneIndicator|0,-1|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|new Date(date.valueOf() - tzoffset).toISOString().slice|getISOStringWithoutTimezoneIndicator|0,-1|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|isoString.replace|removeTimezoneIndicatorFromIsoString|'Z',''|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|isoString.replace|removeTimezoneIndicatorFromIsoString|'Z',''|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/utils/index.ts|./date.utils|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/utils/index.ts|./date.utils|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/error.service|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/error.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/global-error.handler|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/global-error.handler|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./injection-tokens/current-user.token|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./injection-tokens/current-user.token|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/error-handler/error.service.ts|Injectable|anon|{   providedIn: 'root' }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/error-handler/error.service.ts|Injectable|anon|{   providedIn: 'root' }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|hosting/web-app/src/app/core/error-handler/error.service.ts|OSKErrorService|showError|#1`",
+      "factId": "service_method|core|hosting/web-app/src/app/core/error-handler/error.service.ts|OSKErrorService|showError|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/error-handler/error.service.ts|this.translate.instant|anon|'errors.default'|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/error-handler/error.service.ts|this.translate.instant|anon|'errors.default'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|OSKGlobalErrorHandler`",
+      "factId": "source_class|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|OSKGlobalErrorHandler",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|inject|anon|OSKErrorService|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|inject|anon|OSKErrorService|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|inject|anon|NgZone|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|inject|anon|NgZone|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|Injectable|anon|{   providedIn: 'root' }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|Injectable|anon|{   providedIn: 'root' }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|OSKLocaleService|initialize|#1`",
+      "factId": "service_method|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|OSKLocaleService|initialize|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|OSKLocaleService|setLocale|#1`",
+      "factId": "service_method|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|OSKLocaleService|setLocale|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|OSKLocaleService|registerLocale|#1`",
+      "factId": "service_method|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|OSKLocaleService|registerLocale|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|Injectable|anon||#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|Injectable|anon||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|inject|anon|Title|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|inject|anon|Title|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|inject|anon|Meta|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|inject|anon|Meta|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/pipes/translate.pipe.ts|Pipe|anon|{   name: 'oskTranslate' }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/pipes/translate.pipe.ts|Pipe|anon|{   name: 'oskTranslate' }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/pipes/boolean.pipe.ts|Pipe|anon|{   name: 'oskBoolean' }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/pipes/boolean.pipe.ts|Pipe|anon|{   name: 'oskBoolean' }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_file|core|hosting/web-app/src/app/core/utils/date.utils.ts|hosting/web-app/src/app/core/utils/date.utils.ts`",
+      "factId": "source_file|core|hosting/web-app/src/app/core/utils/date.utils.ts|hosting/web-app/src/app/core/utils/date.utils.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/utils/index.ts|./date.utils|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/utils/index.ts|./date.utils|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/firebase/services/https/firebase-https.service.ts|httpsCallable|call|this.functions,functionName|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/firebase/services/https/firebase-https.service.ts|httpsCallable|call|this.functions,functionName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|doc|anon|firestore,'users',fbUser.uid|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|doc|anon|firestore,'users',fbUser.uid|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|collection|anon|firestore,'users/' + fbUser.uid,'organizations'|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|collection|anon|firestore,'users/' + fbUser.uid,'organizations'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|inject|anon|Router|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|inject|anon|Router|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|user.accounts.push|anon|{ ... }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|user.accounts.push|anon|{ ... }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|user.accounts[0].defaultSidemenu.items.unshift|anon|{ ... }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|user.accounts[0].defaultSidemenu.items.unshift|anon|{ ... }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`class_method|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|OSKTitleStrategy|updateTitle|#1`",
+      "factId": "class_method|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|OSKTitleStrategy|updateTitle|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|core|hosting/web-app/src/app/core/types/https-response/https-response.type.ts|OSKHttpsSuccessResponse|#1`",
+      "factId": "type_alias|core|hosting/web-app/src/app/core/types/https-response/https-response.type.ts|OSKHttpsSuccessResponse|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|core|hosting/web-app/src/app/core/types/https-response/https-response.type.ts|OSKHttpsErrorResponse|#1`",
+      "factId": "type_alias|core|hosting/web-app/src/app/core/types/https-response/https-response.type.ts|OSKHttpsErrorResponse|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/admin.guard.ts|inject|anon|OSKCurrentUserToken|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/admin.guard.ts|inject|anon|OSKCurrentUserToken|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|toSignal|anon|user(auth).pipe(map((u) => createOSKFirebaseUser(u)))|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|toSignal|anon|user(auth).pipe(map((u) => createOSKFirebaseUser(u)))|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|toSignal|anon|router.events.pipe( ... )|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|toSignal|anon|router.events.pipe( ... )|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|signal|anon|undefined|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|signal|anon|undefined|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|computed|anon|() => { ... }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|computed|anon|() => { ... }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|signal|anon|environment.defaultLocale|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|signal|anon|environment.defaultLocale|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|computed|anon|() => this._locale()|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|computed|anon|() => this._locale()|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|computed|getTranslation|() => {       this.localeService.locale();       return this.instant(key, params);     }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|computed|getTranslation|() => {       this.localeService.locale();       return this.instant(key, params);     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|computed|getTranslations|() => {       this.localeService.locale();       const translations: OSKTranslations = {};       for (const key in translationPairs) {         if (typeof translationPairs[key] === 'string') {           translations[key] = this.instant(translationPairs[key] as string);         } else {           translations[key] = this.instant(             (<OSKTranslationKeyWithParams>translationPairs[key]).key,             (<OSKTranslationKeyWithParams>translationPairs[key]).params           );         }       }       return translations;     }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|computed|getTranslations|() => {       this.localeService.locale();       const translations: OSKTranslations = {};       for (const key in translationPairs) {         if (typeof translationPairs[key] === 'string') {           translations[key] = this.instant(translationPairs[key] as string);         } else {           translations[key] = this.instant(             (<OSKTranslationKeyWithParams>translationPairs[key]).key,             (<OSKTranslationKeyWithParams>translationPairs[key]).params           );         }       }       return translations;     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/error.service|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/error.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/global-error.handler|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./error-handler/global-error.handler|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./injection-tokens/current-user.token|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./injection-tokens/current-user.token|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`exported_symbol|core|hosting/web-app/src/app/core/index.ts|./types/https-response/https-response.type|#1`",
+      "factId": "exported_symbol|core|hosting/web-app/src/app/core/index.ts|./types/https-response/https-response.type|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/error-handler/error.service.ts|@oskey/translate|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/error-handler/error.service.ts|@oskey/translate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|./error.service|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|./error.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/firebase/services/auth/firebase-auth.service.ts|../../../types/user/user.type|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/firebase/services/auth/firebase-auth.service.ts|../../../types/user/user.type|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/firebase/services/auth/firebase-auth.service.ts|@oskey/core/types|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/firebase/services/auth/firebase-auth.service.ts|@oskey/core/types|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/firebase/services/auth/firebase-auth.service.ts|src/app/core/injection-tokens/current-user.token|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/firebase/services/auth/firebase-auth.service.ts|src/app/core/injection-tokens/current-user.token|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/firebase/services/https/firebase-https.service.ts|@oskey/core|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/firebase/services/https/firebase-https.service.ts|@oskey/core|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/guards/admin.guard.ts|../injection-tokens/current-user.token|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/guards/admin.guard.ts|../injection-tokens/current-user.token|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|../../injection-tokens/current-user.token|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|../../injection-tokens/current-user.token|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/guards/admin.guard.ts|../types|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/guards/admin.guard.ts|../types|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|@oskey/core/types|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|@oskey/core/types|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|../../types/user/current-user.type|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|../../types/user/current-user.type|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|../../types/user/user.type|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|../../types/user/user.type|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|@oskey/core|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|@oskey/core|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|../types/user/current-user.type|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|../types/user/current-user.type|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|../types/user/user-organization.type|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|../types/user/user-organization.type|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|../types/user/user.type|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|../types/user/user.type|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|src/app/features/portals/sidemenu/constants/user-menu.constant|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|src/app/features/portals/sidemenu/constants/user-menu.constant|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|src/app/features/portals/sidemenu/utils/generate-user-organization-default-menu.util|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|src/app/features/portals/sidemenu/utils/generate-user-organization-default-menu.util|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|@env/environment|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|@env/environment|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|@ngx-translate/core|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|@ngx-translate/core|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|@angular/common|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|@angular/common|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|@angular/common/locales/fr|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|@angular/common/locales/fr|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|@angular/core|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|@angular/core|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|@angular/platform-browser|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|@angular/platform-browser|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|@angular/router|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|@angular/router|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|@env/environment|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|@env/environment|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|@oskey/locale|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|@oskey/locale|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|@ngx-translate/core|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|@ngx-translate/core|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|@ngx-translate/http-loader|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|@ngx-translate/http-loader|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|@angular/common/http|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|@angular/common/http|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|core|hosting/web-app/src/app/core/guards/admin.guard.ts|v1.admin|#1`",
+      "factId": "permission_candidate|core|hosting/web-app/src/app/core/guards/admin.guard.ts|v1.admin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|v1.org.admin|#1`",
+      "factId": "permission_candidate|core|hosting/web-app/src/app/core/guards/user-role/user-role.guard.ts|v1.org.admin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|collectionData(userOrganizationsDocRef)                     .pipe(takeUntil(unsubscribeSubject))                     .subscribe|anon|{ ... }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|collectionData(userOrganizationsDocRef)                     .pipe(takeUntil(unsubscribeSubject))                     .subscribe|anon|{ ... }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|emailsToShowSendInvitationsTo.includes|anon|user.email|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|emailsToShowSendInvitationsTo.includes|anon|user.email|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|core|hosting/web-app/src/app/core/types/user/roles/assigned-role.type.ts|OSKAssignedRole|#1`",
+      "factId": "type_alias|core|hosting/web-app/src/app/core/types/user/roles/assigned-role.type.ts|OSKAssignedRole|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|core|hosting/web-app/src/app/core/types/user/roles/assigned-role.type.ts|OSKAssignedRole|roleId|#1`",
+      "factId": "model_property|core|hosting/web-app/src/app/core/types/user/roles/assigned-role.type.ts|OSKAssignedRole|roleId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|core|hosting/web-app/src/app/core/types/user/user-organization.type.ts|OSKUserOrganization|userRoles|#1`",
+      "factId": "model_property|core|hosting/web-app/src/app/core/types/user/user-organization.type.ts|OSKUserOrganization|userRoles|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|core|hosting/web-app/src/app/core/types/user/user.type.ts|OSKUserAccount|roles|#1`",
+      "factId": "model_property|core|hosting/web-app/src/app/core/types/user/user.type.ts|OSKUserAccount|roles|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|core|hosting/web-app/src/app/core/types/access/access-rights.type.ts|OSKAccessRight|#1`",
+      "factId": "type_alias|core|hosting/web-app/src/app/core/types/access/access-rights.type.ts|OSKAccessRight|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/error-handler/error.service.ts|inject|anon|MatSnackBar|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/error-handler/error.service.ts|inject|anon|MatSnackBar|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/error-handler/error.service.ts|this.snackBar.open|showError|this.translate.instant(msg),'OK',{       horizontalPosition: 'center',       verticalPosition: 'top'     }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/error-handler/error.service.ts|this.snackBar.open|showError|this.translate.instant(msg),'OK',{       horizontalPosition: 'center',       verticalPosition: 'top'     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|inject|anon|NgZone|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|inject|anon|NgZone|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|@env/environment|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/error-handler/global-error.handler.ts|@env/environment|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/firebase/services/auth/firebase-auth.service.ts|ngx-cookie-service|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/firebase/services/auth/firebase-auth.service.ts|ngx-cookie-service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/admin.guard.ts|inject|anon|Router|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/admin.guard.ts|inject|anon|Router|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|authStatus.pipe|anon|skipWhile((user: OSKCurrentUser) => user.isOskVerified === undefined),take(1),map((user) => {       return user.firebaseUser && user.isOskVerified && user.oskUser ? true : router.parseUrl('/');     }),finalize(() => watcher.destroy())|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/guards/logged-in/logged-in.guard.ts|authStatus.pipe|anon|skipWhile((user: OSKCurrentUser) => user.isOskVerified === undefined),take(1),map((user) => {       return user.firebaseUser && user.isOskVerified && user.oskUser ? true : router.parseUrl('/');     }),finalize(() => watcher.destroy())|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|inject|anon|Auth|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|inject|anon|Auth|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|@angular/fire/firestore|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|@angular/fire/firestore|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|rxjs|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/injection-tokens/current-user.token.ts|rxjs|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|this.translate.use|setLocale|localeId|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|this.translate.use|setLocale|localeId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|registerLocaleData|registerLocale|localeFr|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|registerLocaleData|registerLocale|localeFr|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.title.setTitle|setTitle|newTitle|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.title.setTitle|setTitle|newTitle|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setTitle|{       name: 'title',       content: newTitle     }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setTitle|{       name: 'title',       content: newTitle     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|inject|anon|TranslateService|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/services/translate.service.ts|inject|anon|TranslateService|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|TranslateModule.forRoot|anon|{     loader: {       provide: TranslateLoader,       useFactory: createTranslateLoader,       deps: [HttpClient]     },     defaultLanguage: environment.defaultLocale   }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|TranslateModule.forRoot|anon|{     loader: {       provide: TranslateLoader,       useFactory: createTranslateLoader,       deps: [HttpClient]     },     defaultLanguage: environment.defaultLocale   }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|@ngx-translate/http-loader|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|@ngx-translate/http-loader|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|@angular/common/http|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/translate/providers/translateAndHttp.provider.ts|@angular/common/http|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|date.getTimezoneOffset|removeTimezoneOffset||#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|date.getTimezoneOffset|removeTimezoneOffset||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|date.valueOf|removeTimezoneOffset||#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|date.valueOf|removeTimezoneOffset||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|new Date(date.valueOf() - tzoffset).toISOString|getISOStringWithoutTimezoneIndicator||#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/utils/date.utils.ts|new Date(date.valueOf() - tzoffset).toISOString|getISOStringWithoutTimezoneIndicator||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|@angular/common/locales/fr|#1`",
+      "factId": "imports_dependency|core|hosting/web-app/src/app/core/locale/services/locale.service.ts|@angular/common/locales/fr|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|super|anon||#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|super|anon||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|OSKTitleStrategy`",
+      "factId": "source_class|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|OSKTitleStrategy",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setDescription|{         name: 'description',         content: this.defaultDescription       }|#1`",
+      "factId": "call_expression|core|hosting/web-app/src/app/core/title-strategy/title-strategy.provider.ts|this.meta.updateTag|setDescription|{         name: 'description',         content: this.defaultDescription       }|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 166,
+    "verified": 166,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

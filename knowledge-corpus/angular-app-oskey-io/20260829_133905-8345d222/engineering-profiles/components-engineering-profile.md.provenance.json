@@ -1,0 +1,258 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/angular-app-oskey-io/20260829_133905-8345d222/engineering-profiles/components-engineering-profile.md",
+  "generatedAt": "2026-08-29T13:56:00.457Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260829_133905-8345d222",
+    "repoName": "angular-app-oskey-io",
+    "module": "components",
+    "sourceCapabilities": [
+      "cookie-consent",
+      "footer",
+      "header"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._modalService       .open|showBanner|OSKCookieConsentBannerComponent,{         backdrop: 'static',         animation: true,         modalDialogClass: 'modal-dialog-bottom-left',         size: 'lg',         injector: Injector.create({           providers: [             {               provide: OSKCookieConsent,               useValue: cookieConsent             }           ],           parent: this._injector         })       }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._modalService       .open|showBanner|OSKCookieConsentBannerComponent,{         backdrop: 'static',         animation: true,         modalDialogClass: 'modal-dialog-bottom-left',         size: 'lg',         injector: Injector.create({           providers: [             {               provide: OSKCookieConsent,               useValue: cookieConsent             }           ],           parent: this._injector         })       }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|this._formBuilder.group|anon|{       // consentToStricklyNecessaryCookies: new UntypedFormControl(true, [Validators.requiredTrue]),       // consentToPerformanceCookies: new UntypedFormControl(this._coockieConsent.consentToPerformanceCookies),       // consentToTargetingCookies: new UntypedFormControl(this._coockieConsent.consentToTargetingCookies),       consentToStricklyNecessaryCookies: new UntypedFormControl(true, [Validators.requiredTrue]),       consentToPerformanceCookies: new UntypedFormControl(false),       consentToTargetingCookies: new UntypedFormControl(false)     }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|this._formBuilder.group|anon|{       // consentToStricklyNecessaryCookies: new UntypedFormControl(true, [Validators.requiredTrue]),       // consentToPerformanceCookies: new UntypedFormControl(this._coockieConsent.consentToPerformanceCookies),       // consentToTargetingCookies: new UntypedFormControl(this._coockieConsent.consentToTargetingCookies),       consentToStricklyNecessaryCookies: new UntypedFormControl(true, [Validators.requiredTrue]),       consentToPerformanceCookies: new UntypedFormControl(false),       consentToTargetingCookies: new UntypedFormControl(false)     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._cookieService.set|_update|'cookie_consent',JSON.stringify(cookieConsent),30|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._cookieService.set|_update|'cookie_consent',JSON.stringify(cookieConsent),30|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|window.location.reload|_apply||#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|window.location.reload|_apply||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|new Date().getFullYear|anon||#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|new Date().getFullYear|anon||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/header/header.component.ts|effect|anon|() => {       const u = this.currentUser();       console.log('USER', u);     }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/header/header.component.ts|effect|anon|() => {       const u = this.currentUser();       console.log('USER', u);     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`class_method|components|hosting/web-app/src/app/components/header/header.component.ts|OSKHeaderComponent|signOut|#1`",
+      "factId": "class_method|components|hosting/web-app/src/app/components/header/header.component.ts|OSKHeaderComponent|signOut|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/header/header.component.ts|this.router.events.pipe(takeUntilDestroyed()).subscribe|anon|(event) => {       if (this.initialNavigation && event instanceof NavigationStart) {         this.currentUrl.set(event.url);         this.initialNavigation = false;       }       if (event instanceof NavigationEnd) {         this.currentUrl.set(event.urlAfterRedirects);       }     }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/header/header.component.ts|this.router.events.pipe(takeUntilDestroyed()).subscribe|anon|(event) => {       if (this.initialNavigation && event instanceof NavigationStart) {         this.currentUrl.set(event.url);         this.initialNavigation = false;       }       if (event instanceof NavigationEnd) {         this.currentUrl.set(event.urlAfterRedirects);       }     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|Component|anon|{   selector: 'osk-cookie-consent-banner',   templateUrl: './cookie_consent_banner.component.html',   styleUrls: ['./cookie_consent_banner.component.scss'],   standalone: true,   imports: [ReactiveFormsModule, NgClass] }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|Component|anon|{   selector: 'osk-cookie-consent-banner',   templateUrl: './cookie_consent_banner.component.html',   styleUrls: ['./cookie_consent_banner.component.scss'],   standalone: true,   imports: [ReactiveFormsModule, NgClass] }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|Injectable|anon|{   providedIn: 'root' }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|Injectable|anon|{   providedIn: 'root' }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|Injector.create|showBanner|{           providers: [             {               provide: OSKCookieConsent,               useValue: cookieConsent             }           ],           parent: this._injector         }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|Injector.create|showBanner|{           providers: [             {               provide: OSKCookieConsent,               useValue: cookieConsent             }           ],           parent: this._injector         }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|Component|anon|{   selector: 'osk-footer',   templateUrl: './footer.component.html',   styleUrls: ['./footer.component.scss'],   standalone: true,   changeDetection: ChangeDetectionStrategy.OnPush }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|Component|anon|{   selector: 'osk-footer',   templateUrl: './footer.component.html',   styleUrls: ['./footer.component.scss'],   standalone: true,   changeDetection: ChangeDetectionStrategy.OnPush }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|Component|anon|{   selector: 'osk-footer',   templateUrl: './footer.component.html',   styleUrls: ['./footer.component.scss'],   standalone: true,   changeDetection: ChangeDetectionStrategy.OnPush }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|Component|anon|{   selector: 'osk-footer',   templateUrl: './footer.component.html',   styleUrls: ['./footer.component.scss'],   standalone: true,   changeDetection: ChangeDetectionStrategy.OnPush }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|Component|anon|{   selector: 'osk-footer',   templateUrl: './footer.component.html',   styleUrls: ['./footer.component.scss'],   standalone: true,   changeDetection: ChangeDetectionStrategy.OnPush }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|Component|anon|{   selector: 'osk-footer',   templateUrl: './footer.component.html',   styleUrls: ['./footer.component.scss'],   standalone: true,   changeDetection: ChangeDetectionStrategy.OnPush }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/header/header.component.ts|Component|anon|{   selector: 'osk-header',   standalone: true,   imports: [RouterModule, MatIconModule, MatButtonModule, OSKTranslatePipe, MatMenuModule, NgClass],   templateUrl: './header.component.html',   styleUrl: './header.component.scss',   changeDetection: ChangeDetectionStrategy.OnPush }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/header/header.component.ts|Component|anon|{   selector: 'osk-header',   standalone: true,   imports: [RouterModule, MatIconModule, MatButtonModule, OSKTranslatePipe, MatMenuModule, NgClass],   templateUrl: './header.component.html',   styleUrl: './header.component.scss',   changeDetection: ChangeDetectionStrategy.OnPush }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|Component|anon|{   selector: 'osk-footer',   templateUrl: './footer.component.html',   styleUrls: ['./footer.component.scss'],   standalone: true,   changeDetection: ChangeDetectionStrategy.OnPush }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|Component|anon|{   selector: 'osk-footer',   templateUrl: './footer.component.html',   styleUrls: ['./footer.component.scss'],   standalone: true,   changeDetection: ChangeDetectionStrategy.OnPush }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|Component|anon|{   selector: 'osk-footer',   templateUrl: './footer.component.html',   styleUrls: ['./footer.component.scss'],   standalone: true,   changeDetection: ChangeDetectionStrategy.OnPush }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|Component|anon|{   selector: 'osk-footer',   templateUrl: './footer.component.html',   styleUrls: ['./footer.component.scss'],   standalone: true,   changeDetection: ChangeDetectionStrategy.OnPush }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|this._formBuilder.group|anon|{       // consentToStricklyNecessaryCookies: new UntypedFormControl(true, [Validators.requiredTrue]),       // consentToPerformanceCookies: new UntypedFormControl(this._coockieConsent.consentToPerformanceCookies),       // consentToTargetingCookies: new UntypedFormControl(this._coockieConsent.consentToTargetingCookies),       consentToStricklyNecessaryCookies: new UntypedFormControl(true, [Validators.requiredTrue]),       consentToPerformanceCookies: new UntypedFormControl(false),       consentToTargetingCookies: new UntypedFormControl(false)     }|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|this._formBuilder.group|anon|{       // consentToStricklyNecessaryCookies: new UntypedFormControl(true, [Validators.requiredTrue]),       // consentToPerformanceCookies: new UntypedFormControl(this._coockieConsent.consentToPerformanceCookies),       // consentToTargetingCookies: new UntypedFormControl(this._coockieConsent.consentToTargetingCookies),       consentToStricklyNecessaryCookies: new UntypedFormControl(true, [Validators.requiredTrue]),       consentToPerformanceCookies: new UntypedFormControl(false),       consentToTargetingCookies: new UntypedFormControl(false)     }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._cookieService.set|_update|'cookie_consent',JSON.stringify(cookieConsent),30|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._cookieService.set|_update|'cookie_consent',JSON.stringify(cookieConsent),30|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|@ng-bootstrap/ng-bootstrap|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|@ng-bootstrap/ng-bootstrap|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|@ng-bootstrap/ng-bootstrap|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|@ng-bootstrap/ng-bootstrap|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|ngx-cookie-service|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|ngx-cookie-service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|@angular/forms|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|@angular/forms|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|@angular/common|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/cookie-consent/cookie_consent_banner.component.ts|@angular/common|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/footer/footer.component.ts|@angular/core|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/footer/footer.component.ts|@angular/core|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|../../features/authentication/services/auth.service|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|../../features/authentication/services/auth.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|@oskey/core|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|@oskey/core|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|@oskey/core/types|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|@oskey/core/types|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|@oskey/translate|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|@oskey/translate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/header/header.component.ts|inject|anon|OSKCurrentUserToken|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/header/header.component.ts|inject|anon|OSKCurrentUserToken|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/header/header.component.ts|inject|anon|OSKAuthService|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/header/header.component.ts|inject|anon|OSKAuthService|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._cookieService.check|_load|'cookie_consent'|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._cookieService.check|_load|'cookie_consent'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._cookieService.get|_load|'cookie_consent'|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._cookieService.get|_load|'cookie_consent'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._cookieService.set|_update|'cookie_consent',JSON.stringify(cookieConsent),30|#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|this._cookieService.set|_update|'cookie_consent',JSON.stringify(cookieConsent),30|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|window.location.reload|_apply||#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/cookie-consent/services/cookie_consent.service.ts|window.location.reload|_apply||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|new Date().getFullYear|anon||#1`",
+      "factId": "call_expression|components|hosting/web-app/src/app/components/footer/footer.component.ts|new Date().getFullYear|anon||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|@angular/material/button|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|@angular/material/button|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|@oskey/translate|#1`",
+      "factId": "imports_dependency|components|hosting/web-app/src/app/components/header/header.component.ts|@oskey/translate|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 38,
+    "verified": 38,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

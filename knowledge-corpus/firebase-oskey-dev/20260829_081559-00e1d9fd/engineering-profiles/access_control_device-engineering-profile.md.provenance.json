@@ -1,0 +1,298 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260829_081559-00e1d9fd/engineering-profiles/access_control_device-engineering-profile.md",
+  "generatedAt": "2026-08-29T11:58:52.399Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260829_081559-00e1d9fd",
+    "repoName": "firebase-oskey-dev",
+    "module": "access_control_device",
+    "sourceCapabilities": [
+      "_module_root"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts` (lines 72-93)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts` (lines 50-74)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts` (lines 51-73)",
+      "file": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts` (lines 16-31)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts` (lines 16-31)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device.controller.ts` (lines 18-103)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts` (lines 9-38)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_access_commands.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts` (lines 17-93)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts` (lines 16-74)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts` (lines 9-31)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_state.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts` (lines 9-31)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_system_logs.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts` (lines 12-73)",
+      "file": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts` (lines 31-174)",
+      "file": "functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts` (line 46)",
+      "file": "functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts` (line 141)",
+      "file": "functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts` (line 86)",
+      "file": "functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|functions/src/modules/access_control_device/controllers/access_control_device.controller.ts|OSKAccessControlDeviceController|assignBuildingDoor|#1`",
+      "factId": "controller_method|access_control_device|functions/src/modules/access_control_device/controllers/access_control_device.controller.ts|OSKAccessControlDeviceController|assignBuildingDoor|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|functions/src/modules/access_control_device/controllers/access_control_device.controller.ts|OSKAccessControlDeviceController|unassignBuildingDoor|#1`",
+      "factId": "controller_method|access_control_device|functions/src/modules/access_control_device/controllers/access_control_device.controller.ts|OSKAccessControlDeviceController|unassignBuildingDoor|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|access_control_device|functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts|OSKActivityEnrichmentService|enrichAndValidateActivity|#1`",
+      "factId": "service_method|access_control_device|functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts|OSKActivityEnrichmentService|enrichAndValidateActivity|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`class_method|access_control_device|functions/src/modules/access_control_device/models/shared/access_control_device_token_payload.model.ts|OSKAccessControlDeviceTokenPayload|toSignedToken|#1`",
+      "factId": "class_method|access_control_device|functions/src/modules/access_control_device/models/shared/access_control_device_token_payload.model.ts|OSKAccessControlDeviceTokenPayload|toSignedToken|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|access_control_device|functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts|accessControlDevices/{accessControlDeviceId}/configs|#1`",
+      "factId": "firestore_path_touched|access_control_device|functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts|accessControlDevices/{accessControlDeviceId}/configs|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|access_control_device|functions/src/modules/access_control_device/index.ts|/accessControlDevices/{deviceId}/configs/{configId}|#1`",
+      "factId": "firestore_path_touched|access_control_device|functions/src/modules/access_control_device/index.ts|/accessControlDevices/{deviceId}/configs/{configId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|access_control_device|functions/src/modules/access_control_device/index.ts|/accessControlDevices/{deviceId}/publicKeys/{keyType}|#1`",
+      "factId": "firestore_path_touched|access_control_device|functions/src/modules/access_control_device/index.ts|/accessControlDevices/{deviceId}/publicKeys/{keyType}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|access_control_device|functions/src/modules/access_control_device/index.ts|/accessControlDevices/{deviceId}|#1`",
+      "factId": "firestore_path_touched|access_control_device|functions/src/modules/access_control_device/index.ts|/accessControlDevices/{deviceId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onAddAccessControlDevicePublicKeyCalled|#1`",
+      "factId": "api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onAddAccessControlDevicePublicKeyCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onDeleteAccessControlDevicePublicKeyCalled|#1`",
+      "factId": "api_contract|access_control_device|functions/src/modules/access_control_device/index.ts|onDeleteAccessControlDevicePublicKeyCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePath)             .onCreate|getFirestoreTriggers|OSKAccessControlDeviceService.onDocumentCreated|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePath)             .onCreate|getFirestoreTriggers|OSKAccessControlDeviceService.onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePath)             .onDelete|getFirestoreTriggers|OSKAccessControlDeviceService.onDocumentDeleted|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePath)             .onDelete|getFirestoreTriggers|OSKAccessControlDeviceService.onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#2`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onCreate|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentCreated|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onCreate|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onUpdate|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentUpdated|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onUpdate|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#2`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onDelete|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentDeleted|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDeviceConfigPath)             .onDelete|getFirestoreTriggers|OSKAccessControlDeviceConfigService.onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#3`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentCreated|#3",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePublicKeysPath)             .onCreate|getFirestoreTriggers|OSKAccessControlDevicePublicKeysService.onDocumentCreated|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePublicKeysPath)             .onCreate|getFirestoreTriggers|OSKAccessControlDevicePublicKeysService.onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#3`",
+      "factId": "firestore_trigger|access_control_device|functions/src/modules/access_control_device/index.ts|unknown|onDocumentDeleted|#3",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePublicKeysPath)             .onDelete|getFirestoreTriggers|OSKAccessControlDevicePublicKeysService.onDocumentDeleted|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/index.ts|db             .document(accessControlDevicePublicKeysPath)             .onDelete|getFirestoreTriggers|OSKAccessControlDevicePublicKeysService.onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts|OSKAccessControlDevicePublicKeysService.logger.logError|onAddAccessControlDevicePublicKeyCalled|'permission-denied: You are not part of an organization with the role accessControlDevice.publicKey.maintain'|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/services/access_control_device_public_keys.service.ts|OSKAccessControlDevicePublicKeysService.logger.logError|onAddAccessControlDevicePublicKeyCalled|'permission-denied: You are not part of an organization with the role accessControlDevice.publicKey.maintain'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts|OSKAccessControlDeviceConfigController.default._publishMessage|publishConfig|topicName,accessControlDeviceId,payload|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/controllers/access_control_device_config.controller.ts|OSKAccessControlDeviceConfigController.default._publishMessage|publishConfig|topicName,accessControlDeviceId,payload|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts|OSKAccessControlDevicePublicKeysController.default._publishMessage|publish|'accessControlDeviceConfigs',deviceId,{             deviceId,             keyType,             ...payload,         }|#1`",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/controllers/access_control_device_public_keys.controller.ts|OSKAccessControlDevicePublicKeysController.default._publishMessage|publish|'accessControlDeviceConfigs',deviceId,{             deviceId,             keyType,             ...payload,         }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts|axios.default.post|post|url,body,{                 headers: { authorization: `",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts|axios.default.post|post|url,body,{                 headers: { authorization: ",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts|axios.default.delete|delete|url,{                 headers: { authorization: `",
+      "factId": "call_expression|access_control_device|functions/src/modules/access_control_device/api/node-iot-api/services/node_iot_api.service.ts|axios.default.delete|delete|url,{                 headers: { authorization: ",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 45,
+    "verified": 45,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

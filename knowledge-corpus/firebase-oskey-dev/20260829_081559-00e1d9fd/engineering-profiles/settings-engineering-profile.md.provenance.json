@@ -1,0 +1,571 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260829_081559-00e1d9fd/engineering-profiles/settings-engineering-profile.md",
+  "generatedAt": "2026-08-29T13:36:33.726Z",
+  "generatorType": "llm",
+  "generatedFrom": {
+    "runId": "20260829_081559-00e1d9fd",
+    "repoName": "firebase-oskey-dev",
+    "module": "settings",
+    "sourceCapabilities": [
+      "_module_root",
+      "appstore",
+      "role",
+      "workflow"
+    ],
+    "deterministicArtifacts": [
+      "cross-module-dependencies.json",
+      "intra-module-coupling.json",
+      "resolved-engineering-graph.json (call edges + ownership hints)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default"
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/services/setting.service.ts` (lines 17-51)",
+      "file": "functions/src/modules/settings/services/setting.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/controllers/setting.controller.ts` (lines 12-34)",
+      "file": "functions/src/modules/settings/controllers/setting.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/index.ts` (lines 23-37)",
+      "file": "functions/src/modules/settings/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/services/setting.service.ts` (lines 17-51)",
+      "file": "functions/src/modules/settings/services/setting.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts` (lines 22-40)",
+      "file": "functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts` (lines 22-40)",
+      "file": "functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/modules/workflow/index.ts` (lines 36-58)",
+      "file": "functions/src/modules/settings/modules/workflow/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/controllers/setting.controller.ts` (lines 19-33)",
+      "file": "functions/src/modules/settings/controllers/setting.controller.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/index.ts` (lines 17-51)",
+      "file": "functions/src/modules/settings/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/index.ts` (lines 23-28)",
+      "file": "functions/src/modules/settings/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/modules/role/index.ts` (line 56)",
+      "file": "functions/src/modules/settings/modules/role/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/modules/role/index.ts` (line 55)",
+      "file": "functions/src/modules/settings/modules/role/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/modules/role/index.ts` (line 57)",
+      "file": "functions/src/modules/settings/modules/role/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/modules/role/index.ts` (line 54)",
+      "file": "functions/src/modules/settings/modules/role/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/modules/workflow/index.ts` (lines 39-45)",
+      "file": "functions/src/modules/settings/modules/workflow/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/modules/workflow/index.ts` (lines 48-54)",
+      "file": "functions/src/modules/settings/modules/workflow/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/settings/services/setting.service.ts` (lines 32-38)",
+      "file": "functions/src/modules/settings/services/setting.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsService|getAppstoreInformation|#1`",
+      "factId": "service_method|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsService|getAppstoreInformation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsService|validateAppStoreActivationCode|#1`",
+      "factId": "service_method|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsService|validateAppStoreActivationCode|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsService.logger.logError|validateAppStoreActivationCode|'failed-precondition: The function must be called from an App Check verified app.'|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsService.logger.logError|validateAppStoreActivationCode|'failed-precondition: The function must be called from an App Check verified app.'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts|OSKAppStoreSettingsController`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts|OSKAppStoreSettingsController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|settings|functions/src/modules/settings/modules/role/controllers/role.controller.model.ts|OSKRoleController|create|#1`",
+      "factId": "controller_method|settings|functions/src/modules/settings/modules/role/controllers/role.controller.model.ts|OSKRoleController|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|settings|functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts|OSKCompositeRoleController|create|#1`",
+      "factId": "controller_method|settings|functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts|OSKCompositeRoleController|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|settings|functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts|OSKCompositeRoleController|createorUpdateDependantRoles|#1`",
+      "factId": "controller_method|settings|functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts|OSKCompositeRoleController|createorUpdateDependantRoles|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|settings|functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts|OSKCompositeRoleController|deleteOrUpdateDependantRoles|#1`",
+      "factId": "controller_method|settings|functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts|OSKCompositeRoleController|deleteOrUpdateDependantRoles|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|settings|functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts|OSKConsolidatedRolesController|buildConsolidatedRoles|#1`",
+      "factId": "controller_method|settings|functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts|OSKConsolidatedRolesController|buildConsolidatedRoles|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|settings|functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts|OSKConsolidatedRolesController|checkUserPermissions|#1`",
+      "factId": "controller_method|settings|functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts|OSKConsolidatedRolesController|checkUserPermissions|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|settings|functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts|OSKConsolidatedRolesController|generateOrganizationUserRoles|#1`",
+      "factId": "controller_method|settings|functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts|OSKConsolidatedRolesController|generateOrganizationUserRoles|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|settings|functions/src/modules/settings/modules/role/services/composite_role.service.ts|OSKCompositeRoleService|onCreateCompositeRolesCalled|#1`",
+      "factId": "service_method|settings|functions/src/modules/settings/modules/role/services/composite_role.service.ts|OSKCompositeRoleService|onCreateCompositeRolesCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|settings|functions/src/modules/settings/modules/workflow/index.ts|onCreateBuildingRequestWorkflowsCalled|#1`",
+      "factId": "api_contract|settings|functions/src/modules/settings/modules/workflow/index.ts|onCreateBuildingRequestWorkflowsCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|settings|functions/src/modules/settings/modules/workflow/index.ts|onCreateOrganizationRequestWorkflowsCalled|#1`",
+      "factId": "api_contract|settings|functions/src/modules/settings/modules/workflow/index.ts|onCreateOrganizationRequestWorkflowsCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/controllers/setting.controller.ts|OSKSettingController`",
+      "factId": "source_class|settings|functions/src/modules/settings/controllers/setting.controller.ts|OSKSettingController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/services/setting.service.ts|OSKSettingService`",
+      "factId": "source_class|settings|functions/src/modules/settings/services/setting.service.ts|OSKSettingService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts|OSKAppStoreSettingsController`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts|OSKAppStoreSettingsController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsService`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts|OSKCompositeRoleController`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/role/controllers/composite_role.contoller.model.ts|OSKCompositeRoleController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/role/controllers/role.controller.model.ts|OSKRoleController`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/role/controllers/role.controller.model.ts|OSKRoleController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts|OSKConsolidatedRolesController`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts|OSKConsolidatedRolesController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/role/services/composite_role.service.ts|OSKCompositeRoleService`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/role/services/composite_role.service.ts|OSKCompositeRoleService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/role/services/role.service.ts|OSKRoleService`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/role/services/role.service.ts|OSKRoleService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts|OSKBuildingRequestWorkflowController`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts|OSKBuildingRequestWorkflowController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts|OSKOrganizationRequestWorkflowController`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts|OSKOrganizationRequestWorkflowController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts|OSKBuildingRequestWorkflowService`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts|OSKBuildingRequestWorkflowService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|settings|functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts|OSKOrganizationRequestWorkflowService`",
+      "factId": "source_class|settings|functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts|OSKOrganizationRequestWorkflowService",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|settings|functions/src/modules/settings/models/documents/setting_document.model.ts|OSKSetting|viewRole|#1`",
+      "factId": "model_property|settings|functions/src/modules/settings/models/documents/setting_document.model.ts|OSKSetting|viewRole|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|settings|functions/src/modules/settings/models/documents/setting_document.model.ts|OSKSetting|createRole|#1`",
+      "factId": "model_property|settings|functions/src/modules/settings/models/documents/setting_document.model.ts|OSKSetting|createRole|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|settings|functions/src/modules/settings/models/documents/setting_document.model.ts|OSKSetting|editRole|#1`",
+      "factId": "model_property|settings|functions/src/modules/settings/models/documents/setting_document.model.ts|OSKSetting|editRole|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|settings|functions/src/modules/settings/models/documents/setting_document.model.ts|OSKSetting|deleteRole|#1`",
+      "factId": "model_property|settings|functions/src/modules/settings/models/documents/setting_document.model.ts|OSKSetting|deleteRole|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|settings|functions/src/modules/settings/models/documents/setting_document.model.ts|OSKSetting|adminCompositeRole|#1`",
+      "factId": "model_property|settings|functions/src/modules/settings/models/documents/setting_document.model.ts|OSKSetting|adminCompositeRole|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts|OSKAppStoreSettingsController.default._get|get|'/settings',documentId|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/appstore/controllers/app_store_settings.controller.ts|OSKAppStoreSettingsController.default._get|get|'/settings',documentId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsController.default.get|getAppstoreInformation|'appstore'|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsController.default.get|getAppstoreInformation|'appstore'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|settings|functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts|OSKAppStoreSettings|stores|#1`",
+      "factId": "model_property|settings|functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts|OSKAppStoreSettings|stores|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|settings|functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts|OSKAppStoreSettings|activationCodes|#1`",
+      "factId": "model_property|settings|functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts|OSKAppStoreSettings|activationCodes|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|settings|functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts|OSKAppStoreSettings|creationDate|#1`",
+      "factId": "model_property|settings|functions/src/modules/settings/modules/appstore/models/documents/app_store_settings_document.model.ts|OSKAppStoreSettings|creationDate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|settings|functions/src/modules/settings/modules/role/index.ts|/settings/roles/compositeRoles/{compositeRoleId}|#1`",
+      "factId": "firestore_path_touched|settings|functions/src/modules/settings/modules/role/index.ts|/settings/roles/compositeRoles/{compositeRoleId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|settings|functions/src/modules/settings/modules/role/index.ts|/setting/roles/roles/{roleId}|#1`",
+      "factId": "firestore_path_touched|settings|functions/src/modules/settings/modules/role/index.ts|/setting/roles/roles/{roleId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|settings|functions/src/modules/settings/modules/workflow/index.ts|/settings/workflows/buildingRequests/{workflowId}|#1`",
+      "factId": "firestore_path_touched|settings|functions/src/modules/settings/modules/workflow/index.ts|/settings/workflows/buildingRequests/{workflowId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts|OSKBuildingRequestWorkflowController.default._get|get|'/settings/workflows/buildingRequest',roleId|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/workflow/controllers/building_request_workflow.controller.ts|OSKBuildingRequestWorkflowController.default._get|get|'/settings/workflows/buildingRequest',roleId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|settings|functions/src/modules/settings/modules/workflow/index.ts|/setting/workflows/organizationRequest/{workflowId}|#1`",
+      "factId": "firestore_path_touched|settings|functions/src/modules/settings/modules/workflow/index.ts|/setting/workflows/organizationRequest/{workflowId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts|this._get|get|'/settings/workflows/organizationRequests',roleId|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/workflow/controllers/organization_request_workflow.contoller.ts|this._get|get|'/settings/workflows/organizationRequests',roleId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|settings|functions/src/modules/settings/index.ts|onCreateSettingsCalled|#1`",
+      "factId": "api_contract|settings|functions/src/modules/settings/index.ts|onCreateSettingsCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/index.ts|getRoleFirestoreTriggers|getSettingsFirestoreTriggers|functionBuilder|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/index.ts|getRoleFirestoreTriggers|getSettingsFirestoreTriggers|functionBuilder|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/index.ts|getWorkflowFirestoreTriggers|getSettingsFirestoreTriggers|functionBuilder|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/index.ts|getWorkflowFirestoreTriggers|getSettingsFirestoreTriggers|functionBuilder|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|settings|functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model.ts|OSKAppStoreActivationRequest|#1`",
+      "factId": "type_alias|settings|functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model.ts|OSKAppStoreActivationRequest|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`type_alias|settings|functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model.ts|OSKAppStoreActivationResponse|#1`",
+      "factId": "type_alias|settings|functions/src/modules/settings/modules/appstore/models/functions/app_store_settings_request.model.ts|OSKAppStoreActivationResponse|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|settings|functions/src/modules/settings/modules/role/index.ts|getAllCompositeRoles|#1`",
+      "factId": "api_contract|settings|functions/src/modules/settings/modules/role/index.ts|getAllCompositeRoles|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|settings|functions/src/modules/settings/modules/role/index.ts|getAllRoles|#1`",
+      "factId": "api_contract|settings|functions/src/modules/settings/modules/role/index.ts|getAllRoles|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|settings|functions/src/modules/settings/modules/role/index.ts|getOrganizationCompositeRoles|#1`",
+      "factId": "api_contract|settings|functions/src/modules/settings/modules/role/index.ts|getOrganizationCompositeRoles|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|settings|functions/src/modules/settings/modules/role/index.ts|onCreateCompositeRolesCalled|#1`",
+      "factId": "api_contract|settings|functions/src/modules/settings/modules/role/index.ts|onCreateCompositeRolesCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|settings|functions/src/modules/settings/modules/role/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|settings|functions/src/modules/settings/modules/role/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|settings|functions/src/modules/settings/modules/role/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|settings|functions/src/modules/settings/modules/role/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|settings|functions/src/modules/settings/modules/role/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|settings|functions/src/modules/settings/modules/role/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|settings|functions/src/modules/settings/modules/role/index.ts|unknown|onDocumentCreated|#2`",
+      "factId": "firestore_trigger|settings|functions/src/modules/settings/modules/role/index.ts|unknown|onDocumentCreated|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|settings|functions/src/modules/settings/modules/workflow/index.ts|onCreateBuildingRequestWorkflowsCalled|#1`",
+      "factId": "api_contract|settings|functions/src/modules/settings/modules/workflow/index.ts|onCreateBuildingRequestWorkflowsCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|settings|functions/src/modules/settings/modules/workflow/index.ts|onCreateOrganizationRequestWorkflowsCalled|#1`",
+      "factId": "api_contract|settings|functions/src/modules/settings/modules/workflow/index.ts|onCreateOrganizationRequestWorkflowsCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/index.ts|functionBuilder.runWith|getSettingsCallableFunction|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/index.ts|functionBuilder.runWith|getSettingsCallableFunction|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/services/setting.service.ts|OSKSettingService.logger.logError|onCreateSettingsCalled|'Unauthenticated: You must be authenticated to use onCreateSettingsCalled()'|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/services/setting.service.ts|OSKSettingService.logger.logError|onCreateSettingsCalled|'Unauthenticated: You must be authenticated to use onCreateSettingsCalled()'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsService.logger.logError|validateAppStoreActivationCode|'failed-precondition: The function must be called from an App Check verified app.'|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKAppStoreSettingsService.logger.logError|validateAppStoreActivationCode|'failed-precondition: The function must be called from an App Check verified app.'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKSecurityChecks.checkParameters|validateAppStoreActivationCode|[{ name: 'activationCode', value: request.activationCode, type: 'string' }]|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/appstore/services/app_store_settings.service.ts|OSKSecurityChecks.checkParameters|validateAppStoreActivationCode|[{ name: 'activationCode', value: request.activationCode, type: 'string' }]|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|settings|functions/src/modules/settings/modules/role/services/composite_role.service.ts|v1.admin|#1`",
+      "factId": "permission_candidate|settings|functions/src/modules/settings/modules/role/services/composite_role.service.ts|v1.admin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_candidate|settings|functions/src/modules/settings/modules/role/data/composite_role.data.ts|v1.admin.accessControlDevice.admin|#1`",
+      "factId": "permission_candidate|settings|functions/src/modules/settings/modules/role/data/composite_role.data.ts|v1.admin.accessControlDevice.admin|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/role/services/composite_role.service.ts|OSKSecurityChecks.user_security_checks|getAllCompositeRoles|{ context }|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/role/services/composite_role.service.ts|OSKSecurityChecks.user_security_checks|getAllCompositeRoles|{ context }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/role/services/role.service.ts|OSKUserSecurityChecks|getAllRoles|{ checkUserIdMatch: false }|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/role/services/role.service.ts|OSKUserSecurityChecks|getAllRoles|{ checkUserIdMatch: false }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`permission_error|settings|functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts|permission-denied|#1`",
+      "factId": "permission_error|settings|functions/src/modules/settings/modules/role/controllers/consolidated_roles.controller.model.ts|permission-denied|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/workflow/index.ts|functionBuilder.runWith|getWorkflowCallableFunction|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/workflow/index.ts|functionBuilder.runWith|getWorkflowCallableFunction|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts|OSKBuildingRequestWorkflowService.logger.logError|onCreateBuildingRequestWorkflowsCalled|'Failed-precondition: The function must be called from an App Check verified app.'|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/workflow/services/building_request_workflow.service.ts|OSKBuildingRequestWorkflowService.logger.logError|onCreateBuildingRequestWorkflowsCalled|'Failed-precondition: The function must be called from an App Check verified app.'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts|OSKOrganizationRequestWorkflowService.logger.logError|onCreateOrganizationRequestWorkflowsCalled|'Unauthenticated: You must be authenticated to use onCreateOrganizationRequestWorkflowsCalled()'|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/workflow/services/organization_request_workflow.service.ts|OSKOrganizationRequestWorkflowService.logger.logError|onCreateOrganizationRequestWorkflowsCalled|'Unauthenticated: You must be authenticated to use onCreateOrganizationRequestWorkflowsCalled()'|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/index.ts|functionBuilder.runWith|getSettingsCallableFunction|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/index.ts|functionBuilder.runWith|getSettingsCallableFunction|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|settings|functions/src/modules/settings/modules/workflow/index.ts|functionBuilder.runWith|getWorkflowCallableFunction|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1`",
+      "factId": "call_expression|settings|functions/src/modules/settings/modules/workflow/index.ts|functionBuilder.runWith|getWorkflowCallableFunction|{ enforceAppCheck: !process.env.OSK_FIREBASE_EMULATOR }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|settings|functions/src/modules/settings/modules/role/index.ts|onCreateCompositeRolesCalled|#1`",
+      "factId": "api_contract|settings|functions/src/modules/settings/modules/role/index.ts|onCreateCompositeRolesCalled|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 90,
+    "verified": 90,
+    "lineUnverified": 0,
+    "fileNotFound": 0
+  }
+}

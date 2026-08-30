@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260829_081559-00e1d9fd/apis/organization-api-reference.md",
+  "generatedAt": "2026-08-29T13:36:02.905Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260829_081559-00e1d9fd",
+    "repoName": "firebase-oskey-dev",
+    "module": "organization",
+    "sourceCapabilities": [
+      "_module_root",
+      "organization_building",
+      "organization_building_invitation",
+      "organization_entity",
+      "organization_inhabitant",
+      "organization_intercom_ communication",
+      "organization_onboarding_inhabitant",
+      "organization_pending",
+      "organization_prompt_templates",
+      "organization_property",
+      "organization_residents",
+      "organization_user",
+      "organization_user_access",
+      "organization_user_invitation"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_building/index.ts` (lines 39-51)",
+      "file": "functions/src/modules/organization/modules/organization_building/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_entity/index.ts` (lines 228-278)",
+      "file": "functions/src/modules/organization/modules/organization_entity/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_entity/index.ts` (lines 84-132)",
+      "file": "functions/src/modules/organization/modules/organization_entity/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_entity/index.ts` (lines 184-227)",
+      "file": "functions/src/modules/organization/modules/organization_entity/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_entity/index.ts` (lines 30-49)",
+      "file": "functions/src/modules/organization/modules/organization_entity/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_entity/index.ts` (lines 343-382)",
+      "file": "functions/src/modules/organization/modules/organization_entity/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_entity/index.ts` (lines 50-83)",
+      "file": "functions/src/modules/organization/modules/organization_entity/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_entity/index.ts` (lines 279-342)",
+      "file": "functions/src/modules/organization/modules/organization_entity/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_entity/index.ts` (lines 134-183)",
+      "file": "functions/src/modules/organization/modules/organization_entity/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/organization/modules/organization_pending/index.ts` (lines 21-35)",
+      "file": "functions/src/modules/organization/modules/organization_pending/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getAllOrganizationInhabitants|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getAllOrganizationInhabitants|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getInhabitantDetailsById|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_inhabitant/index.ts|getInhabitantDetailsById|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|create|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|delete|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|delete|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|get|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|get|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|getAll|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|getAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|update|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_prompt_templates/index.ts|update|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|cancelUsersInvitation|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|cancelUsersInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|createPMPUserWithInvitation|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|createPMPUserWithInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|invitePMPUserWithInvitation|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|invitePMPUserWithInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|inviteUserWithInvitation|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|inviteUserWithInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|processPMPInvitation|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|processPMPInvitation|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|queryPMPInvitations|#1`",
+      "factId": "api_contract|organization|functions/src/modules/organization/modules/organization_user_invitation/index.ts|queryPMPInvitations|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 23,
+    "verified": 16,
+    "lineUnverified": 7,
+    "fileNotFound": 0
+  }
+}

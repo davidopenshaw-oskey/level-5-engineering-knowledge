@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/node-iot-api-oskey-io/20260828_165412-a6cba122/node-iot-api-oskey-io-repo-engineering-report.md",
+  "generatedAt": "2026-08-29T07:53:07.142Z",
+  "generatorType": "llm+deterministic",
+  "generatedFrom": {
+    "runId": "20260828_165412-a6cba122",
+    "repoName": "node-iot-api-oskey-io",
+    "sourceModules": [
+      "access_control_device"
+    ],
+    "deterministicArtifacts": [
+      "facts/modules.json",
+      "per-module capability-packs directory counts",
+      "resolved-engineering-graph.json (confirmedCallEdges, rbacRequirements)",
+      "rbac-roles.json (existence cross-check -- not configured for this repo as of this writing; reported as not_configured, not treated as a failure)"
+    ],
+    "connectiveLlmConfigKey": "gemini-default",
+    "note": "Only Section 1 (Executive Summary) is LLM-generated, from this repo's one module's own extract. Sections 2 through 7 (Module Inventory, Major Subsystems, Module Dependency Overview, RBAC Requirements Catalog, Cross-Cutting Patterns, Repo-Wide Risks) are all deterministic -- either assembled from Phase 1 artifacts or fixed text, since this repo's single-module structure makes real cross-module synthesis structurally impossible for Major Subsystems/Cross-Cutting Patterns/Repo-Wide Risks (unlike Firebase's/Angular's copy of this script, which asks an LLM to write all four). See contracts/02-repo-synthesis-reduce.md. Citations in the LLM-generated section name modules, not fact IDs -- the fact-based citation validator (_shared/citation-validator.ts) does not apply at this level and was NOT run against this document."
+  }
+}

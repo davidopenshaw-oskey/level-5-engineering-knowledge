@@ -1,0 +1,411 @@
+{
+  "schemaVersion": "1.0.0",
+  "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/firebase-oskey-dev/20260829_081559-00e1d9fd/apis/user-api-reference.md",
+  "generatedAt": "2026-08-29T13:38:23.402Z",
+  "generatorType": "deterministic",
+  "generatedFrom": {
+    "runId": "20260829_081559-00e1d9fd",
+    "repoName": "firebase-oskey-dev",
+    "module": "user",
+    "sourceCapabilities": [
+      "_module_root",
+      "user_access",
+      "user_activity",
+      "user_call",
+      "user_device",
+      "user_intercoms",
+      "user_invitation",
+      "user_notification",
+      "user_organization",
+      "user_pincode",
+      "user_settings"
+    ],
+    "note": "Assembled entirely from capability outputs -- no LLM call for this document."
+  },
+  "citations": [
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_activity/index.ts` (lines 42-51)",
+      "file": "functions/src/modules/user/modules/user_activity/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_activity/index.ts` (lines 42-51)",
+      "file": "functions/src/modules/user/modules/user_activity/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/index.ts` (lines 38-53)",
+      "file": "functions/src/modules/user/modules/user_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/index.ts` (lines 54-71)",
+      "file": "functions/src/modules/user/modules/user_device/index.ts",
+      "status": "line-unverified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/index.ts` (lines 43-45)",
+      "file": "functions/src/modules/user/modules/user_device/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/services/user_device.service.ts` (lines 73-115)",
+      "file": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/services/user_device.service.ts` (lines 117-140)",
+      "file": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_device/services/user_device.service.ts` (lines 142-167)",
+      "file": "functions/src/modules/user/modules/user_device/services/user_device.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/index.ts` (lines 84-99)",
+      "file": "functions/src/modules/user/modules/user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/index.ts` (line 87)",
+      "file": "functions/src/modules/user/modules/user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/index.ts` (line 97)",
+      "file": "functions/src/modules/user/modules/user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/index.ts` (line 96)",
+      "file": "functions/src/modules/user/modules/user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/index.ts` (line 88)",
+      "file": "functions/src/modules/user/modules/user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/index.ts` (line 93)",
+      "file": "functions/src/modules/user/modules/user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/index.ts` (line 94)",
+      "file": "functions/src/modules/user/modules/user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/index.ts` (line 95)",
+      "file": "functions/src/modules/user/modules/user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/index.ts` (line 92)",
+      "file": "functions/src/modules/user/modules/user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_invitation/index.ts` (line 89)",
+      "file": "functions/src/modules/user/modules/user_invitation/index.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/services/user_notification.service.ts` (lines 155-159)",
+      "file": "functions/src/modules/user/modules/user_notification/services/user_notification.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/services/user_notification.service.ts` (lines 163-167)",
+      "file": "functions/src/modules/user/modules/user_notification/services/user_notification.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_notification/services/user_notification.service.ts` (lines 178-181)",
+      "file": "functions/src/modules/user/modules/user_notification/services/user_notification.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts` (lines 162-198)",
+      "file": "functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "file-line",
+      "raw": "`functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts` (lines 143-160)",
+      "file": "functions/src/modules/user/modules/user_pincode/services/user_pincode.service.ts",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|deleteUserProfileImage|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|deleteUserProfileImage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|getCurrentUserUnits|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|getCurrentUserUnits|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|getInhabitantType|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|getInhabitantType|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|getUserIdsByEmailOrPhone|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|getUserIdsByEmailOrPhone|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|initiateEmailChange|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|initiateEmailChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|initiatePhoneNumberChange|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|initiatePhoneNumberChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|onUpdatePhoneNumberCalled|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|onUpdatePhoneNumberCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|onUpdatePublicProfileCalled|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|onUpdatePublicProfileCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|onUpdateUserOnboardingStatusCalled|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|onUpdateUserOnboardingStatusCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|onUpdateUserProfileAndPhoneNumberCalled|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|onUpdateUserProfileAndPhoneNumberCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|onUpdateUserSettingsLanguageCalled|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|onUpdateUserSettingsLanguageCalled|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|requestMyAccountDeletion|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|requestMyAccountDeletion|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|verifyAndCompleteEmailChange|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|verifyAndCompleteEmailChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/index.ts|verifyAndCompletePhoneNumberChange|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/index.ts|verifyAndCompletePhoneNumberChange|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountCreated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountCreated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/index.ts|unknown|onAccountDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|user|functions/src/modules/user/index.ts|OSKUserService.onDeleteAccount|getScheduledFunctionTriggers||#1`",
+      "factId": "call_expression|user|functions/src/modules/user/index.ts|OSKUserService.onDeleteAccount|getScheduledFunctionTriggers||#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onDeleteNotificationToken|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onDeleteNotificationToken|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onInsertOrUpdateNotificationToken|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onInsertOrUpdateNotificationToken|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onTestNotification|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_notification/index.ts|onTestNotification|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|user|functions/src/modules/user/modules/user_notification/index.ts|/users/{userId}/notifications/{notificationId}|#1`",
+      "factId": "firestore_path_touched|user|functions/src/modules/user/modules/user_notification/index.ts|/users/{userId}/notifications/{notificationId}|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentUpdated|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentUpdated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_path_touched|user|functions/src/modules/user/modules/user_notification/index.ts|/users/{userId}/notifications/{notificationId}|#2`",
+      "factId": "firestore_path_touched|user|functions/src/modules/user/modules/user_notification/index.ts|/users/{userId}/notifications/{notificationId}|#2",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentDeleted|#1`",
+      "factId": "firestore_trigger|user|functions/src/modules/user/modules/user_notification/index.ts|unknown|onDocumentDeleted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|getCurrentUserOrganizationInvitations|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|getCurrentUserOrganizationInvitations|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationAccepted|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationAccepted|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|isApproved|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|isApproved|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|organizationId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|organizationId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|userId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationRejected|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_organization/index.ts|userOrganizationInvitationRejected|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|isApproved|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|isApproved|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|organizationId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|organizationId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|userId|#1`",
+      "factId": "model_property|user|functions/src/modules/user/modules/user_organization/models/functions/user_organization_invitation_pending_request_document.model.ts|OSKUserOrganizationInvitationPendingRequest|userId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|createUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|createUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|deleteUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|deleteUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getAllUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getAllUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|getUserSettingsBuilding|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|updateUserSettingsBuilding|#1`",
+      "factId": "api_contract|user|functions/src/modules/user/modules/user_settings/index.ts|updateUserSettingsBuilding|#1",
+      "status": "verified"
+    }
+  ],
+  "citationSummary": {
+    "total": 63,
+    "verified": 62,
+    "lineUnverified": 1,
+    "fileNotFound": 0
+  }
+}
