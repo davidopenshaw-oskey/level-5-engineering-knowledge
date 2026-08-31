@@ -170,3 +170,98 @@ export function buildPublicInterfacesSection(facts: any[]): string {
   }
   return lines.join("\n");
 }
+
+/** Deterministically builds capability contract Section 4 (API Contracts &
+ * Firestore Triggers) from `api_contract` + `firestore_trigger` facts, the
+ * same "assembled, not synthesized" treatment as buildPublicInterfacesSection
+ * above. Added 2026-08-30 as part of the module-level consolidation cutover
+ * (governance/roadmap/firebase-oskey-dev/10-module-level-production-cutover-
+ * plan.md, Part A Step 1) -- unlike Section 5 (Data Ownership), checked and
+ * confirmed these ARE clean field-renders: an api_contract fact's
+ * contractType/handlerName/handlerResolutionStatus are already-resolved,
+ * literal fields, no path-construction-style interpretation needed. Reuses
+ * the existing resolveApiSchemas/formatResolvedApiSchemas (api-schema-
+ * resolver.ts) for the request/response schema join, which was already
+ * deterministic before this change -- this just folds the surrounding
+ * per-endpoint metadata listing (contract type, handler resolution status)
+ * into the same deterministic pass instead of leaving it as LLM prose. */
+export function buildApiContractsSection(facts: any[]): string {
+  const apiContracts = facts.filter(f => f.type === "api_contract");
+  const firestoreTriggers = facts.filter(f => f.type === "firestore_trigger");
+
+  if (apiContracts.length === 0 && firestoreTriggers.length === 0) {
+    return "(no api_contract or firestore_trigger facts evidenced in this capability's pack)";
+  }
+
+  const lines: string[] = [];
+  if (apiContracts.length > 0) {
+    lines.push(`**API Contracts**`);
+    const sorted = [...apiContracts].sort((a, b) => (a.value ?? "").localeCompare(b.value ?? ""));
+    for (const f of sorted) {
+      lines.push(
+        `- **${f.value ?? f.method ?? "(unnamed)"}** (${f.contractType ?? "unknown"}) -- handler \`${f.handlerName ?? "(unknown)"}\`, resolution: ${f.handlerResolutionStatus ?? "unknown"} \`\`${f.id}\`\``
+      );
+    }
+    const resolved = resolveApiSchemas(facts);
+    lines.push("");
+    lines.push(`**Resolved API Request/Response Schemas** (deterministic join, not narrative)`);
+    lines.push(formatResolvedApiSchemas(resolved));
+  }
+
+  if (firestoreTriggers.length > 0) {
+    if (lines.length > 0) lines.push("");
+    lines.push(`**Firestore Triggers**`);
+    const sorted = [...firestoreTriggers].sort((a, b) => (a.handlerName ?? "").localeCompare(b.handlerName ?? ""));
+    for (const f of sorted) {
+      lines.push(
+        `- Trigger handler \`${f.handlerName ?? "(unknown)"}\` -- resolution: ${f.handlerResolutionStatus ?? "unknown"} \`\`${f.id}\`\``
+      );
+    }
+  }
+
+  return lines.join("\n");
+}
+
+/** Deterministically builds capability contract Section 8 (External Hooks)
+ * from `pubsub_publish_call`/`pubsub_topic`/`external_hook`/
+ * `pubsub_event_route` facts. Added 2026-08-30, same cutover plan as
+ * buildApiContractsSection above. Checked against real data: these facts'
+ * fields (sourceHandler/dataType/targetCalls for event routes; the raw
+ * literal value for publish calls and external hooks) are already-resolved,
+ * literal -- no interpretation needed to enumerate them, only to categorize
+ * WHAT a hook represents (e.g. "this is Cloud Tasks scheduling"), which is
+ * intentionally left to the LLM's Responsibilities/Open-Questions sections
+ * rather than attempted here -- this function's job is coverage
+ * (which hooks exist, where), not classification. */
+export function buildExternalHooksSection(facts: any[]): string {
+  const publishCalls = facts.filter(f => f.type === "pubsub_publish_call");
+  const topics = facts.filter(f => f.type === "pubsub_topic");
+  const externalHooks = facts.filter(f => f.type === "external_hook");
+  const eventRoutes = facts.filter(f => f.type === "pubsub_event_route");
+
+  if (publishCalls.length === 0 && topics.length === 0 && externalHooks.length === 0 && eventRoutes.length === 0) {
+    return "(no external hooks, Pub/Sub topics, or environment variables directly evidenced in this capability's pack)";
+  }
+
+  const lines: string[] = [];
+  const renderGroup = (title: string, items: any[], render: (f: any) => string) => {
+    if (items.length === 0) return;
+    if (lines.length > 0) lines.push("");
+    lines.push(`**${title}**`);
+    for (const f of items) lines.push(render(f));
+  };
+
+  renderGroup("Pub/Sub Publish Calls", publishCalls, f => `- \`${f.value ?? "(unknown)"}\` (detection: ${f.detectionMethod ?? "unknown"}) \`\`${f.id}\`\``);
+  renderGroup("Pub/Sub Topics", topics, f => `- \`${f.value ?? "(unknown)"}\` \`\`${f.id}\`\``);
+  renderGroup("External Hooks", externalHooks, f => `- \`${f.value ?? "(unknown)"}\` (${f.file}:${f.line}) \`\`${f.id}\`\``);
+  renderGroup(
+    "Pub/Sub Event Routes",
+    eventRoutes,
+    f =>
+      `- \`${f.sourceHandler ?? "(unknown)"}\` -> data type \`${f.dataType ?? "(unknown)"}\` (resolution: ${f.dataTypeResolutionStatus ?? "unknown"}), targets: ${
+        Array.isArray(f.targetCalls) ? f.targetCalls.join(", ") : "(none)"
+      } \`\`${f.id}\`\``
+  );
+
+  return lines.join("\n");
+}

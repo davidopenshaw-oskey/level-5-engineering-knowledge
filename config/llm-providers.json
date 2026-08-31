@@ -30,6 +30,42 @@
       "maxTokens": 65536,
       "temperature": 0.0
     },
+    "gemini-default-temp04": {
+      "_note": "2026-08-31: identical to gemini-default except temperature 0.4 -- third point on the temperature curve for the module-level-architecture variance check (tasks.md item 25), alongside the existing temp0/temp0-run2 pair (0.0) and gemini-default-varcheck-a-run1/run2 (0.2, production default). Same modules (organization/core/access_control_device).",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash",
+      "projectId": "test-ai-oskey-io",
+      "location": "global",
+      "maxTokens": 65536,
+      "temperature": 0.4
+    },
+    "gemini-default-temp04-run2": {
+      "_note": "2026-08-31: identical to gemini-default-temp04 -- separate COMPARISON_MODE output path for the second run, same reason as the existing temp0/temp0-run2 pair.",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash",
+      "projectId": "test-ai-oskey-io",
+      "location": "global",
+      "maxTokens": 65536,
+      "temperature": 0.4
+    },
+    "gemini-default-varcheck-a-run1": {
+      "_note": "2026-08-31: identical to gemini-default (temp 0.2) -- pure namespacing key for Test A of the module-level-architecture variance check (governance/roadmap/firebase-oskey-dev/tasks.md, item 25 once recorded). Real self-consistency pair (run1/run2) against the NEW one-shot 01e architecture, per-repo largest real module (organization/core/access_control_device) -- the old V1-A/V1-B variance work (17o) never tested this architecture, only the two-stage fan-out it replaced.",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash",
+      "projectId": "test-ai-oskey-io",
+      "location": "global",
+      "maxTokens": 65536,
+      "temperature": 0.2
+    },
+    "gemini-default-varcheck-a-run2": {
+      "_note": "2026-08-31: identical to gemini-default-varcheck-a-run1 -- separate COMPARISON_MODE output path for Test A's second run, same reason as the existing temp0/temp0-run2 pair.",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash",
+      "projectId": "test-ai-oskey-io",
+      "location": "global",
+      "maxTokens": 65536,
+      "temperature": 0.2
+    },
     "gemini-default-highthinking": {
       "_note": "2026-08-11: same model/project/region as gemini-default, but adds thinkingLevel: HIGH (@google/genai's ThinkingConfig -- Gemini's equivalent of Claude's adaptive-thinking effort control). Added specifically for 01c-generate-assembly-first-profile.ts's connective-tissue call -- the one place a real quality gap showed up (thinner cross-capability judgment in Sections 12/13 vs Claude on the same `building` facts), not for the cheap per-capability calls in 01a, which were already fine at the default thinking level. Point LLM_CONFIG_KEY at THIS key only for 01c, keep 01a on plain 'gemini-default' -- don't pay for extra thinking on calls that didn't show the gap. Not yet validated with a real call.",
       "provider": "gemini",
@@ -82,6 +118,10 @@
     },
     "gemini-default-v1ab-ab-run2": {
       "_note": "2026-08-30: identical to gemini-default-v1ab-ab-run1. Arm 'AB', reduce-stage self-consistency run 2 -- same fixed capability input as run1.",
+      "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
+    },
+    "gemini-default-v1ab-fullrepo-validation": {
+      "_note": "2026-08-30: identical to gemini-default. Full 12-module 01a-then-01c pass over firebase-oskey-dev under the live (post-V1-A/V1-B) contracts, single run per module (not doubled self-consistency -- organization's self-consistency profile is already characterized by the v1ab-a/-b/-ab arms above). Purpose: validate the contract fixes at full-repo scale, on modules other than tasks/apps/organization, before porting to Angular/Node-IoT. COMPARISON_MODE=true, isolated from the canonical knowledge-corpus (which 01e's already-verified production run populated) -- do not run this without COMPARISON_MODE, it would overwrite that verified output.",
       "provider": "gemini", "model": "gemini-3.5-flash", "projectId": "test-ai-oskey-io", "location": "global", "maxTokens": 65536, "temperature": 0.2
     },
     "claude-default": {

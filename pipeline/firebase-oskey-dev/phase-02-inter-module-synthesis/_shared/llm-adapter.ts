@@ -24,6 +24,7 @@
 // LlmProviderConfig from config/llm-providers.json and pass it to callLlm().
 
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
+import { getOrCreateCache } from "./gemini-cache";
 
 export type LlmProviderName = "gemini" | "anthropic" | "openai";
 
@@ -196,14 +197,29 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
 
   const ai = new GoogleGenAI({ enterprise: true, project: config.projectId, location: config.location });
 
-  // CACHE_BREAKPOINT_MARKER is an Anthropic-only construct (see its own
-  // comment above) -- callAnthropic consumes it to place a cache_control
-  // breakpoint, but nothing here understands it. Strip it so it never leaks
-  // into Gemini's visible prompt as literal text. Vertex AI's own caching
-  // mechanics are unresearched (governance/roadmap/04-gaps-and-issues-
-  // before-full-repo-run.md, item 3) -- this is a safe no-op fix, not a
-  // caching implementation for Gemini.
-  const cleanPrompt = prompt.split(CACHE_BREAKPOINT_MARKER).join("");
+  // Real Vertex AI context caching, wired 2026-08-30 per governance/roadmap/
+  // firebase-oskey-dev/07-gemini-context-caching-plan.md -- until now this
+  // just stripped CACHE_BREAKPOINT_MARKER as a no-op (see the plan doc for
+  // the real measured cost motivation: ~68% of tracked input tokens are an
+  // identical repeated stable prefix). If the marker is present, look up or
+  // create a cache for the stable prefix (getOrCreateCache degrades to null,
+  // not a thrown error, on any failure) and send ONLY the variable part as
+  // this call's actual content -- the stable part is served from the cache
+  // instead of being resent. If the marker is absent (a caller that hasn't
+  // adopted the split) or cache creation fails for any reason, fall through
+  // to sending the full prompt uncached, identical to this function's
+  // pre-caching behavior.
+  let cleanPrompt = prompt.split(CACHE_BREAKPOINT_MARKER).join("");
+  let cachedContentName: string | null = null;
+  const markerIndex = prompt.indexOf(CACHE_BREAKPOINT_MARKER);
+  if (markerIndex !== -1) {
+    const stablePart = prompt.slice(0, markerIndex);
+    const variablePart = prompt.slice(markerIndex + CACHE_BREAKPOINT_MARKER.length);
+    cachedContentName = await getOrCreateCache(ai, config.model, stablePart);
+    if (cachedContentName) {
+      cleanPrompt = variablePart;
+    }
+  }
 
   // Retry-with-fast-timeout wrapper -- added 2026-08-29 after a real full-
   // repo test run reproduced the SAME "fetch failed" error 5 times in one
@@ -231,6 +247,7 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
           maxOutputTokens: config.maxTokens ?? 8192,
           temperature: config.temperature ?? 0.2,
           ...(config.thinkingLevel ? { thinkingConfig: { thinkingLevel: ThinkingLevel[config.thinkingLevel] } } : {}),
+          ...(cachedContentName ? { cachedContent: cachedContentName } : {}),
           httpOptions: { timeout: REQUEST_TIMEOUT_MS },
         },
       });

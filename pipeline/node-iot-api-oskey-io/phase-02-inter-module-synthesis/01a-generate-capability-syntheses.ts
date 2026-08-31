@@ -34,7 +34,8 @@ import {
 import { LlmProviderConfig } from "./_shared/llm-adapter";
 import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
-import { buildCapabilityPrompt, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { buildCapabilityPrompt, buildPublicInterfacesSection, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { replaceNumberedSection } from "./_shared/document-sections";
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-01a-generate-capability-syntheses";
@@ -190,7 +191,21 @@ async function main() {
 
     const { prompt, capRelPath } = buildCapabilityPrompt(packName, pack, ctx);
     const spec: DocumentCallSpec = { relPath: capRelPath, prompt, kind: `capability:${packName}` };
-    await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${packName}'`, LLM_CONFIG_KEY);
+    const written = await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${packName}'`, LLM_CONFIG_KEY);
+
+    // V1-A port (governance/roadmap/node-iot-api-oskey-io/
+    // 01-phase2-contract-design.md's V1-A/V1-B port scoping): Section 3
+    // (Public Interfaces) is no longer LLM-authored -- Phase 1 already
+    // deterministically identifies every exported route handler and
+    // controller class, so this splices the calling script's own
+    // computation over whatever the LLM returned for that section, the same
+    // "assembled, not synthesized" treatment already applied to Section 15
+    // (Evidence References). runDocumentCalls already wrote the raw LLM
+    // content to disk above; this overwrites it with the patched version.
+    const rawContent = written.get(capRelPath)!;
+    const patchedContent = replaceNumberedSection(rawContent, 3, buildPublicInterfacesSection(pack.facts));
+    const outPath = path.join(capabilitySynthesesDir, capRelPath);
+    fs.writeFileSync(outPath, patchedContent, "utf8");
   }
 
   addNotification(

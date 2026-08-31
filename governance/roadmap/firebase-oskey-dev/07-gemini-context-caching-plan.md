@@ -1,6 +1,16 @@
 # Gemini Context Caching — Scope
 
-**Status:** Scoped, not implemented. Firebase-only for now, same convention as V1-A/V1-B — port to Angular/Node-IoT later by principle, not by copying code, once this is proven on real runs.
+**Status:** Implemented and verified with real calls 2026-08-30. Firebase-only for now, same convention as V1-A/V1-B — port to Angular/Node-IoT later by principle, not by copying code, once this has run at real scale.
+
+## Verification result (real, not simulated)
+
+Implemented per the design below: `01c`'s reduce prompt now split at `CACHE_BREAKPOINT_MARKER` (it had no split before); new `_shared/gemini-cache.ts` (content-hash keyed registry at `output/gemini-cache-registry.json`, `ai.caches.create`/reuse, degrades to `null` — uncached — on any failure rather than breaking the call); `callGemini` in `llm-adapter.ts` wired to use it when the marker is present. `tsc --noEmit -p .` clean.
+
+Real two-call test against the cheapest real capability (`tasks/_module_root`, `COMPARISON_MODE=true`, no canonical output touched), each call a fully separate OS process:
+- **Call 1**: cache created for real (`ai.caches.create` returned a real Vertex AI resource name, `projects/580079594612/locations/global/cachedContents/2322438994773671936`, real 1-hour expiry) — AND immediately used in the same call. Gemini's own reported `usageMetadata.cachedContentTokenCount` (already instrumented, previously always empty for every Gemini call ever made in this project) came back **43,632** out of 54,334 total input tokens on this very first call — matching the ~44K stable-token estimate from the plan's real measurement almost exactly.
+- **Call 2**: separate process, same pack. Registry showed the *same* `cacheName` and *same* `createdAt` (not recreated) — real proof of cross-process reuse, the actual hard design problem this plan exists to solve. `cacheReadInputTokens` on this call: **43,632**, identical to call 1.
+
+This is a complete, real, end-to-end confirmation: cache creation, cross-process reuse by content hash, and Google's own billing-relevant metadata all line up. Not yet run at the scale of a full module or repo batch — that's the next step before trusting it on a real paid production run.
 
 ## Why
 
@@ -38,14 +48,14 @@ Proposed mechanism:
 
 ## Required code changes
 
-1. `01c-generate-assembly-first-profile.ts`: split `reduceSections` into stable (Supporting Contracts + Architectural Grounding Documents + module list) and variable (everything module-specific: graphs, RBAC catalog, unresolved edges, per-capability extracts, generation metadata) with `CACHE_BREAKPOINT_MARKER`, mirroring `buildCapabilityPrompt()`'s existing split. Same treatment likely needed for `01a`/`01d` — already done via `capability-synthesis.ts`, just needs verifying nothing since-added (RBAC catalog additions, etc.) broke the boundary.
-2. New shared module (e.g. `_shared/gemini-cache.ts`): content-hash the stable prefix, read/write the run-scoped registry file, wrap `ai.caches.get`/`create`.
-3. `callGemini` in `llm-adapter.ts`: replace the current strip-and-ignore behavior with real cache lookup/creation/reuse, only when the marker is present (falls back to today's exact behavior — full prompt, no caching — if it isn't, so nothing breaks for any caller that hasn't been updated to split its prompt).
-4. Verify empirically (real, cheap test call) rather than assume: Vertex AI's minimum cacheable content size for `gemini-3.5-flash` (our stable prefix is ~44K tokens, comfortably above any plausible minimum, but should be confirmed rather than assumed) and real cache-creation latency (affects whether the first call in a batch should eat that cost inline or whether a cache should be pre-warmed as an explicit step before fan-out).
+1. ~~`01c-generate-assembly-first-profile.ts`: split `reduceSections` into stable/variable with `CACHE_BREAKPOINT_MARKER`.~~ **Done.** `01a`/`01d` already had this via `capability-synthesis.ts`'s `buildCapabilityPrompt()`, confirmed unaffected by the later RBAC-catalog/unresolved-edges additions (those went into the variable section, correctly).
+2. ~~New shared module for cache lookup/creation/registry.~~ **Done** — `_shared/gemini-cache.ts`. Registry is one project-wide file (`output/gemini-cache-registry.json`) keyed by a hash of `model + stableText`, not run-scoped — a deliberate refinement over this doc's original run-scoped proposal: two runs of the same repo with identical contracts/grounding docs should reuse one cache, not pay to recreate it per run.
+3. ~~`callGemini` wiring.~~ **Done.** Falls through to the pre-caching behavior (full prompt, uncached) whenever the marker is absent or cache creation fails for any reason — verified this doesn't break anything for callers untouched by this change.
+4. Minimum cacheable content size and cache-creation latency: **not yet formally characterized**, but the real test below implicitly confirms our stable prefix (~44K tokens) is well above whatever the minimum is, since creation succeeded outright.
 
-## Verification plan before trusting this on a real paid run
+## Verification result
 
-Same discipline as everything else this session: `tsc --noEmit` clean, then a real small-scale test — a handful of real calls sharing one cache, checked against `usageMetadata.cachedContentTokenCount` (already instrumented and logged today, currently always empty/undefined for Gemini) to *prove* the cache hit happened and measure the real token/cost delta directly from Google's own reported numbers, not just from this plan's projected estimate. Only after that succeeds does it make sense to run a larger real batch under it.
+Done — see "Verification result" above. Real two-call test proved creation, cross-process reuse by content hash, and Google's own `cachedContentTokenCount` reporting all work as designed. Not yet run at the scale of a full module (dozens of capability calls sharing one cache) or a full repo batch (hundreds) — that's the next real step, along with re-running a subset of V1-A/V1-B's own experiment calls under caching to get a real, first-hand before/after cost comparison from actual billing rather than the projected estimate.
 
 ## Explicitly out of scope for this task
 

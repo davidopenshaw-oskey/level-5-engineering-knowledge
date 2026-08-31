@@ -59,16 +59,20 @@ export interface ProvenanceSidecar {
  * `<documentPath>.provenance.json`. `facts` is whatever evidence the
  * document's citations should be checked against -- same evidence graph
  * already used for citation validation at each call site, not re-fetched
- * here. Returns the sidecar so callers can also fold its summary into their
- * own notifications without re-reading the file back off disk. */
+ * here. `extraFileLines` (optional) is passed straight through to
+ * `validateCitations` -- see its own doc comment for why a module-level
+ * document needs this. Returns the sidecar so callers can also fold its
+ * summary into their own notifications without re-reading the file back off
+ * disk. */
 export function writeProvenanceSidecar(
   documentPath: string,
   content: string,
   facts: any[],
   generatedFrom: Record<string, unknown>,
-  generatorType: GeneratorType
+  generatorType: GeneratorType,
+  extraFileLines: Array<{ file: string; line: number }> = []
 ): ProvenanceSidecar {
-  const validation = validateCitations(content, facts);
+  const validation = validateCitations(content, facts, extraFileLines);
 
   const sidecar: ProvenanceSidecar = {
     schemaVersion: "1.0.0",

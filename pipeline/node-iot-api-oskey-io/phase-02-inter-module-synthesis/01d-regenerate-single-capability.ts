@@ -34,7 +34,8 @@ import { LlmProviderConfig } from "./_shared/llm-adapter";
 import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
 import { writeProvenanceSidecar } from "./_shared/provenance-sidecar";
-import { buildCapabilityPrompt, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { buildCapabilityPrompt, buildPublicInterfacesSection, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { replaceNumberedSection } from "./_shared/document-sections";
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-01d-regenerate-single-capability";
@@ -156,9 +157,15 @@ async function main() {
   const spec: DocumentCallSpec = { relPath: capRelPath, prompt: capabilityPrompt, kind: `capability:${CAPABILITY_NAME}` };
   const written = await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${CAPABILITY_NAME}' (single-capability regen)`, LLM_CONFIG_KEY);
 
+  // V1-A port -- see 01a-generate-capability-syntheses.ts's identical splice
+  // for the full rationale. Overwrites the raw LLM content runDocumentCalls
+  // already wrote to disk with Section 3 patched in deterministically.
+  const patchedContent = replaceNumberedSection(written.get(capRelPath)!, 3, buildPublicInterfacesSection(pack.facts));
+  fs.writeFileSync(path.join(capabilitySynthesesDir, capRelPath), patchedContent, "utf8");
+
   writeProvenanceSidecar(
     path.join(capabilitySynthesesDir, capRelPath),
-    written.get(capRelPath)!,
+    patchedContent,
     pack.facts,
     { runId, repoName: REPO_NAME, module: MODULE_NAME, capability: CAPABILITY_NAME, packFactCount: pack.summary.factCount, packGeneratedAt: pack.generatedAt, llmConfigKey: LLM_CONFIG_KEY },
     "llm"
@@ -175,7 +182,7 @@ async function main() {
   writeNotificationsAtomically(notificationsPath, notifications);
 
   console.log(`Regenerated: ${path.join(capabilitySynthesesDir, capRelPath)}`);
-  console.log(written.get(capRelPath));
+  console.log(patchedContent);
 }
 
 main().catch(err => {

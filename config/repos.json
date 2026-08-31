@@ -62,6 +62,22 @@
             "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/contracts/01-module-synthesis-reduce.md"
           ]
         },
+        "moduleLevelProfile": {
+          "_note": "Added 2026-08-30, governance/roadmap/firebase-oskey-dev/10-module-level-production-cutover-plan.md. Used by 01e-generate-module-level-profile.ts -- one LLM call synthesizes an entire module's capabilities together (real, verified feasibility test: governance/roadmap/firebase-oskey-dev/09-fact-table-redundancy-reduction.md), replacing capabilityBasedProfile's per-capability-fan-out-plus-reduce chain as the default going forward for any module under the loud-failure size threshold. capabilityBasedProfile/01a/01c/01d are deliberately NOT removed -- kept as the retired-but-available fallback for a module that ever needs the (still-deferred) batching design. Same grounding docs as the blocks above, duplicated per this file's own established convention.",
+          "contractsRoot": "",
+          "contractsRootBase": "pipelineRoot",
+          "architecturalGroundingPaths": [
+            "governance/reference-docs/Oskey Architecture.md",
+            "governance/reference-docs/Oskey Personas and Authority models.md",
+            "governance/reference-docs/firestore-schema.md",
+            "governance/reference-docs/firestore.rules.txt",
+            "governance/reference-docs/firestore.indexes.json",
+            "governance/reference-docs/rbac-roles.json"
+          ],
+          "moduleLevelSynthesisContractPaths": [
+            "pipeline/firebase-oskey-dev/phase-02-inter-module-synthesis/contracts/03-module-level-synthesis.md"
+          ]
+        },
         "repoSynthesis": {
           "_note": "Same grounding docs as the other phase2 blocks. Used by 02-generate-repo-report.ts's single connective call -- see governance/roadmap/04-complete-repo-run-and-repo-reports-plan.md Stage 4 and contracts/02-repo-synthesis-reduce.md.",
           "contractsRoot": "",
@@ -106,7 +122,7 @@
 
       "phase2": {
         "capabilityBasedProfile": {
-          "_note": "Added 2026-08-28, see governance/roadmap/angular-app-oskey-io/02-phase2-contract-design.md. architecturalGroundingPaths deliberately empty -- no grounding docs exist for this repo yet (see that doc's note on whether a PGO/persona reference doc should be added, not yet decided).",
+          "_note": "Added 2026-08-28, see governance/roadmap/angular-app-oskey-io/02-phase2-contract-design.md. architecturalGroundingPaths deliberately empty -- no grounding docs exist for this repo yet (see that doc's note on whether a PGO/persona reference doc should be added, not yet decided). moduleSynthesisContractPaths trimmed to just the reduce contract itself as of the 2026-08-30 V1-B port (governance/roadmap/v1-b-module-reduce-contract-scope-2026-08-30.md) -- module-engineering-profile-task-instructions.md/-template.md were being loaded and injected into 01c's prompt here even though 01-module-synthesis-reduce.md's own text never actually depended on them (this contract was already self-contained, unlike Firebase's pre-V1-B copy); the same class of staleness Firebase found in its own repos.json block, just discovered here without ever having been load-bearing.",
           "contractsRoot": "",
           "contractsRootBase": "pipelineRoot",
           "architecturalGroundingPaths": [],
@@ -114,9 +130,16 @@
             "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/contracts/00-capability-synthesis.md"
           ],
           "moduleSynthesisContractPaths": [
-            "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/contracts/01-module-synthesis-reduce.md",
-            "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/module-engineering-profile-task-instructions.md",
-            "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/module-engineering-profile-task-template.md"
+            "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/contracts/01-module-synthesis-reduce.md"
+          ]
+        },
+        "moduleLevelProfile": {
+          "_note": "Added 2026-08-30, module-level port of firebase-oskey-dev's own moduleLevelProfile block/architecture (governance/roadmap/firebase-oskey-dev/10-module-level-production-cutover-plan.md), scoped by a real per-module token feasibility check first (relayed 2026-08-30): components (~21K est. tokens) and core (~90K) fit comfortably under the 700K threshold, features (~1.67M) does not, even before this port's own encoding fixes are counted. Used by 01e-generate-module-level-profile.ts -- one LLM call synthesizes an entire module's capabilities together, replacing capabilityBasedProfile's per-capability-fan-out-plus-reduce chain for components/core. features stays on capabilityBasedProfile/01a/01c/01d -- NOT removed, kept as the fallback for any module that ever exceeds 01e's own loud-failure size threshold, same relationship as firebase-oskey-dev's. architecturalGroundingPaths deliberately empty, same reason as capabilityBasedProfile above -- no grounding docs exist for this repo yet.",
+          "contractsRoot": "",
+          "contractsRootBase": "pipelineRoot",
+          "architecturalGroundingPaths": [],
+          "moduleLevelSynthesisContractPaths": [
+            "pipeline/angular-app-oskey-io/phase-02-inter-module-synthesis/contracts/03-module-level-synthesis.md"
           ]
         },
         "repoSynthesis": {
@@ -157,7 +180,7 @@
 
       "phase2": {
         "capabilityBasedProfile": {
-          "_note": "Added 2026-08-29, see governance/roadmap/node-iot-api-oskey-io/01-phase2-contract-design.md. architecturalGroundingPaths deliberately empty -- no grounding docs exist for this repo yet, same as angular-app-oskey-io. All 4 contract/task files below now exist (contracts/00-capability-synthesis.md, contracts/01-module-synthesis-reduce.md, module-engineering-profile-task-instructions.md, module-engineering-profile-task-template.md -- the moduleSynthesisContractPaths files that were stubs when this note was first written are done as of the same date). excludeCapabilityPacks is new, generic config (Decision 3 on that plan doc) -- 01/01a/01b/01c-*.ts in this repo's own pipeline copy now read this field (fixed 2026-08-29, found the gap was 4 files deep, not 1 -- see that plan doc's task list for the full account). Still not run for real -- no LLM call has been made for this repo's Phase 2 yet, needs explicit provider/config sign-off first per standing rule.",
+          "_note": "Added 2026-08-29, see governance/roadmap/node-iot-api-oskey-io/01-phase2-contract-design.md. architecturalGroundingPaths deliberately empty -- no grounding docs exist for this repo yet, same as angular-app-oskey-io. excludeCapabilityPacks is generic config (Decision 3 on that plan doc) -- 01/01a/01b/01c-*.ts in this repo's own pipeline copy now read this field. Run for real 2026-08-29/30 (single-pack test via 01d, then a full 01a+01c+02 run, both verified against raw facts -- see that plan doc's task list). moduleSynthesisContractPaths trimmed to just the reduce contract itself as of the 2026-08-30 V1-B port (governance/roadmap/node-iot-api-oskey-io/01-phase2-contract-design.md's V1-A/V1-B port scoping) -- module-engineering-profile-task-instructions.md/-template.md were still being loaded and injected into 01c's prompt here even though 01-module-synthesis-reduce.md's own text is self-contained; the contract text alone never controlled what actually got fed into the prompt, this config array did. Same stale-3-doc-list bug found and fixed on firebase-oskey-dev's own config block the same day.",
           "contractsRoot": "",
           "contractsRootBase": "pipelineRoot",
           "architecturalGroundingPaths": [],
@@ -166,9 +189,17 @@
             "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/contracts/00-capability-synthesis.md"
           ],
           "moduleSynthesisContractPaths": [
-            "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/contracts/01-module-synthesis-reduce.md",
-            "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/module-engineering-profile-task-instructions.md",
-            "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/module-engineering-profile-task-template.md"
+            "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/contracts/01-module-synthesis-reduce.md"
+          ]
+        },
+        "moduleLevelProfile": {
+          "_note": "Added 2026-08-30, see governance/roadmap/node-iot-api-oskey-io/01-phase2-contract-design.md's module-level architecture section. Ported from firebase-oskey-dev's own moduleLevelProfile block (governance/roadmap/firebase-oskey-dev/10-module-level-production-cutover-plan.md) -- one LLM call synthesizes this repo's one module's capabilities together, replacing capabilityBasedProfile's per-capability fan-out plus reduce chain as the default going forward. capabilityBasedProfile/01a/01c/01d are deliberately NOT removed -- kept as the fallback for the (still-deferred) batching design if this module ever exceeds the loud-failure size threshold, even though real feasibility numbers show this repo's one module (~166K-200K estimated tokens) is nowhere near the 700K threshold today. architecturalGroundingPaths deliberately empty, same as the other phase2 blocks. excludeCapabilityPacks duplicated from capabilityBasedProfile above (not shared by reference, same convention as every other duplicated field in this file) -- 01e-generate-module-level-profile.ts reads this field directly, unlike Firebase's own 01e, which has no such filter because Firebase never needed one; this repo's _unreferenced pack (dead code, Decision 3, Phase 1 design doc) must be excluded here too.",
+          "contractsRoot": "",
+          "contractsRootBase": "pipelineRoot",
+          "architecturalGroundingPaths": [],
+          "excludeCapabilityPacks": ["_unreferenced"],
+          "moduleLevelSynthesisContractPaths": [
+            "pipeline/node-iot-api-oskey-io/phase-02-inter-module-synthesis/contracts/03-module-level-synthesis.md"
           ]
         },
         "repoSynthesis": {

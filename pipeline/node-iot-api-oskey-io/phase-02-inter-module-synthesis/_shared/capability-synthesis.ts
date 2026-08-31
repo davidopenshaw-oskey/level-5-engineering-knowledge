@@ -100,3 +100,121 @@ export function buildCapabilityPrompt(
   const prompt = stableSections.join("\n\n---\n\n") + CACHE_BREAKPOINT_MARKER + variableSections.join("\n\n---\n\n");
   return { prompt, capRelPath };
 }
+
+/** Deterministically builds capability contract Section 3 (Public Interfaces
+ * — Route Handlers & Controllers) from `route_definition` + `controller_method`
+ * facts, replacing what used to be an open-ended LLM discovery task. Ported
+ * from firebase-oskey-dev's V1-A fix (governance/roadmap/
+ * v1-a-capability-synthesis-contract-scope-2026-08-30.md) but NOT a
+ * byte-for-byte copy -- that version builds from `controller_method`/
+ * `service_method` with a controller-vs-service kind split, which does not
+ * apply here. This repo's contract already documents (Phase 1 Handoff 3,
+ * verified against real data) a genuinely different two-tier shape:
+ *
+ * - **Route Handler class(es)** -- the true HTTP entry point, sourced from
+ *   `route_definition.handlerClass`/`.handlerMethod` (already-resolved
+ *   literal fields), NOT from `route_handler_method` facts. Confirmed
+ *   directly: this repo's real routed methods are arrow-function-valued
+ *   class properties, invisible to the generic method-extraction that
+ *   produces `route_handler_method` facts -- that fact type, where present,
+ *   only ever shows a class's *other* private helper methods.
+ * - **Controller class(es)** -- the Mongo-backed data-access layer, sourced
+ *   from `controller_method` facts' `className`/`method`/
+ *   `evidence.visibility`, filtered to `visibility === "public"`. There is
+ *   no third "service" tier here (unlike Firebase) -- `service_method`
+ *   facts only exist in `_module_root`'s infra grouping (Decision 4), never
+ *   as part of any capability's own Public Interfaces.
+ *
+ * Both tiers require the class to also appear as an exported `source_class`
+ * fact -- same "only exported classes are public interfaces by definition"
+ * rule Firebase's version applies, confirmed both route-handler and
+ * controller classes are always recorded as `source_class` facts in this
+ * repo's real data. */
+export function buildPublicInterfacesSection(facts: any[]): string {
+  interface ClassMeta {
+    file: string;
+    line: number;
+    factId: string;
+  }
+
+  const classMeta = new Map<string, ClassMeta>();
+  for (const f of facts) {
+    if (f.type === "source_class" && f.isExported && f.className) {
+      classMeta.set(f.className, { file: f.file, line: f.line, factId: f.id });
+    }
+  }
+
+  interface RouteHandlerEntry {
+    method: string;
+    httpMethod: string;
+    httpPath: string;
+    factId: string;
+  }
+  const routeHandlersByClass = new Map<string, RouteHandlerEntry[]>();
+  for (const f of facts) {
+    if (f.type !== "route_definition" || !f.handlerClass || !f.handlerMethod) continue;
+    if (!classMeta.has(f.handlerClass)) continue;
+    const arr = routeHandlersByClass.get(f.handlerClass) ?? [];
+    if (!arr.some(e => e.method === f.handlerMethod)) {
+      arr.push({ method: f.handlerMethod, httpMethod: f.method, httpPath: f.httpPath, factId: f.id });
+    }
+    routeHandlersByClass.set(f.handlerClass, arr);
+  }
+
+  interface ControllerMethodEntry {
+    method: string;
+    visibility: string;
+    factId: string;
+  }
+  const controllerMethodsByClass = new Map<string, ControllerMethodEntry[]>();
+  for (const f of facts) {
+    if (f.type !== "controller_method" || !f.className) continue;
+    if (!classMeta.has(f.className)) continue;
+    const arr = controllerMethodsByClass.get(f.className) ?? [];
+    arr.push({
+      method: f.method ?? f.symbol ?? "(unnamed)",
+      visibility: f.evidence?.visibility ?? "public",
+      factId: f.id,
+    });
+    controllerMethodsByClass.set(f.className, arr);
+  }
+
+  if (routeHandlersByClass.size === 0 && controllerMethodsByClass.size === 0) {
+    return "(no exported route handler or controller classes evidenced in this capability's pack)";
+  }
+
+  const lines: string[] = [];
+
+  if (routeHandlersByClass.size > 0) {
+    lines.push(`**Route Handler Class(es)** (the true HTTP entry point for this capability's routes)`);
+    for (const className of Array.from(routeHandlersByClass.keys()).sort()) {
+      const meta = classMeta.get(className)!;
+      lines.push(`- **${className}** \`\`${meta.factId}\`\``);
+      for (const m of routeHandlersByClass.get(className)!.sort((a, b) => a.method.localeCompare(b.method))) {
+        lines.push(`  - \`${m.method}\` (${m.httpMethod} ${m.httpPath}) \`\`${m.factId}\`\``);
+      }
+    }
+  }
+
+  if (controllerMethodsByClass.size > 0) {
+    if (lines.length > 0) lines.push("");
+    lines.push(`**Controller Class(es)** (the Mongo-backed data-access layer this capability's route handlers call into)`);
+    for (const className of Array.from(controllerMethodsByClass.keys()).sort()) {
+      const meta = classMeta.get(className)!;
+      const publicMethods = controllerMethodsByClass
+        .get(className)!
+        .filter(m => m.visibility === "public")
+        .sort((a, b) => a.method.localeCompare(b.method));
+      lines.push(`- **${className}** \`\`${meta.factId}\`\``);
+      if (publicMethods.length === 0) {
+        lines.push(`  - (no public controller methods evidenced for this class)`);
+      } else {
+        for (const m of publicMethods) {
+          lines.push(`  - \`${m.method}\` \`\`${m.factId}\`\``);
+        }
+      }
+    }
+  }
+
+  return lines.join("\n");
+}

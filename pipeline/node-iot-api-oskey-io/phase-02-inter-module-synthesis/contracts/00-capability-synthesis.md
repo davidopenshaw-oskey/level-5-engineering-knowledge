@@ -73,13 +73,36 @@ One or two sentences: what does this capability do, within the module. Confidenc
 A future run's `_module_root` pack isn't guaranteed to have exactly these four groupings if the source changes — organize by what the evidence in front of you actually shows, using this as a template for the *kind* of grouping to do, not a fixed checklist to force-fit onto different content.
 
 ### 2. Primary Responsibilities
-Every distinct responsibility/feature this capability provides, each with its own confidence tag. Preserve specific engineering terms exactly as they appear in evidence — class names, method names, HTTP paths, Mongo collection names — do not compress `getAccessSyncDeltasIntercom` into "sync operation."
+
+Before writing this section, inspect every applicable candidate-evidence source in your pack: public interfaces (route handler and controller classes and their methods), route definitions and request contracts, Pub/Sub behavior (outbound publish calls and inbound operation dispatch), persistence operations (Data Ownership facts), external hooks, and outbound coupling. These are candidate *sources to check*, not an output taxonomy — do not produce one responsibility per fact type or per evidence category. A single real responsibility is very often evidenced across several of these sources at once, and your job is to recognize that and merge them into one coherent entry, not report each source's contribution separately. (There is no "permission-controlled operations" source on this list — this repo has zero RBAC/authorization facts anywhere, verified in Phase 1, so it's never a candidate source for any capability, not just sometimes absent.)
+
+**Worked example (fictional, illustrative only — do not treat as real):**
+
+```
+Evidence discovered:
+- route_definition: POST /access-control-devices/pubsub/widgets, isPubSubPushRoute: true
+- pubsub_operation_route: dispatches on .operation === "update"
+- mongo_operation: updateOne on accessControlDeviceWidgets
+- imports_dependency: widgets -> core/shared/database.service
+
+Incorrect synthesis (one responsibility per fact type):
+- Pub/Sub route registration responsibility
+- Operation dispatch responsibility
+- Database update responsibility
+- Database service dependency responsibility
+
+Correct synthesis (grouped by coherent engineering behavior):
+- Receive and apply inbound widget-configuration update messages
+  Evidence: Pub/Sub push route registration + operation dispatch +
+  Mongo persistence, all part of one real inbound processing flow
+```
+
+Every distinct responsibility/feature this capability provides gets its own confidence tag. Preserve specific engineering terms exactly as they appear in evidence — class names, method names, HTTP paths, Mongo collection names — do not compress `getAccessSyncDeltasIntercom` into "sync operation." Do not target a specific number of responsibilities — the objective is systematic traversal of the candidate evidence surface, not a predetermined count.
 
 ### 3. Public Interfaces (Route Handlers & Controllers)
-This repo has a real three-tier shape, distinct from a typical controller/service split — name both roles explicitly, don't conflate them:
+**Do not write this section — it is generated deterministically by the calling script from `source_class`/`route_definition`/`controller_method` facts after your response is received, and your own text here will be discarded and replaced.** This is the same "assembled, not synthesized" treatment Section 15 (Evidence References) already gets, applied one stage earlier: Phase 1 already identifies every exported route handler and controller class and its methods, so there's nothing left for you to discover here. Still include the `### 3. Public Interfaces (Route Handlers & Controllers)` header in your output (the assembly step locates it by header, not by content), but you may leave its body empty or minimal — anything you write there is replaced, not merged with or corrected.
 
-- **Route handler class(es)** — the true HTTP entry point for this capability's routes. Identify this from the `handlerClass` column on your `route_definition` facts, **not** from any `route_handler_method` facts you may have (a known, verified gap: this repo's real route-entry-point methods are written as arrow-function-valued class properties, invisible to the generic method-extraction that produces `route_handler_method` facts — so that fact type, where present, only ever shows a class's *other* private helper methods, never the actual routed method itself. `route_definition`'s own `handlerClass`/`handlerMethod` columns are the correct, complete source for this section, regardless of whether `route_handler_method` facts exist for this capability).
-- **Controller class(es)** — the Mongo-backed data-access layer this capability's route handlers call into. Identify from `controller_method` facts' `className` column.
+For your own orientation (not something you need to act on): this repo has a real two-tier shape, distinct from a typical controller/service split — **Route handler class(es)**, the true HTTP entry point, identified from `route_definition.handlerClass`/`.handlerMethod` rather than `route_handler_method` facts (a known, verified gap: this repo's real route-entry-point methods are written as arrow-function-valued class properties, invisible to the generic method-extraction that produces `route_handler_method` facts), and **Controller class(es)**, the Mongo-backed data-access layer, identified from `controller_method` facts' `className` column. No third "service" tier exists in this section for any capability.
 
 ### 4. Route Definitions & Request Contracts
 Every `route_definition` fact this capability owns: HTTP path, method, version date, which handler resolves it. For each one with a non-null `schemaName`, its request-body contract — **a "Resolved Route Request Schemas" section is provided in the task message, scoped to this capability's own pack — use it directly, do not re-derive the join yourself.** If a route's `schemaName` isn't listed there, its schema fields live in a different capability's pack (this repo's Joi schemas are sometimes shared across multiple routes, e.g. `pubSubMessageSchema` — see the design doc's finding 2) — say so plainly rather than presenting the bare schema name as if its shape were known to you.

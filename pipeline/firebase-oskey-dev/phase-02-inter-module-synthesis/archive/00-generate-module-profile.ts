@@ -54,20 +54,20 @@ import {
   writeNotificationsAtomically,
   loadNotifications,
   runContextPath,
-} from "../phase-01-ast-extraction/_shared/run-utils";
-import { LlmProviderConfig } from "./_shared/llm-adapter";
+} from "../../phase-01-ast-extraction/_shared/run-utils";
+import { LlmProviderConfig } from "../_shared/llm-adapter";
 import {
   readRequiredFile,
   resolveContractsRootAbs,
   loadDocs,
   runDocumentCalls,
   DocumentCallSpec,
-} from "./_shared/synthesis-orchestrator";
-import { flattenRbacRoles } from "./_shared/rbac-flatten";
-import { resolveApiSchemas, formatResolvedApiSchemas } from "./_shared/api-schema-resolver";
-import { filterCallEdgesForModule, formatCallEdges } from "./_shared/call-edges";
-import { computeOwnershipHints, formatOwnershipHints } from "./_shared/ownership-hints";
-import { validateCitations, formatCitationValidation } from "./_shared/citation-validator";
+} from "../_shared/synthesis-orchestrator";
+import { flattenRbacRoles } from "../_shared/rbac-flatten";
+import { resolveApiSchemas, formatResolvedApiSchemas } from "../_shared/api-schema-resolver";
+import { filterCallEdgesForModule, formatCallEdges } from "../_shared/call-edges";
+import { computeOwnershipHints, formatOwnershipHints } from "../_shared/ownership-hints";
+import { validateCitations, formatCitationValidation } from "../_shared/citation-validator";
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-00-run-module-profile";

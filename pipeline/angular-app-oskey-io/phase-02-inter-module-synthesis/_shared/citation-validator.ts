@@ -56,9 +56,27 @@ export interface CitationValidationResult {
 const FILE_LINE_PATTERN = /`([^`\s]+\.(?:ts|js))`\s*\(([^)]*\blines?\b[^)]*)\)/gi;
 const NUMBER_RANGE_PATTERN = /(\d+)(?:\s*[-–]\s*(\d+))?/g;
 // Fact IDs are pipe-delimited, starting with a known fact type name -- see
-// stableFactId() in phase-01's extraction scripts for the real format.
+// stableFactId() in phase-01's extraction scripts for the real format. This
+// allowlist was inherited unchanged from firebase-oskey-dev's copy of this
+// file when this pipeline was first ported and never updated for Angular's
+// OWN fact types -- confirmed 2026-08-30 as a live, not just theoretical,
+// gap: all 17 real angular_injectable/angular_guard-type citations in a
+// real assembled module-level document (output/runs/angular-app-oskey-io/
+// .../core-engineering-profile.md) were silently invisible to
+// extractCitations(), neither verified nor flagged as fabricated -- the
+// document's own "205 citations checked, 204 verified" notification never
+// saw them at all. Added Angular's real fact types below, confirmed against
+// the literal `type: "..."` string/variable assignments in
+// 02-build-module-evidence.ts (angular_component/angular_injectable are
+// assigned via a `factType` variable there, not a literal string, so a
+// naive grep for `type: "..."` misses them -- checked the actual code
+// path). `function_declaration` is a separate, real, ALSO-missing fact
+// type observed in real output (e.g. a citation in this same real document)
+// -- NOT fixed here, since it's inherited from firebase-oskey-dev's
+// original pattern too (not Angular-specific) and wasn't part of this
+// task's scope; flagged separately rather than silently left unmentioned.
 const FACT_ID_PATTERN =
-  /`((?:model_property|api_contract|call_expression|imports_dependency|firestore_path_touched|firestore_trigger|permission_candidate|permission_error|external_hook|pubsub_topic|pubsub_publish_call|pubsub_event_route|source_class|service_method|controller_method|class_method|type_alias|enum_declaration|source_file|exported_symbol)\|[^`]+)`/g;
+  /`((?:model_property|api_contract|call_expression|imports_dependency|firestore_path_touched|firestore_trigger|permission_candidate|permission_error|external_hook|pubsub_topic|pubsub_publish_call|pubsub_event_route|source_class|service_method|controller_method|class_method|type_alias|enum_declaration|source_file|exported_symbol|angular_component|angular_injectable|angular_route|angular_guard|angular_signal|angular_template_composition|angular_template_binding|firebase_callable_call)\|[^`]+)`/g;
 
 export function extractCitations(text: string): Citation[] {
   const citations: Citation[] = [];
@@ -91,7 +109,24 @@ export function extractCitations(text: string): Citation[] {
  * to validate against -- every fact carries `file` and `line`, and a real
  * `id`). Fact-ID citations are checked by exact ID match (strong signal);
  * file-line citations by file/line presence (weaker, heuristic signal). */
-export function validateCitations(text: string, facts: any[]): CitationValidationResult {
+// extraFileLines is an optional second source of known file:line pairs
+// beyond the module's own facts -- specifically for the module-level
+// architecture's cross-module-dependencies.json, whose real inbound
+// touchpoints legitimately reference files belonging to OTHER modules.
+// Found 2026-08-30 during 01e's real test run against module 'components':
+// a real, accurate Architectural Observations citation pointing at
+// features/home/home.component.ts (a real inbound cross-module dependency,
+// confirmed against the real cloned source directly) was flagged
+// CITATION_FILE_NOT_FOUND, because `facts` is always scoped to one module --
+// the citation was never fabricated, the validator just had no visibility
+// outside its own module. Ported from firebase-oskey-dev's copy of this
+// file, which has the identical exposure (confirmed there against its own
+// real cross-module-dependencies.json, fixed the same day). Only extends
+// the file-line check; fact-ID matching is unaffected since a module's LLM
+// call is never given another module's facts to cite by ID in the first
+// place -- the only cross-module evidence it ever sees is this same raw
+// file:line data.
+export function validateCitations(text: string, facts: any[], extraFileLines: Array<{ file: string; line: number }> = []): CitationValidationResult {
   const citations = extractCitations(text);
 
   const factIdSet = new Set(facts.map(f => f.id).filter(Boolean));
@@ -121,6 +156,15 @@ export function validateCitations(text: string, facts: any[]): CitationValidatio
     for (const key of [f.file, basename]) {
       const list = linesByBasename.get(key) ?? [];
       list.push(f.line);
+      linesByBasename.set(key, list);
+    }
+  }
+  for (const e of extraFileLines) {
+    if (!e.file || typeof e.line !== "number") continue;
+    const basename = e.file.split("/").pop()!;
+    for (const key of [e.file, basename]) {
+      const list = linesByBasename.get(key) ?? [];
+      list.push(e.line);
       linesByBasename.set(key, list);
     }
   }

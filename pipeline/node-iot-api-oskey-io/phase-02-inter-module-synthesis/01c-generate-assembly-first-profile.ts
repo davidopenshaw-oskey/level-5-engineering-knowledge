@@ -75,6 +75,7 @@ import {
 import { LlmProviderConfig } from "./_shared/llm-adapter";
 import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
+import { filterUnresolvedCallEdgesForModule, formatUnresolvedCallEdges } from "./_shared/call-edges";
 import { computeOwnershipHints, formatOwnershipHints } from "./_shared/ownership-hints";
 import { validateCitations, formatCitationValidation } from "./_shared/citation-validator";
 import { writeProvenanceSidecar } from "./_shared/provenance-sidecar";
@@ -307,6 +308,14 @@ async function main() {
   // rendered as fixed deterministic text below, not asked of the LLM at all,
   // so feeding a guaranteed-always-empty cross-module edges block into every
   // prompt would be pure waste. See this file's top-of-file comment.
+  //
+  // filterUnresolvedCallEdgesForModule IS wired in, unlike the above --
+  // checked directly, this array isn't cross-module-only (it fires whenever
+  // a call can't be resolved to a unique target, module count aside), so
+  // it's a real, non-empty input for this repo even with one module. See
+  // governance/roadmap/node-iot-api-oskey-io/01-phase2-contract-design.md's
+  // V1-A/V1-B port scoping.
+  const unresolvedCallEdgesForModule = filterUnresolvedCallEdgesForModule(resolvedGraph, MODULE_NAME);
 
   const evidenceGraphPath = path.join(moduleDir, `${MODULE_NAME}-evidence-graph.json`);
   const evidenceGraphForHints = JSON.parse(readRequiredFile(evidenceGraphPath, `evidence graph for module '${MODULE_NAME}' (ownership hints only)`));
@@ -346,6 +355,10 @@ async function main() {
     `## Intra-Module Coupling Graph (${MODULE_NAME}/intra-module-coupling.json -- deterministic, derived from AST import resolution, ` +
       `NOT LLM inference)\n\n` +
       `Every entry below is **Confirmed**. Use this for Section 9 (Internal Structure); it may also inform Section 13 (Architectural Observations).\n\n\`\`\`json\n${intraModuleCouplingRaw}\n\`\`\``
+  );
+  reduceSections.push(
+    `## Unresolved Call Edges (deterministic, from the repo-wide resolved graph -- calls Phase 1 could not resolve to a unique target ` +
+      `at all, not a confidence judgment for you to make) -- for Section 13 (Architectural Observations)\n\n${formatUnresolvedCallEdges(unresolvedCallEdgesForModule)}`
   );
   reduceSections.push(
     `## Data Ownership Hints (deterministic SIGNAL, not a label -- for Section 7's ownership conclusion)\n\n${formatOwnershipHints(ownershipHints)}`
@@ -391,9 +404,45 @@ async function main() {
   // path used above for the read side, so a comparison run can never
   // overwrite the canonical output for the same runId.
   const outputDocsDir = COMPARISON_MODE ? comparisonModuleDir : path.join(projectRoot, "knowledge-corpus", REPO_NAME, runId);
-  const written = await runDocumentCalls([connectiveSpec], llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (connective-tissue)`, LLM_CONFIG_KEY);
-  const connectiveRaw = written.get(profileRelPath)!;
-  const connectiveSections = splitNumberedSections(connectiveRaw);
+
+  // Detect-and-retry for near-empty judgment-heavy free-text sections --
+  // ported from firebase-oskey-dev's V1-B fix (governance/roadmap/
+  // v1-b-module-reduce-contract-scope-2026-08-30.md), observed there on
+  // large modules roughly half the time: a valid section header comes back
+  // with a near-empty body. Only TWO sections here, not Firebase's three --
+  // this repo's CONNECTIVE_SECTION has no PERMISSIONS_RISK entry at all (no
+  // cross-cutting Permissions judgment exists for this repo, per Decision 4/
+  // the V1-A/V1-B port scoping doc -- there's nothing there that could go
+  // degenerate). MIN_JUDGMENT_SECTION_CHARS is Firebase's own measured
+  // threshold, calibrated on ITS output distribution -- treat it as an
+  // unvalidated placeholder for this repo until a real large-module sample
+  // is observed here, not a proven-safe number.
+  const MIN_JUDGMENT_SECTION_CHARS = 200;
+  const JUDGMENT_SECTIONS_TO_VERIFY = [CONNECTIVE_SECTION.ARCHITECTURAL_OBSERVATIONS, CONNECTIVE_SECTION.RISKS];
+  const MAX_CONNECTIVE_ATTEMPTS = 3;
+
+  let connectiveRaw = "";
+  let connectiveSections: Map<number, { title: string; body: string }> = new Map();
+  for (let attempt = 1; attempt <= MAX_CONNECTIVE_ATTEMPTS; attempt++) {
+    const written = await runDocumentCalls([connectiveSpec], llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (connective-tissue)`, LLM_CONFIG_KEY);
+    connectiveRaw = written.get(profileRelPath)!;
+    connectiveSections = splitNumberedSections(connectiveRaw);
+
+    const degenerateSections = JUDGMENT_SECTIONS_TO_VERIFY.filter(n => (connectiveSections.get(n)?.body.length ?? 0) < MIN_JUDGMENT_SECTION_CHARS);
+    if (degenerateSections.length === 0) break;
+
+    const isFinalAttempt = attempt === MAX_CONNECTIVE_ATTEMPTS;
+    addNotification(
+      notifications,
+      SOURCE_SCRIPT,
+      "warning",
+      isFinalAttempt ? "CONNECTIVE_CONTENT_DEGENERATE_FINAL" : "CONNECTIVE_CONTENT_DEGENERATE_RETRY",
+      `Connective-tissue call for module '${MODULE_NAME}' produced suspiciously short/empty content (<${MIN_JUDGMENT_SECTION_CHARS} chars) for section(s) ${degenerateSections.join(", ")} on attempt ${attempt}/${MAX_CONNECTIVE_ATTEMPTS}` +
+        (isFinalAttempt ? " -- retries exhausted, proceeding with this degenerate content." : " -- retrying."),
+      { module: MODULE_NAME, file: profileRelPath, attempt, degenerateSections, charLengths: degenerateSections.map(n => connectiveSections.get(n)?.body.length ?? 0) },
+      isFinalAttempt
+    );
+  }
 
   for (const requiredSection of Object.values(CONNECTIVE_SECTION)) {
     if (!connectiveSections.has(requiredSection)) {

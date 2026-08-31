@@ -34,10 +34,17 @@ import { LlmProviderConfig } from "./_shared/llm-adapter";
 import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
 import { writeProvenanceSidecar } from "./_shared/provenance-sidecar";
-import { buildCapabilityPrompt, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { buildCapabilityPrompt, buildPublicInterfacesSection, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { replaceNumberedSection } from "./_shared/document-sections";
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-01d-regenerate-single-capability";
+
+// Capability contract's own Section 3 (Public Interfaces -- Components &
+// Services) -- see buildPublicInterfacesSection's own comment for why this
+// is now deterministically overridden after the LLM call returns, rather
+// than left to LLM discovery.
+const CAP_SECTION_PUBLIC_INTERFACES = 3;
 
 interface CapabilityBasedProfileConfig {
   contractsRoot: string;
@@ -150,9 +157,14 @@ async function main() {
   const spec: DocumentCallSpec = { relPath: capRelPath, prompt: capabilityPrompt, kind: `capability:${CAPABILITY_NAME}` };
   const written = await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${CAPABILITY_NAME}' (single-capability regen)`, LLM_CONFIG_KEY);
 
+  const rawContent = written.get(capRelPath)!;
+  const deterministicPublicInterfaces = buildPublicInterfacesSection(pack.facts);
+  const patchedContent = replaceNumberedSection(rawContent, CAP_SECTION_PUBLIC_INTERFACES, deterministicPublicInterfaces);
+  fs.writeFileSync(path.join(capabilitySynthesesDir, capRelPath), patchedContent, "utf8");
+
   writeProvenanceSidecar(
     path.join(capabilitySynthesesDir, capRelPath),
-    written.get(capRelPath)!,
+    patchedContent,
     pack.facts,
     { runId, repoName: REPO_NAME, module: MODULE_NAME, capability: CAPABILITY_NAME, packFactCount: pack.summary.factCount, packGeneratedAt: pack.generatedAt, llmConfigKey: LLM_CONFIG_KEY },
     "llm"
@@ -169,7 +181,7 @@ async function main() {
   writeNotificationsAtomically(notificationsPath, notifications);
 
   console.log(`Regenerated: ${path.join(capabilitySynthesesDir, capRelPath)}`);
-  console.log(written.get(capRelPath));
+  console.log(patchedContent);
 }
 
 main().catch(err => {

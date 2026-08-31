@@ -58,7 +58,7 @@ const NUMBER_RANGE_PATTERN = /(\d+)(?:\s*[-–]\s*(\d+))?/g;
 // Fact IDs are pipe-delimited, starting with a known fact type name -- see
 // stableFactId() in phase-01's extraction scripts for the real format.
 const FACT_ID_PATTERN =
-  /`((?:model_property|api_contract|call_expression|imports_dependency|firestore_path_touched|firestore_trigger|permission_candidate|permission_error|external_hook|pubsub_topic|pubsub_publish_call|pubsub_event_route|source_class|service_method|controller_method|class_method|type_alias|enum_declaration|source_file|exported_symbol)\|[^`]+)`/g;
+  /`((?:model_property|api_contract|call_expression|imports_dependency|firestore_path_touched|firestore_trigger|permission_candidate|permission_error|external_hook|pubsub_topic|pubsub_publish_call|pubsub_event_route|source_class|service_method|controller_method|class_method|type_alias|enum_declaration|source_file|exported_symbol|function_declaration)\|[^`]+)`/g;
 
 export function extractCitations(text: string): Citation[] {
   const citations: Citation[] = [];
@@ -91,7 +91,20 @@ export function extractCitations(text: string): Citation[] {
  * to validate against -- every fact carries `file` and `line`, and a real
  * `id`). Fact-ID citations are checked by exact ID match (strong signal);
  * file-line citations by file/line presence (weaker, heuristic signal). */
-export function validateCitations(text: string, facts: any[]): CitationValidationResult {
+// extraFileLines is an optional second source of known file:line pairs
+// beyond the module's own facts -- specifically for the module-level
+// architecture's cross-module-dependencies.json, whose real inbound
+// touchpoints legitimately reference files belonging to OTHER modules (found
+// 2026-08-30, Angular's module-level port: a real, accurate Architectural
+// Observations citation pointing at another module's file via a real
+// inbound cross-module dependency was flagged CITATION_FILE_NOT_FOUND,
+// because `facts` is always scoped to one module -- the citation was never
+// fabricated, the validator just had no visibility outside its own module).
+// Only extends the file-line check; fact-ID matching is unaffected since a
+// module's LLM call is never given another module's facts to cite by ID in
+// the first place -- the only cross-module evidence it ever sees is this
+// same raw file:line data.
+export function validateCitations(text: string, facts: any[], extraFileLines: Array<{ file: string; line: number }> = []): CitationValidationResult {
   const citations = extractCitations(text);
 
   const factIdSet = new Set(facts.map(f => f.id).filter(Boolean));
@@ -121,6 +134,15 @@ export function validateCitations(text: string, facts: any[]): CitationValidatio
     for (const key of [f.file, basename]) {
       const list = linesByBasename.get(key) ?? [];
       list.push(f.line);
+      linesByBasename.set(key, list);
+    }
+  }
+  for (const e of extraFileLines) {
+    if (!e.file || typeof e.line !== "number") continue;
+    const basename = e.file.split("/").pop()!;
+    for (const key of [e.file, basename]) {
+      const list = linesByBasename.get(key) ?? [];
+      list.push(e.line);
       linesByBasename.set(key, list);
     }
   }

@@ -34,10 +34,17 @@ import {
 import { LlmProviderConfig } from "./_shared/llm-adapter";
 import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
-import { buildCapabilityPrompt, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { buildCapabilityPrompt, buildPublicInterfacesSection, CapabilityPackPayload, CapabilitySynthesisContext } from "./_shared/capability-synthesis";
+import { replaceNumberedSection } from "./_shared/document-sections";
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-01a-generate-capability-syntheses";
+
+// Capability contract's own Section 3 (Public Interfaces -- Components &
+// Services) -- see buildPublicInterfacesSection's own comment for why this
+// is now deterministically overridden after the LLM call returns, rather
+// than left to LLM discovery.
+const CAP_SECTION_PUBLIC_INTERFACES = 3;
 
 interface CapabilityBasedProfileConfig {
   contractsRoot: string;
@@ -154,7 +161,12 @@ async function main() {
 
     const { prompt, capRelPath } = buildCapabilityPrompt(packName, pack, ctx);
     const spec: DocumentCallSpec = { relPath: capRelPath, prompt, kind: `capability:${packName}` };
-    await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${packName}'`, LLM_CONFIG_KEY);
+    const written = await runDocumentCalls([spec], llmConfig, capabilitySynthesesDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' capability '${packName}'`, LLM_CONFIG_KEY);
+
+    const rawContent = written.get(capRelPath)!;
+    const deterministicPublicInterfaces = buildPublicInterfacesSection(pack.facts);
+    const patchedContent = replaceNumberedSection(rawContent, CAP_SECTION_PUBLIC_INTERFACES, deterministicPublicInterfaces);
+    fs.writeFileSync(path.join(capabilitySynthesesDir, capRelPath), patchedContent, "utf8");
   }
 
   addNotification(

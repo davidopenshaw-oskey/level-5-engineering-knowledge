@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "documentPath": "/Users/dopenshaw/development/level-5-engineering-knowledge/knowledge-corpus/node-iot-api-oskey-io/20260829_135747-a6cba122/engineering-profiles/access_control_device-engineering-profile.md",
-  "generatedAt": "2026-08-29T14:01:27.722Z",
+  "generatedAt": "2026-08-30T20:10:43.769Z",
   "generatorType": "llm",
   "generatedFrom": {
     "runId": "20260829_135747-a6cba122",
@@ -17,261 +17,214 @@
     ],
     "deterministicArtifacts": [
       "intra-module-coupling.json",
-      "resolved-engineering-graph.json (ownership hints)"
+      "resolved-engineering-graph.json (ownership hints + module-filtered unresolvedCallEdges)"
     ],
-    "connectiveLlmConfigKey": "gemini-default"
+    "llmConfigKey": "gemini-default",
+    "citationRendering": "footnoted (FactId:#N markers, real content in Section 15 appendix) -- validated against a resolved-inline reconstruction, never persisted"
   },
   "citations": [
     {
       "kind": "file-line",
-      "raw": "`src/v1/core/logging.service.ts` (lines 12-68)",
-      "file": "src/v1/core/logging.service.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/core/shared/database.service.ts` (lines 9-19)",
-      "file": "src/v1/core/shared/database.service.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/core/shared/errors.service.ts` (lines 6-12)",
-      "file": "src/v1/core/shared/errors.service.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/core/shared/pubsub.service.ts` (lines 5-125)",
+      "raw": "`src/v1/core/shared/pubsub.service.ts` (line 39)",
       "file": "src/v1/core/shared/pubsub.service.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/core/shared/pubsub.service.ts` (lines 16-29)",
-      "file": "src/v1/core/shared/pubsub.service.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/core/shared/pubsub.service.ts` (lines 31-125)",
-      "file": "src/v1/core/shared/pubsub.service.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/schema/pubsub_message.schema.ts` (lines 8-11)",
-      "file": "src/v1/schema/pubsub_message.schema.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/models/pubsub_message.model.ts` (lines 6-17)",
-      "file": "src/v1/models/pubsub_message.model.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/core/protocols/pubsub_message.protocol.ts` (lines 8-10)",
-      "file": "src/v1/core/protocols/pubsub_message.protocol.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/core/shared/delta.utils.ts` (lines 28-61)",
-      "file": "src/v1/core/shared/delta.utils.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/core/shared/delta.utils.ts` (lines 69-132)",
-      "file": "src/v1/core/shared/delta.utils.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/index.ts` (lines 8-12)",
-      "file": "src/v1/index.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/controllers/access_control_device_accesses.controller.ts` (lines 29, 47)",
-      "file": "src/v1/controllers/access_control_device_accesses.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/handlers/routes/access_control_device_accesses_route.handler.ts` (line 354)",
-      "file": "src/v1/handlers/routes/access_control_device_accesses_route.handler.ts",
-      "status": "line-unverified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/controllers/access_control_device_access_sync.controller.ts` (line 71)",
-      "file": "src/v1/controllers/access_control_device_access_sync.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/handlers/routes/access_control_device_accesses_route.handler.ts` (lines 38, 66)",
-      "file": "src/v1/handlers/routes/access_control_device_accesses_route.handler.ts",
-      "status": "line-unverified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/handlers/routes/access_control_device_accesses_route.handler.ts` (line 386)",
-      "file": "src/v1/handlers/routes/access_control_device_accesses_route.handler.ts",
-      "status": "line-unverified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/controllers/access_control_device_accesses.controller.ts` (lines 69, 94, 123, 143, 163, 192, 196)",
-      "file": "src/v1/controllers/access_control_device_accesses.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/controllers/access_control_device_access_sync.controller.ts` (line 31)",
-      "file": "src/v1/controllers/access_control_device_access_sync.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/handlers/routes/access_control_device_accesses_route.handler.ts` (lines 484, 499)",
-      "file": "src/v1/handlers/routes/access_control_device_accesses_route.handler.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/handlers/routes/access_control_device_firmwares_route.handler.ts` (lines 16, 24, 26)",
-      "file": "src/v1/handlers/routes/access_control_device_firmwares_route.handler.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/index.ts` (lines 8-12)",
-      "file": "src/v1/index.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/handlers/routes/access_control_device_accesses_route.handler.ts` (line 37)",
-      "file": "src/v1/handlers/routes/access_control_device_accesses_route.handler.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/controllers/access_control_device_accesses.controller.ts` (line 19)",
-      "file": "src/v1/controllers/access_control_device_accesses.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/controllers/access_control_device_access_sync.controller.ts` (line 13)",
-      "file": "src/v1/controllers/access_control_device_access_sync.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/handlers/routes/access_control_device_configs_route.handler.ts` (lines 13-96)",
-      "file": "src/v1/handlers/routes/access_control_device_configs_route.handler.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/controllers/access_control_device_configs.controller.ts` (lines 11-87)",
-      "file": "src/v1/controllers/access_control_device_configs.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/schema/pubsub_message.schema.ts` (line 8)",
-      "file": "src/v1/schema/pubsub_message.schema.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts` (lines 60-103)",
-      "file": "src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/core/shared/database.service.ts` (lines 10-19)",
-      "file": "src/v1/core/shared/database.service.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/controllers/access_control_device_accesses.controller.ts` (lines 30, 48, 74, 78, 100, 104, 134, 154, 170, 193, 201)",
-      "file": "src/v1/controllers/access_control_device_accesses.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/controllers/access_control_device_access_sync.controller.ts` (lines 32, 55, 59)",
-      "file": "src/v1/controllers/access_control_device_access_sync.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/controllers/access_control_device_access_sync.controller.ts` (lines 50, 74)",
-      "file": "src/v1/controllers/access_control_device_access_sync.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/routes/access_control_device_firmwares.route.ts` (line 6)",
-      "file": "src/v1/routes/access_control_device_firmwares.route.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`access_control_device_intercom_entries.controller.ts` (line 9)",
-      "file": "access_control_device_intercom_entries.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`access_control_device_intercom_entry_delta.controller.ts` (line 6)",
-      "file": "access_control_device_intercom_entry_delta.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`access_control_device_intercom_entries.controller.ts` (line 7)",
-      "file": "access_control_device_intercom_entries.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`access_control_device_deltas_base.controller.ts` (line 7)",
-      "file": "access_control_device_deltas_base.controller.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`access_control_device_intercom_entries_route.handler.ts` (line 9)",
-      "file": "access_control_device_intercom_entries_route.handler.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`access_control_device_intercom_entries.route.ts` (line 9)",
-      "file": "access_control_device_intercom_entries.route.ts",
-      "status": "verified"
-    },
-    {
-      "kind": "file-line",
-      "raw": "`src/v1/core/shared/database.service.ts` (lines 9-10)",
-      "file": "src/v1/core/shared/database.service.ts",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_activities.controller.ts|OSKAccessControlDeviceActivitiesController|createActivity|#1`",
-      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_activities.controller.ts|OSKAccessControlDeviceActivitiesController|createActivity|#1",
+      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_accesses.route|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_accesses.route|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_activities.route|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_activities.route|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_configs.route|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_configs.route|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_firmwares.route|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_firmwares.route|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_intercom_entries.route|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_intercom_entries.route|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|access_control_device|src/v1/core/logging.service.ts|OSKLoggingService|logCritical|#1`",
+      "factId": "service_method|access_control_device|src/v1/core/logging.service.ts|OSKLoggingService|logCritical|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|access_control_device|src/v1/core/logging.service.ts|OSKLoggingService|logError|#1`",
+      "factId": "service_method|access_control_device|src/v1/core/logging.service.ts|OSKLoggingService|logError|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|access_control_device|src/v1/core/logging.service.ts|OSKLoggingService|logInfo|#1`",
+      "factId": "service_method|access_control_device|src/v1/core/logging.service.ts|OSKLoggingService|logInfo|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|access_control_device|src/v1/core/shared/pubsub.service.ts|OSKPubSubService|checkSubscriptionExists|#1`",
+      "factId": "service_method|access_control_device|src/v1/core/shared/pubsub.service.ts|OSKPubSubService|checkSubscriptionExists|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|access_control_device|src/v1/core/shared/pubsub.service.ts|OSKPubSubService|createTopic|#1`",
+      "factId": "service_method|access_control_device|src/v1/core/shared/pubsub.service.ts|OSKPubSubService|createTopic|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`service_method|access_control_device|src/v1/core/shared/pubsub.service.ts|OSKPubSubService|publishMessage|#1`",
+      "factId": "service_method|access_control_device|src/v1/core/shared/pubsub.service.ts|OSKPubSubService|publishMessage|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|access_control_device|src/v1/core/shared/errors.service.ts|CustomHttpError`",
+      "factId": "source_class|access_control_device|src/v1/core/shared/errors.service.ts|CustomHttpError",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_accesses.route|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_accesses.route|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_activities.route|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_activities.route|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_configs.route|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_configs.route|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_firmwares.route|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_firmwares.route|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_intercom_entries.route|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/index.ts|./routes/access_control_device_intercom_entries.route|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|fullDocument.accesses.slice|getPaginated|startIndex,startIndex + limit|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|fullDocument.accesses.slice|getPaginated|startIndex,startIndex + limit|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|this._mongoDBService.findOne|getPaginated|this._mongoDBName,collections.accessControlDeviceAccesses,{ accessControlDeviceId }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|this._mongoDBService.findOne|getPaginated|this._mongoDBName,collections.accessControlDeviceAccesses,{ accessControlDeviceId }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|this._mongoDBService.findOne|create|this._mongoDBName,collections.accessControlDeviceAccesses,{ accessControlDeviceId }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|this._mongoDBService.findOne|create|this._mongoDBName,collections.accessControlDeviceAccesses,{ accessControlDeviceId }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|this._mongoDBService.insertOne|insert|this._mongoDBName,collections.accessControlDeviceAccesses,accessEntry|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|this._mongoDBService.insertOne|insert|this._mongoDBName,collections.accessControlDeviceAccesses,accessEntry|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|this._mongoDBService.updateOne|create|this._mongoDBName,collections.accessControlDeviceAccesses,{ accessControlDeviceId },{\n                    $push: { accesses: newAccess },\n                    $set: { modificationDate: timestamp },\n                }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|this._mongoDBService.updateOne|create|this._mongoDBName,collections.accessControlDeviceAccesses,{ accessControlDeviceId },{\n                    $push: { accesses: newAccess },\n                    $set: { modificationDate: timestamp },\n                }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|this._mongoDBService.updateOne|deleteAccess|this._mongoDBName,collections.accessControlDeviceAccesses,{\n                    accessControlDeviceId,\n                },{\n                    $pull: {\n                        accesses: { accessId: accessEntryToDelete.access.accessId },\n                    },\n                    $set: {\n                        modificationDate: timestamp,\n                    },\n                }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|this._mongoDBService.updateOne|deleteAccess|this._mongoDBName,collections.accessControlDeviceAccesses,{\n                    accessControlDeviceId,\n                },{\n                    $pull: {\n                        accesses: { accessId: accessEntryToDelete.access.accessId },\n                    },\n                    $set: {\n                        modificationDate: timestamp,\n                    },\n                }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|compareAccessLists|updateFromFullList|oldAccesses,newAccesses|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|compareAccessLists|updateFromFullList|oldAccesses,newAccesses|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|this._mongoDBService.findMany|getMergedDeltasSince|this._mongoDBName,collections.accessControlDeviceAccessSyncDeltas,{\n            accessControlDeviceId,\n            timestamp: { $gt: since },\n        }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|this._mongoDBService.findMany|getMergedDeltasSince|this._mongoDBName,collections.accessControlDeviceAccessSyncDeltas,{\n            accessControlDeviceId,\n            timestamp: { $gt: since },\n        }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|OSKAccessControlDeviceAccessSyncController.default.getMergedDeltasSince|anon|accessControlDeviceId,sinceDate|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|OSKAccessControlDeviceAccessSyncController.default.getMergedDeltasSince|anon|accessControlDeviceId,sinceDate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|device.accesses\n                .flatMap((access: OSKAccessControlDeviceAccess) => access.accessMethods)\n                .filter((method: OSKAccessMethod) => method.type === 'pincode')\n                .map|anon|(method: { type: 'pincode'; pincode: string }) => method.pincode|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|device.accesses\n                .flatMap((access: OSKAccessControlDeviceAccess) => access.accessMethods)\n                .filter((method: OSKAccessMethod) => method.type === 'pincode')\n                .map|anon|(method: { type: 'pincode'; pincode: string }) => method.pincode|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|uniquePincodes.map|anon|(pincode, index) => ({\n                    id: index.toString(),\n                    Pincode: pincode,\n                })|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|uniquePincodes.map|anon|(pincode, index) => ({\n                    id: index.toString(),\n                    Pincode: pincode,\n                })|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|OSKAccessControlDeviceActivitiesRouteHandler._constructActivityRecord|_transformActivityDigicomData|baseActivity|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|OSKAccessControlDeviceActivitiesRouteHandler._constructActivityRecord|_transformActivityDigicomData|baseActivity|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|OSKAccessControlDeviceActivitiesRouteHandler._constructActivityRecord|_transformActivityIntercomData|baseActivity|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|OSKAccessControlDeviceActivitiesRouteHandler._constructActivityRecord|_transformActivityIntercomData|baseActivity|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|OSKAccessControlDeviceActivitiesRouteHandler._transformActivityDigicomData|anon|activityReceived,accessControlDeviceId|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|OSKAccessControlDeviceActivitiesRouteHandler._transformActivityDigicomData|anon|activityReceived,accessControlDeviceId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|OSKAccessControlDeviceActivitiesRouteHandler._transformActivityIntercomData|anon|activityReceived,accessControlDeviceId|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|OSKAccessControlDeviceActivitiesRouteHandler._transformActivityIntercomData|anon|activityReceived,accessControlDeviceId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_activities.controller.ts|this._mongoDBService.insertOne|createActivity|this._mongoDBName,collectionName,newActivityDocument|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_activities.controller.ts|this._mongoDBService.insertOne|createActivity|this._mongoDBName,collectionName,newActivityDocument|#1",
       "status": "verified"
     },
     {
@@ -282,44 +235,164 @@
     },
     {
       "kind": "fact-id",
-      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|get|#1`",
-      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|get|#1",
+      "raw": "`external_hook|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|accessControlDevice_activities|#1`",
+      "factId": "external_hook|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|accessControlDevice_activities|#1",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|create|#1`",
-      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|create|#1",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|OSKAccessControlDeviceController.default.get|anon|accessControlDeviceId|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|OSKAccessControlDeviceController.default.get|anon|accessControlDeviceId|#1",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|update|#1`",
-      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|update|#1",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|OSKAccessControlDeviceController.default.get|anon|accessControlDeviceId|#2`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|OSKAccessControlDeviceController.default.get|anon|accessControlDeviceId|#2",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|delete|#1`",
-      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|delete|#1",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|this._mongoDBService.deleteOne|delete|this._mongoDBName,collections.accessControlDeviceConfigs,{ accessControlDeviceId }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|this._mongoDBService.deleteOne|delete|this._mongoDBName,collections.accessControlDeviceConfigs,{ accessControlDeviceId }|#1",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_firmwares.controller.ts|OSKAccessControlDeviceFirmwareController|get|#1`",
-      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_firmwares.controller.ts|OSKAccessControlDeviceFirmwareController|get|#1",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|this._mongoDBService.insertOne|create|this._mongoDBName,collections.accessControlDeviceConfigs,configToInsert|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|this._mongoDBService.insertOne|create|this._mongoDBName,collections.accessControlDeviceConfigs,configToInsert|#1",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|OSKAccessControlDeviceIntercomController|get|#1`",
-      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|OSKAccessControlDeviceIntercomController|get|#1",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|this._mongoDBService.updateOne|update|this._mongoDBName,collections.accessControlDeviceConfigs,{ accessControlDeviceId },{ $set: { ...configToUpdate, modificationDate: timestamp } }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|this._mongoDBService.updateOne|update|this._mongoDBName,collections.accessControlDeviceConfigs,{ accessControlDeviceId },{ $set: { ...configToUpdate, modificationDate: timestamp } }|#1",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`source_class|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController`",
-      "factId": "source_class|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_firmwares.controller.ts|this._mongoDBService.findOne|get|this._mongoDBName,collections.accessControlDeviceAccesses,{ accessControlDeviceId }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_firmwares.controller.ts|this._mongoDBService.findOne|get|this._mongoDBName,collections.accessControlDeviceAccesses,{ accessControlDeviceId }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_firmwares_route.handler.ts|OSKAccessControlDeviceFirmwareController.default.get|anon|accessControlDeviceId|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_firmwares_route.handler.ts|OSKAccessControlDeviceFirmwareController.default.get|anon|accessControlDeviceId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts|OSKAccessControlDeviceIntercomController.default.get|anon|accessControlDeviceId|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts|OSKAccessControlDeviceIntercomController.default.get|anon|accessControlDeviceId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|this._mongoDBService.findOne|create|this._mongoDBName,collections.accessControlDeviceIntercomEntries,{ accessControlDeviceId }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|this._mongoDBService.findOne|create|this._mongoDBName,collections.accessControlDeviceIntercomEntries,{ accessControlDeviceId }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|this._mongoDBService.insertOne|create|this._mongoDBName,collections.accessControlDeviceIntercomEntries,newIntercom|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|this._mongoDBService.insertOne|create|this._mongoDBName,collections.accessControlDeviceIntercomEntries,newIntercom|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|this._mongoDBService.updateOne|update|this._mongoDBName,collections.accessControlDeviceIntercomEntries,{ accessControlDeviceId },{\n                    $set: { entries: newIntercomEntries },\n                }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|this._mongoDBService.updateOne|update|this._mongoDBName,collections.accessControlDeviceIntercomEntries,{ accessControlDeviceId },{\n                    $set: { entries: newIntercomEntries },\n                }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entry_delta.controller.ts|super|anon|collections.accessControlDeviceIntercomEntryDeltas|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entry_delta.controller.ts|super|anon|collections.accessControlDeviceIntercomEntryDeltas|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts|OSKAccessControlDeviceIntercomEntryDeltaController.default.acknowledgeDelta|anon|accessControlDeviceId,deltaId|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts|OSKAccessControlDeviceIntercomEntryDeltaController.default.acknowledgeDelta|anon|accessControlDeviceId,deltaId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts|OSKAccessControlDeviceIntercomEntryDeltaController.default.getAllUnacknowledged|anon|accessControlDeviceId|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts|OSKAccessControlDeviceIntercomEntryDeltaController.default.getAllUnacknowledged|anon|accessControlDeviceId|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|OSKAccessControlDeviceAccessRouteHandler`",
+      "factId": "source_class|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|OSKAccessControlDeviceAccessRouteHandler",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController`",
+      "factId": "source_class|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|create|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|deleteAccess|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|deleteAccess|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|deleteAllAccessesPerAccessControlDevice|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|deleteAllAccessesPerAccessControlDevice|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|get|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|get|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|getPaginated|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|getPaginated|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|reCreate|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|reCreate|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|update|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|OSKAccessControlDeviceAccessController|update|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`source_class|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|OSKAccessControlDeviceAccessSyncController`",
+      "factId": "source_class|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|OSKAccessControlDeviceAccessSyncController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|OSKAccessControlDeviceAccessSyncController|getMergedDeltasSince|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|OSKAccessControlDeviceAccessSyncController|getMergedDeltasSince|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|OSKAccessControlDeviceAccessSyncController|updateFromFullList|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|OSKAccessControlDeviceAccessSyncController|updateFromFullList|#1",
       "status": "verified"
     },
     {
@@ -336,6 +409,12 @@
     },
     {
       "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_activities.controller.ts|OSKAccessControlDeviceActivitiesController|createActivity|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_activities.controller.ts|OSKAccessControlDeviceActivitiesController|createActivity|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
       "raw": "`source_class|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|OSKConfigsRouteHandler`",
       "factId": "source_class|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|OSKConfigsRouteHandler",
       "status": "verified"
@@ -348,8 +427,14 @@
     },
     {
       "kind": "fact-id",
-      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|_convert|#1`",
-      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|_convert|#1",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|create|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|delete|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|delete|#1",
       "status": "verified"
     },
     {
@@ -360,20 +445,8 @@
     },
     {
       "kind": "fact-id",
-      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|create|#1`",
-      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|create|#1",
-      "status": "verified"
-    },
-    {
-      "kind": "fact-id",
       "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|update|#1`",
       "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|update|#1",
-      "status": "verified"
-    },
-    {
-      "kind": "fact-id",
-      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|delete|#1`",
-      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|OSKAccessControlDeviceController|delete|#1",
       "status": "verified"
     },
     {
@@ -402,20 +475,68 @@
     },
     {
       "kind": "fact-id",
+      "raw": "`source_class|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController`",
+      "factId": "source_class|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|acknowledgeDelta|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|acknowledgeDelta|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|create|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|create|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|getAll|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|getAll|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|getAllUnacknowledged|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|getAllUnacknowledged|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|getMostRecentDeltaBeforeTimestamp|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|getMostRecentDeltaBeforeTimestamp|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|setLastAcknowledgedDelta|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController|setLastAcknowledgedDelta|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
       "raw": "`source_class|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|OSKAccessControlDeviceIntercomController`",
       "factId": "source_class|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|OSKAccessControlDeviceIntercomController",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`source_class|access_control_device|src/v1/controllers/access_control_device_intercom_entry_delta.controller.ts|OSKAccessControlDeviceIntercomEntryDeltaController`",
-      "factId": "source_class|access_control_device|src/v1/controllers/access_control_device_intercom_entry_delta.controller.ts|OSKAccessControlDeviceIntercomEntryDeltaController",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|OSKAccessControlDeviceIntercomController|create|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|OSKAccessControlDeviceIntercomController|create|#1",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`source_class|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController`",
-      "factId": "source_class|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|OSKAccessControlDeviceDeltasBaseController",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|OSKAccessControlDeviceIntercomController|get|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|OSKAccessControlDeviceIntercomController|get|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`controller_method|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|OSKAccessControlDeviceIntercomController|update|#1`",
+      "factId": "controller_method|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|OSKAccessControlDeviceIntercomController|update|#1",
       "status": "verified"
     },
     {
@@ -426,14 +547,8 @@
     },
     {
       "kind": "fact-id",
-      "raw": "`external_hook|access_control_device|src/v1/core/shared/pubsub.service.ts|topicName|#1`",
-      "factId": "external_hook|access_control_device|src/v1/core/shared/pubsub.service.ts|topicName|#1",
-      "status": "verified"
-    },
-    {
-      "kind": "fact-id",
-      "raw": "`call_expression|access_control_device|src/v1/core/shared/pubsub.service.ts|this.pubSub.topic(topicName).publishMessage|publishMessage|{                 data: dataBuffer,                 orderingKey: orderingKey,             }|#1`",
-      "factId": "call_expression|access_control_device|src/v1/core/shared/pubsub.service.ts|this.pubSub.topic(topicName).publishMessage|publishMessage|{                 data: dataBuffer,                 orderingKey: orderingKey,             }|#1",
+      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|pubSubService.publishMessage|_processActivity|'accessControlDevice_activities',activity.accessControlDeviceId,{ type: 'activities', entity: data }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|pubSubService.publishMessage|_processActivity|'accessControlDevice_activities',activity.accessControlDeviceId,{ type: 'activities', entity: data }|#1",
       "status": "verified"
     },
     {
@@ -444,38 +559,14 @@
     },
     {
       "kind": "fact-id",
-      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|pubSubService.publishMessage|_processActivity|'accessControlDevice_activities',activity.accessControlDeviceId,{ type: 'activities', entity: data }|#1`",
-      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|pubSubService.publishMessage|_processActivity|'accessControlDevice_activities',activity.accessControlDeviceId,{ type: 'activities', entity: data }|#1",
-      "status": "verified"
-    },
-    {
-      "kind": "fact-id",
-      "raw": "`call_expression|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|JSON.parse|anon|Buffer.from(pubSubMessage.message.data, 'base64').toString('utf-8')|#1`",
-      "factId": "call_expression|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|JSON.parse|anon|Buffer.from(pubSubMessage.message.data, 'base64').toString('utf-8')|#1",
-      "status": "verified"
-    },
-    {
-      "kind": "fact-id",
-      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_activities.controller.ts|this._mongoDBService.insertOne|createActivity|this._mongoDBName,collectionName,newActivityDocument|#1`",
-      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_activities.controller.ts|this._mongoDBService.insertOne|createActivity|this._mongoDBName,collectionName,newActivityDocument|#1",
-      "status": "verified"
-    },
-    {
-      "kind": "fact-id",
-      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entry_delta.controller.ts|super|anon|collections.accessControlDeviceIntercomEntryDeltas|#1`",
-      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entry_delta.controller.ts|super|anon|collections.accessControlDeviceIntercomEntryDeltas|#1",
+      "raw": "`imports_dependency|access_control_device|src/v1/core/shared/delta.utils.ts|../../models/access_control_device_access_sync_delta.model|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/core/shared/delta.utils.ts|../../models/access_control_device_access_sync_delta.model|#1",
       "status": "verified"
     },
     {
       "kind": "fact-id",
       "raw": "`imports_dependency|access_control_device|src/v1/core/shared/delta.utils.ts|../../models/access_control_device_access.model|#1`",
       "factId": "imports_dependency|access_control_device|src/v1/core/shared/delta.utils.ts|../../models/access_control_device_access.model|#1",
-      "status": "verified"
-    },
-    {
-      "kind": "fact-id",
-      "raw": "`imports_dependency|access_control_device|src/v1/core/shared/delta.utils.ts|../../models/access_control_device_access_sync_delta.model|#1`",
-      "factId": "imports_dependency|access_control_device|src/v1/core/shared/delta.utils.ts|../../models/access_control_device_access_sync_delta.model|#1",
       "status": "verified"
     },
     {
@@ -522,20 +613,8 @@
     },
     {
       "kind": "fact-id",
-      "raw": "`imports_dependency|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|../core/shared/constants|#1`",
-      "factId": "imports_dependency|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|../core/shared/constants|#1",
-      "status": "verified"
-    },
-    {
-      "kind": "fact-id",
       "raw": "`imports_dependency|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|../core/shared/database.service|#1`",
       "factId": "imports_dependency|access_control_device|src/v1/controllers/access_control_device_access_sync.controller.ts|../core/shared/database.service|#1",
-      "status": "verified"
-    },
-    {
-      "kind": "fact-id",
-      "raw": "`imports_dependency|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|../core/shared/database.service|#1`",
-      "factId": "imports_dependency|access_control_device|src/v1/controllers/access_control_device_accesses.controller.ts|../core/shared/database.service|#1",
       "status": "verified"
     },
     {
@@ -546,20 +625,26 @@
     },
     {
       "kind": "fact-id",
-      "raw": "`imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|../../core/shared/delta.utils|#1`",
-      "factId": "imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|../../core/shared/delta.utils|#1",
-      "status": "verified"
-    },
-    {
-      "kind": "fact-id",
       "raw": "`imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|../../core/logging.service|#1`",
       "factId": "imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|../../core/logging.service|#1",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`imports_dependency|access_control_device|src/v1/routes/access_control_device_accesses.route.ts|../schema/pubsub_message.schema|#1`",
-      "factId": "imports_dependency|access_control_device|src/v1/routes/access_control_device_accesses.route.ts|../schema/pubsub_message.schema|#1",
+      "raw": "`imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|../../core/shared/delta.utils|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|../../core/shared/delta.utils|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|../../models/pubsub_message.model|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_accesses_route.handler.ts|../../models/pubsub_message.model|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/controllers/access_control_device_activities.controller.ts|../core/shared/constants|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/controllers/access_control_device_activities.controller.ts|../core/shared/constants|#1",
       "status": "verified"
     },
     {
@@ -576,8 +661,14 @@
     },
     {
       "kind": "fact-id",
-      "raw": "`imports_dependency|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|../core/shared/database.service|#1`",
-      "factId": "imports_dependency|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|../core/shared/database.service|#1",
+      "raw": "`imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|../../core/shared/errors.service|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|../../core/shared/errors.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|../../core/shared/pubsub.service|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|../../core/shared/pubsub.service|#1",
       "status": "verified"
     },
     {
@@ -588,14 +679,14 @@
     },
     {
       "kind": "fact-id",
-      "raw": "`imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|../../models/pubsub_message.model|#1`",
-      "factId": "imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|../../models/pubsub_message.model|#1",
+      "raw": "`imports_dependency|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|../core/shared/database.service|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/controllers/access_control_device_configs.controller.ts|../core/shared/database.service|#1",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`imports_dependency|access_control_device|src/v1/routes/access_control_device_configs.route.ts|../schema/pubsub_message.schema|#1`",
-      "factId": "imports_dependency|access_control_device|src/v1/routes/access_control_device_configs.route.ts|../schema/pubsub_message.schema|#1",
+      "raw": "`imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|../../models/pubsub_message.model|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_configs_route.handler.ts|../../models/pubsub_message.model|#1",
       "status": "verified"
     },
     {
@@ -612,21 +703,69 @@
     },
     {
       "kind": "fact-id",
-      "raw": "`imports_dependency|access_control_device|src/v1/core/shared/pubsub.service.ts|@google-cloud/pubsub|#1`",
-      "factId": "imports_dependency|access_control_device|src/v1/core/shared/pubsub.service.ts|@google-cloud/pubsub|#1",
+      "raw": "`imports_dependency|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|../core/shared/constants|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|../core/shared/constants|#1",
       "status": "verified"
     },
     {
       "kind": "fact-id",
-      "raw": "`imports_dependency|access_control_device|src/v1/index.ts|@oskey-io/npm-express-framework-oskey-io|#1`",
-      "factId": "imports_dependency|access_control_device|src/v1/index.ts|@oskey-io/npm-express-framework-oskey-io|#1",
+      "raw": "`imports_dependency|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|../core/shared/database.service|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/controllers/access_control_device_intercom_entries.controller.ts|../core/shared/database.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/controllers/access_control_device_intercom_entry_delta.controller.ts|../core/shared/constants|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/controllers/access_control_device_intercom_entry_delta.controller.ts|../core/shared/constants|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|../../core/shared/database.service|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/controllers/shared/access_control_device_deltas_base.controller.ts|../../core/shared/database.service|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts|../../models/pubsub_message.model|#1`",
+      "factId": "imports_dependency|access_control_device|src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts|../../models/pubsub_message.model|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/core/shared/database.service.ts|dotenv.config|anon|{ path: '.env.local', override: true }|#1`",
+      "factId": "call_expression|access_control_device|src/v1/core/shared/database.service.ts|dotenv.config|anon|{ path: '.env.local', override: true }|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/core/shared/pubsub.service.ts|this.pubSub.createTopic|createTopic|topicName|#1`",
+      "factId": "call_expression|access_control_device|src/v1/core/shared/pubsub.service.ts|this.pubSub.createTopic|createTopic|topicName|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`external_hook|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|accessControlDevice_activities|#1`",
+      "factId": "external_hook|access_control_device|src/v1/handlers/routes/access_control_device_activities_route.handler.ts|accessControlDevice_activities|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entry_delta.controller.ts|super|anon|collections.accessControlDeviceIntercomEntryDeltas|#1`",
+      "factId": "call_expression|access_control_device|src/v1/controllers/access_control_device_intercom_entry_delta.controller.ts|super|anon|collections.accessControlDeviceIntercomEntryDeltas|#1",
+      "status": "verified"
+    },
+    {
+      "kind": "fact-id",
+      "raw": "`call_expression|access_control_device|src/v1/core/shared/pubsub.service.ts|this.pubSub.createTopic|createTopic|topicName|#1`",
+      "factId": "call_expression|access_control_device|src/v1/core/shared/pubsub.service.ts|this.pubSub.createTopic|createTopic|topicName|#1",
       "status": "verified"
     }
   ],
   "citationSummary": {
-    "total": 100,
-    "verified": 97,
-    "lineUnverified": 3,
+    "total": 123,
+    "verified": 123,
+    "lineUnverified": 0,
     "fileNotFound": 0
   }
 }

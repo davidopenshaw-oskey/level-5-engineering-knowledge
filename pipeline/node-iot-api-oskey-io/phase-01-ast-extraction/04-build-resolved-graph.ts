@@ -516,6 +516,7 @@ function main() {
       id: `unresolved_call|${call.id}`,
       sourceCallFactId: call.id,
       sourceModule,
+      sourceSubmodule: call.submodule,
       sourceFile,
       sourceLine,
       sourceContext,

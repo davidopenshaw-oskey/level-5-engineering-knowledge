@@ -64,10 +64,36 @@ Produce exactly one document, in Markdown, wrapped as instructed in the task mes
 One or two sentences: what does this capability do, within the module. Confidence tag required.
 
 ### 2. Primary Responsibilities
-Every distinct responsibility/feature this capability provides, each with its own confidence tag. Preserve specific engineering terms (component/service names, permission strings, route paths) exactly as they appear in evidence.
+Before writing this section, inspect every applicable candidate-evidence source in your pack: public interfaces (components and injectable services), UI composition (template composition and bindings), API contracts and routes (backend calls, route definitions), state ownership (signals), outbound coupling, permission/guard checks, and external hooks. These are candidate *sources to check*, not an output taxonomy — do not produce one responsibility per fact type or per evidence category. A single real responsibility is very often evidenced across several of these sources at once, and your job is to recognize that and merge them into one coherent entry, not report each source's contribution separately.
+
+**Worked example (fictional, illustrative only — do not treat as real):**
+
+```
+Evidence discovered:
+- angular_component: ProfileSettingsComponent
+- angular_route: /settings, canActivate: [AuthGuard]
+- angular_signal: profileForm (writable state on ProfileSettingsComponent)
+- firebase_callable_call: updateUserProfile(...)
+- angular_guard: AuthGuard checks 'profile_edit' role
+
+Incorrect synthesis (one responsibility per fact type):
+- Component responsibility
+- Route responsibility
+- Signal responsibility
+- Backend call responsibility
+- Guard responsibility
+
+Correct synthesis (grouped by coherent engineering behavior):
+- View and update user profile settings, gated by role
+  Evidence: ProfileSettingsComponent + /settings route + profileForm
+  signal + updateUserProfile backend call + AuthGuard's 'profile_edit'
+  check
+```
+
+Every distinct responsibility/feature this capability provides gets its own confidence tag. Preserve specific engineering terms (component/service names, permission strings, route paths) exactly as they appear in evidence — do not compress a real class, route, or permission name into a generic label. Do not target a specific number of responsibilities — the objective is systematic traversal of the candidate evidence surface, not a predetermined count.
 
 ### 3. Public Interfaces (Components & Services)
-`angular_component` and `angular_injectable` facts: the components and injectable services this capability exposes, named specifically (class name, selector for components, `providedIn` scope for injectables) — not described generically.
+**Do not write this section — it is generated deterministically by the calling script from `angular_component`/`angular_injectable` facts after your response is received, and your own text here will be discarded and replaced.** This is the same "assembled, not synthesized" treatment this pipeline already applies to citations more broadly (see "What NOT to include" below), applied one stage earlier: Phase 1 already identifies every component and injectable service by class name, selector, and `providedIn` scope, so there's nothing left for you to discover here. Still include the `### 3. Public Interfaces (Components & Services)` header in your output (the assembly step locates it by header, not by content), but you may leave its body empty or minimal — anything you write there is replaced, not merged with or corrected.
 
 ### 4. UI Composition
 `angular_template_composition` and `angular_template_binding` facts: what this capability's components actually render (child components/elements used in their templates) and what data flows in and out of them (input/output bindings, with the real bound expression or handler). This is the structural answer to "what does this look like and do on screen" — no equivalent section exists in the Firebase pipeline's contracts, since a backend has no template layer. If a component in this pack has a template with no notable composition or bindings beyond native HTML elements, say so briefly rather than omitting it.

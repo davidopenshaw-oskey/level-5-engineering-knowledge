@@ -45,7 +45,7 @@ import {
   loadNotifications,
   runContextPath,
 } from "../phase-01-ast-extraction/_shared/run-utils";
-import { LlmProviderConfig } from "./_shared/llm-adapter";
+import { LlmProviderConfig, CACHE_BREAKPOINT_MARKER } from "./_shared/llm-adapter";
 import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
 import { filterCallEdgesForModule, formatCallEdges, filterUnresolvedCallEdgesForModule, formatUnresolvedCallEdges } from "./_shared/call-edges";
@@ -300,40 +300,52 @@ async function main() {
     })
     .join("\n\n---\n\n");
 
-  const reduceSections: string[] = [];
-  reduceSections.push(`## Supporting Contracts (persona, rules, output schema, task definition, reduce-specific reconciliation duties)`);
+  // Split at CACHE_BREAKPOINT_MARKER between the stable prefix (reduce
+  // contract + grounding docs + module list -- identical across every
+  // reduce call in this run, regardless of module) and the module-specific
+  // variable content (deterministic graphs, RBAC/unresolved-edge catalogs,
+  // per-capability extracts, generation metadata). Added per governance/
+  // roadmap/firebase-oskey-dev/07-gemini-context-caching-plan.md -- mirrors
+  // capability-synthesis.ts's buildCapabilityPrompt(), which already did
+  // this; the reduce call never had the split until now. callGemini decides
+  // what to do with the marker; this script doesn't need to know.
+  const stableSections: string[] = [];
+  stableSections.push(`You are producing ONLY the cross-cutting sections of a Module Engineering Profile -- most of the document is assembled separately from already-correct capability-level output and is not your job. Follow the supporting contract documents below exactly, especially the "Your output ... only needs to contain Sections ..." instruction.`);
+  stableSections.push(`## Supporting Contracts (persona, rules, output schema, task definition, reduce-specific reconciliation duties)`);
   for (const doc of moduleSynthesisDocs) {
-    reduceSections.push(`### ${doc.relPath}\n\n${doc.content}`);
+    stableSections.push(`### ${doc.relPath}\n\n${doc.content}`);
   }
-  reduceSections.push(`## Architectural Grounding Documents`);
+  stableSections.push(`## Architectural Grounding Documents`);
   for (const doc of groundingDocs) {
-    reduceSections.push(`### ${doc.relPath}\n\n${doc.content}`);
+    stableSections.push(`### ${doc.relPath}\n\n${doc.content}`);
   }
-  reduceSections.push(
+  stableSections.push(moduleListSection);
+
+  const variableSections: string[] = [];
+  variableSections.push(
     `## Cross-Module Dependency Graph (${MODULE_NAME}/cross-module-dependencies.json -- deterministic, derived from AST import ` +
       `resolution, NOT LLM inference)\n\n` +
       `Every entry below is **Confirmed**.\n\n\`\`\`json\n${crossModuleDepsRaw}\n\`\`\``
   );
-  reduceSections.push(
+  variableSections.push(
     `## Intra-Module Coupling Graph (${MODULE_NAME}/intra-module-coupling.json -- deterministic, derived from AST import resolution, ` +
       `NOT LLM inference)\n\n` +
       `Every entry below is **Confirmed**. Use this for Section 5 (Internal Structure).\n\n\`\`\`json\n${intraModuleCouplingRaw}\n\`\`\``
   );
-  reduceSections.push(
+  variableSections.push(
     `## Resolved Cross-Module Call Edges (deterministic, method-level)\n\n` +
       `Use this for Section 10 (Cross-Module Relationships) and Section 12 (Architectural Observations).\n\n${formatCallEdges(callEdgesForModule)}`
   );
-  reduceSections.push(
+  variableSections.push(
     `## Data Ownership Hints (deterministic SIGNAL, not a label -- for Section 6's ownership conclusion)\n\n${formatOwnershipHints(ownershipHints)}`
   );
-  reduceSections.push(
+  variableSections.push(
     `## RBAC Requirements Catalog (deterministic, filtered to this module -- for Section 9's enforcement tally; reason from this table, do not reconstruct one from the per-capability Permissions extracts)\n\n${formatRbacCatalog(rbacRowsForModule)}`
   );
-  reduceSections.push(
+  variableSections.push(
     `## Unresolved Call Edges (deterministic, filtered to this module -- one additional real input for Section 13, not a new inference for you to perform)\n\n${formatUnresolvedCallEdges(unresolvedCallEdgesForModule)}`
   );
-  reduceSections.push(moduleListSection);
-  reduceSections.push(
+  variableSections.push(
     `## Generation Metadata (use these exact values verbatim)\n\n` +
       `- runId: ${runId}\n` +
       `- generatedAt: ${new Date().toISOString()}\n` +
@@ -343,26 +355,23 @@ async function main() {
       `- llmProvider: ${llmConfig.provider}\n` +
       `- llmModel: ${llmConfig.model}`
   );
-  reduceSections.push(
+  variableSections.push(
     `## Per-Capability Extracts for '${MODULE_NAME}' (${capabilities.length} capabilities -- Summary, Data Ownership, Permissions, and ` +
       `Open Questions only; the full capability outputs are assembled directly into the final document by the calling script and are ` +
       `not shown to you)\n\n${capabilityExtracts}`
   );
-
-  const connectiveContext = reduceSections.join("\n\n---\n\n");
   const profileRelPath = path.join("engineering-profiles", `${MODULE_NAME}-engineering-profile.md`);
   const apiRefRelPath = path.join("apis", `${MODULE_NAME}-api-reference.md`);
-
-  const connectivePrompt = [
-    `You are producing ONLY the cross-cutting sections of a Module Engineering Profile -- most of the document is assembled separately from already-correct capability-level output and is not your job. Follow the supporting contract documents below exactly, especially the "Your output ... only needs to contain Sections ..." instruction.`,
-    connectiveContext,
+  variableSections.push(
     `## Output Format (mandatory)\n\n` +
       `Produce exactly one file containing ONLY Sections 0, 1, 2, 5, 6, 9, 10, 12, and 13 (using the "### N. Title" heading convention for each). Wrap it EXACTLY as follows, with no other text before, between, or after:\n\n` +
       `===FILE: ${profileRelPath}===\n` +
       `<only the sections listed above, per the reduce contract's Output Format note>\n` +
       `===END FILE===\n\n` +
-      `Do not include any conversational preamble, explanation, or text outside this marked block. Do not write Sections 3, 4, 7, 8, 11, or 14 -- those are assembled separately.`,
-  ].join("\n\n---\n\n");
+      `Do not include any conversational preamble, explanation, or text outside this marked block. Do not write Sections 3, 4, 7, 8, 11, or 14 -- those are assembled separately.`
+  );
+
+  const connectivePrompt = stableSections.join("\n\n---\n\n") + CACHE_BREAKPOINT_MARKER + variableSections.join("\n\n---\n\n");
 
   const connectiveSpec: DocumentCallSpec = { relPath: profileRelPath, prompt: connectivePrompt, kind: "connective-tissue" };
 
@@ -373,9 +382,53 @@ async function main() {
   // path used above for the read side, so a comparison run can never
   // overwrite the canonical output for the same runId.
   const outputDocsDir = COMPARISON_MODE ? comparisonModuleDir : path.join(projectRoot, "knowledge-corpus", REPO_NAME, runId);
-  const written = await runDocumentCalls([connectiveSpec], llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (connective-tissue)`, LLM_CONFIG_KEY);
-  const connectiveRaw = written.get(profileRelPath)!;
-  const connectiveSections = splitNumberedSections(connectiveRaw);
+
+  // Detect-and-retry for a real, confirmed failure mode found 2026-08-30
+  // (governance/roadmap/firebase-oskey-dev/06b-v1-ab-factorial-experiment-
+  // results.md): on the largest sampled module (organization, 14
+  // capabilities), the connective-tissue call sometimes returns section
+  // HEADERS for every required section (so CONNECTIVE_SECTION_MISSING below
+  // never fires) but leaves the genuinely judgment-heavy free-text sections
+  // -- Permissions & Security's cross-cutting callouts, Architectural
+  // Observations, Risks & Open Questions' cross-cutting risks -- collapsed
+  // to a near-empty stub, while graph-anchored sections (Internal
+  // Structure, the ownership conclusion, Cross-Module Relationships) stay
+  // fully populated. Confirmed NOT a raw prompt-size effect (the same
+  // deterministic RBAC/unresolved-edge data reaches every arm; Current/A
+  // never showed this in any of 4 sampled organization runs) and NOT
+  // module-size alone (never observed on tasks/apps under the same
+  // contract) -- specific to this reduce contract's text on large modules,
+  // roughly half the time. MIN_JUDGMENT_SECTION_CHARS is set from real
+  // measured data, not a guess: the smallest genuinely healthy value seen
+  // for any of these three sections across 18 real tasks/apps samples was
+  // 636 characters; the confirmed-degenerate real samples were 37-116 --
+  // wide margin on both sides.
+  const MIN_JUDGMENT_SECTION_CHARS = 200;
+  const JUDGMENT_SECTIONS_TO_VERIFY = [CONNECTIVE_SECTION.PERMISSIONS_RISK, CONNECTIVE_SECTION.ARCHITECTURAL_OBSERVATIONS, CONNECTIVE_SECTION.RISKS];
+  const MAX_CONNECTIVE_ATTEMPTS = 3;
+
+  let connectiveRaw = "";
+  let connectiveSections: Map<number, { title: string; body: string }> = new Map();
+  for (let attempt = 1; attempt <= MAX_CONNECTIVE_ATTEMPTS; attempt++) {
+    const written = await runDocumentCalls([connectiveSpec], llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (connective-tissue)`, LLM_CONFIG_KEY);
+    connectiveRaw = written.get(profileRelPath)!;
+    connectiveSections = splitNumberedSections(connectiveRaw);
+
+    const degenerateSections = JUDGMENT_SECTIONS_TO_VERIFY.filter(n => (connectiveSections.get(n)?.body.length ?? 0) < MIN_JUDGMENT_SECTION_CHARS);
+    if (degenerateSections.length === 0) break;
+
+    const isFinalAttempt = attempt === MAX_CONNECTIVE_ATTEMPTS;
+    addNotification(
+      notifications,
+      SOURCE_SCRIPT,
+      "warning",
+      isFinalAttempt ? "CONNECTIVE_CONTENT_DEGENERATE_FINAL" : "CONNECTIVE_CONTENT_DEGENERATE_RETRY",
+      `Connective-tissue call for module '${MODULE_NAME}' produced suspiciously short/empty content (<${MIN_JUDGMENT_SECTION_CHARS} chars) for section(s) ${degenerateSections.join(", ")} on attempt ${attempt}/${MAX_CONNECTIVE_ATTEMPTS}` +
+        (isFinalAttempt ? " -- retries exhausted, proceeding with this degenerate content." : " -- retrying."),
+      { module: MODULE_NAME, file: profileRelPath, attempt, degenerateSections, charLengths: degenerateSections.map(n => connectiveSections.get(n)?.body.length ?? 0) },
+      isFinalAttempt
+    );
+  }
 
   for (const requiredSection of Object.values(CONNECTIVE_SECTION)) {
     if (!connectiveSections.has(requiredSection)) {

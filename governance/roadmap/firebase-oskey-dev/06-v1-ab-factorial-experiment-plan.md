@@ -1,6 +1,6 @@
 # V1-A/V1-B A/B/AB Factorial Experiment — Plan
 
-**Status:** Infrastructure built and verified (`tsc --noEmit` clean); worklist generated; not yet executed. Tasks 17m-17o. Full background: `governance/roadmap/v1-a-capability-synthesis-contract-scope-2026-08-30.md`, `v1-b-module-reduce-contract-scope-2026-08-30.md`, and the `contract-scope-conflict-review-*-2026-08-30*.md` thread.
+**Status:** Executed and fully measured. Tasks 17m-17o all done 2026-08-30 — see `tasks.md` item 17 and `06b-v1-ab-factorial-experiment-results.md` for the real results and the porting decision (V1-A ported, V1-B deferred pending a re-run against the since-fixed pipeline defects). Full background: `governance/roadmap/v1-a-capability-synthesis-contract-scope-2026-08-30.md`, `v1-b-module-reduce-contract-scope-2026-08-30.md`, and the `governance/roadmap/contract-refactoring/contract-scope-conflict-review-*-2026-08-30*.md` thread.
 
 ---
 

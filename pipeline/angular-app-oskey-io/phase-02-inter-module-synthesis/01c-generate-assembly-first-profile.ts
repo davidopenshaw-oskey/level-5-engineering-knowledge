@@ -48,7 +48,8 @@ import {
 import { LlmProviderConfig } from "./_shared/llm-adapter";
 import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
-import { filterCallEdgesForModule, formatCallEdges } from "./_shared/call-edges";
+import { filterCallEdgesForModule, formatCallEdges, filterUnresolvedCallEdgesForModule, formatUnresolvedCallEdges } from "./_shared/call-edges";
+import { filterRbacRequirementsForModule, formatRbacCatalog } from "./_shared/rbac-catalog";
 import { computeOwnershipHints, formatOwnershipHints } from "./_shared/ownership-hints";
 import { validateCitations, formatCitationValidation } from "./_shared/citation-validator";
 import { writeProvenanceSidecar } from "./_shared/provenance-sidecar";
@@ -250,6 +251,8 @@ async function main() {
   const resolvedGraphPath = path.join(repoOutputDir, "knowledge-pipeline", "resolved-engineering-graph.json");
   const resolvedGraph = JSON.parse(readRequiredFile(resolvedGraphPath, "repo-wide resolved engineering graph"));
   const callEdgesForModule = filterCallEdgesForModule(resolvedGraph, MODULE_NAME);
+  const rbacRowsForModule = filterRbacRequirementsForModule(resolvedGraph, MODULE_NAME);
+  const unresolvedCallEdgesForModule = filterUnresolvedCallEdgesForModule(resolvedGraph, MODULE_NAME);
 
   const evidenceGraphPath = path.join(moduleDir, `${MODULE_NAME}-evidence-graph.json`);
   const evidenceGraphForHints = JSON.parse(readRequiredFile(evidenceGraphPath, `evidence graph for module '${MODULE_NAME}' (ownership hints only)`));
@@ -301,6 +304,12 @@ async function main() {
   reduceSections.push(
     `## State Ownership Hints (deterministic SIGNAL, not a label -- for Section 7's ownership conclusion)\n\n${formatOwnershipHints(ownershipHints)}`
   );
+  reduceSections.push(
+    `## RBAC Requirements Catalog (deterministic, filtered to this module -- for Section 11's role-gating tally; reason from this table, do not reconstruct one from the per-capability Permissions extracts)\n\n${formatRbacCatalog(rbacRowsForModule)}`
+  );
+  reduceSections.push(
+    `## Unresolved Call Edges (deterministic, filtered to this module -- one additional real input for Section 14, not a new inference for you to perform)\n\n${formatUnresolvedCallEdges(unresolvedCallEdgesForModule)}`
+  );
   reduceSections.push(moduleListSection);
   reduceSections.push(
     `## Generation Metadata (use these exact values verbatim)\n\n` +
@@ -342,9 +351,51 @@ async function main() {
   // path used above for the read side, so a comparison run can never
   // overwrite the canonical output for the same runId.
   const outputDocsDir = COMPARISON_MODE ? comparisonModuleDir : path.join(projectRoot, "knowledge-corpus", REPO_NAME, runId);
-  const written = await runDocumentCalls([connectiveSpec], llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (connective-tissue)`, LLM_CONFIG_KEY);
-  const connectiveRaw = written.get(profileRelPath)!;
-  const connectiveSections = splitNumberedSections(connectiveRaw);
+  // Detect-and-retry for a real, confirmed failure mode found on
+  // firebase-oskey-dev 2026-08-30 (governance/roadmap/firebase-oskey-dev/
+  // 06b-v1-ab-factorial-experiment-results.md): on large modules, the
+  // connective-tissue call sometimes returns section HEADERS for every
+  // required section (so CONNECTIVE_SECTION_MISSING below never fires) but
+  // leaves the genuinely judgment-heavy free-text sections -- Permissions &
+  // Security's cross-cutting callouts, Architectural Observations, Risks &
+  // Open Questions' cross-cutting risks -- collapsed to a near-empty stub,
+  // while graph-anchored sections stay fully populated. Ported from
+  // firebase-oskey-dev's copy of this file per governance/roadmap/
+  // v1-b-module-reduce-contract-scope-2026-08-30.md. MIN_JUDGMENT_SECTION_CHARS
+  // is NOT independently derived for Angular -- it's inherited as a
+  // documented placeholder from Firebase's real measured calibration (18
+  // tasks/apps samples: smallest genuinely healthy value 636 chars, confirmed-
+  // degenerate real samples 37-116 chars, wide margin on both sides). Angular's
+  // reduce output trends toward shorter, more UI-focused prose per section than
+  // Firebase's Firestore/RBAC-heavy prose, so this threshold has not itself
+  // been validated against Angular's own output distribution -- revisit with
+  // real Angular samples before trusting it the way Firebase's is trusted.
+  const MIN_JUDGMENT_SECTION_CHARS = 200;
+  const JUDGMENT_SECTIONS_TO_VERIFY = [CONNECTIVE_SECTION.PERMISSIONS_RISK, CONNECTIVE_SECTION.ARCHITECTURAL_OBSERVATIONS, CONNECTIVE_SECTION.RISKS];
+  const MAX_CONNECTIVE_ATTEMPTS = 3;
+
+  let connectiveRaw = "";
+  let connectiveSections: Map<number, { title: string; body: string }> = new Map();
+  for (let attempt = 1; attempt <= MAX_CONNECTIVE_ATTEMPTS; attempt++) {
+    const written = await runDocumentCalls([connectiveSpec], llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (connective-tissue)`, LLM_CONFIG_KEY);
+    connectiveRaw = written.get(profileRelPath)!;
+    connectiveSections = splitNumberedSections(connectiveRaw);
+
+    const degenerateSections = JUDGMENT_SECTIONS_TO_VERIFY.filter(n => (connectiveSections.get(n)?.body.length ?? 0) < MIN_JUDGMENT_SECTION_CHARS);
+    if (degenerateSections.length === 0) break;
+
+    const isFinalAttempt = attempt === MAX_CONNECTIVE_ATTEMPTS;
+    addNotification(
+      notifications,
+      SOURCE_SCRIPT,
+      "warning",
+      isFinalAttempt ? "CONNECTIVE_CONTENT_DEGENERATE_FINAL" : "CONNECTIVE_CONTENT_DEGENERATE_RETRY",
+      `Connective-tissue call for module '${MODULE_NAME}' produced suspiciously short/empty content (<${MIN_JUDGMENT_SECTION_CHARS} chars) for section(s) ${degenerateSections.join(", ")} on attempt ${attempt}/${MAX_CONNECTIVE_ATTEMPTS}` +
+        (isFinalAttempt ? " -- retries exhausted, proceeding with this degenerate content." : " -- retrying."),
+      { module: MODULE_NAME, file: profileRelPath, attempt, degenerateSections, charLengths: degenerateSections.map(n => connectiveSections.get(n)?.body.length ?? 0) },
+      isFinalAttempt
+    );
+  }
 
   for (const requiredSection of Object.values(CONNECTIVE_SECTION)) {
     if (!connectiveSections.has(requiredSection)) {
@@ -433,7 +484,11 @@ async function main() {
       repoName: REPO_NAME,
       module: MODULE_NAME,
       sourceCapabilities: capabilities.map(c => c.packName),
-      deterministicArtifacts: ["cross-module-dependencies.json", "intra-module-coupling.json", "resolved-engineering-graph.json (call edges + ownership hints)"],
+      deterministicArtifacts: [
+        "cross-module-dependencies.json",
+        "intra-module-coupling.json",
+        "resolved-engineering-graph.json (call edges + ownership hints + module-filtered rbacRequirements + module-filtered unresolvedCallEdges)",
+      ],
       connectiveLlmConfigKey: LLM_CONFIG_KEY,
     },
     "llm"
