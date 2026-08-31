@@ -26,7 +26,7 @@
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { getOrCreateCache } from "./gemini-cache";
 
-export type LlmProviderName = "gemini" | "anthropic" | "openai";
+export type LlmProviderName = "gemini" | "anthropic" | "openai" | "lmstudio";
 
 export interface LlmProviderConfig {
   provider: LlmProviderName;
@@ -36,11 +36,21 @@ export interface LlmProviderConfig {
   // NOT used for "gemini" -- that provider authenticates via Vertex AI +
   // ADC (gcloud auth application-default login) instead, reflecting
   // SSO/enterprise access rather than a per-provider API key.
+  // NOT used for "lmstudio" either -- a local server has no real API key to
+  // check, see callLmStudio.
   apiKeyEnvVar?: string;
   // Required for "gemini" only -- the GCP project and Vertex AI region to
   // call. Not a secret, safe to commit.
   projectId?: string;
   location?: string;
+  // Required for "lmstudio" only -- e.g. "http://localhost:1234/v1/chat/
+  // completions", LM Studio's local OpenAI-compatible server address. Kept
+  // as its own provider rather than an optional override on "openai"'s
+  // hardcoded URL specifically so a local run can never silently fall
+  // through to the real OpenAI API (missing/wrong baseUrl fails closed
+  // instead) and a real "openai" config can never be accidentally pointed
+  // at a local server by a stray field.
+  baseUrl?: string;
   maxTokens?: number;
   temperature?: number;
   // Gemini-only. Maps to the @google/genai SDK's ThinkingConfig.thinkingLevel
@@ -88,6 +98,33 @@ export interface LlmCallResult {
     // provider's actual response shape first.
     cacheReadInputTokens?: number;
     cacheCreationInputTokens?: number;
+    // Added 2026-08-31, real gap confirmed against a real captured response
+    // before fixing: for Gemini, thinkingTokens is GENUINELY ADDITIONAL to
+    // outputTokens, not a breakdown of it -- verified against a real trivial
+    // test call where promptTokenCount(7) + candidatesTokenCount(1) = 8, but
+    // totalTokenCount was 98; thoughtsTokenCount(90) makes up the entire
+    // difference (7+1+90=98 exactly). usageMetadata.thoughtsTokenCount was
+    // already known to exist (referenced in callGemini's own empty-response
+    // error message since 2026-08-01) but never pulled into a tracked
+    // field, so outputTokens alone understated real billed cost whenever a
+    // model spends real tokens thinking -- confirmed real and non-trivial on
+    // gemini-3.7-flash even for a one-word reply. For Anthropic, checked via
+    // its own official docs before assuming parity: thinking tokens are
+    // already counted WITHIN outputTokens (billed at the standard output
+    // rate), with output_tokens_details.thinking_tokens existing only as an
+    // optional visibility breakdown of an already-correct total -- lower
+    // priority than Gemini's case, since Anthropic's total cost is already
+    // accurate without it, only the breakdown is missing. For OpenAI,
+    // checked via its own official docs before assuming parity: same
+    // already-correct-total pattern as Anthropic, not Gemini --
+    // completion_tokens_details.reasoning_tokens (real for o-series/
+    // gpt-5-class models) is already included within completion_tokens, so
+    // this is a visibility-breakdown field for OpenAI too, not an undercount
+    // fix. Matters now specifically because the structured-output pilot's
+    // own go/no-go criterion depends on a real, complete token-count
+    // comparison -- an incomplete picture here would
+    // quietly bias that exact measurement.
+    thinkingTokens?: number;
   };
   // Normalized across providers. "stop" means the model finished naturally
   // (Anthropic end_turn / Gemini STOP / OpenAI stop) -- by the time this is
@@ -139,6 +176,10 @@ export async function callLlm(prompt: string, config: LlmProviderConfig): Promis
       break;
     case "openai":
       result = await callOpenAI(prompt, config, requireApiKey(config));
+      break;
+    case "lmstudio":
+      // No requireApiKey call -- a local server has nothing to check.
+      result = await callLmStudio(prompt, config);
       break;
     default: {
       // Exhaustiveness check: if a new provider is added to LlmProviderName
@@ -311,6 +352,10 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
       // a nonzero value here without us doing anything would mean Vertex AI
       // applies some caching implicitly, which isn't otherwise documented.
       cacheReadInputTokens: response.usageMetadata?.cachedContentTokenCount,
+      // Genuinely additional to outputTokens, not a breakdown of it -- see
+      // this field's own doc comment on the interface above for the real
+      // verification (7+1+90=98 against a real totalTokenCount).
+      thinkingTokens: response.usageMetadata?.thoughtsTokenCount,
     },
     finishReason: finishReason === "STOP" ? "stop" : "other",
   };
@@ -395,6 +440,12 @@ async function callAnthropic(prompt: string, config: LlmProviderConfig, apiKey: 
       outputTokens: data?.usage?.output_tokens,
       cacheReadInputTokens: data?.usage?.cache_read_input_tokens,
       cacheCreationInputTokens: data?.usage?.cache_creation_input_tokens,
+      // Unlike Gemini's, this is NOT additional to outputTokens -- per
+      // Anthropic's own docs, thinking tokens are already billed within
+      // output_tokens at the standard rate; this field is purely a
+      // visibility breakdown of an already-correct total, populated here
+      // only so a cost report can show the split, not to fix an undercount.
+      thinkingTokens: data?.usage?.output_tokens_details?.thinking_tokens,
     },
     finishReason: data?.stop_reason === "end_turn" ? "stop" : "other",
   };
@@ -445,6 +496,81 @@ async function callOpenAI(prompt: string, config: LlmProviderConfig, apiKey: str
   return {
     text,
     provider: "openai",
+    model: config.model,
+    servedModel: data?.model,
+    raw: data,
+    usage: {
+      inputTokens: data?.usage?.prompt_tokens,
+      outputTokens: data?.usage?.completion_tokens,
+      // Confirmed via OpenAI's own docs before assuming parity with either
+      // other provider: reasoning_tokens (real for o-series/gpt-5-class
+      // models) are already included within completion_tokens, same
+      // already-correct-total pattern as Anthropic's thinking_tokens, NOT
+      // Gemini's genuinely-additional thoughtsTokenCount. Populated here for
+      // the same visibility-breakdown reason as Anthropic's.
+      thinkingTokens: data?.usage?.completion_tokens_details?.reasoning_tokens,
+    },
+    finishReason: data?.choices?.[0]?.finish_reason === "stop" ? "stop" : "other",
+  };
+}
+
+// LM Studio's local server speaks the same OpenAI-compatible wire protocol
+// (chat/completions shape), so this is a near-verbatim copy of callOpenAI --
+// kept as its own function rather than a shared helper with a URL parameter
+// so a future change to the real OpenAI path (auth, retry behavior, request
+// shape) never silently changes local-server behavior too, and vice versa.
+// No API key: LM Studio doesn't validate the Authorization header's value,
+// but some client/proxy layers still expect the header to be present, so a
+// fixed placeholder is sent rather than omitting it.
+async function callLmStudio(prompt: string, config: LlmProviderConfig): Promise<LlmCallResult> {
+  if (!config.baseUrl) {
+    throw new Error(`[Fail-Closed] LLM provider 'lmstudio' (model '${config.model}') has no 'baseUrl' set in config/llm-providers.json.`);
+  }
+  const cleanPrompt = prompt.split(CACHE_BREAKPOINT_MARKER).join("");
+  const body = {
+    model: config.model,
+    max_tokens: config.maxTokens ?? 8192,
+    temperature: config.temperature ?? 0.2,
+    messages: [{ role: "user", content: cleanPrompt }],
+  };
+
+  const res = await fetch(config.baseUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer lm-studio",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(
+      `[LLM_CALL_FAILED] LM Studio request to '${config.baseUrl}' failed (HTTP ${res.status}): ${errText.slice(0, 1000)}. ` +
+        `Check that LM Studio's local server is running and the model is loaded (LM Studio app -> Developer tab -> Start Server).`
+    );
+  }
+
+  const data: any = await res.json();
+  const text: string = data?.choices?.[0]?.message?.content ?? "";
+
+  if (!text) {
+    throw new Error(`[LLM_CALL_FAILED] LM Studio response contained no text. Raw response (truncated): ${JSON.stringify(data).slice(0, 1000)}`);
+  }
+
+  // Fail closed on truncation -- see the matching check in callOpenAI.
+  if (data?.choices?.[0]?.finish_reason === "length") {
+    throw new Error(
+      `[LLM_OUTPUT_TRUNCATED] LM Studio response for model '${config.model}' was cut off (finish_reason: length, ` +
+        `maxTokens configured: ${config.maxTokens ?? 8192}, completion_tokens used: ${data?.usage?.completion_tokens ?? "unknown"}). ` +
+        `Increase 'maxTokens' in config/llm-providers.json for this provider key, or reduce the prompt size -- local models typically have a ` +
+        `much smaller real context window than their headline number suggests once KV-cache memory is accounted for.`
+    );
+  }
+
+  return {
+    text,
+    provider: "lmstudio",
     model: config.model,
     servedModel: data?.model,
     raw: data,

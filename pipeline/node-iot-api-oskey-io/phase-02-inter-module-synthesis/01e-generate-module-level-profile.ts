@@ -38,6 +38,7 @@ import {
   runContextPath,
   factsToCompactTableShortIds,
   expandShortIdRangeCitations,
+  expandBundledShortIdCitations,
   restoreFactIdCitations,
   findUnrestoredShortIdCitations,
   renderCitationsAsFootnotes,
@@ -373,7 +374,8 @@ async function main() {
   // Firebase's identical logic.
   const rawResponse = written.get(relPath)!;
   const rangeExpanded = expandShortIdRangeCitations(rawResponse);
-  const restored = restoreFactIdCitations(rangeExpanded, idMap);
+  const bundleExpanded = expandBundledShortIdCitations(rangeExpanded);
+  const restored = restoreFactIdCitations(bundleExpanded, idMap);
   fs.writeFileSync(path.join(outputDocsDir, relPath), restored, "utf8");
 
   const unrestored = findUnrestoredShortIdCitations(restored);

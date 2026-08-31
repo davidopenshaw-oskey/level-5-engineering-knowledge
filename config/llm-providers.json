@@ -137,6 +137,32 @@
       "apiKeyEnvVar": "OPENAI_API_KEY",
       "maxTokens": 65536,
       "temperature": 0.2
+    },
+    "gemini-3.7-flash-run1": {
+      "_note": "2026-08-31: CONFIRMED WORKING via a real generateContent call (trivial one-word-reply test, not yet a full pipeline call) -- gemini-3.7-flash is catalog-visible AND generation-entitled on this project/identity under 'global', same as gemini-3.5-flash was. One real, measured difference already observed: the trivial test call burned 90 thoughtsTokenCount even for a 1-word reply, where gemini-3.5-flash showed none -- this model appears to have some form of default-on reasoning behavior. Watch for LLM_OUTPUT_TRUNCATED (thinking tokens may compete with maxTokens depending on how the API accounts for them, not yet verified) and real cost impact once a full real call is made. maxTokens/temperature copied from gemini-default as an untested starting point, not independently calibrated for this model yet -- same caveat as every other maxTokens value in this file (see _note_maxTokens at the top). Purpose: compare against the existing gemini-default-varcheck-a-run1/run2 (gemini-3.5-flash, temp 0.2) results on the same 3 modules (organization/core/access_control_device) to see whether the newer model changes anything found during the variance investigation (tasks.md items 25-26).",
+      "provider": "gemini",
+      "model": "gemini-3.7-flash",
+      "projectId": "test-ai-oskey-io",
+      "location": "global",
+      "maxTokens": 65536,
+      "temperature": 0.2
+    },
+    "gemini-3.7-flash-run2": {
+      "_note": "2026-08-31: identical to gemini-3.7-flash-run1 -- separate COMPARISON_MODE output path for the second run, same reason as the existing temp0/temp0-run2 pair.",
+      "provider": "gemini",
+      "model": "gemini-3.7-flash",
+      "projectId": "test-ai-oskey-io",
+      "location": "global",
+      "maxTokens": 65536,
+      "temperature": 0.2
+    },
+    "lmstudio-local": {
+      "_note": "2026-08-31: NOT YET VERIFIED -- no real call made against this yet, unlike every other entry in this file. Requires LM Studio's local server running (LM Studio app -> Developer tab -> Start Server, default http://localhost:1234) AND the model below actually downloaded and loaded first, or every call fails closed with a clear connection error. 'model' is set to 'qwen/qwen3.8-27b', the exact identifier the user confirmed directly from LM Studio's own catalog listing (dated 16 days old at the time of checking, 2026-08-31) -- but the API string a loaded model actually responds to can still differ from the catalog page's slug, so re-confirm against the Developer tab's own generated API example once the model is loaded and the server is running, before trusting this blindly. maxTokens is a starting guess, not calibrated -- local models' real usable context is typically much smaller than their headline number once KV-cache memory on this hardware is accounted for (32GB M4 MacBook Pro). Recommendation revised 2026-08-31 (first pick, Qwen3-30B-A3B, was over a year old and not the most current option in its own family): Qwen3.8-27B -- dense, Apache 2.0, released ~2026-08-14 (~2.5 weeks old at this writing), confirmed via Qwen's own official Hugging Face repo (Qwen/Qwen3.8-27B) AND LM Studio's own official model catalog page (lmstudio.ai/models/qwen/qwen3.8-27b) -- ~17GB to run locally per LM Studio's own listing, comfortably inside the 32GB budget. 262K native context, extensible to 1M.",
+      "provider": "lmstudio",
+      "model": "qwen/qwen3.8-27b",
+      "baseUrl": "http://localhost:1234/v1/chat/completions",
+      "maxTokens": 8192,
+      "temperature": 0.2
     }
   }
 }

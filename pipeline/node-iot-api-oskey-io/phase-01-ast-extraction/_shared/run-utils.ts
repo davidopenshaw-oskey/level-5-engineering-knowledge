@@ -334,7 +334,23 @@ export function factsToCompactTableShortIds(facts: any[]): { table: string; idMa
 // space, backtick, F123, backtick, space, backtick-backtick. A first version
 // of this regex assumed no spacing and no inner backticks and silently
 // matched nothing real, found 2026-08-30 during a real end-to-end test.
-const SHORT_FACT_ID_PATTERN = /`{2}\s*`(F\d+)`\s*`{2}/g;
+// Widened 2026-08-31: real, live gap found on gemini-3.7-flash's copy of
+// this repo's own module-level test run -- the model sometimes drops the
+// outer double-backtick entirely, writing a bare single-backtick wrapper
+// (`` `F967` ``, one pair of backticks, not the expected nested `` `` `F967`
+// `` `` form). The mandatory-double-outer version of this pattern silently
+// left these completely untouched: not restored to a real fact ID, AND
+// invisible to findUnrestoredShortIdCitations below too (same `{2}`
+// requirement there), so citation-validation reported a clean pass while
+// the persisted document actually carried 446 real, silent, unverifiable
+// "F1164"-style fragments -- worse than a loud failure, a silent one.
+// Confirmed this specific malformation is NOT yet present on firebase-
+// oskey-dev's own copy of this pattern (checked directly) -- new here, not
+// a port. Alternation, not a single generalized quantifier: the two real
+// shapes (double-outer-with-optional-inner vs. single-wrapper-only) aren't
+// safely collapsible into one quantified expression without risking
+// over-matching, so they're two explicit branches.
+const SHORT_FACT_ID_PATTERN = /`{2}\s*`?(F\d+)`?\s*`{2}|`(F\d+)`/g;
 
 /** Reverses factsToCompactTableShortIds' substitution: scans the LLM's
  * response for double-backtick-wrapped short references and replaces each
@@ -388,13 +404,49 @@ export function expandShortIdRangeCitations(text: string): string {
   });
 }
 
+// Ported from firebase-oskey-dev's identical fix -- real bug found there on
+// a gemini-3.7-flash run against real facts (genuinely intermittent, not
+// universal to the model): multiple short-ID citations sharing ONE outer
+// double-backtick wrapper instead of each getting its own -- `` `F145`
+// `F189` `` instead of `` `F145` `` `` `F189` ``. Confirmed completely
+// invisible to every existing safety net: SHORT_FACT_ID_PATTERN requires
+// exactly one inner token between the outer backticks, so it doesn't match
+// this shape at all -- restoreFactIdCitations leaves it as raw, unresolved
+// "F145"/"F189" literal text; findUnrestoredShortIdCitations doesn't match
+// this shape either; citation-validator.ts's extractCitations finds zero
+// citations in it. The run's own citation-validation count is a silent
+// undercount when this occurs, not a loud failure -- worse than the
+// range-citation bug above, which at least surfaced as "unrestored". Not
+// triggered by either of this repo's own gemini-3.7-flash test runs
+// (checked directly against both real captured responses before porting),
+// ported anyway per this session's own established discipline: a real code
+// gap gets fixed regardless of whether the specific sample happened to
+// trigger it. {2,} requires at least 2 bundled tokens so this never touches
+// an already-well-formed single citation (SHORT_FACT_ID_PATTERN already
+// handles that case correctly).
+const BUNDLED_SHORT_ID_PATTERN = /`{2}\s*((?:`F\d+`\s*){2,})`{2}/g;
+
+/** Expands a malformed multi-citation bundle (several short IDs sharing one
+ * outer wrapper) into one well-formed, individually-wrapped citation per
+ * ID -- call this BEFORE restoreFactIdCitations, same as
+ * expandShortIdRangeCitations, so every expanded reference gets resolved
+ * the normal way. */
+export function expandBundledShortIdCitations(text: string): string {
+  return text.replace(BUNDLED_SHORT_ID_PATTERN, (match, inner) => {
+    const ids = [...inner.matchAll(/F\d+/g)].map((m: RegExpMatchArray) => m[0]);
+    return ids.map(id => `\`\` \`${id}\` \`\``).join(" ");
+  });
+}
+
 export function restoreFactIdCitations(text: string, idMap: Record<string, string>): string {
-  return text.replace(SHORT_FACT_ID_PATTERN, (match, shortId) => {
+  return text.replace(SHORT_FACT_ID_PATTERN, (match, doubleWrapped, singleWrapped) => {
+    const shortId = doubleWrapped ?? singleWrapped;
     const realId = idMap[shortId];
     // Reproduces the same nested-backtick convention the match itself used
     // (and that every existing real capability/reduce output already uses)
     // so citation-validator.ts's single-backtick FACT_ID_PATTERN finds the
-    // real ID afterward exactly the same way it always has.
+    // real ID afterward exactly the same way it always has -- true
+    // regardless of which malformed shape the input actually was in.
     return realId ? `\`\` \`${realId}\` \`\`` : match;
   });
 }
@@ -412,7 +464,15 @@ export function restoreFactIdCitations(text: string, idMap: Record<string, strin
 // any match as a real problem worth surfacing (a notification, a thrown
 // error, or at minimum a console warning), not something to silently
 // tolerate.
-const UNRESTORED_SHORT_ID_PATTERN = /`{2}\s*`?[^`]*\bF\d+[^`]*`?\s*`{2}/g;
+// Widened alongside SHORT_FACT_ID_PATTERN above -- a single-backtick-only
+// leftover (`` `F967` ``, no outer double-backtick) was invisible to the
+// old `{2}`-only version of this safety net too, same as it was invisible
+// to restoration itself. This is the LAST line of defense if restoration
+// somehow still misses a future shape -- deliberately kept looser than the
+// restoration patterns on purpose (matches either the double-outer form or
+// a bare single-backtick wrapper), so a genuinely new malformation shape
+// still gets flagged loudly even if no restoration fix for it exists yet.
+const UNRESTORED_SHORT_ID_PATTERN = /`{2}\s*`?[^`]*\bF\d+[^`]*`?\s*`{2}|`[^`]*\bF\d+[^`]*`/g;
 
 /** Returns every remaining short-ID-looking fragment after
  * restoreFactIdCitations has already run -- an empty array means every
