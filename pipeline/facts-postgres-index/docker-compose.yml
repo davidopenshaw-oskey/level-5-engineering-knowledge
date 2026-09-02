@@ -1,0 +1,23 @@
+# Local development instance only -- NOT the production data store. See
+# governance/roadmap/facts-serving-strategy/ for the investigation this
+# supports and governance/adrs/adr-005.md for the architectural decision.
+#
+# Uses the official pgvector image (Postgres with the pgvector extension
+# already built in) so there's no manual extension-compilation step. Ports
+# to Cloud SQL for Postgres or AlloyDB later with just a connection-string
+# change -- both are Postgres-compatible and support the same extension.
+services:
+  facts-postgres:
+    image: pgvector/pgvector:pg16
+    container_name: facts-postgres-index-local
+    environment:
+      POSTGRES_USER: facts_index
+      POSTGRES_PASSWORD: local_dev_only
+      POSTGRES_DB: facts_index
+    ports:
+      - "5433:5432"
+    volumes:
+      - facts_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  facts_postgres_data:

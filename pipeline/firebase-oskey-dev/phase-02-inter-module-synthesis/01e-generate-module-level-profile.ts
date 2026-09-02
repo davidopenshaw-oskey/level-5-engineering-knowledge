@@ -29,24 +29,20 @@ import {
   loadNotifications,
   runContextPath,
   factsToCompactTableShortIds,
-  expandShortIdRangeCitations,
-  expandBundledShortIdCitations,
-  restoreFactIdCitations,
-  findUnrestoredShortIdCitations,
-  renderCitationsAsFootnotes,
   formatEvidenceAppendix,
   resolveFootnotesForValidation,
   addBlankLinesBetweenTopLevelBullets,
 } from "../phase-01-ast-extraction/_shared/run-utils";
-import { LlmProviderConfig, CACHE_BREAKPOINT_MARKER } from "./_shared/llm-adapter";
-import { readRequiredFile, resolveContractsRootAbs, loadDocs, runDocumentCalls, DocumentCallSpec } from "./_shared/synthesis-orchestrator";
+import { callLlm, LlmProviderConfig, CACHE_BREAKPOINT_MARKER } from "./_shared/llm-adapter";
+import { readRequiredFile, resolveContractsRootAbs, loadDocs } from "./_shared/synthesis-orchestrator";
 import { flattenRbacRoles } from "./_shared/rbac-flatten";
 import { filterCallEdgesForModule, formatCallEdges, filterUnresolvedCallEdgesForModule, formatUnresolvedCallEdges } from "./_shared/call-edges";
 import { filterRbacRequirementsForModule, formatRbacCatalog } from "./_shared/rbac-catalog";
 import { computeOwnershipHints, formatOwnershipHints } from "./_shared/ownership-hints";
-import { validateCitations, formatCitationValidation } from "./_shared/citation-validator";
 import { writeProvenanceSidecar } from "./_shared/provenance-sidecar";
 import { buildPublicInterfacesSection, buildApiContractsSection, buildExternalHooksSection } from "./_shared/capability-synthesis";
+import { renderStructuredModuleProfile, validateStructuredResponse, StructuredModuleResponse } from "./_shared/structured-output-render";
+import { MODULE_LEVEL_RESPONSE_SCHEMA } from "./_shared/structured-output-schema";
 
 const projectRoot = process.cwd();
 const SOURCE_SCRIPT = "phase2-01e-generate-module-level-profile";
@@ -56,57 +52,6 @@ interface ModuleLevelProfileConfig {
   contractsRootBase?: "clone" | "pipelineRoot";
   architecturalGroundingPaths: string[];
   moduleLevelSynthesisContractPaths: string[];
-}
-
-interface ParsedCapability {
-  name: string;
-  sections: Map<string, string>;
-}
-
-/** Splits text on "### <name>" level-3 headers -- this contract's named
- * per-capability/module-wide subsection convention (not the numbered
- * "### N. Title" convention splitNumberedSections handles). */
-function splitByNamedHeader(text: string): Map<string, string> {
-  const matches = Array.from(text.matchAll(/^### (.+)$/gm));
-  const result = new Map<string, string>();
-  for (let i = 0; i < matches.length; i++) {
-    const name = matches[i][1].trim();
-    const start = matches[i].index! + matches[i][0].length;
-    const end = i + 1 < matches.length ? matches[i + 1].index! : text.length;
-    // Trailing "---" the model sometimes adds as its own visual separator
-    // before the next "## CAPABILITY:" block isn't real content -- strip it.
-    result.set(name, text.slice(start, end).trim().replace(/\n+---\s*$/, "").trim());
-  }
-  return result;
-}
-
-/** Splits the whole response on "## MODULE-WIDE" / "## CAPABILITY: <name>"
- * level-2 headers, then each block's own level-3 subsections. */
-function parseModuleLevelResponse(text: string): { moduleWide: Map<string, string>; capabilities: ParsedCapability[] } {
-  const blocks = text.split(/\n(?=## )/);
-  const moduleWide = new Map<string, string>();
-  const capabilities: ParsedCapability[] = [];
-  for (const block of blocks) {
-    const headerMatch = block.match(/^## (.+)\n/);
-    if (!headerMatch) continue;
-    const header = headerMatch[1].trim();
-    const body = block.slice(headerMatch[0].length);
-    if (header === "MODULE-WIDE") {
-      for (const [name, subBody] of splitByNamedHeader(body)) moduleWide.set(name, subBody);
-    } else if (header.startsWith("CAPABILITY:")) {
-      // Strips an optional backtick wrapper the model sometimes adds around
-      // the capability name at higher temperature (found 2026-08-31,
-      // node-iot's temp=0.4 run: `` ## CAPABILITY: `_module_root` `` instead
-      // of the plain form the contract specifies) -- an exact-string match
-      // against real pack names would otherwise report every capability
-      // missing even though its content is present and correct. Same class
-      // of temp-dependent formatting liberty as the short-ID-range fix
-      // above, just a different field.
-      const name = header.slice("CAPABILITY:".length).trim().replace(/^`(.+)`$/, "$1");
-      capabilities.push({ name, sections: splitByNamedHeader(body) });
-    }
-  }
-  return { moduleWide, capabilities };
 }
 
 const MAX_SAMPLE_TOUCHPOINTS = 3;
@@ -143,14 +88,14 @@ function formatIntraModuleCoupling(raw: string): string {
   return lines.length > 0 ? lines.join("\n") : "(no intra-module coupling evidenced)";
 }
 
-const REQUIRED_MODULE_WIDE_SECTIONS = [
-  "Executive Summary",
-  "Architectural Position",
-  "Ownership Conclusion",
-  "Cross-Cutting Permissions & Security Risks",
-  "Architectural Observations",
-  "Cross-Cutting Risks & Open Questions",
-];
+// Matches 01c's own threshold (real measured healthy-vs-degenerate samples).
+// Only applied to executiveSummary/architecturalPosition -- the schema's
+// finding ARRAYS (crossCuttingPermissionsRisks etc.) are legitimately empty
+// when nothing stands out (the contract explicitly tells the model not to
+// pad them), unlike the old free-text contract where even a "nothing found"
+// section always had real prose -- so array length alone is not a
+// completeness signal here the way non-empty-vs-empty text was before.
+const MIN_JUDGMENT_SECTION_CHARS = 200;
 
 async function main() {
   const REPO_NAME = process.env.REPO_NAME;
@@ -243,10 +188,11 @@ async function main() {
 
   // Real citations legitimately sourced from crossModuleDepsRaw's inbound
   // touchpoints reference files belonging to OTHER modules (found 2026-08-30
-  // porting this architecture to Angular) -- validateCitations only knows
-  // this module's own facts, so those citations were flagged
-  // CITATION_FILE_NOT_FOUND despite being 100% real. Flattened once here and
-  // passed to every validateCitations/writeProvenanceSidecar call below.
+  // porting this architecture to Angular) -- writeProvenanceSidecar's
+  // internal validateCitations call only knows this module's own facts, so
+  // those citations were flagged CITATION_FILE_NOT_FOUND despite being 100%
+  // real. Flattened once here and passed to every writeProvenanceSidecar
+  // call below.
   const crossModuleFileLines: Array<{ file: string; line: number }> = (() => {
     const parsed = JSON.parse(crossModuleDepsRaw);
     const out: Array<{ file: string; line: number }> = [];
@@ -290,9 +236,17 @@ async function main() {
       `- llmConfigKey: ${LLM_CONFIG_KEY}\n- llmProvider: ${llmConfig.provider}\n- llmModel: ${llmConfig.model}`
   );
 
-  const relPath = `${MODULE_NAME}-module-level-synthesis.md`;
+  // Schema text is embedded directly in the prompt (not just referenced)
+  // deliberately -- governance/roadmap/firebase-oskey-dev/11-structured-
+  // output-citation-pilot.md's pilot found a confound the first time this
+  // wasn't done consistently across arms (one arm got the full schema as
+  // prompt text, the other a one-line note, conflating "does enforcement
+  // matter" with "does prompt detail matter"). `responseSchema` below is
+  // what actually enforces the shape (grammar-constrained decoding); this
+  // text also tells the model what's expected, same as every other call.
+  const relPath = `${MODULE_NAME}-module-level-response.json`;
   variableSections.push(
-    `## Output Format reminder\n\nProduce exactly one file wrapped as:\n\n===FILE: ${relPath}===\n<content per the contract's Output Format section>\n===END FILE===`
+    `## Output Format (mandatory)\n\nReturn ONLY a single JSON object matching this exact shape (no markdown code fence, no conversational text before or after):\n\n${JSON.stringify(MODULE_LEVEL_RESPONSE_SCHEMA, null, 2)}`
   );
 
   const prompt = stableSections.join("\n\n---\n\n") + CACHE_BREAKPOINT_MARKER + variableSections.join("\n\n---\n\n");
@@ -345,53 +299,117 @@ async function main() {
   // instead of trusting the notification log.
   const outputLabel = COMPARISON_MODE ? `llm-comparison/${LLM_CONFIG_KEY}/${MODULE_NAME}` : `knowledge-corpus/${REPO_NAME}/${runId}`;
 
-  const spec: DocumentCallSpec = { relPath, prompt, kind: "module-level" };
-  const written = await runDocumentCalls([spec], llmConfig, outputDocsDir, notifications, SOURCE_SCRIPT, `module '${MODULE_NAME}' (module-level)`, LLM_CONFIG_KEY);
+  // Direct callLlm rather than runDocumentCalls -- the latter's
+  // splitMarkedFiles parses the free-text "===FILE:...===" convention,
+  // which doesn't apply here: a schema-enforced response IS the file
+  // content, with no wrapper. responseSchema is a per-call override (see
+  // its own doc comment on LlmProviderConfig), never stored in
+  // config/llm-providers.json.
+  addNotification(
+    notifications,
+    SOURCE_SCRIPT,
+    "info",
+    "SYNTHESIS_LLM_CALL_STARTED",
+    `Calling LLM provider '${llmConfig.provider}' (model '${llmConfig.model}') for module '${MODULE_NAME}' (module-level, structured output).`,
+    { contextLabel: `module '${MODULE_NAME}' (module-level)`, kind: "module-level", provider: llmConfig.provider, model: llmConfig.model, file: relPath, llmConfigKey: LLM_CONFIG_KEY }
+  );
+  const llmConfigForCall: LlmProviderConfig = { ...llmConfig, responseSchema: MODULE_LEVEL_RESPONSE_SCHEMA };
+  const result = await callLlm(prompt, llmConfigForCall);
+  addNotification(
+    notifications,
+    SOURCE_SCRIPT,
+    "info",
+    "SYNTHESIS_LLM_CALL_COMPLETED",
+    `LLM call completed for module '${MODULE_NAME}' (module-level, structured output).`,
+    { contextLabel: `module '${MODULE_NAME}' (module-level)`, kind: "module-level", usage: result.usage, servedModel: result.servedModel, file: relPath, llmConfigKey: LLM_CONFIG_KEY }
+  );
 
-  // Expand malformed range citations (`` `F150-F157` `` etc. -- real,
-  // recurring pattern on large modules, confirmed 2026-08-30) into one real
-  // citation per fact BEFORE restoring short IDs, so every one of them
-  // resolves normally instead of surviving as a silent, unverifiable range.
-  // Then restore short IDs (F1, F2, ...) back to real fact IDs -- must never
-  // leak past this one round-trip. Overwrites the raw response file with
-  // the restored version.
-  const rawResponse = written.get(relPath)!;
-  const rangeExpanded = expandShortIdRangeCitations(rawResponse);
-  const bundleExpanded = expandBundledShortIdCitations(rangeExpanded);
-  const restored = restoreFactIdCitations(bundleExpanded, idMap);
-  fs.writeFileSync(path.join(outputDocsDir, relPath), restored, "utf8");
-
-  const unrestored = findUnrestoredShortIdCitations(restored);
-  if (unrestored.length > 0) {
-    // The true pre-fix raw response was otherwise never preserved (the same
-    // path gets overwritten in place with the restored version above) --
-    // without this, a real occurrence can't be forensically inspected after
-    // the fact, only re-described from the (already-transformed) restored
-    // text. Written only when something is actually still wrong, not on
-    // every call.
-    const rawDumpPath = path.join(outputDocsDir, `${relPath}.raw-before-restore.txt`);
-    fs.writeFileSync(rawDumpPath, rawResponse, "utf8");
-    console.warn(`Raw pre-restoration response preserved for inspection: ${rawDumpPath}`);
+  // Real, complete structured JSON response persisted as its own file --
+  // "part of the governance/audit chain" (explicit design goal, not just a
+  // debug artifact), same as the Stage 2 pilot's own convention. Grammar-
+  // constrained decoding (responseSchema set above) is expected to make
+  // this JSON.parse reliable without defensive fence-stripping, but a
+  // stray ```json fence is stripped defensively anyway -- cheap insurance
+  // matching this pipeline's demonstrated pattern of real, recurring
+  // small formatting-liberty bugs from LLM responses.
+  fs.mkdirSync(outputDocsDir, { recursive: true });
+  fs.writeFileSync(path.join(outputDocsDir, relPath), result.text, "utf8");
+  const jsonText = result.text.trim().replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "");
+  let parsedJson: StructuredModuleResponse;
+  try {
+    parsedJson = JSON.parse(jsonText);
+  } catch (parseErr: any) {
+    throw new Error(
+      `[LLM_RESPONSE_PARSE_FAILED] Module '${MODULE_NAME}''s structured response was not valid JSON: ${parseErr.message}. Raw response preserved at ${path.join(outputDocsDir, relPath)}.`
+    );
   }
-  if (unrestored.length > 0) {
+
+  // Real bug found 2026-08-30 under the old free-text contract (module
+  // 'tasks'): on a single-capability module, the model wrote its one
+  // capability under the MODULE's own name instead of the real submodule
+  // identifier (`_module_root`) -- an understandable mistake when there's
+  // only one capability to talk about, but it breaks exact-name lookup.
+  // Nothing in the JSON schema prevents the same mistake (the schema only
+  // constrains shape, not the `name` field's actual value), so this
+  // deterministic fallback still applies: if there's exactly one real
+  // capability AND the response produced exactly one capability object,
+  // rename it to the real name regardless of what the model called it --
+  // there's no ambiguity to resolve when there's only one of each.
+  if (packNames.length === 1 && parsedJson.capabilities.length === 1 && parsedJson.capabilities[0].name !== packNames[0]) {
+    const modelWrote = parsedJson.capabilities[0].name;
+    addNotification(
+      notifications,
+      SOURCE_SCRIPT,
+      "info",
+      "SINGLE_CAPABILITY_NAME_REMAPPED",
+      `Module '${MODULE_NAME}' has exactly one capability ('${packNames[0]}') and the model's response had exactly one capability object, named '${modelWrote}' instead -- remapped deterministically rather than treated as missing.`,
+      { module: MODULE_NAME, expected: packNames[0], modelWrote, file: outputLabel }
+    );
+    parsedJson.capabilities[0].name = packNames[0];
+  }
+
+  // Array-membership validation, not free-text extraction -- evidenceIds
+  // are already clean structured data, so there is no equivalent of the
+  // old regex-based extractCitations step. Computed once, reused below for
+  // both the completeness notification (missingCapabilityNames) and the
+  // citation-integrity notification (fabricatedEvidenceIds).
+  const structuredValidation = validateStructuredResponse(parsedJson, idMap, packNames);
+
+  // Checking only presence would miss a real failure this repo has already
+  // hit once under the old contract (Angular's variance test, 2026-08-31):
+  // a required section present but empty. The schema's `required` array
+  // guarantees these two string fields exist, but not that they're
+  // non-trivial -- MIN_JUDGMENT_SECTION_CHARS catches a technically-valid
+  // but empty/near-empty response. This script doesn't retry yet (see
+  // 01c's own retry loop for the equivalent failure under fan-out) -- for
+  // now, detect and warn loudly rather than retry, so a human decides
+  // whether to re-run.
+  const missingModuleWideText = [
+    parsedJson.moduleWide.executiveSummary?.trim().length >= MIN_JUDGMENT_SECTION_CHARS ? null : "Executive Summary",
+    parsedJson.moduleWide.architecturalPosition?.trim().length >= MIN_JUDGMENT_SECTION_CHARS ? null : "Architectural Position",
+  ].filter((x): x is string => x !== null);
+  if (missingModuleWideText.length > 0 || structuredValidation.missingCapabilityNames.length > 0) {
     addNotification(
       notifications,
       SOURCE_SCRIPT,
       "warning",
-      "SHORT_ID_RESTORATION_INCOMPLETE",
-      `${unrestored.length} malformed/unrestored short-ID citation(s) survived into module '${MODULE_NAME}''s final text -- these are silent, unverifiable claims.`,
-      { module: MODULE_NAME, file: `${outputLabel}/${relPath}`, unrestored },
+      "MODULE_LEVEL_SECTION_MISSING",
+      `Module-level call for '${MODULE_NAME}' did not produce all expected content -- missing/near-empty (<${MIN_JUDGMENT_SECTION_CHARS} chars) module-wide text field(s): ${missingModuleWideText.join(", ") || "(none)"}; missing capabilities: ${structuredValidation.missingCapabilityNames.join(", ") || "(none)"}.`,
+      { module: MODULE_NAME, file: `${outputLabel}/${relPath}`, missingModuleWideText, missingCapabilities: structuredValidation.missingCapabilityNames },
       true
     );
   }
 
   // --- Assemble the FINAL Module Engineering Profile into the same 0-14
-  // structure today's production output uses. Sections 3, 4, 7-8, and 11
+  // structure production output has always used. Sections 4, 7-8, and 11
   // are deterministically assembled per capability from that capability's
-  // own facts subset (Section 5 stays LLM-authored -- confirmed via the
-  // real fact schema that Firestore path construction needs genuine
-  // judgment, not a lookup). Section 10 is rendered directly from the
-  // already-computed call-edges graph. ---
+  // own facts subset (Section 5 stays LLM-authored via Data Ownership --
+  // confirmed via the real fact schema that Firestore path construction
+  // needs genuine judgment, not a lookup). Section 10 is rendered directly
+  // from the already-computed call-edges graph. Sections 1, 2, 3, 6, 9, 12,
+  // 13 come from renderStructuredModuleProfile, already footnoted -- there
+  // is no separate renderCitationsAsFootnotes text-scanning step for this
+  // path, since evidenceIds were never inline text to begin with. ---
   const factsByCapability = new Map<string, any[]>();
   for (const f of allFacts) {
     const key = f.submodule ?? "_module_root";
@@ -399,108 +417,33 @@ async function main() {
     arr.push(f);
     factsByCapability.set(key, arr);
   }
-  const parsed = parseModuleLevelResponse(restored);
-  const capByName = new Map(parsed.capabilities.map(c => [c.name, c]));
+  const assembleAcross = (builder: (facts: any[]) => string): string =>
+    packNames.map(pn => `#### ${pn}\n\n${builder(factsByCapability.get(pn) ?? [])}`).join("\n\n");
 
-  // Real bug found 2026-08-30 (module 'tasks'): on a single-capability
-  // module, the model wrote "## CAPABILITY: tasks" (the MODULE's own name)
-  // instead of "## CAPABILITY: _module_root" (the real submodule
-  // identifier) -- an understandable mistake when there's only one
-  // capability to talk about, but it breaks exact-name lookup. This isn't
-  // guessable to prevent reliably in the contract text alone (a model
-  // renaming its one subject to something more natural-sounding is a real,
-  // recurring risk on every single-capability module in this repo: `tasks`,
-  // `call`, `unit_management`, `access_control_device`). Deterministic
-  // fallback: if there's exactly one real capability AND the response
-  // produced exactly one capability block, remap it to the real name
-  // regardless of what the model called it -- there's no ambiguity to
-  // resolve when there's only one of each.
-  if (packNames.length === 1 && parsed.capabilities.length === 1 && !capByName.has(packNames[0])) {
-    const only = parsed.capabilities[0];
-    addNotification(
-      notifications,
-      SOURCE_SCRIPT,
-      "info",
-      "SINGLE_CAPABILITY_NAME_REMAPPED",
-      `Module '${MODULE_NAME}' has exactly one capability ('${packNames[0]}') and the model's response had exactly one capability block, named '${only.name}' instead -- remapped deterministically rather than treated as missing.`,
-      { module: MODULE_NAME, expected: packNames[0], modelWrote: only.name, file: outputLabel }
-    );
-    capByName.set(packNames[0], only);
-  }
-
-  // MIN_JUDGMENT_SECTION_CHARS matches 01c's own threshold (real measured
-  // healthy-vs-degenerate samples). Checking key presence alone missed a
-  // real failure caught 2026-08-31 during Angular's variance test: the
-  // model wrote a "Cross-Cutting Risks & Open Questions" header with an
-  // empty body -- `.has(k)` returned true, this notification never fired,
-  // and the gap was only found by a human/agent reading the assembled
-  // document directly. 01c has a detect-and-retry loop for exactly this
-  // failure mode (found on the old architecture, same underlying cause);
-  // this script doesn't retry yet (a full one-shot regeneration costs far
-  // more than 01c's reduce-only retry) -- for now, detect and warn loudly
-  // rather than retry, so a human decides whether to re-run.
-  const MIN_JUDGMENT_SECTION_CHARS = 200;
-  const missingModuleWide = REQUIRED_MODULE_WIDE_SECTIONS.filter(
-    k => !parsed.moduleWide.has(k) || (parsed.moduleWide.get(k) ?? "").trim().length < MIN_JUDGMENT_SECTION_CHARS
-  );
-  const missingCapabilities = packNames.filter(pn => !capByName.has(pn));
-  if (missingModuleWide.length > 0 || missingCapabilities.length > 0) {
-    addNotification(
-      notifications,
-      SOURCE_SCRIPT,
-      "warning",
-      "MODULE_LEVEL_SECTION_MISSING",
-      `Module-level call for '${MODULE_NAME}' did not produce all expected content -- missing/near-empty (<${MIN_JUDGMENT_SECTION_CHARS} chars) module-wide section(s): ${missingModuleWide.join(", ") || "(none)"}; missing capabilities: ${missingCapabilities.join(", ") || "(none)"}.`,
-      { module: MODULE_NAME, file: `${outputLabel}/${relPath}`, missingModuleWide, missingCapabilities },
-      true
-    );
-  }
-
-  const assembleAcross = (sectionName: string, builder?: (facts: any[]) => string): string =>
-    packNames
-      .map(pn => {
-        const facts = factsByCapability.get(pn) ?? [];
-        const body = builder ? builder(facts) : capByName.get(pn)?.sections.get(sectionName) ?? "*(not produced for this capability)*";
-        return `#### ${pn}\n\n${body}`;
-      })
-      .join("\n\n");
+  const { sections: llmSections, appendix } = renderStructuredModuleProfile(parsedJson, idMap);
 
   const finalParts: string[] = [];
   finalParts.push(`### 0. Generation Metadata\n\n- runId: ${runId}\n- repoName: ${REPO_NAME}\n- targetModule: ${MODULE_NAME}\n- llmConfigKey: ${LLM_CONFIG_KEY}\n- llmProvider: ${llmConfig.provider}\n- llmModel: ${llmConfig.model}`);
-  finalParts.push(`### 1. Executive Summary\n\n${parsed.moduleWide.get("Executive Summary") ?? "*(not produced by the model)*"}`);
-  finalParts.push(`### 2. Architectural Position\n\n${parsed.moduleWide.get("Architectural Position") ?? "*(not produced by the model)*"}`);
-  finalParts.push(`### 3. Primary Responsibilities\n\n${assembleAcross("Primary Responsibilities")}`);
-  finalParts.push(`### 4. Public Interfaces\n\n${assembleAcross("", facts => buildPublicInterfacesSection(facts))}`);
+  finalParts.push(`### 1. Executive Summary\n\n${llmSections["1"]}`);
+  finalParts.push(`### 2. Architectural Position\n\n${llmSections["2"]}`);
+  finalParts.push(`### 3. Primary Responsibilities\n\n${llmSections["3"]}`);
+  finalParts.push(`### 4. Public Interfaces\n\n${assembleAcross(facts => buildPublicInterfacesSection(facts))}`);
   finalParts.push(`### 5. Internal Structure (deterministic, from the Intra-Module Coupling Graph)\n\n${formatIntraModuleCoupling(intraModuleCouplingRaw)}`);
-  finalParts.push(
-    `### 6. Firestore & Data Ownership\n\n**Ownership conclusion:**\n\n${parsed.moduleWide.get("Ownership Conclusion") ?? "*(not produced by the model)*"}\n\n**Per-capability evidence:**\n\n${assembleAcross("Data Ownership")}`
-  );
-  finalParts.push(`### 7-8. API Endpoints & Firestore Triggers\n\n${assembleAcross("", facts => buildApiContractsSection(facts))}`);
-  finalParts.push(
-    `### 9. Permissions & Security\n\n**Cross-cutting risk callouts:**\n\n${parsed.moduleWide.get("Cross-Cutting Permissions & Security Risks") ?? "*(not produced by the model)*"}\n\n**Per-capability evidence:**\n\n${assembleAcross("Notable Permissions Observations")}`
-  );
+  finalParts.push(`### 6. Firestore & Data Ownership\n\n${llmSections["6"]}`);
+  finalParts.push(`### 7-8. API Endpoints & Firestore Triggers\n\n${assembleAcross(facts => buildApiContractsSection(facts))}`);
+  finalParts.push(`### 9. Permissions & Security\n\n${llmSections["9"]}`);
   finalParts.push(`### 10. Cross-Module Relationships (deterministic)\n\n${formatCallEdges(callEdgesForModule)}`);
-  finalParts.push(`### 11. External Hooks\n\n${assembleAcross("", facts => buildExternalHooksSection(facts))}`);
-  finalParts.push(`### 12. Architectural Observations\n\n${parsed.moduleWide.get("Architectural Observations") ?? "*(not produced by the model)*"}`);
-  finalParts.push(
-    `### 13. Risks & Open Questions\n\n**Cross-cutting risks:**\n\n${parsed.moduleWide.get("Cross-Cutting Risks & Open Questions") ?? "*(not produced by the model)*"}\n\n**Per-capability open questions:**\n\n${assembleAcross("Open Questions")}`
-  );
+  finalParts.push(`### 11. External Hooks\n\n${assembleAcross(facts => buildExternalHooksSection(facts))}`);
+  finalParts.push(`### 12. Architectural Observations\n\n${llmSections["12"]}`);
+  finalParts.push(`### 13. Risks & Open Questions\n\n${llmSections["13"]}`);
 
-  // Footnote every citation instead of leaving verbose fact-ID/file-line
-  // text inline -- real, user-driven readability fix 2026-08-30 (see
-  // governance/roadmap/firebase-oskey-dev/10-module-level-production-
-  // cutover-plan.md): a document this dense with inline citations read far
-  // worse than this pipeline's own historical best example. Section 0 is
-  // a compact key-value block, not narrative bullets -- excluded from
-  // blank-line spacing.
-  const bodyWithInlineCitations = finalParts.join("\n\n");
-  const { body: bodyWithFootnotesRaw, appendix } = renderCitationsAsFootnotes(bodyWithInlineCitations);
+  // Section 0 is a compact key-value block, not narrative bullets --
+  // excluded from blank-line spacing, same convention as before.
+  const bodyRaw = finalParts.join("\n\n");
   const section1Marker = "### 1. Executive Summary";
-  const section0End = bodyWithFootnotesRaw.indexOf(section1Marker);
+  const section0End = bodyRaw.indexOf(section1Marker);
   const profileBody =
-    section0End === -1
-      ? addBlankLinesBetweenTopLevelBullets(bodyWithFootnotesRaw)
-      : bodyWithFootnotesRaw.slice(0, section0End) + addBlankLinesBetweenTopLevelBullets(bodyWithFootnotesRaw.slice(section0End));
+    section0End === -1 ? addBlankLinesBetweenTopLevelBullets(bodyRaw) : bodyRaw.slice(0, section0End) + addBlankLinesBetweenTopLevelBullets(bodyRaw.slice(section0End));
   const section14 = `### 14. Evidence References\n\n${formatEvidenceAppendix(appendix)}`;
   const finalProfile = `${profileBody}\n\n${section14}`;
 
@@ -513,7 +456,7 @@ async function main() {
     `- runId: ${runId}\n- generatedAt: ${new Date().toISOString()}\n- repoName: ${REPO_NAME}\n- targetModule: ${MODULE_NAME}\n` +
     `- llmConfigKey: ${LLM_CONFIG_KEY}\n- llmProvider: ${llmConfig.provider}\n- llmModel: ${llmConfig.model}\n` +
     `- note: this document required no LLM call -- assembled entirely from deterministic facts already on disk.\n\n` +
-    `### 1. API Contracts\n\n${assembleAcross("", facts => buildApiContractsSection(facts))}`;
+    `### 1. API Contracts\n\n${assembleAcross(facts => buildApiContractsSection(facts))}`;
 
   fs.mkdirSync(path.join(outputDocsDir, path.dirname(profileRelPath)), { recursive: true });
   fs.mkdirSync(path.join(outputDocsDir, path.dirname(apiRefRelPath)), { recursive: true });
@@ -524,9 +467,12 @@ async function main() {
 
   // Provenance sidecars validate against the RESOLVED (real-citation-
   // inline) reconstruction, never persisted on its own -- otherwise
-  // validateCitations would see only "(FactId:#N)" markers in the actual
-  // footnoted file and report zero citations, which would be a real,
-  // misleading regression in the provenance record, not just cosmetic.
+  // writeProvenanceSidecar's internal validateCitations call would see only
+  // "(FactId:#N)" markers in the actual footnoted file and report zero
+  // citations, which would be a real, misleading regression in the
+  // provenance record, not just cosmetic. This is a second, independent
+  // check on top of structuredValidation above (regex-based, against the
+  // reconstructed text) rather than a replacement for it.
   const resolvedForValidation = resolveFootnotesForValidation(profileBody, appendix);
   writeProvenanceSidecar(
     path.join(outputDocsDir, profileRelPath),
@@ -557,24 +503,28 @@ async function main() {
     crossModuleFileLines
   );
 
-  const validation = validateCitations(resolvedForValidation, evidenceGraphForHints.facts, crossModuleFileLines);
-  if (validation.fileNotFound.length > 0) {
+  // structuredValidation was already computed above (right after parsing)
+  // -- array-membership check against idMap, not text extraction. Includes
+  // unknownCapabilityNames here too: a capability name that doesn't match
+  // any real pack is the structured-response equivalent of the old
+  // free-text path's "wrote a name we don't recognize" risk.
+  if (structuredValidation.fabricatedEvidenceIds.length > 0 || structuredValidation.unknownCapabilityNames.length > 0) {
     addNotification(
       notifications,
       SOURCE_SCRIPT,
       "warning",
       "CITATION_FILE_NOT_FOUND",
-      `[${outputLabel}] ${profileRelPath}: ${validation.fileNotFound.length} citation(s) reference a file not found anywhere in module '${MODULE_NAME}''s evidence -- likely fabricated.`,
-      { module: MODULE_NAME, relPath: profileRelPath, file: `${outputLabel}/${profileRelPath}`, details: formatCitationValidation(validation) },
+      `[${outputLabel}] ${profileRelPath}: ${structuredValidation.fabricatedEvidenceIds.length} evidenceId(s) not found in module '${MODULE_NAME}''s real fact table -- likely fabricated; ${structuredValidation.unknownCapabilityNames.length} capability name(s) not matching any real pack.`,
+      { module: MODULE_NAME, relPath: profileRelPath, file: `${outputLabel}/${profileRelPath}`, fabricatedEvidenceIds: structuredValidation.fabricatedEvidenceIds, unknownCapabilityNames: structuredValidation.unknownCapabilityNames },
       true
     );
-  } else if (validation.totalCitations > 0) {
+  } else if (structuredValidation.totalEvidenceIds > 0) {
     addNotification(
       notifications,
       SOURCE_SCRIPT,
       "info",
       "CITATION_VALIDATION_PASSED",
-      `[${outputLabel}] ${profileRelPath}: ${validation.totalCitations} citation(s) checked, ${validation.verified} verified, ${validation.lineUnverified.length} line-unverified, 0 file-not-found.`,
+      `[${outputLabel}] ${profileRelPath}: ${structuredValidation.totalEvidenceIds} evidenceId(s) checked, all resolved against real facts, 0 fabricated.`,
       { module: MODULE_NAME, relPath: profileRelPath, file: `${outputLabel}/${profileRelPath}` }
     );
   }

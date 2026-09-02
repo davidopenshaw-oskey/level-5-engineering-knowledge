@@ -64,6 +64,21 @@ export interface LlmProviderConfig {
   // across sibling capabilities) -- exactly the kind of task more reasoning
   // effort should help with. Not yet validated with a real call.
   thinkingLevel?: keyof typeof ThinkingLevel;
+  // Gemini-only. When set, callGemini passes this as `responseSchema` along
+  // with `responseMimeType: "application/json"`, enabling grammar-
+  // constrained decoding (Arm C in governance/roadmap/firebase-oskey-dev/
+  // 11-structured-output-citation-pilot.md's pilot -- the arm the real
+  // production-migration decision rests on, 2026-08-31: zero fabricated/
+  // malformed citations across 10 real calls, vs. three distinct new
+  // free-text citation-malformation shapes found the same evening).
+  // Deliberately NOT loaded from config/llm-providers.json like the other
+  // fields on this interface -- a response schema is tied to the expected
+  // shape of one specific document type (module-level synthesis has its
+  // own schema; a future structured document type would need a different
+  // one), not a provider-connection setting reused across calls. Callers
+  // build a per-call config via `{ ...llmConfig, responseSchema: ... }`
+  // rather than storing it in the static provider config file.
+  responseSchema?: object;
 }
 
 export interface LlmCallResult {
@@ -288,6 +303,7 @@ async function callGemini(prompt: string, config: LlmProviderConfig): Promise<Ll
           maxOutputTokens: config.maxTokens ?? 8192,
           temperature: config.temperature ?? 0.2,
           ...(config.thinkingLevel ? { thinkingConfig: { thinkingLevel: ThinkingLevel[config.thinkingLevel] } } : {}),
+          ...(config.responseSchema ? { responseMimeType: "application/json", responseSchema: config.responseSchema } : {}),
           ...(cachedContentName ? { cachedContent: cachedContentName } : {}),
           httpOptions: { timeout: REQUEST_TIMEOUT_MS },
         },
