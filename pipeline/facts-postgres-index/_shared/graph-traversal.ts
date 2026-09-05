@@ -95,6 +95,118 @@ export async function expandWithGraphNeighbors(
   }));
 }
 
+export interface ClusterMember {
+  factId: string;
+  repo: string;
+  module: string;
+  kind: string;
+  symbolName: string | null;
+  description: string;
+  depth: number;
+}
+
+export interface ClusterEdge {
+  sourceFactId: string;
+  targetFactId: string;
+  connectionType: string;
+}
+
+export interface BoundedClusterResult {
+  members: ClusterMember[];
+  edges: ClusterEdge[];
+  // Real, not cosmetic: true if the walk stopped because it hit maxFacts or
+  // maxDepth with more real neighbors still unexplored -- a caller needs to
+  // know a cluster is a partial view, not a complete one, before treating it
+  // as "the whole workflow."
+  truncated: boolean;
+}
+
+// Generic, reusable primitive -- NOT specific to any one downstream task.
+// Originally written for governance/roadmap/building-workflows/01-workflow-
+// seeding-tasklist.md's Step 2 (a bespoke workflow-catalogue-seeding
+// script), but that whole approach is superseded, 2026-09-05, by an
+// agent-persona architecture (see that doc's own superseded note and
+// governance/roadmap/market-research/02-findings-retrieval-architecture-
+// 2026-09-05.md): rather than a hardcoded script deciding how far to walk a
+// graph, a future task-specific agent (e.g. an impact-analysis persona)
+// would call this as one of its own generic tools, deciding for itself
+// whether and how far to walk from a given anchor. Kept here in that
+// reframed role -- a real, tested-safe traversal primitive, not tied to any
+// one task's now-superseded orchestration logic. Reuses findGraphNeighbors
+// directly rather than a parallel traversal implementation.
+//
+// Real finding from checking cross_repo_edges before writing this, not
+// assumed: all four connection_types that exist today (INTRA_REPO_CALL,
+// HTTP_API_CALL, PUBSUB_TOPIC_BINDING, FIELD_BINDING) would all be allowed
+// to cross a module/repo boundary under a "stop unless the edge type is one
+// of the ones this project has already verified" rule -- meaning that rule
+// is currently vacuous against real data (nothing would ever be stopped by
+// a connection-type check; INTRA_REPO_CALL alone is 2,362 real edges). The
+// real limiter today is combinatorial fan-out (one anchor can have 9+
+// direct edges, confirmed in earlier real graph-traversal work), not
+// incidental-coupling noise -- so this bounds explicitly on both depth and
+// total cluster size, not on connection type. Revisit the type-based idea
+// if a future connection_type is ever added that represents weaker/
+// incidental coupling worth actually filtering out.
+export async function walkBoundedCluster(
+  db: Pool,
+  anchorFactId: string,
+  opts: { maxDepth?: number; maxFacts?: number } = {}
+): Promise<BoundedClusterResult> {
+  const maxDepth = opts.maxDepth ?? 6; // same real bound proven safe in build-form-field-lineage-edges.ts's resolveFieldRecursive()
+  const maxFacts = opts.maxFacts ?? 80; // generous but real -- chosen to observe real pilot behavior, not asserted correct on paper
+
+  const depthByFactId = new Map<string, number>([[anchorFactId, 0]]);
+  const edges: ClusterEdge[] = [];
+  let frontier = [anchorFactId];
+  let depth = 0;
+  let truncated = false;
+
+  while (frontier.length > 0 && depth < maxDepth) {
+    const nextFrontier: string[] = [];
+    for (const factId of frontier) {
+      const neighbors = await findGraphNeighbors(db, factId);
+      for (const n of neighbors) {
+        edges.push({
+          sourceFactId: n.direction === "outgoing" ? factId : n.factId,
+          targetFactId: n.direction === "outgoing" ? n.factId : factId,
+          connectionType: n.connectionType,
+        });
+        if (depthByFactId.has(n.factId)) continue; // cycle-safe: already visited, same discipline as resolveFieldRecursive()'s visited set
+        if (depthByFactId.size >= maxFacts) { truncated = true; continue; }
+        depthByFactId.set(n.factId, depth + 1);
+        nextFrontier.push(n.factId);
+      }
+    }
+    frontier = nextFrontier;
+    depth++;
+  }
+  if (frontier.length > 0 && depth >= maxDepth) truncated = true; // real neighbors left unexplored at the depth bound, not just an empty frontier
+
+  const allFactIds = [...depthByFactId.keys()];
+  const rows = await db.query<{ fact_id: string; repo: string; module: string; kind: string; symbol_name: string | null; description: string }>(
+    `SELECT fact_id, repo, module, kind, symbol_name, description FROM facts WHERE fact_id = ANY($1::text[])`,
+    [allFactIds]
+  );
+  const realFactIds = new Set(rows.rows.map(r => r.fact_id));
+  const missing = allFactIds.filter(id => !realFactIds.has(id));
+  if (missing.length > 0) {
+    throw new Error(`[Fail-Closed] Graph edge(s) reference fact_id(s) not found in facts: ${missing.join(", ")} -- edges may be stale relative to the current facts index.`);
+  }
+
+  const members: ClusterMember[] = rows.rows.map(r => ({
+    factId: r.fact_id,
+    repo: r.repo,
+    module: r.module,
+    kind: r.kind,
+    symbolName: r.symbol_name,
+    description: r.description,
+    depth: depthByFactId.get(r.fact_id)!,
+  }));
+
+  return { members, edges, truncated };
+}
+
 export async function findGraphNeighbors(db: Pool, factId: string): Promise<GraphNeighbor[]> {
   const result = await db.query<{ direction: "outgoing" | "incoming"; connection_type: string; other_fact_id: string; other_symbol: string; resolution_status: string; details: string | null }>(
     `SELECT 'outgoing' as direction, connection_type, target_fact_id as other_fact_id, target_symbol as other_symbol, resolution_status, details

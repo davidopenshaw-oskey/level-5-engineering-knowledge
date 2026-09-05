@@ -1,6 +1,8 @@
 # Workflow Catalogue — Seeding Tasklist (Task 1 of 2)
 
-**Status:** Sketched 2026-09-05, not started. Task 2 (post-merge refresh/staleness agent) deliberately not sketched yet — sequencing follows from Task 2 needing a real catalogue to refresh.
+**Superseded, 2026-09-05 — kept for its real reasoning and history, not as the current plan.** This doc's whole premise is a bespoke, hardcoded script: a fixed pipeline (enumerate anchors → walk → dedupe → one LLM drafting call → human review → persist) built specifically for one task. Discussion the same day moved to a different, broader architecture: P1/P2 stays generic fact extraction only; a thin, generic tool layer (`search()`, `findGraphNeighbors()`, `walkBoundedCluster()` — the last one, built for Step 2 below, reframed and kept in `graph-traversal.ts` for exactly this reason) sits on top; and task-specific **agent personas** (e.g. an atomic-PRD agent, an impact-analysis agent), each with their own instructions, context docs, and output template, decide for themselves how to use those tools rather than following one hardcoded script per task. See `governance/roadmap/market-research/02-findings-retrieval-architecture-2026-09-05.md` for the research that led here (Claude Code's own move away from a fixed RAG pipeline toward agentic tool use was the direct prompt). Whether a workflow catalogue is still seeded this way, or becomes something an agent persona builds as part of its own process, is not yet decided — this doc's real reasoning (the historic-corpus caveats, the human-review discipline, the `evidence_basis` distinction) likely still applies to whichever shape wins; its specific script-shaped steps below likely do not.
+
+**Original status (pre-supersession):** Sketched 2026-09-05, not started. Task 2 (post-merge refresh/staleness agent) deliberately not sketched yet — sequencing follows from Task 2 needing a real catalogue to refresh.
 
 ## Why this exists
 
@@ -50,6 +52,8 @@ Separately, fuzzy-match each candidate cluster's drafted name/domain against the
 
 Every candidate — LLM draft, real cited evidence, and any labeled historic-reference suggestion — goes to a human for confirm/edit/reject before it becomes a real catalogue entry. Format not yet decided: could be as simple as one reviewable markdown file per candidate (matching this project's existing file-based review conventions) or something more structured. Whichever is chosen, the review action itself (who confirmed, when, against which run) needs to be captured — see Step 7.
 
+**Resolved 2026-09-05 — the reviewer's role is not limited to confirm/edit/reject of what the LLM drafted.** Real, permanent gap found while sketching this, not a hypothetical: a workflow can have a genuinely real step that has no fact backing it and never will — not because P1/P2 hasn't extracted it yet, but because it's outside any repo entirely (a signed contract, a verbal PIN handover, a phone call, a business policy decision). The historic corpus already does this implicitly and correctly in places (VAM-003's Quick Code: *"the Property Manager... delivers it directly to the non-app inhabitant via offline means (e.g., direct messaging, a printed welcome sheet, or verbal handover)"*; WG-046's real trigger is *"a contract is signed with a new service provider"*, an offline legal event). Step 4's LLM can never draft this, since it only ever sees facts — so the reviewer needs a real way to **add** such a step directly, not just confirm or edit what the LLM proposed. See Step 7 for how this is tagged.
+
 ### Step 7 — Persist confirmed workflows with real trust-tier/freshness fields
 
 New fact kind (e.g. `workflow_cluster`) or a small new table — TBD at build time, matching Task 1's original open question. Whichever shape, it needs, at minimum (agreed 2026-09-05, the same gap flagged for Task 3's reference docs):
@@ -57,6 +61,7 @@ New fact kind (e.g. `workflow_cluster`) or a small new table — TBD at build ti
 - The `run_id`/commit_sha of every repo whose facts the cluster cites (so staleness is checkable later, the same way `extraction_runs` already tracks this for code facts)
 - `verified_by` / `verified_at` (who confirmed it, when)
 - The real fact_ids in the cluster (so Task 2's later staleness check has something concrete to re-check against)
+- **`evidence_basis` per step/claim, agreed 2026-09-05: `fact_derived` | `human_asserted_out_of_system`.** Matches a pattern this project already uses elsewhere (`cross_repo_edges.provenance` = `ast_derived` | `externally_configured`; the 🟢/🔵 real-vs-inferred labeling in the earlier hand-traces) — this is the same discipline applied to a third, real category: content a human asserts is true of the real business process but that no repo's facts can ever confirm, by design, not because extraction is incomplete. `human_asserted_out_of_system` is not a placeholder awaiting a future fact — treat it as permanent unless a human says the real-world process itself changed. **Real, direct consequence for Task 2:** its fact-driven staleness check has nothing to re-check a `human_asserted_out_of_system` step against — it must skip these rather than either wrongly flagging them as broken or silently never revisiting them; they need their own, human-driven re-confirmation cadence instead, not an automated one. Kept deliberately narrow for now (a single flag, no sub-taxonomy of *why* something is out-of-system) — expand only if a real, recurring need for finer distinction shows up, not speculatively.
 
 ### Step 8 — Pilot before scaling
 
@@ -76,3 +81,6 @@ Run Steps 1-7 against a small, already-understood real case first — the owner/
 - Exact persistence shape (new fact kind vs. new table) — deferred to build time per Task 1's original note.
 - Review-format choice (Step 6) — not yet decided.
 - Real cost estimate for Step 4's LLM-drafting calls at full scale (the historic catalogue lists roughly 40-50 real candidate workflows across all domains, most still `DEFER`) — get a real per-cluster cost from the pilot before committing to a full run, same discipline as every other paid step in this project.
+
+~~How do we deal with parts of a workflow that cannot be grounded in a fact...~~ **Resolved 2026-09-05** — see Step 6/Step 7 above (`evidence_basis: human_asserted_out_of_system`, reviewer-added, excluded from Task 2's automated staleness checking, expandable later if a real recurring need for finer distinction shows up).
+
