@@ -488,9 +488,20 @@ function main() {
       }
 
       // 3. Classes & Methods
+      //
+      // extendsClassTypeArguments: ported 2026-09-02 from firebase-oskey-
+      // dev's own copy of this script -- a real, precise link (e.g. which
+      // document type a controller manages via `extends
+      // OSKDocumentController<SomeDocument>`) that `extendsClass` alone
+      // (the base class name only) drops entirely. `getBaseClass()`
+      // resolves the class declaration itself and loses the specific
+      // instantiation used at this extends site, so this uses
+      // `getExtends()` (the real heritage-clause expression) instead.
       for (const cls of sf.getClasses()) {
         const className = cls.getName() || "AnonymousClass";
         const extendsClass = cls.getBaseClass()?.getName() || null;
+        const extendsExpr = cls.getExtends();
+        const extendsClassTypeArguments = extendsExpr ? extendsExpr.getTypeArguments().map(t => t.getText()) : [];
         const isExported = cls.isExported();
 
         rawClasses.push({
@@ -498,6 +509,7 @@ function main() {
           line: cls.getStartLineNumber(),
           className,
           extendsClass,
+          ...(extendsClassTypeArguments.length > 0 ? { extendsClassTypeArguments } : {}),
           isExported,
         });
 
@@ -539,12 +551,35 @@ function main() {
       }
 
       // 5. Type Aliases
+      //
+      // unionMembers: ported 2026-09-02 from firebase-oskey-dev's own copy
+      // of this script, where it was found and verified against real code
+      // (governance/roadmap/facts-serving-strategy/05-tasklist.md item 1;
+      // confirmed as a real retrieval-quality fix via 09-p2-build-
+      // tasklist.md task 7, real example: OSKAccessValidity -> ["oneTime",
+      // "permanent", "recurrent"]). An enum's full `members` list was
+      // already captured below, but a plain string-literal union type
+      // alias captured only its name, never its actual values. Only
+      // populated when EVERY member of the union is a literal -- a union
+      // containing an object type, another type reference, etc. isn't a
+      // flat enumerable value list the same way, and isn't force-fit into
+      // this field.
       for (const ta of sf.getTypeAliases()) {
+        const typeNode = ta.getTypeNode();
+        let unionMembers: string[] | undefined;
+        if (typeNode && Node.isUnionTypeNode(typeNode)) {
+          const memberNodes = typeNode.getTypeNodes();
+          const literalTexts = memberNodes.map(m => (Node.isLiteralTypeNode(m) ? m.getLiteral().getText() : null));
+          if (literalTexts.every((t): t is string => t !== null)) {
+            unionMembers = literalTexts.map(t => t.replace(/^['"]|['"]$/g, ""));
+          }
+        }
         rawTypeAliases.push({
           ...base,
           line: ta.getStartLineNumber(),
           name: ta.getName(),
           isExported: ta.isExported(),
+          ...(unionMembers ? { unionMembers } : {}),
         });
       }
 
@@ -579,12 +614,24 @@ function main() {
       // literal members are captured here, matching getInterfaces() above,
       // which likewise only returns properties declared directly on the
       // interface rather than ones inherited via `extends`.
+      //
+      // Generic type-reference case ported 2026-09-02 from firebase-oskey-
+      // dev's own copy of this script: this codebase's document models are
+      // near-universally written as `type X = OSKDocument<{ field: string;
+      // ... }>` (or this repo's own equivalent generic wrapper) -- a
+      // TypeReferenceNode wrapping an object literal as its type argument,
+      // not a bare TypeLiteral or IntersectionTypeNode at the top level, so
+      // the two branches above never saw it. Descends into every type
+      // argument of any generic type reference, not just one named wrapper.
       const collectTypeLiteralProperties = (typeNode: Node): Node[] => {
         if (Node.isTypeLiteral(typeNode)) {
           return typeNode.getProperties();
         }
         if (Node.isIntersectionTypeNode(typeNode)) {
           return typeNode.getTypeNodes().flatMap(collectTypeLiteralProperties);
+        }
+        if (Node.isTypeReference(typeNode)) {
+          return typeNode.getTypeArguments().flatMap(collectTypeLiteralProperties);
         }
         return [];
       };

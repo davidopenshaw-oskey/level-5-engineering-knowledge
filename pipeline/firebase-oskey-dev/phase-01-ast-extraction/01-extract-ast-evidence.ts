@@ -692,9 +692,27 @@ function main() {
       }
 
       // 3. Classes & Methods
+      //
+      // extendsClassTypeArguments: real gap found 2026-09-02, same class of
+      // bug as the type-alias union-values and OSKDocument-generic fixes in
+      // this same file, a third instance of it: `extendsClass` already
+      // named the base class (e.g. "OSKDocumentController"), but the
+      // generic type argument at THIS extends site -- e.g. the
+      // `OSKBuildingUnitInhabitant` in `class
+      // OSKBuildingUnitInhabitantController extends
+      // OSKDocumentController<OSKBuildingUnitInhabitant>` -- was dropped
+      // entirely. That argument is the one real, precise link between a
+      // controller (who performs Firestore CRUD) and the document type it
+      // actually manages -- without it, that connection only exists as a
+      // naming-convention guess, never a fact. `getBaseClass()` resolves
+      // the class declaration itself and loses the specific instantiation
+      // used at this extends site, so this uses `getExtends()` (the real
+      // heritage-clause expression) instead.
       for (const cls of sf.getClasses()) {
         const className = cls.getName() || "AnonymousClass";
         const extendsClass = cls.getBaseClass()?.getName() || null;
+        const extendsExpr = cls.getExtends();
+        const extendsClassTypeArguments = extendsExpr ? extendsExpr.getTypeArguments().map(t => t.getText()) : [];
         const isExported = cls.isExported();
 
         rawClasses.push({
@@ -702,6 +720,7 @@ function main() {
           line: cls.getStartLineNumber(),
           className,
           extendsClass,
+          ...(extendsClassTypeArguments.length > 0 ? { extendsClassTypeArguments } : {}),
           isExported,
         });
 
@@ -743,12 +762,34 @@ function main() {
       }
 
       // 5. Type Aliases
+      //
+      // unionMembers: real gap found 2026-09-01/02 via governance/roadmap/
+      // facts-serving-strategy/ (03-finding-facts-are-pointers-not-payloads.md,
+      // confirmed as a real retrieval-quality miss in 09-p2-build-tasklist.md
+      // task 7) -- an enum's full `members` list was already captured below,
+      // but a plain string-literal union type alias (e.g. `type
+      // OSKAccessValidity = 'oneTime' | 'permanent' | 'recurrent'`) captured
+      // only its name, never its actual values. Only populated when EVERY
+      // member of the union is a literal (string/number) -- a union
+      // containing an object type, another type reference, etc. isn't a
+      // flat enumerable value list the same way, and isn't force-fit into
+      // this field.
       for (const ta of sf.getTypeAliases()) {
+        const typeNode = ta.getTypeNode();
+        let unionMembers: string[] | undefined;
+        if (typeNode && Node.isUnionTypeNode(typeNode)) {
+          const memberNodes = typeNode.getTypeNodes();
+          const literalTexts = memberNodes.map(m => (Node.isLiteralTypeNode(m) ? m.getLiteral().getText() : null));
+          if (literalTexts.every((t): t is string => t !== null)) {
+            unionMembers = literalTexts.map(t => t.replace(/^['"]|['"]$/g, ""));
+          }
+        }
         rawTypeAliases.push({
           ...base,
           line: ta.getStartLineNumber(),
           name: ta.getName(),
           isExported: ta.isExported(),
+          ...(unionMembers ? { unionMembers } : {}),
         });
       }
 
@@ -783,12 +824,27 @@ function main() {
       // literal members are captured here, matching getInterfaces() above,
       // which likewise only returns properties declared directly on the
       // interface rather than ones inherited via `extends`.
+      //
+      // Generic type-reference case added 2026-09-02, prompted by a real
+      // question ("have we forgotten the Firestore side of things?"): this
+      // codebase's own document models are near-universally written as
+      // `type X = OSKDocument<{ field: string; ... }>` -- a TypeReferenceNode
+      // wrapping an object literal as its type argument, not a bare
+      // TypeLiteral or IntersectionTypeNode at the top level, so the two
+      // branches above never saw it and every Firestore document's actual
+      // field shape went uncaptured. Descends into every type argument of
+      // any generic type reference (not just OSKDocument by name -- any
+      // wrapper shaped this way benefits, and this doesn't need to know
+      // every wrapper type's name up front).
       const collectTypeLiteralProperties = (typeNode: Node): Node[] => {
         if (Node.isTypeLiteral(typeNode)) {
           return typeNode.getProperties();
         }
         if (Node.isIntersectionTypeNode(typeNode)) {
           return typeNode.getTypeNodes().flatMap(collectTypeLiteralProperties);
+        }
+        if (Node.isTypeReference(typeNode)) {
+          return typeNode.getTypeArguments().flatMap(collectTypeLiteralProperties);
         }
         return [];
       };

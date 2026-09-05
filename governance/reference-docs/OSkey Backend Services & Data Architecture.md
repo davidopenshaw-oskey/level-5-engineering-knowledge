@@ -1,5 +1,7 @@
 # Oskeky firestore architecture
 
+**RETIRED 2026-09-05 — superseded by `OSkey Backend Services & Data Architecture v2.md`.** Kept here for history, not for use. Machine-generated from older prompts, never regenerated since, and found on direct review to mix two different things: durable architectural principles (lines ~10-112, carried into v2 essentially unchanged) and a collection-by-collection, method-by-method narrative of what the code does (the rest of this file) that duplicates — less reliably and less currently — what Phase 1's own facts and call-graph already produce directly from the real source. A v3 covering that removed ground properly is intended once the real regeneration pipeline (post-merge, post-rejoin-check scripts, not yet built) exists. Do not cite this file going forward; use v2 for the principles it kept, and the live facts/call-graph for anything about current code behavior.
+
 **version:** 0.0.2
 **location:** level-5 phases 1, 2
 

@@ -2,6 +2,8 @@
 
 **What this file is:** a worked example of the three-layer atomic PRD shape agreed in `01-qa-vision-and-examples.md` (A3/Q1) — Business, Evidence, Technical Proposal — built from `07-handtrace-example2-resident-departure.md`'s real, facts-only findings. Every citation below is real (file/line, or a real fact record); nothing is invented. This is a demonstration of the target output shape, not a live, team-approved PRD.
 
+**Known incomplete, 2026-09-03 — kept as-is, not rewritten in place.** This example's Layer 2 was built before the `organization` module was ever synced into the Postgres facts index (`05-tasklist.md` item 6). A real, independent second implementation of resident-access removal — `OSKOrganizationResidentsService.deleteAppUserResident`/`_deleteNonAppUserResident`, doing materially the same work as the `removeInhabitantFromUnit`/`removeInhabitant` paths below — was invisible to this hand-trace for that reason, not because it doesn't exist. Left as a historical/illustrative artifact rather than corrected in place, matching this folder's own convention for a stale-but-informative document (see `firestore-schema.md`'s own flag for the same treatment). The real, automated pipeline's regenerated version (`pipeline/facts-postgres-index/generate-atomic-prd.ts`, output at `output/atomic-prds/resident-departure.md`, gitignored/local — see `13-atomic-prd-pipeline-tasklist.md` task 5) reflects the fuller, corrected evidence and supersedes this file as the more complete real answer for this workflow.
+
 ---
 
 # LAYER 1 — Business

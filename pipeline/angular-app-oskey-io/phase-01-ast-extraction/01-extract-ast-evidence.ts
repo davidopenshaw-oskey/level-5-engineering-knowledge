@@ -635,6 +635,7 @@ function main() {
   const rawAngularSignals: any[] = [];
   const rawAngularTemplateComposition: any[] = [];
   const rawAngularTemplateBindings: any[] = [];
+  const rawAngularTemplateAttributes: any[] = [];
   const rawErrors: any[] = [];
 
   for (const { file, base, absolutePath } of runtimeFiles) {
@@ -700,9 +701,20 @@ function main() {
       }
 
       // 3. Classes & Methods
+      //
+      // extendsClassTypeArguments: ported 2026-09-02 from firebase-oskey-
+      // dev's own copy of this script -- a real, precise link (e.g. which
+      // document type a controller manages via `extends
+      // OSKDocumentController<SomeDocument>`) that `extendsClass` alone
+      // (the base class name only) drops entirely. `getBaseClass()`
+      // resolves the class declaration itself and loses the specific
+      // instantiation used at this extends site, so this uses
+      // `getExtends()` (the real heritage-clause expression) instead.
       for (const cls of sf.getClasses()) {
         const className = cls.getName() || "AnonymousClass";
         const extendsClass = cls.getBaseClass()?.getName() || null;
+        const extendsExpr = cls.getExtends();
+        const extendsClassTypeArguments = extendsExpr ? extendsExpr.getTypeArguments().map(t => t.getText()) : [];
         const isExported = cls.isExported();
 
         rawClasses.push({
@@ -710,6 +722,7 @@ function main() {
           line: cls.getStartLineNumber(),
           className,
           extendsClass,
+          ...(extendsClassTypeArguments.length > 0 ? { extendsClassTypeArguments } : {}),
           isExported,
         });
 
@@ -847,6 +860,38 @@ function main() {
                       });
                     }
                   }
+
+                  // Real gap found 2026-09-05 (governance/roadmap/facts-
+                  // serving-strategy/15-workflow-clustering-and-angular-ux-
+                  // facts.md, task 2 part A): a literal (non-bound) attribute
+                  // like `formControlName="inhabitantType"` or
+                  // `value="tenant"` is not a property binding in Angular's
+                  // own template model -- it lives on node.attributes, never
+                  // node.inputs, and was silently invisible before this.
+                  // Confirmed real and significant, not theoretical: 92 of
+                  // 160 real formControlName usages across this repo use
+                  // this exact plain-attribute form (57%, checked directly),
+                  // not the bracketed `[formControlName]="'x'"` property-
+                  // binding form already captured above. Scoped by
+                  // attribute NAME, not element tag -- tag-agnostic by
+                  // construction, per this same task's own earlier
+                  // correction (a tag allowlist would miss future control
+                  // types; an attribute-name allowlist doesn't care what
+                  // element carries it, current or future).
+                  if (Array.isArray(node.attributes)) {
+                    for (const attr of node.attributes) {
+                      if (attr.name !== "value" && attr.name !== "ngValue" && attr.name !== "formControlName") continue;
+                      rawAngularTemplateAttributes.push({
+                        ...base,
+                        className,
+                        templatePath: templateRepoPath,
+                        templateLine,
+                        elementTag,
+                        attributeName: attr.name,
+                        attributeValue: attr.value
+                      });
+                    }
+                  }
                 }
 
                 if (Array.isArray(node.children)) node.children.forEach(visitNode);
@@ -927,12 +972,35 @@ function main() {
       }
 
       // 5. Type Aliases
+      //
+      // unionMembers: ported 2026-09-02 from firebase-oskey-dev's own copy
+      // of this script, where it was found and verified against real code
+      // (governance/roadmap/facts-serving-strategy/05-tasklist.md item 1;
+      // confirmed as a real retrieval-quality fix via 09-p2-build-
+      // tasklist.md task 7, real example: OSKAccessValidity -> ["oneTime",
+      // "permanent", "recurrent"]). An enum's full `members` list was
+      // already captured below, but a plain string-literal union type
+      // alias captured only its name, never its actual values. Only
+      // populated when EVERY member of the union is a literal -- a union
+      // containing an object type, another type reference, etc. isn't a
+      // flat enumerable value list the same way, and isn't force-fit into
+      // this field.
       for (const ta of sf.getTypeAliases()) {
+        const typeNode = ta.getTypeNode();
+        let unionMembers: string[] | undefined;
+        if (typeNode && Node.isUnionTypeNode(typeNode)) {
+          const memberNodes = typeNode.getTypeNodes();
+          const literalTexts = memberNodes.map(m => (Node.isLiteralTypeNode(m) ? m.getLiteral().getText() : null));
+          if (literalTexts.every((t): t is string => t !== null)) {
+            unionMembers = literalTexts.map(t => t.replace(/^['"]|['"]$/g, ""));
+          }
+        }
         rawTypeAliases.push({
           ...base,
           line: ta.getStartLineNumber(),
           name: ta.getName(),
           isExported: ta.isExported(),
+          ...(unionMembers ? { unionMembers } : {}),
         });
       }
 
@@ -967,12 +1035,24 @@ function main() {
       // literal members are captured here, matching getInterfaces() above,
       // which likewise only returns properties declared directly on the
       // interface rather than ones inherited via `extends`.
+      //
+      // Generic type-reference case ported 2026-09-02 from firebase-oskey-
+      // dev's own copy of this script: this codebase's document models are
+      // near-universally written as `type X = OSKDocument<{ field: string;
+      // ... }>` (or this repo's own equivalent generic wrapper) -- a
+      // TypeReferenceNode wrapping an object literal as its type argument,
+      // not a bare TypeLiteral or IntersectionTypeNode at the top level, so
+      // the two branches above never saw it. Descends into every type
+      // argument of any generic type reference, not just one named wrapper.
       const collectTypeLiteralProperties = (typeNode: Node): Node[] => {
         if (Node.isTypeLiteral(typeNode)) {
           return typeNode.getProperties();
         }
         if (Node.isIntersectionTypeNode(typeNode)) {
           return typeNode.getTypeNodes().flatMap(collectTypeLiteralProperties);
+        }
+        if (Node.isTypeReference(typeNode)) {
+          return typeNode.getTypeArguments().flatMap(collectTypeLiteralProperties);
         }
         return [];
       };
@@ -1328,6 +1408,19 @@ function main() {
               if (firstArg && (Node.isStringLiteral(firstArg) || Node.isNoSubstitutionTemplateLiteral(firstArg))) {
                 const typeArgs = callExpr.getTypeArguments();
 
+                // Real gap found 2026-09-05 (governance/roadmap/facts-
+                // serving-strategy/15-...md, task 2 part D): this fact never
+                // captured which method contains it, so there was no way to
+                // join "component calls this.someService.someMethod()"
+                // (already resolved elsewhere, see call_expression's own
+                // declarationClass/declarationMethod) to "that method
+                // contains this specific callable call" without a fragile
+                // line-range guess. Same enclosing-method/class resolution
+                // already proven for call_expression facts above, reused
+                // here rather than a new pattern.
+                const enclosingMethod = callExpr.getFirstAncestorByKind(SyntaxKind.MethodDeclaration);
+                const enclosingClass = callExpr.getFirstAncestorByKind(SyntaxKind.ClassDeclaration);
+
                 rawFirebaseCallableCalls.push({
                   ...base,
                   line,
@@ -1335,6 +1428,8 @@ function main() {
                   requestTypeText: typeArgs[0] ? typeArgs[0].getText() : null,
                   responseTypeText: typeArgs[1] ? typeArgs[1].getText() : null,
                   hasDataArgument: callArgs.length > 1,
+                  callerMethod: enclosingMethod ? enclosingMethod.getName() : null,
+                  callerClass: enclosingClass ? (enclosingClass.getName() || "AnonymousClass") : null,
                 });
               }
             }
@@ -1488,6 +1583,7 @@ function main() {
   rawAngularSignals.sort(sortFn);
   rawAngularTemplateComposition.sort(sortFn);
   rawAngularTemplateBindings.sort(sortFn);
+  rawAngularTemplateAttributes.sort(sortFn);
   rawErrors.sort(sortFn);
 
   // Write raw facts atomically
@@ -1513,6 +1609,7 @@ function main() {
   writeJsonAtomically(path.join(rawDir, "ast-angular-signals.json"), rawAngularSignals, "facts/ast-angular-signals.json");
   writeJsonAtomically(path.join(rawDir, "ast-angular-template-composition.json"), rawAngularTemplateComposition, "facts/ast-angular-template-composition.json");
   writeJsonAtomically(path.join(rawDir, "ast-angular-template-bindings.json"), rawAngularTemplateBindings, "facts/ast-angular-template-bindings.json");
+  writeJsonAtomically(path.join(rawDir, "ast-angular-template-attributes.json"), rawAngularTemplateAttributes, "facts/ast-angular-template-attributes.json");
   writeJsonAtomically(path.join(rawDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
 
   // AST error-tolerance gate: previously rawErrors were collected and
@@ -1578,6 +1675,7 @@ function main() {
       { file: "ast-angular-signals.json", evidenceType: "angularSignals", recordCount: rawAngularSignals.length, required: true },
       { file: "ast-angular-template-composition.json", evidenceType: "angularTemplateComposition", recordCount: rawAngularTemplateComposition.length, required: true },
       { file: "ast-angular-template-bindings.json", evidenceType: "angularTemplateBindings", recordCount: rawAngularTemplateBindings.length, required: true },
+      { file: "ast-angular-template-attributes.json", evidenceType: "angularTemplateAttributes", recordCount: rawAngularTemplateAttributes.length, required: true },
     ],
     errors: {
       file: "ast-errors.json",
@@ -1614,6 +1712,7 @@ function main() {
     angularSignals: rawAngularSignals.length,
     angularTemplateComposition: rawAngularTemplateComposition.length,
     angularTemplateBindings: rawAngularTemplateBindings.length,
+    angularTemplateAttributes: rawAngularTemplateAttributes.length,
     errors: rawErrors.length,
   });
   console.log(`AST evidence manifest written to: ${path.join(rawDir, "ast-evidence-manifest.json")}`);

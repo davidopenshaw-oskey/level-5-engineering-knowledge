@@ -122,6 +122,7 @@ const EXPECTED_EVIDENCE_TYPES = [
   "angularSignals",
   "angularTemplateComposition",
   "angularTemplateBindings",
+  "angularTemplateAttributes",
 ];
 
 function main() {
@@ -306,6 +307,7 @@ function main() {
   const angularSignalsFact = loadFactFile("ast-angular-signals.json");
   const angularTemplateCompositionFact = loadFactFile("ast-angular-template-composition.json");
   const angularTemplateBindingsFact = loadFactFile("ast-angular-template-bindings.json");
+  const angularTemplateAttributesFact = loadFactFile("ast-angular-template-attributes.json");
 
   const modulesBaseDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
   fs.mkdirSync(modulesBaseDir, { recursive: true });
@@ -859,6 +861,27 @@ function main() {
       });
     }
 
+    // 23. angular_template_attribute -- real gap found 2026-09-05
+    // (governance/roadmap/facts-serving-strategy/15-...md, task 2 part A):
+    // a literal (non-bound) attribute like `formControlName="x"` or
+    // `value="x"` is not a property binding in Angular's own template
+    // model -- it never reached angular_template_binding above. Confirmed
+    // real, not theoretical: 92 of 160 real formControlName usages in this
+    // repo use exactly this unbound form.
+    for (const item of angularTemplateAttributesFact.filter(t => t.module === moduleName)) {
+      rawModuleFacts.push({
+        id: stableFactId({
+          type: "angular_template_attribute", repo: REPO_NAME, module: moduleName, file: item.templatePath, line: item.templateLine,
+          primaryKey: item.className,
+          secondaryKey: item.attributeName,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "angular_template_attribute", item.templatePath, item.className, item.attributeName),
+        }),
+        runId, type: "angular_template_attribute", repo: REPO_NAME, module: moduleName, submodule: item.submodule,
+        file: item.templatePath, line: item.templateLine, value: `${item.elementTag}[${item.attributeName}] = "${item.attributeValue}"`,
+        evidence: { ...item },
+      });
+    }
+
     // 4. Property-Based Fact Deduplication & Conflicting Identity Guard
     const factMap = new Map<string, { fact: any; jsonStr: string }>();
     let deduplicatedCount = 0;
@@ -931,6 +954,7 @@ function main() {
       angularSignals: facts.filter(f => f.type === "angular_signal").length,
       angularTemplateComposition: facts.filter(f => f.type === "angular_template_composition").length,
       angularTemplateBindings: facts.filter(f => f.type === "angular_template_binding").length,
+      angularTemplateAttributes: facts.filter(f => f.type === "angular_template_attribute").length,
       services: services.length,
       controllers: controllers.length,
       facts: facts.length,

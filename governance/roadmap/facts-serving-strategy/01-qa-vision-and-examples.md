@@ -16,6 +16,11 @@
 
 What is the impact of adding a new type of owner/inhabitant, such as an ownerNonResident. This ownerNonResident would then manage adding their own tenants and taking on the task of tenant management from the Property manager. 
 
+1a. Currently the PGO supports adding a tenant or owner as a person living in a buildings unit by the Property Manager. We need a new inhabitantType in the Oskey system. The name of the new inhabitantType will be ownerNonResident. The scope of this PRD is to add the new inhabitantType without breaking the existing flows around inhabitantType. Report back an impact analysis of how this will impact the code base.
+
+1b. Once the inhabitantType ownerNonResident has been added to the Oskey system, we need to be able to assign building units to this ownerNonResident account. Report back on how this could be done highlighting how in the PGO it can be added. If there is more than one option, then report back on all options. If there are existing flows and code that will be affected, report back.  
+
+
 2. What is the immpact on the PGO Resident flow if we add a feature called Resident Departure. This would be a date/time set by a PM when they would like the current residents building accesses to be removed.
 
 3.  What is the impact on the invitation flow if we add recurring invitations. At the moment, you can only add a single invitation. 
