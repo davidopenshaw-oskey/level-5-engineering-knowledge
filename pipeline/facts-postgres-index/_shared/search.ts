@@ -21,7 +21,23 @@
 import { Pool } from "pg";
 import { embedSearchQuery } from "./embedding-adapter";
 
-const RESULT_LIMIT = 10;
+// Raised from 10 to 25, 2026-09-05, on real measured evidence, not a guess:
+// governance/roadmap/facts-serving-strategy/15-workflow-clustering-and-
+// angular-ux-facts.md's retrieval-anchor-gap investigation found a real
+// target fact ranked #22 for the real Q1a query (post the same day's
+// model_property description fix) -- just outside the old limit of 10.
+// Checked the marginal facts a k=30 test would add (ranks 11-30): almost
+// entirely genuinely on-topic for that query, not noise. A second real
+// query (Q1b) needed rank #96 to catch its own target -- tested and
+// rejected raising the limit that far, since the added evidence broadens
+// substantially (call_expression/imports_dependency counts roughly triple)
+// without being cleanly on-topic the way the k=30 case was. 25 is a real,
+// deliberate compromise: closes the one case with clean marginal evidence,
+// stops short of the point where evidence volume/noise measurably worsens.
+// Does NOT fix the deeper Q1b-shaped gap -- that's the real, separate case
+// for workflow clusters (same doc, Task 1), not something a global limit
+// bump alone can close.
+const RESULT_LIMIT = 25;
 
 // Calibrated 2026-09-02 against this session's own real, measured cases --
 // not guessed. The confident case (query: "how do I cancel a scheduled
