@@ -1,0 +1,10 @@
+{
+  "_note": "Vertex AI project/region/model/temperature for every script under mcp-server/. Real, working values as of 2026-09-06 -- verify against the current Vertex AI catalog before trusting them permanent. Override any field via env var without editing this file (e.g. for a future production project) -- see config.ts. Deliberately self-contained: does NOT reuse config/llm-providers.json (the main pipeline's own config, a different system's truth) -- mcp-server/ is a real candidate for independent GCP hosting eventually, and reaching into the pipeline's config now would create cross-boundary coupling that'd need undoing at that point.",
+  "vertexAI": {
+    "projectId": "test-ai-oskey-io",
+    "location": "global",
+    "model": "gemini-3.5-flash",
+    "temperature": 0.2,
+    "pricingLabel": "3.5 Flash"
+  }
+}

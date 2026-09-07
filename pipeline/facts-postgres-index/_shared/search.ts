@@ -37,7 +37,15 @@ import { embedSearchQuery } from "./embedding-adapter";
 // Does NOT fix the deeper Q1b-shaped gap -- that's the real, separate case
 // for workflow clusters (same doc, Task 1), not something a global limit
 // bump alone can close.
-const RESULT_LIMIT = 25;
+//
+// Kept as the default, 2026-09-06, when search() gained an optional `limit`
+// param (adr-007.md): this constant was itself the example of the
+// example-tuned anti-pattern the ADR exists to move away from -- a single
+// global value can't serve both Q1a (needed ~25-30) and Q1b (needed ~96)
+// well at once. The fix isn't a new constant, it's letting the caller (an
+// agent, reasoning about how broad a given question is) decide -- this
+// value now only matters as the default for a caller that doesn't.
+const DEFAULT_RESULT_LIMIT = 25;
 
 // Calibrated 2026-09-02 against this session's own real, measured cases --
 // not guessed. The confident case (query: "how do I cancel a scheduled
@@ -78,7 +86,7 @@ function pool(): Pool {
   });
 }
 
-export async function search(query: string): Promise<SearchResponse> {
+export async function search(query: string, limit?: number): Promise<SearchResponse> {
   const db = pool();
   try {
     const { embedding } = await embedSearchQuery(query);
@@ -87,7 +95,7 @@ export async function search(query: string): Promise<SearchResponse> {
       `SELECT fact_id, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
        FROM facts WHERE embedding IS NOT NULL
        ORDER BY distance LIMIT $2`,
-      [`[${embedding.join(",")}]`, RESULT_LIMIT]
+      [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT]
     );
 
     const results: SearchResult[] = vectorRows.rows.map(row => ({

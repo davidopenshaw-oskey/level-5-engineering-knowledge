@@ -121,13 +121,43 @@ async function callEmbedContent(ids: string[], texts: string[]): Promise<Embeddi
 
   const ai = new GoogleGenAI({ enterprise: true, project: PROJECT_ID, location: LOCATION });
 
+  // Retry-with-backoff on 429 RESOURCE_EXHAUSTED only -- added 2026-09-06
+  // after a real occurrence during the atomic-prd-agent proof of concept
+  // (governance/roadmap/mcp-direction/), which fires many single-query
+  // embedContent calls in quick succession as an agent decides to search
+  // repeatedly. Checked the real declared quota first, not guessed at a
+  // sleep duration: this project's gemini-embedding-2 quota in 'global' is
+  // 60,000 requests/min (Service Usage API, consumerQuotaMetrics,
+  // global_embed_content_requests_per_minute_per_base_model) -- nowhere
+  // near what a few dozen calls would hit, so this is a transient
+  // backend-side condition, not a real quota this project is exceeding.
+  // Backoff (2s/4s/8s), not an immediate retry, specifically because the
+  // error itself says "try again later" -- an immediate retry would very
+  // likely just hit the same transient condition again. Scoped to status
+  // 429 only; any other error still fails closed on the first attempt, same
+  // as before this change.
+  const MAX_ATTEMPTS = 4;
   const embedOne = async (id: string, text: string): Promise<EmbeddingResult & { billableCharacterCount?: number }> => {
-    const response = await ai.models.embedContent({
-      model: MODEL,
-      contents: [text],
-      config: { outputDimensionality: OUTPUT_DIMENSIONALITY },
-    });
-    const embedding = response.embeddings?.[0];
+    let response;
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      try {
+        response = await ai.models.embedContent({
+          model: MODEL,
+          contents: [text],
+          config: { outputDimensionality: OUTPUT_DIMENSIONALITY },
+        });
+        break;
+      } catch (err: any) {
+        if (err?.status === 429 && attempt < MAX_ATTEMPTS) {
+          const delayMs = 2000 * 2 ** (attempt - 1);
+          console.error(`[EMBED_RETRY] embedContent for '${id}' hit 429 RESOURCE_EXHAUSTED (attempt ${attempt}/${MAX_ATTEMPTS}) -- retrying in ${delayMs}ms.`);
+          await new Promise(resolve => setTimeout(resolve, delayMs));
+          continue;
+        }
+        throw err;
+      }
+    }
+    const embedding = response!.embeddings?.[0];
     const values = embedding?.values;
     if (!values || values.length !== OUTPUT_DIMENSIONALITY) {
       throw new Error(`[LLM_CALL_FAILED] Embedding for '${id}' has ${values?.length ?? 0} dimensions, expected ${OUTPUT_DIMENSIONALITY}.`);
@@ -137,7 +167,7 @@ async function callEmbedContent(ids: string[], texts: string[]): Promise<Embeddi
       embedding: values,
       tokenCount: embedding?.statistics?.tokenCount,
       truncated: embedding?.statistics?.truncated,
-      billableCharacterCount: response.metadata?.billableCharacterCount,
+      billableCharacterCount: response!.metadata?.billableCharacterCount,
     };
   };
 

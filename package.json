@@ -41,8 +41,14 @@
   },
   "dependencies": {
     "@angular/compiler": "^22.1.4",
+    "@genkit-ai/google-genai": "^1.42.0",
+    "@genkit-ai/mcp": "^1.42.0",
     "@google/genai": "^2.15.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "dotenv": "^17.4.2",
-    "pg": "^8.23.0"
+    "express": "^5.2.1",
+    "genkit": "^1.42.0",
+    "pg": "^8.23.0",
+    "zod": "^4.5.4"
   }
 }

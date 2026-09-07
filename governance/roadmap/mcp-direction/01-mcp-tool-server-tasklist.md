@@ -8,27 +8,90 @@
 
 ## Step 1 — Build the three tools locally, no deployment yet
 
-Create `pipeline/facts-postgres-index/mcp-server/`, using Google's Genkit MCP plugin (`@genkit-ai/mcp`) — TypeScript, matches this codebase's existing language, Google-maintained (the GCP-delivery-relevant choice over Anthropic's own SDK, per `adr-007.md` §1e), with an official Cloud Run deployment path already documented.
+Create `pipeline/facts-postgres-index/mcp-server/`, using Google's Genkit MCP plugin (`@genkit-ai/mcp`) — TypeScript, matches this codebase's existing language, Google-maintained (the GCP-delivery-relevant choice over Anthropic's own SDK, per `adr-007.md` §1e).
 
-Three tools, each a thin wrapper — no new retrieval/graph logic, only adaptation:
-- `search_facts` — wraps `_shared/search.ts`'s `search(query)` directly.
-- `get_graph_neighbors` — wraps `_shared/graph-traversal.ts`'s `expandWithGraphNeighbors()`.
-- `walk_cluster` — wraps `_shared/graph-traversal.ts`'s `walkBoundedCluster()` (built and reframed as a generic tool 2026-09-05, never yet run against real data — this is also this function's first real test).
+**Real, current Genkit MCP API, verified 2026-09-06 directly against `genkit.dev/docs/model-context-protocol/` and the official Cloud Run codelab — not assumed:**
+- Real dependencies: `@modelcontextprotocol/sdk`, `genkit`, `@genkit-ai/mcp`, `zod` (for tool input schemas), `express` (HTTP transport, needed from Step 3 onward, not for local stdio dev).
+- Core API: `const ai = genkit({})`; tools are defined via `ai.defineTool({ name, description, inputSchema: z.object({...}) }, async (input) => {...})` — **any tool defined this way is automatically exposed by the MCP server, no separate registration step.**
+- Server wrapper: `const server = createMcpServer(ai, { name: "facts-corpus-server", version: "0.1.0" })`. Local dev: `server.start()` — **stdio transport by default**, exactly what Step 2 needs, zero extra config.
 
-Folder shape (per the earlier discussion, not yet built):
+**Concrete code for `pipeline/facts-postgres-index/mcp-server/src/index.ts`** (real signature note: `_shared/search.ts`'s `search(query)` has no `limit` parameter today — `RESULT_LIMIT` is a hardcoded module constant. Per this project's own "tuned to fit two known examples" critique of that constant, **adding an optional `limit` parameter to `search()` is real, necessary work as part of this step**, not just a wrapper concern — the agent should control how broad to search, not a hardcoded number):
+
+```typescript
+import { genkit, z } from "genkit";
+import { createMcpServer } from "@genkit-ai/mcp";
+import { Pool } from "pg";
+import { search } from "../../_shared/search";
+import { expandWithGraphNeighbors, walkBoundedCluster } from "../../_shared/graph-traversal";
+
+function pool(): Pool {
+  return new Pool({
+    host: process.env.PG_HOST ?? "localhost",
+    port: Number(process.env.PG_PORT ?? 5433),
+    user: process.env.PG_USER ?? "facts_index",
+    password: process.env.PG_PASSWORD ?? "local_dev_only",
+    database: process.env.PG_DATABASE ?? "facts_index",
+  });
+}
+
+const ai = genkit({});
+
+ai.defineTool(
+  {
+    name: "search_facts",
+    description: "Search the codebase's fact index for real, code-derived evidence relevant to a question. Returns ranked candidate facts with real fact_ids.",
+    inputSchema: z.object({ query: z.string(), limit: z.number().optional() }),
+  },
+  async ({ query, limit }) => search(query, limit) // requires search()'s real signature to accept an optional limit -- see note above
+);
+
+ai.defineTool(
+  {
+    name: "get_graph_neighbors",
+    description: "Given real fact_ids (anchors), find their direct graph neighbors via cross_repo_edges (calls, API bindings, field bindings).",
+    inputSchema: z.object({ factIds: z.array(z.string()) }),
+  },
+  async ({ factIds }) => {
+    const db = pool();
+    try {
+      const anchorNumbers = new Map(factIds.map((id, i) => [id, i + 1]));
+      return await expandWithGraphNeighbors(db, factIds, anchorNumbers);
+    } finally {
+      await db.end();
+    }
+  }
+);
+
+ai.defineTool(
+  {
+    name: "walk_cluster",
+    description: "Bounded multi-hop graph walk outward from one real starting fact_id.",
+    inputSchema: z.object({ anchorFactId: z.string(), maxDepth: z.number().optional(), maxFacts: z.number().optional() }),
+  },
+  async ({ anchorFactId, maxDepth, maxFacts }) => {
+    const db = pool();
+    try {
+      return await walkBoundedCluster(db, anchorFactId, { maxDepth, maxFacts });
+    } finally {
+      await db.end();
+    }
+  }
+);
+
+const server = createMcpServer(ai, { name: "facts-corpus-server", version: "0.1.0" });
+server.start(); // stdio transport by default -- the real local-dev path for Step 2
+```
+
+Folder shape:
 ```
 pipeline/facts-postgres-index/mcp-server/
   src/
-    index.ts
-    tools/
-      search-facts.ts
-      get-graph-neighbors.ts
-      walk-cluster.ts
-  Dockerfile
+    index.ts       # the file above
+  Dockerfile        # Step 3 -- not needed for Step 1-2
   README.md
 ```
 
-New dependencies go in the existing root `package.json` — deliberately not splitting into a separate workspace/package.json yet, per the same "don't add complexity before it's needed" discipline this project has followed all session.
+Real, exact install command: `npm install @modelcontextprotocol/sdk genkit @genkit-ai/mcp zod express` — no versions pinned yet, confirm against whatever is current at build time rather than trusting this list to still be accurate later. New dependencies go in the existing root `package.json` — deliberately not splitting into a separate workspace/package.json yet, per the same "don't add complexity before it's needed" discipline this project has followed all session.
 
 ## Step 2 — Local, stdio-transport testing against the real local Postgres
 
@@ -40,9 +103,48 @@ Verify each tool directly, two ways:
 
 **Real test, not just "it responds":** re-run this session's own known cases through `search_facts` and `get_graph_neighbors` and confirm they return the same real data already verified by hand — `OSKInhabitantOnboardingCardRequest.inhabitantType` findable via `search_facts`, its `FIELD_BINDING` edge to `OSKCreateOrganizationInhabitantComponent` findable via `get_graph_neighbors`. If `walk_cluster` is exercised here for the first time, check its real output against a known anchor (the same pilot case named in the now-superseded `building-workflows/01-workflow-seeding-tasklist.md` — the owner/tenant/resident flow) before trusting it further.
 
+## Steps 3 & 4 — benched 2026-09-06, see `04-step1-2-mcp-server-built-and-verified-2026-09-06.md`
+
+Real, deliberate sequencing decision, not a cancellation: Cloud Run deployment and Gemini Enterprise registration are benched for now. Direction is to keep proving the architecture out **locally** (Steps 5-6, against the local stdio server and local Postgres) before spending on cloud deployment/registration. The plan below is unchanged and still the real target once the local proof of concept closes Step 6 — just not started yet.
+
 ## Step 3 — Containerize and deploy to Cloud Run
 
-Write the `Dockerfile`, deploy per the official Google Codelab pattern (*"Build and deploy an ADK agent that uses an MCP server on Cloud Run"*). Real transport switch here, not assumed identical to Step 2: remote runs over HTTP (Streamable HTTP transport), not stdio. Test this explicitly — same tool calls as Step 2, now over the network, before trusting the remote deployment.
+Real transport switch here, not assumed identical to Step 2: remote runs over HTTP (`StreamableHTTPServerTransport`), not stdio — this needs an Express wrapper around the same `ai`/tool definitions from Step 1, verified 2026-09-06 against the real, official Google Cloud Run codelab, real code quoted:
+
+```typescript
+import express from "express";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+// ... same ai.defineTool(...) calls and createMcpServer(...) as Step 1 ...
+
+const mcpServerPromise = mcpWrapper.setup().then(() => mcpWrapper.server);
+const app = express();
+app.use(express.json());
+
+app.post("/mcp", async (req, res) => {
+  const server = await mcpServerPromise;
+  const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
+  await server.connect(transport);
+  await transport.handleRequest(req, res, req.body);
+  res.on("close", () => transport.close());
+});
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`MCP server listening on port ${PORT}`));
+```
+
+**Real deployment command, verified against the official codelab, not guessed:**
+```bash
+gcloud services enable run.googleapis.com artifactregistry.googleapis.com cloudbuild.googleapis.com
+gcloud iam service-accounts create mcp-server-sa --display-name="MCP Server Service Account"
+gcloud run deploy facts-corpus-mcp-server \
+  --service-account=mcp-server-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com \
+  --no-allow-unauthenticated \
+  --region=<pick a real region> \
+  --source=.
+```
+No separate `Dockerfile` needed — `gcloud run deploy --source=.` builds the container automatically. `--no-allow-unauthenticated` is deliberate, not optional: "ensure only authorized clients and agents can communicate with it," per the codelab's own emphasis — this is a corpus of real, internal business facts, not a public demo.
+
+Test explicitly — same tool calls as Step 2, now over the network — before trusting the remote deployment.
 
 **Real, open question, not resolved here:** what Postgres instance does the deployed server point at? The local docker-compose instance is explicitly "NOT the production data store" (per its own compose file comment). A real Cloud SQL (or equivalent) instance needs to exist before this step is meaningful beyond a connectivity test — not yet decided when/how that gets provisioned.
 
