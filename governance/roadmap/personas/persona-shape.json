@@ -1,0 +1,51 @@
+{
+      "_id": "66e01a2b3c4d5e6f7a8b9c0d",
+      "name": "Sarah Connor",
+      "age_range": {
+        "lower": 28,
+        "upper": 45
+      },
+      "location": "Los Angeles, CA",
+      "quote": "Security and efficiency are non-negotiable for my daily operations.",
+      "job": "Security Operations Lead",
+      "matrimonial_status": "Single",
+      "market_category": "END_USER",
+      "status": "ACTIVE",
+      "personality": {
+        "introvert_extrovert": 0.4,
+        "feeding_thinking": 0.8,
+        "analytical_creative": 0.85,
+        "active_passive": 0.9
+      },
+      "motivations": {
+        "comfort": 0.6,
+        "price": 0.4,
+        "speed": 0.85,
+        "fear": 0.7
+      },
+      "requirements": {
+        "needs": [
+          "Reliable remote key management",
+          "Instant push notifications on perimeter events",
+          "Fast authorization workflows"
+        ],
+        "frustrations": [
+          "Intermittent connectivity delays",
+          "Complex permission delegation"
+        ]
+      },
+      "technology": {
+        "internet": 5,
+        "social_media": 2,
+        "online_shopping": 4,
+        "online_food_ordering": 3,
+        "mobile_application": 5
+      },
+      "features": [
+        "66e01b3c4d5e6f7a8b9c0d1e"
+      ],
+      "creationDate": "2026-09-08T08:00:00Z",
+      "creationAuthor": "USER|sarah-c",
+      "lastModificationDate": "2026-09-08T08:15:00Z",
+      "lastModificationAuthor": "USER|sarah-c"
+    }

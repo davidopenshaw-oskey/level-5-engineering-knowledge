@@ -27,9 +27,9 @@
 
 ## Real, still-open items carried forward from `19-...md`, not yet actioned
 
-1. **`atomic-prd-agent-persona.md`** (the original, non-skills persona) still doesn't have the `search_facts` retry-waste fix — only `atomic-prd-agent-skills.md` does. If the original persona is ever used again, it's exposed to the same failure mode Steps 13/16 found.
-2. **Real structural question, not decided**: should this project build a second, exact-match search tool alongside `search_facts`, matching how every real system checked (Cursor, Claude Code) pairs semantic + exact search? The wording fix works but the research itself says it's a partial answer.
-3. **Two-tier `maxTurns`** — never built. Currently a flat 100, overridable via `MAX_TURNS` env var, no real policy for when a caller should raise or lower it.
+1. **`atomic-prd-agent-persona.md`** (the original, non-skills persona) still doesn't have the `search_facts` retry-waste fix — only `atomic-prd-agent-skills.md` does. If the original persona is ever used again, it's exposed to the same failure mode Steps 13/16 found. NOte: the file will be deleted. it does not work.
+2. **Real structural question, not decided**: should this project build a second, exact-match search tool alongside `search_facts`, matching how every real system checked (Cursor, Claude Code) pairs semantic + exact search? The wording fix works but the research itself says it's a partial answer. Note. At the moment benched after succesful prd generation on the typescript repos. ledft open for testing on all repos.
+3. **Two-tier `maxTurns`** — never built. Currently a flat 100, overridable via `MAX_TURNS` env var, no real policy for when a caller should raise or lower it. Benched. curently working without it.
 4. **Supplier Activity run's cost/duration anomaly** ($0.69/3m46s on 17 calls vs. $0.08/2min on 29 calls for Resident Departure) — flagged, not investigated. Likely legitimate extended thinking-token spend, not confirmed.
 5. **VS Code MCP integration** — walked through connecting the real, already-built `mcp-server/src/index.ts` to VS Code's native MCP client via `.vscode/mcp.json`. Offered, not confirmed or built.
 

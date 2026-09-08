@@ -1,8 +1,8 @@
 import { genkit, z } from "genkit";
 import { createMcpServer } from "@genkit-ai/mcp";
 import { Pool } from "pg";
-import { search } from "../../_shared/search";
-import { expandWithGraphNeighbors, walkBoundedCluster } from "../../_shared/graph-traversal";
+import { search } from "../db/search";
+import { expandWithGraphNeighbors, walkBoundedCluster } from "../db/graph-traversal";
 
 function pool(): Pool {
   return new Pool({

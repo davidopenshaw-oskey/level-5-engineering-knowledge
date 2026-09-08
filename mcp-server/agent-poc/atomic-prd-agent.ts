@@ -22,8 +22,8 @@ import { genkit } from "genkit";
 import { vertexAI } from "@genkit-ai/google-genai";
 import { Pool } from "pg";
 import { z } from "genkit";
-import { search } from "../../_shared/search";
-import { expandWithGraphNeighbors, walkBoundedCluster } from "../../_shared/graph-traversal";
+import { search } from "../db/search";
+import { expandWithGraphNeighbors, walkBoundedCluster } from "../db/graph-traversal";
 import { GenerationOutputSchema, renderSectionContent, type GenerationOutput } from "./section-content";
 import { parseTemplate, renderTemplateContract, type ParsedTemplate } from "./template";
 import { extractRealFactIds, checkFabrication, checkTemplateConformance } from "./validators";
@@ -33,7 +33,7 @@ import { loadMcpServerConfig } from "../config";
 const PROJECT_ROOT = process.cwd();
 const config = loadMcpServerConfig();
 const DEFAULT_PERSONA_PATH = path.join(PROJECT_ROOT, "governance/roadmap/mcp-direction/atomic-prd-agent-persona.md");
-const DEFAULT_TEMPLATE_PATH = path.join(PROJECT_ROOT, "pipeline/facts-postgres-index/mcp-server/agent-poc/templates/atomic-prd.template.md");
+const DEFAULT_TEMPLATE_PATH = path.join(PROJECT_ROOT, "mcp-server/agent-poc/templates/atomic-prd.template.md");
 const OUTPUT_DIR = path.join(PROJECT_ROOT, "output", "agent-runs", "prds");
 
 function pool(): Pool {
