@@ -76,7 +76,7 @@ All 3 existing repos' `pipeline/<repo>/phase-01-ast-extraction/` share the ident
 
 ## Real, honest open items — not yet checked
 
-1. **The standalone Kotlin Analysis API itself** (as opposed to the K1 compiler frontend it's built on, now confirmed working) — genuine build-mode task, deferred.
+1. **The standalone Kotlin Analysis API itself** (as opposed to the K1 compiler frontend it's built on, now confirmed working) — genuine build-mode task, deferred. **Now the single remaining tool-choice question, not one of three — see `05-task1-scip-kotlin-disqualified-2026-09-08.md`** (`scip-kotlin` disqualified: archived, successor unsupported for Android+Gradle).
 2. **KSP's real consumer** — present as a plugin, not yet traced to what it actually processes.
 3. **What "module" means for `ui/screens/*`** for P1's scan-repo equivalent — not yet designed; needs the same real-inspection discipline as node-iot-api-oskey-io's import-graph-reachability finding, not assumed from folder names.
 4. **The existing TypeScript P1 scripts' map/graph-building logic** (per user instruction 2026-09-07) — not yet reviewed; needed before designing this repo's own map/graph extraction shape.
@@ -87,6 +87,8 @@ All 3 existing repos' `pipeline/<repo>/phase-01-ast-extraction/` share the ident
 
 ### Decision 1 — Branch: `develop`
 See "What's actually in this repo" above. Not `master` (stale), no `staging` branch exists.
+
+**Flagged 2026-09-08, not resolved, not superseded:** the user found production actually deploys off a tagged release (latest `1.6.0`), not `develop`'s HEAD — this decision's `staging`-repo analogy may not hold for a mobile release cycle. Genuinely open again, left unresolved on purpose — see `04-task1-challenge-trigger-assumption-and-branch-tag-open-question-2026-09-08.md` before treating this as settled.
 
 ### Decision 2 — Scope: all 5 modules (`app` + 4 libraries), not `app` alone
 See "What's actually in this repo" above. Diverges deliberately from Angular's "smallest first" precedent because the library modules contain the task's actual motivating content.

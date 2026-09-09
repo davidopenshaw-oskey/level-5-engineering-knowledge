@@ -212,6 +212,37 @@
           ]
         }
       }
+    },
+    {
+      "name": "android-intercom-oskey-io",
+      "_note": "Kotlin/Android repo, onboarded 2026-09-08/09 -- see governance/roadmap/android-intercom-oskey-io/00-phase1-ast-extraction-design.md. Real Gradle multi-module project: app + 4 library modules (kotlin-ble-kit-oskey-io, kotlin-usb-oskey-io, kotlin-webrtc-domain-oskey-io, kotlin-webrtc-data-oskey-io). Decision 2 (that same doc): all 5 modules in scope for P1, not app alone -- unlike Angular's smallest-first precedent, since the 4 library modules contain this task's actual motivating content (BLE/USB/WebRTC edge-device access-control logic, the real reason this repo is being onboarded).",
+      "gitUrl": "https://github.com/oskey-io/android-intercom-oskey-io.git",
+      "branch": "develop",
+      "_note_branch": "EXPLICIT PLACEHOLDER, not a final decision -- see governance/roadmap/android-intercom-oskey-io/04-task1-challenge-trigger-assumption-and-branch-tag-open-question-2026-09-08.md. Production actually deploys off a tagged release, not develop's HEAD (real tags found: 1.0.0 through 1.6.0, plus legacy release_1_0_1/2/3 tags). A live check 2026-09-09 found this repo's real tag history has inconsistent naming conventions that break naive 'sort tags, take latest' resolution -- git's own version-sort ranks the legacy 'release_1_0_3' tag ABOVE the real latest '1.6.0'. Real, reproducible evidence a tag-based ref needs a resolution strategy confirmed with the actual developers (which naming convention is authoritative, whether every real release is tagged with no exceptions, whether a tag means live-for-100%-of-users or could reflect a staged rollout in progress), not an automated guess. develop is used here only to unblock the pipeline build -- revisit once that conversation happens.",
+
+      "moduleDiscovery": {
+        "method": "gradleSettingsInclude",
+        "settingsFile": "settings.gradle.kts",
+        "_note": "No static module array, unlike modulesRoot above -- per standing principle 2 (governance/roadmap/android-intercom-oskey-io/01-standing-principles-and-lessons-from-ts-facts-pipeline-2026-09-07.md), extraction must be dynamic, never hardcoded. The Kotlin port of 00-scan-repo.ts must read this file's real include(...) calls at scan time -- confirmed real and current 2026-09-09: :app, :kotlin-webrtc-data-oskey-io, :kotlin-webrtc-domain-oskey-io, :kotlin-ble-kit-oskey-io, :kotlin-usb-oskey-io. A module added or removed in a future PR shows up automatically; this array is not consulted by any script, it is only recorded here as a snapshot for human orientation."
+      },
+
+      "astTool": "tree-sitter-kotlin",
+      "astToolVersion": "0.3.8",
+      "_note_astTool": "Decided 2026-09-08 after real, bounded testing against this repo's actual code, not from research alone -- see governance/roadmap/android-intercom-oskey-io/09-task1-decision-tree-sitter-plus-import-aware-resolver-2026-09-08.md. 95.6% of this repo's real .kt files (130/136) parsed with zero errors in that test. Both kotlin-compiler-embeddable (real, Maven-Central-hosted, proven via Detekt) and the standalone JetBrains Analysis API (real but non-Maven-Central, unstable dev snapshots) were live candidates -- both rejected, see that doc for the full reasoning.",
+
+      "callResolutionStrategy": "import-aware-symbol-table",
+      "_note_callResolutionStrategy": "No compiler-exact ('Rule A' in the TS pipeline's own 04-build-resolved-graph.ts) call-graph resolution is available to a syntax-only tool -- real, major finding, see governance/roadmap/android-intercom-oskey-io/07-call-graph-resolution-gap-major-finding-2026-09-08.md. A real repo-wide collision check (2026-09-08) found only 2 substantive duplicate top-level declaration names across all 5 modules (OSKAnalyticsService: 3 declarations; OSKConfigurationData: 2 declarations) -- both cleanly resolvable via each file's own real import statements, since Kotlin requires an explicit import for any cross-package reference (no barrel/re-export indirection the way TypeScript has). The Kotlin port of 01-extract-ast-evidence.ts must build this resolver as a first-class part of that task, not a later pass, and must tag every call-graph/RBAC/cross-module edge with a real confidence tier (resolved_via_import / resolved_via_same_package / ambiguous / unresolved) -- never claim compiler-exact confidence for a heuristically-resolved edge.",
+
+      "astErrorTolerancePercent": 5,
+      "_note_astErrorTolerancePercent": "Set from a real, measured baseline, not a guess or a blind copy of the other 3 repos' 0% -- a live parse test 2026-09-08 (governance/roadmap/android-intercom-oskey-io/08-task1-consolidated-checklist-2026-09-08.md) found 4.4% of this repo's real files (6/136) have at least one real, localized parse error. Root cause isolated for the majority case: a genuine tree-sitter-kotlin grammar gap on 'obj.method(args).property = value'-shaped assignments (assigning through a call-then-navigation chain) -- a real grammar limitation, not an extraction-script bug. Directly checked that these errors are localized, not cascading: in the worst-affected file, all 19 real function declarations and 99 real property declarations elsewhere in that same file still parsed correctly. Set to 5% (a small margin over the measured 4.4%) rather than 0%, so the first real pipeline run doesn't immediately fail-closed on an already-understood, already-accepted limitation. Revisit if a real run finds a materially higher rate than this bounded test measured.",
+
+      "normalizationRules": {
+        "stripPrefixes": ["OSK"]
+      },
+      "_note_normalizationRules": "OSK prefix convention confirmed real and consistent across every real class/enum/object name inspected 2026-09-08 (OSKAccesses, OSKAnalyticsService, OSKBluetoothUtility, OSKConfigurationData, OSKIntercomNavigation, OSKGetAccessesUseCase, OSKUUIDTable, and more) -- same convention as Firebase/node-iot. Service/Controller-suffix classification rules deliberately NOT set here: this repo's real class-naming style looks different from Firebase/node-iot's (UseCase suffix, *Impl suffix, *Manager/*Helper naming observed 2026-09-08/09) and hasn't been properly investigated yet. Per standing principle 3 (01-standing-principles-...md), designing a classification scheme is real Task 4 (fact-schema design) work, not something to guess at during config-shape design -- deliberately left unset rather than force-fitting Firebase's Service/Controller convention onto a repo that may not use it the same way.",
+
+      "phase2": null,
+      "_note_phase2": "Deliberately omitted, same as angular-app-oskey-io's own block was when it was first added -- no contracts/grounding docs exist for this repo yet. Add once Phase 1's fact shape is settled and this repo's own phase-02-inter-module-synthesis/ pipeline actually gets designed."
     }
   ]
 }

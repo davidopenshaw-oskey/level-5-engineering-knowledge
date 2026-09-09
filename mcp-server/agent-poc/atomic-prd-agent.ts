@@ -50,6 +50,20 @@ const ai = genkit({
   plugins: [vertexAI({ projectId: config.vertexAI.projectId, location: config.vertexAI.location })],
 });
 
+// Real, permanent opt-in diagnostic (user decision, 2026-09-08, after it
+// found the root cause of a real fabrication-check failure -- see
+// governance/roadmap/mcp-direction/24-fabrication-root-cause-backtick-
+// instruction-2026-09-08.md): DEBUG_TOOL_LOG=<path> dumps every real tool
+// call's full input/output to a JSONL file, so a citation that diverges
+// from the real tool result it claims to be can be traced back to what was
+// actually returned. Off by default (undefined env var), zero effect on a
+// normal run.
+const DEBUG_TOOL_LOG = process.env.DEBUG_TOOL_LOG;
+function debugLogToolCall(name: string, input: unknown, output: unknown): void {
+  if (!DEBUG_TOOL_LOG) return;
+  fs.appendFileSync(DEBUG_TOOL_LOG, JSON.stringify({ ts: new Date().toISOString(), tool: name, input, output }) + "\n", "utf8");
+}
+
 const searchFacts = ai.defineTool(
   {
     name: "search_facts",
@@ -58,7 +72,9 @@ const searchFacts = ai.defineTool(
   },
   async ({ query, limit }) => {
     console.log(`  [tool call] search_facts(${JSON.stringify({ query, limit })})`);
-    return search(query, limit);
+    const result = await search(query, limit);
+    debugLogToolCall("search_facts", { query, limit }, result);
+    return result;
   }
 );
 
@@ -73,7 +89,9 @@ const getGraphNeighbors = ai.defineTool(
     const db = pool();
     try {
       const anchorNumbers = new Map(factIds.map((id, i) => [id, i + 1]));
-      return await expandWithGraphNeighbors(db, factIds, anchorNumbers);
+      const result = await expandWithGraphNeighbors(db, factIds, anchorNumbers);
+      debugLogToolCall("get_graph_neighbors", { factIds }, result);
+      return result;
     } finally {
       await db.end();
     }
@@ -90,7 +108,9 @@ const walkCluster = ai.defineTool(
     console.log(`  [tool call] walk_cluster(${JSON.stringify({ anchorFactId, maxDepth, maxFacts })})`);
     const db = pool();
     try {
-      return await walkBoundedCluster(db, anchorFactId, { maxDepth, maxFacts });
+      const result = await walkBoundedCluster(db, anchorFactId, { maxDepth, maxFacts });
+      debugLogToolCall("walk_cluster", { anchorFactId, maxDepth, maxFacts }, result);
+      return result;
     } finally {
       await db.end();
     }
@@ -604,6 +624,24 @@ async function main() {
   // run unconditionally, before anything gets written, independent of
   // whatever the persona's prompt said.
   const realFactIds = extractRealFactIds(response);
+
+  // Temporary diagnostic, 2026-09-08 (see debugLogToolCall above): before
+  // the real, unchanged fail-closed check runs, report the nearest real
+  // fact_id (same last two pipe-delimited segments) for any citation about
+  // to be rejected -- turns "it fabricated something" into "it fabricated
+  // this specific divergence from this specific real fact_id".
+  const citedIds = generated.sections.flatMap(s => (s.content.kind === "cited-list" ? s.content.items.flatMap(i => i.evidenceIds) : []));
+  const fabricatedPreview = citedIds.filter(id => !realFactIds.has(id));
+  if (fabricatedPreview.length > 0) {
+    console.error("\n=== Fabrication diagnostic: nearest real fact_id per fabricated citation ===");
+    for (const id of fabricatedPreview) {
+      const suffix = id.split("|").slice(-2).join("|");
+      const nearMiss = [...realFactIds].filter(r => r.split("|").slice(-2).join("|") === suffix);
+      console.error(`  fabricated: ${id}`);
+      console.error(`  near-miss real fact_id(s): ${nearMiss.length ? nearMiss.join(" | ") : "(none found -- not a near-miss, unrelated invention)"}`);
+    }
+  }
+
   checkFabrication(generated, realFactIds);
   checkTemplateConformance(generated, template.llmHeadings);
   console.log(`\n=== Both mandatory validators passed (${realFactIds.size} real fact_id(s) seen this run) ===`);

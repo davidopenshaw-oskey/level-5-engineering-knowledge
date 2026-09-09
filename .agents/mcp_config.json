@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "facts-corpus-server": {
+      "command": "node",
+      "args": ["-r", "ts-node/register", "mcp-server/src/index.ts"],
+      "cwd": "/Users/dopenshaw/development/level-5-engineering-knowledge"
+    }
+  }
+}

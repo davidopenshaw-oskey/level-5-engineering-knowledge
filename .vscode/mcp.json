@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "facts-corpus-server": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["-r", "ts-node/register", "mcp-server/src/index.ts"],
+      "cwd": "${workspaceFolder}"
+    }
+  }
+}

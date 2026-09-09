@@ -233,7 +233,100 @@ export function descriptionFor(fact: Fact, module: string): string {
     ? ` -- type: ${cleanedPropertyType}`
     : "";
 
-  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc} (${loc})`;
+  // --- Kotlin fact-kind enrichment, added 2026-09-09 (Task 7,
+  // android-intercom-oskey-io/14-task7-description-enrichment-...md) ---
+  // Real fact.type/id tagging (matching stableFactId's convention) is a
+  // Task 8 concern, not yet built for Kotlin -- these branches are written
+  // ahead of that, informed by this repo's own real fact shapes (Tasks 4-5),
+  // so Task 8's aggregation step knows exactly which raw fields must
+  // survive into whatever wrapper shape it produces. Verified directly
+  // against real raw ast-*.json fact objects, not assumed to round-trip
+  // correctly untested.
+
+  // Real, richer analog to unionMembers above -- Kotlin enum members can
+  // carry real constructor-arg values (`PERMANENT("permanent")`), confirmed
+  // real and present in this repo's own domain enums (AccessRightsValidity
+  // etc., Task 4). A flat unionMembers-style array would lose the arg
+  // values; this preserves them.
+  const kotlinEnumMembers: { name: string; constructorArgs?: string[] }[] | undefined = fact.members ?? fact.evidence?.members;
+  const enumDeclarationDoc = fact.type === "enum_declaration" && kotlinEnumMembers && kotlinEnumMembers.length > 0
+    ? ` -- possible values: ${kotlinEnumMembers.map(m => (m.constructorArgs && m.constructorArgs.length > 0 ? `${m.name}(${m.constructorArgs.join(", ")})` : m.name)).join(", ")}`
+    : "";
+
+  // Sealed hierarchies have no TS/Angular analog at all -- Kotlin's closer
+  // discriminated-union equivalent. The real value for retrieval is the
+  // same as unionMembers above: every real subclass name, in full, from
+  // day one (per 01-standing-principles-...md's own most-repeated closed-
+  // set-value lesson) -- not waiting for a retrieval-quality investigation
+  // to find the gap the way TS did.
+  const sealedSubclasses: { name: string; kind: string }[] | undefined = fact.subclasses ?? fact.evidence?.subclasses;
+  const sealedHierarchyDoc = fact.type === "kotlin_sealed_hierarchy" && sealedSubclasses && sealedSubclasses.length > 0
+    ? ` -- real subtypes: ${sealedSubclasses.map(s => s.name).join(", ")}`
+    : "";
+
+  // A Composable's real value for retrieval is knowing it IS one (the
+  // direct Compose/UI analog to Angular's angular_component selector
+  // enrichment above) plus its real parameters -- a screen composable's
+  // parameter list often names the exact ViewModel/state it renders.
+  const isComposable: boolean | undefined = fact.isComposable ?? fact.evidence?.isComposable;
+  const kotlinParams: { name: string | null; type: string | null }[] | undefined = fact.parameters ?? fact.evidence?.parameters;
+  const paramsText = kotlinParams && kotlinParams.length > 0
+    ? kotlinParams.filter(p => p.name).map(p => (p.type ? `${p.name}: ${p.type}` : p.name)).join(", ")
+    : "";
+  const composableDoc = fact.type === "function_declaration" && isComposable
+    ? ` -- @Composable${paramsText ? ` (${paramsText})` : ""}`
+    : "";
+
+  // Constructor-promoted properties (Task 6's own real fix) are otherwise
+  // indistinguishable from a plain class body property in the description
+  // -- surfacing owningClass matters because a Hilt-injected dependency's
+  // real value for retrieval IS which class it's injected into (e.g. "which
+  // use case does this repository serve").
+  const isConstructorPromoted: boolean | undefined = fact.isConstructorPromoted ?? fact.evidence?.isConstructorPromoted;
+  const owningClass: string | undefined = fact.owningClass ?? fact.evidence?.owningClass;
+  const constructorPromotedDoc = fact.type === "model_property" && isConstructorPromoted && owningClass
+    ? ` -- injected into: ${owningClass}`
+    : "";
+
+  // Kotlin's own real, honestly-tagged call resolution (07-call-graph-
+  // resolution-gap-major-finding-...md) -- extends the existing
+  // callExpressionDoc branch above (already correct for callerClass/
+  // calleeExpression, which Kotlin's own facts use the identical field
+  // names for) with the one thing TS's own call_expression never needed:
+  // a real, honest confidence tag, since no compiler-exact resolution is
+  // available. Deliberately never rendered as "confirmed" -- see that
+  // file's own reasoning for why reusing TS's vocabulary here would be
+  // dishonest.
+  const resolutionMethod: string | undefined = fact.resolutionMethod ?? fact.evidence?.resolutionMethod;
+  const declarationFileForCall: string | undefined = fact.declarationFile ?? fact.evidence?.declarationFile;
+  const kotlinCallResolutionDoc = fact.type === "call_expression" && resolutionMethod && resolutionMethod !== "unresolved" && declarationFileForCall
+    ? ` -- resolves to: ${declarationFileForCall} (${resolutionMethod})`
+    : "";
+
+  // BLE GATT / USB / WebRTC wire-format facts (Task 5) -- the real
+  // firestore_path_touched analog for this repo. The USB comment is the
+  // single highest-value piece of otherwise-unrecoverable content in this
+  // whole repo (it's the only place "this byte opens the door" is stated)
+  // -- surfaced first, not buried after the hex value.
+  const uuidValue: string | undefined = fact.uuidValue ?? fact.evidence?.uuidValue;
+  const gattKind: string | undefined = fact.kind ?? fact.evidence?.kind;
+  const bleGattDoc = fact.type === "ble_gatt_constant" && uuidValue
+    ? ` -- ${gattKind ?? "uuid"}: ${uuidValue}`
+    : "";
+
+  const hexValue: string | undefined = fact.hexValue ?? fact.evidence?.hexValue;
+  const usbComment: string | undefined = fact.comment ?? fact.evidence?.comment;
+  const usbWireConstantDoc = fact.type === "usb_wire_constant" && hexValue
+    ? `${usbComment ? ` -- ${usbComment}` : ""} -- value: ${hexValue}`
+    : "";
+
+  const touchpointDirection: string | undefined = fact.direction ?? fact.evidence?.direction;
+  const touchpointEvent: string | undefined = fact.eventExpression ?? fact.evidence?.eventExpression;
+  const webrtcTouchpointDoc = fact.type === "webrtc_signaling_touchpoint" && touchpointEvent
+    ? ` -- ${touchpointDirection ?? "touches"} event: ${touchpointEvent}`
+    : "";
+
+  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${kotlinCallResolutionDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${enumDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc} (${loc})`;
 }
 
 function pool(): Pool {
