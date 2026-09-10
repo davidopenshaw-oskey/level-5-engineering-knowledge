@@ -23,6 +23,10 @@ build/Release
 # Dependency directories
 node_modules/
 
+# Swift Package Manager build artifacts (swift-extractor subprocess packages)
+.build/
+.swiftpm/
+
 # TypeScript cache
 *.tsbuildinfo
 

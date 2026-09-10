@@ -19,6 +19,7 @@ import "dotenv/config";
 import fs from "fs";
 import path from "path";
 import { genkit } from "genkit";
+import type { ModelMiddleware } from "genkit/model";
 import { vertexAI } from "@genkit-ai/google-genai";
 import { Pool } from "pg";
 import { z } from "genkit";
@@ -32,8 +33,20 @@ import { loadMcpServerConfig } from "../config";
 
 const PROJECT_ROOT = process.cwd();
 const config = loadMcpServerConfig();
+// Real, 2026-09-09: skill+template pairs now live together under
+// mcp-server/skills/<document-type>/, one pair per document type (e.g.
+// mcp-server/skills/impact-analysis/ for a future second pair) -- see
+// governance/roadmap/mcp-direction/30-skills-template-relocation-2026-09-09.md.
+// DEFAULT_PERSONA_PATH deliberately still points at this now-nonexistent
+// path (the file it named was renamed to decommissioned_... earlier this
+// session) -- a real, separate, already-made decision: a run without
+// PERSONA_FILE set should fail loudly (ENOENT), not silently load the
+// known-broken original persona. Pointing this at the renamed file would
+// make the default "work" again while silently loading broken content --
+// worse, not better. Left alone pending the bigger "how does the MCP
+// receive context/skills" design question.
 const DEFAULT_PERSONA_PATH = path.join(PROJECT_ROOT, "governance/roadmap/mcp-direction/atomic-prd-agent-persona.md");
-const DEFAULT_TEMPLATE_PATH = path.join(PROJECT_ROOT, "mcp-server/agent-poc/templates/atomic-prd.template.md");
+const DEFAULT_TEMPLATE_PATH = path.join(PROJECT_ROOT, "mcp-server/skills/prd/template.md");
 const OUTPUT_DIR = path.join(PROJECT_ROOT, "output", "agent-runs", "prds");
 
 function pool(): Pool {
@@ -50,6 +63,50 @@ const ai = genkit({
   plugins: [vertexAI({ projectId: config.vertexAI.projectId, location: config.vertexAI.location })],
 });
 
+// Real, permanent fix, 2026-09-10 (governance/roadmap/mcp-direction/
+// 38-real-request-rate-data-across-runs-2026-09-10.md): this project's
+// gemini-3.5-flash/gemini-3.7-flash quota (global_generate_content_
+// requests_per_minute_per_project_per_base_model) is a confirmed, real
+// 5/min with no per-model override -- real, controlled testing showed a
+// normally-paced run reliably exceeds it within about a minute regardless
+// of prior idle time (an isolated run after a genuine ~30-minute gap still
+// failed at the same point), so this is not a problem retrying the whole
+// run can fix, and not one spacing between runs can avoid either. Retrying
+// the entire ai.generate() call from scratch would discard every real tool
+// call already made this run -- the same real waste the tool-argument fix
+// above (37-...md) exists to prevent for a different failure mode.
+// Retrying just the one failing model call, transparently, mid-conversation,
+// is Google's own documented recommendation (Cloud Blog "Learn how to
+// handle 429 resource exhaustion errors in your LLMs", cited in
+// governance/roadmap/market-research/22-findings-vertex-ai-generatecontent-
+// rpm-quota-2026-09-10.md) -- exponential backoff on the specific failing
+// call, not the whole workload. Confirmed directly (same doc, "does Genkit
+// hide extra real API calls" section) that Genkit's own model middleware
+// hook is the right layer for this: one real model call per turn, no
+// hidden multiplication, so retrying here doesn't waste anything beyond
+// the one call that actually failed.
+const MAX_MODEL_RETRY_ATTEMPTS = 5;
+const retryOn429: ModelMiddleware = async (req, next) => {
+  for (let attempt = 1; attempt <= MAX_MODEL_RETRY_ATTEMPTS; attempt++) {
+    try {
+      return await next(req);
+    } catch (err: any) {
+      const isRateLimited = err?.status === "RESOURCE_EXHAUSTED" || err?.code === 429;
+      if (!isRateLimited || attempt === MAX_MODEL_RETRY_ATTEMPTS) throw err;
+      // Real, authoritative value Google itself provides (retryAfterMs,
+      // populated from the real Retry-After response header) when present
+      // -- not populated on any real 429 this project has hit so far
+      // (checked directly), so this falls back to Google's own recommended
+      // shape otherwise: 2^attempt seconds, capped at 60s.
+      const delayMs: number = err?.retryAfterMs ?? Math.min(60000, 1000 * 2 ** (attempt - 1));
+      const source = err?.retryAfterMs ? "Google-provided Retry-After" : "exponential backoff";
+      console.error(`  [MODEL_RETRY] RESOURCE_EXHAUSTED (attempt ${attempt}/${MAX_MODEL_RETRY_ATTEMPTS}) -- retrying in ${delayMs}ms (${source}).`);
+      await new Promise(resolve => setTimeout(resolve, delayMs));
+    }
+  }
+  throw new Error("[Fail-Closed] unreachable -- retryOn429 loop must always return or throw before this line.");
+};
+
 // Real, permanent opt-in diagnostic (user decision, 2026-09-08, after it
 // found the root cause of a real fabrication-check failure -- see
 // governance/roadmap/mcp-direction/24-fabrication-root-cause-backtick-
@@ -64,15 +121,59 @@ function debugLogToolCall(name: string, input: unknown, output: unknown): void {
   fs.appendFileSync(DEBUG_TOOL_LOG, JSON.stringify({ ts: new Date().toISOString(), tool: name, input, output }) + "\n", "utf8");
 }
 
+// Real, single-conversation-scoped memoization, 2026-09-09 -- NOT server/
+// session state. This script's process is exactly one business-request
+// conversation (a fresh node invocation per run), so a plain in-process
+// Set needs no session affinity, no external store, and works
+// identically regardless of eventual deployment topology -- it never
+// depends on which request lands on which instance, because it never
+// leaves this one process's one conversation. Fixes the real, confirmed
+// retry-waste pattern found this session (governance/roadmap/mcp-direction/
+// 30-searchfacts-dedup-fix-2026-09-09.md): the model re-searching a
+// concept it already had a confident hit for, six-plus times, wasting
+// real turns and quota.
+const seenFactIds = new Set<string>();
+
+// Real hardening, 2026-09-10 (found live against a real run, governance/
+// roadmap/mcp-direction/37-real-run-crash-tool-error-not-surfaced-2026-09-
+// 09.md): genkit's own resolveToolRequest only catches its ToolInterruptError
+// -- any other thrown error, including this codebase's own "[Fail-Closed]"-
+// prefixed validators (a fabricated walk_cluster/get_graph_neighbors
+// argument that doesn't exist in facts), propagates uncaught and rejects
+// the whole ai.generate() call, discarding every real tool call already
+// made this run. A "[Fail-Closed]" error here means the MODEL gave bad
+// input (a fabricated or stale fact_id) -- recoverable by telling the model
+// what went wrong, not a reason to crash. Any other error (DB down,
+// network failure) still propagates and crashes loudly, unchanged -- this
+// project's existing "fail loud on the unexpected" discipline stays intact
+// for real infrastructure failures; this only catches the one class of
+// error the model itself caused and can act on.
+async function withToolErrorTrapping<T>(fn: () => Promise<T>): Promise<T | { error: string }> {
+  try {
+    return await fn();
+  } catch (e) {
+    if (e instanceof Error && e.message.startsWith("[Fail-Closed]")) {
+      console.error(`  [tool error, returned to model] ${e.message}`);
+      return { error: e.message };
+    }
+    throw e;
+  }
+}
+
 const searchFacts = ai.defineTool(
   {
     name: "search_facts",
-    description: "Search the codebase's fact index for real, code-derived evidence relevant to a question. Returns ranked candidate facts with real fact_ids.",
+    description: "Search the codebase's fact index for real, code-derived evidence relevant to a question. Returns ranked candidate facts with real fact_ids. Each result carries alreadyRetrieved: true if you were already given this exact fact_id earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead.",
     inputSchema: z.object({ query: z.string(), limit: z.number().optional() }),
   },
   async ({ query, limit }) => {
     console.log(`  [tool call] search_facts(${JSON.stringify({ query, limit })})`);
-    const result = await search(query, limit);
+    const raw = await search(query, limit);
+    const result = {
+      ...raw,
+      results: raw.results.map(r => ({ ...r, alreadyRetrieved: seenFactIds.has(r.factId) })),
+    };
+    for (const r of raw.results) seenFactIds.add(r.factId);
     debugLogToolCall("search_facts", { query, limit }, result);
     return result;
   }
@@ -88,8 +189,10 @@ const getGraphNeighbors = ai.defineTool(
     console.log(`  [tool call] get_graph_neighbors(${JSON.stringify({ factIds })})`);
     const db = pool();
     try {
-      const anchorNumbers = new Map(factIds.map((id, i) => [id, i + 1]));
-      const result = await expandWithGraphNeighbors(db, factIds, anchorNumbers);
+      const result = await withToolErrorTrapping(async () => {
+        const anchorNumbers = new Map(factIds.map((id, i) => [id, i + 1]));
+        return expandWithGraphNeighbors(db, factIds, anchorNumbers);
+      });
       debugLogToolCall("get_graph_neighbors", { factIds }, result);
       return result;
     } finally {
@@ -108,7 +211,7 @@ const walkCluster = ai.defineTool(
     console.log(`  [tool call] walk_cluster(${JSON.stringify({ anchorFactId, maxDepth, maxFacts })})`);
     const db = pool();
     try {
-      const result = await walkBoundedCluster(db, anchorFactId, { maxDepth, maxFacts });
+      const result = await withToolErrorTrapping(() => walkBoundedCluster(db, anchorFactId, { maxDepth, maxFacts }));
       debugLogToolCall("walk_cluster", { anchorFactId, maxDepth, maxFacts }, result);
       return result;
     } finally {
@@ -593,6 +696,7 @@ async function main() {
     output: { schema: GenerationOutputSchema },
     maxTurns: MAX_TURNS,
     config: { temperature: config.vertexAI.temperature },
+    use: [retryOn429],
   });
 
   const toolCalls = response.messages

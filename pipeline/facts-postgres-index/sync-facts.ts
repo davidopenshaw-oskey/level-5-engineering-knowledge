@@ -253,6 +253,52 @@ export function descriptionFor(fact: Fact, module: string): string {
     ? ` -- possible values: ${kotlinEnumMembers.map(m => (m.constructorArgs && m.constructorArgs.length > 0 ? `${m.name}(${m.constructorArgs.join(", ")})` : m.name)).join(", ")}`
     : "";
 
+  // Swift enum cases -- ios-oskey-dev family, added 2026-09-10 (P1 build
+  // tasklist Task 8). Deliberately a SEPARATE field/branch from Kotlin's
+  // `members` above rather than force-fit into the same shape: a Swift
+  // case's real value split into two genuinely different things Kotlin's
+  // constructorArgs doesn't distinguish -- a `rawValue` (the case's own
+  // backing value, e.g. `case unlock = 0x02`, confirmed real and the
+  // dominant, highest-value shape in swift-ble-kit-oskey-dev's own real wire-
+  // protocol enums: OSKBKCentralManagerStatus, OSKBKLockPeripheralDoorLock
+  // Status, OSKBKOSKEYUnlockCentralCommand) vs `associatedValues` (parameter
+  // TYPES carried per-case, e.g. `missingService(serviceUuid: String)` --
+  // Kotlin's own closer analog). Both real and worth surfacing distinctly,
+  // not collapsed into one string the way Kotlin's constructorArgs would.
+  const swiftEnumCases: { name: string; rawValue?: string | null; associatedValues?: string[] }[] | undefined = fact.cases ?? fact.evidence?.cases;
+  const swiftEnumDeclarationDoc = fact.type === "enum_declaration" && swiftEnumCases && swiftEnumCases.length > 0
+    ? ` -- possible values: ${swiftEnumCases.map(c => {
+        if (c.rawValue) return `${c.name} = ${c.rawValue}`;
+        if (c.associatedValues && c.associatedValues.length > 0) return `${c.name}(${c.associatedValues.join(", ")})`;
+        return c.name;
+      }).join(", ")}`
+    : "";
+
+  // Swift structural facts with no TS/Kotlin analog at all -- struct is a
+  // genuinely distinct declaration kind (not just "class without
+  // inheritance"), and Swift's inheritance/conformance clause is a LIST
+  // (superclass + however many protocols, e.g. `class Foo: NSObject,
+  // Codable, Equatable`), unlike TS/Kotlin's existing `extendsClass` (a
+  // single string) -- reusing that field would silently drop every
+  // conformance past the first. Applies to class/struct/enum/protocol alike,
+  // since Swift's inheritance-clause syntax is identical across all four.
+  const swiftExtendsTypes: string[] | undefined = fact.extendsTypes ?? fact.evidence?.extendsTypes;
+  const swiftInheritanceDoc = (fact.type === "class_declaration" || fact.type === "struct_declaration" || fact.type === "enum_declaration" || fact.type === "protocol_declaration") && swiftExtendsTypes && swiftExtendsTypes.length > 0
+    ? ` -- conforms to/extends: ${swiftExtendsTypes.join(", ")}`
+    : "";
+
+  // Swift extensions have no TS/Kotlin analog at all -- an extension's real
+  // retrieval value is TWO things together: which existing type it's adding
+  // members to (already `sym`, the fact's own `name`) and what new
+  // capability it adds (extendsTypes -- e.g. `extension OSKBKEncryptionError:
+  // LocalizedError` adds LocalizedError conformance to an existing error
+  // enum). Without this, an extension fact reads as a bare, contextless
+  // name with nothing distinguishing it from the type's own primary
+  // declaration.
+  const extensionDeclarationDoc = fact.type === "extension_declaration"
+    ? (swiftExtendsTypes && swiftExtendsTypes.length > 0 ? ` -- adds conformance to: ${swiftExtendsTypes.join(", ")}` : ` -- extends existing type`)
+    : "";
+
   // Sealed hierarchies have no TS/Angular analog at all -- Kotlin's closer
   // discriminated-union equivalent. The real value for retrieval is the
   // same as unionMembers above: every real subclass name, in full, from
@@ -303,6 +349,24 @@ export function descriptionFor(fact: Fact, module: string): string {
     ? ` -- resolves to: ${declarationFileForCall} (${resolutionMethod})`
     : "";
 
+  // Kotlin call arguments (real gap found via a live PRD review, 2026-09-09
+  // -- 17-model-property-description-gaps-homeButtons-2026-09-09.md): a
+  // real `homeButtons.contains("contact")`-style check is the ONLY place
+  // this repo states which string values a config list actually recognizes
+  // -- a real, closed set, otherwise unrecoverable from the property fact
+  // alone. Deliberately selective, same discipline as this file's own
+  // apiContractDoc/callExpressionDoc comment above (a real call_expression
+  // fact once showed a multi-line object literal dumped verbatim as an
+  // argument -- noise, not signal): only surfaced when every argument is a
+  // short, single-line, string-literal-shaped token (quoted text, no
+  // embedded newline) -- a real, common, high-value shape for feature-flag/
+  // lookup-key checks, not a general "dump the call site" feature.
+  const callArguments: string[] | undefined = fact.arguments ?? fact.evidence?.arguments;
+  const isSimpleStringArg = (a: string) => /^"[^"\n]*"$/.test(a) && a.length <= 40;
+  const kotlinCallArgumentsDoc = fact.type === "call_expression" && callArguments && callArguments.length > 0 && callArguments.every(isSimpleStringArg)
+    ? ` -- args: ${callArguments.join(", ")}`
+    : "";
+
   // BLE GATT / USB / WebRTC wire-format facts (Task 5) -- the real
   // firestore_path_touched analog for this repo. The USB comment is the
   // single highest-value piece of otherwise-unrecoverable content in this
@@ -326,7 +390,7 @@ export function descriptionFor(fact: Fact, module: string): string {
     ? ` -- ${touchpointDirection ?? "touches"} event: ${touchpointEvent}`
     : "";
 
-  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${kotlinCallResolutionDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${enumDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc} (${loc})`;
+  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${kotlinCallResolutionDoc}${kotlinCallArgumentsDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${enumDeclarationDoc}${swiftEnumDeclarationDoc}${swiftInheritanceDoc}${extensionDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc} (${loc})`;
 }
 
 function pool(): Pool {

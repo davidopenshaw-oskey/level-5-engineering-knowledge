@@ -149,6 +149,7 @@ function main() {
   const rawWebrtcSignalingTouchpoints: any[] = [];
   const rawBleGattConstants: any[] = [];
   const rawUsbWireConstants: any[] = [];
+  const rawErrors: any[] = [];
 
   let resolvedViaImport = 0;
   let resolvedViaSamePackage = 0;
@@ -158,11 +159,49 @@ function main() {
     const base = { repo: REPO_NAME, module: rec.module, submodule: rec.submodule, file: relPath };
     const meta = fileMeta.get(relPath)!;
 
-    // 1. Import dependencies -- the real, foundational fact for any future
-    // cross-module dependency graph (this repo's own 06-build-cross-module-
-    // dependency-graph.ts equivalent), same role as the TS pipeline's own
-    // imports_dependency facts.
-    rawImports.push({ ...base, line: 1, package: meta.pkg, imports: meta.imports });
+    // 0. Parse-error tracking -- real gap found 2026-09-09 building Task 8:
+    // config/repos.json's astErrorTolerancePercent (5%, a real measured
+    // baseline from Task 1's own bounded test -- see 08-task1-consolidated-
+    // checklist-2026-09-08.md) was set but never actually enforced anywhere
+    // in this script; it silently had no effect. tree-sitter's own
+    // rootNode.hasError() flags any file with at least one real parse
+    // error node, matching how the Task 1 bounded test itself measured the
+    // 4.4% baseline this tolerance is set from.
+    if (tree.rootNode.hasError) {
+      rawErrors.push({ ...base, line: 1, message: "Parse error(s) detected (tree-sitter error node present in file)." });
+    }
+
+    // 1. Import dependencies -- one real fact PER import statement (not one
+    // row per file with a raw string array, which this script originally
+    // emitted before Task 8). Real gap found and fixed 2026-09-09: every
+    // downstream script that depends on imports_dependency facts (the
+    // cross-module/intra-module coupling graphs) needs each import
+    // resolved to its real target module/submodule, matching the TS
+    // pipeline's own imports_dependency shape exactly (resolvedTargetModule
+    // /resolvedTargetSubmodule/importResolutionStatus) -- resolved here via
+    // the same project-wide declLocation table Pass 1 already built for
+    // call-expression resolution, since Kotlin imports are already
+        // fully-qualified names (`com.foo.Bar`), needing no further
+    // disambiguation the way a call's bare identifier does.
+    //
+    // Real, deliberate scope limit: does NOT re-derive the OLD single
+    // rawImports.push({..., imports: meta.imports}) shape's per-file raw
+    // string list -- meta.imports (used by 00-scan-repo.ts's own BFS) is
+    // untouched; this is a second, independent walk over the same file's
+    // real import_header nodes purely for this fact's own per-import shape.
+    for (const importNode of findNodesOfType(tree.rootNode, "import_header")) {
+      const importPath = findNodesOfType(importNode, "identifier")[0]?.text;
+      if (!importPath) continue;
+      const target = declLocation.get(importPath);
+      rawImports.push({
+        ...base,
+        line: importNode.startPosition.row + 1,
+        value: importPath,
+        resolvedTargetModule: target?.module ?? null,
+        resolvedTargetSubmodule: target?.submodule ?? null,
+        importResolutionStatus: target ? "resolved_in_repo" : "external_or_unresolved",
+      });
+    }
 
     // 2. Classes AND interfaces -- real, confirmed grammar shape 2026-09-09:
     // tree-sitter-kotlin has NO separate `interface_declaration` node type.
@@ -238,6 +277,16 @@ function main() {
       });
       const returnTypeNode = fn.namedChildren.find(c => c.type === "user_type" || c.type === "nullable_type");
       const isComposable = isAnnotatedWith(fn, "Composable");
+      // owningClass -- real gap found building Task 8: this repo's own
+      // methods (findNodesOfType walks the whole file, so a function
+      // declared inside a class body is captured identically to a
+      // top-level one) had no way to tell the two apart, unlike TS's own
+      // pipeline where methods are a distinct evidence type with a
+      // `className` field from day one. Reuses the same
+      // findEnclosingClassName helper this file already uses for calls --
+      // null for a genuine top-level function, which is real and correct,
+      // not a missing value.
+      const owningClass = findEnclosingClassName(fn);
       rawFunctions.push({
         ...base,
         line: fn.startPosition.row + 1,
@@ -249,6 +298,7 @@ function main() {
         parameters: params,
         returnType: returnTypeNode?.text ?? null,
         isComposable,
+        owningClass,
       });
     }
 
@@ -319,6 +369,14 @@ function main() {
         if (initCall) initializerTypeArguments = typeArgumentsTextOf(initCall);
       }
       const mods = modifiersOf(prop);
+      // owningClass -- same real gap and same fix as functions' own
+      // owningClass above, applied here for the same reason: a class-body
+      // property's identity (for Task 8's stableFactId) isn't safely
+      // unique by name alone within one file when more than one class
+      // declares a same-named property (e.g. two sibling data classes each
+      // with their own `val id: String`) -- null for a genuine top-level
+      // property, which is real and correct, not a missing value.
+      const owningClass = findEnclosingClassName(prop);
       rawProperties.push({
         ...base,
         line: prop.startPosition.row + 1,
@@ -327,6 +385,7 @@ function main() {
         declaredType,
         ...(initializerTypeArguments.length > 0 ? { initializerTypeArguments } : {}),
         visibility: visibilityOf(mods),
+        ...(owningClass ? { owningClass } : {}),
       });
     }
 
@@ -417,6 +476,21 @@ function main() {
       else if (resolutionMethod === "resolved_via_same_package") resolvedViaSamePackage++;
       else unresolvedCalls++;
 
+      // Real, found gap 2026-09-09 (governance/roadmap/android-intercom-
+      // oskey-io/17-model-property-description-gaps-homeButtons-2026-09-09.md):
+      // a live PRD review found `homeButtons.contains("contact")`-style
+      // checks are the ONLY real place this repo states which string values
+      // a config list actually recognizes (a closed set of 3 feature-toggle
+      // keys, not an open mapping the way the business request assumed) --
+      // and this pipeline never captured a call's own arguments at all,
+      // unlike the TS pipeline's own `callExpr.getArguments().map(a =>
+      // a.getText())`. Ported directly, same convention (raw source text
+      // per argument, no evaluation/parsing of literals) -- ` value_arguments`
+      // `.namedChildren` already confirmed real and usable this way by
+      // Task 5's own WebRTC touch-point extraction (see below).
+      const argsNode = findNodesOfType(call, "value_arguments")[0];
+      const callArguments = argsNode ? argsNode.namedChildren.map(a => a.text) : [];
+
       rawCalls.push({
         ...base,
         line: call.startPosition.row + 1,
@@ -426,6 +500,7 @@ function main() {
         declarationFile,
         declarationModule,
         resolutionMethod,
+        ...(callArguments.length > 0 ? { arguments: callArguments } : {}),
       });
 
       // 10. WebRTC signaling touch points -- real, high-value domain fact
@@ -540,6 +615,47 @@ function main() {
     { resolvedViaImport, resolvedViaSamePackage, unresolvedCalls }
   );
 
+  // AST error-tolerance gate -- real gap found building Task 8:
+  // config/repos.json's astErrorTolerancePercent (5%, set from Task 1's own
+  // measured 4.4% baseline) was recorded in config but never actually read
+  // or enforced by this script. Matches the TS pipeline's own established
+  // convention exactly (same gate, same fail-closed-above-tolerance shape)
+  // -- see firebase-oskey-dev's 01-extract-ast-evidence.ts for the
+  // precedent this is ported from.
+  const repoConfigPath = path.join(projectRoot, "config", "repos.json");
+  const repoConfig = JSON.parse(fs.readFileSync(repoConfigPath, "utf8"));
+  const targetRepoCfg = repoConfig.repositories?.find((r: any) => r.name === REPO_NAME);
+  const astErrorTolerancePercent: number = targetRepoCfg?.astErrorTolerancePercent ?? 0;
+
+  const attemptedFileCount = filesList.length;
+  const erroredFileCount = rawErrors.length;
+  const errorRatePercent = attemptedFileCount > 0 ? (erroredFileCount / attemptedFileCount) * 100 : 0;
+
+  if (errorRatePercent > astErrorTolerancePercent) {
+    addNotification(
+      notifications,
+      "01-extract-ast-evidence",
+      "fatal",
+      "AST_ERROR_TOLERANCE_EXCEEDED",
+      `AST extraction found parse errors in ${erroredFileCount}/${attemptedFileCount} files (${errorRatePercent.toFixed(2)}%), exceeding configured tolerance of ${astErrorTolerancePercent}%.`,
+      { erroredFileCount, attemptedFileCount, errorRatePercent, astErrorTolerancePercent },
+      true
+    );
+    writeNotificationsAtomically(notificationsPath, notifications);
+    throw new Error(
+      `[Fail-Closed] AST extraction error rate ${errorRatePercent.toFixed(2)}% exceeds configured tolerance of ${astErrorTolerancePercent}% (${erroredFileCount}/${attemptedFileCount} files).`
+    );
+  } else if (erroredFileCount > 0) {
+    addNotification(
+      notifications,
+      "01-extract-ast-evidence",
+      "warning",
+      "AST_ERRORS_WITHIN_TOLERANCE",
+      `AST extraction found parse errors in ${erroredFileCount}/${attemptedFileCount} files (${errorRatePercent.toFixed(2)}%), within configured tolerance of ${astErrorTolerancePercent}%.`,
+      { erroredFileCount, attemptedFileCount, errorRatePercent, astErrorTolerancePercent }
+    );
+  }
+
   writeJsonAtomically(path.join(factsDir, "ast-imports.json"), rawImports, "facts/ast-imports.json");
   writeJsonAtomically(path.join(factsDir, "ast-classes.json"), rawClasses, "facts/ast-classes.json");
   writeJsonAtomically(path.join(factsDir, "ast-objects.json"), rawObjects, "facts/ast-objects.json");
@@ -552,6 +668,43 @@ function main() {
   writeJsonAtomically(path.join(factsDir, "ast-webrtc-signaling-touchpoints.json"), rawWebrtcSignalingTouchpoints, "facts/ast-webrtc-signaling-touchpoints.json");
   writeJsonAtomically(path.join(factsDir, "ast-ble-gatt-constants.json"), rawBleGattConstants, "facts/ast-ble-gatt-constants.json");
   writeJsonAtomically(path.join(factsDir, "ast-usb-wire-constants.json"), rawUsbWireConstants, "facts/ast-usb-wire-constants.json");
+  writeJsonAtomically(path.join(factsDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
+
+  // AST evidence manifest -- real gap found building Task 8: 02-build-
+  // module-evidence.ts (any repo's copy) fail-closed validates every
+  // expected evidence type/record-count against this manifest before
+  // trusting any raw fact file; this script never wrote one. Kotlin's own
+  // EXPECTED_EVIDENCE_TYPES list below matches this file's own real fact
+  // kinds (no exports/typeAliases/methods -- Kotlin has no separate
+  // export statement, and there's no methods/functions split, see
+  // findFunctions' owningClass fix above for why).
+  const astManifest = {
+    schemaVersion: "1.0.0",
+    runId,
+    repoName: REPO_NAME,
+    generatedAt: new Date().toISOString(),
+    artefacts: [
+      { file: "ast-imports.json", evidenceType: "imports", recordCount: rawImports.length, required: true },
+      { file: "ast-classes.json", evidenceType: "classes", recordCount: rawClasses.length, required: true },
+      { file: "ast-objects.json", evidenceType: "objects", recordCount: rawObjects.length, required: true },
+      { file: "ast-interfaces.json", evidenceType: "interfaces", recordCount: rawInterfaces.length, required: true },
+      { file: "ast-functions.json", evidenceType: "functions", recordCount: rawFunctions.length, required: true },
+      { file: "ast-enums.json", evidenceType: "enums", recordCount: rawEnums.length, required: true },
+      { file: "ast-sealed-hierarchies.json", evidenceType: "sealedHierarchies", recordCount: rawSealedHierarchies.length, required: true },
+      { file: "ast-properties.json", evidenceType: "properties", recordCount: rawProperties.length, required: true },
+      { file: "ast-calls.json", evidenceType: "calls", recordCount: rawCalls.length, required: true },
+      { file: "ast-webrtc-signaling-touchpoints.json", evidenceType: "webrtcSignalingTouchpoints", recordCount: rawWebrtcSignalingTouchpoints.length, required: true },
+      { file: "ast-ble-gatt-constants.json", evidenceType: "bleGattConstants", recordCount: rawBleGattConstants.length, required: true },
+      { file: "ast-usb-wire-constants.json", evidenceType: "usbWireConstants", recordCount: rawUsbWireConstants.length, required: true },
+    ],
+    errors: {
+      file: "ast-errors.json",
+      recordCount: rawErrors.length,
+    },
+  };
+  writeJsonAtomically(path.join(factsDir, "ast-evidence-manifest.json"), astManifest, "facts/ast-evidence-manifest.json");
+
+  addNotification(notifications, "01-extract-ast-evidence", "info", "AST_EXTRACTION_COMPLETED", "AST evidence extraction completed successfully.");
   writeNotificationsAtomically(notificationsPath, notifications);
 
   console.log(`Extraction complete for repo [${REPO_NAME}], run [${runId}]:`);
@@ -570,6 +723,7 @@ function main() {
     webrtcSignalingTouchpoints: rawWebrtcSignalingTouchpoints.length,
     bleGattConstants: rawBleGattConstants.length,
     usbWireConstants: rawUsbWireConstants.length,
+    errors: rawErrors.length,
   });
 }
 

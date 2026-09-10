@@ -1,0 +1,27 @@
+# Future Risk: Event-Triggered Extraction, Concurrency & Race Conditions Across the 4-Repo iOS Family
+
+**Real, honest epistemic status:** this is a forward-looking architectural risk, raised in conversation 2026-09-09, not a problem hit in practice — no trigger-driven extraction exists yet anywhere in this project. Every repo onboarded so far (`firebase-oskey-dev`, `angular-app-oskey-io`, `node-iot-api-oskey-io`, `android-intercom-oskey-io`, and this iOS family) is extracted by **manual trigger only** (running `00-scan-repo.ts` etc. by hand, per repo, per run). A future architectural direction under consideration — not designed, not built, not scheduled — is to kick off a repo's own extraction automatically on a real prod-push/deploy event, updating the corpus without a human running it. **This doc exists to flag, in writing, why the iOS 4-repo family raises a real, distinct version of that future problem that the other repos don't** — so the concern isn't lost or re-discovered from scratch whenever that trigger design actually gets built. No fix is proposed here; this is a flag, not a design.
+
+## Why this repo family is different from every other onboarded repo
+
+`firebase-oskey-dev`, `angular-app-oskey-io`, and `node-iot-api-oskey-io` are independently deployed services. A prod push to one is a genuinely independent real-world event — nothing about *when* Angular deploys depends on *whether* Firebase has deployed its own latest change. Layer 3's cross-repo join (`pipeline-layers-and-cross-repo-business-flows.md`) can safely assume that whenever it runs, each side's Layer-1 facts reflect that side's own real, currently-live state.
+
+The iOS family breaks that assumption structurally, not incidentally: `ios-oskey-dev` doesn't just *relate to* `swift-ble-kit-oskey-dev` / `swift-cloud-kit-oskey-dev` / `swift-webrtc-kit-oskey-io` — it **pins an exact commit of each of them** via `Package.resolved` (`02-real-repo-inspection-findings-2026-09-09.md` §3-4). A leaf repo's own "push to prod" (a merge to its release branch, a new tag) is not the same event as "this new code is now actually integrated into the app." We already measured the real, current gap directly: the app is pinned 1-2 patch versions behind every leaf's latest tag (`02-...md` §4, `03-branch-tag-and-version-pin-strategy-2026-09-09.md`).
+
+## Three distinct real risks, not one
+
+**1. Logical/versioning race — the most important one.** If a leaf repo's own push fires its own extraction trigger, and a Layer-3 recompute runs opportunistically right after, it would join `ios-oskey-dev`'s *current* (older) exposed-interface facts against the leaf's *brand-new* ones — describing a cross-repo pairing that isn't actually live in production. The leaf repo shipping is not, by itself, the correct trigger signal for "this pairing is now real." The event that actually matters for the leaf's side of the join is `ios-oskey-dev`'s own `Package.resolved` being updated to re-pin it — a different repo, a different commit, a different point in time, and (today) a manual/human-driven re-pin, not an automated one.
+
+**2. Literal write/concurrency race.** These 4 repos are one product, plausibly worked on together — pushes to two or more of them close in time is a real, not hypothetical, scenario (unlike Firebase/Angular/node-iot, which are owned by more separable workstreams). Two independently-fired triggers could launch two extraction runs concurrently. If any shared state is involved — a "latest run per repo" pointer, a facts index, a Layer-3 recompute step reading run manifests — a naive per-push trigger design could read a half-written run, double-fire a join, or interleave writes incorrectly. No such shared-state design exists yet to audit against; flagged so it gets designed with this in mind rather than discovered as a bug later.
+
+**3. Ordering dependency the other repos don't need.** For Firebase/Angular/node-iot, "each side's Layer-1 facts are independently current" is the right invariant for Layer 3 to assume. For this family, the right invariant is different: **consistency with what's actually integrated**, not **currency of each side taken alone**. A trigger design that treats all 4 repos symmetrically (any push → re-extract that repo → re-run Layer 3) would be optimizing for the wrong invariant.
+
+## What this doc is NOT saying
+
+- Not a claim that manual-trigger POC mode has this problem today — it doesn't; a human runs extraction deliberately, at a point in time they choose, so no automated race exists yet.
+- Not a design for the fix (debouncing, a dependency-aware trigger graph, treating `ios-oskey-dev`'s `Package.resolved` diff as the leaf-side trigger instead of the leaf's own push, a lock/queue around Layer-3 recompute, etc.) — real options exist but picking one is real future work, deliberately not done here.
+- Not urgent — "how that happens is down the line," per the conversation that raised this. This is a flag for whenever event-triggered extraction actually gets designed, not a blocker on the current repo-inspection/onboarding work.
+
+## Where to pick this up
+
+Whoever designs the real event-trigger architecture should read this doc first, alongside `02-...md` §3-4 (the real, measured version-pin gaps) and `03-...md` (the real branch/commit-pinning decisions already made) — the concrete numbers already gathered here are exactly the kind of real evidence that trigger design will need to reason about, not something to re-derive from scratch.

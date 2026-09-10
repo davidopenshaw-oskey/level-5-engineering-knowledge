@@ -305,6 +305,26 @@ function main() {
     } else {
       submoduleByAppFile.set(navHostFile, null); // the orchestrator itself is shared/core, not a leaf
 
+      // Real, found gap 2026-09-09 (via a live agent query failing on a
+      // fabricated fact_id that mimicked real `_unreferenced` text -- see
+      // governance/roadmap/android-intercom-oskey-io/16-real-downstream-
+      // consequence-of-unreferenced-tagging-2026-09-09.md): every file
+      // pinned `null` (shared/core) above -- NavHost's own file, the sealed
+      // Screen class's file, Hilt @Module files, the Application subclass --
+      // is correctly EXCLUDED from getting reassigned by the per-screen BFS
+      // below (line ~489's `submoduleByAppFile.has(f)` skip), but was never
+      // used as a BFS SEED itself. Its own real imports (e.g. OSKApplication
+      // .kt importing OSKCustomConfiguration.kt/OSKDeviceConfiguration.kt to
+      // read/write real on-device JSON config) were dead ends nothing ever
+      // traversed -- those two real, live files were falsely `_unreferenced`
+      // despite being referenced by real, load-bearing app-initialization
+      // code, just not by any screen. Fixed below: these "infra seed" files
+      // get their own BFS pass, unioned into `sharedReachableFiles`; a file
+      // reachable ONLY that way (never by an actual screen) is real,
+      // legitimate shared/core infrastructure, not "nothing references
+      // this" -- tagged `null`, not `_unreferenced`.
+      const infraSeedFiles = new Set<string>([navHostFile]);
+
       const lambda = trailingLambdaOf(navHostCall);
       const composableCalls = lambda ? findAllCallExpressions(lambda).filter(c => calleeNameOf(c) === "composable") : [];
 
@@ -361,9 +381,15 @@ function main() {
           const extendsApplication = findNodesOfType(tree.rootNode, "class_declaration").some(cls =>
             findNodesOfType(cls, "delegation_specifier").some(d => d.text.startsWith("Application"))
           );
-          if (hasModuleAnnotation || extendsApplication) submoduleByAppFile.set(f, null);
+          if (hasModuleAnnotation || extendsApplication) {
+            submoduleByAppFile.set(f, null);
+            infraSeedFiles.add(f);
+          }
         }
-        if (screenClassFile) submoduleByAppFile.set(screenClassFile, null);
+        if (screenClassFile) {
+          submoduleByAppFile.set(screenClassFile, null);
+          infraSeedFiles.add(screenClassFile);
+        }
 
         // 3. Build the plain, syntax-only import graph: (package, declName)
         //    -> file, then file -> file edges from each file's own real
@@ -418,12 +444,38 @@ function main() {
           filesByPackage.set(pkg, list);
         }
 
+        // Real, found gap 2026-09-09 (same investigation as infraSeedFiles
+        // above): Kotlin allows importing a nested/companion-object member
+        // directly (`import io.oskey.intercom.utils.OSKConfigurationData.
+        // Companion.DEFAULT_LANGUAGE`), a real, common idiom for "static-
+        // like" constants -- confirmed real, ~19 real screen/ViewModel files
+        // reference OSKConfigurationData.kt exclusively this way. declLocation
+        // only ever stores bare TOP-LEVEL declaration names (`pkg.Name`), so
+        // a qualified import's raw text never matched it, silently producing
+        // zero edges for a file genuinely imported by nearly every screen --
+        // it fell through to `_unreferenced` despite being the most
+        // pervasively shared config file in the app. Fixed by trying the
+        // full qualified import text first (unchanged, exact-match
+        // behavior for the common bare-import case), then progressively
+        // stripping trailing `.Segment` pieces until a real declLocation
+        // entry matches -- safe because a match only ever fires on an
+        // actually-declared top-level name, never a guess.
+        function resolveImportTarget(imp: string): string | undefined {
+          let candidate = imp;
+          while (candidate.includes(".")) {
+            const hit = declLocation.get(candidate);
+            if (hit) return hit;
+            candidate = candidate.slice(0, candidate.lastIndexOf("."));
+          }
+          return declLocation.get(candidate);
+        }
+
         const edges = new Map<string, Set<string>>(); // file -> set of files it imports
         for (const f of appFiles) {
           const meta = fileMeta.get(f)!;
           const targets = new Set<string>();
           for (const imp of meta.imports) {
-            const target = declLocation.get(imp);
+            const target = resolveImportTarget(imp);
             if (target && target !== f) targets.add(target);
           }
           edges.set(f, targets);
@@ -485,10 +537,32 @@ function main() {
           }
         }
 
+        // Infra-seed BFS -- see infraSeedFiles' own header comment above.
+        // Runs over the identical `edges` graph (no new edge types, no
+        // reintroduced cascading risk), just additional starting points.
+        // Anything these files reach is real, referenced shared/core
+        // infrastructure, whether or not any screen also reaches it.
+        const sharedReachableFiles = new Set<string>();
+        for (const seed of infraSeedFiles) {
+          const visited = new Set<string>([seed]);
+          const queue = [seed];
+          while (queue.length > 0) {
+            const cur = queue.shift()!;
+            const outgoing = edges.get(cur) || new Set();
+            for (const next of outgoing) {
+              if (!visited.has(next)) {
+                visited.add(next);
+                queue.push(next);
+              }
+            }
+          }
+          for (const f of visited) sharedReachableFiles.add(f);
+        }
+
         for (const f of appFiles) {
           if (submoduleByAppFile.has(f)) continue; // NavHost / Screen files already pinned to null above
           const count = reachabilityCount.get(f) || 0;
-          if (count === 0) submoduleByAppFile.set(f, "_unreferenced");
+          if (count === 0) submoduleByAppFile.set(f, sharedReachableFiles.has(f) ? null : "_unreferenced");
           else if (count === 1) submoduleByAppFile.set(f, reachedByRoot.get(f) || null);
           else submoduleByAppFile.set(f, null);
         }

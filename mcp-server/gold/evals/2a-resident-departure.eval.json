@@ -1,0 +1,12 @@
+{
+  "case": "2026-09-08-001-resident-departure-2a-post-move-regression-test-run3-persona-fix",
+  "query": "In the PGO there is a residents profile card. On this card we would like to add a departure date. This represents a date and time in the future for when a resident is going to leave the building - eg: end of rental contract. When the date is triggered, the system needs to remove the accesses for this resident to the specific building and all doors the resident has access to. On completion, next to the departure date, a field/label should display the date & time confirming when the system removed the access. Within the Oskey landscape, there is already a schedule tasks facility. The accesses must be removed from the edge devices (intercoms, digicoms, where applicable). The corpus currently supports generating a PRD for this work from the PGO, thru cloud and node-iot. The corpus cannot provide the PRD for the edge devices, but can suggest the work needed up to and the return from the node-iot repo.",
+  "role": "baseline — v1's most thorough clean run (3 repos, 32 turns); the real value here is checking v2 doesn't regress a genuinely wide, correct multi-repo trace",
+  "expected_behavior": [
+    "Every Technical Proposal claim carries at least one real, verbatim fact_id citation (v1 baseline: 0 fabrications across a 3-repo, 31-tool-call trace)",
+    "The scope boundary the business request itself states (edge-device PRD explicitly out of scope, only 'work needed up to and the return from node-iot' in scope) is honored — v2 must not silently expand scope just because a section is now higher-freedom",
+    "The full chain from a frontend date-time picker through the Firebase Callable function to task scheduling and a new scheduled-task type is traced end to end, not stopped at the first repo",
+    "The one real, explicitly-acknowledged out-of-scope gap (edge-device PRD) is exactly the kind of thing a [NEEDS CLARIFICATION]-style marker should NOT be applied to in v2 — it's a stated scope boundary from the requester, not an evidence gap the agent failed to fill, and v2's persona wording must distinguish the two rather than flagging both the same way",
+    "Run stays within the existing turn budget headroom (v1 baseline: 31 tool calls, 32 of 100 turns) — v2 additions (degrees-of-freedom framing, marker checks) must not measurably inflate this for a case that already succeeds"
+  ]
+}

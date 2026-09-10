@@ -243,6 +243,107 @@
 
       "phase2": null,
       "_note_phase2": "Deliberately omitted, same as angular-app-oskey-io's own block was when it was first added -- no contracts/grounding docs exist for this repo yet. Add once Phase 1's fact shape is settled and this repo's own phase-02-inter-module-synthesis/ pipeline actually gets designed."
+    },
+    {
+      "name": "ios-oskey-dev",
+      "_note": "Swift/iOS repo, real repo-inspection pass done 2026-09-09 -- see governance/roadmap/ios-oskey-dev/02-real-repo-inspection-findings-2026-09-09.md. Real, checked finding: NOT a Swift Package Manager library -- an Xcode app (.xcodeproj/.xcworkspace), 3 real native targets (iOS App, OSKEYTests, OSKDoorUnlockActivityExtension), no internal BLE/Cloud/WebRTC split -- that functionality is entirely external, consumed via SPM as 5 first-party OSkey packages: swift-ble-kit-oskey-dev / swift-cloud-kit-oskey-dev / swift-webrtc-kit-oskey-io / swift-ui-kit-oskey-dev / swift-ai-kit-oskey-io (the last 2 confirmed in-scope 2026-09-09 after checking real usage -- 179 and 4 importing files respectively -- see governance/roadmap/ios-oskey-dev/06-two-additional-packages-brought-into-scope-2026-09-09.md). No moduleDiscovery/astTool/phase2 config yet -- Task 1 design (the .pbxproj/.xcworkspace-aware port of 00-scan-repo.ts) has not started; sequenced after the 5 leaf packages per governance/roadmap/ios-oskey-dev/01-multi-repo-architecture-methodology-fit-2026-09-09.md.",
+      "gitUrl": "https://github.com/oskey-io/ios-oskey-dev.git",
+      "branch": "master",
+      "_note_branch": "CONFIRMED by the user directly, 2026-09-09 (governance/roadmap/ios-oskey-dev/06-two-additional-packages-brought-into-scope-2026-09-09.md) -- not just evidence-inferred. Real, checked evidence favored master over develop -- opposite of android-intercom-oskey-io's own placeholder choice. master's real tip (e660bda2, 2026-04-14, MARKETING_VERSION 1.11.0) is the genuinely current shipped state; develop is 15 real commits AHEAD (unreleased work) and master itself carries 60 real commits not on develop (the real develop->staging->master release train). Also real: tag-based resolution is not viable here either way -- git's naive version-sort ranks legacy tag v1.7.0 above the real latest (1.11), the same failure mode already found on android-intercom-oskey-io, and no tag at all points at master's current tip. See governance/roadmap/ios-oskey-dev/03-branch-tag-and-version-pin-strategy-2026-09-09.md for full evidence.",
+
+      "moduleDiscovery": null,
+      "_note_moduleDiscovery": "Deliberately unset -- this repo's real structure (3 Xcode targets, plus top-level folders like 'Shared' and 'iOS App' inside the main target) doesn't map onto Gradle's settings.gradle.kts-style discovery or a simple modulesRoot the way Firebase/Angular/node-iot do. Real Task 1 design work, not yet done.",
+
+      "swiftToolsVersionReal": "n/a (Xcode app, no Package.swift) -- real, checked toolchain signals instead: SWIFT_VERSION=5.0 (language mode, all targets), .swift-version file pins toolchain 5.9, IPHONEOS_DEPLOYMENT_TARGET mostly 16.0 (one target 16.6). See governance/roadmap/ios-oskey-dev/02-...md Section 8 -- this machine's installed Xcode (26.6 / Swift 6.3.3) is real and much newer; whether that matters for AST-tool selection is not yet tested.",
+
+      "astTool": null,
+      "_note_astTool": "Not yet decided -- SwiftSyntax + SourceKit-LSP is the live recommendation from governance/roadmap/swift-kotlin-preparation/00-lessons-from-typescript-angular-extraction.md item 10, but not yet bounded-tested against this repo's real pinned toolchain, the same discipline that disqualified the Kotlin Analysis API for android-intercom-oskey-io.",
+
+      "astErrorTolerancePercent": null,
+      "_note_astErrorTolerancePercent": "Not yet measured -- requires a real bounded parse test against this repo's actual files, same as android-intercom-oskey-io's measured 5% (08-task1-consolidated-checklist-2026-09-08.md). Not done in this pass.",
+
+      "phase2": null,
+      "_note_phase2": "Deliberately omitted -- no contracts/grounding docs exist for this repo yet, and Task 1 fact shape isn't designed."
+    },
+    {
+      "name": "swift-ble-kit-oskey-dev",
+      "_note": "Swift/iOS leaf package (BLE/Bluetooth lock control), real repo-inspection pass done 2026-09-09 -- see governance/roadmap/swift-ble-kit-oskey-dev/00-repo-snapshot-2026-09-09.md. Real, checked: package name OSKBluetoothLEKit, single target, zero external dependencies, 32 real Swift files -- smallest and simplest of the 3 leaf packages, sequenced first per governance/roadmap/ios-oskey-dev/01-multi-repo-architecture-methodology-fit-2026-09-09.md's 'leaf packages first' recommendation.",
+      "gitUrl": "https://github.com/oskey-io/swift-ble-kit-oskey-dev.git",
+      "commit": "f8cdf1995ef94103991ba784d4e6e67dda4f1232",
+      "_note_commit": "Pinned by exact commit, NOT branch -- real, checked finding: this repo's master is stale (last real commit 2025-01-21, over a year old), and develop is real/current but ahead of what ios-oskey-dev actually integrates. Neither is correct. This commit is the exact revision ios-oskey-dev's own real, authoritative Package.resolved pins (tag 1.1.1) -- 2 patch versions behind this repo's own real latest tag (1.1.3). Will go stale the moment ios-oskey-dev updates its own Package.resolved -- re-check that file before reusing this pin on a future run. See governance/roadmap/ios-oskey-dev/03-branch-tag-and-version-pin-strategy-2026-09-09.md.",
+
+      "modulesRoot": "Sources",
+      "_note_modulesRoot": "Real, direct fact, not a guess -- single SPM target at Sources/OSKBluetoothLEKit, swift-tools-version:5.9, platforms .iOS(.v15)/.watchOS(.v8). No dynamic module discovery needed (unlike android-intercom-oskey-io's Gradle settings-file parsing) -- there is exactly one target.",
+
+      "astTool": "SwiftSyntax",
+      "astToolVersion": "603.0.2 (pinned to match the HOST TOOLCHAIN, not a fixed universal value)",
+      "_note_astTool": "Decided 2026-09-09, independently confirmed 2026-09-10 after real, bounded testing against this repo's actual code (32 files) and the whole 6-repo family (821 files), not from research alone -- see governance/roadmap/ios-oskey-dev/08-swiftsyntax-vs-npm-treesitter-bounded-test-2026-09-09.md and 09-task1-decision-swiftsyntax-2026-09-09.md. 100% of this repo's real .swift files parsed with zero errors, both in the single-repo test and the family-wide re-test. tree-sitter-swift (the npm-only, toolchain-free alternative, matching TS/Kotlin's own deployment model) was rejected: its real, root-caused #if/#else/#endif parse bug is CASCADING (unbounded content loss to end-of-file), not localized the way android-intercom-oskey-io's own accepted tree-sitter-kotlin error rate is -- a disqualifying property, not a tunable tolerance. IMPORTANT: astToolVersion is not a fixed constant to copy forward -- SwiftSyntax's version must match whichever Swift compiler is actually installed on the machine running extraction (this session's was Xcode 26.6 / Swift 6.3.3); re-derive via `swift --version` before each real build, don't reuse 603.0.2 blindly on a different machine.",
+
+      "callResolutionStrategy": "import-and-target-aware-symbol-table",
+      "_note_callResolutionStrategy": "No compiler-exact call-graph resolution is available to a syntax-only tool -- same real limitation android-intercom-oskey-io's own callResolutionStrategy note describes for Kotlin. Swift's visibility model is target-based, not package-based like Kotlin's: files in the SAME SPM target (this repo has exactly one, OSKBluetoothLEKit, 30 real files) see each other with NO import needed at all, so resolution tiers are resolved_via_import (cross-target) / resolved_via_same_target (Swift's analog of Kotlin's resolved_via_same_package, structurally more load-bearing here since same-target visibility needs no import to begin with) / unresolved. A real, family-wide duplicate-top-level-declaration-name scan (2026-09-09, governance/roadmap/ios-oskey-dev/08-...md SS5b-5d) found no same-target collisions within THIS repo -- the 3 real same-target duplicates found are all inside ios-oskey-dev itself, not here. One real cross-target case DOES involve this repo: OSKBKCentralManagerHostViewModifier is defined here (Sources/OSKBluetoothLEKit/Central Manager/View Modifiers/) and ALSO has a local shadow copy inside ios-oskey-dev -- the resolver must encode 'local/same-module declarations shadow same-named imports' as an explicit rule, not an assumption, before ios-oskey-dev's own Task 1 (P1 build tasklist Task 11) can trust this repo's facts.",
+
+      "astErrorTolerancePercent": 0,
+      "_note_astErrorTolerancePercent": "Real, measured, not a guess or a copy of another repo's number -- 0 parse errors across all 32 real .swift files in this repo, confirmed twice (the original single-repo bounded test, 2026-09-09, and the family-wide 821-file re-test the same day). Unlike android-intercom-oskey-io's Kotlin pipeline (5%, a real accepted localized-error margin), SwiftSyntax's own real error rate on this repo is a genuine 0 -- do not add a speculative margin here without a new measured reason to.",
+
+      "phase2": null,
+      "_note_phase2": "Deliberately omitted -- no contracts/grounding docs exist yet, Task 1 fact shape not designed."
+    },
+    {
+      "name": "swift-cloud-kit-oskey-dev",
+      "_note": "Swift/iOS leaf package (Firebase/backend integration), real repo-inspection pass done 2026-09-09 -- see governance/roadmap/swift-cloud-kit-oskey-dev/00-repo-snapshot-2026-09-09.md. Real, checked: package name OSKCloudKit, single target, depends directly on firebase-ios-sdk (FirebaseAuth/Firestore/Functions/Storage/Messaging/Crashlytics/AppCheck) -- the real, concrete place a future Layer 3 join to firebase-oskey-dev would connect. 111 real Swift files.",
+      "gitUrl": "https://github.com/oskey-io/swift-cloud-kit-oskey-dev.git",
+      "commit": "32772e4af35e26be987ff132e248e34bb928e76b",
+      "_note_commit": "Pinned by exact commit, NOT branch -- same real reasoning as swift-ble-kit-oskey-dev's entry: master is stale (last real commit 2025-01-21), develop is current but ahead of what's integrated. This commit is the exact revision ios-oskey-dev's real, authoritative Package.resolved pins (tag 1.6.8) -- 1 patch version behind this repo's own real latest tag (1.6.9). Will go stale the moment ios-oskey-dev updates its own Package.resolved. See governance/roadmap/ios-oskey-dev/03-branch-tag-and-version-pin-strategy-2026-09-09.md.",
+
+      "modulesRoot": "Sources",
+      "_note_modulesRoot": "Real, direct fact -- single SPM target at Sources/OSKCloudKit, swift-tools-version:5.9, platforms .iOS(.v15)/.watchOS(.v9)/.visionOS(.v1). No dynamic module discovery needed -- exactly one target.",
+
+      "astTool": null,
+      "_note_astTool": "Not yet decided -- see ios-oskey-dev entry's own _note_astTool for the same open question, shared across all 4 Swift repos.",
+
+      "astErrorTolerancePercent": null,
+      "_note_astErrorTolerancePercent": "Not yet measured -- no bounded parse test run against this repo yet.",
+
+      "phase2": null,
+      "_note_phase2": "Deliberately omitted -- no contracts/grounding docs exist yet, Task 1 fact shape not designed."
+    },
+    {
+      "name": "swift-webrtc-kit-oskey-io",
+      "_note": "Swift/iOS leaf package (WebRTC video calling), real repo-inspection pass done 2026-09-09 -- see governance/roadmap/swift-webrtc-kit-oskey-io/00-repo-snapshot-2026-09-09.md. Naming resolved: real name is '-oskey-io' (confirmed by cloning the real URL), NOT '-oskey-dev' as verbally reported when this onboarding started -- see governance/roadmap/ios-oskey-dev/01-multi-repo-architecture-methodology-fit-2026-09-09.md's naming note. Real, checked: package name OSKWebRTCKit, single target plus a .binaryTarget (third-party prebuilt WebRTC.xcframework from sendbird/sendbird-webrtc-ios, not Apple's or OSkey's own code), depends on socket.io-client-swift. 89 real Swift files. swift-tools-version:5.10 -- higher than the other 2 leaf packages' 5.9; a shared toolchain pin for scanning all 3 must satisfy this floor.",
+      "gitUrl": "https://github.com/oskey-io/swift-webrtc-kit-oskey-io.git",
+      "commit": "e8aeea9d4cc1333c007440137df9c1d915917881",
+      "_note_commit": "Pinned by exact commit, NOT branch, for consistency with the other 2 leaf packages -- even though this repo's own master happens to be real and current here (unlike the other two, no divergent/stale master problem exists for this specific repo). This commit is the exact revision ios-oskey-dev's real, authoritative Package.resolved pins (tag 1.1.6) -- 1 patch version behind this repo's own real latest tag (1.1.7). Will go stale the moment ios-oskey-dev updates its own Package.resolved. See governance/roadmap/ios-oskey-dev/03-branch-tag-and-version-pin-strategy-2026-09-09.md.",
+
+      "modulesRoot": "Sources",
+      "_note_modulesRoot": "Real, direct fact -- single SPM target at Sources/OSKWebRTCKit, swift-tools-version:5.10, platforms .iOS(.v15)/.visionOS(.v1). No dynamic module discovery needed -- exactly one target (plus a non-source .binaryTarget, out of scope for AST extraction).",
+
+      "astTool": null,
+      "_note_astTool": "Not yet decided -- see ios-oskey-dev entry's own _note_astTool for the same open question, shared across all 4 Swift repos.",
+
+      "astErrorTolerancePercent": null,
+      "_note_astErrorTolerancePercent": "Not yet measured -- no bounded parse test run against this repo yet.",
+
+      "phase2": null,
+      "_note_phase2": "Deliberately omitted -- no contracts/grounding docs exist yet, Task 1 fact shape not designed."
+    },
+    {
+      "name": "swift-ui-kit-oskey-dev",
+      "_note": "Swift/iOS leaf package (shared SwiftUI component library), brought into scope 2026-09-09 after being found as a real, heavily-used dependency of ios-oskey-dev not in the original 4-repo onboarding list -- see governance/roadmap/ios-oskey-dev/06-two-additional-packages-brought-into-scope-2026-09-09.md and governance/roadmap/swift-ui-kit-oskey-dev/00-repo-snapshot-2026-09-09.md. Scope decision rule: real usage checked directly (179 files in ios-oskey-dev import OSKUIKit) before adding, not assumed from Package.resolved presence alone. Package name OSKUIKit, single target, 103 real Swift files, swift-tools-version:5.9.",
+      "gitUrl": "https://github.com/oskey-io/swift-ui-kit-oskey-dev.git",
+      "commit": "9a75c7c6bc2b1d3b8f44d4457618f34295c838c5",
+      "_note_commit": "Pinned by exact commit, NOT branch -- same real reasoning as the other leaf packages: this repo's master is stale and anomalous (3 different tags -- 1.0.1, 1.7.8, 1.8.6 -- all point at the same old master HEAD), develop is real/current. This commit is the exact revision ios-oskey-dev's real, authoritative Package.resolved pins (tag 2.2.5) -- EXACTLY matches this repo's own real latest tag, zero version-drift gap, unlike the first 3 leaf packages' 1-2 patch lag. Will go stale the moment ios-oskey-dev updates its own Package.resolved. See governance/roadmap/ios-oskey-dev/03-branch-tag-and-version-pin-strategy-2026-09-09.md.",
+
+      "modulesRoot": "Sources",
+      "_note_modulesRoot": "Real, direct fact -- single SPM target at Sources/OSKUIKit, swift-tools-version:5.9, platforms .iOS(.v15)/.watchOS(.v8)/.visionOS(.v1). No dynamic module discovery needed -- exactly one target.",
+
+      "astTool": null,
+      "_note_astTool": "Not yet decided -- see ios-oskey-dev entry's own _note_astTool for the same open question, shared across all 6 Swift repos.",
+
+      "astErrorTolerancePercent": null,
+      "_note_astErrorTolerancePercent": "Not yet measured -- no bounded parse test run against this repo yet.",
+
+      "phase2": null,
+      "_note_phase2": "Deliberately omitted -- no contracts/grounding docs exist yet, Task 1 fact shape not designed."
     }
   ]
 }

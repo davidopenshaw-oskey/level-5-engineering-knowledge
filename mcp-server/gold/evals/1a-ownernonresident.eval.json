@@ -1,0 +1,12 @@
+{
+  "case": "2026-09-07-004-ownernonresident-1a-tool-desc-fix-test",
+  "query": "Currently the PGO supports adding a tenant or owner as a person living in a buildings unit by the Property Manager. We need a new inhabitantType in the Oskey system. The name of the new inhabitantType will be ownerNonResident. The scope of this PRD is to add the new inhabitantType without breaking the existing flows around inhabitantType. Report back an impact analysis of how this will impact the code base.",
+  "role": "baseline — v1 already produces a clean run here; the real purpose of this eval is regression protection, not gap-finding",
+  "expected_behavior": [
+    "Every Technical Proposal claim carries at least one real, verbatim fact_id citation (v1 baseline: 11 cited claims, 0 fabrications)",
+    "Both the backend and frontend type-alias update sites are found and named (OSKBuildingUnitInhabitantType, both repos)",
+    "Downstream call sites that gate resident-only behavior are individually identified and named, not summarized away (v1 baseline named 4 distinct backend service methods)",
+    "No [NEEDS CLARIFICATION] marker is warranted anywhere in this case — the request is fully answerable from real evidence, so a v2 draft that adds markers here without cause would be a regression, not an improvement",
+    "Run stays well within a low, single-digit-minute tool-call budget (v1 baseline: 16 tool calls, 17 turns) — v2's bounded-search-effort rule must not add overhead to a case that already completes cleanly"
+  ]
+}
