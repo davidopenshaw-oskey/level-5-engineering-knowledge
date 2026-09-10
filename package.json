@@ -2,6 +2,7 @@
   "devDependencies": {
     "@types/node": "^26.1.2",
     "@types/pg": "^8.23.1",
+    "@types/xcode": "^3.0.0",
     "ts-morph": "^28.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
@@ -47,7 +48,16 @@
     "cloud:android-intercom-06-build-cross-module-dependency-graph": "node -r ts-node/register pipeline/android-intercom-oskey-io/phase-01-ast-extraction/06-build-cross-module-dependency-graph.ts",
     "cloud:android-intercom-07-build-intra-module-coupling-graph": "node -r ts-node/register pipeline/android-intercom-oskey-io/phase-01-ast-extraction/07-build-intra-module-coupling-graph.ts",
     "cloud:swift-00-scan-repo": "node -r ts-node/register pipeline/swift/phase-01-ast-extraction/00-scan-repo.ts",
-    "cloud:swift-01-extract-ast": "node -r ts-node/register pipeline/swift/phase-01-ast-extraction/01-extract-ast-evidence.ts"
+    "cloud:swift-01-extract-ast": "node -r ts-node/register pipeline/swift/phase-01-ast-extraction/01-extract-ast-evidence.ts",
+    "cloud:swift-02-build-evidence": "node -r ts-node/register pipeline/swift/phase-01-ast-extraction/02-build-module-evidence.ts",
+    "cloud:swift-03-build-benchmark": "node -r ts-node/register pipeline/swift/phase-01-ast-extraction/03-build-benchmark.ts",
+    "cloud:swift-04-build-resolved-graph": "node -r ts-node/register pipeline/swift/phase-01-ast-extraction/04-build-resolved-graph.ts",
+    "cloud:swift-05-partition-capability-packs": "node -r ts-node/register pipeline/swift/phase-01-ast-extraction/05-partition-capability-packs.ts",
+    "cloud:swift-06-build-cross-module-dependency-graph": "node -r ts-node/register pipeline/swift/phase-01-ast-extraction/06-build-cross-module-dependency-graph.ts",
+    "cloud:swift-07-build-intra-module-coupling-graph": "node -r ts-node/register pipeline/swift/phase-01-ast-extraction/07-build-intra-module-coupling-graph.ts",
+    "pipeline:swift-ble-kit": "export REPO_NAME=swift-ble-kit-oskey-dev && npm run cloud:swift-00-scan-repo && npm run cloud:swift-01-extract-ast && npm run cloud:swift-02-build-evidence && npm run cloud:swift-03-build-benchmark && npm run cloud:swift-04-build-resolved-graph && npm run cloud:swift-05-partition-capability-packs && npm run cloud:swift-06-build-cross-module-dependency-graph && npm run cloud:swift-07-build-intra-module-coupling-graph",
+    "cloud:ios-oskey-dev-00-scan-repo": "node -r ts-node/register pipeline/ios-oskey-dev/phase-01-ast-extraction/00-scan-repo.ts",
+    "pipeline:ios-oskey-dev": "export REPO_NAME=ios-oskey-dev && npm run cloud:ios-oskey-dev-00-scan-repo && npm run cloud:swift-01-extract-ast && npm run cloud:swift-02-build-evidence && npm run cloud:swift-03-build-benchmark && npm run cloud:swift-04-build-resolved-graph && npm run cloud:swift-05-partition-capability-packs && npm run cloud:swift-06-build-cross-module-dependency-graph && npm run cloud:swift-07-build-intra-module-coupling-graph"
   },
   "dependencies": {
     "@angular/compiler": "^22.1.4",
@@ -61,6 +71,7 @@
     "pg": "^8.23.0",
     "tree-sitter": "^0.21.1",
     "tree-sitter-kotlin": "^0.3.8",
+    "xcode": "^3.0.1",
     "zod": "^4.5.4"
   }
 }

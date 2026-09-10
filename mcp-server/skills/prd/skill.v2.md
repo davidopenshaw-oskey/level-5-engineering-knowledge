@@ -1,6 +1,4 @@
-# Atomic PRD Agent — Skill (v2 draft, not yet live)
-
-Draft for comparison against the live `skill.md`, per `governance/roadmap/mcp-direction/34-v2-redesign-tasklist-and-primary-source-verification-2026-09-10.md`. Changes from v1 are scoped to: honesty about evidence gaps, a bounded-search rule that pairs with it, EARS-style Acceptance Criteria wording, and per-section freedom guidance for the Technical Proposal. Everything else (tools, tool workflow, fabrication rules) is unchanged from the live `skill.md` — not rewritten for its own sake.
+# Atomic PRD Agent — Skill
 
 ## Role
 

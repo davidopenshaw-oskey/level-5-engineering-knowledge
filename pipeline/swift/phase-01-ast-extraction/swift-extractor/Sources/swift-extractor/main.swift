@@ -157,9 +157,74 @@ final class FactExtractor: SyntaxVisitor {
         return clause.inheritedTypes.map { $0.type.trimmedDescription }
     }
 
+    /// Real structural root-identifier resolution for a call's callee
+    /// expression -- recurses through the ACTUAL syntax tree shape rather
+    /// than splitting rendered text, so it stays correct for a chain of any
+    /// depth (`Text(...).font(...).foregroundColor` correctly walks down to
+    /// "Text", not whatever token happens to precede the first "."
+    /// character in the whole blob of text). Returns "" (never a guess) for
+    /// an implicit member expression (`.signUp(...)`, no real base at all --
+    /// a syntax-only tool cannot know its inferred receiver type) or any
+    /// expression shape not explicitly handled here -- an honest gap, not a
+    /// silently wrong answer.
+    private func rootIdentifierOf(_ expr: ExprSyntax) -> String {
+        if let call = expr.as(FunctionCallExprSyntax.self) {
+            return rootIdentifierOf(call.calledExpression)
+        }
+        if let member = expr.as(MemberAccessExprSyntax.self) {
+            guard let base = member.base else { return "" } // implicit member expression
+            return rootIdentifierOf(base)
+        }
+        if let generic = expr.as(GenericSpecializationExprSyntax.self) {
+            return rootIdentifierOf(generic.expression)
+        }
+        if let optionalChain = expr.as(OptionalChainingExprSyntax.self) {
+            return rootIdentifierOf(optionalChain.expression)
+        }
+        if let forceUnwrap = expr.as(ForceUnwrapExprSyntax.self) {
+            return rootIdentifierOf(forceUnwrap.expression)
+        }
+        if let declRef = expr.as(DeclReferenceExprSyntax.self) {
+            return declRef.baseName.text
+        }
+        return ""
+    }
+
     override func visit(_ node: ImportDeclSyntax) -> SyntaxVisitorContinueKind {
         imports.append(ImportFact(module: node.path.trimmedDescription, line: line(node)))
         return .visitChildren
+    }
+
+    // Real bug found and fixed 2026-09-10, while validating the shared
+    // pipeline against swift-cloud-kit-oskey-dev's real code: an `#if`
+    // clause's CONDITION (`canImport(FirebaseFirestore)`, `os(iOS)`,
+    // `swift(>=5.9)`, etc.) is syntactically shaped exactly like a function
+    // call, so the generic FunctionCallExprSyntax visitor below was sweeping
+    // it up as a real call -- 121 of 979 real calls in that one repo alone
+    // (12.4%), pure noise: these are compile-time predicates, never
+    // executable code, and carry no import information of their own (the
+    // real `import` statements they guard are a separate, already-correct
+    // extraction path -- verified directly, not assumed, before writing this
+    // fix: every import inside a real `#if canImport(...)` block in that
+    // repo was already present in `imports`, this bug never caused data
+    // loss, only mis-categorized noise in `calls`).
+    //
+    // Fixed structurally, not by name-matching known compiler-directive
+    // identifiers (canImport/os/arch/swift/compiler/...) -- that would be a
+    // guess at an unbounded, Swift-version-dependent list. Instead: walk
+    // every child of an `IfConfigClauseSyntax` EXCEPT its own `condition`
+    // (identified by real node identity, not text) -- the guarded code
+    // itself (`elements`, wherever a real import/declaration/call actually
+    // lives) is still visited normally, only the condition expression is
+    // skipped.
+    override func visit(_ node: IfConfigClauseSyntax) -> SyntaxVisitorContinueKind {
+        for child in node.children(viewMode: .sourceAccurate) {
+            if let condition = node.condition, child.id == condition.id {
+                continue
+            }
+            walk(child)
+        }
+        return .skipChildren
     }
 
     override func visit(_ node: ClassDeclSyntax) -> SyntaxVisitorContinueKind {
@@ -334,14 +399,37 @@ final class FactExtractor: SyntaxVisitor {
 
     override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {
         let calleeText = node.calledExpression.trimmedDescription
-        // Real gap found and fixed 2026-09-10, same class of bug Kotlin's own
-        // resolver already guards against: splitting only on "." leaves a
-        // trailing "(...)" in place for a call-then-navigation chain like
-        // "Logger().info" (root would come out as "Logger()", not "Logger").
-        // Strip from the first "(" too, mirroring Kotlin's own
-        // calleeText.split(".")[0].split("(")[0].
-        let dotRoot = calleeText.split(separator: ".").first.map(String.init) ?? calleeText
-        let rootIdentifier = dotRoot.split(separator: "(").first.map(String.init) ?? dotRoot
+        // Fourth real gap found and fixed the same day (2026-09-10), the
+        // most consequential of the four found while designing Task 9's own
+        // 04-build-resolved-graph.ts (governance/roadmap/ios-oskey-dev/
+        // 10-p1-build-tasklist-2026-09-10.md): the first three fixes below
+        // were all patches to a STRING-SPLITTING approach on calleeText,
+        // which breaks down completely for a call more than ~2 hops into a
+        // chain -- confirmed directly, real example from swift-ui-kit-
+        // oskey-dev: `Text("Verify your identity").font(...).foregroundColor`
+        // is the REAL calleeText for the outermost `.foregroundColor(...)`
+        // call, because `node.calledExpression` for a member-access-based
+        // call is the WHOLE preceding chain, not just its immediate base --
+        // `.trimmedDescription` only trims leading/trailing trivia, it does
+        // not collapse or summarize a large multi-line base expression.
+        // Splitting that text on the first "." found "Text" as the "root"
+        // purely because it happened to be the first dot-free token in the
+        // whole blob, not because of any real structural analysis -- and
+        // "Text" then coincidentally collided with this file's own
+        // NOISY_CALL_ROOTS-adjacent assumption that "Text" always means
+        // SwiftUI's builtin view (swift-ui-kit-oskey-dev turns out to
+        // define its own real, distinct `Text`-named declaration, 122 real
+        // call sites resolving to it "successfully" only by name
+        // coincidence, not real chain analysis).
+        //
+        // Replaced entirely with a real structural walk of the syntax tree
+        // (rootIdentifierOf(_:), below) instead of patching the string
+        // approach a fifth time -- recurses through MemberAccessExprSyntax/
+        // FunctionCallExprSyntax/optional-chaining/force-unwrap to the
+        // REAL innermost base expression, however deep the chain, and
+        // returns "" (never a guess) for any expression shape it doesn't
+        // recognize -- an honest gap, not a silent wrong answer.
+        let rootIdentifier = rootIdentifierOf(node.calledExpression)
         // Raw source text per argument (label included when present, e.g.
         // "string: \"daecd178-...\""), no evaluation of literals -- same
         // convention Kotlin's own resolver already established for its
@@ -427,7 +515,7 @@ for relPath in swiftFiles {
 
 let isoFormatter = ISO8601DateFormatter()
 let result = ExtractionResult(
-    schemaVersion: "2.3.0",
+    schemaVersion: "3.0.0",
     generatedAt: isoFormatter.string(from: Date()),
     rootDir: rootDir,
     totalFiles: swiftFiles.count,
