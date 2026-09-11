@@ -8,6 +8,7 @@
 
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 import {
   RunNotifications,
   addNotification,
@@ -43,6 +44,58 @@ const projectRoot = process.cwd();
 // order); a raw line number is not. Fact types where the key is already
 // structurally unique per file (class names, type/enum names, etc.) don't
 // need one.
+// Real bug found and fixed 2026-09-11, ported from the same fix already live
+// in pipeline/swift/phase-01-ast-extraction/02-build-module-evidence.ts (see
+// that file's own header for the original ~28,000-char SwiftUI failure case).
+// `stableFactId()` here folds primaryKey/secondaryKey verbatim into
+// facts.fact_id -- Postgres's own btree primary-key index -- with no bound,
+// same as Swift's pre-fix version. NOT a blind port of Swift's fixed
+// threshold (200): this repo's own `call_expression.primaryKey` (the AST
+// `expression` field) already reaches 6,798 real chars today (confirmed via
+// governance/roadmap/consolidation/typescript.md §2d), all currently
+// inserting into Postgres successfully -- 200 would re-ID thousands of real,
+// currently-fine, already-embedded facts for no real safety gain.
+//
+// The real Postgres ceiling was determined empirically on this session's own
+// local `facts-postgres-index-local` instance (identical single-column btree
+// PK scratch table, not the shared `facts` table): raw character count alone
+// is NOT the deciding factor -- it's each value's post-TOAST-compression
+// size, which depends on how repetitive/compressible the text is. A
+// highly-repetitive short-period synthetic string survived past 35,000 raw
+// chars; pure-random (maximally incompressible) text failed as low as
+// ~2,500-3,000 chars; this repo's own real longest call_expression text
+// (6,798 chars), repeated/extended to approximate genuine worst-case
+// real-code compressibility, succeeded up to 9,400 raw chars and failed at
+// 9,500 (`index row size ... exceeds btree version 4 maximum ... for index
+// "facts_pkey"`) -- so ~9,400 raw chars is the real, empirical ceiling this
+// threshold is sized against, not a guess and not Swift's number.
+//
+// MAX_ID_COMPONENT_LENGTH = 2000 is sized against the COMBINED worst case,
+// not one field in isolation: a single fact_id can carry a bounded
+// primaryKey AND a bounded secondaryKey simultaneously, each up to
+// MAX_ID_COMPONENT_LENGTH + a ~23-char SHA-1 suffix, plus up to ~350 chars of
+// real fixed overhead (type|module|file|delimiters -- this repo's own real
+// longest file path is 245 chars). At 2000, that combined worst case is
+// ~4,400 raw chars -- about 2.1x of real, deliberate safety margin under the
+// ~9,400-char empirical ceiling above, not the bare minimum that would just
+// clear today's real max. This threshold sits BELOW today's real single-field
+// max (6,798) by design -- the combined-worst-case math doesn't allow a
+// threshold anywhere near 6,798 without eating almost all of the safety
+// margin found above. Real, known, accepted cost: 17 of this repo's 3,584
+// real call_expression facts (0.47%) get a new bounded fact_id as a result
+// and need re-embedding; every other fact kind's own real max component
+// length is under 250 chars today, nowhere close to this threshold, so no
+// other fact kind is affected. occurrenceOrdinal (computed separately,
+// in-memory only, never touches Postgres) still keys off the FULL, unbounded
+// text, so two real facts that happen to share a bounded prefix+hash are
+// still correctly told apart if their full text actually differs.
+const MAX_ID_COMPONENT_LENGTH = 2000;
+function boundedIdComponent(value: string): string {
+  if (value.length <= MAX_ID_COMPONENT_LENGTH) return value;
+  const hash = crypto.createHash("sha1").update(value).digest("hex").slice(0, 12);
+  return `${value.slice(0, MAX_ID_COMPONENT_LENGTH)}...[sha1:${hash}]`;
+}
+
 function stableFactId(input: {
   type: string;
   repo: string;
@@ -55,9 +108,10 @@ function stableFactId(input: {
   occurrenceOrdinal?: number;
 }): string {
   const cleanPath = (input.file || "").replace(/\\/g, "/");
-  const sec = input.secondaryKey ? `|${input.secondaryKey}` : "";
+  const primaryKey = boundedIdComponent(input.primaryKey);
+  const sec = input.secondaryKey ? `|${boundedIdComponent(input.secondaryKey)}` : "";
   const ord = input.occurrenceOrdinal !== undefined ? `|#${input.occurrenceOrdinal}` : "";
-  return `${input.type}|${input.module}|${cleanPath}|${input.primaryKey}${sec}${ord}`;
+  return `${input.type}|${input.module}|${cleanPath}|${primaryKey}${sec}${ord}`;
 }
 
 // Per-module, per-(type|file|primaryKey|secondaryKey) occurrence counter for
