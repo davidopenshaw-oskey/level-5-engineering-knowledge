@@ -18,6 +18,7 @@
 
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 import {
   addNotification,
   writeJsonAtomically,
@@ -35,6 +36,40 @@ const SOURCE_SCRIPT = "02-build-module-evidence";
 // elsewhere in the file must not change a fact's own ID. `occurrenceOrdinal`
 // is the real stability mechanism for fact types whose (type, file,
 // primaryKey, secondaryKey) isn't provably unique on its own.
+
+// Real bug found and fixed 2026-09-11, while running this repo's first-ever
+// Postgres sync: a real call_expression fact in ios-oskey-dev's own
+// OSKUserProfileUpdateForm.swift:133 has a ~28,000-character
+// `calleeExpression` (a real, deeply chained SwiftUI view-builder call --
+// the exact same "the outermost call's own calledExpression text captures
+// the ENTIRE preceding chain" shape already root-caused for rootIdentifier
+// computation in the Swift extractor, see main.swift's own
+// rootIdentifierOf() header -- but calleeExpression itself is deliberately
+// NOT truncated there, since the full raw text is real, correct, wanted
+// data for the human/LLM-facing description). Using it verbatim as a
+// stableFactId component produced a real Postgres error on first sync
+// (`index row size 2816 exceeds btree version 4 maximum 2704 for index
+// "facts_pkey"`) -- a real index-page limit, not a bug in Postgres. Fixed
+// here, not by shortening calleeExpression upstream (that would throw away
+// real data the description still needs) -- any oversized primaryKey/
+// secondaryKey component is bounded to a fixed prefix + a deterministic
+// SHA-1 suffix before being folded into the ID, keeping every real
+// stableFactId well under any real index limit while staying genuinely
+// stable (the same real oversized text always hashes to the same ID) and
+// still human-scannable (the real prefix survives). occurrenceOrdinal
+// (computed separately, in-memory only, never touches Postgres) still keys
+// off the FULL, unbounded text, so two real facts that happen to share a
+// bounded prefix+hash are still correctly told apart if their full text
+// actually differs (astronomically unlikely to collide, and even a
+// collision would just mean two calls got merged into one ordinal sequence,
+// not a correctness break).
+const MAX_ID_COMPONENT_LENGTH = 200;
+function boundedIdComponent(value: string): string {
+  if (value.length <= MAX_ID_COMPONENT_LENGTH) return value;
+  const hash = crypto.createHash("sha1").update(value).digest("hex").slice(0, 12);
+  return `${value.slice(0, MAX_ID_COMPONENT_LENGTH)}...[sha1:${hash}]`;
+}
+
 function stableFactId(input: {
   type: string;
   module: string;
@@ -44,9 +79,10 @@ function stableFactId(input: {
   occurrenceOrdinal?: number;
 }): string {
   const cleanPath = (input.file || "").replace(/\\/g, "/");
-  const sec = input.secondaryKey ? `|${input.secondaryKey}` : "";
+  const primaryKey = boundedIdComponent(input.primaryKey);
+  const sec = input.secondaryKey ? `|${boundedIdComponent(input.secondaryKey)}` : "";
   const ord = input.occurrenceOrdinal !== undefined ? `|#${input.occurrenceOrdinal}` : "";
-  return `${input.type}|${input.module}|${cleanPath}|${input.primaryKey}${sec}${ord}`;
+  return `${input.type}|${input.module}|${cleanPath}|${primaryKey}${sec}${ord}`;
 }
 
 function nextOccurrenceOrdinal(counterMap: Map<string, number>, type: string, file: string, primaryKey: string, secondaryKey?: string | null): number {
@@ -385,17 +421,17 @@ function main() {
       });
     }
 
-    // 10. imports_dependency -- real, honest limitation, not silently
-    // hidden: unlike Kotlin/TS's own copy, Swift's imports carry no
-    // resolvedTargetModule/resolvedTargetSubmodule/importResolutionStatus
-    // yet -- 01-extract-ast-evidence.ts never attempted per-import
-    // cross-target resolution (Swift's `import ModuleName` is whole-module,
-    // not per-symbol, and resolving which OSkey package a given import
-    // name refers to needs the same cross-repo declaration data
-    // resolved_via_import itself is still waiting on -- see that file's own
-    // header comment). Fields left present but null so 06's own cross-
-    // module-dependency-graph port (whenever cross-repo resolution lands)
-    // has somewhere real to write into, not a schema it has to invent then.
+    // 10. imports_dependency -- resolvedTargetModule/resolvedTargetSubmodule/
+    // importResolutionStatus are REAL as of 2026-09-10 (Task 12 follow-up),
+    // not the permanent null/"not_yet_implemented" placeholder this script
+    // used to always emit regardless of what 01-extract-ast-evidence.ts
+    // actually found. That script now does real, checked import resolution
+    // (same-repo cross-target via resolved_in_repo, cross-repo via
+    // resolved_cross_repo, matching Kotlin's own resolved_in_repo naming
+    // convention where the concept overlaps) -- this script just passes
+    // those real values through, plus the new resolvedTargetRepo field
+    // (Swift-specific, no Kotlin/TS analog -- a resolved_cross_repo fact
+    // names a DIFFERENT repo, not just a different module in this one).
     for (const item of importsDependencyFact.filter((i: any) => i.module === moduleName)) {
       rawModuleFacts.push({
         id: stableFactId({
@@ -413,9 +449,10 @@ function main() {
         file: item.file,
         line: item.line,
         value: item.value,
-        resolvedTargetModule: null,
-        resolvedTargetSubmodule: null,
-        importResolutionStatus: "not_yet_implemented",
+        resolvedTargetModule: item.resolvedTargetModule ?? null,
+        resolvedTargetSubmodule: item.resolvedTargetSubmodule ?? null,
+        ...(item.resolvedTargetRepo ? { resolvedTargetRepo: item.resolvedTargetRepo } : {}),
+        importResolutionStatus: item.importResolutionStatus ?? "external_or_unresolved",
         evidence: { ...item },
       });
     }

@@ -85,6 +85,18 @@ export function descriptionFor(fact: Fact, module: string): string {
   const managesDoc = extendsArgs && extendsArgs.length > 0 && fact.extendsClass
     ? ` -- extends ${fact.extendsClass}<${extendsArgs.join(", ")}>, manages document type(s): ${extendsArgs.join(", ")}`
     : "";
+  // Real gap found 2026-09-11 auditing Kotlin's own analogous field for a
+  // similar bug: a TS class's `implements` clause names one or more
+  // interfaces (e.g. Angular's `class Foo implements OnInit, OnDestroy`
+  // lifecycle-hook pattern -- 78 real files in angular-app-oskey-io alone)
+  // and was never captured or surfaced at all, a distinct concept from
+  // `managesDoc` above (which is about extendsClass's own generic argument,
+  // not a separate implements clause). Same list-shaped-field precedent as
+  // Swift's `swiftInheritanceDoc` below.
+  const implementsInterfaces: string[] | undefined = fact.implementsInterfaces ?? fact.evidence?.implementsInterfaces;
+  const implementsInterfacesDoc = implementsInterfaces && implementsInterfaces.length > 0
+    ? ` -- implements: ${implementsInterfaces.join(", ")}`
+    : "";
   // Fourth instance of the same pattern, found 2026-09-02: a method's real
   // return type (e.g. `Promise<OSKDocument<OSKBuildingUnitInhabitant> |
   // undefined>`) already names the document type it hands back -- the
@@ -227,10 +239,47 @@ export function descriptionFor(fact: Fact, module: string): string {
   // `propertyType` is already captured in every model_property fact's payload
   // (confirmed directly) and was simply never surfaced -- same class of fix
   // as returnType/requestType above, same import-prefix cleaning.
-  const rawPropertyType: string | undefined = fact.propertyType ?? fact.evidence?.propertyType;
+  // Real gap found 2026-09-11 while auditing this file for Kotlin coverage:
+  // this branch has existed since 2026-09-05 for TS's own `propertyType`
+  // field, but Kotlin's `02-build-module-evidence.ts` names the identical
+  // concept `declaredType` -- confirmed directly against live Postgres that
+  // every one of android-intercom-oskey-io's 1,551+ real model_property
+  // facts (e.g. `declaredType: "List<LanguageOption>"`) carried this value
+  // in payload and never once reached the description, the exact same
+  // failure mode this branch was built to fix for TS, just under a
+  // different real field name. Added as a fallback, not a rename -- the
+  // Kotlin pipeline's own field name is already shipped and synced.
+  const rawPropertyType: string | undefined = fact.propertyType ?? fact.evidence?.propertyType ?? fact.declaredType ?? fact.evidence?.declaredType;
   const cleanedPropertyType = rawPropertyType?.replace(/import\("[^"]*"\)\./g, "");
   const modelPropertyDoc = fact.type === "model_property" && cleanedPropertyType
     ? ` -- type: ${cleanedPropertyType}`
+    : "";
+
+  // Real gap found 2026-09-11 while checking sync-facts.ts's own
+  // Swift-readiness before its first real Swift sync: imports_dependency has
+  // NEVER had a description-enrichment branch, in any language -- confirmed
+  // by checking live Postgres directly, not assumed: 2,547 real
+  // resolved_in_repo imports_dependency facts already sit unenriched across
+  // all 4 already-synced repos (android-intercom-oskey-io: 244,
+  // angular-app-oskey-io: 491, firebase-oskey-dev: 1,740, node-iot-api-
+  // oskey-io: 72) -- this fix is retroactive value for all of them, not
+  // Swift-specific, once they're re-synced. Deliberately only fires when
+  // resolvedTargetModule is actually populated -- an external/unresolved
+  // import (whatever this repo's own real status string calls it:
+  // external_or_unresolved/unresolved_by_compiler/resolved_outside_module_
+  // boundary all appear for real across this project) has nothing further,
+  // real, and true to add beyond the bare import name already shown, so it
+  // stays silent rather than restating "unresolved." resolvedTargetRepo is
+  // the one field with no TS/Kotlin analog at all (Task 12 follow-up,
+  // 2026-09-10, governance/roadmap/ios-oskey-dev/17-...md) -- a
+  // resolved_cross_repo fact names a DIFFERENT repo, not just a different
+  // module in this one.
+  const resolvedTargetModuleForImport: string | undefined = fact.resolvedTargetModule ?? fact.evidence?.resolvedTargetModule;
+  const resolvedTargetSubmoduleForImport: string | undefined = fact.resolvedTargetSubmodule ?? fact.evidence?.resolvedTargetSubmodule;
+  const resolvedTargetRepoForImport: string | undefined = fact.resolvedTargetRepo ?? fact.evidence?.resolvedTargetRepo;
+  const importResolutionStatusForImport: string | undefined = fact.importResolutionStatus ?? fact.evidence?.importResolutionStatus;
+  const importsDependencyDoc = fact.type === "imports_dependency" && resolvedTargetModuleForImport
+    ? ` -- resolves to: ${resolvedTargetRepoForImport ? `${resolvedTargetRepoForImport}/` : ""}${resolvedTargetModuleForImport}${resolvedTargetSubmoduleForImport ? `/${resolvedTargetSubmoduleForImport}` : ""} (${importResolutionStatusForImport ?? "resolved"})`
     : "";
 
   // --- Kotlin fact-kind enrichment, added 2026-09-09 (Task 7,
@@ -323,6 +372,23 @@ export function descriptionFor(fact: Fact, module: string): string {
     ? ` -- @Composable${paramsText ? ` (${paramsText})` : ""}`
     : "";
 
+  // Real gap found 2026-09-11 while auditing this file for Kotlin coverage:
+  // `owningClass` is captured on every Kotlin function_declaration fact
+  // (Task 4/8), but was only ever surfaced for the composable subset above
+  // -- confirmed directly against live Postgres that real, plain class
+  // methods (e.g. `bleStartLifecycle` inside `OSKBleCentralService`) render
+  // with zero class context today, indistinguishable from a genuine
+  // top-level function. Fires independently of isComposable (a composable
+  // with an owningClass gets both segments; most real Kotlin methods here
+  // aren't composables at all, per Task 6's own real count -- ~469 of 589).
+  // No TS/Swift analog needed: TS's own methods are a separate `className`-
+  // bearing fact type from day one (service_method/controller_method/
+  // class_method), never sharing function_declaration's own generic branch.
+  const functionOwningClass: string | undefined = fact.owningClass ?? fact.evidence?.owningClass;
+  const functionOwningClassDoc = fact.type === "function_declaration" && functionOwningClass && !isComposable
+    ? ` -- method of: ${functionOwningClass}`
+    : "";
+
   // Constructor-promoted properties (Task 6's own real fix) are otherwise
   // indistinguishable from a plain class body property in the description
   // -- surfacing owningClass matters because a Hilt-injected dependency's
@@ -390,7 +456,7 @@ export function descriptionFor(fact: Fact, module: string): string {
     ? ` -- ${touchpointDirection ?? "touches"} event: ${touchpointEvent}`
     : "";
 
-  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${kotlinCallResolutionDoc}${kotlinCallArgumentsDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${enumDeclarationDoc}${swiftEnumDeclarationDoc}${swiftInheritanceDoc}${extensionDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc} (${loc})`;
+  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${implementsInterfacesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${kotlinCallResolutionDoc}${kotlinCallArgumentsDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${importsDependencyDoc}${enumDeclarationDoc}${swiftEnumDeclarationDoc}${swiftInheritanceDoc}${extensionDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${functionOwningClassDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc} (${loc})`;
 }
 
 function pool(): Pool {

@@ -31,17 +31,28 @@
 //   resolved_via_same_package -- files in the SAME SPM target see each other
 //   with NO import needed at all, which is why this tier is more load-bearing
 //   here than Kotlin's own) / unresolved.
-// - REAL, HONEST LIMITATION, not silently hidden: `resolved_via_import`
-//   requires ANOTHER OSkey package's own declarations to already be
-//   extracted and loaded, which no repo in this family does yet as of this
-//   restructuring (P1 build tasklist Task 11, cross-repo resolution, is not
-//   built) -- so `resolved_via_import` never fires for ANY repo this script
-//   runs against today, and every call to an external framework
-//   (Foundation, CoreBluetooth, Combine, os, ...) is tagged `unresolved`,
-//   same as a real gap would be. Distinguishing "expected external, not a
-//   gap" from "our own code, should have resolved" is real, deferred,
-//   cross-repo work, not solved in this pass. Never silently claim a
-//   confidence tier this script cannot actually back up.
+// - `resolved_via_import` IMPLEMENTED 2026-09-10 (P1 build tasklist Task 12,
+//   governance/roadmap/ios-oskey-dev/10-p1-build-tasklist-2026-09-10.md).
+//   Real, reactive, direction-agnostic design, not a hardcoded hub-and-spoke
+//   assumption and not a precomputed N x N linking system: this repo's own
+//   real, current `import` statements are checked against every OTHER real
+//   Swift repo's own already-written facts/modules.json (loadCrossRepoDecl-
+//   arations() below) -- if an imported name matches a sibling repo's own
+//   real SPM target/module name AND that sibling has already been scanned at
+//   least once, its PUBLIC/OPEN declarations (Swift's own real access-control
+//   rule -- an internal/private/fileprivate declaration genuinely is not
+//   visible from another module, matching this the same way same-target
+//   resolution matches every visibility) become resolvable via this tier.
+//   Costs nothing for a repo whose real imports never name a sibling (4 of
+//   the 5 leaf packages, confirmed zero leaf-to-leaf imports exist in this
+//   family -- see doc 10 Task 12's own real, checked topology); activates
+//   automatically for ios-oskey-dev, the one real importer of siblings today.
+//   Same-target is checked FIRST, cross-repo only on a same-target miss --
+//   this is the real, load-bearing "local declaration shadows a same-named
+//   import" rule Task 1/5 called for (the real OSKBKCentralManagerHostView-
+//   Modifier case: defined in swift-ble-kit-oskey-dev, also locally shadowed
+//   inside ios-oskey-dev -- the local shadow must win, and does, by
+//   construction of this ordering, not by a special-cased name check).
 
 import fs from "fs";
 import path from "path";
@@ -53,6 +64,7 @@ import {
   writeNotificationsAtomically,
   loadNotifications,
   runContextPath,
+  latestManifestPath,
   requireRepoNameEnv,
 } from "./_shared/run-utils";
 
@@ -91,6 +103,130 @@ type SwiftExtractionResult = {
 };
 
 type DeclLocation = { file: string; module: string };
+type CrossRepoDeclLocation = { file: string; module: string; repo: string };
+
+/**
+ * Real, reactive cross-repo declaration lookup for Task 12 (see this file's
+ * own header comment). Builds a moduleName -> ownerRepo map from every OTHER
+ * real Swift repo's own already-written facts/modules.json (whichever ones
+ * have actually been scanned at least once -- "doing nothing extra if not
+ * present" is the honest, by-design behavior for a sibling never run, not a
+ * bug), then loads the PUBLIC/OPEN declarations of exactly the modules THIS
+ * repo's own real imports actually reference. Never touches a repo that
+ * isn't a real, current import of the repo being processed.
+ */
+type ModuleOwnerRepo = Map<string, { repo: string; displayModule: string }>;
+
+function loadCrossRepoDeclarations(
+  projectRoot: string,
+  repoConfig: any,
+  selfRepoName: string,
+  importedModuleNames: Set<string>,
+  notifications: RunNotifications
+): { declLocation: Map<string, CrossRepoDeclLocation>; moduleOwnerRepo: ModuleOwnerRepo } {
+  const result = new Map<string, CrossRepoDeclLocation>();
+
+  // Real moduleName -> ownerRepo index, built from every sibling Swift repo
+  // that has actually been scanned at least once. Not hardcoded to any
+  // package name -- SPM's own real convention (confirmed across this whole
+  // family, see pipeline/swift/00-scan-repo.ts's own header) is that the
+  // name you `import` IS the real target/module name, which is exactly what
+  // each sibling's own facts/modules.json already records.
+  const moduleOwnerRepo = new Map<string, { repo: string; displayModule: string }>();
+  const siblingRepos: any[] = (repoConfig.repositories || []).filter(
+    (r: any) => r.name !== selfRepoName && r.astTool === "SwiftSyntax"
+  );
+
+  for (const sibling of siblingRepos) {
+    const manifestPath = latestManifestPath(projectRoot, sibling.name);
+    if (!fs.existsSync(manifestPath)) continue; // Real, honest no-op -- never scanned yet.
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    const siblingRunId = manifest.runId;
+    const siblingModulesPath = path.join(projectRoot, "output", "runs", sibling.name, siblingRunId, "facts", "modules.json");
+    if (!fs.existsSync(siblingModulesPath)) continue;
+    const siblingModules: Array<{ module: string; realModuleName?: string }> = JSON.parse(fs.readFileSync(siblingModulesPath, "utf8"));
+    for (const m of siblingModules) {
+      // Real, indexed by realModuleName -- the actual name that appears
+      // after `import` in Swift source, NOT necessarily the bookkeeping
+      // display module name (see ios-oskey-dev's own 00-scan-repo.ts header:
+      // its "iOS App" target's real Swift module name is "OSKEY", a real,
+      // measured PRODUCT_NAME divergence, not a hypothetical). Falls back to
+      // `module` for any repo scanned before this field existed.
+      const importKey = m.realModuleName ?? m.module;
+      const existingOwner = moduleOwnerRepo.get(importKey);
+      if (existingOwner && existingOwner.repo !== sibling.name) {
+        addNotification(
+          notifications,
+          "01-extract-ast-evidence",
+          "warning",
+          "CROSS_REPO_MODULE_NAME_COLLISION",
+          `Real Swift module name '${importKey}' is scanned in BOTH '${existingOwner.repo}' and '${sibling.name}' -- keeping the first, cross-repo resolution against this name may be wrong for whichever repo lost.`,
+          { module: importKey, keptRepo: existingOwner.repo, droppedRepo: sibling.name }
+        );
+        continue;
+      }
+      moduleOwnerRepo.set(importKey, { repo: sibling.name, displayModule: m.module });
+    }
+  }
+
+  // Only the sibling repos THIS repo's own real imports actually reference.
+  const reposToLoad = new Map<string, Set<string>>(); // repo -> DISPLAY module names to pull from it (matches ast-*.json's own `module` field)
+  for (const importedName of importedModuleNames) {
+    const owner = moduleOwnerRepo.get(importedName);
+    if (!owner) continue; // Real external framework (Foundation/SwiftUI/Combine/...) or an unscanned sibling -- honest no-op.
+    if (!reposToLoad.has(owner.repo)) reposToLoad.set(owner.repo, new Set());
+    reposToLoad.get(owner.repo)!.add(owner.displayModule);
+  }
+
+  let siblingsLoaded = 0;
+  let declarationsIndexed = 0;
+  let crossRepoCollisions = 0;
+
+  for (const [repoName, moduleNames] of reposToLoad.entries()) {
+    const manifest = JSON.parse(fs.readFileSync(latestManifestPath(projectRoot, repoName), "utf8"));
+    const runId = manifest.runId;
+    const factsDir = path.join(projectRoot, "output", "runs", repoName, runId, "facts");
+    siblingsLoaded++;
+
+    const declFiles = ["ast-classes.json", "ast-structs.json", "ast-enums.json", "ast-protocols.json"];
+    for (const fileName of declFiles) {
+      const p = path.join(factsDir, fileName);
+      if (!fs.existsSync(p)) continue;
+      const facts: Array<{ name: string; file: string; module: string; visibility: string }> = JSON.parse(fs.readFileSync(p, "utf8"));
+      for (const f of facts) {
+        if (!moduleNames.has(f.module)) continue;
+        if (f.visibility !== "public" && f.visibility !== "open") continue; // Real Swift access control -- internal is genuinely invisible cross-module.
+        if (result.has(f.name)) { crossRepoCollisions++; continue; }
+        result.set(f.name, { file: f.file, module: f.module, repo: repoName });
+        declarationsIndexed++;
+      }
+    }
+
+    const functionsPath = path.join(factsDir, "ast-functions.json");
+    if (fs.existsSync(functionsPath)) {
+      const functions: Array<{ name: string; file: string; module: string; visibility: string }> = JSON.parse(fs.readFileSync(functionsPath, "utf8"));
+      for (const fn of functions) {
+        if (!moduleNames.has(fn.module)) continue;
+        if (fn.name === "init" || fn.name === "deinit") continue; // Same real reason same-target excludes these -- see this file's own Pass 1 comment.
+        if (fn.visibility !== "public" && fn.visibility !== "open") continue;
+        if (result.has(fn.name)) { crossRepoCollisions++; continue; }
+        result.set(fn.name, { file: fn.file, module: fn.module, repo: repoName });
+        declarationsIndexed++;
+      }
+    }
+  }
+
+  addNotification(
+    notifications,
+    "01-extract-ast-evidence",
+    "info",
+    "CROSS_REPO_DECLARATIONS_LOADED",
+    `Real cross-repo declaration lookup built from ${siblingsLoaded} sibling repo(s) actually imported by this repo: ${declarationsIndexed} public/open declaration(s) indexed, ${crossRepoCollisions} flat-map name collision(s) (kept first, same accepted limitation class as same-target resolution).`,
+    { siblingsLoaded, declarationsIndexed, crossRepoCollisions, importedSiblingRepos: Array.from(reposToLoad.keys()) }
+  );
+
+  return { declLocation: result, moduleOwnerRepo };
+}
 
 function main() {
   const REPO_NAME = requireRepoNameEnv();
@@ -205,6 +341,34 @@ function main() {
     }
   }
 
+  // Real, current import names actually used anywhere in this repo -- the
+  // input to Task 12's cross-repo lookup (see loadCrossRepoDeclarations's
+  // own header comment). Collected once, up front, not re-derived per call.
+  const importedModuleNames = new Set<string>();
+  for (const file of inScopeFiles) {
+    for (const imp of file.imports) importedModuleNames.add(imp.module);
+  }
+  const { declLocation: crossRepoDeclLocation, moduleOwnerRepo } = loadCrossRepoDeclarations(projectRoot, repoConfig, REPO_NAME, importedModuleNames, notifications);
+
+  // Real same-repo (cross-TARGET) import resolution -- the direct Swift
+  // analog of Kotlin's own "resolved_in_repo" tier, and a real, necessary
+  // companion to the cross-repo fix above: THIS repo's own real Swift
+  // module names (from facts/modules.json, written by 00-scan-repo.ts) are
+  // what a same-repo import actually names, keyed by realModuleName exactly
+  // like the cross-repo index above (see ios-oskey-dev's own "iOS App" ->
+  // "OSKEY" case, the real, measured reason this can't just compare against
+  // the display `module` field).
+  const selfModulesPath = path.join(factsDir, "modules.json");
+  const selfModules: Array<{ module: string; realModuleName?: string }> = fs.existsSync(selfModulesPath)
+    ? JSON.parse(fs.readFileSync(selfModulesPath, "utf8"))
+    : [];
+  const selfModuleByRealName = new Map<string, string>();
+  for (const m of selfModules) selfModuleByRealName.set(m.realModuleName ?? m.module, m.module);
+
+  let resolvedInRepoImports = 0;
+  let resolvedCrossRepoImports = 0;
+  let externalOrUnresolvedImports = 0;
+
   // --- Pass 2: emit facts per file ---
   const rawImports: any[] = [];
   const rawClasses: any[] = [];
@@ -233,7 +397,44 @@ function main() {
     }
 
     for (const imp of file.imports) {
-      rawImports.push({ ...base, line: imp.line, value: imp.module });
+      // Real, 3-tier import resolution (Task 12 follow-up, 2026-09-10) --
+      // mirrors the same real-module-name-based lookups already built above
+      // for calls, applied here to the IMPORT STATEMENT itself rather than
+      // a call expression. Same-repo checked first (an import naming one of
+      // THIS repo's own other real targets), matching the same "local
+      // beats cross-repo" ordering already used for calls, though a real
+      // self-import collision with an external sibling name is not expected
+      // in practice.
+      let resolvedTargetModule: string | null = null;
+      let resolvedTargetRepo: string | null = null;
+      let importResolutionStatus: string;
+
+      const selfTargetModule = selfModuleByRealName.get(imp.module);
+      const crossRepoTargetModule = moduleOwnerRepo.get(imp.module);
+
+      if (selfTargetModule && selfTargetModule !== rec.module) {
+        resolvedTargetModule = selfTargetModule;
+        importResolutionStatus = "resolved_in_repo";
+        resolvedInRepoImports++;
+      } else if (crossRepoTargetModule) {
+        resolvedTargetModule = crossRepoTargetModule.displayModule;
+        resolvedTargetRepo = crossRepoTargetModule.repo;
+        importResolutionStatus = "resolved_cross_repo";
+        resolvedCrossRepoImports++;
+      } else {
+        importResolutionStatus = "external_or_unresolved";
+        externalOrUnresolvedImports++;
+      }
+
+      rawImports.push({
+        ...base,
+        line: imp.line,
+        value: imp.module,
+        resolvedTargetModule,
+        resolvedTargetSubmodule: null,
+        ...(resolvedTargetRepo ? { resolvedTargetRepo } : {}),
+        importResolutionStatus,
+      });
     }
 
     const emitDecl = (kindList: SwiftDeclFact[], target: any[]) => {
@@ -281,33 +482,35 @@ function main() {
 
       let declarationFile: string | null = null;
       let declarationModule: string | null = null;
+      let declarationRepo: string | null = null;
       let resolutionMethod: "resolved_via_import" | "resolved_via_same_target" | "unresolved" = "unresolved";
 
-      // resolved_via_import (cross-target, via another OSkey package's own
-      // declLocation table) is NOT implemented in this pass -- deliberately,
-      // not an oversight. It has nothing to match against yet: this is the
-      // first (pilot) repo in the family to be built, so no other package's
-      // declarations have been extracted. Real work for Task 11, once
-      // ios-oskey-dev's own resolver can load sibling repos' facts. Adding a
-      // check here now that can only ever no-op would be dead code, not a
-      // real capability -- see this file's own header comment.
-
-      // resolved_via_same_target: Swift's real, load-bearing tier -- files in
-      // the SAME SPM target see each other with no import needed at all.
+      // resolved_via_same_target FIRST: Swift's real, load-bearing tier --
+      // files in the SAME SPM target see each other with no import needed at
+      // all. Checked before cross-repo on purpose -- this ordering IS the
+      // real "local declaration shadows a same-named import" rule (see this
+      // file's own header comment, the real OSKBKCentralManagerHostView-
+      // Modifier case).
       const target = declLocation.get(call.rootIdentifier);
       if (target) {
         declarationFile = target.file;
         declarationModule = target.module;
         resolutionMethod = "resolved_via_same_target";
+      } else {
+        // resolved_via_import: Task 12, implemented 2026-09-10 -- see this
+        // file's own header comment and loadCrossRepoDeclarations(). Only
+        // reached on a same-target miss.
+        const crossRepoTarget = crossRepoDeclLocation.get(call.rootIdentifier);
+        if (crossRepoTarget) {
+          declarationFile = crossRepoTarget.file;
+          declarationModule = crossRepoTarget.module;
+          declarationRepo = crossRepoTarget.repo;
+          resolutionMethod = "resolved_via_import";
+        }
       }
 
-      // resolvedViaImport stays permanently 0 until Task 11 actually
-      // implements the resolved_via_import tier -- see this file's own
-      // header comment. Not compared here on purpose: nothing in this
-      // function can ever assign resolutionMethod that value yet, and
-      // `tsc --noEmit -p .` correctly flags a literal comparison against it
-      // as unreachable -- a real signal, not suppressed.
       if (resolutionMethod === "resolved_via_same_target") resolvedViaSameTarget++;
+      else if (resolutionMethod === "resolved_via_import") resolvedViaImport++;
       else unresolvedCalls++;
 
       rawCalls.push({
@@ -318,6 +521,7 @@ function main() {
         callerClass: call.callerType,
         declarationFile,
         declarationModule,
+        ...(declarationRepo ? { declarationRepo } : {}),
         resolutionMethod,
         ...(call.arguments.length > 0 ? { arguments: call.arguments } : {}),
       });
@@ -383,6 +587,15 @@ function main() {
     "CALL_RESOLUTION_SUMMARY",
     `Call resolution: ${resolvedViaImport} resolved_via_import, ${resolvedViaSameTarget} resolved_via_same_target, ${unresolvedCalls} unresolved (unresolved includes real external-framework calls -- Foundation/CoreBluetooth/Combine/etc -- not distinguished from a real gap in this pass, see this script's own header comment).`,
     { resolvedViaImport, resolvedViaSameTarget, unresolvedCalls }
+  );
+
+  addNotification(
+    notifications,
+    "01-extract-ast-evidence",
+    "info",
+    "IMPORT_RESOLUTION_SUMMARY",
+    `Import statement resolution: ${resolvedInRepoImports} resolved_in_repo, ${resolvedCrossRepoImports} resolved_cross_repo, ${externalOrUnresolvedImports} external_or_unresolved (Task 12 follow-up, 2026-09-10 -- previously every import in this family was left at "not_yet_implemented" regardless of whether it was ever checked).`,
+    { resolvedInRepoImports, resolvedCrossRepoImports, externalOrUnresolvedImports }
   );
 
   // AST error-tolerance gate -- implemented from day one per this repo's own
@@ -457,6 +670,7 @@ function main() {
   console.log(`Classes: ${rawClasses.length}, Structs: ${rawStructs.length}, Enums: ${rawEnums.length}, Protocols: ${rawProtocols.length}, Extensions: ${rawExtensions.length}`);
   console.log(`Functions: ${rawFunctions.length}, Properties: ${rawProperties.length}, Imports: ${rawImports.length}, Calls: ${rawCalls.length}`);
   console.log(`Call resolution: ${resolvedViaImport} via import, ${resolvedViaSameTarget} via same-target, ${unresolvedCalls} unresolved.`);
+  console.log(`Import resolution: ${resolvedInRepoImports} resolved_in_repo, ${resolvedCrossRepoImports} resolved_cross_repo, ${externalOrUnresolvedImports} external_or_unresolved.`);
   console.log(`BLE GATT constants: ${rawBleGattConstants.length}`);
 }
 

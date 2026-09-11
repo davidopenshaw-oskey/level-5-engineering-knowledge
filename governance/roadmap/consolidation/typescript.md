@@ -1,0 +1,121 @@
+# TypeScript Pipelines — Status Audit, 2026-09-11
+
+**Purpose of this file:** a consolidated audit, not a new roadmap folder for ongoing work — matching the pattern already established by `consolidation/kotlin-android.md` and `consolidation/swift-ios.md`. Compiled by reading every file in `governance/roadmap/angular-app-oskey-io/`, `governance/roadmap/firebase-oskey-dev/`, `governance/roadmap/node-iot-api-oskey-io/`, plus every other real TS mention found via a repo-wide grep across `governance/roadmap/` and `governance/adrs/`. Every claim below is either read directly from a real file (cited) or verified directly against live code/Postgres in this same pass (marked "verified live"). Where a cited doc's own claim is now stale, that's flagged explicitly rather than silently repeated.
+
+---
+
+## 1. Real, current pipeline status — what's actually done
+
+**P1 (AST extraction) is complete for all 3 repos, actively maintained, zero-LLM.**
+- `angular-app-oskey-io`: `web-app` only. `00-phase1-ast-extraction-design.md`'s closing line: *"This closes every known gap in the Phase 1 pipeline — all 8 handoffs done, 01/02/03 fully adapted, 04/05/06/07 audited and confirmed working with zero changes needed."* Real scale: 191 files → 31 capability packs across 3 modules.
+- `firebase-oskey-dev`: mature, `npm run pipeline:firebase`, 00-07. Real scale: 544 files, 2,347 imports, 1,262 methods, 6,655 call expressions, 2,222 confirmed cross-module call edges (`p2-restructure-brief-architecture.md` §2).
+- `node-iot-api-oskey-io`: `00-phase1-ast-extraction-design.md` marked "Phase 1 is wrapped up," all 8 scripts clean end-to-end, 7 real bugs found and fixed along the way (aliasing bugs, a `path`-field shadowing bug fixed by renaming to `httpPath`, a leftover-rename bug).
+- **Real bugs found and fixed since each repo's own P1 was already declared done** (this session, 2026-09-11 — see `governance/roadmap/facts-serving-strategy/17-imports-dependency-description-enrichment-fix-2026-09-11.md` and `18-implements-clause-description-enrichment-fix-2026-09-11.md`): an `imports_dependency` description-enrichment gap (1,740 firebase / 491 angular / 72 node-iot facts) and an `implements`-clause extraction gap (78 real angular files, 51 real facts — firebase and node-iot re-verified genuinely zero, not assumed). Both fixes are live in code; see §2d for what's still pending as a result.
+
+**P2 (LLM narrative synthesis) is built and cut over to the module-level (`01e`) architecture for all 3 repos**, not just Firebase:
+- Firebase: all 12 modules cut over 2026-08-30/31, confirmed live in `config/repos.json`'s `moduleLevelProfile` block (`10-module-level-production-cutover-plan.md` Part A, steps 1-7 complete).
+- Angular and Node-IoT: ported the same day, 2026-08-31 (`03-run-full-phase2.ts`'s own header comment in both repos references Firebase's cutover plan directly). Angular's `features` module (~1.67M estimated tokens) is the real, already-hit case for the `MODULE_TOO_LARGE_FOR_SINGLE_CALL` fallback to the older per-capability chain.
+- Structured-output (schema-enforced) citations: shipped for Firebase's `01e` path only, 2026-08-31 (`11-structured-output-citation-pilot.md`), on structural-reliability grounds (3 real citation-malformation shapes found and fixed), explicitly not on semantic-quality grounds. **Angular/Node-IoT's own schemas are explicitly deferred** until Firebase's migration is proven further in production — not started.
+
+**Cross-repo joins are built and verified**: Angular↔Firebase `HTTP_API_CALL` edges (102 edges, 98 resolved, `01-next-steps-post-phase1.md`), Node-IoT↔Firebase `PUBSUB_TOPIC_BINDING` (confirmed via 3 independent lines of non-AST-derivable evidence, 2026-08-29). A full simulated prod-merge test across all 3 repos passed end-to-end (`prod-merge-simulation-2026-08-29.md`: "All 3 repos processed successfully; all 3 cross-repo triggers produced stable, identical results," 117 real LLM calls total).
+
+**Postgres/pgVector facts sync**: all 3 repos live. This session re-ran each repo's full `00`-`07` pipeline plus `sync-facts.ts` per module, which (a) embedded the 51 real angular `implementsInterfaces` facts (targeted, cost-flagged, user-approved) and (b) incidentally applied the `imports_dependency` re-sync's description update for all 3 repos (2,411 facts total) — but did **not** embed those 2,411, by explicit scope decision (see §2d).
+
+---
+
+## 2. Real, open — not yet decided or fixed
+
+### 2a. Angular-specific
+
+- **`web-admin` (the second app in this same repo) has never been started** — no P1, no P2. `01-next-steps-post-phase1.md` item 2: *"Same git repo, a second, separately-maintained app... Not safe to assume identical to `web-app` without checking."* Confirmed still true in `pipeline/angular-app-oskey-io/README.md`.
+- **Route-guard RBAC confidence never reaches "confirmed."** All 16 real RBAC requirements land as `confidence: "candidate"` because the upstream classifier checks a hardcoded whitelist of *Firebase* auth-check method names that doesn't match Angular's real idiom (`.roles.includes(...)`). Flagged "possible future refinement, not urgent" — not fixed.
+- **4 real, unresolved cross-repo call edges** (`getStaffMember`, `updateIntercomCommunication`, `getById`, `getAllIntercomCommunicationService`) — Angular calls a Firebase function name matching neither the handler name nor the registered callable name. Explicitly flagged as *"possibly genuine drift, possibly an actual latent bug"* — not chased.
+- **Node-IoT bidirectional write-back question, asked and never answered.** `01-next-steps-post-phase1.md` item 4 asks whether node-iot's Firebase write-back is planned-but-unbuilt, lives on a different branch, or happens Firebase-side — "not yet answered as of this doc."
+- **Signals-consistency/encapsulation audit** — logged as an idea in `02-phase2-contract-design.md`, not built, no such section exists yet in the repo-wide report.
+- **`00-phase1-ast-extraction-design.md`'s own task checklist was never updated**: Stage 4 and Stage 5 still show `[ ]` unchecked despite `01-next-steps-post-phase1.md` (same day) treating P1 as fully done in substance — a real doc-hygiene gap, not a functional one.
+- **`pipeline/angular-app-oskey-io/phase-01-ast-extraction/README.md` is stale** — still describes generic "Firestore hints" content and lists only `01`/`02`/`03`, not Angular's real fact vocabulary (`angular_route`, `angular_signal`, template composition/binding) or the full `00`-`07` script set that actually exists.
+
+### 2b. Firebase-specific (from `tasks.md`'s 30-item master tracker — a real, live backlog, not historical)
+
+- **Item 30 (newest, fully unresolved)**, quoted in full: *"Adding commit hash to the repos.json. The idea is that we could run the pipelines against specific commit#. If the commit# is either empty or not in the input params, it defaults to the branch config currently used. to be discussed."*
+- **Item 27**: a real, unresolved **policy question** — keep patching one exact citation-malformation shape at a time as they're found, or adopt a general tolerant/content-based detection strategy as the standing default. "Not yet decided as a standing policy."
+- **Item 29**: explicit open choice — extend the structured-output pilot to Angular/Node-IoT's own schemas next, or run more samples on Firebase first. Unresolved.
+- **Items 24-26 — fixes proven on Firebase, explicitly not yet ported to Angular/Node-IoT**: `validateCitations()`'s cross-module file-line false-positive fix, a notification-ID collision fix, and a backtick-wrapped capability-name parsing fix. A real, concrete cross-repo parity backlog.
+- **Item 22**: Angular's `external_hook` blind spot for SDK imports (e.g. `@angular/fire`) is deliberately deferred; the item itself asks whether Firebase has an analogous blind spot — "not yet checked."
+- **Item 23**: a hardcoded fact-type allowlist (citation patterns) is real drift risk, explicitly flagged as *"a design decision, not something to unilaterally implement"* — not actioned.
+- **Item 19**: module-too-large batching remains deferred and unsolved — confirmed still true in live code (`01e-generate-module-level-profile.ts` fails closed with `MODULE_TOO_LARGE_FOR_SINGLE_CALL` rather than solving it). Already hit for real by Angular's `features` module.
+- **Items 5/6**: P2 artifact storage location and LLM auth are both contingent on the still-undecided "does this move onto Gemini Enterprise/CI-CD" question — ties directly to ADR-006/007's own open status (§2d).
+- **Items 12/13**: live Firestore rules/RBAC capture from real infra (vs. static seed files) explicitly deferred, "P2 work takes priority."
+- **Decision A2** (the fuller persistent-knowledge-model architecture from the `p2-restructure-*` strawman/critique docs) remains **explicitly undecided**, gated on a "tech team" conversation about their own RAG/EmbeddingGemma retrieval layer — flagged repeatedly as "urgent, not parked," with no document found showing that conversation has actually happened.
+- **Production cutover plan's Part B, item 4**: the long-term fate of the old per-capability fan-out architecture (kept indefinitely as a fallback, or eventually retired) is explicitly still undecided.
+- **`pipeline/firebase-oskey-dev/README.md` is stale** — describes a `phase-00-repo-scanner/` and `phase-01.75-graph-resolution/` directory structure that no longer exists (confirmed via `ls`); real structure is `phase-01-ast-extraction/` (absorbed both) + `phase-02-inter-module-synthesis/`.
+
+### 2c. Node-IoT-specific
+
+- **Decision 1's hardcoded single-module-name assumption** — explicitly flagged as needing revisiting "if this repo later grows a second business domain," deferred deliberately until it happens.
+- **Decision 2's open question**: whether `astErrorTolerancePercent: 0` should also tolerate the 4 known `_unreferenced` files — unaddressed assumption from the original approval, "flag if that assumption is wrong."
+- **2 of 5 `*RouteHandler` classes' entry-point methods are static arrow-function properties, invisible to the generic method-extraction step.** Deliberate deferral, not fixed: "worth a small follow-up only if `routeHandlers`'s completeness specifically turns out to matter downstream."
+- **4 genuinely-unreferenced/dead files confirmed in the live repo** (`handlers/pub_sub_message.handler.ts` + 3 unused schema files) — flagged as worth surfacing to whoever owns this repo, not itself a pipeline bug.
+- **Repo report's capability count is off by one** — includes the excluded `_unreferenced.json`, so the report states "7 capability packs" instead of the real 6. Confirmed to actually manifest in the real Executive Summary text. Low-priority, not fixed.
+- **`MIN_JUDGMENT_SECTION_CHARS = 200`** retry-loop threshold is an explicitly unvalidated placeholder — "no large-module stress case has been run here."
+- **`pipeline/node-iot-api-oskey-io/README.md` is the most stale of the three repo READMEs** — it still describes a *pre-implementation* state ("pending review before extraction logic is written," "not yet adapted") even though both P1 and P2 have been fully built and run since 2026-08-28/31.
+- **The "1 unrelated `source_class` fact" drift** flagged in doc 18 (not caused by the implements-clause fix) remains genuinely unexplained. Best available inference, explicitly unconfirmed: node-iot's own pipeline scripts have zero uncommitted changes this session, so the drift most likely comes from the live `staging` branch itself having advanced past the last-synced commit — plausible, not verified either way.
+
+### 2d. Cross-cutting — affects all 3 TS repos, found or verified during this audit
+
+- **All 3 TS repos' current repo-level reports predate the module-level (`01e`) production cutover — a real, newly-surfaced staleness gap, not previously flagged as such in any single repo's own docs.** Firebase's own audit confirmed directly: `knowledge-corpus/firebase-oskey-dev/` has no runId newer than `20260829_081559-00e1d9fd`, while the real `01e` full-12-module cutover run happened 2026-08-30. Angular's repo report (`01-next-steps-post-phase1.md` item 3) and Node-IoT's repo report (`knowledge-corpus/node-iot-api-oskey-io/20260829_135747-a6cba122/...`) are both also dated 2026-08-29 — before their own respective 2026-08-31 module-level porting. **None of the 3 TS repos' git-tracked repo-level reports reflect the architecture actually in production today.** No doc found scheduling or acknowledging a re-run.
+
+- **`stableFactId()`'s unbounded-length primary-key risk — verified directly against live Postgres, and it's real, live, and closer to failing than Kotlin's case (which was never checked at all).** The sister audit (`consolidation/kotlin-android.md` §2a) found this bug real for Swift (a ~28,000-character raw `calleeExpression` broke Postgres's own btree index-row limit — `"index row size 2816 exceeds btree version 4 maximum 2704 for index facts_pkey"`) and flagged it as *unchecked* for Kotlin and, by the same duplicated-code pattern, for all 3 TS repos too (`stableFactId()` is independently copy-pasted into all 5 pipeline folders). Checked directly this session:
+  - Real, current max component lengths (`ast-calls.json`, freshly re-extracted): angular `expression` up to 6,798 chars / `argSig` up to 6,681 chars; firebase `argSig` up to 8,223 chars; node-iot far smaller (max 1,385 chars).
+  - **Live in Postgres right now**: `facts.fact_id` (the btree primary key) already holds real values up to 8,330 bytes (firebase) and 7,785 bytes (angular) for `call_expression` facts — larger, in raw length, than the value that broke Swift's sync.
+  - **Verified empirically, not assumed**: inserted synthetic 8,330-byte text values into a scratch table with an identical single-column btree PK on this same Postgres instance — both succeeded, no error. This confirms raw character length alone isn't the deciding factor for whether the btree row-size ceiling gets hit; it's each value's actual post-TOAST-compression size, and real source-code text (heavy with repeated whitespace/indentation) compresses well enough, today, to stay under that ceiling even at 8,000+ raw characters.
+  - **Real, honest conclusion**: this is not a false alarm — it's a genuine, live risk that TS is running measurably closer to than previously known, not a purely theoretical one like Kotlin's fully-unchecked case. A future real call chain that's longer and/or less compressible than today's worst case (unusual whitespace formatting, heavy Unicode identifiers, etc.) could trip the exact same wall Swift's did. **Not fixed in any of the 3 TS repos' own `stableFactId()`/`02-build-module-evidence.ts` copies.** The precise byte ceiling on this Postgres instance was not determined (see §6).
+
+- **`build-intra-repo-edges.ts`'s unscoped `DELETE` — real, unfixed correctness bug, affects every repo including all 3 TS repos.** Confirmed via `graphrag/01-findings-and-open-questions-2026-09-10.md` §7 and the code directly: `DELETE FROM cross_repo_edges WHERE connection_type = 'INTRA_REPO_CALL'` has no repo filter, while the corresponding `INSERT` only re-adds the one repo just run. Running this script for repo A silently wipes B, C, D's intra-repo graph data unless every repo is re-run in the same session immediately after. Confirmed harmless today under this project's manual, all-repos-together workflow — flagged as "a real landmine" for any future event-driven, per-repo-triggered design. Not fixed.
+
+- **ADR-005 and ADR-006 are both still formally "Proposed — not yet decided," despite most of their own direction already being live in production.** Verified directly against both files' own Status lines. ADR-005 (retrieval-over-facts / pgVector direction) has been built and is serving all 3 TS repos' facts today; ADR-006 (execution model / product-facing interface) still has zero typed interface for any of the facts-serving-strategy scripts (env-var invocation only) and no rules-file/task-definition artifact for any downstream task type. `graphrag/01-...md` §10 explicitly recommends a real status update reflecting what's now decided vs. still open — not yet done.
+
+- **Embeddings pending for 2,411 facts across all 3 TS repos** (`imports_dependency` re-sync fallout + minor `enum_declaration`/`model_property` drift) — descriptions are already correct in live Postgres; the vectors backing retrieval are stale until a real, paid embed step runs. Explicit scope decision this session: not this fix's cost to spend. Whoever owns `17-imports-dependency-description-enrichment-fix-2026-09-11.md`'s own follow-up still needs to run it.
+
+- **Top-level `pipeline/README.md` is also stale**, consistent with each individual repo's own stale README: it still diagrams a `phase-00-repo-scanner/`, `phase-01.75-graph-resolution/`, and `cross-repo-synthesis/` directory structure that doesn't exist anywhere in the current filesystem for any of the 3 TS repos.
+
+---
+
+## 3. Real, open, agent/MCP-side issues tied directly to the TS repos' own corpora
+
+Found via `mcp-direction/` and `market-research/`'s own real testing against Firebase/Angular's live facts (the Q1a "owner non-resident," Q1b "supplier recurring pincode" real business-question cases):
+
+- **Two distinct, still-unequally-addressed failure modes, per `graphrag/01-...md` §8c**: **Recall failure** (Q1b — the right fact never reaches context) was fixed by retrieve-broad-then-rerank (vector top-150 → one bounded LLM reranks to top-15) — real, decisive, near-zero cost. **Judgment failure** (Q1a — the right fact *did* reach context, rank #22-24, and the LLM still never cited it) remains genuinely unfixed by any retrieval mechanism tried so far; it needs cached business-rule/reference-doc context injected into the prompt (Task 3-style), not better evidence-finding. **Reranking itself — the tested, evidenced fix for the recall gap — has not yet shipped to production** (§10 conclusion 1).
+- **The real architectural next step for PRD/impact-analysis generation quality (§10 conclusion 2) — decompose the one-hit generator by affected capability/module before collating into template sections — is not yet built.** Named as the explicit brief for "the next session on this thread," not resolved by this one.
+- **Whether the full `search_facts`→`walk_cluster`/`get_graph_neighbors` chain actually fired across all 3 TS repos' evidence in the Antigravity milestone run is "consistent with," not confirmed** (`mcp-direction/28-antigravity-full-workflow-milestone-2026-09-08.md`): no tool-call transcript was captured for that specific run, only the final JSON output (which did correctly cite angular-app-oskey-io, firebase-oskey-dev, and node-iot-api-oskey-io facts together).
+- **The two-tier GraphRAG retrieval idea, if ever built, would only ever cover these 3 TS repos on its report side** (`graphrag/01-...md` §8b, a real, already-made decision) — Kotlin and the Swift family are permanently fact-tier-only. This constrains, but doesn't block, any future TS-specific retrieval work.
+
+---
+
+## 4. Corrections to other docs' own claims, found stale during this audit
+
+- **See §2d above — the single largest correction found**: all 3 TS repos' repo-level reports are stale relative to the module-level production cutover, a fact no single repo's own docs states about itself.
+- **`node-iot-api-oskey-io/01-phase2-contract-design.md`'s own header contradicts its own body.** The top status line says "Not yet done: a full `01a`+`01c`+`02` run across all capabilities/the whole repo," but the same document later records: "First full Phase 2 run completed and anomaly-checked — 2026-08-29." The header was never updated after the run completed.
+- **`facts-serving-strategy/06-v1-ab-factorial-experiment-plan.md`'s original porting decision was reversed same-day** by its own follow-up doc (`06b-...md`): "port V1-A only" became "greenlight V1-B for porting too," a reversal `tasks.md` item 17 also confirms.
+- **`05-capability-pack-size-cap.md`'s original "thinning" finding did not fully reproduce** on a fresh baseline — the doc's own final section attributes the original density difference mostly to ordinary LLM temperature variance rather than the originally-suspected partitioning defect. Plan 05 was never promoted to a real implementation plan as a result.
+- **`facts-serving-strategy/03-token-economics-remediation-plan.md`'s own Fact 3/4 claim was self-corrected mid-document**: the original claim that capability-output re-ingestion was "the larger contributor" to reduce-call input tokens was overturned by real byte-counting (grounding docs turned out larger at 41.2% vs. capability outputs' 28.0%, with resolved call edges a previously entirely-unmeasured 22.3%).
+
+---
+
+## 5. Housekeeping, not architectural
+
+- **Every pipeline-level README touching the 3 TS repos is stale** — the top-level `pipeline/README.md` and all 3 repos' own `README.md`/`phase-01-ast-extraction/README.md` files describe folder structures or build states that predate the real, current pipeline by weeks. Not blocking, but real, current documentation drift worth a dedicated cleanup pass rather than one-off fixes.
+- **`governance/roadmap/firebase-oskey-dev/phase 2-llm q&a/`** is a completely empty subfolder.
+- **`pipeline/consolidation/`** (sibling to this doc's own `governance/roadmap/consolidation/`) exists but is empty — likely a stray/leftover from the same convention, harmless.
+- **`governance/roadmap/angular-app-oskey-io/00-phase1-ast-extraction-design.md`'s own task checklist** was never updated to check off Stage 4/5 despite being done in substance per the same day's follow-up doc.
+
+---
+
+## 6. What this audit did not check
+
+- The exact real Postgres btree post-compression byte ceiling for `stableFactId()` values on this instance — confirmed today's real TS values succeed, and confirmed empirically that raw length alone isn't determinative, but did not pin down the precise threshold or stress-test with a deliberately larger/less-compressible synthetic value closer to Swift's actual 28,000-character failure case.
+- Whether the "tech team" conversation about RAG/EmbeddingGemma retrieval (gating Firebase's Decision A2) has happened since these docs were written.
+- `facts-serving-strategy/15-workflow-clustering-and-angular-ux-facts.md`'s own Task 2 content (13 real `FIELD_BINDING` cross-repo edges, a 92-vs-42 symbol-ambiguity finding between Firebase/Angular type redeclarations) — flagged by this audit's own Angular research pass as still-live, uncovered-here content, per existing project memory that only Task 1/3 of that doc are superseded by ADR-007.
+- The full text of `contract-refactoring/`'s multi-round conflict-review docs and `market-research/`'s remaining TS-adjacent findings beyond what's cited in §3 above.
+- Whether ADR-006/007/008/009's own open "Consequences" sections have been resolved by any work dated after 2026-09-09 — out of this audit's dated scope.
+- Whether `walk_cluster`'s uncaught-crash gap (flagged for Kotlin in the sister audit, `consolidation/kotlin-android.md` §3) has ever actually been exercised against any of the 3 TS repos' own corpora specifically — not investigated here, since the sister audit found it via Kotlin's own eval case.

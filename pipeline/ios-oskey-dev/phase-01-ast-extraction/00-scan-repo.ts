@@ -132,6 +132,42 @@ function makeRealPathResolver(nodeInfo: Map<string, { pathSeg: string | null }>,
   };
 }
 
+/**
+ * Real, measured, NOT assumed: a real Xcode target's DISPLAY name (used
+ * throughout this script as `module`, e.g. "iOS App") is NOT always the
+ * real name you `import`/`@testable import` in Swift source. Confirmed
+ * directly against this repo's actual data -- `OSKEYTests` really does
+ * `@testable import OSKEY`, and "OSKEY" is nowhere close to "iOS App" by
+ * string similarity. The real Swift module name comes from the target's own
+ * `PRODUCT_NAME` build setting (identical across every real build
+ * configuration checked -- Debug/Release etc. agree), falling back to the
+ * target's own real name when PRODUCT_NAME is the default `$(TARGET_NAME)`
+ * or unset, then sanitized the way Clang/Swift actually derive a module
+ * name from a product name (non-identifier characters -> `_`). This matters
+ * for real same-repo AND cross-repo import resolution (Task 12 follow-up,
+ * 2026-09-10) -- resolving against the display name would silently never
+ * match a real import like `import OSKEY`.
+ */
+function realSwiftModuleName(targetName: string, target: any, objects: any): string {
+  const configLists = objects["XCConfigurationList"] || {};
+  const buildConfigs = objects["XCBuildConfiguration"] || {};
+  const configList = configLists[target.buildConfigurationList];
+  let productName: string | null = null;
+  if (configList) {
+    for (const ref of configList.buildConfigurations || []) {
+      const bc = buildConfigs[ref.value];
+      const pn = bc?.buildSettings?.PRODUCT_NAME;
+      if (pn) {
+        productName = String(pn).replace(/^"|"$/g, "");
+        break; // Real, confirmed consistent across configs -- first one found is authoritative.
+      }
+    }
+  }
+  const rawName = !productName || productName === "$(TARGET_NAME)" ? targetName : productName;
+  const sanitized = rawName.replace(/[^A-Za-z0-9_]/g, "_");
+  return /^[0-9]/.test(sanitized) ? `_${sanitized}` : sanitized;
+}
+
 function walkRealSwiftFiles(absDir: string, excludeRelativePaths: Set<string>, relativeSoFar: string = ""): string[] {
   const results: string[] = [];
   const entries = fs.readdirSync(absDir, { withFileTypes: true });
@@ -317,11 +353,13 @@ function main() {
 
   const targetFileSets: Record<string, Set<string>> = {};
   const targetDisplayName: Record<string, string> = {};
+  const targetRealModuleName: Record<string, string> = {};
 
   for (const key of targetKeys) {
     const target = nativeTargets[key];
     const targetName = (target.name || "").replace(/^"|"$/g, "") || key;
     targetDisplayName[key] = targetName;
+    targetRealModuleName[key] = realSwiftModuleName(targetName, target, objects);
     const fileSet = new Set<string>();
 
     const sourcesPhaseRef = (target.buildPhases || []).find((bp: any) => {
@@ -422,7 +460,9 @@ function main() {
     { orphanCount, totalOnDisk: allSwiftOnDisk.length, inScope: filesList.length }
   );
 
-  const moduleEntries = targetKeys.map(k => ({ module: targetDisplayName[k] })).sort((a, b) => a.module.localeCompare(b.module));
+  const moduleEntries = targetKeys
+    .map(k => ({ module: targetDisplayName[k], realModuleName: targetRealModuleName[k] }))
+    .sort((a, b) => a.module.localeCompare(b.module));
 
   writeJsonAtomically(runContextPath(projectRoot, REPO_NAME), runContext, `output/${REPO_NAME}/run-context.json`);
   writeJsonAtomically(path.join(factsDir, "modules.json"), moduleEntries, "facts/modules.json");

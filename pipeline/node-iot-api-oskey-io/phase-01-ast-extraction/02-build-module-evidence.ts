@@ -337,6 +337,7 @@ function main() {
         value: item.className,
         className: item.className,
         extendsClass: item.extendsClass,
+        ...(item.implementsInterfaces ? { implementsInterfaces: item.implementsInterfaces } : {}),
         isExported: item.isExported,
         evidence: { ...item },
       });

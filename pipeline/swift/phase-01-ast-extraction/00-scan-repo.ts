@@ -295,7 +295,15 @@ function main() {
   }
 
   const modules = moduleDirs;
-  const moduleEntries = modules.map(m => ({ module: m }));
+  // realModuleName: for an SPM target, the real name you `import` IS the
+  // target/module name itself -- no PRODUCT_NAME-style indirection exists in
+  // SPM the way it does in an Xcode app project (see ios-oskey-dev's own
+  // 00-scan-repo.ts, which discovered a real, non-trivial case of this for
+  // its "iOS App" target -> real module name "OSKEY"). Emitted here too, for
+  // every SPM repo, so downstream cross-repo import resolution (Task 12
+  // follow-up, 2026-09-10) can read one consistent field name across the
+  // whole family instead of special-casing SPM repos as "absent".
+  const moduleEntries = modules.map(m => ({ module: m, realModuleName: m }));
 
   // File inventory: walk modulesRoot only (Sources/), collect real .swift
   // files. No submodule BFS -- single-target repo, submodule=null uniformly

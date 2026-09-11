@@ -714,6 +714,13 @@ function main() {
         const extendsExpr = cls.getExtends();
         const extendsClassTypeArguments = extendsExpr ? extendsExpr.getTypeArguments().map(t => t.getText()) : [];
         const isExported = cls.isExported();
+        // implementsInterfaces: real gap found 2026-09-11 auditing Kotlin's
+        // own analogous field for a similar bug -- a class's `implements`
+        // clause (which can name multiple interfaces, e.g. `class Foo
+        // implements OnInit, OnDestroy`) was never captured at all.
+        // getImplements() returns one ExpressionWithTypeArguments per
+        // interface named, same shape as getExtends() above.
+        const implementsInterfaces = cls.getImplements().map(i => i.getExpression().getText());
 
         rawClasses.push({
           ...base,
@@ -721,6 +728,7 @@ function main() {
           className,
           extendsClass,
           ...(extendsClassTypeArguments.length > 0 ? { extendsClassTypeArguments } : {}),
+          ...(implementsInterfaces.length > 0 ? { implementsInterfaces } : {}),
           isExported,
         });
 
