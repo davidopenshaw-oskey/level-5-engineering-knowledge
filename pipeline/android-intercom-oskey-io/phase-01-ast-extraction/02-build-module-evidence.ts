@@ -19,6 +19,7 @@
 
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 import {
   addNotification,
   writeJsonAtomically,
@@ -37,6 +38,64 @@ const SOURCE_SCRIPT = "02-build-module-evidence";
 // must not change a fact's own ID. `occurrenceOrdinal` is the real
 // stability mechanism for fact types whose (type, file, primaryKey,
 // secondaryKey) isn't provably unique on its own.
+// Real bug found and fixed 2026-09-11, same underlying design flaw already
+// fixed in pipeline/swift/..., pipeline/angular-app-oskey-io/... (commit
+// `2d56b54`) and pipeline/firebase-oskey-dev/... `stableFactId()` here folds
+// primaryKey/secondaryKey verbatim into facts.fact_id -- Postgres's own
+// btree primary-key index -- with no bound.
+//
+// This repo's real risk driver matches the Compose-chaining hypothesis
+// exactly (unlike Firebase, where the risk turned out to be secondaryKey,
+// not primaryKey): `call_expression.primaryKey` (`calleeExpression`) reaches
+// a real 3,707 chars today (a chained `Modifier.size().clip().clickable()`
+// block in app/.../OSKAccessesScreen.kt) -- the same declarative-UI-chaining
+// root cause as Swift's original SwiftUI failure. Every other fact kind's
+// own real primaryKey/secondaryKey max is under 111 chars today (confirmed
+// across all 13 fact kinds this script emits), so this is the only field
+// anywhere near a real bound.
+//
+// The real Postgres ceiling was determined empirically on this session's own
+// local `facts-postgres-index-local` instance (a distinctly-named
+// `scratch_ceiling_android_intercom` btree PK scratch table, not the shared
+// `facts` table), using this repo's own real text: pure-random
+// (maximally incompressible) text failed at ~2,712 raw chars; a
+// concatenation of this repo's own 30 distinct-longest real
+// `calleeExpression` values (not one value repeated -- a single repeated
+// value's short period made it artificially compressible past 100,000
+// chars, an unrealistic worst case) succeeded to 9,378 raw chars and failed
+// at 9,416 (`index row size ... exceeds btree version 4 maximum ... for
+// index "facts_pkey"`). The realistic ceiling (not the incompressible one)
+// is the right one to size against: primaryKey/secondaryKey values here are
+// always real source-code text, never arbitrary/random bytes.
+//
+// MAX_ID_COMPONENT_LENGTH = 2000 is sized against the COMBINED worst case,
+// not one field in isolation: a single fact_id can carry a bounded
+// primaryKey AND a bounded secondaryKey simultaneously (call_expression is
+// the only fact kind here where both are ever populated), each up to
+// MAX_ID_COMPONENT_LENGTH + a 22-char SHA-1 suffix, plus this repo's own
+// real fixed overhead (~175 chars: longest type string
+// "webrtc_signaling_touchpoint" at 27 chars, longest module name
+// "kotlin-webrtc-domain-oskey-io" at 29 chars, longest real file path at
+// 111 chars, plus delimiters and a real max occurrenceOrdinal of "|#22").
+// At 2000, that combined worst case is ~4,219 raw chars -- about 2.2x of
+// real, deliberate safety margin under the ~9,378-char empirical ceiling
+// above, independently landing in the same range as Angular's/Firebase's own
+// ~2.1x margins because all three repos' fixed overhead and empirical
+// ceilings turned out to be similar orders of magnitude, not because this
+// number was copied. Real, known, accepted cost: exactly 1 of this repo's
+// 9,750 real facts (the one `call_expression` fact whose `calleeExpression`
+// is 3,707 chars) gets a new bounded fact_id and needs re-embedding.
+// occurrenceOrdinal (computed separately, in-memory only, never touches
+// Postgres) still keys off the FULL, unbounded text, so two real facts that
+// happen to share a bounded prefix+hash are still correctly told apart if
+// their full text actually differs.
+const MAX_ID_COMPONENT_LENGTH = 2000;
+function boundedIdComponent(value: string): string {
+  if (value.length <= MAX_ID_COMPONENT_LENGTH) return value;
+  const hash = crypto.createHash("sha1").update(value).digest("hex").slice(0, 12);
+  return `${value.slice(0, MAX_ID_COMPONENT_LENGTH)}...[sha1:${hash}]`;
+}
+
 function stableFactId(input: {
   type: string;
   module: string;
@@ -46,9 +105,10 @@ function stableFactId(input: {
   occurrenceOrdinal?: number;
 }): string {
   const cleanPath = (input.file || "").replace(/\\/g, "/");
-  const sec = input.secondaryKey ? `|${input.secondaryKey}` : "";
+  const primaryKey = boundedIdComponent(input.primaryKey);
+  const sec = input.secondaryKey ? `|${boundedIdComponent(input.secondaryKey)}` : "";
   const ord = input.occurrenceOrdinal !== undefined ? `|#${input.occurrenceOrdinal}` : "";
-  return `${input.type}|${input.module}|${cleanPath}|${input.primaryKey}${sec}${ord}`;
+  return `${input.type}|${input.module}|${cleanPath}|${primaryKey}${sec}${ord}`;
 }
 
 function nextOccurrenceOrdinal(counterMap: Map<string, number>, type: string, file: string, primaryKey: string, secondaryKey?: string | null): number {

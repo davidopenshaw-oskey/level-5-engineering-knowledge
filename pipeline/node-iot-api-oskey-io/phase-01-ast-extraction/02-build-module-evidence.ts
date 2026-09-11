@@ -8,6 +8,7 @@
 
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 import {
   RunNotifications,
   addNotification,
@@ -43,6 +44,78 @@ const projectRoot = process.cwd();
 // order); a raw line number is not. Fact types where the key is already
 // structurally unique per file (class names, type/enum names, etc.) don't
 // need one.
+// Real bug found and fixed 2026-09-11, same underlying defect already fixed
+// in pipeline/angular-app-oskey-io/phase-01-ast-extraction/02-build-module-
+// evidence.ts (commit 2d56b54) and Swift's original fix: `stableFactId()`
+// here folds primaryKey/secondaryKey verbatim into facts.fact_id -- Postgres's
+// own btree primary-key index -- with no bound. NOT a blind port of Angular's
+// threshold (2000): this repo's own real field-length distribution and
+// fixed-overhead sizing are measured independently below, and its own
+// empirical Postgres ceiling test used a different sizing basis than
+// Angular's (see rationale below).
+//
+// This repo's own real, current field-length distribution (measured against
+// output/runs/node-iot-api-oskey-io/20260911_080505-a6cba122/facts/, all 14
+// fact kinds that call stableFactId, not just call_expression): the longest
+// real primaryKey/secondaryKey value in this repo today is 1,390 chars
+// (call_expression's secondaryKey -- caller|argSig -- on a chained Joi
+// validation schema in access_control_device_accesses_route.handler.ts).
+// call_expression's own primaryKey (`expression`) tops out at 609 chars.
+// Every other fact kind's own real max component is far smaller (longest:
+// type_alias/model_property `name`/`parentName` at 64 chars). This repo's
+// own real max file path is 78 chars, and it currently has exactly one real
+// module ("access_control_device", 22 chars) -- all far below Angular's
+// (6,798-char primaryKey, 245-char path) or Firebase's, confirming this
+// repo's own real, smaller scale (per governance/roadmap/consolidation/
+// typescript.md SS2d) rather than assuming it.
+//
+// The real Postgres ceiling was determined empirically on this session's own
+// local `facts-postgres-index-local` instance (a distinctly-named scratch
+// table, not the shared `facts` table, per the concurrent cross-session
+// note in governance/roadmap/mcp-direction/): pure-random (maximally
+// incompressible) text failed as low as 2,700 raw chars (index row size
+// 2,728 bytes, exceeding btree version 4's fixed 2,704-byte maximum) and
+// succeeded at 2,500. This repo's own real longest call_expression text
+// (1,390 chars), repeated/extended to approximate real-code compressibility
+// the way Angular's test did, did NOT fail until 159,000 raw chars (succeeded
+// at 158,000) -- this repo's real Joi-chain text happens to compress far
+// better under TOAST than Angular's sample did (9,400-char ceiling there).
+//
+// Deliberately NOT sized against that 158,000-char realistic-content
+// ceiling, unlike Angular's approach: that number depends on today's real
+// text happening to be repetitive/compressible, which is a property of
+// today's Joi schemas, not a guarantee about tomorrow's call arguments
+// (e.g. a future call site passing a literal hash, UUID, or base64 blob as
+// an argument would be far less compressible). Sized instead against the
+// content-independent structural floor -- the empirically-confirmed
+// ~2,704-2,712-byte incompressible ceiling above, which holds regardless of
+// what any future primaryKey/secondaryKey text looks like.
+//
+// MAX_ID_COMPONENT_LENGTH = 500 is sized against the COMBINED worst case: a
+// single fact_id can carry a bounded primaryKey AND a bounded secondaryKey
+// simultaneously, each up to MAX_ID_COMPONENT_LENGTH + a 22-char
+// `...[sha1:xxxxxxxxxxxx]` suffix, plus this repo's own real fixed overhead
+// (type|module|path|delimiters, worst case ~132 chars using this repo's own
+// real longest type "pubsub_operation_route" (22 chars), its one real module
+// name (22 chars), and its real longest path (78 chars)). At 500, that
+// combined worst case is 1,176 raw chars -- about 2.2x of real, deliberate
+// safety margin under the ~2,700-char empirical incompressible-text ceiling
+// above, not the bare minimum that would just clear it. Real, known,
+// accepted cost: 13 of this repo's 761 real call_expression facts (1.71%,
+// all long Joi validation chains) get a new bounded fact_id as a result and
+// need re-embedding; every other fact kind's own real max component length
+// today is under 65 chars, nowhere close to this threshold, so no other fact
+// kind is affected. occurrenceOrdinal (computed separately, in-memory only,
+// never touches Postgres) still keys off the FULL, unbounded text, so two
+// real facts that happen to share a bounded prefix+hash are still correctly
+// told apart if their full text actually differs.
+const MAX_ID_COMPONENT_LENGTH = 500;
+function boundedIdComponent(value: string): string {
+  if (value.length <= MAX_ID_COMPONENT_LENGTH) return value;
+  const hash = crypto.createHash("sha1").update(value).digest("hex").slice(0, 12);
+  return `${value.slice(0, MAX_ID_COMPONENT_LENGTH)}...[sha1:${hash}]`;
+}
+
 function stableFactId(input: {
   type: string;
   repo: string;
@@ -55,9 +128,10 @@ function stableFactId(input: {
   occurrenceOrdinal?: number;
 }): string {
   const cleanPath = (input.file || "").replace(/\\/g, "/");
-  const sec = input.secondaryKey ? `|${input.secondaryKey}` : "";
+  const primaryKey = boundedIdComponent(input.primaryKey);
+  const sec = input.secondaryKey ? `|${boundedIdComponent(input.secondaryKey)}` : "";
   const ord = input.occurrenceOrdinal !== undefined ? `|#${input.occurrenceOrdinal}` : "";
-  return `${input.type}|${input.module}|${cleanPath}|${input.primaryKey}${sec}${ord}`;
+  return `${input.type}|${input.module}|${cleanPath}|${primaryKey}${sec}${ord}`;
 }
 
 // Per-module, per-(type|file|primaryKey|secondaryKey) occurrence counter for

@@ -8,6 +8,7 @@
 
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 import {
   RunNotifications,
   addNotification,
@@ -43,6 +44,69 @@ const projectRoot = process.cwd();
 // order); a raw line number is not. Fact types where the key is already
 // structurally unique per file (class names, type/enum names, etc.) don't
 // need one.
+// Real bug found and fixed 2026-09-11, same underlying design flaw already
+// fixed in pipeline/swift/... and pipeline/angular-app-oskey-io/... (see the
+// Angular file's own header, commit 2d56b54, for the original SwiftUI
+// failure case and shared method). `stableFactId()` here folds
+// primaryKey/secondaryKey verbatim into facts.fact_id -- Postgres's own
+// btree primary-key index -- with no bound.
+//
+// NOT a blind port of Angular's or Swift's threshold: this repo's own real
+// numbers are structurally different from Angular's. In Angular, primaryKey
+// (call_expression.expression) was the risky field. Here, primaryKey
+// (expression) tops out at a real 1,659 chars -- it's secondaryKey
+// (`${callerName}|${argSig}`) that reaches a real 8,228 chars today (matches
+// the argSig max in governance/roadmap/consolidation/typescript.md §2d), the
+// actual driver of risk in this repo. Today's real worst-case COMBINED
+// call_expression fact_id (before this fix) already reaches 8,330 chars --
+// within ~9% of the empirical ceiling found below, not yet failing today
+// only because real source text compresses well, a real live margin this
+// fix is meant to restore, not a hypothetical one.
+//
+// The real Postgres ceiling was determined empirically on this session's own
+// local `facts-postgres-index-local` instance (identical single-column
+// btree PK scratch table, not the shared `facts` table), using this repo's
+// own real text, not Angular's: pure-random (maximally incompressible) text
+// failed as low as ~2,700-2,800 raw chars; this repo's own real longest
+// call_expression values (distinct real primaryKey/secondaryKey text,
+// concatenated to approximate genuine worst-case real-code compressibility
+// at sizes larger than exist in the repo today) succeeded up to 9,100 raw
+// chars and failed at 9,200 (`index row size ... exceeds btree version 4
+// maximum ... for index "facts_pkey"`). The realistic ceiling (not the
+// incompressible one) is the right one to size against: primaryKey/
+// secondaryKey values here are always real source-code text (identifiers,
+// call arguments), never arbitrary/random bytes.
+//
+// MAX_ID_COMPONENT_LENGTH = 2000 is sized against the COMBINED worst case,
+// not one field in isolation: a single fact_id can carry a bounded
+// primaryKey AND a bounded secondaryKey simultaneously (call_expression is
+// the only fact kind here where both components are ever large), each up to
+// MAX_ID_COMPONENT_LENGTH + a 22-char SHA-1 suffix, plus this repo's own
+// real fixed overhead (~209 chars: longest type string
+// "firestore_path_touched" at 22 chars, longest module name
+// "access_control_device" at 21 chars, longest real file path at 156
+// chars, plus delimiters/ordinal). At 2000, that combined worst case is
+// ~4,253 raw chars -- about 2.1x of real, deliberate safety margin under the
+// ~9,100-char empirical ceiling above, independently landing in the same
+// range as Angular's own margin ratio because both repos' fixed overhead and
+// empirical ceilings turned out to be similar orders of magnitude, not
+// because this number was copied. Real, known, accepted cost: 11 of this
+// repo's 6,655 real call_expression facts (0.17%) get a new bounded fact_id
+// as a result (all via secondaryKey; zero via primaryKey, whose real max of
+// 1,659 chars never reaches this threshold) and need re-embedding; every
+// other fact kind's own real max component length is under 160 chars today,
+// nowhere close to this threshold, so no other fact kind is affected.
+// occurrenceOrdinal (computed separately, in-memory only, never touches
+// Postgres) still keys off the FULL, unbounded text, so two real facts that
+// happen to share a bounded prefix+hash are still correctly told apart if
+// their full text actually differs.
+const MAX_ID_COMPONENT_LENGTH = 2000;
+function boundedIdComponent(value: string): string {
+  if (value.length <= MAX_ID_COMPONENT_LENGTH) return value;
+  const hash = crypto.createHash("sha1").update(value).digest("hex").slice(0, 12);
+  return `${value.slice(0, MAX_ID_COMPONENT_LENGTH)}...[sha1:${hash}]`;
+}
+
 function stableFactId(input: {
   type: string;
   repo: string;
@@ -55,9 +119,10 @@ function stableFactId(input: {
   occurrenceOrdinal?: number;
 }): string {
   const cleanPath = (input.file || "").replace(/\\/g, "/");
-  const sec = input.secondaryKey ? `|${input.secondaryKey}` : "";
+  const primaryKey = boundedIdComponent(input.primaryKey);
+  const sec = input.secondaryKey ? `|${boundedIdComponent(input.secondaryKey)}` : "";
   const ord = input.occurrenceOrdinal !== undefined ? `|#${input.occurrenceOrdinal}` : "";
-  return `${input.type}|${input.module}|${cleanPath}|${input.primaryKey}${sec}${ord}`;
+  return `${input.type}|${input.module}|${cleanPath}|${primaryKey}${sec}${ord}`;
 }
 
 // Per-module, per-(type|file|primaryKey|secondaryKey) occurrence counter for
