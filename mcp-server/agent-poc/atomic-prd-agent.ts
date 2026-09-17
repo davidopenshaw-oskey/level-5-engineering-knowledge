@@ -27,7 +27,7 @@ import { search } from "../db/search";
 import { expandWithGraphNeighbors, walkBoundedCluster } from "../db/graph-traversal";
 import { GenerationOutputSchema, renderSectionContent, type GenerationOutput } from "./section-content";
 import { parseTemplate, renderTemplateContract, type ParsedTemplate } from "./template";
-import { extractRealFactIds, checkFabrication, checkTemplateConformance, normalizeFactId } from "./validators";
+import { extractRealFactRefs, checkFabrication, checkTemplateConformance, normalizeFactRef } from "./validators";
 import { fetchVertexAiPricing, computeApproxCost, type TokenUsage } from "./pricing";
 import { loadMcpServerConfig } from "../config";
 
@@ -132,7 +132,7 @@ export function debugLogToolCall(name: string, input: unknown, output: unknown):
 // 30-searchfacts-dedup-fix-2026-09-09.md): the model re-searching a
 // concept it already had a confident hit for, six-plus times, wasting
 // real turns and quota.
-const seenFactIds = new Set<string>();
+const seenFactRefs = new Set<string>();
 
 // Real hardening, 2026-09-10 (found live against a real run, governance/
 // roadmap/mcp-direction/37-real-run-crash-tool-error-not-surfaced-2026-09-
@@ -142,7 +142,7 @@ const seenFactIds = new Set<string>();
 // argument that doesn't exist in facts), propagates uncaught and rejects
 // the whole ai.generate() call, discarding every real tool call already
 // made this run. A "[Fail-Closed]" error here means the MODEL gave bad
-// input (a fabricated or stale fact_id) -- recoverable by telling the model
+// input (a fabricated or stale fact_ref) -- recoverable by telling the model
 // what went wrong, not a reason to crash. Any other error (DB down,
 // network failure) still propagates and crashes loudly, unchanged -- this
 // project's existing "fail loud on the unexpected" discipline stays intact
@@ -163,7 +163,7 @@ export async function withToolErrorTrapping<T>(fn: () => Promise<T>): Promise<T 
 const searchFacts = ai.defineTool(
   {
     name: "search_facts",
-    description: "Search the codebase's fact index for real, code-derived evidence relevant to a question. Returns ranked candidate facts with real fact_ids. Each result carries alreadyRetrieved: true if you were already given this exact fact_id earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead.",
+    description: "Search the codebase's fact index for real, code-derived evidence relevant to a question. Returns ranked candidate facts with real factRefs -- a short, opaque reference token, not a readable identifier; copy it character for character wherever you need to pass it back. Each result carries alreadyRetrieved: true if you were already given this exact factRef earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead.",
     inputSchema: z.object({ query: z.string(), limit: z.number().optional() }),
   },
   async ({ query, limit }) => {
@@ -171,9 +171,9 @@ const searchFacts = ai.defineTool(
     const raw = await search(query, limit);
     const result = {
       ...raw,
-      results: raw.results.map(r => ({ ...r, alreadyRetrieved: seenFactIds.has(r.factId) })),
+      results: raw.results.map(r => ({ ...r, alreadyRetrieved: seenFactRefs.has(r.factRef) })),
     };
-    for (const r of raw.results) seenFactIds.add(r.factId);
+    for (const r of raw.results) seenFactRefs.add(r.factRef);
     debugLogToolCall("search_facts", { query, limit }, result);
     return result;
   }
@@ -182,18 +182,18 @@ const searchFacts = ai.defineTool(
 const getGraphNeighbors = ai.defineTool(
   {
     name: "get_graph_neighbors",
-    description: "Given real fact_ids (anchors), find their direct graph neighbors via cross_repo_edges (calls, API bindings, field bindings).",
-    inputSchema: z.object({ factIds: z.array(z.string()) }),
+    description: "Given real factRefs (anchors), find their direct graph neighbors via cross_repo_edges (calls, API bindings, field bindings).",
+    inputSchema: z.object({ factRefs: z.array(z.string()) }),
   },
-  async ({ factIds }) => {
-    console.log(`  [tool call] get_graph_neighbors(${JSON.stringify({ factIds })})`);
+  async ({ factRefs }) => {
+    console.log(`  [tool call] get_graph_neighbors(${JSON.stringify({ factRefs })})`);
     const db = pool();
     try {
       const result = await withToolErrorTrapping(async () => {
-        const anchorNumbers = new Map(factIds.map((id, i) => [id, i + 1]));
-        return expandWithGraphNeighbors(db, factIds, anchorNumbers);
+        const anchorNumbers = new Map(factRefs.map((ref, i) => [ref, i + 1]));
+        return expandWithGraphNeighbors(db, factRefs, anchorNumbers);
       });
-      debugLogToolCall("get_graph_neighbors", { factIds }, result);
+      debugLogToolCall("get_graph_neighbors", { factRefs }, result);
       return result;
     } finally {
       await db.end();
@@ -204,15 +204,15 @@ const getGraphNeighbors = ai.defineTool(
 const walkCluster = ai.defineTool(
   {
     name: "walk_cluster",
-    description: "Bounded multi-hop graph walk outward from one real starting fact_id. Check the returned 'truncated' flag before trusting the cluster as complete.",
-    inputSchema: z.object({ anchorFactId: z.string(), maxDepth: z.number().optional(), maxFacts: z.number().optional() }),
+    description: "Bounded multi-hop graph walk outward from one real starting factRef. Check the returned 'truncated' flag before trusting the cluster as complete.",
+    inputSchema: z.object({ anchorFactRef: z.string(), maxDepth: z.number().optional(), maxFacts: z.number().optional() }),
   },
-  async ({ anchorFactId, maxDepth, maxFacts }) => {
-    console.log(`  [tool call] walk_cluster(${JSON.stringify({ anchorFactId, maxDepth, maxFacts })})`);
+  async ({ anchorFactRef, maxDepth, maxFacts }) => {
+    console.log(`  [tool call] walk_cluster(${JSON.stringify({ anchorFactRef, maxDepth, maxFacts })})`);
     const db = pool();
     try {
-      const result = await withToolErrorTrapping(() => walkBoundedCluster(db, anchorFactId, { maxDepth, maxFacts }));
-      debugLogToolCall("walk_cluster", { anchorFactId, maxDepth, maxFacts }, result);
+      const result = await withToolErrorTrapping(() => walkBoundedCluster(db, anchorFactRef, { maxDepth, maxFacts }));
+      debugLogToolCall("walk_cluster", { anchorFactRef, maxDepth, maxFacts }, result);
       return result;
     } finally {
       await db.end();
@@ -233,17 +233,17 @@ export interface SnapshotFreshnessRow {
 // Same real query pattern generate-atomic-prd.ts's own renderSnapshotFreshness
 // uses -- reimplemented here (not imported) per this pipeline's existing
 // per-script isolation convention. Real, structural change from the pre-
-// migration version: driven by realFactIds (independently derived from this
+// migration version: driven by realFactRefs (independently derived from this
 // run's actual tool-call results, validators.ts) rather than the model's own
 // self-reported evidenceUsed field -- one fewer thing that depends on the
 // model reporting itself correctly. Returns structured rows, not prose --
 // the JSON sidecar (adr-008.md's audit-trail hook) needs real structured
 // data, not just markdown text to re-parse later.
-export async function getSnapshotFreshness(realFactIds: Set<string>): Promise<SnapshotFreshnessRow[]> {
-  if (realFactIds.size === 0) return [];
+export async function getSnapshotFreshness(realFactRefs: Set<string>): Promise<SnapshotFreshnessRow[]> {
+  if (realFactRefs.size === 0) return [];
   const db = pool();
   try {
-    const factRows = await db.query<{ repo: string }>(`SELECT DISTINCT repo FROM facts WHERE fact_id = ANY($1::text[])`, [[...realFactIds]]);
+    const factRows = await db.query<{ repo: string }>(`SELECT DISTINCT repo FROM facts WHERE fact_ref = ANY($1::text[])`, [[...realFactRefs]]);
     const repos = factRows.rows.map(r => r.repo);
     if (repos.length === 0) return [];
     const runRows = await db.query<{ repo: string; commit_sha: string; extracted_at: Date }>(
@@ -263,20 +263,39 @@ export async function getSnapshotFreshness(realFactIds: Set<string>): Promise<Sn
 
 // Real, separate query, 2026-09-07 (user request): getSnapshotFreshness
 // above only returns the DISTINCT repos touched, not which repo each
-// individual fact_id belongs to -- needed to group the Audit Trail (Step
+// individual fact_ref belongs to -- needed to group the Audit Trail (Step
 // 15) by repo so a cloud/Firebase dev and an Angular dev don't have to
 // scan one flat 400+ item list to find their own repo's facts. Real DB
 // lookup, not inferred from the fact_id's file-path prefix -- this
 // project's own "audit live state, not files" discipline applies to
 // grouping logic just as much as to freshness checks.
-export async function getFactRepoMap(realFactIds: Set<string>): Promise<Record<string, string>> {
-  if (realFactIds.size === 0) return {};
+//
+// Real, second map added 2026-09-17 (ADR-010): citations now carry
+// fact_ref (an opaque 40-char hash), but the Evidence Used/Audit Trail
+// appendix must still show the real, human-readable fact_id text (ADR-010
+// §2's "kept purely as a descriptive/citation label" promise) -- built here,
+// in the same query, rather than a second DB round-trip, since both maps
+// come off the same `facts` rows keyed by the same fact_ref set.
+export interface FactMaps {
+  factRepoMap: Record<string, string>;
+  factDisplayMap: Record<string, string>;
+}
+
+export async function getFactMaps(realFactRefs: Set<string>): Promise<FactMaps> {
+  if (realFactRefs.size === 0) return { factRepoMap: {}, factDisplayMap: {} };
   const db = pool();
   try {
-    const rows = await db.query<{ fact_id: string; repo: string }>(`SELECT fact_id, repo FROM facts WHERE fact_id = ANY($1::text[])`, [[...realFactIds]]);
-    const map: Record<string, string> = {};
-    for (const row of rows.rows) map[row.fact_id] = row.repo;
-    return map;
+    const rows = await db.query<{ fact_ref: string; fact_id: string; repo: string }>(
+      `SELECT fact_ref, fact_id, repo FROM facts WHERE fact_ref = ANY($1::text[])`,
+      [[...realFactRefs]]
+    );
+    const factRepoMap: Record<string, string> = {};
+    const factDisplayMap: Record<string, string> = {};
+    for (const row of rows.rows) {
+      factRepoMap[row.fact_ref] = row.repo;
+      factDisplayMap[row.fact_ref] = row.fact_id;
+    }
+    return { factRepoMap, factDisplayMap };
   } finally {
     await db.end();
   }
@@ -311,6 +330,8 @@ export interface RunMeta {
   turnsUsed: number;
   snapshotFreshness: SnapshotFreshnessRow[];
   factRepoMap: Record<string, string>;
+  // ref -> real fact_id display text, ADR-010 §2. See getFactMaps.
+  factDisplayMap: Record<string, string>;
   generatedAt: string;
   durationMs: number;
   usage: unknown;
@@ -349,25 +370,25 @@ export function formatDuration(ms: number): string {
 
 // Real, document-wide citation numbering, added 2026-09-06 (user feedback:
 // raw fact_ids repeated inline made a document hard for a human reviewer
-// to scan). Same fact_id always gets the same number, wherever it's cited
+// to scan). Same fact_ref always gets the same number, wherever it's cited
 // -- assigned in the order claims actually appear reading top to bottom
-// (real, human-natural order), not tool-call order. Any fact_id the agent
+// (real, human-natural order), not tool-call order. Any fact_ref the agent
 // gathered but never cited in a claim still gets a number (real, complete
 // audit trail) -- just appended after the cited ones, in the order
-// extractRealFactIds happened to collect them.
-function buildCitationNumbering(generated: GenerationOutput, realFactIds: Set<string>): Map<string, number> {
+// extractRealFactRefs happened to collect them.
+function buildCitationNumbering(generated: GenerationOutput, realFactRefs: Set<string>): Map<string, number> {
   const numbering = new Map<string, number>();
   let next = 1;
   for (const section of generated.sections) {
     if (section.content.kind !== "cited-list") continue;
     for (const item of section.content.items) {
-      for (const id of item.evidenceIds) {
-        if (!numbering.has(id)) numbering.set(id, next++);
+      for (const ref of item.evidenceRefs) {
+        if (!numbering.has(ref)) numbering.set(ref, next++);
       }
     }
   }
-  for (const id of realFactIds) {
-    if (!numbering.has(id)) numbering.set(id, next++);
+  for (const ref of realFactRefs) {
+    if (!numbering.has(ref)) numbering.set(ref, next++);
   }
   return numbering;
 }
@@ -381,7 +402,7 @@ function renderReservedContent(
   name: string,
   ctx: {
     businessRequest: string;
-    realFactIds: Set<string>;
+    realFactRefs: Set<string>;
     meta: RunMeta;
     numbering: Map<string, number>;
     repoNumbering: Map<string, number>;
@@ -432,11 +453,19 @@ function renderReservedContent(
       const citedFactEntries = allFactEntries.filter(([, n]) => ctx.citedNumbers?.has(n) ?? false);
       const uncitedFactEntries = allFactEntries.filter(([, n]) => !(ctx.citedNumbers?.has(n) ?? false));
 
+      // Real, added 2026-09-17 (ADR-010 §2): the numbering/entries above are
+      // now keyed by the opaque fact_ref, not the human-readable fact_id --
+      // ADR-010 requires this appendix to keep showing the real fact_id
+      // text, so every display site below looks it up via factDisplayMap
+      // (ref -> real fact_id text, built once in getFactMaps) rather than
+      // printing the ref itself.
+      const displayFor = (ref: string) => ctx.meta.factDisplayMap[ref] ?? ref;
+
       const factLines =
         citedFactEntries.length === 0
           ? "*(none)*"
           : citedFactEntries
-              .map(([id, n]) => `- <a id="evidence-${n}"></a>[**#${n}**](#cite-${n}) \`${id}\` [↩](#cite-${n})`)
+              .map(([ref, n]) => `- <a id="evidence-${n}"></a>[**#${n}**](#cite-${n}) \`${displayFor(ref)}\` [↩](#cite-${n})`)
               .join("\n");
 
       // Real regroup, 2026-09-07 (user request): one flat 400+ item list
@@ -448,11 +477,11 @@ function renderReservedContent(
       // subsection above (ctx.repoNumbering's R1/R2/R3 order) rather than
       // alphabetically, so the two subsections read consistently.
       const uncitedByRepo = new Map<string, [string, number][]>();
-      for (const [id, n] of uncitedFactEntries) {
-        const repo = ctx.meta.factRepoMap[id];
-        if (!repo) throw new Error(`[Fail-Closed] Uncited fact_id '${id}' has no known repo -- factRepoMap incomplete for this run.`);
+      for (const [ref, n] of uncitedFactEntries) {
+        const repo = ctx.meta.factRepoMap[ref];
+        if (!repo) throw new Error(`[Fail-Closed] Uncited fact_ref '${ref}' has no known repo -- factRepoMap incomplete for this run.`);
         if (!uncitedByRepo.has(repo)) uncitedByRepo.set(repo, []);
-        uncitedByRepo.get(repo)!.push([id, n]);
+        uncitedByRepo.get(repo)!.push([ref, n]);
       }
       const auditTrailBody =
         uncitedFactEntries.length === 0
@@ -465,7 +494,7 @@ function renderReservedContent(
                 // a scoped exception to this document's usual single-spaced
                 // MetaData/Evidence-Used rule, since a long uncited tail is
                 // exactly where scanability matters most.
-                const items = entries.map(([id, n]) => `- <a id="evidence-${n}"></a>**#${n}** \`${id}\``).join("\n\n");
+                const items = entries.map(([ref, n]) => `- <a id="evidence-${n}"></a>**#${n}** \`${displayFor(ref)}\``).join("\n\n");
                 return `<details>\n<summary>${repo} (${entries.length})</summary>\n\n<sub>\n\n${items}\n\n</sub>\n\n</details>`;
               })
               .join("\n\n");
@@ -608,23 +637,23 @@ export function assembleDocument(opts: {
   template: ParsedTemplate;
   generated: GenerationOutput;
   businessRequest: string;
-  realFactIds: Set<string>;
+  realFactRefs: Set<string>;
   meta: RunMeta;
 }): string {
-  const numbering = buildCitationNumbering(opts.generated, opts.realFactIds);
+  const numbering = buildCitationNumbering(opts.generated, opts.realFactRefs);
   const repoNumbering = buildRepoNumbering(opts.meta.snapshotFreshness);
   const generatedByHeading = new Map(opts.generated.sections.map(s => [s.heading, s.content]));
   const sections = opts.template.sections.map(section => {
     const body = section.reserved
       ? section.reserved === "evidence-used"
         ? EVIDENCE_USED_PLACEHOLDER
-        : renderReservedContent(section.reserved, { businessRequest: opts.businessRequest, realFactIds: opts.realFactIds, meta: opts.meta, numbering, repoNumbering })
+        : renderReservedContent(section.reserved, { businessRequest: opts.businessRequest, realFactRefs: opts.realFactRefs, meta: opts.meta, numbering, repoNumbering })
       : renderSectionContent(
           generatedByHeading.get(section.heading) ??
             (() => {
               throw new Error(`[Fail-Closed] Template declared heading '${section.heading}' but generation did not produce it -- checkTemplateConformance should have caught this already.`);
             })(),
-          id => numbering.get(id)!
+          ref => numbering.get(ref)!
         );
     return `## ${section.heading}\n\n${body}`;
   });
@@ -633,7 +662,7 @@ export function assembleDocument(opts: {
   const { markdown: anchored, citedNumbers } = injectFirstOccurrenceAnchors(draft);
   const evidenceUsedBody = renderReservedContent("evidence-used", {
     businessRequest: opts.businessRequest,
-    realFactIds: opts.realFactIds,
+    realFactRefs: opts.realFactRefs,
     meta: opts.meta,
     numbering,
     repoNumbering,
@@ -741,42 +770,63 @@ async function main() {
   // Two mandatory, code-enforced, fail-closed checks (adr-008.md §2) --
   // run unconditionally, before anything gets written, independent of
   // whatever the persona's prompt said.
-  const realFactIds = extractRealFactIds(response);
+  const realFactRefs = extractRealFactRefs(response);
+
+  // factRepoMap/factDisplayMap fetched here, ahead of the diagnostic below
+  // (real, structural move 2026-09-17, ADR-010): the diagnostic's reverse
+  // lookup needs factDisplayMap to exist before it runs; getSnapshotFreshness
+  // moved alongside it for the same reason (both are pure functions of
+  // realFactRefs, independent of `generated`/checkFabrication, so there's no
+  // real ordering requirement forcing them later).
+  const snapshotFreshness = await getSnapshotFreshness(realFactRefs);
+  const { factRepoMap, factDisplayMap } = await getFactMaps(realFactRefs);
 
   // Temporary diagnostic, 2026-09-08 (see debugLogToolCall above): before
   // the real, unchanged fail-closed check runs, report the nearest real
-  // fact_id (same last two pipe-delimited segments) for any citation about
-  // to be rejected -- turns "it fabricated something" into "it fabricated
-  // this specific divergence from this specific real fact_id". Real fix,
-  // 2026-09-17: a plain exact-match filter here would flag a real,
-  // whitespace-collapsed citation as "fabricated" even though
-  // checkFabrication (below) will correctly canonicalize and accept it --
-  // this preview now checks the same normalized-match condition so it
-  // doesn't print a false alarm for exactly the case that fix exists for.
-  const citedIds = generated.sections.flatMap(s => (s.content.kind === "cited-list" ? s.content.items.flatMap(i => i.evidenceIds) : []));
-  const normalizedRealFactIds = new Set([...realFactIds].map(normalizeFactId));
-  const fabricatedPreview = citedIds.filter(id => !realFactIds.has(id) && !normalizedRealFactIds.has(normalizeFactId(id)));
+  // evidence for any citation about to be rejected -- turns "it fabricated
+  // something" into "it fabricated this specific divergence from this
+  // specific real fact". Real fix, 2026-09-17: a plain exact-match filter
+  // here would flag a real, whitespace-collapsed citation as "fabricated"
+  // even though checkFabrication (below) will correctly canonicalize and
+  // accept it -- this preview now checks the same normalized-match
+  // condition so it doesn't print a false alarm for exactly the case that
+  // fix exists for.
+  //
+  // Rebuilt 2026-09-17 (ADR-010 §6c): the old version searched for a
+  // "near-miss" real fact_id by comparing trailing pipe-delimited segments
+  // -- meaningless now that citations are opaque 40-char hashes (a hash
+  // wrong by one character isn't structurally "close" to the right one).
+  // The one realistic failure mode left worth diagnosing is the model
+  // citing the human-readable fact_id DISPLAY text instead of the real
+  // factRef (e.g. a stale prompt or a confused generation reintroducing the
+  // old format) -- checked via factDisplayMap inverted, rather than a
+  // partial-match search that no longer has any real signal to search on.
+  const citedRefs = generated.sections.flatMap(s => (s.content.kind === "cited-list" ? s.content.items.flatMap(i => i.evidenceRefs) : []));
+  const normalizedRealFactRefs = new Set([...realFactRefs].map(normalizeFactRef));
+  const fabricatedPreview = citedRefs.filter(ref => !realFactRefs.has(ref) && !normalizedRealFactRefs.has(normalizeFactRef(ref)));
   if (fabricatedPreview.length > 0) {
-    console.error("\n=== Fabrication diagnostic: nearest real fact_id per fabricated citation ===");
-    for (const id of fabricatedPreview) {
-      const suffix = id.split("|").slice(-2).join("|");
-      const nearMiss = [...realFactIds].filter(r => r.split("|").slice(-2).join("|") === suffix);
-      console.error(`  fabricated: ${id}`);
-      console.error(`  near-miss real fact_id(s): ${nearMiss.length ? nearMiss.join(" | ") : "(none found -- not a near-miss, unrelated invention)"}`);
+    const displayTextToRef = new Map(Object.entries(factDisplayMap).map(([ref, display]) => [display, ref]));
+    console.error("\n=== Fabrication diagnostic ===");
+    for (const ref of fabricatedPreview) {
+      const matchingRef = displayTextToRef.get(ref);
+      console.error(`  fabricated: ${ref}`);
+      console.error(
+        matchingRef
+          ? `  this matches a real fact_id DISPLAY string (factRef ${matchingRef}), not its factRef -- the model likely cited the wrong field`
+          : `  no near-miss available under the opaque-reference scheme (a hash has no partial-match signal, unlike the old pipe-delimited fact_id)`
+      );
     }
   }
 
-  generated = checkFabrication(generated, realFactIds);
+  generated = checkFabrication(generated, realFactRefs);
   checkTemplateConformance(generated, template.llmHeadings);
-  console.log(`\n=== Both mandatory validators passed (${realFactIds.size} real fact_id(s) seen this run) ===`);
+  console.log(`\n=== Both mandatory validators passed (${realFactRefs.size} real fact_ref(s) seen this run) ===`);
 
   const toolCallCounts: Record<string, number> = {};
   for (const call of toolCalls) toolCallCounts[call.name] = (toolCallCounts[call.name] ?? 0) + 1;
 
   const RUN_KIND = process.env.RUN_KIND === "considered" ? "considered" : "test";
   const workflowName = process.env.WORKFLOW_NAME ?? path.basename(businessRequestPath).replace(/\.[^.]+$/, "");
-  const snapshotFreshness = await getSnapshotFreshness(realFactIds);
-  const factRepoMap = await getFactRepoMap(realFactIds);
   const durationMs = Date.now() - startedAt;
   console.log(`\n=== Real run duration: ${formatDuration(durationMs)} ===`);
 
@@ -803,6 +853,7 @@ async function main() {
     turnsUsed,
     snapshotFreshness,
     factRepoMap,
+    factDisplayMap,
     durationMs,
     generatedAt: new Date().toISOString(),
     usage: response.usage,
@@ -811,7 +862,7 @@ async function main() {
     pricingEffectiveTime: pricing?.pricingEffectiveTime ?? null,
   };
 
-  const markdown = assembleDocument({ workflowName, template, generated, businessRequest, realFactIds, meta });
+  const markdown = assembleDocument({ workflowName, template, generated, businessRequest, realFactRefs, meta });
   const { mdPath, metaPath } = await writeOutput({ workflowName, runKind: RUN_KIND, markdown, meta });
 
   console.log(`\nWrote ${mdPath}`);

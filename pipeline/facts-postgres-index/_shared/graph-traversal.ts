@@ -3,7 +3,7 @@
 // © Oskey SAS. All rights reserved.
 //
 // Task 5b of governance/roadmap/facts-serving-strategy/14-inbound-outbound-
-// surface-graph-tasklist.md: given a real fact_id (a vector-search anchor),
+// surface-graph-tasklist.md: given a real fact_ref (a vector-search anchor),
 // find its direct graph neighbors via cross_repo_edges. Depth 1 only --
 // task 4's own verification already showed one anchor with 9 direct
 // outgoing edges, so depth beyond 1 hop risks combinatorial noise long
@@ -16,14 +16,34 @@
 // nice-to-have.
 //
 // Filtered to resolution_status IN ('resolved', 'confirmed') -- an
-// unresolved edge has no real target_fact_id to pull in anyway (verified
+// unresolved edge has no real target_fact_ref to pull in anyway (verified
 // in task 5a: null exactly and only for unresolved edges), but this is an
 // explicit filter, not an accident of the data shape.
+//
+// fact_ref (ADR-010, 2026-09-17): identity/join key is now the opaque
+// 40-char SHA1 hex `fact_ref`, not the natural-key `fact_id` text -- see
+// governance/adrs/adr-010.md. fact_id is kept in the facts table purely as
+// a descriptive/citation label; this module never reads it.
 
 import type { Pool } from "pg";
 
+// Real, defensive structural check (ADR-010 §8 item 2, 2026-09-17): fact_ref
+// is a GENERATED column with a fixed format (40 lowercase hex chars), so any
+// tool argument that doesn't match it is a real wiring mistake -- a stale
+// client still sending the old fact_id text, or an un-migrated fork copy --
+// not something to silently accept and let checkFabrication eventually
+// notice downstream. Logs, doesn't throw: this is a diagnostic, not a
+// fail-closed validator (that job belongs to validators.ts's own checks
+// against this run's real tool results).
+const FACT_REF_PATTERN = /^[0-9a-f]{40}$/;
+function warnIfNotFactRef(value: string, source: string): void {
+  if (!FACT_REF_PATTERN.test(value)) {
+    console.warn(`[fact_ref format warning] ${source} received '${value}', not a 40-character lowercase hex fact_ref -- possible stale client or un-migrated fork copy.`);
+  }
+}
+
 export interface GraphNeighbor {
-  factId: string;
+  factRef: string;
   direction: "outgoing" | "incoming";
   connectionType: string;
   otherSymbol: string;
@@ -32,7 +52,7 @@ export interface GraphNeighbor {
 }
 
 export interface GraphNeighborFact {
-  factId: string;
+  factRef: string;
   repo: string;
   module: string;
   kind: string;
@@ -51,52 +71,54 @@ export interface GraphNeighborFact {
 // would be a real duplicate, not a new piece of evidence).
 export async function expandWithGraphNeighbors(
   db: Pool,
-  anchorFactIds: string[],
+  anchorFactRefs: string[],
   anchorNumbers: Map<string, number>
 ): Promise<GraphNeighborFact[]> {
-  const anchorSet = new Set(anchorFactIds);
-  const byNeighborFactId = new Map<string, GraphNeighborFact["connections"]>();
+  for (const anchorFactRef of anchorFactRefs) warnIfNotFactRef(anchorFactRef, "expandWithGraphNeighbors");
 
-  for (const anchorFactId of anchorFactIds) {
-    const neighbors = await findGraphNeighbors(db, anchorFactId);
-    const anchorNumber = anchorNumbers.get(anchorFactId);
+  const anchorSet = new Set(anchorFactRefs);
+  const byNeighborFactRef = new Map<string, GraphNeighborFact["connections"]>();
+
+  for (const anchorFactRef of anchorFactRefs) {
+    const neighbors = await findGraphNeighbors(db, anchorFactRef);
+    const anchorNumber = anchorNumbers.get(anchorFactRef);
     if (anchorNumber === undefined) {
-      throw new Error(`[Fail-Closed] Anchor fact_id '${anchorFactId}' has no assigned number -- anchorNumbers map is incomplete.`);
+      throw new Error(`[Fail-Closed] Anchor fact_ref '${anchorFactRef}' has no assigned number -- anchorNumbers map is incomplete.`);
     }
     for (const n of neighbors) {
-      if (anchorSet.has(n.factId)) continue; // already a numbered anchor, not new evidence
-      const existing = byNeighborFactId.get(n.factId) ?? [];
+      if (anchorSet.has(n.factRef)) continue; // already a numbered anchor, not new evidence
+      const existing = byNeighborFactRef.get(n.factRef) ?? [];
       existing.push({ anchorNumber, direction: n.direction, connectionType: n.connectionType });
-      byNeighborFactId.set(n.factId, existing);
+      byNeighborFactRef.set(n.factRef, existing);
     }
   }
 
-  if (byNeighborFactId.size === 0) return [];
+  if (byNeighborFactRef.size === 0) return [];
 
-  const neighborFactIds = [...byNeighborFactId.keys()];
-  const rows = await db.query<{ fact_id: string; repo: string; module: string; kind: string; symbol_name: string | null; description: string }>(
-    `SELECT fact_id, repo, module, kind, symbol_name, description FROM facts WHERE fact_id = ANY($1::text[])`,
-    [neighborFactIds]
+  const neighborFactRefs = [...byNeighborFactRef.keys()];
+  const rows = await db.query<{ fact_ref: string; repo: string; module: string; kind: string; symbol_name: string | null; description: string }>(
+    `SELECT fact_ref, repo, module, kind, symbol_name, description FROM facts WHERE fact_ref = ANY($1::text[])`,
+    [neighborFactRefs]
   );
-  const realFactIds = new Set(rows.rows.map(r => r.fact_id));
-  const missing = neighborFactIds.filter(id => !realFactIds.has(id));
+  const realFactRefs = new Set(rows.rows.map(r => r.fact_ref));
+  const missing = neighborFactRefs.filter(ref => !realFactRefs.has(ref));
   if (missing.length > 0) {
-    throw new Error(`[Fail-Closed] Graph edge(s) reference fact_id(s) not found in facts: ${missing.join(", ")} -- edges may be stale relative to the current facts index.`);
+    throw new Error(`[Fail-Closed] Graph edge(s) reference fact_ref(s) not found in facts: ${missing.join(", ")} -- edges may be stale relative to the current facts index.`);
   }
 
   return rows.rows.map(r => ({
-    factId: r.fact_id,
+    factRef: r.fact_ref,
     repo: r.repo,
     module: r.module,
     kind: r.kind,
     symbolName: r.symbol_name,
     description: r.description,
-    connections: byNeighborFactId.get(r.fact_id)!,
+    connections: byNeighborFactRef.get(r.fact_ref)!,
   }));
 }
 
 export interface ClusterMember {
-  factId: string;
+  factRef: string;
   repo: string;
   module: string;
   kind: string;
@@ -106,8 +128,8 @@ export interface ClusterMember {
 }
 
 export interface ClusterEdge {
-  sourceFactId: string;
-  targetFactId: string;
+  sourceFactRef: string;
+  targetFactRef: string;
   connectionType: string;
 }
 
@@ -150,32 +172,33 @@ export interface BoundedClusterResult {
 // incidental coupling worth actually filtering out.
 export async function walkBoundedCluster(
   db: Pool,
-  anchorFactId: string,
+  anchorFactRef: string,
   opts: { maxDepth?: number; maxFacts?: number } = {}
 ): Promise<BoundedClusterResult> {
+  warnIfNotFactRef(anchorFactRef, "walkBoundedCluster");
   const maxDepth = opts.maxDepth ?? 6; // same real bound proven safe in build-form-field-lineage-edges.ts's resolveFieldRecursive()
   const maxFacts = opts.maxFacts ?? 80; // generous but real -- chosen to observe real pilot behavior, not asserted correct on paper
 
-  const depthByFactId = new Map<string, number>([[anchorFactId, 0]]);
+  const depthByFactRef = new Map<string, number>([[anchorFactRef, 0]]);
   const edges: ClusterEdge[] = [];
-  let frontier = [anchorFactId];
+  let frontier = [anchorFactRef];
   let depth = 0;
   let truncated = false;
 
   while (frontier.length > 0 && depth < maxDepth) {
     const nextFrontier: string[] = [];
-    for (const factId of frontier) {
-      const neighbors = await findGraphNeighbors(db, factId);
+    for (const factRef of frontier) {
+      const neighbors = await findGraphNeighbors(db, factRef);
       for (const n of neighbors) {
         edges.push({
-          sourceFactId: n.direction === "outgoing" ? factId : n.factId,
-          targetFactId: n.direction === "outgoing" ? n.factId : factId,
+          sourceFactRef: n.direction === "outgoing" ? factRef : n.factRef,
+          targetFactRef: n.direction === "outgoing" ? n.factRef : factRef,
           connectionType: n.connectionType,
         });
-        if (depthByFactId.has(n.factId)) continue; // cycle-safe: already visited, same discipline as resolveFieldRecursive()'s visited set
-        if (depthByFactId.size >= maxFacts) { truncated = true; continue; }
-        depthByFactId.set(n.factId, depth + 1);
-        nextFrontier.push(n.factId);
+        if (depthByFactRef.has(n.factRef)) continue; // cycle-safe: already visited, same discipline as resolveFieldRecursive()'s visited set
+        if (depthByFactRef.size >= maxFacts) { truncated = true; continue; }
+        depthByFactRef.set(n.factRef, depth + 1);
+        nextFrontier.push(n.factRef);
       }
     }
     frontier = nextFrontier;
@@ -183,43 +206,43 @@ export async function walkBoundedCluster(
   }
   if (frontier.length > 0 && depth >= maxDepth) truncated = true; // real neighbors left unexplored at the depth bound, not just an empty frontier
 
-  const allFactIds = [...depthByFactId.keys()];
-  const rows = await db.query<{ fact_id: string; repo: string; module: string; kind: string; symbol_name: string | null; description: string }>(
-    `SELECT fact_id, repo, module, kind, symbol_name, description FROM facts WHERE fact_id = ANY($1::text[])`,
-    [allFactIds]
+  const allFactRefs = [...depthByFactRef.keys()];
+  const rows = await db.query<{ fact_ref: string; repo: string; module: string; kind: string; symbol_name: string | null; description: string }>(
+    `SELECT fact_ref, repo, module, kind, symbol_name, description FROM facts WHERE fact_ref = ANY($1::text[])`,
+    [allFactRefs]
   );
-  const realFactIds = new Set(rows.rows.map(r => r.fact_id));
-  const missing = allFactIds.filter(id => !realFactIds.has(id));
+  const realFactRefs = new Set(rows.rows.map(r => r.fact_ref));
+  const missing = allFactRefs.filter(ref => !realFactRefs.has(ref));
   if (missing.length > 0) {
-    throw new Error(`[Fail-Closed] Graph edge(s) reference fact_id(s) not found in facts: ${missing.join(", ")} -- edges may be stale relative to the current facts index.`);
+    throw new Error(`[Fail-Closed] Graph edge(s) reference fact_ref(s) not found in facts: ${missing.join(", ")} -- edges may be stale relative to the current facts index.`);
   }
 
   const members: ClusterMember[] = rows.rows.map(r => ({
-    factId: r.fact_id,
+    factRef: r.fact_ref,
     repo: r.repo,
     module: r.module,
     kind: r.kind,
     symbolName: r.symbol_name,
     description: r.description,
-    depth: depthByFactId.get(r.fact_id)!,
+    depth: depthByFactRef.get(r.fact_ref)!,
   }));
 
   return { members, edges, truncated };
 }
 
-export async function findGraphNeighbors(db: Pool, factId: string): Promise<GraphNeighbor[]> {
-  const result = await db.query<{ direction: "outgoing" | "incoming"; connection_type: string; other_fact_id: string; other_symbol: string; resolution_status: string; details: string | null }>(
-    `SELECT 'outgoing' as direction, connection_type, target_fact_id as other_fact_id, target_symbol as other_symbol, resolution_status, details
+export async function findGraphNeighbors(db: Pool, factRef: string): Promise<GraphNeighbor[]> {
+  const result = await db.query<{ direction: "outgoing" | "incoming"; connection_type: string; other_fact_ref: string; other_symbol: string; resolution_status: string; details: string | null }>(
+    `SELECT 'outgoing' as direction, connection_type, target_fact_ref as other_fact_ref, target_symbol as other_symbol, resolution_status, details
        FROM cross_repo_edges
-      WHERE source_fact_id = $1 AND resolution_status IN ('resolved', 'confirmed') AND target_fact_id IS NOT NULL
+      WHERE source_fact_ref = $1 AND resolution_status IN ('resolved', 'confirmed') AND target_fact_ref IS NOT NULL
      UNION ALL
-     SELECT 'incoming' as direction, connection_type, source_fact_id as other_fact_id, source_symbol as other_symbol, resolution_status, details
+     SELECT 'incoming' as direction, connection_type, source_fact_ref as other_fact_ref, source_symbol as other_symbol, resolution_status, details
        FROM cross_repo_edges
-      WHERE target_fact_id = $1 AND resolution_status IN ('resolved', 'confirmed')`,
-    [factId]
+      WHERE target_fact_ref = $1 AND resolution_status IN ('resolved', 'confirmed')`,
+    [factRef]
   );
   return result.rows.map(r => ({
-    factId: r.other_fact_id,
+    factRef: r.other_fact_ref,
     direction: r.direction,
     connectionType: r.connection_type,
     otherSymbol: r.other_symbol,

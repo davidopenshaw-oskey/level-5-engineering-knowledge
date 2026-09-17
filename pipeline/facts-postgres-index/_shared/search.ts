@@ -58,7 +58,7 @@ const DEFAULT_RESULT_LIMIT = 25;
 const VECTOR_DISTANCE_CONFIDENCE_THRESHOLD = 0.76;
 
 export interface SearchResult {
-  factId: string;
+  factRef: string;
   repo: string;
   module: string;
   kind: string;
@@ -92,14 +92,14 @@ export async function search(query: string, limit?: number): Promise<SearchRespo
     const { embedding } = await embedSearchQuery(query);
 
     const vectorRows = await db.query(
-      `SELECT fact_id, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
+      `SELECT fact_ref, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
        FROM facts WHERE embedding IS NOT NULL
        ORDER BY distance LIMIT $2`,
       [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT]
     );
 
     const results: SearchResult[] = vectorRows.rows.map(row => ({
-      factId: row.fact_id, repo: row.repo, module: row.module, kind: row.kind,
+      factRef: row.fact_ref, repo: row.repo, module: row.module, kind: row.kind,
       symbolName: row.symbol_name, description: row.description, vectorDistance: row.distance,
     }));
 

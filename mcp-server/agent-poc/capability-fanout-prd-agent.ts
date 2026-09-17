@@ -8,10 +8,10 @@
 // sequentially, the per-content-kind merge rules).
 //
 // Reuses, unchanged, per the design doc's own explicit instruction:
-// assembleDocument/writeOutput/RunMeta/getSnapshotFreshness/getFactRepoMap/
+// assembleDocument/writeOutput/RunMeta/getSnapshotFreshness/getFactMaps/
 // pool/retryOn429/withToolErrorTrapping/debugLogToolCall (all exported from
 // atomic-prd-agent.ts for this reuse) and checkFabrication/
-// checkTemplateConformance/extractRealFactIds (validators.ts, untouched).
+// checkTemplateConformance/extractRealFactRefs (validators.ts, untouched).
 // The only genuinely new logic here is the routing pass, the per-capability
 // tool scoping, and the merge step.
 import "dotenv/config";
@@ -24,7 +24,7 @@ import { search, type SearchResult } from "../db/search";
 import { expandWithGraphNeighbors, walkBoundedCluster } from "../db/graph-traversal";
 import { GenerationOutputSchema, type GenerationOutput, type SectionContent } from "./section-content";
 import { parseTemplate, type ParsedTemplate, type TemplateSection } from "./template";
-import { extractRealFactIds, checkFabrication, checkTemplateConformance } from "./validators";
+import { extractRealFactRefs, checkFabrication, checkTemplateConformance } from "./validators";
 import { fetchVertexAiPricing, computeApproxCost, type TokenUsage } from "./pricing";
 import {
   ai,
@@ -35,7 +35,7 @@ import {
   assembleDocument,
   writeOutput,
   getSnapshotFreshness,
-  getFactRepoMap,
+  getFactMaps,
   formatDuration,
   retryOn429,
   withToolErrorTrapping,
@@ -82,17 +82,17 @@ export async function routeCapabilities(
 // ---------------------------------------------------------------------------
 // Step 2: per-capability synthesis. Each capability gets its own real
 // conversation: its own module-scoped search_facts, its own fresh
-// seenFactIds dedup set, its own smaller MAX_TURNS. walk_cluster/
+// seenFactRefs dedup set, its own smaller MAX_TURNS. walk_cluster/
 // get_graph_neighbors are deliberately NOT module-scoped -- see design doc
 // §3 for why (the real Q1a cross-module FIELD_BINDING case this whole task
 // exists to test would be unreachable otherwise).
 // ---------------------------------------------------------------------------
 
-function makeCapabilityTools(moduleFilter: string, seenFactIds: Set<string>) {
+function makeCapabilityTools(moduleFilter: string, seenFactRefs: Set<string>) {
   const searchFacts = ai.defineTool(
     {
       name: "search_facts",
-      description: `Search the codebase's fact index for real, code-derived evidence relevant to this business request -- restricted to the '${moduleFilter}' module/capability only. This is one focused synthesis pass among several separate calls, each scoped to a different module of the same overall request; other modules are covered by other calls, not this one. Returns ranked candidate facts with real fact_ids, each carrying alreadyRetrieved: true if you were already given this exact fact_id earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead.`,
+      description: `Search the codebase's fact index for real, code-derived evidence relevant to this business request -- restricted to the '${moduleFilter}' module/capability only. This is one focused synthesis pass among several separate calls, each scoped to a different module of the same overall request; other modules are covered by other calls, not this one. Returns ranked candidate facts with real factRefs -- a short, opaque reference token, not a readable identifier; copy it character for character wherever you need to pass it back. Each result carries alreadyRetrieved: true if you were already given this exact factRef earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead.`,
       inputSchema: z.object({ query: z.string(), limit: z.number().optional() }),
     },
     async ({ query, limit }) => {
@@ -100,9 +100,9 @@ function makeCapabilityTools(moduleFilter: string, seenFactIds: Set<string>) {
       const raw = await search(query, limit, moduleFilter);
       const result = {
         ...raw,
-        results: raw.results.map(r => ({ ...r, alreadyRetrieved: seenFactIds.has(r.factId) })),
+        results: raw.results.map(r => ({ ...r, alreadyRetrieved: seenFactRefs.has(r.factRef) })),
       };
-      for (const r of raw.results) seenFactIds.add(r.factId);
+      for (const r of raw.results) seenFactRefs.add(r.factRef);
       debugLogToolCall(`search_facts[${moduleFilter}]`, { query, limit }, result);
       return result;
     }
@@ -111,18 +111,18 @@ function makeCapabilityTools(moduleFilter: string, seenFactIds: Set<string>) {
   const getGraphNeighbors = ai.defineTool(
     {
       name: "get_graph_neighbors",
-      description: `Given real fact_ids (anchors) from ANY module, find their direct graph neighbors via cross_repo_edges (calls, API bindings, field bindings). Neighbors may belong to a different module or repo than your assigned '${moduleFilter}' capability -- that's expected, and citing one is correct whenever it genuinely supports a real claim about your own module's code (for example, a UI binding that consumes a field your module owns).`,
-      inputSchema: z.object({ factIds: z.array(z.string()) }),
+      description: `Given real factRefs (anchors) from ANY module, find their direct graph neighbors via cross_repo_edges (calls, API bindings, field bindings). Neighbors may belong to a different module or repo than your assigned '${moduleFilter}' capability -- that's expected, and citing one is correct whenever it genuinely supports a real claim about your own module's code (for example, a UI binding that consumes a field your module owns).`,
+      inputSchema: z.object({ factRefs: z.array(z.string()) }),
     },
-    async ({ factIds }) => {
-      console.log(`    [tool call, module=${moduleFilter}] get_graph_neighbors(${JSON.stringify({ factIds })})`);
+    async ({ factRefs }) => {
+      console.log(`    [tool call, module=${moduleFilter}] get_graph_neighbors(${JSON.stringify({ factRefs })})`);
       const db = pool();
       try {
         const result = await withToolErrorTrapping(async () => {
-          const anchorNumbers = new Map(factIds.map((id, i) => [id, i + 1]));
-          return expandWithGraphNeighbors(db, factIds, anchorNumbers);
+          const anchorNumbers = new Map(factRefs.map((ref, i) => [ref, i + 1]));
+          return expandWithGraphNeighbors(db, factRefs, anchorNumbers);
         });
-        debugLogToolCall(`get_graph_neighbors[${moduleFilter}]`, { factIds }, result);
+        debugLogToolCall(`get_graph_neighbors[${moduleFilter}]`, { factRefs }, result);
         return result;
       } finally {
         await db.end();
@@ -133,15 +133,15 @@ function makeCapabilityTools(moduleFilter: string, seenFactIds: Set<string>) {
   const walkCluster = ai.defineTool(
     {
       name: "walk_cluster",
-      description: `Bounded multi-hop graph walk outward from one real starting fact_id, in both directions, across any module or repo it really connects to -- not restricted to your '${moduleFilter}' capability. Check the returned 'truncated' flag before trusting the cluster as complete.`,
-      inputSchema: z.object({ anchorFactId: z.string(), maxDepth: z.number().optional(), maxFacts: z.number().optional() }),
+      description: `Bounded multi-hop graph walk outward from one real starting factRef, in both directions, across any module or repo it really connects to -- not restricted to your '${moduleFilter}' capability. Check the returned 'truncated' flag before trusting the cluster as complete.`,
+      inputSchema: z.object({ anchorFactRef: z.string(), maxDepth: z.number().optional(), maxFacts: z.number().optional() }),
     },
-    async ({ anchorFactId, maxDepth, maxFacts }) => {
-      console.log(`    [tool call, module=${moduleFilter}] walk_cluster(${JSON.stringify({ anchorFactId, maxDepth, maxFacts })})`);
+    async ({ anchorFactRef, maxDepth, maxFacts }) => {
+      console.log(`    [tool call, module=${moduleFilter}] walk_cluster(${JSON.stringify({ anchorFactRef, maxDepth, maxFacts })})`);
       const db = pool();
       try {
-        const result = await withToolErrorTrapping(() => walkBoundedCluster(db, anchorFactId, { maxDepth, maxFacts }));
-        debugLogToolCall(`walk_cluster[${moduleFilter}]`, { anchorFactId, maxDepth, maxFacts }, result);
+        const result = await withToolErrorTrapping(() => walkBoundedCluster(db, anchorFactRef, { maxDepth, maxFacts }));
+        debugLogToolCall(`walk_cluster[${moduleFilter}]`, { anchorFactRef, maxDepth, maxFacts }, result);
         return result;
       } finally {
         await db.end();
@@ -207,8 +207,8 @@ async function runCapability(opts: {
   template: ParsedTemplate;
   maxTurns: number;
 }): Promise<CapabilityRunResult> {
-  const seenFactIds = new Set<string>();
-  const { searchFacts, getGraphNeighbors, walkCluster } = makeCapabilityTools(opts.module, seenFactIds);
+  const seenFactRefs = new Set<string>();
+  const { searchFacts, getGraphNeighbors, walkCluster } = makeCapabilityTools(opts.module, seenFactRefs);
   const systemPrompt = `${opts.systemPersona}\n\n${renderCapabilityContract(opts.template, opts.module)}`;
 
   const response = await ai.generate({
@@ -279,11 +279,11 @@ function mergeOneHeading(templateSection: TemplateSection, runs: CapabilityRunRe
     }
     case "cited-list": {
       const seen = new Set<string>();
-      const items: { claim: string; evidenceIds: string[] }[] = [];
+      const items: { claim: string; evidenceRefs: string[] }[] = [];
       for (const c of contributions) {
         const content = c.content as Extract<SectionContent, { kind: "cited-list" }>;
         for (const item of content.items) {
-          const key = `${item.claim.trim()}::${[...item.evidenceIds].sort().join(",")}`;
+          const key = `${item.claim.trim()}::${[...item.evidenceRefs].sort().join(",")}`;
           if (seen.has(key)) continue;
           seen.add(key);
           items.push(item);
@@ -404,14 +404,14 @@ async function main() {
   // runs them on its single output. checkFabrication returns a new,
   // canonicalized output (real fix, 2026-09-17, see validators.ts) --
   // reassigned here so assembleDocument below sees the real, verbatim
-  // fact_id strings, not whatever whitespace-collapsed form a capability
+  // fact_ref strings, not whatever whitespace-collapsed form a capability
   // call happened to cite.
-  const realFactIds = new Set<string>();
-  for (const run of runs) for (const id of extractRealFactIds(run.response)) realFactIds.add(id);
+  const realFactRefs = new Set<string>();
+  for (const run of runs) for (const ref of extractRealFactRefs(run.response)) realFactRefs.add(ref);
 
-  generated = checkFabrication(generated, realFactIds);
+  generated = checkFabrication(generated, realFactRefs);
   checkTemplateConformance(generated, template.llmHeadings);
-  console.log(`\n=== Both mandatory validators passed (${realFactIds.size} real fact_id(s) seen across all capability calls) ===`);
+  console.log(`\n=== Both mandatory validators passed (${realFactRefs.size} real fact_ref(s) seen across all capability calls) ===`);
 
   const toolCallCounts: Record<string, number> = {};
   const perCapabilityToolCalls: Record<string, Record<string, number>> = {};
@@ -430,8 +430,8 @@ async function main() {
 
   const RUN_KIND = process.env.RUN_KIND === "considered" ? "considered" : "test";
   const workflowName = process.env.WORKFLOW_NAME ?? path.basename(businessRequestPath).replace(/\.[^.]+$/, "");
-  const snapshotFreshness = await getSnapshotFreshness(realFactIds);
-  const factRepoMap = await getFactRepoMap(realFactIds);
+  const snapshotFreshness = await getSnapshotFreshness(realFactRefs);
+  const { factRepoMap, factDisplayMap } = await getFactMaps(realFactRefs);
   const durationMs = Date.now() - startedAt;
   console.log(`\n=== Real run duration: ${formatDuration(durationMs)} ===`);
 
@@ -464,6 +464,7 @@ async function main() {
     turnsUsed,
     snapshotFreshness,
     factRepoMap,
+    factDisplayMap,
     durationMs,
     generatedAt: new Date().toISOString(),
     usage: runs.map(r => r.response.usage),
@@ -480,7 +481,7 @@ async function main() {
     },
   };
 
-  const markdown = assembleDocument({ workflowName, template, generated, businessRequest, realFactIds, meta });
+  const markdown = assembleDocument({ workflowName, template, generated, businessRequest, realFactRefs, meta });
   const { mdPath, metaPath } = await writeOutput({ workflowName, runKind: RUN_KIND, markdown, meta });
 
   console.log(`\nWrote ${mdPath}`);

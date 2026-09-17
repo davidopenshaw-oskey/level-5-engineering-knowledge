@@ -11,7 +11,7 @@ export const SectionContentSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("list"), checkable: z.boolean(), items: z.array(z.string()) }),
   z.object({
     kind: z.literal("cited-list"),
-    items: z.array(z.object({ claim: z.string(), evidenceIds: z.array(z.string()) })),
+    items: z.array(z.object({ claim: z.string(), evidenceRefs: z.array(z.string()) })),
   }),
   z.object({
     kind: z.literal("user-stories"),
@@ -36,17 +36,18 @@ export type GenerationOutput = z.infer<typeof GenerationOutputSchema>;
 // reads.
 //
 // citationNumberOf is optional and used only by "cited-list": real fact_ids
-// are long and repeating them inline made a real document hard for a human
-// reviewer to scan (user feedback, 2026-09-06). When provided, each
-// evidenceIds entry is looked up to its real, stable, document-wide
-// citation number (assembleDocument in atomic-prd-agent.ts assigns these,
-// same fact_id always gets the same number wherever it's cited) and
-// rendered as a linked "(see #N)" instead of the raw fact_id string.
-// Duplicate numbers within one claim's own evidenceIds (the same fact_id
-// listed twice by the model) are collapsed to one reference, not repeated.
-// Falls back to raw fact_ids when no lookup is given, so this function
-// stays usable standalone (e.g. in isolated tests) without a full document
-// context.
+// were long and repeating them inline made a real document hard for a human
+// reviewer to scan (user feedback, 2026-09-06; the fact_id length problem
+// itself is now moot post-ADR-010's fact_ref, but the numbered-citation UX
+// this enabled is kept). When provided, each evidenceRefs entry is looked up
+// to its real, stable, document-wide citation number (assembleDocument in
+// atomic-prd-agent.ts assigns these, same fact_ref always gets the same
+// number wherever it's cited) and rendered as a linked "(see #N)" instead of
+// the raw fact_ref string. Duplicate numbers within one claim's own
+// evidenceRefs (the same fact_ref listed twice by the model) are collapsed
+// to one reference, not repeated. Falls back to raw fact_refs when no lookup
+// is given, so this function stays usable standalone (e.g. in isolated
+// tests) without a full document context.
 // Real readability fix, 2026-09-06 (user feedback): a blank line between
 // every item in a rendered kind, real ones -- a tight, no-space list of
 // multi-clause claims read as a wall of text. cited-list additionally
@@ -57,7 +58,7 @@ export type GenerationOutput = z.infer<typeof GenerationOutputSchema>;
 // NOT applied to MetaData or Evidence Used -- both are dense, scan-once
 // reference blocks, not prose to read line by line; the user was explicit
 // these two stay as they are.
-export function renderSectionContent(content: SectionContent, citationNumberOf?: (factId: string) => number): string {
+export function renderSectionContent(content: SectionContent, citationNumberOf?: (factRef: string) => number): string {
   switch (content.kind) {
     case "prose":
       return content.text;
@@ -65,15 +66,15 @@ export function renderSectionContent(content: SectionContent, citationNumberOf?:
       return content.items.map(i => (content.checkable ? `- [ ] ${i}` : `- ${i}`)).join("\n\n");
     case "cited-list":
       return content.items
-        .map(i => `- ${i.claim}<br>(see ${renderCitations(i.evidenceIds, citationNumberOf)})`)
+        .map(i => `- ${i.claim}<br>(see ${renderCitations(i.evidenceRefs, citationNumberOf)})`)
         .join("\n\n");
     case "user-stories":
       return content.items.map(s => `- As a ${s.actor}, I want ${s.goal}, so that ${s.reason}.`).join("\n\n");
   }
 }
 
-function renderCitations(evidenceIds: string[], citationNumberOf?: (factId: string) => number): string {
-  if (!citationNumberOf) return evidenceIds.join(", ");
-  const numbers = [...new Set(evidenceIds.map(citationNumberOf))].sort((a, b) => a - b);
+function renderCitations(evidenceRefs: string[], citationNumberOf?: (factRef: string) => number): string {
+  if (!citationNumberOf) return evidenceRefs.join(", ");
+  const numbers = [...new Set(evidenceRefs.map(citationNumberOf))].sort((a, b) => a - b);
   return numbers.map(n => `[#${n}](#evidence-${n})`).join(", ");
 }
