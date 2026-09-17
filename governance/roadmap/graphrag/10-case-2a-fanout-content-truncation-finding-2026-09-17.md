@@ -29,6 +29,16 @@ Both strings are already missing the args segment **before the model ever wrote 
 
 **A real, structural gap this surfaces**: `get_graph_neighbors`/`walk_cluster` (`mcp-server/db/graph-traversal.ts`) don't validate that an anchor `factId` passed in actually resolves to anything real before querying `cross_repo_edges`. A truncated/wrong anchor just silently returns zero neighbors — not an error, no `[Fail-Closed]`-style feedback the way an invalid `walk_cluster`/`get_graph_neighbors` argument sometimes does elsewhere in this codebase (`withToolErrorTrapping`'s own docstring describes exactly this class of check for *other* argument-validation cases). The model never learned, in-conversation, that the identifier it was working with had already gone stale — it just got an empty neighbor list and moved on, then later cited the same already-wrong string as if it were still correct.
 
+## Who/where the truncation actually happened — checked directly, not inferred
+
+Confirmed against `cross_repo_edges` directly: `service_method|core|.../access_message_publisher.service.ts|OSKAccessMessagePublisherService|publishMessageToAllACDs|#1` has **7 real, `confirmed`-status edges**, including both of the two facts that ended up truncated, each with their full real args stored correctly.
+
+The real sequence, traced through `core`'s own tool-call log: the model called `get_graph_neighbors` on that exact `service_method` anchor one call before the truncated one. `expandWithGraphNeighbors` (`mcp-server/db/graph-traversal.ts`) runs a plain, unmodified `SELECT fact_id, ... FROM facts WHERE fact_id = ANY(...)` — no string manipulation anywhere in that codepath — so this call **must** have returned all 7 real neighbors with their full, untouched fact_id strings into the model's own conversation context. The model then, needing two of those seven as the anchor set for its *next* `get_graph_neighbors` call, retyped them from its own context and dropped the argument-list segment on both — a mid-conversation transcription drift in the model's own generation, not a bug in the SQL layer, the tool wrapper, or Genkit's plumbing (the console-logged "truncated" string is literally what the model generated as its own function-call arguments; nothing downstream of the model touches or reformats it).
+
+A compounding, structural gap: `get_graph_neighbors` doesn't validate that an anchor resolves to anything real before querying `cross_repo_edges` — a wrong/truncated anchor just silently returns zero neighbors, not an error. The model never got a correction signal that its own working copy had already gone stale; it queried a nonexistent identifier, got nothing back, and moved on, then later cited the same already-wrong string as if it were still correct.
+
+Honest limit: `DEBUG_TOOL_LOG` wasn't enabled for this run, so there's no literal byte-for-byte tool-result payload to show side-by-side. This doesn't weaken the conclusion, though — the SQL's unmodified-passthrough behavior guarantees what was *sent* to the model, and the tool-call log shows what the model *generated* next; the only place the string could have shortened is in the model's own token generation between those two points.
+
 ## Why this is a genuinely different problem from prompt 12's fix, not a variant of it
 
 - **Prompt 12's bug**: real content, reformatted (whitespace collapsed/removed) — a presentation-layer difference, safely and precisely fixable by normalizing both sides before comparing.
@@ -37,6 +47,16 @@ Both strings are already missing the args segment **before the model ever wrote 
 ## One-hit baseline, same real method, for contrast
 
 The one-hit run cited this same real method (`OSKAccessMessagePublisherService.publishMessageToAllACDs`) multiple times, correctly, **with the full multi-line argument list preserved verbatim** (evidence #10, #138, #140, #148, #151 in the one-hit output) — so the underlying model is capable of copying this exact shape of long fact_id correctly; this wasn't a systematic inability, a localized drift in one specific capability call.
+
+## Real fact_id length stats — checked live, to understand how common the risky shape is
+
+Whole corpus (68,902 facts): length min 63, avg 187, median 161, p90 288, p99 496, **max 10,837** chars.
+
+**The length/newline risk is almost entirely confined to one kind.** `call_expression` (37,859 facts, ~55% of the corpus) is the *only* kind with any embedded newlines at all — 8,865 of them (23% of all `call_expression` facts) — and it holds the entire long tail (max 10,837; every other kind caps under ~520 chars with zero embedded newlines, structurally safe from this class of problem).
+
+Within `call_expression`: >300 chars: 5,654; >500: 671; >1,000: 164; >2,000: 47; >5,000: 3. The single longest real fact_id (10,837 chars) is a `call_expression` in `swift-ui-kit-oskey-dev`, `InvitationCard.swift` — an entire nested SwiftUI `VStack(...)` view body captured as one fact (same root shape — deeply nested declarative-UI call chains — as the previously-fixed Swift `stableFactId()` btree-index-limit bug, different symptom here).
+
+**The telling part**: both real incidents this session (`createIntercomDisplayName`, `publishMessageToAllACDs`) were nowhere near these extremes — a few hundred characters, well inside the "normal" range, not the tail. The model doesn't need a 10K-character outlier to start dropping content; a few hundred characters with embedded newlines was already enough, twice, in real live runs today.
 
 ## Status
 
