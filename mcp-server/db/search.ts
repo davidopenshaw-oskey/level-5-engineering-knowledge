@@ -96,16 +96,29 @@ function pool(): Pool {
   });
 }
 
-export async function search(query: string, limit?: number): Promise<SearchResponse> {
+// moduleFilter: optional, added 2026-09-11 for capability-fanout generation
+// (governance/roadmap/graphrag/06-prompt-9-capability-fanout-merge-design-
+// 2026-09-11.md) -- restricts vector search to one real `module` value,
+// letting a per-capability synthesis call discover its own evidence rather
+// than sharing one global top-k with every other capability in the same
+// run. Undefined (the default) preserves the exact prior behavior for every
+// existing caller.
+export async function search(query: string, limit?: number, moduleFilter?: string): Promise<SearchResponse> {
   const db = pool();
   try {
     const { embedding } = await embedSearchQuery(query);
 
     const vectorRows = await db.query(
-      `SELECT fact_id, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
-       FROM facts WHERE embedding IS NOT NULL
-       ORDER BY distance LIMIT $2`,
-      [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT]
+      moduleFilter
+        ? `SELECT fact_id, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
+           FROM facts WHERE embedding IS NOT NULL AND module = $3
+           ORDER BY distance LIMIT $2`
+        : `SELECT fact_id, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
+           FROM facts WHERE embedding IS NOT NULL
+           ORDER BY distance LIMIT $2`,
+      moduleFilter
+        ? [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT, moduleFilter]
+        : [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT]
     );
 
     const results: SearchResult[] = vectorRows.rows.map(row => ({

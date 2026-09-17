@@ -4,7 +4,8 @@
 
 What is the impact of adding a new type of owner/inhabitant, such as an ownerNonResident. This ownerNonResident would then manage adding their own tenants and taking on the task of tenant management from the Property manager. 
 
-1a. Currently the PGO supports adding a tenant or owner as a person living in a buildings unit by the Property Manager. We need a new inhabitantType in the Oskey system. The name of the new inhabitantType will be ownerNonResident. The scope of this PRD is to add the new inhabitantType without breaking the existing flows around inhabitantType. Report back an impact analysis of how this will impact the code base.
+IMPACT ANALYSIS QUESTION
+1a. Currently the PGO supports adding a tenant or owner as a person living in a buildings unit by the Property Manager. We need a new inhabitantType in the Oskey system. The name of the new inhabitantType will be ownerNonResident. The scope of this Impact Analysis report is to cover all aspects of adding a new inhabitantType without breaking the existing flows around inhabitantType. 
 
 1b. Once the inhabitantType ownerNonResident has been added to the Oskey system, we need to be able to assign building units to this ownerNonResident account. Report back on how this could be done highlighting how in the PGO it can be added. If there is more than one option, then report back on all options. If there are existing flows and code that will be affected, report back.  
 
@@ -42,3 +43,12 @@ As an example only: Mon, Tue, Wed from 09:00 until 12:00pm for gardening every w
 We would like a new tab added called Activity. Inside the Activity tab will be a record of the pincode door open activity log in date descending order. 
 
 The table of activity should have a filter allowing the PM to filter by buildings or doors. Also seacrh for a staff member by name or email.
+
+DELIBERATE FAILURE QUESTIONS
+7. Create a PRD. We want a Property Manager to be able to directly assign a departure date to any inhabitant on a unit, including residents, from the PGO.
+
+DELIBERATE FAILURE QUESTIONS
+8. Now that recurring invitations exist, create a PRD to add the ability to cap them at a fixed number of occurrences instead of only an end date.
+
+DELIBERATE FAILURE QUESTIONS
+9. Create a PRD showing what needs to change to support a building having more than one property manager?

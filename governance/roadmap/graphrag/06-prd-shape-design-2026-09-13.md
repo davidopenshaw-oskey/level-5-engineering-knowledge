@@ -1,0 +1,37 @@
+# PRD document-shape design — real, in-progress decisions
+
+Live design discussion, 2026-09-13, following on from `01-findings-and-open-questions-2026-09-10.md` §10/§11. Real, explicit north star for this design, stated directly by the user: neither an old-fashioned human-written PRD nor a fully-automated atomic PRD for autonomous coding — a natural evolution between the two, with HITL (human-in-the-loop) as a structural feature, not a fallback. Staged: basics first, additional sections layered on after — this doc will grow, not be rewritten each pass.
+
+## Phase 1 (in progress) — the basics: repo-grouped structure
+
+Four candidate shapes were discussed (confidence-tiered narrative, decision-checkpoint structure, per-capability transparency, progressive disclosure). **Landed on a combination of the last two, refined by a real, concrete constraint the user raised**: a single PRD can span multiple repos with different dev-team audiences (real example flows given: PGO→Cloud→iOS App→Cloud→Intercom; PGO→Cloud→Android App→Cloud→Intercom; PGO→Cloud→Intercom; Intercom→Cloud→PGO; Intercom→Cloud→Android+iOS). A flat, ungrouped document forces every reader through every repo's content regardless of relevance to them.
+
+**Real, settled shape**:
+- A short, flat **executive summary** at the top of `Technical Proposal` (2-3 sentences, synthesized last, after all repo sections are known) — the fast top-level read.
+- **Repo is the outer grouping**, rendered as a collapsible block per repo (reusing the exact pattern `assembleDocument()`'s Evidence Used/Audit Trail section already uses for `factRepoMap` — real, proven code, not new).
+- **Module is the heading inside each repo's block** — the fan-out architecture's own internal organizing key (§10's capability/module decomposition) becomes the document's secondary structure, not its primary one.
+- Applies cleanly to **`Technical Proposal` and `Constraints`** (both `cited-list`-shaped, both naturally repo-specific).
+- **`User Stories` stays flat, ungrouped** — actor-centric ("as a PM, I want..."), not repo-specific; forcing repo-grouping onto it would fight its real shape.
+- **`Acceptance Criteria`'s grouping treatment is an open, deferred decision** — group it if criteria end up genuinely repo-specific in practice, leave flat if mostly cross-cutting. Deliberately not decided yet — the plan is to look at this against a real multi-repo case once one exists, not assume now.
+
+**Real, concrete architectural consequence, not yet built**: today's template system (`template.ts`'s `parseTemplate()`) assumes a *fixed* set of headings, and today's `cited-list` content kind is *flat* — no grouping concept exists in either. Supporting the repo-grouped shape needs either a new content kind (a grouped/nested cited-list) or a template system that can produce a variable number of subsections per run. This is real, additional work beyond what `prompts/prompt-9-capability-fanout-design-and-prototype.md` already scopes — **not yet reflected in that prompt**, worth updating once this design is settled further.
+
+## Phase 2 (not started, real gaps from external research, `01-...md` §11 / `market-research/23-...md`)
+
+- **Open Questions** — promote the already-existing `[NEEDS CLARIFICATION]` pattern (proven in `mcp-direction/40-...md`) to a first-class, visible section, collecting whatever each capability pass honestly couldn't resolve. No new search/retrieval needed — a byproduct of the fan-out already being built.
+- **Out of Scope** — list capabilities the routing pass considered adjacent but excluded, with why. Also no new search — exposing a decision the routing step already makes internally today, invisibly.
+- **Success Metrics** — the one real outlier: not derivable from code facts at all, it's product judgment. Either a human-fill placeholder, or an explicitly lower-confidence LLM suggestion, labeled as such rather than given the same citation discipline as evidence-backed sections.
+
+## Real, separate track — impact-analysis document (not a PRD variant)
+
+Per `01-...md` §11: no real precedent exists for impact-analysis as a narrative document at all. The proposed real shape is structurally different from the PRD work above, not a template variant of it: (1) pure graph traversal for Affected Modules/Capabilities, no LLM; (2) a deterministic risk/mitigation checklist rendered directly from `cross_repo_edges.resolution_status`/`provenance` (real, already-stored confidence data, not LLM-synthesized); (3) one thin, cheap narrative call on top (Overmind's real pattern). Needs its own, much lighter search pipeline (one anchor search + graph traversal, no routing pass, no per-capability fan-out) — explicitly not sharing PRD's generation machinery. Not started.
+
+## Also real, flagged, not yet actioned
+
+A real gap found while reviewing prompt #9's own design (in flight as of this doc): the routing pass only finds capabilities reachable by *semantic* similarity to the business request's wording. A capability reached only via a *graph* connection (e.g., Module A's `walk_cluster` crosses into Module B via a real `cross_repo_edges` row, but Module B never appeared in the initial routing search) currently surfaces as extra evidence inside Module A's own pass, not as its own dedicated, focused pass for Module B — a smaller-scale echo of the exact dilution problem (Gap B) this whole redesign exists to fix. Not yet flagged to the in-flight session (holding until its current run, which hit and reportedly fixed a separate real re-search-burnout bug, finishes) — needs a decision: accept as a documented v1 limitation, or add a real second round that promotes significant graph-discovered modules to their own pass.
+
+## Flagged idea, not built — visible, in-document diagnostics during the trial period (2026-09-17)
+
+Real, practical need found while debugging why a real capability-fanout run was taking 10+ minutes (sequential LLM calls under a real 5/min Vertex quota ceiling, real 429-retry backoff, per-capability tool-call/turn counts) — the answer was only available by asking the live session directly; nothing about retry counts or backoff time is persisted anywhere, in `meta.json` or the rendered document, today.
+
+Real discussion, not yet resolved: whether this belongs in `RunMeta`/`meta.json` (the structured sidecar, already capturing per-capability tool-call/turn counts) or needs to be visible directly in the rendered `.md` document itself. **User's real, deliberate call**: during this trial/development period specifically, a small, visible diagnostic section at the *end* of the rendered document is more useful than JSON alone — nobody actually opens the sidecar day-to-day, and a developer reviewing real trial output should be able to spot a slow/retry-heavy run without needing pipeline access or asking a live session. **Explicitly not to be built now** — not folded into the currently in-flight session (`prompt-12-...md`) or built ad hoc in this conversation — this is real scope for a future, dedicated "debug/logging" initiative, tracked here so it isn't lost. When that initiative is scoped, real candidates to include: retry count and total backoff time (currently invisible everywhere), per-capability wall-clock breakdown (today only tool-call/turn *counts* are recorded, not how long each capability actually took), reusing/extending the existing `DEBUG_TOOL_LOG` opt-in pattern as the likely right shape for anything more detailed than a short summary.

@@ -27,12 +27,12 @@ import { search } from "../db/search";
 import { expandWithGraphNeighbors, walkBoundedCluster } from "../db/graph-traversal";
 import { GenerationOutputSchema, renderSectionContent, type GenerationOutput } from "./section-content";
 import { parseTemplate, renderTemplateContract, type ParsedTemplate } from "./template";
-import { extractRealFactIds, checkFabrication, checkTemplateConformance } from "./validators";
+import { extractRealFactIds, checkFabrication, checkTemplateConformance, normalizeFactId } from "./validators";
 import { fetchVertexAiPricing, computeApproxCost, type TokenUsage } from "./pricing";
 import { loadMcpServerConfig } from "../config";
 
-const PROJECT_ROOT = process.cwd();
-const config = loadMcpServerConfig();
+export const PROJECT_ROOT = process.cwd();
+export const config = loadMcpServerConfig();
 // Real, 2026-09-09: skill+template pairs now live together under
 // mcp-server/skills/<document-type>/, one pair per document type (e.g.
 // mcp-server/skills/impact-analysis/ for a future second pair) -- see
@@ -46,10 +46,10 @@ const config = loadMcpServerConfig();
 // worse, not better. Left alone pending the bigger "how does the MCP
 // receive context/skills" design question.
 const DEFAULT_PERSONA_PATH = path.join(PROJECT_ROOT, "governance/roadmap/mcp-direction/atomic-prd-agent-persona.md");
-const DEFAULT_TEMPLATE_PATH = path.join(PROJECT_ROOT, "mcp-server/skills/prd/template.md");
+export const DEFAULT_TEMPLATE_PATH = path.join(PROJECT_ROOT, "mcp-server/skills/prd/template.md");
 const OUTPUT_DIR = path.join(PROJECT_ROOT, "output", "agent-runs", "prds");
 
-function pool(): Pool {
+export function pool(): Pool {
   return new Pool({
     host: process.env.PG_HOST ?? "localhost",
     port: Number(process.env.PG_PORT ?? 5433),
@@ -59,7 +59,7 @@ function pool(): Pool {
   });
 }
 
-const ai = genkit({
+export const ai = genkit({
   plugins: [vertexAI({ projectId: config.vertexAI.projectId, location: config.vertexAI.location })],
 });
 
@@ -86,7 +86,7 @@ const ai = genkit({
 // hidden multiplication, so retrying here doesn't waste anything beyond
 // the one call that actually failed.
 const MAX_MODEL_RETRY_ATTEMPTS = 5;
-const retryOn429: ModelMiddleware = async (req, next) => {
+export const retryOn429: ModelMiddleware = async (req, next) => {
   for (let attempt = 1; attempt <= MAX_MODEL_RETRY_ATTEMPTS; attempt++) {
     try {
       return await next(req);
@@ -115,8 +115,8 @@ const retryOn429: ModelMiddleware = async (req, next) => {
 // from the real tool result it claims to be can be traced back to what was
 // actually returned. Off by default (undefined env var), zero effect on a
 // normal run.
-const DEBUG_TOOL_LOG = process.env.DEBUG_TOOL_LOG;
-function debugLogToolCall(name: string, input: unknown, output: unknown): void {
+export const DEBUG_TOOL_LOG = process.env.DEBUG_TOOL_LOG;
+export function debugLogToolCall(name: string, input: unknown, output: unknown): void {
   if (!DEBUG_TOOL_LOG) return;
   fs.appendFileSync(DEBUG_TOOL_LOG, JSON.stringify({ ts: new Date().toISOString(), tool: name, input, output }) + "\n", "utf8");
 }
@@ -148,7 +148,7 @@ const seenFactIds = new Set<string>();
 // project's existing "fail loud on the unexpected" discipline stays intact
 // for real infrastructure failures; this only catches the one class of
 // error the model itself caused and can act on.
-async function withToolErrorTrapping<T>(fn: () => Promise<T>): Promise<T | { error: string }> {
+export async function withToolErrorTrapping<T>(fn: () => Promise<T>): Promise<T | { error: string }> {
   try {
     return await fn();
   } catch (e) {
@@ -220,7 +220,7 @@ const walkCluster = ai.defineTool(
   }
 );
 
-function slugify(name: string): string {
+export function slugify(name: string): string {
   return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
@@ -239,7 +239,7 @@ export interface SnapshotFreshnessRow {
 // model reporting itself correctly. Returns structured rows, not prose --
 // the JSON sidecar (adr-008.md's audit-trail hook) needs real structured
 // data, not just markdown text to re-parse later.
-async function getSnapshotFreshness(realFactIds: Set<string>): Promise<SnapshotFreshnessRow[]> {
+export async function getSnapshotFreshness(realFactIds: Set<string>): Promise<SnapshotFreshnessRow[]> {
   if (realFactIds.size === 0) return [];
   const db = pool();
   try {
@@ -269,7 +269,7 @@ async function getSnapshotFreshness(realFactIds: Set<string>): Promise<SnapshotF
 // lookup, not inferred from the fact_id's file-path prefix -- this
 // project's own "audit live state, not files" discipline applies to
 // grouping logic just as much as to freshness checks.
-async function getFactRepoMap(realFactIds: Set<string>): Promise<Record<string, string>> {
+export async function getFactRepoMap(realFactIds: Set<string>): Promise<Record<string, string>> {
   if (realFactIds.size === 0) return {};
   const db = pool();
   try {
@@ -298,7 +298,7 @@ function buildRepoNumbering(rows: SnapshotFreshnessRow[]): Map<string, number> {
   return new Map(sorted.map((repo, i) => [repo, i + 1]));
 }
 
-interface RunMeta {
+export interface RunMeta {
   workflowName: string;
   runKind: "test" | "considered";
   persona: string;
@@ -324,9 +324,23 @@ interface RunMeta {
   // pricing.ts. null exactly when approxCostUsd is null (no pricing found
   // at all).
   pricingEffectiveTime: string | null;
+  // Optional, capability-fanout-agent.ts only (governance/roadmap/graphrag/
+  // 08-prompt-9-capability-fanout-merge-design-2026-09-11.md) -- the plain
+  // one-hit run this interface was designed for never sets these. Kept
+  // optional here rather than as a separate, parallel RunMeta-like type so
+  // assembleDocument/writeOutput (both meant to stay unchanged per that
+  // design doc) keep working against one real, shared type.
+  capabilityFanout?: {
+    routingResultCount: number;
+    candidateModules: string[];
+    capabilitiesRun: string[];
+    failedCapabilities: string[];
+    perCapabilityToolCalls: Record<string, Record<string, number>>;
+    perCapabilityTurnsUsed: Record<string, number>;
+  };
 }
 
-function formatDuration(ms: number): string {
+export function formatDuration(ms: number): string {
   const totalSeconds = Math.round(ms / 1000);
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
@@ -589,7 +603,7 @@ function injectFirstOccurrenceAnchors(markdown: string): { markdown: string; cit
 
 const EVIDENCE_USED_PLACEHOLDER = "@@EVIDENCE_USED_PLACEHOLDER@@";
 
-function assembleDocument(opts: {
+export function assembleDocument(opts: {
   workflowName: string;
   template: ParsedTemplate;
   generated: GenerationOutput;
@@ -628,7 +642,7 @@ function assembleDocument(opts: {
   return anchored.replace(EVIDENCE_USED_PLACEHOLDER, evidenceUsedBody);
 }
 
-async function writeOutput(opts: { workflowName: string; runKind: "test" | "considered"; markdown: string; meta: RunMeta }): Promise<{ mdPath: string; metaPath: string }> {
+export async function writeOutput(opts: { workflowName: string; runKind: "test" | "considered"; markdown: string; meta: RunMeta }): Promise<{ mdPath: string; metaPath: string }> {
   const targetDir = opts.runKind === "test" ? path.join(OUTPUT_DIR, "test") : OUTPUT_DIR;
   fs.mkdirSync(targetDir, { recursive: true });
 
@@ -719,7 +733,7 @@ async function main() {
   console.log(`\n=== ${turnsUsed} of ${MAX_TURNS} real turn(s) used ===`);
 
   if (!response.output) throw new Error("[Fail-Closed] Agent produced no structured output -- nothing to write.");
-  const generated: GenerationOutput = response.output;
+  let generated: GenerationOutput = response.output;
 
   console.log("\n=== Structured output ===");
   console.log(JSON.stringify(generated, null, 2));
@@ -733,9 +747,15 @@ async function main() {
   // the real, unchanged fail-closed check runs, report the nearest real
   // fact_id (same last two pipe-delimited segments) for any citation about
   // to be rejected -- turns "it fabricated something" into "it fabricated
-  // this specific divergence from this specific real fact_id".
+  // this specific divergence from this specific real fact_id". Real fix,
+  // 2026-09-17: a plain exact-match filter here would flag a real,
+  // whitespace-collapsed citation as "fabricated" even though
+  // checkFabrication (below) will correctly canonicalize and accept it --
+  // this preview now checks the same normalized-match condition so it
+  // doesn't print a false alarm for exactly the case that fix exists for.
   const citedIds = generated.sections.flatMap(s => (s.content.kind === "cited-list" ? s.content.items.flatMap(i => i.evidenceIds) : []));
-  const fabricatedPreview = citedIds.filter(id => !realFactIds.has(id));
+  const normalizedRealFactIds = new Set([...realFactIds].map(normalizeFactId));
+  const fabricatedPreview = citedIds.filter(id => !realFactIds.has(id) && !normalizedRealFactIds.has(normalizeFactId(id)));
   if (fabricatedPreview.length > 0) {
     console.error("\n=== Fabrication diagnostic: nearest real fact_id per fabricated citation ===");
     for (const id of fabricatedPreview) {
@@ -746,7 +766,7 @@ async function main() {
     }
   }
 
-  checkFabrication(generated, realFactIds);
+  generated = checkFabrication(generated, realFactIds);
   checkTemplateConformance(generated, template.llmHeadings);
   console.log(`\n=== Both mandatory validators passed (${realFactIds.size} real fact_id(s) seen this run) ===`);
 
