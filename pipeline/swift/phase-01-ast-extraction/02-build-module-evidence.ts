@@ -109,6 +109,7 @@ const EXPECTED_EVIDENCE_TYPES = [
   "properties",
   "calls",
   "bleGattConstants",
+  "firebaseCallableCalls",
 ];
 
 function main() {
@@ -245,6 +246,7 @@ function main() {
   const propertiesFact = loadFactFile("ast-properties.json");
   const callsFact = loadFactFile("ast-calls.json");
   const bleGattFact = loadFactFile("ast-ble-gatt-constants.json");
+  const firebaseCallableCallsFact = loadFactFile("ast-firebase-callable-calls.json");
 
   const modulesBaseDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
   fs.mkdirSync(modulesBaseDir, { recursive: true });
@@ -478,6 +480,40 @@ function main() {
       });
     }
 
+    // 12. firebase_callable_call -- real Firebase Callable Functions call
+    // sites (`03-prompt-2-layer2-findings-2026-09-18.md` §1 / `04-prompt-3-
+    // layer2-build-plan-2026-09-18.md` §3.1). primaryKey is the real Cloud
+    // Function name (the actual cross-repo join key against firebase-oskey-
+    // dev's own module-functionName convention), secondaryKey the region --
+    // occurrenceOrdinal covers the real, legitimate case of the same
+    // function called from more than one call site in the same file.
+    for (const item of firebaseCallableCallsFact.filter((f: any) => f.module === moduleName)) {
+      const secondaryKey = item.region ?? "unknown_region";
+      rawModuleFacts.push({
+        id: stableFactId({
+          type: "firebase_callable_call",
+          module: moduleName,
+          file: item.file,
+          primaryKey: item.functionName,
+          secondaryKey,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "firebase_callable_call", item.file, item.functionName, secondaryKey),
+        }),
+        runId,
+        type: "firebase_callable_call",
+        repo: REPO_NAME,
+        module: moduleName,
+        submodule: item.submodule,
+        file: item.file,
+        line: item.line,
+        value: item.functionName,
+        functionName: item.functionName,
+        region: item.region,
+        callerFunction: item.callerFunction,
+        callerClass: item.callerClass,
+        evidence: { ...item },
+      });
+    }
+
     // Property-based fact deduplication & conflicting-identity guard --
     // same discipline as every other repo's own copy: an identical
     // duplicate is silently merged (logged), a materially different fact
@@ -522,6 +558,7 @@ function main() {
       properties: facts.filter(f => f.type === "model_property").length,
       calls: facts.filter(f => f.type === "call_expression").length,
       bleGattConstants: facts.filter(f => f.type === "ble_gatt_constant").length,
+      firebaseCallableCalls: facts.filter(f => f.type === "firebase_callable_call").length,
       facts: facts.length,
     };
 

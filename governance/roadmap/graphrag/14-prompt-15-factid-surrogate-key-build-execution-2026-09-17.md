@@ -1,5 +1,7 @@
 # Prompt 15 — Build execution report: fact_id → surrogate key (ADR-010)
 
+**Correction, found afterward (2026-09-17, same day), itself corrected 2026-09-18 after a peer session's spot-check caught a counting error**: §4's "Real re-test results" below states the 1a/2a re-tests came back clean. That's still true, on both counts now checked: citation *integrity* (no fabrication, no malformed refs — unaffected) **and**, after a corrected recheck, the specific cosmetic issue first flagged here — raw `factRef` hash inlined directly into a claim's own prose text. That issue is real, but a follow-up multi-repo test (`governance/roadmap/graphrag/15-1a-multirepo-first-run-findings-2026-09-17.md`) is the *only* one of the 4 runs in this doc's own §4 plus that follow-up run (5 real docs total) where it actually occurs — the four 1a/2a re-test docs covered by this build report show **zero** occurrences (an earlier version of this note wrongly implied it affected "these same runs"; a grep bug — git commit SHAs in the rendered Repos section are also 40 lowercase hex characters, same pattern as `factRef` — inflated the original count on those four docs from 0 to 2/2/5/7). See doc 15's addendum for the corrected count and full finding. Not fixed in this build; flagged there as an open follow-up, now with the real evidence base (1 confirmed instance, not 5).
+
 Real build session, 2026-09-17. Executed per `governance/roadmap/graphrag/prompts/prompt-15-factid-surrogate-key-build-execution.md`, applying all four decisions recorded in `governance/adrs/adr-010.md` §6 and `governance/roadmap/graphrag/13-prompt-14-factid-surrogate-key-build-plan-2026-09-17.md`'s "Decisions" section. This doc is written incrementally, during the build, per this project's own documentation-discipline rule — not reconstructed from memory afterward.
 
 ## Step 0 — backup
@@ -95,6 +97,15 @@ Recorded v1 baseline (`mcp-server/gold/evals/1a-ownernonresident.eval.json`, 202
 
 **Conclusion**: this is a real, direct, positive result — the specific real run that used to crash on the transcription-drift bug now completes cleanly, with `factRef` values (confirmed in the tool-call log: `walk_cluster({"anchorFactRef":"0634ae0ee6b3b8231c096522f7d38d1a847b4cc0",...})`, `get_graph_neighbors({"factRefs":["fe64033b6fbfed137f54e9803525d133aaed8000"]})`) passed back correctly, verbatim, every time, across all 4 runs — zero fabricated citations, zero malformed `factRef` arguments. Per this project's own discipline, a clean pass here is corroborating evidence, not final proof on its own (LLM non-determinism means one clean run doesn't rule out a future bad roll) — but combined with the structural argument (a 40-char fixed-format hash has nothing left for the model to garble, unlike a long multi-line natural key), this closes the transcription-drift bug at its structural source, as ADR-010 §2 intended.
 
+## Note added 2026-09-18 — two defensive additions remain logic-reviewed, not live-exercised
+
+Real gap, found only because a user question ("have these bugs been logged?") surfaced that it wasn't written down anywhere — this had only been relayed verbally between sessions, never committed to the project's own record. Documenting it now so it isn't lost:
+
+- **The near-miss reverse-lookup diagnostic** (`atomic-prd-agent.ts` main(), the `factDisplayMap`-inverted replacement for the old pipe-segment matcher — §2 above).
+- **`warnIfNotFactRef()`** (both `graph-traversal.ts` copies — §2 above, the "not exactly 40 lowercase hex characters" check).
+
+As of today, across all 5 real post-ADR-010 runs (`004`-`008`), **neither has ever actually fired.** No run has produced a fabricated/malformed citation or a non-40-hex `factRef` tool argument for either to catch. Both are logic-reviewed against their intended failure case, not proven against a real one — this is an open verification gap, not a known bug. Worth deliberately triggering both once (e.g. a hand-crafted bad `factRef` argument) before relying on either as a real safety net, rather than assuming they work because they've never been seen to fail.
+
 ## Summary
 
-All 4 execution steps (schema DDL, both `mcp-server/` fork copies, `skill.v3.md` rewrite, testing) complete. Real spend: $0.7614. One real, out-of-scope compile inconsistency flagged (§2, three decommissioned-pipeline-only files), not fixed, by design. No unresolved ambiguity encountered beyond what ADR-010/the build plan already resolved.
+All 4 execution steps (schema DDL, both `mcp-server/` fork copies, `skill.v3.md` rewrite, testing) complete. Real spend: $0.7614. One real, out-of-scope compile inconsistency flagged (§2, three decommissioned-pipeline-only files), not fixed, by design. No unresolved ambiguity encountered beyond what ADR-010/the build plan already resolved. Two defensive additions remain live-unexercised as of 2026-09-18 — see note above.

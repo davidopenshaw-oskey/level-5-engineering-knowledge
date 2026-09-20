@@ -137,6 +137,7 @@ const EXPECTED_EVIDENCE_TYPES = [
   "webrtcSignalingTouchpoints",
   "bleGattConstants",
   "usbWireConstants",
+  "restEndpointCalls",
 ];
 
 function main() {
@@ -273,6 +274,7 @@ function main() {
   const webrtcTouchpointsFact = loadFactFile("ast-webrtc-signaling-touchpoints.json");
   const bleGattFact = loadFactFile("ast-ble-gatt-constants.json");
   const usbWireFact = loadFactFile("ast-usb-wire-constants.json");
+  const restEndpointCallsFact = loadFactFile("ast-rest-endpoint-calls.json");
 
   const modulesBaseDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
   fs.mkdirSync(modulesBaseDir, { recursive: true });
@@ -608,6 +610,42 @@ function main() {
       });
     }
 
+    // 11b. rest_endpoint_call -- real, structural Retrofit annotation walk
+    // (`03-prompt-2-layer2-findings-2026-09-18.md` §2 / `04-prompt-3-layer2-
+    // build-plan-2026-09-18.md` §3.3). primaryKey is the literal REST path;
+    // secondaryKey the HTTP method -- a real, deliberate choice over using
+    // `functionName` as primaryKey, since the path is the actual real-world
+    // identity this fact is joined against (it's what `node-iot-api-oskey-
+    // io`'s own registered routes are matched on), not the Kotlin method
+    // name, which is purely local naming.
+    for (const item of restEndpointCallsFact.filter((r: any) => r.module === moduleName)) {
+      const secondaryKey = item.httpMethod;
+      rawModuleFacts.push({
+        id: stableFactId({
+          type: "rest_endpoint_call",
+          module: moduleName,
+          file: item.file,
+          primaryKey: item.path,
+          secondaryKey,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "rest_endpoint_call", item.file, item.path, secondaryKey),
+        }),
+        runId,
+        type: "rest_endpoint_call",
+        repo: REPO_NAME,
+        module: moduleName,
+        submodule: item.submodule,
+        file: item.file,
+        line: item.line,
+        value: item.path,
+        httpMethod: item.httpMethod,
+        path: item.path,
+        functionName: item.functionName,
+        owningInterface: item.owningInterface,
+        parameters: item.parameters,
+        evidence: { ...item },
+      });
+    }
+
     for (const item of webrtcTouchpointsFact.filter((w: any) => w.module === moduleName)) {
       const secondaryKey = `${item.direction}|${item.callerName || "anon"}`;
       rawModuleFacts.push({
@@ -680,6 +718,7 @@ function main() {
       calls: facts.filter(f => f.type === "call_expression").length,
       bleGattConstants: facts.filter(f => f.type === "ble_gatt_constant").length,
       usbWireConstants: facts.filter(f => f.type === "usb_wire_constant").length,
+      restEndpointCalls: facts.filter(f => f.type === "rest_endpoint_call").length,
       webrtcSignalingTouchpoints: facts.filter(f => f.type === "webrtc_signaling_touchpoint").length,
       facts: facts.length,
     };

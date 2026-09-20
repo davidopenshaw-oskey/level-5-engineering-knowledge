@@ -58,16 +58,34 @@ export type GenerationOutput = z.infer<typeof GenerationOutputSchema>;
 // NOT applied to MetaData or Evidence Used -- both are dense, scan-once
 // reference blocks, not prose to read line by line; the user was explicit
 // these two stay as they are.
-export function renderSectionContent(content: SectionContent, citationNumberOf?: (factRef: string) => number): string {
+// repoForFactRef is optional and used only by "cited-list", same real
+// fallback discipline as citationNumberOf above (stays usable standalone
+// without a full document context when omitted). Real, deliberate,
+// HARDCODED behavior, per the user directly (2026-09-19): grouping a
+// cited-list by repo is NOT a per-template opt-in -- there is no template
+// directive for it, and there deliberately never will be. It is an
+// unconditional property of this one content kind, because every real
+// cited-list claim already carries the evidenceRefs needed to know which
+// repo(s) it touches, and these documents are read by feature teams spread
+// across multiple repos (a cloud dev should be able to jump straight to
+// their own section, not scan one flat list). "list"/"user-stories" are
+// deliberately NOT grouped -- their real data shape carries no evidenceRefs
+// at all (section-content.ts's own closed kind set, ADR-008), so there is
+// no real per-repo linkage to group them by without inventing one.
+export function renderSectionContent(
+  content: SectionContent,
+  citationNumberOf?: (factRef: string) => number,
+  repoForFactRef?: (factRef: string) => string | null
+): string {
   switch (content.kind) {
     case "prose":
       return content.text;
     case "list":
       return content.items.map(i => (content.checkable ? `- [ ] ${i}` : `- ${i}`)).join("\n\n");
     case "cited-list":
-      return content.items
-        .map(i => `- ${i.claim}<br>(see ${renderCitations(i.evidenceRefs, citationNumberOf)})`)
-        .join("\n\n");
+      return repoForFactRef
+        ? renderCitedListGroupedByRepo(content.items, citationNumberOf, repoForFactRef)
+        : content.items.map(i => `- ${i.claim}<br>(see ${renderCitations(i.evidenceRefs, citationNumberOf)})`).join("\n\n");
     case "user-stories":
       return content.items.map(s => `- As a ${s.actor}, I want ${s.goal}, so that ${s.reason}.`).join("\n\n");
   }
@@ -77,4 +95,52 @@ function renderCitations(evidenceRefs: string[], citationNumberOf?: (factRef: st
   if (!citationNumberOf) return evidenceRefs.join(", ");
   const numbers = [...new Set(evidenceRefs.map(citationNumberOf))].sort((a, b) => a - b);
   return numbers.map(n => `[#${n}](#evidence-${n})`).join(", ");
+}
+
+// Real group-key rule, confirmed directly against a real test render
+// before being productionized here (output/agent-runs/prds/test/2026-09-19-
+// 001-...REGROUPED-BY-REPO-TEST.md): a claim's real evidenceRefs are looked
+// up to their real repo via repoForFactRef, deduplicated -- zero distinct
+// repos (every real evidenceRef unresolvable, or the item genuinely has
+// none, e.g. a bare [NEEDS CLARIFICATION] claim) falls into its own
+// honestly-labeled group rather than being silently dropped or guessed
+// into a repo; exactly one repo is the common case; two or more is a real
+// cross-repo claim, labeled with every real repo it touches (sorted, so
+// the same repo pair always produces the same group key regardless of
+// evidenceRefs order) -- not yet exercised against a real generation run
+// as of this change (the one real run tested so far happened to have zero
+// genuinely cross-repo claims), verified instead with a synthetic case
+// built from real fact_refs before shipping.
+const NO_EVIDENCE_GROUP = "Zero real evidence cited -- e.g. a [NEEDS CLARIFICATION] item";
+
+function renderCitedListGroupedByRepo(
+  items: { claim: string; evidenceRefs: string[] }[],
+  citationNumberOf: ((factRef: string) => number) | undefined,
+  repoForFactRef: (factRef: string) => string | null
+): string {
+  const groups = new Map<string, { claim: string; evidenceRefs: string[] }[]>();
+  for (const item of items) {
+    const repos = [...new Set(item.evidenceRefs.map(repoForFactRef).filter((r): r is string => r !== null))];
+    const key = repos.length === 0 ? NO_EVIDENCE_GROUP : repos.length === 1 ? repos[0] : `cross-repo: ${[...repos].sort().join(" + ")}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(item);
+  }
+
+  // Real repos first (alphabetical, deterministic across runs), cross-repo
+  // group(s) next, the zero-evidence group always last -- matches a real
+  // reader's own priority (my repo's stuff, then the parts that genuinely
+  // span more than one repo, then anything unverified).
+  const keys = [...groups.keys()].sort((a, b) => {
+    const rank = (k: string) => (k.startsWith("cross-repo:") ? 1 : k === NO_EVIDENCE_GROUP ? 2 : 0);
+    return rank(a) - rank(b) || a.localeCompare(b);
+  });
+
+  return keys
+    .map(key => {
+      const groupItems = groups.get(key)!;
+      const heading = `### ${key} (${groupItems.length} item(s))`;
+      const body = groupItems.map(i => `- ${i.claim}<br>(see ${renderCitations(i.evidenceRefs, citationNumberOf)})`).join("\n\n");
+      return `${heading}\n\n${body}`;
+    })
+    .join("\n\n");
 }

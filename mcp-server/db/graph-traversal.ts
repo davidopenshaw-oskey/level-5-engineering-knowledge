@@ -33,6 +33,7 @@
 // a descriptive/citation label; this module never reads it.
 
 import type { Pool } from "pg";
+import { traceQuery } from "./query-trace";
 
 // Real, defensive structural check (ADR-010 §8 item 2, 2026-09-17): fact_ref
 // is a GENERATED column with a fixed format (40 lowercase hex chars), so any
@@ -103,10 +104,13 @@ export async function expandWithGraphNeighbors(
   if (byNeighborFactRef.size === 0) return [];
 
   const neighborFactRefs = [...byNeighborFactRef.keys()];
+  const neighborSql = `SELECT fact_ref, repo, module, kind, symbol_name, description FROM facts WHERE fact_ref = ANY($1::text[])`;
+  const neighborParams = [neighborFactRefs];
   const rows = await db.query<{ fact_ref: string; repo: string; module: string; kind: string; symbol_name: string | null; description: string }>(
-    `SELECT fact_ref, repo, module, kind, symbol_name, description FROM facts WHERE fact_ref = ANY($1::text[])`,
-    [neighborFactRefs]
+    neighborSql,
+    neighborParams
   );
+  traceQuery(neighborSql, neighborParams, rows.rows);
   const realFactRefs = new Set(rows.rows.map(r => r.fact_ref));
   const missing = neighborFactRefs.filter(ref => !realFactRefs.has(ref));
   if (missing.length > 0) {
@@ -214,10 +218,13 @@ export async function walkBoundedCluster(
   if (frontier.length > 0 && depth >= maxDepth) truncated = true; // real neighbors left unexplored at the depth bound, not just an empty frontier
 
   const allFactRefs = [...depthByFactRef.keys()];
+  const clusterSql = `SELECT fact_ref, repo, module, kind, symbol_name, description FROM facts WHERE fact_ref = ANY($1::text[])`;
+  const clusterParams = [allFactRefs];
   const rows = await db.query<{ fact_ref: string; repo: string; module: string; kind: string; symbol_name: string | null; description: string }>(
-    `SELECT fact_ref, repo, module, kind, symbol_name, description FROM facts WHERE fact_ref = ANY($1::text[])`,
-    [allFactRefs]
+    clusterSql,
+    clusterParams
   );
+  traceQuery(clusterSql, clusterParams, rows.rows);
   const realFactRefs = new Set(rows.rows.map(r => r.fact_ref));
   const missing = allFactRefs.filter(ref => !realFactRefs.has(ref));
   if (missing.length > 0) {
@@ -238,16 +245,19 @@ export async function walkBoundedCluster(
 }
 
 export async function findGraphNeighbors(db: Pool, factRef: string): Promise<GraphNeighbor[]> {
-  const result = await db.query<{ direction: "outgoing" | "incoming"; connection_type: string; other_fact_ref: string; other_symbol: string; resolution_status: string; details: string | null }>(
-    `SELECT 'outgoing' as direction, connection_type, target_fact_ref as other_fact_ref, target_symbol as other_symbol, resolution_status, details
+  const sql = `SELECT 'outgoing' as direction, connection_type, target_fact_ref as other_fact_ref, target_symbol as other_symbol, resolution_status, details
        FROM cross_repo_edges
       WHERE source_fact_ref = $1 AND resolution_status IN ('resolved', 'confirmed') AND target_fact_ref IS NOT NULL
      UNION ALL
      SELECT 'incoming' as direction, connection_type, source_fact_ref as other_fact_ref, source_symbol as other_symbol, resolution_status, details
        FROM cross_repo_edges
-      WHERE target_fact_ref = $1 AND resolution_status IN ('resolved', 'confirmed')`,
-    [factRef]
+      WHERE target_fact_ref = $1 AND resolution_status IN ('resolved', 'confirmed')`;
+  const params = [factRef];
+  const result = await db.query<{ direction: "outgoing" | "incoming"; connection_type: string; other_fact_ref: string; other_symbol: string; resolution_status: string; details: string | null }>(
+    sql,
+    params
   );
+  traceQuery(sql, params, result.rows);
   return result.rows.map(r => ({
     factRef: r.other_fact_ref,
     direction: r.direction,

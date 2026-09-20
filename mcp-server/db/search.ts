@@ -30,6 +30,7 @@
 
 import { Pool } from "pg";
 import { embedSearchQuery } from "./embedding-adapter";
+import { traceQuery } from "./query-trace";
 
 // Raised from 10 to 25, 2026-09-05, on real measured evidence, not a guess:
 // governance/roadmap/facts-serving-strategy/15-workflow-clustering-and-
@@ -108,18 +109,18 @@ export async function search(query: string, limit?: number, moduleFilter?: strin
   try {
     const { embedding } = await embedSearchQuery(query);
 
-    const vectorRows = await db.query(
-      moduleFilter
-        ? `SELECT fact_ref, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
+    const sql = moduleFilter
+      ? `SELECT fact_ref, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
            FROM facts WHERE embedding IS NOT NULL AND module = $3
            ORDER BY distance LIMIT $2`
-        : `SELECT fact_ref, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
+      : `SELECT fact_ref, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
            FROM facts WHERE embedding IS NOT NULL
-           ORDER BY distance LIMIT $2`,
-      moduleFilter
-        ? [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT, moduleFilter]
-        : [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT]
-    );
+           ORDER BY distance LIMIT $2`;
+    const params = moduleFilter
+      ? [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT, moduleFilter]
+      : [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT];
+    const vectorRows = await db.query(sql, params);
+    traceQuery(sql, params, vectorRows.rows);
 
     const results: SearchResult[] = vectorRows.rows.map(row => ({
       factRef: row.fact_ref, repo: row.repo, module: row.module, kind: row.kind,

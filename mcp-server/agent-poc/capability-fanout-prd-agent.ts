@@ -18,10 +18,11 @@ import "dotenv/config";
 import fs from "fs";
 import path from "path";
 import type { GenerateResponse } from "genkit";
-import { z } from "genkit";
+import { z, GenerationResponseError } from "genkit";
 import { vertexAI } from "@genkit-ai/google-genai";
 import { search, type SearchResult } from "../db/search";
 import { expandWithGraphNeighbors, walkBoundedCluster } from "../db/graph-traversal";
+import { setQueryTraceDir } from "../db/query-trace";
 import { GenerationOutputSchema, type GenerationOutput, type SectionContent } from "./section-content";
 import { parseTemplate, type ParsedTemplate, type TemplateSection } from "./template";
 import { extractRealFactRefs, checkFabrication, checkTemplateConformance } from "./validators";
@@ -31,6 +32,7 @@ import {
   config,
   PROJECT_ROOT,
   DEFAULT_TEMPLATE_PATH,
+  OUTPUT_DIR,
   pool,
   assembleDocument,
   writeOutput,
@@ -40,6 +42,7 @@ import {
   retryOn429,
   withToolErrorTrapping,
   debugLogToolCall,
+  slugify,
   type RunMeta,
 } from "./atomic-prd-agent";
 
@@ -88,7 +91,21 @@ export async function routeCapabilities(
 // exists to test would be unreachable otherwise).
 // ---------------------------------------------------------------------------
 
-function makeCapabilityTools(moduleFilter: string, seenFactRefs: Set<string>) {
+// Real, opt-in FULL_DEBUG sibling to atomic-prd-agent.ts's own
+// debugLogToolCall -- writes into this run's own debug/<baseName>/ folder
+// (one file per capability, so a reader can follow one capability's tool
+// calls without wading through every other capability's) rather than
+// DEBUG_TOOL_LOG's single flat file. Deliberately separate from
+// debugLogToolCall, not a replacement for it -- that mechanism's existing
+// DEBUG_TOOL_LOG-env-var-gated behavior stays exactly as it was for every
+// other caller.
+function debugTraceToolCall(debugDir: string | null, moduleFilter: string, name: string, input: unknown, output: unknown): void {
+  if (!debugDir) return;
+  const file = path.join(debugDir, `tool-calls-${moduleFilter}.jsonl`);
+  fs.appendFileSync(file, JSON.stringify({ ts: new Date().toISOString(), tool: name, input, output }) + "\n", "utf8");
+}
+
+function makeCapabilityTools(moduleFilter: string, seenFactRefs: Set<string>, debugDir: string | null) {
   const searchFacts = ai.defineTool(
     {
       name: "search_facts",
@@ -104,6 +121,7 @@ function makeCapabilityTools(moduleFilter: string, seenFactRefs: Set<string>) {
       };
       for (const r of raw.results) seenFactRefs.add(r.factRef);
       debugLogToolCall(`search_facts[${moduleFilter}]`, { query, limit }, result);
+      debugTraceToolCall(debugDir, moduleFilter, "search_facts", { query, limit }, result);
       return result;
     }
   );
@@ -123,6 +141,7 @@ function makeCapabilityTools(moduleFilter: string, seenFactRefs: Set<string>) {
           return expandWithGraphNeighbors(db, factRefs, anchorNumbers);
         });
         debugLogToolCall(`get_graph_neighbors[${moduleFilter}]`, { factRefs }, result);
+        debugTraceToolCall(debugDir, moduleFilter, "get_graph_neighbors", { factRefs }, result);
         return result;
       } finally {
         await db.end();
@@ -142,6 +161,7 @@ function makeCapabilityTools(moduleFilter: string, seenFactRefs: Set<string>) {
       try {
         const result = await withToolErrorTrapping(() => walkBoundedCluster(db, anchorFactRef, { maxDepth, maxFacts }));
         debugLogToolCall(`walk_cluster[${moduleFilter}]`, { anchorFactRef, maxDepth, maxFacts }, result);
+        debugTraceToolCall(debugDir, moduleFilter, "walk_cluster", { anchorFactRef, maxDepth, maxFacts }, result);
         return result;
       } finally {
         await db.end();
@@ -170,6 +190,28 @@ function makeCapabilityTools(moduleFilter: string, seenFactRefs: Set<string>) {
 // stop-searching rule (below) alongside the existing *code-enforced*
 // maxTurns backstop -- the backstop alone only bounds the waste, it
 // doesn't prevent it.
+//
+// CORRECTED 2026-09-19: the "instructed stop-searching rule" from the fix
+// above was a hardcoded, capability-fanout-specific BEHAVIORAL instruction
+// (a literal "budget yourself at most 6 search_facts calls" sentence) baked
+// directly into this function -- a real violation of this project's own
+// architecture (adr-008.md §1b: template = data, persona = prompt/judgment,
+// code = fail-closed validators only), and inconsistent with this file's own
+// sibling, template.ts's renderTemplateContract, which injects ONLY
+// per-run template facts, never behavioral judgment. A PM editing
+// skill.v3.md had no visibility into, or control over, that hardcoded rule,
+// and it silently duplicated (with a different, uncoordinated threshold) the
+// generic search-budget policy skill.v3.md's own Workflow section already
+// states. Removed here -- skill.v3.md's existing generic rule (track your
+// own budget, stop at 70%, don't retry a dead sub-question 3-5 times) is
+// trusted to cover capability-scoped runs too, rather than keeping a second,
+// hardcoded, code-only copy of the same policy. What's left below is
+// deliberately narrowed to real, per-run FACTS only (which module this call
+// is scoped to, which headings/kinds the template requires, that other
+// capability calls exist and cover the rest) -- the same category of
+// content renderTemplateContract already injects for the one-hit agent, not
+// new judgment. Not yet re-tested against a real run as of this edit --
+// see governance/roadmap/graphrag/ for the next real run's findings.
 function renderCapabilityContract(template: ParsedTemplate, moduleName: string): string {
   const lines = template.sections
     .filter(s => !s.reserved)
@@ -180,15 +222,13 @@ function renderCapabilityContract(template: ParsedTemplate, moduleName: string):
   return [
     `## Capability-scoped synthesis: '${moduleName}' module only`,
     "",
-    `This is one focused synthesis pass among several separate calls for the same business request -- each pass is scoped to a different module/capability of the codebase. Your search_facts tool this call is restricted to the '${moduleName}' module only; walk_cluster and get_graph_neighbors are not restricted and may surface real evidence in other modules -- use it when it genuinely supports a claim about '${moduleName}'.`,
-    "",
-    `**Bounded search effort, real and enforced by you, not just a suggestion**: budget yourself at most 6 search_facts calls before deciding you have enough to work with. If a specific concept you're looking for (a type name, a field, a service) doesn't surface within your first 2-3 differently-worded search_facts tries, it most likely belongs to a different module than '${moduleName}' -- a separate capability call is covering it. Stop searching for it and move on rather than retrying more phrasings of the same query; producing a smaller, honest, well-evidenced partial result for '${moduleName}' is correct and expected, not a shortfall.`,
+    `This is one focused synthesis pass among several separate calls for the same business request -- each pass is scoped to a different module/capability of the codebase. Your search_facts tool this call is restricted to the '${moduleName}' module only; walk_cluster and get_graph_neighbors are not restricted and may surface real evidence in other modules -- use it when it genuinely supports a claim about '${moduleName}'. Other capability calls cover the rest of this request.`,
     "",
     "The final document's real sections, in order, are:",
     "",
     ...lines,
     "",
-    `Produce a "sections" array containing ONLY the headings above that your own '${moduleName}'-scoped evidence actually supports with a real, grounded claim -- omit any heading you have nothing real to contribute for this module. Do not invent, rename, or reorder any heading you do include. It is correct and expected for this call to produce fewer than all of the headings above; other capability calls cover the rest.`,
+    `Produce a "sections" array containing only the headings above that your own '${moduleName}'-scoped evidence actually supports.`,
   ].join("\n");
 }
 
@@ -198,6 +238,22 @@ export interface CapabilityRunResult {
   response: GenerateResponse<unknown>;
   toolCalls: { name: string; input: unknown }[];
   turnsUsed: number;
+  // Real, 2026-09-19: true when this capability's real tool-call budget was
+  // exhausted and its output came from the graceful wrap-up fallback below,
+  // not a natural stop. Not yet surfaced into RunMeta/the rendered document
+  // (atomic-prd-agent.ts, deliberately untouched this pass) -- console-only
+  // for now.
+  ranOutOfBudget: boolean;
+}
+
+// Real, deliberate FACT statement, not new behavioral judgment -- states
+// what just happened (budget exhausted, no tools left) and points back at
+// skill.v3.md's own already-existing "Honesty about gaps" section rather
+// than inventing new guidance about what to do about it. Same category of
+// content as renderCapabilityContract's own per-run facts, not a second
+// hardcoded policy layer.
+function wrapUpAfterBudgetExhausted(moduleName: string): string {
+  return `Your real tool-call budget for the '${moduleName}' capability is now exhausted -- no further tool calls are available this call. Using only the real evidence already gathered above in this conversation, produce your final structured output now for whichever of your assigned headings that evidence actually supports. For any part of your assigned scope you don't have confident evidence for, write "[NEEDS CLARIFICATION: specific question]" -- per your own persona's honesty-about-gaps guidance, that is a valid, complete answer, not a failure.`;
 }
 
 async function runCapability(opts: {
@@ -206,21 +262,80 @@ async function runCapability(opts: {
   systemPersona: string;
   template: ParsedTemplate;
   maxTurns: number;
+  // Real, 2026-09-19, TEST ONLY -- not yet a permanent decision (see
+  // governance/roadmap/dynamic-pipeline-architecture/ for the real
+  // discussion this comes from). Prepended BEFORE the persona, not after,
+  // so it's the front of the largest possible byte-identical prefix shared
+  // by every capability call this run -- the real, structural condition
+  // Vertex AI's own automatic prefix caching needs, per the user's own
+  // real concern about content lost as more gets appended over a long
+  // conversation. Real, honest uncertainty stated plainly, not hidden:
+  // this does NOT resolve whether the model still meaningfully attends to
+  // this content by the time it writes its final answer, 15-20 turns and
+  // many tool results later -- that's exactly what this test run exists to
+  // check for real, not something this placement choice proves on its own.
+  groundingDocs: string;
+  // Real, opt-in FULL_DEBUG sink (see main()): when set, this capability's
+  // full real system prompt, message history (every turn, tool call, and
+  // tool result Genkit actually sent/received), and final structured output
+  // are dumped to debugDir/llm-<module>.json. null on a normal run -- zero
+  // effect, matches this file's other FULL_DEBUG-gated additions.
+  debugDir: string | null;
 }): Promise<CapabilityRunResult> {
   const seenFactRefs = new Set<string>();
-  const { searchFacts, getGraphNeighbors, walkCluster } = makeCapabilityTools(opts.module, seenFactRefs);
-  const systemPrompt = `${opts.systemPersona}\n\n${renderCapabilityContract(opts.template, opts.module)}`;
+  const { searchFacts, getGraphNeighbors, walkCluster } = makeCapabilityTools(opts.module, seenFactRefs, opts.debugDir);
+  const systemPrompt = `${opts.groundingDocs}${opts.systemPersona}\n\n${renderCapabilityContract(opts.template, opts.module)}`;
 
-  const response = await ai.generate({
-    model: vertexAI.model(config.vertexAI.model),
-    system: systemPrompt,
-    prompt: opts.businessRequest,
-    tools: [searchFacts, getGraphNeighbors, walkCluster],
-    output: { schema: GenerationOutputSchema },
-    maxTurns: opts.maxTurns,
-    config: { temperature: config.vertexAI.temperature },
-    use: [retryOn429],
-  });
+  let response: GenerateResponse<GenerationOutput>;
+  let ranOutOfBudget = false;
+  try {
+    response = await ai.generate({
+      model: vertexAI.model(config.vertexAI.model),
+      system: systemPrompt,
+      prompt: opts.businessRequest,
+      tools: [searchFacts, getGraphNeighbors, walkCluster],
+      output: { schema: GenerationOutputSchema },
+      maxTurns: opts.maxTurns,
+      config: { temperature: config.vertexAI.temperature },
+      use: [retryOn429],
+    });
+  } catch (e) {
+    // Real, deliberate graceful-degradation path, 2026-09-19 (governance/
+    // roadmap/dynamic-pipeline-architecture/ -- the live incident this
+    // fixes: 2 of 5 real capabilities lost their entire gathered evidence
+    // and real spend this exact way in one real test run, both stuck
+    // re-querying near-duplicate phrasings of the same concept past their
+    // real turn budget). Previously, exceeding maxTurns threw here and the
+    // whole capability's already-gathered evidence was simply discarded --
+    // `main()`'s own per-capability try/catch turned that into a silent
+    // drop, not a fix.
+    //
+    // GenerationResponseError carries the full real conversation up to (but
+    // not including) the rejected turn, in `detail.response.request.
+    // messages` -- confirmed directly against genkit's own source
+    // (@genkit-ai/ai/src/generate.ts's GenerationResponseError class and
+    // its one real throw site in generate/action.ts) before relying on it,
+    // not assumed. Real, deliberate choice of WHICH history to reuse:
+    // `request.messages`, not `response.messages` -- the latter also
+    // includes the model's own final, un-actioned tool-request message
+    // that caused the abort (no real tool result exists for it, the loop
+    // aborted before executing it), which would leave the next call with a
+    // real, invalid dangling tool-request in its history.
+    if (!(e instanceof GenerationResponseError) || !e.detail?.response?.request?.messages) throw e;
+    ranOutOfBudget = true;
+    response = await ai.generate({
+      model: vertexAI.model(config.vertexAI.model),
+      messages: [
+        ...e.detail.response.request.messages,
+        { role: "user", content: [{ text: wrapUpAfterBudgetExhausted(opts.module) }] },
+      ],
+      output: { schema: GenerationOutputSchema },
+      config: { temperature: config.vertexAI.temperature },
+      use: [retryOn429],
+      // Deliberately no `tools` here -- forces a real final answer instead
+      // of one more search, the whole point of this fallback.
+    });
+  }
 
   const toolCalls = response.messages
     .flatMap(m => m.content)
@@ -232,7 +347,36 @@ async function runCapability(opts: {
     throw new Error(`[Fail-Closed] Capability call for module '${opts.module}' produced no structured output -- nothing to merge for this capability.`);
   }
   const output: GenerationOutput = response.output;
-  return { module: opts.module, output, response, toolCalls, turnsUsed };
+
+  if (opts.debugDir) {
+    fs.writeFileSync(
+      path.join(opts.debugDir, `llm-${opts.module}.json`),
+      JSON.stringify(
+        {
+          module: opts.module,
+          ranOutOfBudget,
+          systemPromptSent: systemPrompt,
+          businessRequestSent: opts.businessRequest,
+          // Full real turn-by-turn conversation as Genkit returns it --
+          // system/user prompt, every model turn, every tool-request and
+          // tool-result message actually exchanged. When ranOutOfBudget is
+          // true this already reflects the reconciled conversation (the
+          // original aborted call's history plus the wrap-up turn), not
+          // just the wrap-up call alone -- see the graceful-degradation
+          // comment above for why request.messages (not response.messages)
+          // was the real history reused.
+          messages: response.messages,
+          output: response.output,
+          usage: response.usage,
+        },
+        null,
+        2
+      ),
+      "utf8"
+    );
+  }
+
+  return { module: opts.module, output, response, toolCalls, turnsUsed, ranOutOfBudget };
 }
 
 // ---------------------------------------------------------------------------
@@ -349,10 +493,72 @@ async function main() {
   const templatePath = path.isAbsolute(TEMPLATE_FILE) ? TEMPLATE_FILE : path.join(PROJECT_ROOT, TEMPLATE_FILE);
   const template = parseTemplate(templatePath);
 
+  // Real, 2026-09-19, TEST ONLY -- explicit opt-in via GROUNDING_DOCS=true,
+  // not a permanent default (governance/roadmap/dynamic-pipeline-
+  // architecture/ has the real discussion this comes from). Deliberately
+  // hardcoded to exactly these two specific files -- the two identified as
+  // genuinely high-value during a real review (Oskey Architecture.md
+  // names real module boundaries; Oskey Personas and Authority models.md
+  // states real business rules, e.g. Owner Non Resident's exclusion from
+  // Mon Foyer, that no AST-extracted code fact can express) -- not a
+  // generic "load any N docs" system. The broader question (dynamically
+  // extracted, pipeline-time grounding, and whether the other larger
+  // reference docs are worth it) is real and separate, not decided here.
+  // Read once, here, not once per capability call -- pure code tidiness
+  // (skips 5 redundant identical disk reads), NOT a claim that placement
+  // alone guarantees the model still meaningfully attends to this content
+  // by the time it writes its final answer, many turns later -- that's the
+  // real, open, honestly-unresolved question this test exists to check.
+  const GROUNDING_DOC_PATHS = ["governance/reference-docs/Oskey Architecture.md", "governance/reference-docs/Oskey Personas and Authority models.md"];
+  let groundingDocs = "";
+  if (process.env.GROUNDING_DOCS === "true") {
+    const parts = GROUNDING_DOC_PATHS.map(p => `## Reference: ${p}\n\n${fs.readFileSync(path.join(PROJECT_ROOT, p), "utf8")}`);
+    groundingDocs = `${parts.join("\n\n---\n\n")}\n\n---\n\n`;
+    console.log(`\nGrounding docs enabled (GROUNDING_DOCS=true): ${GROUNDING_DOC_PATHS.length} file(s), ${groundingDocs.length} real char(s) prepended to every capability's system prompt.`);
+  }
+
   const ROUTING_LIMIT = Number(process.env.CAPABILITY_ROUTING_LIMIT ?? 150);
   const MIN_FACTS = Number(process.env.CAPABILITY_MIN_FACTS ?? 3);
   const MAX_CAPABILITIES = Number(process.env.CAPABILITY_MAX_CAPABILITIES ?? 5);
   const CAPABILITY_MAX_TURNS = Number(process.env.CAPABILITY_MAX_TURNS ?? 20);
+
+  // RUN_KIND/workflowName moved up from their original position just before
+  // writeOutput -- both are real, static, run-config facts (env var or
+  // business-request filename), not derived from anything Step 1/2 compute,
+  // and FULL_DEBUG below needs them to name this run's debug folder before
+  // any real work starts.
+  const RUN_KIND = process.env.RUN_KIND === "considered" ? "considered" : "test";
+  const workflowName = process.env.WORKFLOW_NAME ?? path.basename(businessRequestPath).replace(/\.[^.]+$/, "");
+
+  // Real, opt-in, 2026-09-19 (user request, after asking where to find a
+  // trace of a specific run's real Postgres queries/returns and real LLM
+  // messages -- neither existed anywhere; DEBUG_TOOL_LOG only ever captured
+  // the tool-call layer, and nothing captured raw SQL or the full LLM
+  // conversation). One flag governs both: FULL_DEBUG=true writes every raw
+  // Postgres query this run issues (search.ts + graph-traversal.ts, via the
+  // db/query-trace.ts module-level sink -- covers Step 1's routing search
+  // too, not just per-capability tool calls) and every capability's full
+  // real system prompt + turn-by-turn message history + final output, under
+  // output/agent-runs/prds/<test/>debug/<same-basename-as-this-run's-.md>/.
+  //
+  // The real basename (date-seq-slug) isn't known until writeOutput() picks
+  // it, at the very end -- so this folder is created under a temporary,
+  // timestamp-based name now (never collides, unlike guessing the sequence
+  // number up front would under real concurrent-session activity, which
+  // this project has directly hit before) and renamed to the real basename
+  // once writeOutput() returns. Off by default -- zero effect on a normal
+  // run, same discipline as DEBUG_TOOL_LOG/GROUNDING_DOCS above.
+  const FULL_DEBUG = process.env.FULL_DEBUG === "true";
+  let debugDir: string | null = null;
+  if (FULL_DEBUG) {
+    const debugParentDir = path.join(RUN_KIND === "test" ? path.join(OUTPUT_DIR, "test") : OUTPUT_DIR, "debug");
+    fs.mkdirSync(debugParentDir, { recursive: true });
+    const tempId = `${new Date().toISOString().replace(/[:.]/g, "-")}-${slugify(workflowName)}`;
+    debugDir = path.join(debugParentDir, tempId);
+    fs.mkdirSync(debugDir, { recursive: true });
+    setQueryTraceDir(debugDir);
+    console.log(`\nFULL_DEBUG enabled: writing real Postgres queries + LLM messages to ${debugDir} (renamed to match this run's real output basename once known).`);
+  }
 
   console.log(`Running capability-fanout-prd-agent against: ${businessRequestPath}`);
   console.log(`Template: ${templatePath} (${template.llmHeadings.length} LLM-authored section(s): ${template.llmHeadings.join(", ")})`);
@@ -379,9 +585,17 @@ async function main() {
     // rest of a real, already-purchased run -- logged plainly (not hidden)
     // via failedCapabilities below, same "never silently swallow, always
     // surface" discipline as withToolErrorTrapping's own real error path.
+    //
+    // Real, 2026-09-19: the maxTurns-exceeded case specifically no longer
+    // reaches this catch at all in the common case -- runCapability's own
+    // graceful wrap-up fallback handles it first (see that function's own
+    // comment). This outer try/catch remains the real, last-resort backstop
+    // for anything genuinely unrecoverable (the wrap-up call itself failing,
+    // a real infrastructure error, etc.), not the primary handler anymore.
     try {
-      const run = await runCapability({ module: c.module, businessRequest, systemPersona, template, maxTurns: CAPABILITY_MAX_TURNS });
-      console.log(`  ${run.toolCalls.length} real tool call(s), ${run.turnsUsed} turn(s), ${run.output.sections.length} section(s) produced: ${run.output.sections.map(s => s.heading).join(", ") || "(none)"}`);
+      const run = await runCapability({ module: c.module, businessRequest, systemPersona, template, maxTurns: CAPABILITY_MAX_TURNS, groundingDocs, debugDir });
+      const budgetNote = run.ranOutOfBudget ? " [wrapped up early: real tool-call budget exhausted]" : "";
+      console.log(`  ${run.toolCalls.length} real tool call(s), ${run.turnsUsed} turn(s), ${run.output.sections.length} section(s) produced: ${run.output.sections.map(s => s.heading).join(", ") || "(none)"}${budgetNote}`);
       runs.push(run);
     } catch (e) {
       console.error(`  [capability FAILED, skipped] '${c.module}': ${e instanceof Error ? e.message : String(e)}`);
@@ -428,8 +642,6 @@ async function main() {
     perCapabilityToolCalls[run.module] = counts;
   }
 
-  const RUN_KIND = process.env.RUN_KIND === "considered" ? "considered" : "test";
-  const workflowName = process.env.WORKFLOW_NAME ?? path.basename(businessRequestPath).replace(/\.[^.]+$/, "");
   const snapshotFreshness = await getSnapshotFreshness(realFactRefs);
   const { factRepoMap, factDisplayMap } = await getFactMaps(realFactRefs);
   const durationMs = Date.now() - startedAt;
@@ -486,6 +698,18 @@ async function main() {
 
   console.log(`\nWrote ${mdPath}`);
   console.log(`Wrote ${metaPath}`);
+
+  // Real basename is only known now (writeOutput() just picked it) -- move
+  // the FULL_DEBUG folder from its temporary timestamp-based name to the
+  // real one, so a reader can go straight from "which .md am I looking at"
+  // to "its debug/ folder", per the real ask this whole feature exists for.
+  if (FULL_DEBUG && debugDir) {
+    setQueryTraceDir(null);
+    const finalBaseName = path.basename(mdPath, ".md");
+    const finalDebugDir = path.join(path.dirname(debugDir), finalBaseName);
+    fs.renameSync(debugDir, finalDebugDir);
+    console.log(`Wrote full debug trace to ${finalDebugDir}`);
+  }
 }
 
 if (require.main === module) {

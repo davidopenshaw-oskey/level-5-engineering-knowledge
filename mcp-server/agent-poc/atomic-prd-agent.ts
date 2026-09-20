@@ -47,7 +47,7 @@ export const config = loadMcpServerConfig();
 // receive context/skills" design question.
 const DEFAULT_PERSONA_PATH = path.join(PROJECT_ROOT, "governance/roadmap/mcp-direction/atomic-prd-agent-persona.md");
 export const DEFAULT_TEMPLATE_PATH = path.join(PROJECT_ROOT, "mcp-server/skills/prd/template.md");
-const OUTPUT_DIR = path.join(PROJECT_ROOT, "output", "agent-runs", "prds");
+export const OUTPUT_DIR = path.join(PROJECT_ROOT, "output", "agent-runs", "prds");
 
 export function pool(): Pool {
   return new Pool({
@@ -653,11 +653,33 @@ export function assembleDocument(opts: {
             (() => {
               throw new Error(`[Fail-Closed] Template declared heading '${section.heading}' but generation did not produce it -- checkTemplateConformance should have caught this already.`);
             })(),
-          ref => numbering.get(ref)!
+          ref => numbering.get(ref)!,
+          // Real, 2026-09-19: hardcoded repo-grouping for cited-list
+          // content (section-content.ts's own renderCitedListGroupedByRepo)
+          // -- reuses the real, already-computed factRepoMap (Step 15 DB
+          // lookup, getFactMaps) rather than a second lookup.
+          ref => opts.meta.factRepoMap[ref] ?? null
         );
     return `## ${section.heading}\n\n${body}`;
   });
-  const draft = `# Agent PRD — ${opts.workflowName}\n\n${sections.join("\n\n---\n\n")}\n`;
+
+  // Real fix, 2026-09-18: capabilityFanout.failedCapabilities was already
+  // computed and written to the .meta.json sidecar (per the "never silently
+  // swallow, always surface" discipline in the orchestration loop's own
+  // comment), but that surfacing stopped at the JSON file and the console
+  // log -- a human reviewing only the rendered document had no way to know
+  // a whole capability's content was silently missing (real incident,
+  // 2026-09-17 2a fan-out retest: 'user' hit its turn cap and was dropped,
+  // missed until pointed out directly). This closes that specific gap --
+  // not the broader retry-count/timing diagnostics idea, which stays
+  // deferred to a future debug/logging initiative per 06-prd-shape-design.
+  const failedCapabilities = opts.meta.capabilityFanout?.failedCapabilities ?? [];
+  const incompleteWarning =
+    failedCapabilities.length > 0
+      ? `> ⚠️ **Incomplete document**: the following capabilities could not be completed within the available tool-call budget and are **not reflected** anywhere below: ${failedCapabilities.join(", ")}. Treat this document as a partial result for those areas, not a confirmed absence of impact.\n\n`
+      : "";
+
+  const draft = `# Agent PRD — ${opts.workflowName}\n\n${incompleteWarning}${sections.join("\n\n---\n\n")}\n`;
 
   const { markdown: anchored, citedNumbers } = injectFirstOccurrenceAnchors(draft);
   const evidenceUsedBody = renderReservedContent("evidence-used", {

@@ -555,7 +555,18 @@ async function main() {
         INSERT INTO facts (fact_id, repo, module, submodule, kind, file, line, symbol_name, payload, description, run_id)
         SELECT v.fact_id, v.repo, v.module, v.submodule, v.kind, v.file, v.line, v.symbol_name, v.payload, v.description, $${chunk.length * 10 + 1}
         FROM (VALUES ${rows.join(",")}) AS v(fact_id, repo, module, submodule, kind, file, line, symbol_name, payload, description)
-        ON CONFLICT (fact_id) DO UPDATE SET
+        -- Real fix 2026-09-18: this script pre-dates ADR-010 (fact_id to fact_ref
+        -- surrogate key migration) and was missed from that migration's own
+        -- touch-point inventory -- the live table's real unique index is on
+        -- fact_ref (a generated, deterministic sha1(fact_id) column), not
+        -- fact_id itself anymore, so ON CONFLICT (fact_id) fails outright
+        -- with "no unique or exclusion constraint matching the ON CONFLICT
+        -- specification". Safe, behavior-preserving fix: target fact_ref
+        -- instead -- since it's a deterministic function of fact_id, the
+        -- same fact_id always produces the same fact_ref, so this changes
+        -- nothing about which rows conflict, only which real column Postgres
+        -- matches against.
+        ON CONFLICT (fact_ref) DO UPDATE SET
           repo = EXCLUDED.repo, module = EXCLUDED.module, submodule = EXCLUDED.submodule,
           kind = EXCLUDED.kind, file = EXCLUDED.file, line = EXCLUDED.line,
           symbol_name = EXCLUDED.symbol_name, payload = EXCLUDED.payload,

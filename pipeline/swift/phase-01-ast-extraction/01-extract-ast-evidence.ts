@@ -381,6 +381,7 @@ function main() {
   const rawCalls: any[] = [];
   const rawErrors: any[] = [];
   const rawBleGattConstants: any[] = [];
+  const rawFirebaseCallableCalls: any[] = [];
 
   let resolvedViaImport = 0;
   let resolvedViaSameTarget = 0;
@@ -578,6 +579,38 @@ function main() {
 
       rawBleGattConstants.push({ ...base, line: call.line, name: matchingProperty.name, uuidValue, kind });
     }
+
+    // firebase_callable_call -- real Firebase Callable Functions call sites
+    // (`03-prompt-2-layer2-findings-2026-09-18.md` §1 / `04-prompt-3-layer2-
+    // build-plan-2026-09-18.md` §3.1). Matched on `rootIdentifier`, NOT
+    // `calleeExpression` (unlike the CBUUID match above) -- confirmed real
+    // and necessary: `OSKCKFunctionService` is a GENERIC wrapper
+    // (`OSKCKFunctionService<OSKCKNoResponse>(...)`), so `calleeExpression`
+    // varies per response type while `rootIdentifier` stays stable (the
+    // Swift extractor's own `rootIdentifierOf` already recurses through
+    // `GenericSpecializationExprSyntax` down to the base identifier -- see
+    // `swift-extractor/Sources/swift-extractor/main.swift`, no change needed
+    // there). The real Cloud Function name is the initializer's first
+    // positional argument (a string literal); the region is the `in:`
+    // labeled argument. A non-literal first argument is a real, honest skip
+    // (not fabricated), though none exist in this repo today -- confirmed by
+    // this build's own real run (36/36 real call sites resolved).
+    for (const call of file.calls) {
+      if (call.rootIdentifier !== "OSKCKFunctionService") continue;
+      const nameArg = call.arguments[0];
+      const nameMatch = nameArg?.match(/^"([^"]*)"$/);
+      if (!nameMatch) continue;
+      const regionArg = call.arguments.find(a => a.startsWith("in:"));
+      const regionMatch = regionArg?.match(/"([^"]*)"/);
+      rawFirebaseCallableCalls.push({
+        ...base,
+        line: call.line,
+        functionName: nameMatch[1],
+        region: regionMatch ? regionMatch[1] : null,
+        callerFunction: call.callerFunction,
+        callerClass: call.callerType,
+      });
+    }
   }
 
   addNotification(
@@ -644,6 +677,7 @@ function main() {
   writeJsonAtomically(path.join(factsDir, "ast-calls.json"), rawCalls, "facts/ast-calls.json");
   writeJsonAtomically(path.join(factsDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
   writeJsonAtomically(path.join(factsDir, "ast-ble-gatt-constants.json"), rawBleGattConstants, "facts/ast-ble-gatt-constants.json");
+  writeJsonAtomically(path.join(factsDir, "ast-firebase-callable-calls.json"), rawFirebaseCallableCalls, "facts/ast-firebase-callable-calls.json");
 
   const astManifest = {
     schemaVersion: "1.0.0",
@@ -662,6 +696,7 @@ function main() {
       { file: "ast-calls.json", evidenceType: "calls", recordCount: rawCalls.length, required: true },
       { file: "ast-errors.json", evidenceType: "errors", recordCount: rawErrors.length, required: false },
       { file: "ast-ble-gatt-constants.json", evidenceType: "bleGattConstants", recordCount: rawBleGattConstants.length, required: true },
+      { file: "ast-firebase-callable-calls.json", evidenceType: "firebaseCallableCalls", recordCount: rawFirebaseCallableCalls.length, required: true },
     ],
   };
   writeJsonAtomically(path.join(factsDir, "ast-manifest.json"), astManifest, "facts/ast-manifest.json");
@@ -672,6 +707,7 @@ function main() {
   console.log(`Call resolution: ${resolvedViaImport} via import, ${resolvedViaSameTarget} via same-target, ${unresolvedCalls} unresolved.`);
   console.log(`Import resolution: ${resolvedInRepoImports} resolved_in_repo, ${resolvedCrossRepoImports} resolved_cross_repo, ${externalOrUnresolvedImports} external_or_unresolved.`);
   console.log(`BLE GATT constants: ${rawBleGattConstants.length}`);
+  console.log(`Firebase callable calls: ${rawFirebaseCallableCalls.length}`);
 }
 
 main();

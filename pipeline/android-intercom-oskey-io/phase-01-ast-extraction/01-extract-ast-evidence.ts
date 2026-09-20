@@ -149,6 +149,7 @@ function main() {
   const rawWebrtcSignalingTouchpoints: any[] = [];
   const rawBleGattConstants: any[] = [];
   const rawUsbWireConstants: any[] = [];
+  const rawRestEndpointCalls: any[] = [];
   const rawErrors: any[] = [];
 
   let resolvedViaImport = 0;
@@ -300,6 +301,31 @@ function main() {
         isComposable,
         owningClass,
       });
+
+      // 5b. rest_endpoint_call -- real, structural Retrofit annotation walk
+      // (`03-prompt-2-layer2-findings-2026-09-18.md` §2, verified directly
+      // against this repo's own real tree-sitter-kotlin parse tree before
+      // writing this). Real, confirmed 2026-09-18: `owningClass` above is
+      // NOT null for `OSKApiService`'s methods despite it being a Kotlin
+      // `interface`, not a `class` -- this grammar has no separate
+      // `interface_declaration` node type at all (see section 2's own header
+      // comment above); `interface Foo {}` parses as a `class_declaration`,
+      // so `findEnclosingClassName` already walks through it correctly. The
+      // "findEnclosingClassName doesn't handle interfaces" gap flagged in
+      // the investigation doc was wrong -- corrected here, not silently
+      // fixed without a trace (see that doc's own build-plan addendum).
+      const httpAnnotation = httpMethodAnnotationOf(fn);
+      if (httpAnnotation) {
+        rawRestEndpointCalls.push({
+          ...base,
+          line: fn.startPosition.row + 1,
+          httpMethod: httpAnnotation.method,
+          path: httpAnnotation.path,
+          functionName: name,
+          owningInterface: owningClass,
+          parameters: params,
+        });
+      }
     }
 
     // 6. Enums -- full member list AND full constructor-argument values per
@@ -668,6 +694,7 @@ function main() {
   writeJsonAtomically(path.join(factsDir, "ast-webrtc-signaling-touchpoints.json"), rawWebrtcSignalingTouchpoints, "facts/ast-webrtc-signaling-touchpoints.json");
   writeJsonAtomically(path.join(factsDir, "ast-ble-gatt-constants.json"), rawBleGattConstants, "facts/ast-ble-gatt-constants.json");
   writeJsonAtomically(path.join(factsDir, "ast-usb-wire-constants.json"), rawUsbWireConstants, "facts/ast-usb-wire-constants.json");
+  writeJsonAtomically(path.join(factsDir, "ast-rest-endpoint-calls.json"), rawRestEndpointCalls, "facts/ast-rest-endpoint-calls.json");
   writeJsonAtomically(path.join(factsDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
 
   // AST evidence manifest -- real gap found building Task 8: 02-build-
@@ -696,6 +723,7 @@ function main() {
       { file: "ast-webrtc-signaling-touchpoints.json", evidenceType: "webrtcSignalingTouchpoints", recordCount: rawWebrtcSignalingTouchpoints.length, required: true },
       { file: "ast-ble-gatt-constants.json", evidenceType: "bleGattConstants", recordCount: rawBleGattConstants.length, required: true },
       { file: "ast-usb-wire-constants.json", evidenceType: "usbWireConstants", recordCount: rawUsbWireConstants.length, required: true },
+      { file: "ast-rest-endpoint-calls.json", evidenceType: "restEndpointCalls", recordCount: rawRestEndpointCalls.length, required: true },
     ],
     errors: {
       file: "ast-errors.json",
@@ -723,6 +751,7 @@ function main() {
     webrtcSignalingTouchpoints: rawWebrtcSignalingTouchpoints.length,
     bleGattConstants: rawBleGattConstants.length,
     usbWireConstants: rawUsbWireConstants.length,
+    restEndpointCalls: rawRestEndpointCalls.length,
     errors: rawErrors.length,
   });
 }
@@ -741,6 +770,36 @@ function isAnnotatedWith(decl: Parser.SyntaxNode, annotationName: string): boole
   const modifiers = decl.children.find(c => c?.type === "modifiers");
   if (!modifiers) return false;
   return findNodesOfType(modifiers, "annotation").some(a => a.text === `@${annotationName}` || a.text.startsWith(`@${annotationName}(`));
+}
+
+const HTTP_METHOD_ANNOTATION_NAMES = ["GET", "POST", "PUT", "DELETE", "PATCH"];
+
+/** A Retrofit HTTP-method annotation's real method + path, if this function
+ * declaration carries one -- real, structural walk (annotation ->
+ * constructor_invocation -> type_identifier for the method name,
+ * value_arguments -> value_argument -> string_literal -> string_content for
+ * the literal path), confirmed directly 2026-09-18 against a bounded parse
+ * of this repo's own real OSKApiService.kt before writing this, per this
+ * project's own "verify before build" discipline
+ * (`03-prompt-2-layer2-findings-2026-09-18.md` §2). Scoped to the same
+ * declaration-level `modifiers` child `isAnnotatedWith` (above) already uses
+ * -- the same real, tested grammar shape, not the different one
+ * `kotlin-ast-utils.ts`'s own `annotationNamesIn` documents for file-level
+ * annotations; the two genuinely differ and this repo's function-level case
+ * is proven to match `isAnnotatedWith`'s shape, not `annotationNamesIn`'s. */
+function httpMethodAnnotationOf(decl: Parser.SyntaxNode): { method: string; path: string } | null {
+  const modifiers = decl.children.find(c => c?.type === "modifiers");
+  if (!modifiers) return null;
+  for (const annotation of findNodesOfType(modifiers, "annotation")) {
+    const invocation = findNodesOfType(annotation, "constructor_invocation")[0];
+    if (!invocation) continue;
+    const methodName = findNodesOfType(invocation, "type_identifier")[0]?.text;
+    if (!methodName || !HTTP_METHOD_ANNOTATION_NAMES.includes(methodName)) continue;
+    const path = findNodesOfType(invocation, "string_content")[0]?.text;
+    if (!path) continue;
+    return { method: methodName, path };
+  }
+  return null;
 }
 
 function findEnclosingFunctionName(node: Parser.SyntaxNode): string | null {
