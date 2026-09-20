@@ -302,6 +302,24 @@ export function descriptionFor(fact: Fact, module: string): string {
     ? ` -- possible values: ${kotlinEnumMembers.map(m => (m.constructorArgs && m.constructorArgs.length > 0 ? `${m.name}(${m.constructorArgs.join(", ")})` : m.name)).join(", ")}`
     : "";
 
+  // TypeScript enum members (firebase-oskey-dev/angular-app-oskey-io/
+  // node-iot-api-oskey-io) -- real bug found 2026-09-20, governance/roadmap/
+  // dynamic-pipeline-architecture/06-findings-empty-enum-possible-values-ts-
+  // repos-2026-09-20.md: these three repos' extractors also wrote a field
+  // named `members`, but as a flat string[] of member names -- silently
+  // consumed by kotlinEnumMembers above (which expects `{name,
+  // constructorArgs?}` objects), producing `m.name` on a plain string ->
+  // undefined -> `possible values: ,` for 100% of TS enum facts (31/31).
+  // Fixed at the source (01-extract-ast-evidence.ts now emits a distinctly-
+  // named `enumMembers: {name, value}[]` field, using ts-morph's real
+  // EnumMember.getValue()) rather than patched here by shape-sniffing --
+  // same "separate field, don't force-fit" precedent as swiftEnumCases
+  // below, so this branch can never again collide with Kotlin's `members`.
+  const tsEnumMembers: { name: string; value?: string | number }[] | undefined = fact.enumMembers ?? fact.evidence?.enumMembers;
+  const tsEnumDeclarationDoc = fact.type === "enum_declaration" && tsEnumMembers && tsEnumMembers.length > 0
+    ? ` -- possible values: ${tsEnumMembers.map(m => (m.value !== undefined ? `${m.name} = ${m.value}` : m.name)).join(", ")}`
+    : "";
+
   // Swift enum cases -- ios-oskey-dev family, added 2026-09-10 (P1 build
   // tasklist Task 8). Deliberately a SEPARATE field/branch from Kotlin's
   // `members` above rather than force-fit into the same shape: a Swift
@@ -456,7 +474,7 @@ export function descriptionFor(fact: Fact, module: string): string {
     ? ` -- ${touchpointDirection ?? "touches"} event: ${touchpointEvent}`
     : "";
 
-  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${implementsInterfacesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${kotlinCallResolutionDoc}${kotlinCallArgumentsDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${importsDependencyDoc}${enumDeclarationDoc}${swiftEnumDeclarationDoc}${swiftInheritanceDoc}${extensionDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${functionOwningClassDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc} (${loc})`;
+  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${implementsInterfacesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${kotlinCallResolutionDoc}${kotlinCallArgumentsDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${importsDependencyDoc}${enumDeclarationDoc}${tsEnumDeclarationDoc}${swiftEnumDeclarationDoc}${swiftInheritanceDoc}${extensionDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${functionOwningClassDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc} (${loc})`;
 }
 
 function pool(): Pool {

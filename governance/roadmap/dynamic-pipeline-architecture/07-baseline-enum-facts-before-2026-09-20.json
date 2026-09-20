@@ -1,0 +1,1137 @@
+[
+  {
+    "fact_ref": "0abd2009ed5b85d224e73b0574c26d883e8f2270",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in kotlin-webrtc-domain-oskey-io: UnlockSentStatusResponse -- possible values: Success, Failure (kotlin-webrtc-domain-oskey-io/src/main/java/io/oskey/webrtc_domain/client/OSKCallParticipantServiceInterface.kt:54)"
+  },
+  {
+    "fact_ref": "0e315f2e4633cccd7233ca235a67116f76cd813d",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in app: StatusReceiver -- possible values: INIT, RECEIVE (app/src/main/java/io/oskey/intercom/ui/screens/OSKMainActivityViewModel.kt:103)"
+  },
+  {
+    "fact_ref": "21f07044e63d5a30c290900cdbab6b15afa4bf0e",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in kotlin-webrtc-domain-oskey-io: ActivityErrorRequest -- possible values: DefaultError(\"defaultError\"), InvalidPincode(\"invalidPincode\"), InvalidDevice(\"invalidDevice\"), InvalidCloudToken(\"invalidCloudToken\"), InvalidDeviceToken(\"invalidDeviceToken\"), InvalidAccess(\"invalidAccess\"), AlreadyUsed(\"alreadyUsed\"), OpenFailed(\"openFailed\"), IncompletePincode(\"incompletePincode\") (kotlin-webrtc-domain-oskey-io/src/main/java/io/oskey/webrtc_domain/client/OSKSignalingClient.kt:26)"
+  },
+  {
+    "fact_ref": "367457a4863ab3d592a419a680ad265fb498b0dd",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in app: AccessRightsValidity -- possible values: PERMANENT(\"permanent\"), ONE_TIME(\"oneTime\") (app/src/main/java/io/oskey/intercom/model/OSKAccesses.kt:50)"
+  },
+  {
+    "fact_ref": "5ba44a508b1856bb7187a1c6d69295e5c04451cd",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in kotlin-webrtc-domain-oskey-io: EmitStatusResponse -- possible values: Error(\"error\"), Success(\"success\") (kotlin-webrtc-domain-oskey-io/src/main/java/io/oskey/webrtc_domain/client/OSKCallParticipantServiceInterface.kt:30)"
+  },
+  {
+    "fact_ref": "6442e235e11cd0a0372173f5a67004df75afdbf4",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in app: MotorPosition -- possible values: PositionUnLock(0.toByte()), PositionLock(4.toByte()) (app/src/main/java/io/oskey/intercom/ui/screens/benchmark/tests/OSKTestBenchState.kt:63)"
+  },
+  {
+    "fact_ref": "83216a56e2523816e66c4ceacfc641330e3a6c45",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in app: ActivityErrorRequest -- possible values: DefaultError(\"defaultError\"), InvalidPincode(\"invalidPincode\"), InvalidDevice(\"invalidDevice\"), InvalidCloudToken(\"invalidCloudToken\"), InvalidDeviceToken(\"invalidDeviceToken\"), InvalidAccess(\"invalidAccess\"), AlreadyUsed(\"alreadyUsed\"), OpenFailed(\"openFailed\"), IncompletePincode(\"incompletePincode\") (app/src/main/java/io/oskey/intercom/model/OSKActivityRequest.kt:51)"
+  },
+  {
+    "fact_ref": "8ba1a78706d8ccc8203303162650916c785cd6b8",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in app/_unreferenced: StateCall -- possible values: CREATED, RECEIVED, ANSWERED, COMPLETED, REJECTED, CANCELLED, FAILED (app/src/main/java/io/oskey/intercom/ui/screens/webrtc/StateCall.kt:3)"
+  },
+  {
+    "fact_ref": "9c5efd8d89d4229d5a4c6b28e42d9784132b4e12",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in kotlin-ble-kit-oskey-io: OSKBleLifecycleState -- possible values: None, Advertising, StoppedAdvertising, Scanning, Connecting, Connected, ConnectedAndDiscovered, ConnectedAndSubscribed, ConnectedAndUnsubscribed, Disconnected (kotlin-ble-kit-oskey-io/src/main/java/io/oskey/ble_intercom_lib/model/OSKBleLifecycleState.kt:18)"
+  },
+  {
+    "fact_ref": "a4401718b42f0cef0f21aa12b0ecd0e091c48d0d",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in kotlin-webrtc-data-oskey-io: UnlockResponseStatus -- possible values: Success(\"success\"), Failure(\"failure\") (kotlin-webrtc-data-oskey-io/src/main/java/io/oskey/webrtc_data/socketIO/OSKSignalingRequest.kt:85)"
+  },
+  {
+    "fact_ref": "ac8ad3ffb73c02e6ed04c60e2d54dc3cdf8ab966",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in kotlin-webrtc-domain-oskey-io: EmitStatusResponse -- possible values: Error(\"error\"), Success(\"success\") (kotlin-webrtc-domain-oskey-io/src/main/java/io/oskey/webrtc_domain/client/OSKCallServiceInterface.kt:32)"
+  },
+  {
+    "fact_ref": "b810972bf0a5175709f486dbab8e9cf663563769",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in app: ActivityTypeRequest -- possible values: Ble(\"ble\"), Pincode(\"pincode\"), Sesame(\"sesame\"), Signaling(\"signaling\"), FaceRecognition(\"faceRecognition\") (app/src/main/java/io/oskey/intercom/model/OSKActivityRequest.kt:34)"
+  },
+  {
+    "fact_ref": "c95139bf75c9f6c3de91ab67020793a756bb1701",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in kotlin-webrtc-data-oskey-io: UnlockResponseSentStatusResponse -- possible values: Success(\"success\"), Failure(\"failure\") (kotlin-webrtc-data-oskey-io/src/main/java/io/oskey/webrtc_data/socketIO/OSKSignalingResponse.kt:36)"
+  },
+  {
+    "fact_ref": "c9795aca64bb2b9889d00c713fc1feb12af50d11",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in kotlin-webrtc-data-oskey-io: StatusResponse -- possible values: Error(\"error\"), Success(\"success\") (kotlin-webrtc-data-oskey-io/src/main/java/io/oskey/webrtc_data/socketIO/OSKSignalingResponse.kt:99)"
+  },
+  {
+    "fact_ref": "cb69a266a638cc498db7f65ff48b5ae5c486cd22",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in app/_unreferenced: SystemBarsVisibility -- possible values: Visible, Gone (app/src/main/java/io/oskey/intercom/ui/screens/main/SystemBarsController.kt:83)"
+  },
+  {
+    "fact_ref": "d7a2cb4342c00d04b8353d132327c4feddfdd034",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in kotlin-webrtc-data-oskey-io: OSKSignalingEvents -- possible values: ON_EVENT_SOCKET_DETAILS(\"socketDetails\"), ON_EVENT_PARTICIPANT_ICE_CANDIDATES_SENT(\"participantICECandidatesSent\"), ON_EVENT_CALL_TERMINATED(\"callTerminated\"), ON_EVENT_PARTICIPANT_LEFT(\"participantLeft\"), EMIT_EVENT_CALLER_CREATE_CALL(\"createCall\"), EMIT_EVENT_CALLER_OFFER(\"offer\"), EMIT_EVENT_CALLER_ICE_CANDIDATES(\"iceCandidates\"), EMIT_EVENT_CALLER_LEAVE_CALL(\"leaveCall\"), EMIT_EVENT_CALLER_UNLOCK_RESPONSE(\"unlockResponse\"), ON_EVENT_CALLER_PARTICIPANT_NOTIFIED(\"participantNotified\"), ON_EVENT_CALLER_PARTICIPANT_JOINED(\"participantJoined\"), ON_EVENT_CALLER_PARTICIPANT_ANSWER_SENT(\"participantAnswerSent\"), ON_EVENT_CALLER_PARTICIPANT_UNLOCK_REQUEST_SENT(\"participantUnlockRequestSent\"), EMIT_EVENT_CALL_NOTIFICATION_RECEIVED(\"callNotificationReceived\"), EMIT_EVENT_PARTICIPANT_JOIN_CALL(\"joinCall\"), EMIT_EVENT_PARTICIPANT_ANSWER(\"answer\"), EMIT_EVENT_PARTICIPANT_ICE_CANDIDATES(\"iceCandidates\"), EMIT_EVENT_PARTICIPANT_LEAVE_CALL(\"leaveCall\"), EMIT_EVENT_PARTICIPANT_REJECT_CALL(\"rejectCall\"), EMIT_EVENT_PARTICIPANT_UNLOCK_REQUEST(\"unlockRequest\"), ON_EVENT_PARTICIPANT_OFFER_SENT(\"participantOfferSent\"), ON_EVENT_PARTICIPANT_UNLOCK_RESPONSE_SENT(\"participantUnlockResponseSent\") (kotlin-webrtc-data-oskey-io/src/main/java/io/oskey/webrtc_data/socketIO/OSKSignalingService.kt:70)"
+  },
+  {
+    "fact_ref": "fde7a46508d0813efc57a249cb2c7c086eb7f46c",
+    "repo": "android-intercom-oskey-io",
+    "description": "enum_declaration in app: AccessMethodsType -- possible values: Pincode(\"pincode\"), Mobile(\"mobile\") (app/src/main/java/io/oskey/intercom/model/OSKAccesses.kt:64)"
+  },
+  {
+    "fact_ref": "08e32d9ebf3a1f5f1ed84f69c8ef8896d889ccff",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in features/portals_organization_entities_entity_properties_inhabitants: OSKSupportedLanguageEnum -- possible values: ,  (hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/inhabitants/types/inhabitant-document.type.ts:80)"
+  },
+  {
+    "fact_ref": "52dc054c69429015aea02519154f17f7a00bddcc",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in features/authentication: OSKSignInMethod -- possible values: , , , , ,  (hosting/web-app/src/app/features/authentication/features/sign-in/enums/sign-in-methods.enum.ts:1)"
+  },
+  {
+    "fact_ref": "6ca8b68c4c160a4f687a33cbe0d1b1a49db7245e",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in features/portals_organization_entities: OSKEntityType -- possible values: ,  (hosting/web-app/src/app/features/portals/organization/features/entities/features/entities-dashboard/types/organization-entity.type.ts:16)"
+  },
+  {
+    "fact_ref": "7d4bf63c9195e044af7ed8b330e4919001b92dd9",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in core/types: OSKUserAccessType -- possible values: , , ,  (hosting/web-app/src/app/core/types/access/user-access-type.type.ts:1)"
+  },
+  {
+    "fact_ref": "7f077ed75fab2dfbe9893c10c7a0225210d39bc7",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in features/authentication: OSKEmailLinkSignUpSteps -- possible values: ,  (hosting/web-app/src/app/features/authentication/features/sign-in/components/sign-up-with-email-link/sign-up-with-email-link.component.ts:49)"
+  },
+  {
+    "fact_ref": "9523f0376c86d66f98688afbe0b9233267f6a534",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in features/portals_organization_entities_entity_properties: OSKPropertyTypeEnum -- possible values: , ,  (hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/types/organization-property.typs.ts:29)"
+  },
+  {
+    "fact_ref": "afb53ec1962518523809e6d5966a6ed751620f35",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in features/portals_organization_entities_entity_properties_inhabitants: OSKPincodeType -- possible values: , ,  (hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/inhabitants/types/inhabitant-document.type.ts:61)"
+  },
+  {
+    "fact_ref": "e61cf38c4e095da7dbef4864893b6c5f496989b9",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in core/types: OSKAccessControlDeviceActivityType -- possible values: , , ,  (hosting/web-app/src/app/core/types/building/building-door.type.ts:48)"
+  },
+  {
+    "fact_ref": "f4d44263d9a374e85532c1969ff553bd93509a51",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in features/portals_organization_entities: OSKEntityType -- possible values: ,  (hosting/web-app/src/app/features/portals/organization/features/entities/types/organization-entity.type.ts:16)"
+  },
+  {
+    "fact_ref": "f671f0e0dc20564ae21ea753abb892e0d9226643",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in features/authentication: OSKEmailLinkSignInSteps -- possible values: ,  (hosting/web-app/src/app/features/authentication/features/sign-in/components/sign-in-with-email-link/sign-in-with-email-link.component.ts:44)"
+  },
+  {
+    "fact_ref": "f94c874a1e574d2bf8de2c3f0968be9e1c0267ca",
+    "repo": "angular-app-oskey-io",
+    "description": "enum_declaration in features/portals_organization_entities_entity_properties: OSKPropertyManagementEnum -- possible values: , , , , , ,  (hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/types/organization-property.typs.ts:19)"
+  },
+  {
+    "fact_ref": "054f04b06f9b5e901d812260476e16db07310c75",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in organization/organization_property: OSKPropertyManagementEnum -- possible values: , , , , , ,  (functions/src/modules/organization/modules/organization_property/models/documents/property_document.ts:20)"
+  },
+  {
+    "fact_ref": "072ff9a855b9c38cba5f140b0b2ce8b23015d3b6",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in unit_management: OSKUnitRequestType -- possible values: , , ,  (functions/src/modules/unit_management/models/functions/unit_management_inhabitant_response_document.ts:118)"
+  },
+  {
+    "fact_ref": "852cd1c9b536ca25d7ed454c17e680a61deb172c",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in building/building_intercom: OSKOperationType -- possible values: , ,  (functions/src/modules/building/modules/building_intercom/models/messages/building_intercom_messages.model.ts:10)"
+  },
+  {
+    "fact_ref": "90d0328399b0a37b568d0f6c1680273b245c6d44",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in organization/organization_property: OSKPropertyTypeEnum -- possible values: , ,  (functions/src/modules/organization/modules/organization_property/models/documents/property_document.ts:32)"
+  },
+  {
+    "fact_ref": "96701b10c7570e4f242da4b3417eb9c783dd32a3",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in access_control_device: ActivityUserType -- possible values: , ,  (functions/src/modules/access_control_device/services/access_control_device_activity_enrichment.service.ts:14)"
+  },
+  {
+    "fact_ref": "b5815720373521e6c97d4a01030c4706401166f7",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in user/user_invitation: OSKInvitationCategory -- possible values: ,  (functions/src/modules/user/modules/user_invitation/models/functions/user_invitation_get_all.model.ts:9)"
+  },
+  {
+    "fact_ref": "ce5a87d62f71be6f84d086978625f2e1c4cd37ec",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in core/access: OSKAccessMessageOperation -- possible values: , ,  (functions/src/modules/core/modules/access/models/functions/access_messages.model.ts:8)"
+  },
+  {
+    "fact_ref": "d2a5fc6c4a6e1655cda276739512d86105629c22",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in core/access: OSKPincodeType -- possible values: , , , ,  (functions/src/modules/core/modules/access/models/access_pincode.model.ts:6)"
+  },
+  {
+    "fact_ref": "d926a23eca4e3017793fec4d377840c621bb5d83",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in building/building_activity: OSKAccessControlDeviceActivityType -- possible values: , , ,  (functions/src/modules/building/modules/building_activity/models/documents/building_activity_document.model.ts:8)"
+  },
+  {
+    "fact_ref": "da38427c89bb9a840ade5307200f907cbb1f07b1",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in core: OSKSupportedLanguageEnum -- possible values: ,  (functions/src/modules/core/models/shared/supported_language.model.ts:7)"
+  },
+  {
+    "fact_ref": "ee484d56f5cfad0a44ac60f3b28775c1899609f7",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in user/user_access: OSKUserAccessType -- possible values: , , , , , , ,  (functions/src/modules/user/modules/user_access/models/documents/user_accesses_document.model.ts:19)"
+  },
+  {
+    "fact_ref": "f36692eddb58dba2f2e94098824f7b637eda0898",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in core: OSKApiName -- possible values: , , , , , , , , , , , , , , , , ,  (functions/src/modules/core/services/secret.service.ts:12)"
+  },
+  {
+    "fact_ref": "f5c2d7f171529ac3930611419ac2555d0494013e",
+    "repo": "firebase-oskey-dev",
+    "description": "enum_declaration in organization/organization_entity: OSKEntityType -- possible values: ,  (functions/src/modules/organization/modules/organization_entity/models/documents/entity_document_model.ts:7)"
+  },
+  {
+    "fact_ref": "01aff3ae17c5b5ec9c2bcf8fb331ac86967944c5",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKLanguages -- possible values: frFR = \"fr-FR\", enUS = \"en-US\", enGB = \"en-GB\", jaJP = \"ja-JP\" -- conforms to/extends: String, CaseIterable (iOS App/Presentation/Account/Views/OSKUserAccountLanguageScreen.swift:34)"
+  },
+  {
+    "fact_ref": "04fc58d33e4e1f5d086e5aac14e7591db558cdc9",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: Stroke (OSKDoorUnlockActivity/Color.swift:43)"
+  },
+  {
+    "fact_ref": "0b289c807207bf44dcef670757da831796e87019",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKField -- possible values: firstName = 1, lastName = 2 -- conforms to/extends: Int (iOS App/Presentation/Profile/Views/OSKUserProfileUpdateNameForm.swift:20)"
+  },
+  {
+    "fact_ref": "0fab286373a8345540e8bb8d8f1ad7fd1c9547c4",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: UserDistanceStatus -- possible values: noUser, tooFar, tooClose, correct (iOS App/Presentation/FaceRecognition/Utils/FaceRecognitionTypes.swift:46)"
+  },
+  {
+    "fact_ref": "133ae753e519b2a3c0e532f38e2c691e0d33ee23",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: BuildEnv (iOS App/App/View Models/OSKUserSettings.swift:16)"
+  },
+  {
+    "fact_ref": "145dd666ba21e6118a50b4afdbcb3569e5fc05c9",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKField -- possible values: email = 1 -- conforms to/extends: Int (iOS App/Presentation/Auth/Views/OSKAuthSignUpSignInForm.swift:18)"
+  },
+  {
+    "fact_ref": "1a8eceb6c94d20a3bd9b8c94421a267f2be4d7bd",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: AuthType -- possible values: signIn, signUp -- conforms to/extends: String (iOS App/App/Views/OSKSplashScreen.swift:28)"
+  },
+  {
+    "fact_ref": "26506664923e0c53bcc83e936ecce18c83c6d38a",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: FirmwareDownloadError -- possible values: emptyFile -- conforms to/extends: LocalizedError (iOS App/Presentation/SesamePlus/PairingSesame/Extension/OSKFirmwareDownloadService.swift:52)"
+  },
+  {
+    "fact_ref": "319e47ebc97f3f2432d3a4d4da2c1dc372a9659e",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKUserAccessType -- possible values: inhabitantUser, inhabitantGuestUser, inhabitantPermanentGuestUser, inhabitantAnonymousUser, organizationUser, organizationGuestUser, nonAppUser, pendingUnitInvitation -- conforms to/extends: String, Codable, Hashable (iOS App/Domain/Entities/OSKInvitationData.swift:16)"
+  },
+  {
+    "fact_ref": "346fad929bb0447b592c0725f7ec16d33e025479",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKNotificationType -- possible values: building = \"residentsNotificationReceived\", oskey = \"inviteeOnboardedNotification\" -- conforms to/extends: String (iOS App/Presentation/Notification/Model/OSKNotification.swift:17)"
+  },
+  {
+    "fact_ref": "39ec9107daaae7166fa02899cbe460f6bbee5566",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: CameraShape -- possible values: rectangle, circle (iOS App/Presentation/FaceRecognition/Utils/FaceRecognitionTypes.swift:29)"
+  },
+  {
+    "fact_ref": "3ed1e8a3563f91559609f8420f70695007204147",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: CodingKeys -- possible values: updateForced, versionName -- conforms to/extends: String, CodingKey (iOS App/App/UpdateAppKit/Model/OSKAppUpdateConfig.swift:28)"
+  },
+  {
+    "fact_ref": "40232b3ba4afb1a4770453282945605974fadd42",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKInvitationsTab -- possible values: received, granted -- conforms to/extends: CaseIterable (iOS App/Presentation/Invitations/Views/OSKInvitationsSegmentedControlView.swift:17)"
+  },
+  {
+    "fact_ref": "40a756bcc3a2d4e8e1c13f84f510db01258c1269",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: SignInWithGoogleError -- possible values: credentialAlreadyInUse -- conforms to/extends: Error (Shared/Auth/View Models/OSKAuthViewModel.swift:56)"
+  },
+  {
+    "fact_ref": "452c1b5c5992e1b432b71b17ccb757f409d6cdd7",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKPeriodicity -- possible values: daily, weekly, monthly -- conforms to/extends: String, Codable (iOS App/Domain/Entities/OSKAccessRecurrence.swift:18)"
+  },
+  {
+    "fact_ref": "4571291f51bf7a68992d04925c86d11c5701c709",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: InviteType -- possible values: mail = \"mail\", phone = \"phone\", user = \"user\" -- conforms to/extends: String, Codable (iOS App/Domain/Entities/OSKContactInfo.swift:17)"
+  },
+  {
+    "fact_ref": "45d41b3d00924b6ac33a285cbabc55038780dcf7",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: FaceRecognitionEntryPoint -- possible values: fromScanFlow, fromAccessMethods (iOS App/Presentation/FaceRecognition/Views/OSKScanCompleteView.swift:20)"
+  },
+  {
+    "fact_ref": "46e8935ea223356427f26d39570f872dd3ae89e6",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKUserInvitationStatus -- possible values: accepted, rejected, pending, cancelled -- conforms to/extends: String, Equatable, Codable, Hashable (iOS App/Domain/Entities/OSKInvitee.swift:23)"
+  },
+  {
+    "fact_ref": "497fa7ff51b08b3678eb065d40ac4ae9ba3eb784",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: DarkShades (OSKDoorUnlockActivity/Color.swift:119)"
+  },
+  {
+    "fact_ref": "49c6034f3bc9b5b4912be50c92cdc18fafba69ea",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKField -- possible values: firstName = 1, lastName = 2 -- conforms to/extends: Int (iOS App/Presentation/Auth/Views/OSKAuthSignUpConsentForm.swift:19)"
+  },
+  {
+    "fact_ref": "50ed80c882ae60429b714ede5142f18f67911965",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKValidity -- possible values: oneTime, permanent, recurrent -- conforms to/extends: String, Codable (iOS App/Domain/Entities/OSKAccessRight.swift:18)"
+  },
+  {
+    "fact_ref": "51f423c27d3d86399f936f6168092844aa3fd718",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: Palette (OSKDoorUnlockActivity/Color.swift:33)"
+  },
+  {
+    "fact_ref": "5213e408b8bf07dc4542a64c2cc5bebc6cb8cf6c",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: FaceDirection -- possible values: neutral, north, northEast, east, southEast, south, southWest, west, northWest -- conforms to/extends: String, CaseIterable, Hashable (iOS App/Presentation/FaceRecognition/Utils/FaceDirection.swift:19)"
+  },
+  {
+    "fact_ref": "546bd114feb27fb48b2ee947a1d0431541d03b10",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: YourGPTLinks (iOS App/Presentation/Profile/Utils/YourGPTLinks.swift:16)"
+  },
+  {
+    "fact_ref": "567430295308158ec8b935d31529971413feb771",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: BiometricType -- possible values: none, touchID, faceID, opticID -- conforms to/extends: String (iOS App/UI/Extensions/LAContext.swift:19)"
+  },
+  {
+    "fact_ref": "573620d007267f97620ccfe7aca18d149c2714e8",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKField -- possible values: name = 1 -- conforms to/extends: Int (iOS App/Presentation/Devices/Views/OSKUserDeviceUpdateForm.swift:22)"
+  },
+  {
+    "fact_ref": "5ccf87b493b7f59a01829c825b9c52172ab6cadd",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKToastAlertType -- possible values: success, error, warning, info (iOS App/UI/Views/OSKToastView/OSKConfigToastAlertType.swift:17)"
+  },
+  {
+    "fact_ref": "644af045ff61fd48c37a8d08fcd82e4c99b862ec",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKField -- possible values: name = 1 -- conforms to/extends: Int (iOS App/Presentation/Devices/Views/OSKUserDeviceRegistrationForm.swift:22)"
+  },
+  {
+    "fact_ref": "663e0f268997e01957392b57915f93400eed3509",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKTab -- possible values: unlock = 1, invitations = 2, activity = 3, more = 4 -- conforms to/extends: Int (iOS App/Presentation/UnlockView/Views/OSKUserMainScreen.swift:20)"
+  },
+  {
+    "fact_ref": "66b9db317fdab56f00e29ee17d812a3407381b1f",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: ColorSchemePreference -- possible values: light, dark, system -- conforms to/extends: String, CaseIterable (iOS App/App/View Models/OSKUserSettings.swift:41)"
+  },
+  {
+    "fact_ref": "67d136eedf36d9fe37f295e2c01525b761ab9418",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: Searchbar (OSKDoorUnlockActivity/Color.swift:77)"
+  },
+  {
+    "fact_ref": "6a1ef02005db55ccb6e5af480d562dabf9140d3a",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: UnlockBouttonState -- possible values: available, remote, unavailable (iOS App/Presentation/UnlockView/Views/Cell/OSKUserBuildingAccessUnlockCellView.swift:112)"
+  },
+  {
+    "fact_ref": "6b27bc8e447ac28b5382153227ee9841580d1cb0",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKSection -- possible values: privacySettings, notifications, system (iOS App/App/Views/OSKSettingsScreen.swift:17)"
+  },
+  {
+    "fact_ref": "6dd5ebbf85d6abf45d0a0f10a1fe243579d34c70",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKTitlePosition -- possible values: above, inline (iOS App/UI/Extensions/View.swift:79)"
+  },
+  {
+    "fact_ref": "735805011800f72ccd87c1afbb365e037d799e64",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKClipShape -- possible values: circle, square, none (iOS App/UI/Views/OSKImageResizer.swift:55)"
+  },
+  {
+    "fact_ref": "7870a09c14e5872546f4a8456fee4e872b54cd37",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: AppIconPreference -- possible values: ocean, night, snow -- conforms to/extends: CaseIterable, Equatable (iOS App/App/View Models/OSKUserSettings.swift:59)"
+  },
+  {
+    "fact_ref": "7c1fb0d9cebb2ee65dd65b1359c285f456bb7684",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: PairingStep -- possible values: searching, found, selectMember, changeName, notfound, updateRequired, didStartUpdate, reconnectAfterUpdate (iOS App/Presentation/SesamePlus/PairingSesame/OSKSesamePlusPairingStatusScreenView.swift:19)"
+  },
+  {
+    "fact_ref": "7cdf70796edf9281a7fff9abce9a9f70a3f1fecb",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: SendInvitations -- possible values: none, all, `public` = \"public\" -- conforms to/extends: String, Codable (iOS App/Domain/Entities/OSKResidentRights.swift:16)"
+  },
+  {
+    "fact_ref": "811e20e7bc8d90d4d25352d32bc7ba475c23498e",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: FaceRecognitionPhase -- possible values: alignment, tracking (iOS App/Presentation/FaceRecognition/Utils/FaceRecognitionTypes.swift:21)"
+  },
+  {
+    "fact_ref": "86796c7b597df0a94376fa53e499dfedd882b771",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKPosition -- possible values: above, below (iOS App/UI/Extensions/View.swift:33)"
+  },
+  {
+    "fact_ref": "8bb079f2bde77a03a87a4ea3629fe26af6d6e5bd",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKTextViewModifier (iOS App/UI/Extensions/Text.swift:16)"
+  },
+  {
+    "fact_ref": "8e94e0845bf9fa86d4f1ea09561bf8f2e1e71251",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: PermissionCardType -- possible values: bluetooth, access (iOS App/Presentation/UnlockView/Views/OSKHomeTableViewController.swift:644)"
+  },
+  {
+    "fact_ref": "8eaf4644b5215c87bee4377b8bfec74302e9f01d",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKFailure -- possible values: invalidImage, apiError(Error) -- conforms to/extends: Error (iOS App/UI/Views/OSKAsyncCachedFirebaseImage.swift:20)"
+  },
+  {
+    "fact_ref": "8f08b0ddef0de62ad46e3d83c63b55b13252dd1d",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: CodingKeys -- possible values: accessId, buildingId, pincode, type, userId, creationDate, id -- conforms to/extends: String, CodingKey (iOS App/Domain/Entities/OSKUserPincodes.swift:27)"
+  },
+  {
+    "fact_ref": "8fe2f2b981a7312a287fc6b531fe8580daee10d5",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: DropdownOptions -- possible values: permanent = \"Permanent\", oneTime = \"One time\", recurrent = \"Recurrent\" -- conforms to/extends: String, CaseIterable (iOS App/Presentation/Invitations/Views/OSKInviteDropdownView.swift:17)"
+  },
+  {
+    "fact_ref": "90f5b70a66865605b192bb02ec5b68d136a4fe80",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: ActiveField -- possible values: start, end (iOS App/Presentation/Activities/View/OSKRangeDatePickerView.swift:30)"
+  },
+  {
+    "fact_ref": "91414ff0d2c2682e9742a8ec667638cbe09e4f7f",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKInvitationType -- possible values: granted, received -- conforms to/extends: String, Codable, Hashable (iOS App/Domain/Entities/OSKInvitationData.swift:108)"
+  },
+  {
+    "fact_ref": "91eda9a5bfb411243a91a8e0081d1ac32e50bd50",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: Selection -- possible values: resident, none (iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesAddUserScreen.swift:30)"
+  },
+  {
+    "fact_ref": "93e7b3d38d924ed0b6883b86bf4b503d14c59a28",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKField -- possible values: phoneNumber = 1 -- conforms to/extends: Int (iOS App/Presentation/Onboarding/Views/OSKUserOnboardingEnrollMFAAddPhoneNumberForm.swift:18)"
+  },
+  {
+    "fact_ref": "9898dd715c0ccb6a1c17e75ceaf65ae5d3efa685",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: Grey (OSKDoorUnlockActivity/Color.swift:53)"
+  },
+  {
+    "fact_ref": "9c7034c75978b0ee013b6a5a0c37da20fc4153ca",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKUserLocalDeviceError -- possible values: missingSigningPrivateKey -- conforms to/extends: Error (Shared/API/Cloud/Models/OSKUserLocalDeviceError.swift:16)"
+  },
+  {
+    "fact_ref": "9d652da588836cac435616ad115b4020c4abe713",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKAuthState -- possible values: signedIn, signedOut, unknown -- conforms to/extends: String, Codable (Shared/Auth/Models/OSKAuthState.swift:16)"
+  },
+  {
+    "fact_ref": "9f12431d0a9b7c8bbe5086468486562cee1fa0ef",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: CallMode -- possible values: sequential = \"sequential\" -- conforms to/extends: String, CaseIterable, Identifiable (iOS App/Presentation/Account/Views/ListIntercomScrean/OSKUserAccountIntercomsCallOrderView.swift:65)"
+  },
+  {
+    "fact_ref": "a0f8570c5ce70eab9dd06fb775d10763e4d36e5b",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKCode -- possible values: unknown = \"Unknown error\", userLocalDeviceAlreadyRegistered = \"A local device is already registered\" -- conforms to/extends: String (Shared/API/Cloud/Models/OSKUserDeviceError.swift:17)"
+  },
+  {
+    "fact_ref": "a4106a0f8ec039d458f8c01e330e58caf59f2a5b",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKField -- possible values: firstName = 1, lastName = 2 -- conforms to/extends: Int (iOS App/Presentation/Profile/Views/OSKUserProfileUpdateForm.swift:20)"
+  },
+  {
+    "fact_ref": "a51170624bcc274f1826a8626e129b7ee601b7c3",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKBKFirmwareUpdateStatus -- possible values: started, uploading, validating, testing, confirming, rebooting, completed, cancelled, failed(Error), unknown -- conforms to/extends: Equatable (iOS App/Presentation/SesamePlus/PairingSesame/Model/OSKBKFirmwareUpdateManager.swift:20)"
+  },
+  {
+    "fact_ref": "a6689f5c3eb3bd1bf447aaeabe9f16cb947f6be2",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKFontNameManager (iOS App/UI/Models/OSKFontManager.swift:16)"
+  },
+  {
+    "fact_ref": "a6ac2bcb93210a5a5d7c3d703d77e21ba09d8a5d",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKField -- possible values: phoneNumber = 1 -- conforms to/extends: Int (iOS App/Presentation/Account/Views/OSKUserAccountPhoneSection.swift:19)"
+  },
+  {
+    "fact_ref": "aa4303d042f97646623c6fed49a99ddef443e2f9",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: Kind -- possible values: development, local, staging, release (iOS App/App/View Models/OSKUserSettings.swift:17)"
+  },
+  {
+    "fact_ref": "ad83b863a419143c6b5d63cdf5f015a42570499c",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKViewModifier (iOS App/UI/Views/OSKListTile.swift:16)"
+  },
+  {
+    "fact_ref": "b464ad0061def3006112901dce8923d0887939b0",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: userChoice -- possible values: resident, permanentGuest, none (iOS App/Presentation/Account/Views/OSKAddUserScreen.swift:26)"
+  },
+  {
+    "fact_ref": "b5f6045a53aa7fbe310f23e084b3e4eacdaebed2",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: NavIntent -- possible values: openAddUser (iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesDraftsStore.swift:21)"
+  },
+  {
+    "fact_ref": "b72a5fd1c4682dea6c954f04c19001f6ef9f02d8",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKFailure -- possible values: missingURL, invalidImage, apiError(Error) -- conforms to/extends: Error (iOS App/UI/Views/OSKAsyncCachedHTTPImage.swift:18)"
+  },
+  {
+    "fact_ref": "b8cd2e8b9673737892902c542c417c2489b81d6d",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: AuthenticationError -- possible values: runtimeError(String), firebaseError(String), userNotFound, userAlreadyexists -- conforms to/extends: Error (Shared/Auth/View Models/OSKAuthViewModel.swift:68)"
+  },
+  {
+    "fact_ref": "b8fa593ea8423b9e2600d56dcff40af86734a11f",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: NextScreen -- possible values: closeOnes, homeView (iOS App/Presentation/Onboarding/Views/OSKUserBuildingRegistrationValidationScreen.swift:19)"
+  },
+  {
+    "fact_ref": "bb33fdcdb845856b1d50e6c2da2646a2caf5e894",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: BackgroundGrouped (OSKDoorUnlockActivity/Color.swift:26)"
+  },
+  {
+    "fact_ref": "c0a9bb68ee602fcd706600bab9fa99bbb42d2543",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: Divider (OSKDoorUnlockActivity/Color.swift:48)"
+  },
+  {
+    "fact_ref": "c557c51905283f5230030fa34ea6b703b57516cd",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: Text (OSKDoorUnlockActivity/Color.swift:82)"
+  },
+  {
+    "fact_ref": "cb695c70ca0d12b1cdc1e316310f03f36e9ad653",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKMode -- possible values: update = \"Update profile\", view = \"Profile\" -- conforms to/extends: String (iOS App/Presentation/Profile/Views/OSKUserProfileUpdateForm.swift:26)"
+  },
+  {
+    "fact_ref": "cbfff4a660940e9c078253b5ac0a0ac6ecaf9569",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: SignInWithAppleError -- possible values: invalidState, unableToFetchIdentityToken, unableToSerializeToken, firebaseError(String), credentialAlreadyInUse -- conforms to/extends: Error (Shared/Auth/View Models/OSKAuthViewModel.swift:33)"
+  },
+  {
+    "fact_ref": "cd26adb8e2d9f1a499232b61b3cdec30aabaf548",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKIntercomCustomError -- possible values: invalidData, networkError, unknown -- conforms to/extends: Error (iOS App/Presentation/Account/View Models/OSKUserIntercomsViewModel.swift:18)"
+  },
+  {
+    "fact_ref": "ce4a515b934a6b21ec479809815661e170e285d6",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKPrivacyConsentResponse -- possible values: notSet, approved, rejected (iOS App/Storage/User Defaults/Models/OSKPrivacyConsentResponse.swift:17)"
+  },
+  {
+    "fact_ref": "ce869788dc8d535e154f8e835075ca6acffba95b",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKMode -- possible values: update = \"Update device\", view = \"Device details\" -- conforms to/extends: String (iOS App/Presentation/Devices/Views/OSKUserDeviceDetailScreen.swift:17)"
+  },
+  {
+    "fact_ref": "d78aaae084b21b4d227d073dbb50f1d14b681b32",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: AnalyticsScreenName -- possible values: authSignin = \"auth.signin\", authSignup = \"auth.signup\", home, invitations, activity, settings, splashscreen, profile, household, householdUserdetails = \"household.userdetails\", callRinging = \"call.ringing\", callIncoming = \"call.incoming\", signupForm = \"signup.form\", emailVerification = \"email.verification\", mfaInfo = \"mfa.info\", mfaPhonenumberInput = \"mfa.phonenumber.input\", mfaSMSverificationInput = \"mfa.smsverification.input\", buildingonboardingInfo = \"buildingonboarding.info\", buildingonboardingCodeInput = \"buildingonboarding.code.input\", buildingonboardingQRInput = \"buildingonboarding.qr.input\", buildingonboardingSuccess = \"buildingonboarding.success\", buildingonboardingQRInformation = \"buildingonboarding.qr.information\", closeonesAddresident = \"closeones.addresident\", closeonesRecap = \"closeones.recap\", invitationAddcontactdialog = \"invitation.addcontactdialog\", invitationDetails = \"invitation.details\", invitationDetailsAccesses = \"invitation.details.accesses\", invitationDetailsGuests = \"invitation.details.guests\", invitationQuickcode = \"invitation.quickcode\", menuAbout = \"menu.about\", menuHelpcenter = \"menu.helpcenter\", menuHelpcenterFaq = \"menu.helpcenter.faq\", menuLanguage = \"menu.language\", permissionBluetooth = \"permission.bluetooth\", listIntercoms = \"list.intercoms\", changeNameIntercom = \"change.name.intercom\", intercomDetails = \"intercom.details\", changeAppartementNunmberIntercom = \"change.appartement.number.intercom\", showIntercomDetails = \"show.intercom.details\", closeonesAddNoAppUser = \"closeones.addNoAppUser\" -- conforms to/extends: String (iOS App/Data/Services/OSKAnalyticsService.swift:102)"
+  },
+  {
+    "fact_ref": "d98874980d5a8240bac0a0788f1e13ae6c500c19",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKToastAlertPosition -- possible values: top, bottom (iOS App/UI/Views/OSKToastView/OSKConfigToastAlertType.swift:42)"
+  },
+  {
+    "fact_ref": "db6e335dff9c6e29e29df47f534c91618ebfc9d4",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: AnalyticsEvent -- possible values: signUpCurtainOpen = \"onboarding.signupcurtain.open\", signInCurtainOpen = \"onboarding.signincurtain.open\", formSubmit = \"onboarding.form.submit\", mfaActivation = \"onboarding.mfa.activation\", emailReceive = \"onboarding.email.receive\", smsReceive = \"onboarding.sms.receive\", qrScan = \"onboarding.qr.scan\", screenLoadTime = \"onboarding.screen.load.time\", termsConditionsClick = \"onboarding.termsconditions.click\", cookiePolicyClick = \"onboarding.cookiepolicy.click\", privacyPolicyClick = \"onboarding.privacypolicy.click\", openDoorAttempt = \"home.open.door.attempt\", doorOpenSuccess = \"home.open.door.success\", callOpenDoorAttempt = \"call.open.door.attempt\", callDoorOpenSuccess = \"call.open.door.success\", callDoorOpenFailed = \"call.open.door.Failed\", biometricsActivation = \"biometrics.activation\", biometricsDeactivation = \"biometrics.deactivation\", emailappOpenClick = \"emailapp.open.click\", emailResendClick = \"email.resend.click\", emailVerificationLinkError = \"email.verificationlink.error\", settingsMfaDisabled = \"settings.mfa.disabled\", settingsMfaEnabled = \"settings.mfa.enabled\", settingsPrivacyTrackingEnabled = \"settings.privacy.tracking.enabled\", bluetoothPermissionEnabled = \"bluetooth.permission.enabled\", bluetoothPermissionSkipped = \"bluetooth.permission.skipped\", notificationsPermissionEnabled = \"notifications.permission.enabled\", notificationsPermissionSkipped = \"notifications.permission.skipped\", invitationQuickcodeGenerated = \"invitation.quickcode.generated\", invitationQuickcodeSend = \"invitation.quickcode.send\", invitationCustomSend = \"invitation.custom.send\", invitationMoresettingsClick = \"invitation.moresettings.click\", invitationPhonebookConnect = \"invitation.phonebook.connect\", invitationResidentSend = \"invitation.resident.send\", invitationPermanentguestSend = \"invitation.permanentguest.send\", invitationRenew = \"invitation.renew\", receiveCall = \"call.received\", callAccepted = \"call.accepted\", callEnded = \"call.ended\", callMissed = \"call.Missed\", easterEggFounded1 = \"easter.egg.founded.1\", easterEggFounded2 = \"easter.egg.founded.2\", successAddUserToListOfCall = \"success.add.user.to.list.of.call\", failedAddUserToListOfCall = \"faield.add.user.to.list.of.call\", successDeleteUserFromListOfCall = \"success.delete.user.from.list.of.call\", failedDeleteUserFromListOfCall = \"failed.delete.user.from.list.of.call\", moveUserListOfCall = \"move.user.list.of.call\", successUpdateIntercomDisplayName = \"success.update.intercom.display.name\", failedUpdateIntercomDisplayName = \"failed.update.intercom.display.name\", profileSignOutClick = \"profile.sign.out.click\", firebaseSessionExpired = \"firebase.session.expired\", auth0TokenRefreshFailed = \"auth0.token.refresh.failed\", auth0TokenRefreshSuccess = \"auth0.token.refresh.success\", userSignedOut = \"user.signed.out\", profileDeleteAccountClick = \"profile.delete.account.click\" -- conforms to/extends: String (iOS App/Data/Services/OSKAnalyticsService.swift:17)"
+  },
+  {
+    "fact_ref": "df94136dfb0362ac58c38eec52402d3a80eb15f9",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: CodingKeys -- possible values: iOS = \"iOS\" -- conforms to/extends: String, CodingKey (iOS App/App/UpdateAppKit/Model/OSKAppUpdateConfig.swift:19)"
+  },
+  {
+    "fact_ref": "e416e81c104b5ac71131e6ad57070e051fba3c39",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: OSKWFontStyle -- possible values: caption3, caption2, caption1, footnote, subheadline, callout, body, headline, title3, title2, title1, largeTitle, caption3Bold, caption2Bold, caption1Bold, footnoteBold, subheadlineBold, calloutBold, bodyBold, headlineBold, title3Bold, title2Bold, title1Bold, largeTitleBold (OSKDoorUnlockActivity/OSKWFontStyle.swift:18)"
+  },
+  {
+    "fact_ref": "e5088d2d397d1fe2d356605cc8ae12046ad439ce",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKImageSource -- possible values: photoLibrary = \"common_photoLibrary\", camera = \"common_camera\" -- conforms to/extends: String, CaseIterable (iOS App/UI/Views/OSKImagePicker.swift:16)"
+  },
+  {
+    "fact_ref": "eba1de8fcb9ff25f5bddf9b3dde361d75d7219dc",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKViewViewModifier (iOS App/UI/Extensions/View.swift:17)"
+  },
+  {
+    "fact_ref": "ec4de59becf469e761af537f049aab0465609086",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: Icon (OSKDoorUnlockActivity/Color.swift:91)"
+  },
+  {
+    "fact_ref": "f15b58b9fb91e8b415a6c5d2cc7cae310fe63e4a",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKFieldValidationError -- possible values: mandatoryValue, invalidValue, invalidImageFormat(String), fileSizeExceedsLimit(String), invalidEmailAddress, emailsDontMatch, invalidPasswordSize, passwordsDontMatch, notDifferentFromPreviousValue -- conforms to/extends: Error, Equatable (iOS App/UI/Models/OSKFieldValidationError.swift:16)"
+  },
+  {
+    "fact_ref": "f3fac1cb0d87d502cf43889ce9bf34a9c6025a58",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: LightShades (OSKDoorUnlockActivity/Color.swift:96)"
+  },
+  {
+    "fact_ref": "f56ac8389a135723bf3e5883ea9b61631652c66f",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in OSKDoorUnlockActivityExtension: Background (OSKDoorUnlockActivity/Color.swift:18)"
+  },
+  {
+    "fact_ref": "f592f63b30ffb2be463836b8306f4bfaaf359dbc",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKField -- possible values: searchField (iOS App/UI/Views/OSKStreetAddressPicker.swift:33)"
+  },
+  {
+    "fact_ref": "f6ab68b570c5847348359986183852a345410fd6",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKActivityType -- possible values: outcomingCall, missingCall, badgeActivated, opening -- conforms to/extends: String (iOS App/Domain/Entities/OSKActivity.swift:33)"
+  },
+  {
+    "fact_ref": "f952196e3ef6e4ff7fa96cb25c8dff5d1f81499c",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKBuildingUnitInhabitantType -- possible values: owner, tenant, resident, none -- conforms to/extends: String, Codable, Hashable (iOS App/Domain/Entities/OSKInvitationData.swift:40)"
+  },
+  {
+    "fact_ref": "f9d94650e1227885331ff97477088ced4890add8",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: OSKUseCaseError -- possible values: missingUserId, wrongInvitationType(OSKInvitation.OSKInvitationType, OSKInvitation.OSKInvitationType) -- conforms to/extends: Error, LocalizedError (iOS App/Domain/UseCases/OSKGetSentInvitationsUseCase.swift:55)"
+  },
+  {
+    "fact_ref": "fa058b9f3247ffa2659c1f27d76172fe216adba6",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: SMSVerificationError -- possible values: encodingFailed, invalidResponse, verificationFailed -- conforms to/extends: Error (iOS App/Presentation/Profile/Viewmodels/OSKUserProfileUpdateFormViewModel.swift:22)"
+  },
+  {
+    "fact_ref": "fb86819346ae5d2c74b72ed79ce3297fd24257e9",
+    "repo": "ios-oskey-dev",
+    "description": "enum_declaration in iOS App: Poppins (iOS App/UI/Models/OSKFontManager.swift:17)"
+  },
+  {
+    "fact_ref": "036c30251fbb818b01f995bb4b798d6e69f309fa",
+    "repo": "node-iot-api-oskey-io",
+    "description": "enum_declaration in access_control_device/intercom_entries: OSKPubsubOperations -- possible values: , ,  (src/v1/models/access_control_device_intercom_entry.model.ts:8)"
+  },
+  {
+    "fact_ref": "469809525aa1b563898cc4ef11e36be715c06ac4",
+    "repo": "node-iot-api-oskey-io",
+    "description": "enum_declaration in access_control_device/_unreferenced: OSKApiName -- possible values:  (src/v1/handlers/pub_sub_message.handler.ts:4)"
+  },
+  {
+    "fact_ref": "5c326232e6fbb9ce922644c98db90b0665ddffa1",
+    "repo": "node-iot-api-oskey-io",
+    "description": "enum_declaration in access_control_device/activities: OSKAcdActivityTypeEnumNumbers -- possible values: , ,  (src/v1/models/access_control_device_activities.model.ts:12)"
+  },
+  {
+    "fact_ref": "73328a1e9d9edfef0c54132c2cb347d73348398c",
+    "repo": "node-iot-api-oskey-io",
+    "description": "enum_declaration in access_control_device/activities: OSKAcdActivityTypeEnumStrings -- possible values: , , , ,  (src/v1/models/access_control_device_activities.model.ts:18)"
+  },
+  {
+    "fact_ref": "d5853b5fd5729209085cd630c50f071dc7cf1279",
+    "repo": "node-iot-api-oskey-io",
+    "description": "enum_declaration in access_control_device/activities: OSKAcdActivityErrorEnumStrings -- possible values: , , , , , , , ,  (src/v1/models/access_control_device_activities.model.ts:38)"
+  },
+  {
+    "fact_ref": "f8fb3213ad4fa5bf2e3f573cf244c79acba15dbe",
+    "repo": "node-iot-api-oskey-io",
+    "description": "enum_declaration in access_control_device/activities: OSKAcdActivityErrorEnumNumbers -- possible values: , , , , , , , ,  (src/v1/models/access_control_device_activities.model.ts:26)"
+  },
+  {
+    "fact_ref": "fb52fe521b27c87adc24d7e58c4abe469005f65a",
+    "repo": "node-iot-api-oskey-io",
+    "description": "enum_declaration in access_control_device/activities: OSKAcdTypeEnum -- possible values: ,  (src/v1/models/access_control_device_activities.model.ts:50)"
+  },
+  {
+    "fact_ref": "0582f9d674d57d134e3451ff3400ae81631a5629",
+    "repo": "swift-ble-kit-oskey-dev",
+    "description": "enum_declaration in OSKBluetoothLEKit: OSKBKLockPeripheralDoorLockStatus -- possible values: locked = 0x00, unlocked = 0x01, unknown = 0x02, failed = 0x03 -- conforms to/extends: UInt8 (Sources/OSKBluetoothLEKit/Lock Peripheral/Models/OSKBKLockPeripheralDoorLockStatus.swift:16)"
+  },
+  {
+    "fact_ref": "0d1e8cfe9da27ffac79f452863472edaa1fa0ed9",
+    "repo": "swift-ble-kit-oskey-dev",
+    "description": "enum_declaration in OSKBluetoothLEKit: OSKBKErrorCode -- possible values: internalError, invalidPayload, missingService(String), missingCharacteristic(String, String), failureToDiscoverServices(String), failureToDiscoverCharacteristics(String, String), failureToWrite(String, String, String), failureToRead(String, String, String), failureToGetNotification(String, String, String), unexpectedDisconnection(String), failureToConnect(String), unexpectedValueRead(String, String, Data), connectionTimeout, unknownCommandReceived(String, String, UInt8), invalidConnectionStatus(OSKBKLockPeripheralConnectionStatus) -- conforms to/extends: Equatable (Sources/OSKBluetoothLEKit/Lock Peripheral/Models/OSKBKLockPeripheralError.swift:18)"
+  },
+  {
+    "fact_ref": "1cd05c8a248094d4ae02d386f07685f72b0ccf68",
+    "repo": "swift-ble-kit-oskey-dev",
+    "description": "enum_declaration in OSKBluetoothLEKit: OSKBKUnlockCentralCommand -- possible values: dummy = 0x00, hello = 0x01, unlock = 0x02, bye = 0xFF -- conforms to/extends: UInt8 (Sources/OSKBluetoothLEKit/Lock Peripheral/Models/OSKEY Lock/OSKBKOSKEYIntercomPlusPreSeriePeripheral.swift:235)"
+  },
+  {
+    "fact_ref": "770bedf36b0fe466d5aa05448bf673c2671b690e",
+    "repo": "swift-ble-kit-oskey-dev",
+    "description": "enum_declaration in OSKBluetoothLEKit: CRC32 (Sources/OSKBluetoothLEKit/Utils/CRC32/Models/CRC32.swift:18)"
+  },
+  {
+    "fact_ref": "8c5607d394f6023617b271e117d226fb0d6a80b3",
+    "repo": "swift-ble-kit-oskey-dev",
+    "description": "enum_declaration in OSKBluetoothLEKit: OSKBKCentralManagerStatus -- possible values: unknown = 0x00, notReady = 0x01, ready = 0x02, unauthorized = 0x03, inactive = 0x04 -- conforms to/extends: Int (Sources/OSKBluetoothLEKit/Central Manager/Models/OSKBKCentralManagerStatus.swift:16)"
+  },
+  {
+    "fact_ref": "98c66545b1d30529b31f4357693fba8abb48bdab",
+    "repo": "swift-ble-kit-oskey-dev",
+    "description": "enum_declaration in OSKBluetoothLEKit: OSKBKLockPeripheralType -- possible values: oskeyIntercomPlusPreSerie, oskeySesamePlusPreSerie, unknown (Sources/OSKBluetoothLEKit/Lock Peripheral/Models/OSKBKLockPeripheralType.swift:17)"
+  },
+  {
+    "fact_ref": "c0779b8b7bb705b7f56644b5ce6ad1194a602259",
+    "repo": "swift-ble-kit-oskey-dev",
+    "description": "enum_declaration in OSKBluetoothLEKit: OSKBKStatusCode -- possible values: failure = 0x00, success = 0x01 -- conforms to/extends: UInt8 (Sources/OSKBluetoothLEKit/Lock Peripheral/Models/OSKEY Lock/OSKBKOSKEYIntercomPlusPreSeriePeripheral.swift:252)"
+  },
+  {
+    "fact_ref": "c966e887aaac6b8a0d97c0a3ccadcfd9fb515e9a",
+    "repo": "swift-ble-kit-oskey-dev",
+    "description": "enum_declaration in OSKBluetoothLEKit: OSKBKLockPeripheralConnectionStatus -- possible values: unreachable, connecting, connected, discovered, helloSent, ready, disconnected -- conforms to/extends: String (Sources/OSKBluetoothLEKit/Lock Peripheral/Models/OSKBKLockPeripheralConnectionStatus.swift:16)"
+  },
+  {
+    "fact_ref": "fb08bdfd633f3fabc39601d23804f9a860614569",
+    "repo": "swift-ble-kit-oskey-dev",
+    "description": "enum_declaration in OSKBluetoothLEKit: OSKBKUnlockPeripheralCommand -- possible values: dummy = 0x00, hello = 0x01, bye = 0xFF -- conforms to/extends: UInt8 (Sources/OSKBluetoothLEKit/Lock Peripheral/Models/OSKEY Lock/OSKBKOSKEYIntercomPlusPreSeriePeripheral.swift:244)"
+  },
+  {
+    "fact_ref": "ff5f2384157ed6be5bc2e4efb14afb23ecb8b5a7",
+    "repo": "swift-ble-kit-oskey-dev",
+    "description": "enum_declaration in OSKBluetoothLEKit: OSKBKEncryptionError -- possible values: notAvailable, notConfigured, unableToGenerateRandomSalt, unableToGenerateSharedInfo, unableToGeneratePrivateKey(Error), unableToEncrypt(Error), unableToDecrypt(Error) -- conforms to/extends: Error (Sources/OSKBluetoothLEKit/Utils/Encryption/Models/OSKBKEncryptionError.swift:16)"
+  },
+  {
+    "fact_ref": "0d56c52aa25a05804fa0dc6c49ee312f40a1a8d4",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKCallerType -- possible values: user, accessControlDevice -- conforms to/extends: String, OSKCKDataProtocol (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Shared/OSKCKCallerType.swift:16)"
+  },
+  {
+    "fact_ref": "0e7521acdffdbaf17d1f709772efc92c48de6b33",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKType -- possible values: guest, event -- conforms to/extends: String, OSKCKDataProtocol (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Documents/OSKCKUserAccess.swift:28)"
+  },
+  {
+    "fact_ref": "13c1c138a30419f5fb2c7d5aac7fc5ad2cceb364",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: advertizedName, deviceID = \"deviceId\" -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKUserAccessesResponse.swift:128)"
+  },
+  {
+    "fact_ref": "16f1da071f54f9865259141d38d7175660e8b777",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKAuthSignInMethod -- possible values: emailLink, emailPassword, google, apple, microsoft -- conforms to/extends: String (Sources/OSKCloudKit/OSKEY Cloud/Auth/Models/OSKCKAuthSignInMethod.swift:18)"
+  },
+  {
+    "fact_ref": "2489a91562f57e2cd105b3b9988c01c7b8a8ec2b",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: userId, nonAppUserId, firstName, lastName, fullName, email, userAccessType, phoneNumber, inhabitantType, callType, pincodes, modificationDate, canDelete -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKInhabitantOrGuestResponse.swift:32)"
+  },
+  {
+    "fact_ref": "2ad3285af47bcadeaa3be8545388620a4d66ce2c",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKAPNSEnvironment -- possible values: development, production -- conforms to/extends: String, OSKCKDataProtocol (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Shared/OSKCKUserNotificationDeviceAPNSToken.swift:40)"
+  },
+  {
+    "fact_ref": "3f9b8f0dbab01de872702a746f3589680bbb1edc",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKConfiguration -- possible values: local, development, staging, release -- conforms to/extends: String (Sources/OSKCloudKit/OSKEY Cloud/App/Services/OSKCKCloudAppService.swift:55)"
+  },
+  {
+    "fact_ref": "4031e606507913f9c2e0c012c2a742271f73a791",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: accessID = \"accessId\", unitID = \"unitId\", organizationID = \"organizationId\", accessRights, type, authorizedDoors -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKUserAccessesResponse.swift:53)"
+  },
+  {
+    "fact_ref": "40ad35995cb20347a2d651b4c0832aed5506156c",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKType -- possible values: mobile, watch, nfcTag -- conforms to/extends: String, Codable (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Documents/OSKCKUserDevice.swift:29)"
+  },
+  {
+    "fact_ref": "4aaf42ac7e3880e5be079207b6701f91b50af084",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKPeriodicity -- possible values: daily, weekly, monthly -- conforms to/extends: String, Codable (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Shared/OSKCKAccessRecurrence.swift:17)"
+  },
+  {
+    "fact_ref": "556acf80232ad26028611e4e800e12ace218308f",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKUserInvitationStatus -- possible values: accepted, rejected, pending, cancelled -- conforms to/extends: String, Equatable, Codable, Hashable (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Bodies/OSKCKUserInviteBody.swift:395)"
+  },
+  {
+    "fact_ref": "5d7e5be34e0923053becda54d6fc0093264433d3",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKUserNotificationType -- possible values: userInvitationReceived, userInvitationCancelled, userCallReceived, userCallAnswered, userCallTerminated, residentsNotificationReceived, inviteeOnboardedNotification -- conforms to/extends: String, OSKCKDataProtocol (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Shared/OSKCKUserNotificationType.swift:16)"
+  },
+  {
+    "fact_ref": "5dcaf4dda2ade6365f329c487311f1b5f1fc3a91",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: items, nextPageToken -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKUserInvitationGetList.swift:19)"
+  },
+  {
+    "fact_ref": "65464d24c79439ef65852275d009e6fb926c3594",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: latitude, longitude -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Shared/OSKCKCoordinate.swift:54)"
+  },
+  {
+    "fact_ref": "70eb0fb74fc93a1594e88fa99fcc9af61c30117e",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: SendInvitations -- possible values: none, all, `public` = \"public\" -- conforms to/extends: String, Codable (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Bodies/OSKCKUserInviteBody.swift:294)"
+  },
+  {
+    "fact_ref": "7230aba54a6679dc7187dc6f20bf056f5285c514",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: StringOrDouble -- possible values: double(Double), string(String) -- conforms to/extends: Decodable (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Shared/OSKCKCoordinate.swift:57)"
+  },
+  {
+    "fact_ref": "72f95776caed40b37a74f77b2999e427d152011c",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKValidity -- possible values: oneTime, permanent, recurrent -- conforms to/extends: String, Codable (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Shared/OSKCKAccessRight.swift:18)"
+  },
+  {
+    "fact_ref": "734a6e1a76597b45d21b5137014f0cd8d3f98de8",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: nonAppUserId, fullName, modificationDate, pincodes, callType, canDelete -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKInhabitantOrGuestResponse.swift:60)"
+  },
+  {
+    "fact_ref": "73c70f8c846269122146274d7591db3cdb673e94",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: accessId, buildingId, pincode, type, userId, creationDate, id -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Documents/OSKCKUserPincodes.swift:43)"
+  },
+  {
+    "fact_ref": "797da7cac3df040b50a029926dafdd0db2e92d10",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: pincodeDoc -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKPinCode.swift:19)"
+  },
+  {
+    "fact_ref": "8ede0aee465ed90a205ab6da18d65d8e1a764522",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: nonAppUserId, accessId, pincode, fullName -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKCreateNonAppUserResponse.swift:21)"
+  },
+  {
+    "fact_ref": "9248a6f46ea034cfaee488c699ef3d3354d772ac",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: buildingName, buildingStreetAddress, userLastName, userFirstName, userID = \"userId\", accesses, buildingID = \"buildingId\" -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKUserAccessesResponse.swift:36)"
+  },
+  {
+    "fact_ref": "938b6f63e9600f86faf7ac211195e8f984179664",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKDeviceType -- possible values: iOSApp, androidApp, watchOSApp, safariWebApp, chromeWebApp, firefoxWebApp, edgeWebApp -- conforms to/extends: String (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Bodies/OSKCKUserNotificationTokenInsertionOrUpdateBody.swift:18)"
+  },
+  {
+    "fact_ref": "93a0a2466efdaaec8fe8fd67a6c143f4e89a4d51",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: firebaseToken, newUser, userId -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/Auth/Models/OSKCKCustomTokenResponse.swift:20)"
+  },
+  {
+    "fact_ref": "a18982e75ad59a5afc2b938ba0e650106f54a7d4",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: userId, buildingId, unitId, pincode, matchType -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKInhabitantOnboardedResult.swift:21)"
+  },
+  {
+    "fact_ref": "a8820c129e3e72eabbee4841f3868030cbce19db",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKStorageFilePathService (Sources/OSKCloudKit/Firebase/Cloud Storage/Services/OSKCKStorageFilePathService.swift:18)"
+  },
+  {
+    "fact_ref": "a8afe2515a6d008fe457152d8312744d2269f382",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: doorName, doorStreetAddress, accessControlDevices, doorID = \"doorId\" -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKUserAccessesResponse.swift:116)"
+  },
+  {
+    "fact_ref": "ae017a56ad998d414c2ef547453160b2fa1451b7",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: phoneNumber -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/Auth/Models/OSKCKPhoneNumberResponse.swift:18)"
+  },
+  {
+    "fact_ref": "b3cc142dd93c8cbc8096f4b60885fc10a06eef25",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCode -- possible values: internalError(String), wrongStatusCode(Int), unableToParseResponse(String), wrongContentType(String) (Sources/OSKCloudKit/StreetAddress/France API/Models/OSKCKFRAddressApiError.swift:17)"
+  },
+  {
+    "fact_ref": "b704e149fc1b5cfe4c3e0aa1f5c2bf458acfe709",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKFirestoreCollectionPath -- possible values: users, userBuildingAccesses(String), userAccessInvitations(String, String), userAuthorizedDoors(String), userDevices(String), userDeviceAccessControlDeviceTokens(String, String), userDeviceKeys(String, String), userFriends(String), userFriendRequests(String), userInvitations(String), userNotifications(String), userPendingFriendRequests(String), userSentInvitations(String), userPincodes(String), userCalls(String), userIntercoms(String), userActivity(String, String) (Sources/OSKCloudKit/Firebase/Cloud Firestore/Models/Paths/OSKCKFirestoreCollectionPath.swift:18)"
+  },
+  {
+    "fact_ref": "bc9a897a477ba621b47faadabe53e56a93099708",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: userId, firstName, lastName, userAccessType, inhabitantsAndPermGuests, pendingInvites, nonAppUsers -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKInhabitantsAndGuestsListResponse.swift:24)"
+  },
+  {
+    "fact_ref": "c6efc18b95a2e6e0babcabbb763dbe73e7dfef5b",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKFirestoreDocumentPath -- possible values: user(String), userBuildingAccesses(String, String), userAccessInvitation(String, String, String), userDevice(String, String), cloudToken(String, String, String), userFriend(String, String), userFriendRequest(String, String), userNotification(String, String), userNotificationToken(String, String), userPendingFriendRequest(String, String), userStatus(String), userInvitations(String), userIntercom(String, String), userBuildingSettings(String, String), userUnitSettings(String, String, String) (Sources/OSKCloudKit/Firebase/Cloud Firestore/Models/Paths/OSKCKFirestoreDocumentPath.swift:18)"
+  },
+  {
+    "fact_ref": "c8383561e9453aae9296a81045ae81c3aca12784",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKType -- possible values: building, buildingUnit, buildingInvitation, buildingUnitInvitation -- conforms to/extends: String, OSKCKDataProtocol (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Documents/OSKCKUserAccess.swift:20)"
+  },
+  {
+    "fact_ref": "cbe6b16628dca2c933910b7861be8fd3b8135e96",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKStatus -- possible values: notDone, done, skipped -- conforms to/extends: String, Codable (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Shared/OSKCKNewUserOnboardingStatus.swift:23)"
+  },
+  {
+    "fact_ref": "d8bd73957abc45e2d5c424ae0f96b72bd92a3c7f",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKValidity -- possible values: oneTime, permanent, recurrent -- conforms to/extends: String, Codable (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKUserAccessesResponse.swift:63)"
+  },
+  {
+    "fact_ref": "e0168cfec1685752211904375fa003edeb42b36b",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: accessId, buildingId, pincode, type, userId -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKCKPinCode.swift:32)"
+  },
+  {
+    "fact_ref": "ea9bf7f89e5c120a71875b97b8397db14d2c9d92",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: userId, guestInvitations, unitInvitations, onboardingResults -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Responses/OSKUserProcessExternalUserInvitationsResponse.swift:20)"
+  },
+  {
+    "fact_ref": "ead52041855686edcdb86d5afe5e2831cfd10de2",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKAuthContunuationURL -- possible values: accountDeletion, emailUpdate(String), signIn, signUp(String, String), enrollMFA(String), unenrollMFA (Sources/OSKCloudKit/OSKEY Cloud/Auth/Models/OSKCKAuthContunuationURL.swift:17)"
+  },
+  {
+    "fact_ref": "ee3d727c7859283616885f3184b218263b1a6818",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: CodingKeys -- possible values: activityId, activityType, buildingId, buildingName, doorId, doorName, creationDate, timestamp, userId, userName, userImageUrl, callerId, callerType, contactId, startTime, endTime, status, unitId, callPictureName -- conforms to/extends: String, CodingKey (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Documents/OSKCKUserCall.swift:64)"
+  },
+  {
+    "fact_ref": "f34394838151b5e93ca5a9b6670791b1e65ce356",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: UserType -- possible values: inhabitantUser = \"inhabitantUser\", organizationUser = \"organizationUser\", inhabitantGuestUser = \"inhabitantGuestUser\", organizationGuestUser = \"organizationGuestUser\", inhabitantPermanentGuestUser = \"inhabitantPermanentGuestUser\" -- conforms to/extends: String, Codable (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Bodies/OSKCKUserInviteBody.swift:203)"
+  },
+  {
+    "fact_ref": "f664b96d81bc041071d9110628b11487943edf48",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: OSKCKAuthMethod -- possible values: emailLink = \"Email/link\", emailPassword = \"Email/password\", google = \"Google\", apple = \"Apple\", microsoft = \"Microsoft\" -- conforms to/extends: String (Sources/OSKCloudKit/OSKEY Cloud/Auth/Services/OSKCKAuthService.swift:323)"
+  },
+  {
+    "fact_ref": "f841eadbffe7849ebddf08c38fcce65b6dae036f",
+    "repo": "swift-cloud-kit-oskey-dev",
+    "description": "enum_declaration in OSKCloudKit: InviteType -- possible values: mail = \"mail\", phone = \"phone\", user = \"user\" -- conforms to/extends: String, Codable (Sources/OSKCloudKit/OSKEY Cloud/API/Models/Functions/Bodies/OSKCKUserInviteBody.swift:414)"
+  },
+  {
+    "fact_ref": "1eb61fe09c2f173459f1ab39976be784083cc58c",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: OSKUICarouselAutoScroll -- possible values: inactive, active(TimeInterval) (Sources/OSKUIKit/UI Elements/Carousel/Models/OSKUICarouselAutoScroll.swift:16)"
+  },
+  {
+    "fact_ref": "245c100894a90dbe984ca956abc3bbaeb8ca8c4e",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: OSKUIFontStyle -- possible values: caption3, caption2, caption1, footnote, subheadline, callout, body, headline, title3, title2, title1, largeTitle, caption3Bold, caption2Bold, caption1Bold, footnoteBold, subheadlineBold, calloutBold, bodyBold, headlineBold, title3Bold, title2Bold, title1Bold, largeTitleBold (Sources/OSKUIKit/UI Elements/Font/OSKUIFontStyle.swift:18)"
+  },
+  {
+    "fact_ref": "24a4d22cd59b6bb90714691cc6769e6fc3ecdf2f",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Keys (Sources/OSKUIKit/UI Elements/Carousel/View Models/OSKUICarouselViewModel.swift:374)"
+  },
+  {
+    "fact_ref": "25e2d4048a15095739f77e572d5d5f44e3059d8b",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Palette (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:33)"
+  },
+  {
+    "fact_ref": "2f40e2b48c63bc6f54ca371714a65548caef4b13",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Text (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:83)"
+  },
+  {
+    "fact_ref": "38a4901fced03920133747beeb88a7f6666f9c0e",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: OSKUISize -- possible values: small = 4, medium = 6, large = 8 -- conforms to/extends: Int (Sources/OSKUIKit/UI Elements/Text Fields/Views/OSKUIOTPCodeField.swift:24)"
+  },
+  {
+    "fact_ref": "4c6c61a6a339067945cd6a79bbb44e0eb3561768",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Stroke (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:44)"
+  },
+  {
+    "fact_ref": "6c8bb204330e7b7d7f65f94ac670faec00013c82",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Icon (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:92)"
+  },
+  {
+    "fact_ref": "6d0cae4c060fcab98325b0b7f3b4c50ddbbdda73",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: LightShades (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:97)"
+  },
+  {
+    "fact_ref": "714fe27032e7bdb43ed7dfac6b22fa17456d7f3d",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: OSKDirection -- possible values: vertically, horizontally (Sources/OSKUIKit/UI Elements/Expanded/Views/OSKUIExpanded.swift:17)"
+  },
+  {
+    "fact_ref": "78886f643fe6f4768635b2284fee35fff98fce2e",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: OskUIIcon -- possible values: interaction_arrowBack, interaction_arrowBackWhite, interaction_invitWhite, interaction_arrowTrailing, logotype, logomark_small, onBoarding_background, onBoardingBuilding_background, others_invitationGradient, others_verifiedUserGradient, others_bluetoothGradient, others_notificationGradient, others_qrcodeGradient, others_users_users, others_users_usersBlack, others_users_devices, others_users_notifications, others_users_call, others_users_callBlue, others_users_key, others_users_secure, others_users_language, others_users_appareance, others_users_help, others_users_info, others_calendar, others_calendar_add, others_calendar_clock, others_lock, others_googleSignIn, others_resident, others_residentBlue, others_person, interaction_iconTrailing, interaction_chevronDown, interaction_settingsWhite, interaction_chevron, interaction_radioButton, interaction_radioButtonVoid, interaction_smallExit, interaction_exit, interaction_phone, interaction_contactSupport, interaction_contactForm, interaction_chat, interaction_micOff, interaction_micOn, interaction_hangUp, interaction_moreVert, interaction_closedCaption, interaction_closedCaptionBlack, interaction_volumeUp, interaction_volumeUpBlack, interaction_bluetooth, interaction_download, tabBar_activity_normal, tabBar_activity_selected, tabBar_home_normal, tabBar_home_selected, tabBar_invitation_normal, tabBar_invitation_selected, tabBar_menu_normal, tabBar_menu_selected, illustration_noAddress, illustration_circledFace, illustration_pinCode, illustration_send, illustration_noMessage, illustration_noActivities, illustration_lockButton, illustration_unlockedButton, illustration_lockButtonBackground, illustration_search, illustration_emergency, illustration_loading, illustration_mailBox, illustration_shield, illustration_newResident, illustration_bluetoothAccess, illustration_notificationActivities, illustration_scanComplete, illustration_scanNotComplete, icon_phone_missed, icon_call, icon_bluetooth_blue, icon_bluetooth_green, icon_bluetooth_grey, icon_home_blue, icon_home_white, icon_corporate_white, icon_corporate_blue, icon_error, icon_field_valid, icon_hourglass, icon_schedule, icon_roomPreferencesBlack, icon_roomPreferences, icon_door, icon_doorBlue, icon_home, icon_location, interaction_article, icon_accessibility, icon_entreprise, icon_entrepriseBlack, icon_key, icon_person, icon_phone, icon_secure, icon_refresh, icon_volumeUp, icon_bluetooth, icon_phoneWhite, icon_phoneBlack, icon_general, icon_external_link, icon_google_login, icon_logout, icon_pincode, icon_pincodeBlack, icon_rules, icon_help, icon_checkmarkSmall, icon_checkmarkRegularSmall, icon_faceScan, icon_framePerson, icon_padlockSmall, icon_signalExcellent, icon_signalGood, icon_signalFair, icon_signalWeak, icon_signalVeryPoor, faceScan_noFill, faceScan_North, faceScan_East, faceScan_South, faceScan_West, faceScan_NorthEast, faceScan_SouthEast, faceScan_SouthWest, faceScan_NorthWest, icon_intercom_device, icon_field_warinig, icon_field_info, icon_field_error, icon_field_success, icon_bluetooth_permission, secure_data_privacy, icon_faq_deleteuser, verify_your_identity_icon, pen_icon, update_version_icon, filter_close_small_icon, info_logout_icon, icon_infoguest, icon_menu, icon_geolocalisation_main, icon_geolocalisation_sub, illustration_defaultBuilding, others_calendar_clear, nonAppUser_newPinCode, icon_intercom_small, icon_digicom_small, illustration_closeOnes, icon_valide_status, icon_failed_status, icon_door_open, icon_coming_soon, background_spashscreen, icon_key_openning, icon_sesamePlus, illustration_sesamePlusComplete, illustration_sesamePlusFailed, illustration_sesamePlusPerson, illustration_sesamePlusSmall, illustration_sesamePlusSmallBlue, illustration_sesamePlusLarge, illustration_sesamePlusHand, illustration_sesamePlusName, illustration_sesamePlusKeyfoab, illustration_sesame_not_found, icon_sesame_phone, sesame_icon_download, icon_big_sesame, icon_horizontal_point, user_picture, icon_menu_intercom, icon_group_access, icon_share_temp_access, icon_lock_open, icon_calendar, icon_info, icon_building, icon_notification, icon_notification_badge, icon_immeuble, icon_chevronDown, icon_add, icon_home_settings -- conforms to/extends: String (Sources/OSKUIKit/Assets/OSKUIIconProvider.swift:18)"
+  },
+  {
+    "fact_ref": "9ab9c42888053fdc4c4503b683d13d2f9174c0ee",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: BackgroundGrouped (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:26)"
+  },
+  {
+    "fact_ref": "a2d062a6b44fabb296a3c84e5154ca3314bd0c3b",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: CardType -- possible values: guest, anonymousGuest, host (Sources/OSKUIKit/UI Elements/Invitation/Invitation Card/InvitationCard.swift:73)"
+  },
+  {
+    "fact_ref": "a2d4649cd631a89a44133fb301e04c103846ccaf",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: OSKUIType -- possible values: info, warning, error, success -- conforms to/extends: String (Sources/OSKUIKit/UI Elements/Toast Messages/Services/OSKUIToastMessageService.swift:19)"
+  },
+  {
+    "fact_ref": "a64d782a0494888790e6d5b2fb4f8f1c17898e6a",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Divider (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:49)"
+  },
+  {
+    "fact_ref": "bf9d524c911b2d066fef99118c66f8708ca77dd6",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Searchbar (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:78)"
+  },
+  {
+    "fact_ref": "de4781a535cdb1a3e7c8ee8da8067e29828404b3",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Grey (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:54)"
+  },
+  {
+    "fact_ref": "e0a7fd6500d49bd918ab02ebdcd5231594a9e5e0",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Overlays (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:143)"
+  },
+  {
+    "fact_ref": "ea76ce65191a8618973d368b6b74fd7928d97e21",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Background (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:18)"
+  },
+  {
+    "fact_ref": "ed206055c6e52ef43eefb432b15a529c47f5cbf2",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: OSKResponse -- possible values: unknown, yes = \"Yes\", no = \"No\" -- conforms to/extends: String (Sources/OSKUIKit/UI Elements/Picker/Views/OSKUIBooleanMenuPickerField.swift:61)"
+  },
+  {
+    "fact_ref": "f385d2df48e4365de8471cad30165925b60e2ecd",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: DarkShades (Sources/OSKUIKit/UI Elements/Color/Extensions/Color.swift:120)"
+  },
+  {
+    "fact_ref": "fc1dbf3f38c125ed3e8ba9ae3f7c6596295865af",
+    "repo": "swift-ui-kit-oskey-dev",
+    "description": "enum_declaration in OSKUIKit: Status -- possible values: current, upcoming, endingSoon, expired, waitingForValidation -- conforms to/extends: String, CaseIterable (Sources/OSKUIKit/UI Elements/Invitation/Invitation Card/AccessStatus.swift:14)"
+  },
+  {
+    "fact_ref": "078287a1b48b5744b48e44a4d1cba70443024b7b",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKSignalingError -- possible values: errorReturnedByServer(String, String), notConnected, unableToParseAck, unableToParseCallId -- conforms to/extends: Error (Sources/OSKWebRTCKit/Utils/Signaling/Errors/OSKWKSignalingError.swift:16)"
+  },
+  {
+    "fact_ref": "118969eea79fa462951e293eeb9b838389a09e29",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKCallStatus -- possible values: new, ready, notificationSent, ringing, active, terminated, failed -- conforms to/extends: Int (Sources/OSKWebRTCKit/Utils/Call/Models/OSKWKCallStatus.swift:16)"
+  },
+  {
+    "fact_ref": "17f4013ef6ce5f0d0dcf6e92832c6c791c5bbf0f",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKSignalingEvents -- possible values: iceCandidates, answer, offer, rejectCall, createCall, leaveCall, joinCall, callNotificationReceived, unlockRequest, timeoutCall -- conforms to/extends: String (Sources/OSKWebRTCKit/Utils/Signaling/Services/OSKWKSignalingService.swift:45)"
+  },
+  {
+    "fact_ref": "36bbb3fdd999b4ad6a7d5d6ef5fbe69dd699b2ef",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: Source -- possible values: microphone, buffer (Sources/OSKWebRTCKit/Utils/Recognizer/SpeechRecognizer.swift:38)"
+  },
+  {
+    "fact_ref": "51203b1278f884f4b4b035dca5d16eb6dc8d299b",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKConnectionStatus -- possible values: disconnected, connected, error -- conforms to/extends: String (Sources/OSKWebRTCKit/Utils/Signaling/Services/OSKWKSignalingService.swift:711)"
+  },
+  {
+    "fact_ref": "53dd93d87ecf584f649f8c7820a7b414af41e744",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKProtocole -- possible values: ws, wss -- conforms to/extends: String (Sources/OSKWebRTCKit/Utils/Signaling/Models/Configuration/OSKWKSignalingConfiguration.swift:95)"
+  },
+  {
+    "fact_ref": "83d8438bdb02dac696378cbde53bd6c2b8e2dd65",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKUnlockStatus -- possible values: none, waiting, success, failure -- conforms to/extends: String (Sources/OSKWebRTCKit/Utils/Call/Models/OSKWKUnlockStatus.swift:16)"
+  },
+  {
+    "fact_ref": "8ce635bac8a288aa36bfcee2fbf3379b23c73e4c",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKAudioOutputType -- possible values: speaker, headphones, bluetooth, unknown (Sources/OSKWebRTCKit/Utils/WebRTC/Models/OSKWKAudioOutput.swift:15)"
+  },
+  {
+    "fact_ref": "a1307db5bcd9d10df2baa6dff49d423111dce6c5",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKAction -- possible values: add, remove -- conforms to/extends: String, Codable (Sources/OSKWebRTCKit/Utils/WebRTC/Services/OSKWKRTCPeerConnectionService.swift:403)"
+  },
+  {
+    "fact_ref": "b3b4ec28fb30f8c4b40c00fdfb14959a3c3262c6",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKNamespace -- possible values: v1Caller = \"/v1/rtc/signaling/ws/caller\", v1Participant = \"/v1/rtc/signaling/ws/participant\" -- conforms to/extends: String (Sources/OSKWebRTCKit/Utils/Signaling/Services/OSKWKSignalingService.swift:717)"
+  },
+  {
+    "fact_ref": "b927f90f51813b5f25c3ec486aee65561f79c8a0",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKCallParticipantMapper (Sources/OSKWebRTCKit/Features/Call/Infra/Mappers/OSKWKCallParticipantMapper.swift:18)"
+  },
+  {
+    "fact_ref": "bc1a41761db5377075637284e81c2e608227daa4",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKCallProviderConfiguration -- possible values: local, development, staging, release (Sources/OSKWebRTCKit/Utils/Call Provider/Models/OSKWKCallProviderConfiguration.swift:16)"
+  },
+  {
+    "fact_ref": "ca177d3449b5e35007413484826e566728e7bdd7",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKCallMapper (Sources/OSKWebRTCKit/Features/Call/Infra/Mappers/OSKWKCallMapper.swift:18)"
+  },
+  {
+    "fact_ref": "d16a281d2c2003a9b4ae376f78b5b87589e107f0",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKCallParticipantStatus -- possible values: new, signaling, connected, disconnected, failed -- conforms to/extends: String (Sources/OSKWebRTCKit/Utils/Call/Models/OSKWKCallParticipantStatus.swift:16)"
+  },
+  {
+    "fact_ref": "e0f2e286004d033738f82316ead8ce7b69aadadf",
+    "repo": "swift-webrtc-kit-oskey-io",
+    "description": "enum_declaration in OSKWebRTCKit: OSKWKWebRTCError -- possible values: unableToCreateDataChannel, unableToGetOffer(Error?), unableToInitializePeerConnection -- conforms to/extends: Error (Sources/OSKWebRTCKit/Utils/WebRTC/Errors/OSKWKWebRTCError.swift:16)"
+  }
+]

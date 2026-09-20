@@ -85,6 +85,12 @@ export interface SearchResponse {
   // instead of presenting a list of mediocre guesses as if they were a real
   // answer.
   lowConfidenceMessage?: string;
+  // Present only when a caller opts in via `opts.crossModuleMargin` (moduleFilter
+  // must also be set) -- see the `search()` doc comment below for the real
+  // reasoning (governance/roadmap/dynamic-pipeline-architecture/09-findings-
+  // duplicate-search-queries-capability-fanout-2026-09-20.md and 10-build-plan-
+  // duplicate-search-queries-fix-2026-09-20.md).
+  betterMatchOutsideModule?: { module: string; distance: number } | null;
 }
 
 function pool(): Pool {
@@ -104,7 +110,29 @@ function pool(): Pool {
 // than sharing one global top-k with every other capability in the same
 // run. Undefined (the default) preserves the exact prior behavior for every
 // existing caller.
-export async function search(query: string, limit?: number, moduleFilter?: string): Promise<SearchResponse> {
+//
+// opts.crossModuleMargin: optional, added 2026-09-20 (governance/roadmap/
+// dynamic-pipeline-architecture/09-findings-duplicate-search-queries-
+// capability-fanout-2026-09-20.md, 10-build-plan-duplicate-search-queries-
+// fix-2026-09-20.md) -- real root cause found there: a module-scoped
+// capability call has no way to tell "this concept doesn't exist" apart
+// from "this concept exists, just in a different module", so the model
+// kept re-rephrasing a query whose target fact structurally lived outside
+// its assigned module. Only takes effect when `moduleFilter` is also set.
+// Deliberately reuses the SAME already-computed `embedding` for a second,
+// cheap, Postgres-only query rather than calling embedSearchQuery() again --
+// a second real Vertex embedding call per search_facts invocation was
+// evaluated and rejected as a real, silently-doubled cost against this
+// project's confirmed 5 req/min embedding quota (10-...md, decision 2).
+// undefined (the default) costs nothing extra and preserves prior behavior
+// for every existing caller (atomic-prd-agent.ts's tools, routeCapabilities()'s
+// own unfiltered Step 1 call).
+export async function search(
+  query: string,
+  limit?: number,
+  moduleFilter?: string,
+  opts?: { crossModuleMargin?: number }
+): Promise<SearchResponse> {
   const db = pool();
   try {
     const { embedding } = await embedSearchQuery(query);
@@ -129,13 +157,29 @@ export async function search(query: string, limit?: number, moduleFilter?: strin
 
     const confident = (results[0]?.vectorDistance ?? Infinity) <= VECTOR_DISTANCE_CONFIDENCE_THRESHOLD;
 
+    let betterMatchOutsideModule: SearchResponse["betterMatchOutsideModule"] = undefined;
+    if (moduleFilter && opts?.crossModuleMargin !== undefined) {
+      const crossModuleSql = `SELECT module, embedding <-> $1::vector AS distance
+           FROM facts WHERE embedding IS NOT NULL AND module != $2
+           ORDER BY distance LIMIT 1`;
+      const crossModuleParams = [`[${embedding.join(",")}]`, moduleFilter];
+      const crossModuleRows = await db.query(crossModuleSql, crossModuleParams);
+      traceQuery(crossModuleSql, crossModuleParams, crossModuleRows.rows);
+      const bestOutside = crossModuleRows.rows[0];
+      const bestInModule = results[0]?.vectorDistance ?? Infinity;
+      if (bestOutside && bestInModule - bestOutside.distance >= opts.crossModuleMargin) {
+        betterMatchOutsideModule = { module: bestOutside.module, distance: bestOutside.distance };
+      }
+    }
+
     return confident
-      ? { confident: true, results }
+      ? { confident: true, results, betterMatchOutsideModule }
       : {
           confident: false,
           results,
           lowConfidenceMessage:
             "No strong match found for this question. Try rephrasing, or naming the specific module/feature you're asking about.",
+          betterMatchOutsideModule,
         };
   } finally {
     await db.end();

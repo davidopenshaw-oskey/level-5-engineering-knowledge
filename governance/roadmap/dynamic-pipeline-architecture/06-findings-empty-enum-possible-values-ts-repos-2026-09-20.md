@@ -1,5 +1,7 @@
 # Real finding: every TypeScript-repo `enum_declaration` fact has an empty possible-values list — a field-shape collision in `sync-facts.ts`, not an AST-extraction gap
 
+**RESOLVED 2026-09-20** — fixed, verified, and re-embedded same session. See [07-build-plan-empty-enum-possible-values-fix-2026-09-20.md](07-build-plan-empty-enum-possible-values-fix-2026-09-20.md) for the build plan and [08-build-completion-empty-enum-possible-values-fix-2026-09-20.md](08-build-completion-empty-enum-possible-values-fix-2026-09-20.md) for the verified before/after result (all 31 affected facts fixed, 0 regressions in Kotlin/Swift). The findings below are left intact as the original investigation record.
+
 Investigated per direct task: "30 of 227 `enum_declaration` facts across the whole `facts` table have an empty possible-values list in their description (`description LIKE '%possible values: ,%'`)." Two confirmed seed examples: `afb53ec1962518523809e6d5966a6ed751620f35` (OSKPincodeType) and `08e32d9ebf3a1f5f1ed84f69c8ef8896d889ccff` (OSKSupportedLanguageEnum), both `angular-app-oskey-io`.
 
 Investigation only, per instruction — nothing in this doc has been fixed this session.

@@ -20,7 +20,7 @@ import path from "path";
 import type { GenerateResponse } from "genkit";
 import { z, GenerationResponseError } from "genkit";
 import { vertexAI } from "@genkit-ai/google-genai";
-import { search, type SearchResult } from "../db/search";
+import { search, type SearchResult, type SearchResponse } from "../db/search";
 import { expandWithGraphNeighbors, walkBoundedCluster } from "../db/graph-traversal";
 import { setQueryTraceDir } from "../db/query-trace";
 import { GenerationOutputSchema, type GenerationOutput, type SectionContent } from "./section-content";
@@ -105,24 +105,129 @@ function debugTraceToolCall(debugDir: string | null, moduleFilter: string, name:
   fs.appendFileSync(file, JSON.stringify({ ts: new Date().toISOString(), tool: name, input, output }) + "\n", "utf8");
 }
 
-function makeCapabilityTools(moduleFilter: string, seenFactRefs: Set<string>, debugDir: string | null) {
+// Real, 2026-09-20 (governance/roadmap/dynamic-pipeline-architecture/
+// 09-findings-duplicate-search-queries-capability-fanout-2026-09-20.md,
+// 10-build-plan-duplicate-search-queries-fix-2026-09-20.md): one shared
+// per-capability structure behind both the exact-duplicate cache (a
+// guaranteed-identical repeat costs zero real spend) and the cross-module
+// escalation gate (a soft betterMatchOutsideModule signal that becomes a
+// real, code-enforced refusal after firing twice for the same underlying
+// concept) -- designed together, not as two independent trackers, per the
+// real alreadyRetrieved (soft) + maxTurns (hard) precedent already in this
+// same file.
+type TriedQueryOutcome =
+  | { kind: "executed"; response: SearchResponse; crossModuleFlagged: boolean }
+  | { kind: "blocked" };
+interface TriedQuery { query: string; limit?: number; outcome: TriedQueryOutcome }
+
+// Deliberately direct/pairwise, not a transitive clustering pass -- a real,
+// known limitation stated plainly in 10-...md rather than hidden: a short,
+// generic early query can end up "related" to several later ones that
+// aren't related to each other. Case-insensitive, either direction.
+function isRelatedQuery(a: string, b: string): boolean {
+  const x = a.toLowerCase();
+  const y = b.toLowerCase();
+  return x !== y && (x.includes(y) || y.includes(x));
+}
+
+const CROSS_MODULE_BLOCKED_REASON =
+  "This concept has now been flagged twice as belonging to a different module; " +
+  "this tool will not run further searches for it this call. If it's critical, " +
+  "write [NEEDS CLARIFICATION] and move on.";
+
+function makeCapabilityTools(
+  moduleFilter: string,
+  seenFactRefs: Set<string>,
+  debugDir: string | null,
+  triedQueries: TriedQuery[],
+  crossModuleMargin: number | undefined,
+  crossModuleBlockAfter: number
+) {
   const searchFacts = ai.defineTool(
     {
       name: "search_facts",
-      description: `Search the codebase's fact index for real, code-derived evidence relevant to this business request -- restricted to the '${moduleFilter}' module/capability only. This is one focused synthesis pass among several separate calls, each scoped to a different module of the same overall request; other modules are covered by other calls, not this one. Returns ranked candidate facts with real factRefs -- a short, opaque reference token, not a readable identifier; copy it character for character wherever you need to pass it back. Each result carries alreadyRetrieved: true if you were already given this exact factRef earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead.`,
+      description: `Search the codebase's fact index for real, code-derived evidence relevant to this business request -- restricted to the '${moduleFilter}' module/capability only. This is one focused synthesis pass among several separate calls, each scoped to a different module of the same overall request; other modules are covered by other calls, not this one. Returns ranked candidate facts with real factRefs -- a short, opaque reference token, not a readable identifier; copy it character for character wherever you need to pass it back. Each result carries alreadyRetrieved: true if you were already given this exact factRef earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead. The response also carries exactDuplicateOfPriorQuery/substringOfPriorQuery when this query's text exactly repeats, or contains/is contained by, an earlier query you already tried this call, and betterMatchOutsideModule: { module, distance } when a real, meaningfully stronger match for this same query exists in a different module -- that often means this concept structurally belongs to a different capability call, not that another rephrasing here will find it. The first two times a query for the same underlying concept comes back with betterMatchOutsideModule set, treat it as real evidence to weigh, not a block. The next related attempt after that is refused outright (blocked: true, no results) rather than run -- at that point, write [NEEDS CLARIFICATION: ...] for this part of your assigned scope and move on to something your own module's evidence can actually support.`,
       inputSchema: z.object({ query: z.string(), limit: z.number().optional() }),
     },
     async ({ query, limit }) => {
       console.log(`    [tool call, module=${moduleFilter}] search_facts(${JSON.stringify({ query, limit })})`);
-      const raw = await search(query, limit, moduleFilter);
-      const result = {
-        ...raw,
-        results: raw.results.map(r => ({ ...r, alreadyRetrieved: seenFactRefs.has(r.factRef) })),
+
+      const logAndReturn = (output: unknown) => {
+        debugLogToolCall(`search_facts[${moduleFilter}]`, { query, limit }, output);
+        debugTraceToolCall(debugDir, moduleFilter, "search_facts", { query, limit }, output);
+        return output;
       };
+
+      // Real, 2026-09-20: exact-duplicate short-circuit, checked before any
+      // real work. A genuinely identical (query, limit) pair is guaranteed to
+      // produce identical results, so it's replayed from this capability's
+      // own triedQueries instead of re-paying for a real embedding call and
+      // Postgres query -- whichever outcome the first attempt had (a real
+      // result, or a hard block), replayed the same way. alreadyRetrieved is
+      // recomputed fresh against the current seenFactRefs, since it
+      // legitimately changes between the first and a later identical call.
+      const exactMatch = triedQueries.find(t => t.query === query && t.limit === limit);
+      if (exactMatch) {
+        if (exactMatch.outcome.kind === "blocked") {
+          return logAndReturn({
+            confident: false,
+            results: [],
+            blocked: true,
+            blockedReason: CROSS_MODULE_BLOCKED_REASON,
+            exactDuplicateOfPriorQuery: true,
+            substringOfPriorQuery: true,
+          });
+        }
+        const cached = exactMatch.outcome.response;
+        return logAndReturn({
+          ...cached,
+          results: cached.results.map(r => ({ ...r, alreadyRetrieved: seenFactRefs.has(r.factRef) })),
+          exactDuplicateOfPriorQuery: true,
+          substringOfPriorQuery: true,
+        });
+      }
+
+      // Real, 2026-09-20: relatedPriorEntries is both (d)'s
+      // substringOfPriorQuery signal and the input to (b)'s escalation gate
+      // below -- computed once, used by both, per the "design together, not
+      // a fourth tracker" instruction this shape follows.
+      const relatedPriorEntries = triedQueries.filter(t => isRelatedQuery(query, t.query));
+      const substringOfPriorQuery = relatedPriorEntries.length > 0;
+      const flaggedRelatedCount = relatedPriorEntries.filter(
+        t => t.outcome.kind === "executed" && t.outcome.crossModuleFlagged
+      ).length;
+
+      if (flaggedRelatedCount >= crossModuleBlockAfter) {
+        triedQueries.push({ query, limit, outcome: { kind: "blocked" } });
+        return logAndReturn({
+          confident: false,
+          results: [],
+          blocked: true,
+          blockedReason: CROSS_MODULE_BLOCKED_REASON,
+          exactDuplicateOfPriorQuery: false,
+          substringOfPriorQuery,
+        });
+      }
+
+      const raw = await search(
+        query,
+        limit,
+        moduleFilter,
+        crossModuleMargin !== undefined ? { crossModuleMargin } : undefined
+      );
+      const crossModuleFlagged = !!raw.betterMatchOutsideModule;
+      // Real, unchanged ordering from the pre-existing behavior: alreadyRetrieved
+      // reflects facts seen in an EARLIER call, so it's computed before this
+      // call's own results are added to seenFactRefs, not after.
+      const mappedResults = raw.results.map(r => ({ ...r, alreadyRetrieved: seenFactRefs.has(r.factRef) }));
       for (const r of raw.results) seenFactRefs.add(r.factRef);
-      debugLogToolCall(`search_facts[${moduleFilter}]`, { query, limit }, result);
-      debugTraceToolCall(debugDir, moduleFilter, "search_facts", { query, limit }, result);
-      return result;
+      triedQueries.push({ query, limit, outcome: { kind: "executed", response: raw, crossModuleFlagged } });
+      return logAndReturn({
+        ...raw,
+        results: mappedResults,
+        exactDuplicateOfPriorQuery: false,
+        substringOfPriorQuery,
+      });
     }
   );
 
@@ -281,9 +386,27 @@ async function runCapability(opts: {
   // are dumped to debugDir/llm-<module>.json. null on a normal run -- zero
   // effect, matches this file's other FULL_DEBUG-gated additions.
   debugDir: string | null;
+  // Real, 2026-09-20 (governance/roadmap/dynamic-pipeline-architecture/
+  // 10-build-plan-duplicate-search-queries-fix-2026-09-20.md): a real,
+  // calibrated vector-distance margin (default 0.05 -- see main()'s own
+  // comment on CAPABILITY_CROSS_MODULE_MARGIN for the real measured basis),
+  // not a guessed number. `undefined` (unreachable via main()'s current
+  // `?? 0.05` default, but still a valid type here) is what makes
+  // search()'s own cross-module query not run at all -- kept as the
+  // documented "fully off" state search.ts's own opts contract defines.
+  crossModuleMargin: number | undefined;
+  crossModuleBlockAfter: number;
 }): Promise<CapabilityRunResult> {
   const seenFactRefs = new Set<string>();
-  const { searchFacts, getGraphNeighbors, walkCluster } = makeCapabilityTools(opts.module, seenFactRefs, opts.debugDir);
+  const triedQueries: TriedQuery[] = [];
+  const { searchFacts, getGraphNeighbors, walkCluster } = makeCapabilityTools(
+    opts.module,
+    seenFactRefs,
+    opts.debugDir,
+    triedQueries,
+    opts.crossModuleMargin,
+    opts.crossModuleBlockAfter
+  );
   const systemPrompt = `${opts.groundingDocs}${opts.systemPersona}\n\n${renderCapabilityContract(opts.template, opts.module)}`;
 
   let response: GenerateResponse<GenerationOutput>;
@@ -522,6 +645,34 @@ async function main() {
   const MAX_CAPABILITIES = Number(process.env.CAPABILITY_MAX_CAPABILITIES ?? 5);
   const CAPABILITY_MAX_TURNS = Number(process.env.CAPABILITY_MAX_TURNS ?? 20);
 
+  // Real, 2026-09-20 (governance/roadmap/dynamic-pipeline-architecture/
+  // 09-findings-duplicate-search-queries-capability-fanout-2026-09-20.md,
+  // 10-build-plan-duplicate-search-queries-fix-2026-09-20.md): the two new
+  // configurable values behind the cross-module signal + escalation gate.
+  //
+  // CROSS_MODULE_MARGIN default (0.05) is real, calibrated, Phase 3, not
+  // guessed -- one real embedding call against the exact known case
+  // (query "OSKBuildingUnitInhabitantType", moduleFilter="features") measured:
+  //   best in-module (features) distance:            0.6343
+  //   best cross-module distance overall (building,   0.5115  (gap 0.1228 --
+  //     a DIFFERENT fact also literally named                  a real,
+  //     OSKBuildingUnitInhabitantType, fact_ref                separate
+  //     c16b07ded1487ab13b10f876753c4a304738ec79):              symbol-
+  //                                                               ambiguity
+  //                                                               finding)
+  //   the actual doc-09 target fact_ref itself         0.5489  (gap 0.0854)
+  //     (core, 0634ae0ee6b3b8231c096522f7d38d1a847b4cc0):
+  // 0.05 sits comfortably below the smaller (target-specific) 0.0854 gap --
+  // deliberately conservative given n=1 (one query, one known case), same
+  // discipline search.ts's own VECTOR_DISTANCE_CONFIDENCE_THRESHOLD followed.
+  // Revisit with more real examples before trusting it far from this case.
+  // CROSS_MODULE_BLOCK_AFTER's default of 2 is NOT a guess either -- it's
+  // the literal number decided directly in review (10-...md, "after it
+  // happens TWICE"), a repetition count rather than a distance value, so it
+  // never needed this calibration step.
+  const CROSS_MODULE_MARGIN = Number(process.env.CAPABILITY_CROSS_MODULE_MARGIN ?? 0.05);
+  const CROSS_MODULE_BLOCK_AFTER = Number(process.env.CAPABILITY_CROSS_MODULE_BLOCK_AFTER ?? 2);
+
   // RUN_KIND/workflowName moved up from their original position just before
   // writeOutput -- both are real, static, run-config facts (env var or
   // business-request filename), not derived from anything Step 1/2 compute,
@@ -593,7 +744,17 @@ async function main() {
     // for anything genuinely unrecoverable (the wrap-up call itself failing,
     // a real infrastructure error, etc.), not the primary handler anymore.
     try {
-      const run = await runCapability({ module: c.module, businessRequest, systemPersona, template, maxTurns: CAPABILITY_MAX_TURNS, groundingDocs, debugDir });
+      const run = await runCapability({
+        module: c.module,
+        businessRequest,
+        systemPersona,
+        template,
+        maxTurns: CAPABILITY_MAX_TURNS,
+        groundingDocs,
+        debugDir,
+        crossModuleMargin: CROSS_MODULE_MARGIN,
+        crossModuleBlockAfter: CROSS_MODULE_BLOCK_AFTER,
+      });
       const budgetNote = run.ranOutOfBudget ? " [wrapped up early: real tool-call budget exhausted]" : "";
       console.log(`  ${run.toolCalls.length} real tool call(s), ${run.turnsUsed} turn(s), ${run.output.sections.length} section(s) produced: ${run.output.sections.map(s => s.heading).join(", ") || "(none)"}${budgetNote}`);
       runs.push(run);

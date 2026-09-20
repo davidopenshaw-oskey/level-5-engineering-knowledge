@@ -597,7 +597,7 @@ function main() {
           ...base,
           line: en.getStartLineNumber(),
           name: en.getName(),
-          members: en.getMembers().map(m => m.getName()),
+          enumMembers: en.getMembers().map(m => ({ name: m.getName(), value: m.getValue() })),
           isExported: en.isExported(),
         });
       }
