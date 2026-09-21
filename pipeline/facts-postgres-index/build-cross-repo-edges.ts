@@ -1,4 +1,4 @@
-// **version:** 1.6.0
+// **version:** 1.7.0
 // **location:** level-5 P2 facts index
 // © Oskey SAS. All rights reserved.
 //
@@ -181,6 +181,11 @@ const FIRESTORE_WRITE_WRAPPERS: Record<string, string[]> = {
   _deleteAll: ["delete"],
   _deleteCollection: ["delete"],
 };
+// Base-controller methods known NOT to write a document (they read, look up or mint an id).
+// Together with FIRESTORE_WRITE_WRAPPERS this is everything classified; any other method of
+// a base controller that something calls is reported by the join, so a newly added wrapper
+// (or a write helper like `_removeFromArrayField`) shows up instead of being silently absent.
+const FIRESTORE_READ_WRAPPERS = ["_get", "_getDocRef", "_generateDocId", "_query", "_queryOr", "_queryWithPagination", "_queryCollectionGroup", "_listDocuments"];
 // A trigger registration's event, from the last identifier of its callee expression.
 const FIRESTORE_TRIGGER_EVENTS: Record<string, string> = { onCreate: "create", onUpdate: "update", onDelete: "delete" };
 // The exact wording the user specified for a `set`-style write's edge.
@@ -206,7 +211,9 @@ const APIGEE_CONFIRMATION =
 // it produces carries the snapshot's extractedAt. The pipeline itself never calls
 // GCP; refreshing the file is a separate, deliberate step.
 const PUBSUB_SNAPSHOT_REL = "governance/reference-docs/pubsub.bindings.staging.json";
-const PUBSUB_SNAPSHOT_FILE = path.join(process.cwd(), ...PUBSUB_SNAPSHOT_REL.split("/"));
+// Resolved from this script's own location (pipeline/facts-postgres-index/ -> repo root),
+// not from the caller's working directory, so it works from any cwd.
+const PUBSUB_SNAPSHOT_FILE = path.resolve(__dirname, "..", "..", ...PUBSUB_SNAPSHOT_REL.split("/"));
 const PUSH_DELIVERY = "push"; // snapshot `deliveryType` of a push subscription
 const PUSH_HTTP_METHOD = "POST"; // Pub/Sub push always POSTs to the endpoint
 // Cloud Functions scheduled triggers are delivered through App Engine push handlers.
@@ -1111,8 +1118,8 @@ const firestoreTriggerJoin: Join = {
     for (const a of notes.ambiguousPath) console.log(`  AMBIGUOUS trigger path (skipped): ${a}`);
 
     // 2. Writers: calls resolved to a write wrapper, with their enclosing method fact.
-    const writers = await db.query<{ fact_id: string; repo: string; file: string; line: number; wrapper: string; arg0: string | null; caller_name: string | null; caller_class: string | null; caller_line: string | null }>(
-      `SELECT fact_id, repo, file, line, ${ev(CONTRACT.CALL_DECLARATION_METHOD)} AS wrapper, payload->'evidence'->'${CONTRACT.CALL_ARGUMENTS}'->>0 AS arg0,
+    const writers = await db.query<{ fact_id: string; repo: string; file: string; line: number; wrapper: string; decl_file: string | null; arg0: string | null; caller_name: string | null; caller_class: string | null; caller_line: string | null }>(
+      `SELECT fact_id, repo, file, line, ${ev(CONTRACT.CALL_DECLARATION_METHOD)} AS wrapper, ${ev(CONTRACT.CALL_DECLARATION_FILE)} AS decl_file, payload->'evidence'->'${CONTRACT.CALL_ARGUMENTS}'->>0 AS arg0,
               ${ev(CONTRACT.CALL_CALLER_NAME)} AS caller_name, ${ev(CONTRACT.CALL_CALLER_CLASS)} AS caller_class, ${ev(CONTRACT.CALL_CALLER_START_LINE)} AS caller_line
        FROM facts WHERE repo = ANY($1::text[]) AND kind = $2 AND ${ev(CONTRACT.CALL_RESOLUTION_STATUS)} = $3 AND ${ev(CONTRACT.CALL_DECLARATION_METHOD)} = ANY($4::text[]) ORDER BY repo, file, line`,
       [sourceRepos, CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_RESOLUTION_OK, Object.keys(FIRESTORE_WRITE_WRAPPERS)]
@@ -1158,6 +1165,22 @@ const firestoreTriggerJoin: Join = {
         details: `${eventText}. Write: ${g.sites.slice(0, 3).join("; ")}${g.sites.length > 3 ? `; +${g.sites.length - 3} more` : ""}. Trigger on ${g.trig.event} of '${g.trig.path}' registered at ${g.trig.file}:${g.trig.line} runs ${g.trig.handlerExpr}.`,
       });
     }
+    // Classification report. The "base controllers" are the files that declare the write wrappers
+    // (learned from the calls, not named here). Any other method declared there that something
+    // calls is in neither table: it may be a reader we have not listed, or a writer we do not model.
+    // Only calls from OTHER files count: a wrapper delegating to its own internal implementation
+    // class inside the same file is not a new entry point and would only add noise.
+    const baseFiles = [...new Set(writers.rows.map(w => w.decl_file).filter((f): f is string => !!f))];
+    const known = [...Object.keys(FIRESTORE_WRITE_WRAPPERS), ...FIRESTORE_READ_WRAPPERS];
+    const unclassified = baseFiles.length === 0 ? [] : (await db.query<{ method: string; file: string; n: string }>(
+      `SELECT ${ev(CONTRACT.CALL_DECLARATION_METHOD)} AS method, ${ev(CONTRACT.CALL_DECLARATION_FILE)} AS file, count(*)::text AS n
+       FROM facts WHERE repo = ANY($1::text[]) AND kind = $2 AND ${ev(CONTRACT.CALL_DECLARATION_FILE)} = ANY($3::text[])
+         AND ${ev(CONTRACT.CALL_DECLARATION_METHOD)} IS NOT NULL AND NOT (${ev(CONTRACT.CALL_DECLARATION_METHOD)} = ANY($4::text[]))
+         AND file <> ${ev(CONTRACT.CALL_DECLARATION_FILE)}
+       GROUP BY 1, 2 ORDER BY 3 DESC, 1`,
+      [sourceRepos, CONTRACT.CALL_EXPRESSION_KIND, baseFiles, known]
+    )).rows;
+    console.log(`  Base controllers (${baseFiles.length} file(s) declaring a write wrapper): ${unclassified.length === 0 ? "every called method is classified (write table or known-reader list)." : `${unclassified.length} called method(s) in NEITHER the write-wrapper table nor the known-reader list, review them: ${unclassified.map(u => `${u.method} (${u.n} call site${u.n === "1" ? "" : "s"}, ${u.file.replace(/^.*\//, "")})`).join("; ")}.`}`);
     const unreached = trigs.filter(t => !reached.has(t.fact_id));
     console.log(`  Writers: ${writers.rows.length} write-wrapper call sites; first argument is a readable path for ${derivable.length}, not readable (identifier/call) for ${writers.rows.length - derivable.length}. ${matchedSites} readable-path sites land on a trigger collection (${unattributed} more had no single enclosing method fact and were skipped).`);
     console.log(`  Join result: ${edges.length} resolved edges (writer method -> handler), reaching ${reached.size} of ${trigs.length} triggers; ${unreached.length} triggers have no readable-path writer${unreached.length ? `: ${unreached.map(t => `${t.event} ${t.path}`).join("; ")}` : ""}.`);
@@ -1305,6 +1328,88 @@ async function reportOrphanSlices(db: Pool, discovered: Map<string, string[]>): 
   return orphans.size;
 }
 
+// The statuses `findGraphNeighbors` follows (mcp-server/db/graph-traversal.ts). A dangling fact
+// on an edge with one of these statuses is what makes `walkBoundedCluster` throw, because the
+// walk reaches it from the live end. Dangling on any other status is harmless today.
+const FOLLOWED_STATUSES = ["resolved", "confirmed"];
+
+// End-of-run coverage summary over the WHOLE table (all connection types, not only this
+// script's joins), read-only. Prints: (1) edges per pair, and any pair a join expects but
+// finds empty; (2) dangling source AND target counts per (connection_type, repo), split by
+// resolution_status, with a loud verdict for the followed statuses; (3) per repo, whether its
+// newest extraction run is newer than the edges built for it.
+async function printCoverageSummary(db: Pool, discovered: Map<string, string[]>): Promise<void> {
+  console.log(`\n=== coverage summary (whole table, read-only)`);
+
+  // 1. Edges by pair.
+  const pairs = await db.query<{ connection_type: string; source_repo: string; target_repo: string; provenance: string; resolution_status: string; n: string }>(
+    `SELECT connection_type, source_repo, target_repo, provenance, resolution_status, count(*)::text AS n FROM cross_repo_edges GROUP BY 1, 2, 3, 4, 5 ORDER BY 1, 2, 3, 4, 5`
+  );
+  const byPair = new Map<string, { total: number; statuses: string[] }>();
+  const perSlice = new Map<string, number>(); // connection_type + source_repo -> edges
+  let total = 0;
+  for (const r of pairs.rows) {
+    const k = `${r.connection_type}  ${r.source_repo} -> ${r.target_repo}  (${r.provenance})`;
+    const g = byPair.get(k) ?? { total: 0, statuses: [] };
+    g.total += Number(r.n); g.statuses.push(`${r.n} ${r.resolution_status}`);
+    byPair.set(k, g);
+    total += Number(r.n);
+    const sk = `${r.connection_type}\u0000${r.source_repo}`;
+    perSlice.set(sk, (perSlice.get(sk) ?? 0) + Number(r.n));
+  }
+  console.log(`  edges by (connection_type, source -> target, provenance), ${total} in total:`);
+  for (const [k, g] of byPair) console.log(`    ${k}: ${g.total} (${g.statuses.join(", ")})`);
+  const empty: string[] = [];
+  for (const j of JOINS) for (const repo of discovered.get(j.name) ?? []) {
+    if (repo !== UNKNOWN_REPO && !perSlice.get(`${j.connectionType}\u0000${repo}`)) empty.push(`${j.connectionType} / ${repo} (join ${j.name} discovers it as a source)`);
+  }
+  console.log(empty.length === 0 ? `  expected pairs with zero edges: none` : `  EXPECTED PAIRS WITH ZERO EDGES: ${empty.join("; ")}`);
+
+  // 2. Dangling references, source and target, split by status.
+  const dangling = await db.query<{ connection_type: string; repo: string; side: string; resolution_status: string; n: string }>(
+    `SELECT connection_type, repo, side, resolution_status, count(*)::text AS n FROM (
+       SELECT e.connection_type, e.source_repo AS repo, 'source' AS side, e.resolution_status FROM cross_repo_edges e
+        WHERE e.source_fact_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM facts f WHERE f.fact_ref = e.source_fact_ref)
+       UNION ALL
+       SELECT e.connection_type, e.target_repo, 'target', e.resolution_status FROM cross_repo_edges e
+        WHERE e.target_fact_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM facts f WHERE f.fact_ref = e.target_fact_ref)
+     ) d GROUP BY 1, 2, 3, 4 ORDER BY 1, 2, 3, 4`
+  );
+  console.log(`  dangling references (a fact id on an edge that no longer exists in facts), by (connection_type, repo), split by status:`);
+  const dg = new Map<string, { source: string[]; target: string[] }>();
+  let followedDangling = 0, allDangling = 0;
+  for (const r of dangling.rows) {
+    const k = `${r.connection_type} / ${r.repo}`;
+    const g = dg.get(k) ?? { source: [], target: [] };
+    (r.side === "source" ? g.source : g.target).push(`${r.n} ${r.resolution_status}`);
+    dg.set(k, g);
+    allDangling += Number(r.n);
+    if (FOLLOWED_STATUSES.includes(r.resolution_status)) followedDangling += Number(r.n);
+  }
+  if (dg.size === 0) console.log(`    none`);
+  for (const [k, g] of dg) console.log(`    ${k}: dangling SOURCE ${g.source.join(", ") || "none"} | dangling TARGET ${g.target.join(", ") || "none"}`);
+  console.log(followedDangling > 0
+    ? `  DANGLING ON A FOLLOWED EDGE (${FOLLOWED_STATUSES.join("/")}): ${followedDangling}. walkBoundedCluster will THROW when it reaches one. Rebuild the edges of the affected repo(s) now.`
+    : `  dangling on ${FOLLOWED_STATUSES.join("/")} edges: 0 (traversal-safe); ${allDangling} dangling on statuses traversal never follows.`);
+
+  // 3. Newest extraction run versus the edges built for each repo.
+  const stale = await db.query<{ repo: string; run_id: string; extracted_at: Date; connection_type: string | null; edges: string; built_before: string }>(
+    `SELECT r.repo, r.run_id, r.extracted_at, e.connection_type, count(e.edge_id)::text AS edges,
+            count(e.edge_id) FILTER (WHERE e.generated_at < r.extracted_at)::text AS built_before
+     FROM (SELECT DISTINCT ON (repo) repo, run_id, extracted_at FROM extraction_runs ORDER BY repo, extracted_at DESC) r
+     LEFT JOIN cross_repo_edges e ON e.source_repo = r.repo
+     GROUP BY r.repo, r.run_id, r.extracted_at, e.connection_type ORDER BY r.repo, e.connection_type`
+  );
+  console.log(`  newest extraction run per repo versus the edges built for it as source (a repo synced after its edges were built may have stale edges):`);
+  let staleSlices = 0;
+  for (const r of stale.rows) {
+    const flag = Number(r.built_before) > 0;
+    if (flag) staleSlices++;
+    console.log(`    ${flag ? "STALE " : "ok    "}${r.repo}  run ${r.run_id} (${r.extracted_at.toISOString()}): ${r.connection_type ?? "no edges"}${r.connection_type ? ` ${r.edges} edge(s), ${r.built_before} built before that run` : ""}`);
+  }
+  console.log(staleSlices === 0 ? `  no repo has edges older than its newest extraction run` : `  ${staleSlices} (connection_type, repo) slice(s) have edges built BEFORE the repo's newest extraction run: rebuild after the sync (see the dangling counts above for the ones already broken).`);
+}
+
 function parseArgs(argv: string[]): { joins: string[]; dryRun: boolean; acceptShrink: boolean; printEdges: boolean } {
   const out = { joins: [] as string[], dryRun: false, acceptShrink: false, printEdges: false };
   for (const a of argv) {
@@ -1358,6 +1463,7 @@ async function main() {
       }
     }
     await reportOrphanSlices(db, discovered);
+    await printCoverageSummary(db, discovered);
   } finally {
     await db.end();
   }

@@ -44,6 +44,14 @@ not build `screen_fact_links` without an explicit go-ahead.
 
 ## 2. Open decision: cross-repo-edges build sequencing (§2d of doc 35)
 
+> **Answered 2026-09-21 (marked by the validator session; original text below left intact).**
+> The build was scoped, planned and run: see
+> [38-build-plan-cross-repo-edges-four-joins-2026-09-21.md](38-build-plan-cross-repo-edges-four-joins-2026-09-21.md)
+> (authoritative spec at the top, results in its Build log). The order actually built was
+> Stage 0 refactor, then A (iOS→Firebase), B (iOS↔Swift-kit), C (android→node-iot), D1 (pubsub),
+> and E (Firestore triggers), i.e. **not** this section's proposed 2→1→4→3, with the changes
+> explained in doc 38 §3. Result: +454 edges (A 34, B 389, C 5, D1 9, E 17); table 17,195 → 17,649.
+
 Doc 31 found four independent, real, buildable cross-repo-edge opportunities (table below,
 detail in doc 31 itself). This session proposed a build order; **the user had not yet responded
 to it when the reboot warning came in** — treat this as a live, unanswered question, not an

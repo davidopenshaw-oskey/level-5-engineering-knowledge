@@ -169,18 +169,32 @@ export interface BoundedClusterResult {
 // directly rather than a parallel traversal implementation.
 //
 // Real finding from checking cross_repo_edges before writing this, not
-// assumed: all four connection_types that exist today (INTRA_REPO_CALL,
+// assumed: all four connection_types that existed then (INTRA_REPO_CALL,
 // HTTP_API_CALL, PUBSUB_TOPIC_BINDING, FIELD_BINDING) would all be allowed
 // to cross a module/repo boundary under a "stop unless the edge type is one
 // of the ones this project has already verified" rule -- meaning that rule
 // is currently vacuous against real data (nothing would ever be stopped by
-// a connection-type check; INTRA_REPO_CALL alone is 2,362 real edges). The
+// a connection-type check; INTRA_REPO_CALL alone was 2,362 real edges). The
 // real limiter today is combinatorial fan-out (one anchor can have 9+
 // direct edges, confirmed in earlier real graph-traversal work), not
 // incidental-coupling noise -- so this bounds explicitly on both depth and
 // total cluster size, not on connection type. Revisit the type-based idea
 // if a future connection_type is ever added that represents weaker/
 // incidental coupling worth actually filtering out.
+//
+// Updated 2026-09-21 (cross-repo edge build, governance/roadmap/dynamic-pipeline-
+// architecture/38-build-plan-cross-repo-edges-four-joins-2026-09-21.md; comment
+// only, no behavior change): SIX connection_types exist now -- the four above plus
+// PACKAGE_SYMBOL_USE (iOS app -> the Swift kits) and FIRESTORE_EVENT_TRIGGER (a
+// Firestore write -> the trigger handler it fires) -- and INTRA_REPO_CALL alone is
+// 17,064 edges. The conclusion above still holds: a connection-type check would
+// still stop nothing, and fan-out is still the real limiter. Measured on the built
+// edges: one kit declaration (OSKUIExpanded) has 85 incoming PACKAGE_SYMBOL_USE
+// edges, so a walk that reaches it hits the maxFacts cap at depth 1 (doc 38, Stage
+// B hub measurement). Only resolved/confirmed edges with a non-null target are
+// followed (see findGraphNeighbors); a followed edge whose source fact no longer
+// exists in facts makes this walk throw, which is why edges must be rebuilt after a
+// repo is re-synced (the build script's coverage summary reports both).
 export async function walkBoundedCluster(
   db: Pool,
   anchorFactRef: string,

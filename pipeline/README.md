@@ -59,9 +59,11 @@ pipeline/
 
 Run from the repo root. Stages A–C are per repo; D–F run once, after every repo you care about has been through B (and C where applicable).
 
+The stage letters here are this README's own. The build docs under `governance/roadmap/dynamic-pipeline-architecture/` (for example doc 38) use a different A–E lettering for the individual edge joins, so "Stage E" means form-field lineage here and Firestore-trigger edges there. When in doubt, go by the script or `--join=` name.
+
 ### Stage 0 — prerequisites (once per machine/session)
 
-- Postgres is up: `docker compose -f pipeline/facts-postgres-index/docker-compose.yml up -d` (container `facts-postgres-index-local`, port 5433). The schema (`schema-proposal.sql`) is already applied to the running instance.
+- Postgres is up: `docker compose -f pipeline/facts-postgres-index/docker-compose.yml up -d` (container `facts-postgres-index-local`, port 5433). The schema (`schema-proposal.sql`) is already applied to the running instance. How it is stored, how to connect, and how to back it up: [README_postgres.md](README_postgres.md). There is no automatic backup.
 - `.env` holds the Vertex AI credentials (only needed for embeddings, Stage B2).
 - Swift repos only: the extractor binary must exist. If `01-extract-ast-evidence` fails with "swift-extractor binary not found", run `swift build -c release` in `pipeline/swift/phase-01-ast-extraction/swift-extractor/`.
 
@@ -119,7 +121,7 @@ Facts whose description did not change keep their embedding, so an unchanged re-
 REPO_NAME=<repo> node -r ts-node/register pipeline/facts-postgres-index/build-intra-repo-edges.ts
 ```
 
-Loads that repo's `resolved-engineering-graph.json` into `cross_repo_edges` as `INTRA_REPO_CALL`. It refuses to load if the graph's `runId` differs from Postgres's current run. Supported: firebase, angular, android-intercom, and the Swift family. `node-iot-api-oskey-io` is intentionally not loaded (its graph resolved 0 confirmed edges when checked). Kotlin/Swift edges have no target fact ID by design (the graph doesn't carry one), so they load as `probable`/`unresolved` with a null target. Graph traversal only follows `resolved`/`confirmed` edges, so today only Firebase and Angular intra-repo edges are ever followed by the agent.
+Loads that repo's `resolved-engineering-graph.json` into `cross_repo_edges` as `INTRA_REPO_CALL`. It refuses to load if the graph's `runId` differs from Postgres's current run. Supported: firebase, angular, android-intercom, and the Swift family. `node-iot-api-oskey-io` is intentionally not loaded (its graph resolved only 8% of calls, with 0 confirmed edges, when checked), which is why node-iot has no `INTRA_REPO_CALL` edges at all. Kotlin/Swift edges have no target fact ID by design (the graph doesn't carry one), so they load as `probable`/`unresolved` with a null target. Graph traversal only follows `resolved`/`confirmed` edges, so today only Firebase and Angular intra-repo edges are ever followed by the agent.
 
 ### Stage D — cross-repo edges (once; needs every participating repo synced)
 
@@ -128,7 +130,7 @@ node -r ts-node/register pipeline/facts-postgres-index/build-cross-repo-edges.ts
 node -r ts-node/register pipeline/facts-postgres-index/build-cross-repo-edges.ts
 ```
 
-Reads facts from Postgres (not files), so it is only as current as Stage B. Four joins, each replacing only its own `(connection_type, source_repo)` rows in one transaction, and only if its preflight passes and the new set isn't smaller than the old one:
+Reads facts from Postgres (not files), so it is only as current as Stage B. Five joins, each replacing only its own `(connection_type, source_repo)` rows in one transaction, and only if its preflight passes and the new set isn't smaller than the old one:
 
 | Join (`--join=`) | Edge type | Connects |
 |---|---|---|
@@ -136,6 +138,7 @@ Reads facts from Postgres (not files), so it is only as current as Stage B. Four
 | `pubsub-binding` | `PUBSUB_TOPIC_BINDING` | Pub/Sub publish sites → receiving route or handler, using the committed subscriptions snapshot `governance/reference-docs/pubsub.bindings.staging.json` (staging only, a static copy of GCP config that goes stale silently). Bindings with no publisher fact are recorded `unresolved` under `source_repo = 'unknown'` |
 | `package-symbol-use` | `PACKAGE_SYMBOL_USE` | Swift call sites → declarations in another indexed package |
 | `rest-route` | `HTTP_API_CALL` | Android Retrofit calls → REST route facts |
+| `firestore-trigger` | `FIRESTORE_EVENT_TRIGGER` | Firebase Firestore write call sites → the create/update/delete trigger handler registered on that collection path. Same-repo (Firebase to Firebase), `ast_derived`, `resolved`. Needs the writer's collection path to be resolved; Firebase auth triggers have no path and are skipped |
 
 Flags: `--join=<name>[,<name>]`, `--dry-run`, `--print-edges`, `--accept-shrink` (allow a smaller edge set; only after you've looked at why). Repo names are discovered from the data, not hardcoded. Re-run this after any Stage B that changed facts in a participating repo, since edges are computed from the facts currently in Postgres.
 
@@ -185,7 +188,7 @@ for f in output/*/run-context.json; do
 done
 ```
 
-Module-level: catches a repo that was synced for some modules but not all (the run-level check can't see this, because the first module's sync already marks the run current).
+Module-level: catches a repo that was synced for some modules but not all (the run-level check can't see this, because the first module's sync already marks the run current). It also flags the reverse: a module that has facts in Postgres but no longer exists in the current run (renamed or removed upstream). `sync-facts.ts` only prunes within the module it is given, so those orphaned facts are not removed automatically. Check what they are before deleting anything (`select kind, count(*) from facts where repo='<repo>' and module='<module>' group by 1`), then remove them by hand.
 
 ```bash
 for f in output/*/run-context.json; do
