@@ -12,6 +12,8 @@ cross-repo-edges decision below is picked up.
 
 ## 1. Open decision: `screen_fact_links` table — design synthesis, not yet decided
 
+> **Refined 2026-09-21, see `governance/roadmap/ux-mappings/01-screen-map-enrichment-discussion-2026-09-21.md`:** the shared-table idea stands, but keying on `fact_ref` alone is wrong for enrichment (measured: 0.5% direct hits vs 24% by file containment). The join should be on `(repo, file)`. The reasoning below is kept as written.
+
 Context: three real reference files exist (`governance/reference-docs/pubsub.bindings.staging.json`,
 `screen-map-angular-features.json`, `screen-map-ios.json`), backed by three real, already-built
 extraction scripts in `pipeline/facts-postgres-index/` (`extract-screen-map-angular.ts`,

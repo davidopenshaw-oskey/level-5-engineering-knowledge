@@ -552,3 +552,135 @@ real LLM spend and needs its own go-ahead.
 5. `governance/reference-docs/pubsub.bindings.staging.json`.
 
 Open decisions pending from the user: §3.1-3.4.
+
+
+---
+
+## Build log
+
+One dated entry per stage, appended as each stage finishes. Session `level-5-engineering-knowledge-c3`. No git add/commit run by the build session.
+
+### 2026-09-21: Stage 0 (safety net and refactor, no new edges): DONE, pending validator
+
+**runIds the build ran against** (`max(run_id)` per repo in `facts`, also equal to `extraction_runs.is_current`): firebase `20260911_080454-00e1d9fd`, node-iot `20260911_080505-a6cba122`, angular `20260911_092322-8345d222`, ios `20260920_165124-e660bda2`, swift-cloud-kit `20260920_165044-32772e4a`, android-intercom `20260918_154849-f2cac85f` (plus swift-ble `20260920_165106-f8cdf199`, swift-ui `20260920_165053-9a75c7c6`, swift-webrtc `20260920_165059-e8aeea9d`). **All six spec-listed runIds are identical to the spec's, so nothing was re-synced** and every spec number (17,195 rows etc.) still holds.
+
+**Backup:** `output/backups/cross_repo_edges-2026-09-21.sql` (13.7 MB, 17,195 rows, gitignored).
+
+**Baseline:** `38-baseline-cross-repo-edges-before-2026-09-21.json`: 17,195 rows, 23 groups by `(connection_type, source_repo, target_repo, resolution_status, provenance)`, runIds, plus a content fingerprint (md5, excluding `edge_id`/`synthesis_id`/`generated_at`) for each of the 12 `(connection_type, source_repo)` slices. The fingerprints make "reproduces exactly" mean identical rows, not just identical counts.
+
+**What changed in `pipeline/facts-postgres-index/build-cross-repo-edges.ts`** (v1.1.0):
+- Two `Join`s: `firebase-callable` (`HTTP_API_CALL`) and `pubsub-binding` (`PUBSUB_TOPIC_BINDING`). `--join=<name>[,<name>]` runs a subset.
+- Shared `replaceSlices` helper: replace is scoped to `(connection_type, source_repo)` (before: all `HTTP_API_CALL` / all `PUBSUB_TOPIC_BINDING` rows). Source repos are discovered from the data; all of a join's slices are replaced in one transaction (own pooled client, so a `ROLLBACK` only ever follows a `BEGIN`).
+- **Compute first, replace second** (spec rule 2): each join has a preflight (source and target kinds exist, required payload fields present on at least one row) and a shrink guard (new slice empty or smaller than the existing one prints the diff and aborts the whole join before `BEGIN`; `--accept-shrink` overrides). One join failing does not stop the others; the run exits 1 if any failed.
+- Slice-ownership guard: aborts if two joins of one `connection_type` ever claim the same source repo (checked across all joins even when `--join=` selects one), because each would otherwise delete the other's rows.
+- Single `CONTRACT` constants block (spec rule 3) naming each extractor-owned kind/field; `UNKNOWN_REPO = "unknown"` (already in the live table). Only the literals Stage 0's two joins use are there; later stages add theirs to the same block.
+- `--dry-run` (compute and print, write nothing) and `--print-edges` added because the prompt requires a bounded dry run before each real write.
+- Target repos are now discovered (the receiver/callable queries no longer filter on `firebase-oskey-dev`); confirmed identical today (253 callable `api_contract` and the 1 push receiver are both only in Firebase).
+- **One deliberate, transitional repo-name literal: `STAGE0_CALLABLE_SOURCE_REPOS = ["angular-app-oskey-io"]`.** Discovering callable sources purely from the data would also pick up `swift-cloud-kit-oskey-dev`'s 34 calls, which are Stage A's new edges. The constant keeps Stage 0 at "no new edges" and is deleted at the start of Stage A.
+
+**Acceptance (re-run reproduces baseline exactly), all measured against the baseline file:**
+
+| Run | Result |
+|---|---|
+| Dry run (both joins) | every slice `existing N → new N` with the same status split; nothing written |
+| Full run, real | total 17,195; 23/23 groups equal; 12/12 slice fingerprints equal |
+| `--join=firebase-callable`, real | total 17,195; groups and fingerprints identical |
+| `--join=pubsub-binding`, real | total 17,195; groups and fingerprints identical |
+
+**Guards tested (each was a cheap bounded test with a before/after check):**
+- *Shrink guard:* inserted one throwaway `HTTP_API_CALL` angular row (`GUARD-TEST-ROW`, 17,196 rows). Run without `--accept-shrink`: refused (`103 → 102`, printed the row), table unchanged (test row still present, 103). Run with `--accept-shrink`: removed it; table back to the baseline (identical). Test row no longer exists.
+- *Preflight:* a scratch copy with `CALLABLE_CALL_FUNCTION_NAME` renamed reported `PREFLIGHT FAILED -- nothing changed` for that join, still ran the other join, and exited nonzero. Scratch copy deleted.
+- Unknown `--join=` value and unknown flag: rejected with the valid list.
+
+**Post-stage checks:** target `fact_id` not in `facts`: 0 (whole table). `FIELD_BINDING`: 13, untouched. Resolved/confirmed edges with a dangling source: 0. Dangling source rows overall: 153 (130 `unresolved`, 23 `probable`), the same 153 the spec already records. One `findGraphNeighbors` call on an existing `HTTP_API_CALL` edge (`organization-createEntity`) returns its resolved outgoing edge to `organization::createEntity`.
+
+**Notes for the validator:**
+- Live `edge_id`s and `synthesis_id`s of the rebuilt `HTTP_API_CALL` (102) and `PUBSUB_TOPIC_BINDING` (16) rows changed (each was rebuilt by the acceptance runs, the callable join also by the shrink-guard test); content is identical to the baseline.
+- A scratch file named `build-cross-repo-edges.ts.head` that this session created inside the repo directory was swept into the user's commit `8bc5bfd`; the working-tree copy is deleted and shows as ` D` until the next commit. It contains only a header fragment of the script and nothing depends on it.
+- `package.json` not touched.
+
+
+### 2026-09-21: Stage A (iOS→Firebase, `HTTP_API_CALL` from any repo with `firebase_callable_call` facts): DONE, pending validator
+
+**Validator's Stage 0 verdict: approved**, with three conditions for Stage A, all met below.
+
+**runIds:** unchanged from the Stage 0 entry (checked in the post-run snapshot: `latestRunIdPerRepo` identical to the baseline's). No re-sync happened, so the Stage 0 baseline is still the reference.
+
+**Code changes (`build-cross-repo-edges.ts`, v1.2.0):**
+- `STAGE0_CALLABLE_SOURCE_REPOS` **deleted**. Source repos for the callable join are now discovered purely from `firebase_callable_call` facts: `angular-app-oskey-io`, `swift-cloud-kit-oskey-dev`. No repo-name literal remains in code.
+- **Condition 1, resolved-count drop is a shrink.** A slice whose resolved edges would fall below the existing resolved count now aborts the join before `BEGIN` unless `--accept-shrink`, and prints the edges that would stop being resolved. It fires even when the slice size is unchanged.
+- **Condition 2, orphan slices.** New coverage section at the end of every run: existing edges of a connection type this script owns whose source repo no join discovers. Report-only (never deletes, never rebuilds). Looks across all joins, so `--join=` cannot hide one. Today: none. This is the first piece of the close-out coverage summary; the dangling source/target counts and the newer-`runId` flag are still to come at close-out.
+- **Condition 3, `details` from the data.** Every unresolved callable edge now explains its miss from the indexed callable facts (253 callables, 9 modules): (a) name exists only under other module(s) and the client prefix is not a module → *"Callable 'X' exists under module 'M' (file:line)[, ...], but the client prefix 'P' matches no module (9 modules have callables). Left unresolved: no rule derived from the facts maps that prefix to a module."*; (b) prefix is a module but lacks the name, which exists elsewhere → *"Module 'P' has no callable 'X'; the name exists only under module ..."*; (c) name exists nowhere → *"No callable named 'X' exists in any module (searched 253 callables across 9 modules); the client asked for module 'P'."* No alias table, no "dead code" wording anywhere in the code; the classification is computed, and none of these cases can turn into a resolved edge.
+
+**Dry run first (`--dry-run --print-edges`, nothing written), then the real run.** Real result:
+
+| Slice | Before | After |
+|---|---|---|
+| `HTTP_API_CALL` angular-app-oskey-io | 102 (97 resolved, 5 unresolved) | 102 (97 resolved, 5 unresolved) |
+| `HTTP_API_CALL` swift-cloud-kit-oskey-dev | 0 | **34 (24 resolved, 10 unresolved)** |
+| Table total | 17,195 | **17,229** (+34) |
+
+**Angular slice, exactly what changed:** resolved rows, all keys and target facts are byte-identical (md5 over everything except the 5 unresolved rows' `details` = `4f94dfe4…` before and after). The only difference is the `details` text of the 5 unresolved rows, which now come from the data. New information this surfaced: `organization-assigningBuildingToProperty` is not in module `organization` but the name exists under module `building` (`functions/src/modules/building/index.ts:53`); it stays unresolved (a different module is not the one the client named). The other 4 name nothing that exists in any module.
+
+**The 10 swift-cloud-kit misses, all `unresolved`, all with data-derived `details`:**
+- **7 export-group alias** (client prefix `unit`, callable exists under `unit_management`): `unit-getAllUnitInhabitantsAndGuests` (`OSKCKUserInvitesService.swift:120`), `unit-createUnitInvitation` (:141), `unit-removePermanentGuest` (:244), `unit-removeInhabitantFromUnit` (:265; the name exists under **two** modules, `admin` and `unit_management`, both listed), `unit-removePendingInvitation` (:288), `unit-getUnitPerson` (:65 and :89, two call sites).
+- **3 no callable with that name in any module:** `organization-verifySmsOtpCode` (`OSKCKUserOnboardingBuildingService.swift:52`), `user-approvePendingFriendRequest` (`OSKCKUserPendingFriendRequestService.swift:100`), `user-rejectPendingFriendRequest` (:111). **User confirmation (2026-09-21, recorded here, not in code):** these three are dead or superseded iOS code and correctly unresolved.
+- **A2 not built** (needs user go-ahead). Design option, unchanged from the spec: derive the export-group → module mapping from Firebase's `functions/src/index.ts` (`export const unit = {...unitTriggers.getCallableFunctionTriggers…}`), which has no facts today, so it is an extractor-level change (a new fact kind for export-group aliases), never a hand-typed table. With it, up to 31/34 would resolve (the 7 alias misses; `removeInhabitantFromUnit` still needs the alias to pick between `admin` and `unit_management`).
+
+**Post-run checks:** other 11 of 12 baseline slices byte-identical; only two groups added (`swift-cloud-kit → firebase resolved 24`, `swift-cloud-kit → unknown unresolved 10`); `FIELD_BINDING` 13; target `fact_id` not in `facts`: 0; resolved/confirmed with dangling source: 0; dangling-source rows still the known 153 (130 unresolved, 23 probable). `findGraphNeighbors` on a new edge (`OSKCKPinCodeService.swift:38 -> core-createQuickcode`): outgoing resolved `HTTP_API_CALL` to `core::createQuickcode`; from the Firebase target fact, the incoming `HTTP_API_CALL` set includes the swift edge. All 24 resolved swift edges carry a target fact.
+
+**Guards tested (each a cheap bounded test, before/after):**
+- *Resolved-drop guard:* flipped one Angular unresolved row to `resolved` (slice size stays 102; existing 98 resolved vs new 97). Without `--accept-shrink`: refused (`RESOLVED DROP 98 -> 97`, printed the edge), table unchanged (98/4). With it: restored; the whole table identical to the post-A snapshot.
+- *Orphan report:* inserted a throwaway `HTTP_API_CALL` row for a made-up repo; a `--join=pubsub-binding --dry-run` still reported `ORPHAN HTTP_API_CALL / zz-orphan-test-repo: 1 edge(s)`. Test row deleted; the table is back to 17,229 and the report says `none`.
+
+**Still open, not built (by design):** A2 (above). Also noted: a peer session's activity touches `governance/reference-docs/screen-map-ios.json` (shows as modified); not this build's file and untouched here.
+
+
+### 2026-09-21: Stage B (iOS↔Swift-kit, `PACKAGE_SYMBOL_USE`): DONE, pending validator
+
+**Validator's Stage A verdict: approved.**
+
+**runIds:** unchanged (post-run snapshot's `latestRunIdPerRepo` identical to Stage 0's). No re-sync; baselines still valid. The clones sit at the exact commits the runIds encode (ios `e660bda2` on `master`; ui kit `9a75c7c`, cloud kit `32772e4`, detached at the extracted commit).
+
+**Source repos discovered from the data (no literal):** repos with `call_expression` facts whose `resolutionMethod = 'resolved_via_import'` and whose `declarationRepo` is another repo → **only `ios-oskey-dev`**, as expected (no other repo appeared, so no stop was needed). 389 sources; by declaration repo **ui 222 / cloud 135 / ble 20 / webrtc 12**, all as expected.
+
+**New join `package-symbol-use` (`build-cross-repo-edges.ts` v1.3.0):** match key is `(declarationRepo, declarationFile, leading identifier of calleeExpression)`; target is a declaration-like fact in that file with that `symbol_name`. Exactly one primary (non-extension) declaration → `resolved`; none, only extensions, or more than one primary → `unresolved` with `declarationFile` and the candidates in `details`. The join throws if it would ever emit a resolved edge without a target fact.
+- **How "declaration-like" is decided (no kind list):** kind name ends in `_declaration` (the Swift extractor's own convention: struct/class/enum/protocol/function/extension), a named constant in the `CONTRACT` block. This matters: matching on `symbol_name` alone (any kind) also hits `call_expression` facts in the same file (271 such candidate rows), which are calls, not declarations. The suffix rule reproduces doc 39's numbers exactly.
+- Named heuristics: `LEADING_IDENTIFIER` regex and the prefer-non-extension tie-break (`EXTENSION_DECLARATION_KIND`); failure mode of both is `unresolved`, never a wrong `resolved`.
+
+**Dry run first (`--dry-run --print-edges`), reviewed before the real write:** 0 unresolved lines, 389 resolved, none without a target fact; looked at the plain, complex-callee and tie-broken edges. Then the real run.
+
+**Result (all expectations met, no deviations):**
+
+| Measure | Expected | Actual |
+|---|---|---|
+| Sources by kit | ui 222 / cloud 135 / ble 20 / webrtc 12 | ui 222 / cloud 135 / ble 20 / webrtc 12 |
+| Total sources = edges | 389 | 389 |
+| Distinct target declarations | ~72 | **72** |
+| Max in-degree | `OSKUIExpanded` ~85 | **`OSKUIExpanded` 85** (then `OSKUIContentView` 33, `OSKUIProgressIndicator` 25, `OSKCKStorageFilePathService` 21, `OSKUIOTPCodeField` 20) |
+| class/struct + extension ambiguities settled by non-extension | 21 | **21** (368 single-candidate + 21) |
+| Resolved / unresolved | n/a | **389 resolved / 0 unresolved** |
+| Table total | 17,229 | **17,618** (+389) |
+
+Target kinds: struct 304, class 63, enum 22. No source in the current data was left unresolved, so the unresolved paths (no match, only-extensions, ambiguous primaries, no leading identifier) exist in code but are not exercised by today's facts; they are exercised only by the guards' logic, not by a real case.
+
+**Post-run checks:** all 13 pre-existing slices byte-identical to the post-A snapshot; only new groups are the four `PACKAGE_SYMBOL_USE ios→kit resolved` groups (20/135/222/12); `FIELD_BINDING` 13; target `fact_id` not in `facts`: 0; resolved/confirmed with dangling source: 0 (dangling still the known 153: 130 unresolved, 23 probable). Independent SQL over all 389 edges: source is a `call_expression` in the ios repo (389/389); target is a non-extension `*_declaration` in the `declarationFile` the call named, with `symbol_name` equal to the leading identifier (389/389); no resolved edge without a target fact (0).
+
+**Spot-check of 3 resolved edges against real source in `output/clones/` (ios `master@e660bda2` and the kit clones):**
+1. `iOS App/Presentation/Account/Views/OSKUserAccountDeletionSection.swift:32` `OSKUIBottomPopup { … }.showAndReplace()` (complex callee, leading identifier extracted) → `public struct OSKUIBottomPopup<…>` at `Sources/OSKUIKit/UI Elements/Popup/Views/OSKUIBottomPopup.swift:20`. ✔
+2. `iOS App/App/Delegates/OSKAppDelegate.swift:108` `OSKWKCallProviderService.shared.configure(...)` (tie-break) → `public class OSKWKCallProviderService` at `Sources/OSKWebRTCKit/…/OSKWKCallProviderService.swift:21`, chosen over the `extension OSKWKCallProviderService: CXProviderDelegate` at :327 in the same file. ✔
+3. `iOS App/App/Views/OSKBluetoothAuthorization.swift:115` `OSKBKCentralManagerService.shared.initIfNeeded()` → `public final class OSKBKCentralManagerService` at `Sources/OSKBluetoothLEKit/Central Manager/Services/OSKBKCentralManagerService.swift:19`. ✔
+Each ios file also `import`s the matching kit module. (Caveat from doc 38: the declaration facts and `declarationFile` come from the same extractor, so agreement is consistency, not independent proof; the spot-check above reads the source text directly.)
+
+**Hub measurement (required before Stage B counts as done; report only: no cap added, traversal code untouched).** Measured against the live table right after the build, on the `OSKUIExpanded` declaration fact (`swift-ui-kit-oskey-dev`, `Sources/OSKUIKit/UI Elements/Expanded/Views/OSKUIExpanded.swift:16`), which is also the worst-case kit anchor:
+
+| Call | Rows | Serialized bytes (JSON, UTF-8) |
+|---|---|---|
+| `findGraphNeighbors(hub)` | **85** (all `incoming` / `PACKAGE_SYMBOL_USE` / `resolved`) | **35,071** (~413 bytes/row) |
+| `walkBoundedCluster(hub)`, default bounds (`maxDepth` 6, `maxFacts` 80) | **80 members** + **164 edges**, `truncated: true`, 29 ms | **73,491** total = members 47,540 (of which `description` text 29,580) + edges 25,913 |
+
+Reading the numbers: the hub has 85 distinct source facts (85 edges; only 79 distinct `source_symbol` strings, because a few call sites carry several call facts). The default 80-fact cap is hit **immediately at depth 1**: the cluster is the hub plus 79 iOS callers (1 ui-kit + 79 ios-oskey-dev members), so 6 callers are cut and the result says `truncated: true`. The walk never goes deeper because the callers' own other edges are `unresolved`/`probable` INTRA_REPO_CALL, which traversal doesn't follow. The 164 edges are the 85 incoming hub edges plus the same 79 seen again from each caller's outgoing side (the walk does not de-duplicate an edge it sees from both ends; harmless but it is why edges > members). Both calls are unbounded by an SQL `LIMIT`; a hub of this size costs ~35 KB per `findGraphNeighbors` call and a walk over it ~73 KB, i.e. tens of KB per anchor that touches a hub. Decision for the user, not made here: whether a per-call cap or hub-aware summarisation is wanted before the agent leans on kit-side anchors.
+
+**Guards kept and re-tested on the new slice:** idempotent re-run reproduces the whole table exactly (17,618 rows, 29 groups, 14 slice fingerprints identical). With one throwaway extra resolved row in the slice (`GUARD-TEST-ROW`, 390 rows), a run without `--accept-shrink` printed both `SHRINK 390 -> 389` and `RESOLVED DROP 390 -> 389 resolved` and changed nothing; with `--accept-shrink` the table was restored exactly (test row gone). Orphan report: `none`. A full `--dry-run` of all three joins is consistent (every slice `existing N → new N`, nothing written).
+
+**Notes:** `package.json` not touched; no LLM/embedding/`gcloud` spend. Scratch diagnostics from this stage were deleted after their findings were written here. `screen-map-ios.json` still shows as modified from a peer session (not this build's file).

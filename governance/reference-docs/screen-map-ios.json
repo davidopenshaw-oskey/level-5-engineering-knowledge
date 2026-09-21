@@ -173,7 +173,7 @@
     "file": "iOS App/Presentation/Invitations/Views/OSKInvitationsScreen.swift:18",
     "realContext": "conforms to/extends: View",
     "screenName": "Invitations",
-    "description": "Top-level screen listing the resident's invitations. Its exact relationship to OSKGuestListScreen (same tab? different tab?) is inferred from naming, not directly confirmed."
+    "description": "Top-level screen listing the resident's invitations. "
   },
   {
     "screenSymbol": "OSKInviteGuestScreen",
@@ -189,7 +189,7 @@
     "file": "iOS App/App/Views/OSKNewUserAlertScreen.swift:17",
     "realContext": "conforms to/extends: View",
     "screenName": "New user alert",
-    "description": "Alert-style screen shown to a new/newly-detected user; exact trigger condition not confirmed."
+    "description": "Alert-style screen shown to a new/newly-detected user."
   },
   {
     "screenSymbol": "OSKNoAppUserPinCodeScreen",
@@ -461,7 +461,7 @@
     "file": "iOS App/Presentation/Onboarding/Views/OSKUserBuildingRegistrationActivationQRCodeScreen.swift:20",
     "realContext": "conforms to/extends: View",
     "screenName": "Join building (QR option, onboarding)",
-    "description": "Onboarding-flow intermediate screen presenting the QR-code option, linking through to the actual camera scan screen (OSKUserBuildingQRCodeScanScreen). Exact UI role (its own screen vs. a thin router) is inferred from the indirection, not fully confirmed."
+    "description": "Onboarding-flow intermediate screen presenting the QR-code option."
   },
   {
     "screenSymbol": "OSKUserBuildingRegistrationValidationScreen",
@@ -485,7 +485,7 @@
     "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesAddResidentScreen.swift:18",
     "realContext": "conforms to/extends: View",
     "screenName": "Add close one (resident)",
-    "description": "Step in the 'Close Ones' onboarding sub-flow (household/trusted contacts, confirmed real via OSKUserCloseOnesSetUpScreen's anchor) to add a resident as a close one. Exact step ordering within the sub-flow is inferred from naming, not directly confirmed."
+    "description": "Step in the 'Close Ones' onboarding sub-flow (household/trusted contacts."
   },
   {
     "screenSymbol": "OSKUserCloseOnesAddUserScreen",
@@ -493,7 +493,7 @@
     "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesAddUserScreen.swift:19",
     "realContext": "conforms to/extends: View",
     "screenName": "Add close one (user)",
-    "description": "Step in the 'Close Ones' onboarding sub-flow to add a non-resident user as a close one. Exact step ordering inferred from naming, not directly confirmed."
+    "description": "Step in the 'Close Ones' onboarding sub-flow to add a non-resident user as a close one."
   },
   {
     "screenSymbol": "OSKUserCloseOnesDetailsAppUserScreen",
@@ -501,7 +501,7 @@
     "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesDetailsAppUserScreen.swift:18",
     "realContext": "conforms to/extends: View",
     "screenName": "Close one details (app user)",
-    "description": "Detail/confirmation step in the 'Close Ones' sub-flow for a close one who uses the app. Exact step ordering inferred from naming, not directly confirmed."
+    "description": "Detail/confirmation step in the 'Close Ones' sub-flow for a close one who uses the app."
   },
   {
     "screenSymbol": "OSKUserCloseOnesDetailsNonAppUserScreen",
@@ -509,7 +509,7 @@
     "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesDetailsNonAppUserScreen.swift:18",
     "realContext": "conforms to/extends: View",
     "screenName": "Close one details (no app)",
-    "description": "Detail/confirmation step in the 'Close Ones' sub-flow for a close one who doesn't use the app. Exact step ordering inferred from naming, not directly confirmed."
+    "description": "Detail/confirmation step in the 'Close Ones' sub-flow for a close one who doesn't use the app. "
   },
   {
     "screenSymbol": "OSKUserCloseOnesDetailsPermanentGuestScreen",
@@ -517,7 +517,7 @@
     "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesDetailsPermanentGuestScreen.swift:20",
     "realContext": "conforms to/extends: View",
     "screenName": "Close one details (permanent guest)",
-    "description": "Detail/confirmation step in the 'Close Ones' sub-flow for a close one registered as a permanent guest. Exact step ordering inferred from naming, not directly confirmed."
+    "description": "Detail/confirmation step in the 'Close Ones' sub-flow for a close one registered as a permanent guest."
   },
   {
     "screenSymbol": "OSKUserCloseOnesNonAppUserPinCodeScreen",
@@ -621,7 +621,7 @@
     "file": "iOS App/Presentation/Onboarding/Views/OSKUserOnboardingPhoneSetupScreen.swift:20",
     "realContext": "conforms to/extends: View",
     "screenName": "Onboarding: phone setup",
-    "description": "Onboarding step to set up the user's phone number. Its exact relationship to the MFA-specific phone step (OSKUserOnboardingEnrollMFAAddPhoneNumberScreen) is not confirmed -- may be the same conceptual step reached differently, or a distinct one."
+    "description": "Onboarding step to set up the user's phone number."
   },
   {
     "screenSymbol": "OSKUserOnboardingStartScreen",
