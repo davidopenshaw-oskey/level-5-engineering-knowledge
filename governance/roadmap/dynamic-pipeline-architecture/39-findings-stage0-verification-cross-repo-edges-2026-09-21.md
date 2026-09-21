@@ -250,6 +250,15 @@ the actual chain, all via Firestore triggers:**
   `/accessControlDevices/{id}/publicKeys`, so it does **not** itself fire the public-keys
   trigger that publishes to the stale `accessControlDeviceConfigs` topic. What writes that
   `publicKeys` path was not traced.
+- **Correction (validator, 2026-09-21, found in Stage E):** the sentence below claiming the
+  "trigger → service → controller" half "is already covered by intra-repo edges" is **wrong for
+  the last hop**. The three `OSKAccessControlDeviceConfigController.default.publishConfig(...)`
+  calls inside the config trigger handlers resolve in the facts, but **no `INTRA_REPO_CALL`
+  edge exists for them** (`findGraphNeighbors(publishConfig)` = 0; the handlers have no
+  outgoing edges). Cause traced to the input, not the DB: the run's
+  `resolved-engineering-graph.json` has 0 edges targeting `publishConfig` (2,222 confirmed
+  cross-module + 119 confirmed intra-module edges only; 1,550 same-module service calls are not
+  edges), so re-running `build-intra-repo-edges.ts` would not create it.
 - **Graph implication (not scoped, flag only)**: `cross_repo_edges` has **0** Firestore-trigger
   edges (the schema comment lists `FIRESTORE_EVENT_TRIGGER` as a planned type; none exist), so
   this write → trigger → publish chain, which is how the config actually reaches node-iot, is

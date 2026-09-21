@@ -1,4 +1,4 @@
-// **version:** 1.4.0
+// **version:** 1.6.0
 // **location:** level-5 P2 facts index
 // © Oskey SAS. All rights reserved.
 //
@@ -51,6 +51,8 @@
 // PUBSUB_TOPIC_BINDING rows are untouched, that stopped being true when task 3
 // was added below -- the `pubsub-binding` join owns them.
 import "dotenv/config";
+import * as fs from "fs";
+import * as path from "path";
 import { Pool } from "pg";
 
 // ---------------------------------------------------------------------------
@@ -124,12 +126,65 @@ const CONTRACT = {
   REST_CALL_HTTP_METHOD: "httpMethod", // under payload.evidence
   REST_CALL_PATH: "path", // under payload.evidence
   // route_definition: emitted by the node-iot extractor for each registered
-  // route. The verb and the HTTP path are packed into the top-level
-  // `payload.value` as "METHOD /path" (`:x` marks a path parameter);
-  // `evidence.path` on this kind is the SOURCE FILE, not the HTTP path.
+  // route. The verb is `evidence.method` and the HTTP path is `evidence.httpPath`
+  // (`:x` marks a path parameter); `evidence.path` on this kind is the SOURCE
+  // FILE, not the HTTP path. The same route is also packed into the top-level
+  // `payload.value` as "METHOD /path": read only as a warn-only cross-check.
   ROUTE_KIND: "route_definition",
-  ROUTE_VALUE: "value", // top-level payload field, "METHOD /path"
+  ROUTE_METHOD: "method", // under payload.evidence
+  ROUTE_HTTP_PATH: "httpPath", // under payload.evidence
+  ROUTE_PACKED_VALUE: "value", // top-level payload field, "METHOD /path"
+
+  // firestore_trigger: emitted by the Firebase extractor for each `.onCreate/.onUpdate/
+  // .onDelete(handler)` registration. `evidence.firestorePath` is "unknown" for every
+  // one (never resolved), and the event is not a field: it is the last identifier of
+  // `evidence.calleeExpression`. The handler is `evidence.handlerName`, declared at
+  // `evidence.handlerDeclarationFile` starting at `evidence.handlerStartLine`.
+  // NOTE the kind also tags Firebase AUTH triggers (`auth.user().onCreate`); those have
+  // no sibling path fact and are skipped as "no path".
+  TRIGGER_KIND: "firestore_trigger",
+  TRIGGER_CALLEE: "calleeExpression", // under payload.evidence
+  TRIGGER_HANDLER_EXPRESSION: "handlerExpression", // under payload.evidence, e.g. "Service.onDocumentCreated"
+  TRIGGER_HANDLER_NAME: "handlerName", // under payload.evidence
+  TRIGGER_HANDLER_FILE: "handlerDeclarationFile", // under payload.evidence
+  TRIGGER_HANDLER_START_LINE: "handlerStartLine", // under payload.evidence
+  TRIGGER_HANDLER_RESOLUTION: "handlerResolutionStatus", // under payload.evidence
+  TRIGGER_HANDLER_RESOLVED: "resolved",
+  // firestore_path_touched: the trigger's document path is the top-level `payload.value`
+  // of the sibling fact at the same file, line and (top-level) `payload.runId`.
+  PATH_KIND: "firestore_path_touched",
+  PATH_VALUE: "value", // top-level payload field
+  FACT_RUN_ID: "runId", // top-level payload field, on trigger and path facts
+  // call_expression fields used to read a Firestore write (see CALL_EXPRESSION_KIND above):
+  // `evidence.declarationMethod` is the resolved callee, `evidence.arguments[0]` its first
+  // argument's source text, `evidence.callerName` / `callerStartLine` the enclosing method.
+  CALL_RESOLUTION_STATUS: "resolutionStatus", // under payload.evidence
+  CALL_RESOLUTION_OK: "resolved",
+  CALL_DECLARATION_METHOD: "declarationMethod", // under payload.evidence
+  CALL_ARGUMENTS: "arguments", // under payload.evidence, array of source texts
+  CALL_CALLER_NAME: "callerName", // under payload.evidence
+  CALL_CALLER_CLASS: "callerClass", // under payload.evidence
+  CALL_CALLER_START_LINE: "callerStartLine", // under payload.evidence
 } as const;
+
+// Stage E (Firestore triggers). The Firebase repo's base controllers (core/controllers/
+// document.controller.ts, document_and_message.controller.ts) wrap every Firestore write;
+// each takes the COLLECTION path as its first parameter (read in the staging clone). Which
+// trigger events each wrapper can fire: `_set` overwrites, so it fires create if the
+// document is new and update if it exists; a delete wrapper fires delete for each document.
+const FIRESTORE_WRITE_WRAPPERS: Record<string, string[]> = {
+  _set: ["create", "update"],
+  _create: ["create"],
+  _add: ["create"],
+  _update: ["update"],
+  _delete: ["delete"],
+  _deleteAll: ["delete"],
+  _deleteCollection: ["delete"],
+};
+// A trigger registration's event, from the last identifier of its callee expression.
+const FIRESTORE_TRIGGER_EVENTS: Record<string, string> = { onCreate: "create", onUpdate: "update", onDelete: "delete" };
+// The exact wording the user specified for a `set`-style write's edge.
+const SET_EVENT_DETAILS = "fires as create if the document is new, as update if it exists";
 
 // Stage C (android -> node-iot). Heuristics as named constants; the failure mode
 // of each is `unresolved`, never a wrong `resolved`.
@@ -144,6 +199,28 @@ const MIN_LITERAL_SEGMENTS = 2;
 // verbatim into every Stage C edge's `details` and `confirmed_via`.
 const APIGEE_CONFIRMATION =
   "reaches node-iot via Apigee, /iot prefix stripped; confirmed by the product owner 2026-09-21; gateway config not in the indexed repos";
+
+// D1 (pub/sub). The committed snapshot of a read-only GCP subscriptions listing is
+// the join's input for topic -> subscription -> push endpoint, which lives in GCP
+// config, not in any indexed source. Staging only, and moment-in-time: every edge
+// it produces carries the snapshot's extractedAt. The pipeline itself never calls
+// GCP; refreshing the file is a separate, deliberate step.
+const PUBSUB_SNAPSHOT_REL = "governance/reference-docs/pubsub.bindings.staging.json";
+const PUBSUB_SNAPSHOT_FILE = path.join(process.cwd(), ...PUBSUB_SNAPSHOT_REL.split("/"));
+const PUSH_DELIVERY = "push"; // snapshot `deliveryType` of a push subscription
+const PUSH_HTTP_METHOD = "POST"; // Pub/Sub push always POSTs to the endpoint
+// Cloud Functions scheduled triggers are delivered through App Engine push handlers.
+const APP_ENGINE_PUSH_PREFIX = "/_ah/push-handlers/";
+// Firebase names a scheduled function's topic firebase-schedule-<group>-<name>-<region>;
+// capture 1 is "<group>-<name>". Used only to look up facts that name the trigger.
+const SCHEDULE_TOPIC = /^firebase-schedule-(.+?)-[a-z]+-[a-z]+\d+$/;
+// External, dated, source-cited statement (node-iot git history, user-confirmed 2026-09-21):
+// node-iot commit 32e3d97 (2025-09-26, CLD1-1209) removed these push routes on purpose, so
+// staging subscriptions that still point at them are dangling. Applied ONLY to an unmatched
+// push binding whose endpoint ends in one of these route names; any other unmatched binding
+// gets the generic "no route matches" reason and no claim about a removal. Not derivable from
+// facts, so it is a named constant like APIGEE_CONFIRMATION, not a hidden literal.
+const REMOVED_PUSH_ROUTES = { commit: "32e3d97", date: "2025-09-26", ticket: "CLD1-1209", routeNames: ["state", "system-log", "access-log", "access-command"] };
 
 // Stage B heuristics (named constants, not inline magic). Failure mode of each
 // is safe: it falls through to `unresolved`, never to a wrong `resolved` edge.
@@ -183,6 +260,12 @@ const UNKNOWN_REPO = "unknown";
 // (`topicName` at pubsub.service.ts:19, confidence: candidate,
 // topicResolutionStatus: unsupported -- a dynamic argument, genuinely not
 // statically resolvable) -- correctly left unresolved below, not guessed.
+//
+// STATUS (2026-09-21, prompt-4 Stage D1): no longer the source of any edge. The
+// `pubsub-binding` join now takes topic -> subscription -> endpoint from the
+// committed subscriptions snapshot (PUBSUB_SNAPSHOT_REL) and uses this list ONLY as
+// a warn-only cross-check that the snapshot join reproduces it. Delete it in a
+// follow-up once the cross-check has agreed; do not add new entries.
 const CONFIRMED_PUBSUB_BINDINGS: Array<{ topicName: string; firebaseHandlerValue: string; confirmedVia: string }> = [
   {
     topicName: "accessControlDevice_activities",
@@ -207,7 +290,7 @@ function pool(): Pool {
 interface EdgeRow {
   sourceRepo: string;
   sourceSymbol: string;
-  sourceFactId: string;
+  sourceFactId: string | null; // null for a snapshot binding with no publisher fact
   targetRepo: string;
   targetSymbol: string;
   targetFactId: string | null;
@@ -369,71 +452,176 @@ const firebaseCallableJoin: Join = {
 };
 
 // ---------------------------------------------------------------------------
-// Join 2: Pub/Sub publish call sites -> Firebase push-receiver handler
-// (PUBSUB_TOPIC_BINDING). Task 3: see CONFIRMED_PUBSUB_BINDINGS's own header
-// for why this connection type is a genuine capability boundary of AST-only
-// extraction, not a gap to close with cleverer parsing.
+// Join 2: Pub/Sub publish call sites -> the subscriber that receives them
+// (PUBSUB_TOPIC_BINDING). The topic -> subscription -> push-endpoint binding is
+// NOT in application source, it is GCP configuration, so it comes from a
+// committed snapshot of `gcloud pubsub subscriptions list` (PUBSUB_SNAPSHOT_FILE,
+// staging only, carries its own `extractedAt`). An edge is `resolved` only when a
+// FACT exists on both ends: a `pubsub_publish_call` fact naming the topic, and
+// a subscriber fact the subscription's push endpoint reaches (a node-iot route,
+// or a Firebase push-receiver handler). Every other binding is recorded
+// `unresolved` with the reason worked out from the data, never dropped:
+//   - publish sites whose topic is not statically resolvable (unchanged);
+//   - publish sites whose topic has no binding in the snapshot;
+//   - bindings with no publisher fact (recorded under source_repo 'unknown', with
+//     the target fact filled in when the endpoint really matches one);
+//   - bindings whose endpoint matches no fact, scheduled triggers, pull queues.
+// CONFIRMED_PUBSUB_BINDINGS (task 3's hand-typed list) is no longer the source of
+// any edge; it is kept ONLY as a warn-only cross-check that this join reproduces it.
 // Real bug caught before this counted as done: a first version of the publish
 // query was hardcoded to one repo, following the (wrong) assumption that only
-// node-iot publishes. Firebase publishes too -- confirmed real, 14 of its own
-// `pubsub_publish_call` facts, all genuinely unresolved (dynamic topic names
-// like `{process.env.OSK_PUBSUB_TOPIC_ACD_INTERCOM_ENTRIES}`). Any repo with a
-// real publish call site belongs in this join.
+// node-iot publishes. Firebase publishes too -- 14 of its own
+// `pubsub_publish_call` facts, all genuinely unresolved (dynamic topic names like
+// `{process.env.OSK_PUBSUB_TOPIC_ACD_INTERCOM_ENTRIES}`). Any repo with a real
+// publish call site belongs in this join.
 // ---------------------------------------------------------------------------
+interface PubsubBinding {
+  topic: string;
+  subscription: string;
+  deliveryType: string;
+  pushEndpointPath?: string;
+  deadLetterTopic?: string;
+}
+interface PubsubSnapshot {
+  project: string;
+  extractedAt: string;
+  extractedVia: string;
+  topics: string[];
+  bindings: PubsubBinding[];
+}
+
+// Reads and validates the bindings snapshot. Throws with a readable message when the
+// file is missing or malformed (preflight turns that into a loud, no-change stop).
+function loadSnapshot(): PubsubSnapshot {
+  const j = JSON.parse(fs.readFileSync(PUBSUB_SNAPSHOT_FILE, "utf8"));
+  const need = (ok: boolean, what: string) => { if (!ok) throw new Error(`snapshot ${PUBSUB_SNAPSHOT_REL}: ${what}`); };
+  need(typeof j.project === "string" && typeof j.extractedAt === "string", "missing project or extractedAt");
+  need(Array.isArray(j.bindings) && j.bindings.length > 0, "no bindings");
+  for (const b of j.bindings) {
+    need(typeof b.topic === "string" && typeof b.subscription === "string" && typeof b.deliveryType === "string", `a binding lacks topic, subscription or deliveryType (${JSON.stringify(b).slice(0, 80)})`);
+    need(b.deliveryType !== PUSH_DELIVERY || typeof b.pushEndpointPath === "string", `push binding '${b.subscription}' has no pushEndpointPath`);
+  }
+  return { project: j.project, extractedAt: j.extractedAt, extractedVia: j.extractedVia ?? "unknown", topics: Array.isArray(j.topics) ? j.topics : [], bindings: j.bindings };
+}
+
+const snapshotSource = (s: PubsubSnapshot) => `GCP Pub/Sub subscriptions snapshot ${PUBSUB_SNAPSHOT_REL} (project ${s.project}, extractedAt ${s.extractedAt}, via ${s.extractedVia}); staging only`;
+const snapshotNote = (s: PubsubSnapshot) => `Snapshot: project ${s.project}, extractedAt ${s.extractedAt} (staging only).`;
+
 const pubsubBindingJoin: Join = {
   name: "pubsub-binding",
   connectionType: "PUBSUB_TOPIC_BINDING",
   provenance: "externally_configured",
 
+  // Repos with a publish call site, plus UNKNOWN_REPO: the source_repo under which
+  // bindings that have no publisher fact are recorded.
   async discoverSourceRepos(db) {
     const r = await db.query<{ repo: string }>(
       `SELECT DISTINCT repo FROM facts WHERE kind = $1 AND payload->'evidence'->>$2 = $3 ORDER BY repo`,
       [CONTRACT.EXTERNAL_HOOK_KIND, CONTRACT.EXTERNAL_HOOK_TYPE, CONTRACT.EXTERNAL_HOOK_PUBSUB_PUBLISH]
     );
-    return r.rows.map(x => x.repo);
+    return [...r.rows.map(x => x.repo), UNKNOWN_REPO];
   },
 
   async preflight(db, sourceRepos) {
     const problems: string[] = [];
-    if (sourceRepos.length === 0) problems.push(`no repo has any '${CONTRACT.EXTERNAL_HOOK_KIND}' fact with evidence.${CONTRACT.EXTERNAL_HOOK_TYPE} = '${CONTRACT.EXTERNAL_HOOK_PUBSUB_PUBLISH}'`);
+    const publishRepos = sourceRepos.filter(r => r !== UNKNOWN_REPO);
+    if (publishRepos.length === 0) problems.push(`no repo has any '${CONTRACT.EXTERNAL_HOOK_KIND}' fact with evidence.${CONTRACT.EXTERNAL_HOOK_TYPE} = '${CONTRACT.EXTERNAL_HOOK_PUBSUB_PUBLISH}'`);
     const withStatus = await countFacts(
       db,
       `repo = ANY($1::text[]) AND kind = $2 AND payload->'evidence'->>$3 = $4 AND payload->'evidence'->>$5 IS NOT NULL`,
-      [sourceRepos, CONTRACT.EXTERNAL_HOOK_KIND, CONTRACT.EXTERNAL_HOOK_TYPE, CONTRACT.EXTERNAL_HOOK_PUBSUB_PUBLISH, CONTRACT.EXTERNAL_HOOK_TOPIC_STATUS]
+      [publishRepos, CONTRACT.EXTERNAL_HOOK_KIND, CONTRACT.EXTERNAL_HOOK_TYPE, CONTRACT.EXTERNAL_HOOK_PUBSUB_PUBLISH, CONTRACT.EXTERNAL_HOOK_TOPIC_STATUS]
     );
-    if (sourceRepos.length > 0 && withStatus === 0) problems.push(`no pubsub publish fact has evidence.${CONTRACT.EXTERNAL_HOOK_TOPIC_STATUS} (extractor field renamed?)`);
+    if (publishRepos.length > 0 && withStatus === 0) problems.push(`no pubsub publish fact has evidence.${CONTRACT.EXTERNAL_HOOK_TOPIC_STATUS} (extractor field renamed?)`);
     const receivers = await countFacts(
       db,
       `kind = $1 AND payload->'evidence'->>$2 = $3`,
       [CONTRACT.API_CONTRACT_KIND, CONTRACT.API_CONTRACT_PUBSUB_RECEIVER, CONTRACT.API_CONTRACT_PUBSUB_RECEIVER_TRUE]
     );
-    if (receivers === 0) problems.push(`no '${CONTRACT.API_CONTRACT_KIND}' fact has evidence.${CONTRACT.API_CONTRACT_PUBSUB_RECEIVER} = '${CONTRACT.API_CONTRACT_PUBSUB_RECEIVER_TRUE}' (a confirmed binding would silently lose its target)`);
+    if (receivers === 0) problems.push(`no '${CONTRACT.API_CONTRACT_KIND}' fact has evidence.${CONTRACT.API_CONTRACT_PUBSUB_RECEIVER} = '${CONTRACT.API_CONTRACT_PUBSUB_RECEIVER_TRUE}' (a binding would silently lose its target)`);
+    // Push routes are matched against route facts: same shared guard as the REST join.
+    problems.push(...(await routePreflightProblems(db)));
+    try { loadSnapshot(); } catch (e) { problems.push(`bindings snapshot unusable: ${(e as Error).message}`); }
     return problems;
   },
 
   async compute(db, sourceRepos) {
+    const snapshot = loadSnapshot();
+    const publishRepos = sourceRepos.filter(r => r !== UNKNOWN_REPO);
     const publishCalls = await db.query<{ fact_id: string; repo: string; file: string; line: number; payload: any }>(
       `SELECT fact_id, repo, file, line, payload FROM facts WHERE repo = ANY($1::text[]) AND kind = $2 AND payload->'evidence'->>$3 = $4`,
-      [sourceRepos, CONTRACT.EXTERNAL_HOOK_KIND, CONTRACT.EXTERNAL_HOOK_TYPE, CONTRACT.EXTERNAL_HOOK_PUBSUB_PUBLISH]
+      [publishRepos, CONTRACT.EXTERNAL_HOOK_KIND, CONTRACT.EXTERNAL_HOOK_TYPE, CONTRACT.EXTERNAL_HOOK_PUBSUB_PUBLISH]
     );
-
     const receivers = await db.query<{ fact_id: string; repo: string; module: string; file: string; line: number; value: string }>(
       `SELECT fact_id, repo, module, file, line, payload->>$3 as value FROM facts
        WHERE kind = $1 AND payload->'evidence'->>$2 = $4`,
       [CONTRACT.API_CONTRACT_KIND, CONTRACT.API_CONTRACT_PUBSUB_RECEIVER, CONTRACT.API_CONTRACT_VALUE, CONTRACT.API_CONTRACT_PUBSUB_RECEIVER_TRUE]
     );
-    const receiverByHandlerValue = new Map(receivers.rows.map(r => [r.value, r]));
+    const { routes, missing, disagreements } = await loadRoutes(db);
+    console.log(`  Loaded ${snapshot.bindings.length} snapshot bindings (${snapshotNote(snapshot)}), ${publishCalls.rows.length} publish call sites, ${receivers.rows.length} push receiver(s), ${routes.length} routes (${missing} skipped: field missing).`);
+    warnRouteDisagreements(disagreements);
+
+    // Facts about the publishing side, used to explain a missing publisher from the data.
+    const topicOf = (row: { payload: any }): string => row.payload.evidence[CONTRACT.EXTERNAL_HOOK_TOPIC_VALUE];
+    const isResolved = (row: { payload: any }) => row.payload.evidence[CONTRACT.EXTERNAL_HOOK_TOPIC_STATUS] === CONTRACT.EXTERNAL_HOOK_TOPIC_STATUS_RESOLVED;
+    const perRepo = new Map<string, number>();
+    for (const r of publishCalls.rows) perRepo.set(r.repo, (perRepo.get(r.repo) ?? 0) + 1);
+    const resolvedTopics = [...new Set(publishCalls.rows.filter(isResolved).map(topicOf))].sort();
+    const unresolvedSites = publishCalls.rows.filter(r => !isResolved(r)).length;
+    const publisherFacts = `${publishCalls.rows.length} pubsub_publish_call facts (${[...perRepo.entries()].sort().map(([r, n]) => `${r} ${n}`).join(", ")}); the topic is statically resolved for ${resolvedTopics.length} (${resolvedTopics.join(", ") || "none"}), and ${unresolvedSites} publish site(s) have a topic that could not be resolved and may publish to it`;
+
+    // What each binding's push endpoint reaches in the facts.
+    type Target =
+      | { kind: "route"; route: RouteFact }
+      | { kind: "receiver"; receiver: (typeof receivers.rows)[number] }
+      | { kind: "none"; reason: string };
+    const targets = new Map<PubsubBinding, Target>();
+    for (const b of snapshot.bindings) {
+      if (b.deliveryType !== PUSH_DELIVERY) {
+        const dlqOf = snapshot.bindings.filter(x => x.deadLetterTopic === b.topic).map(x => `'${x.subscription}'`);
+        targets.set(b, { kind: "none", reason: `Pull subscription '${b.subscription}' has no push endpoint: its consumer polls it, and no fact in the indexed repos describes a puller${dlqOf.length ? `; topic '${b.topic}' is the dead-letter topic of subscription ${dlqOf.join(", ")}` : ""}.` });
+        continue;
+      }
+      const path = b.pushEndpointPath!;
+      const segs = pathSegments(path);
+      const routeHits = matchRoutes(routes, PUSH_HTTP_METHOD, segs);
+      if (routeHits.length === 1) { targets.set(b, { kind: "route", route: routeHits[0] }); continue; }
+      if (routeHits.length > 1) {
+        targets.set(b, { kind: "none", reason: `Ambiguous: ${routeHits.length} routes match push path '${path}': ${routeHits.map(r => `'${r.raw}' (${r.repo}/${r.file}:${r.line})`).join("; ")}.` });
+        continue;
+      }
+      // A Cloud Functions HTTP push endpoint is the single path segment "<module>-<handler>".
+      const receiver = segs.length === 1 ? receivers.rows.find(r => `${r.module}-${r.value}` === segs[0]) : undefined;
+      if (receiver) { targets.set(b, { kind: "receiver", receiver }); continue; }
+
+      const last = segs[segs.length - 1] ?? "";
+      if (path.startsWith(APP_ENGINE_PUSH_PREFIX)) {
+        const fnId = SCHEDULE_TOPIC.exec(b.topic)?.[1];
+        const fnName = fnId ? (fnId.includes("-") ? fnId.slice(fnId.indexOf("-") + 1) : fnId) : undefined;
+        const naming = fnName
+          ? (await db.query<{ repo: string; kind: string; file: string; line: number; symbol_name: string | null }>(
+              `SELECT repo, kind, file, line, symbol_name FROM facts WHERE symbol_name = $1 OR description ILIKE '%' || $1 || '%' ORDER BY repo, file, line LIMIT 5`, [fnName])).rows
+          : [];
+        targets.set(b, { kind: "none", reason: `Scheduled-function subscription: '${path}' is an App Engine push handler, the delivery Cloud Functions uses for scheduled triggers, so topic '${b.topic}' is published by the platform scheduler and no application pubsub_publish_call fact can exist for it. Facts naming '${fnName ?? "the trigger"}': ${naming.length ? naming.map(c => `${c.kind} ${c.symbol_name ?? ""} (${c.repo}/${c.file}:${c.line})`).join("; ") : "none"}. Left unresolved: no publisher fact.` });
+        continue;
+      }
+      const removed = REMOVED_PUSH_ROUTES.routeNames.includes(last)
+        ? ` node-iot commit ${REMOVED_PUSH_ROUTES.commit} (${REMOVED_PUSH_ROUTES.date}, ${REMOVED_PUSH_ROUTES.ticket}) removed this push route on purpose, so this subscription still points at a route that no longer exists (dangling; staging only).`
+        : "";
+      targets.set(b, { kind: "none", reason: `No route_definition fact with method ${PUSH_HTTP_METHOD} matches push path '${path}' (aligned-suffix match, at least ${MIN_LITERAL_SEGMENTS} literal segments, a parameter matches only a parameter) and no push-receiver fact is named by it.${removed}` });
+    }
 
     const edges: EdgeRow[] = [];
+    const covered = new Set<PubsubBinding>();
+    const resolvedPairs: { topic: string; handlerValue: string }[] = [];
     let resolvedCount = 0, unresolvedCount = 0;
 
+    // 1. One or more edges per publish call site.
     for (const row of publishCalls.rows) {
-      const topicValue: string = row.payload.evidence[CONTRACT.EXTERNAL_HOOK_TOPIC_VALUE];
+      const topicValue = topicOf(row);
       const topicResolutionStatus: string = row.payload.evidence[CONTRACT.EXTERNAL_HOOK_TOPIC_STATUS];
-      const sourceSymbol = `${row.file}:${row.line} -> ${topicValue}`;
-      const base = { sourceRepo: row.repo, sourceSymbol, sourceFactId: row.fact_id };
+      const base = { sourceRepo: row.repo, sourceSymbol: `${row.file}:${row.line} -> ${topicValue}`, sourceFactId: row.fact_id };
 
-      if (topicResolutionStatus !== CONTRACT.EXTERNAL_HOOK_TOPIC_STATUS_RESOLVED) {
+      if (!isResolved(row)) {
         unresolvedCount++;
         edges.push({
           ...base, targetRepo: UNKNOWN_REPO, targetSymbol: topicValue, targetFactId: null, resolutionStatus: "unresolved", confirmedVia: null,
@@ -442,29 +630,63 @@ const pubsubBindingJoin: Join = {
         continue;
       }
 
-      const binding = CONFIRMED_PUBSUB_BINDINGS.find(b => b.topicName === topicValue);
-      if (!binding) {
+      const bindings = snapshot.bindings.filter(b => b.topic === topicValue);
+      if (bindings.length === 0) {
         unresolvedCount++;
         edges.push({
           ...base, targetRepo: UNKNOWN_REPO, targetSymbol: topicValue, targetFactId: null, resolutionStatus: "unresolved", confirmedVia: null,
-          details: `Topic "${topicValue}" resolved in source, but no external subscription binding is confirmed for it in CONFIRMED_PUBSUB_BINDINGS -- add one only once independently verified (GCP subscription config + code-level evidence), not on a naming guess.`,
+          details: `Topic '${topicValue}' resolved in source, but ${snapshot.topics.includes(topicValue) ? "the snapshot has no subscription for it" : `it is not among the ${snapshot.topics.length} topics in the snapshot`}, so no binding exists to follow. ${snapshotNote(snapshot)}`,
         });
         continue;
       }
-
-      const receiver = receiverByHandlerValue.get(binding.firebaseHandlerValue);
-      resolvedCount++;
-      edges.push({
-        ...base,
-        targetRepo: receiver ? receiver.repo : UNKNOWN_REPO,
-        targetSymbol: binding.firebaseHandlerValue,
-        targetFactId: receiver ? receiver.fact_id : null,
-        resolutionStatus: "resolved",
-        confirmedVia: binding.confirmedVia,
-        details: receiver ? `Receiving handler: ${receiver.module}/${receiver.file}:${receiver.line}` : "WARNING: receiving handler not found in current Firebase facts -- binding may be stale.",
-      });
+      for (const b of bindings) {
+        covered.add(b);
+        const t = targets.get(b)!;
+        if (t.kind === "none") {
+          unresolvedCount++;
+          edges.push({ ...base, targetRepo: UNKNOWN_REPO, targetSymbol: b.pushEndpointPath ?? `pull ${b.subscription}`, targetFactId: null, resolutionStatus: "unresolved", confirmedVia: snapshotSource(snapshot),
+            details: `Subscription '${b.subscription}' binds topic '${topicValue}', but its target does not exist in the facts. ${t.reason} ${snapshotNote(snapshot)}` });
+          continue;
+        }
+        const pair = t.kind === "receiver" ? { repo: t.receiver.repo, factId: t.receiver.fact_id, symbol: t.receiver.value, where: `Receiving handler: ${t.receiver.module}/${t.receiver.file}:${t.receiver.line}` }
+                                            : { repo: t.route.repo, factId: t.route.factId, symbol: t.route.raw, where: `Receiving route: ${t.route.raw} at ${t.route.repo}/${t.route.file}:${t.route.line}` };
+        const known = t.kind === "receiver" ? CONFIRMED_PUBSUB_BINDINGS.find(c => c.topicName === topicValue && c.firebaseHandlerValue === t.receiver.value) : undefined;
+        if (t.kind === "receiver") resolvedPairs.push({ topic: topicValue, handlerValue: t.receiver.value });
+        resolvedCount++;
+        edges.push({
+          ...base, targetRepo: pair.repo, targetSymbol: pair.symbol, targetFactId: pair.factId, resolutionStatus: "resolved", confirmedVia: snapshotSource(snapshot),
+          details: `${pair.where}; publish site of topic '${topicValue}' -> subscription '${b.subscription}' (push ${b.pushEndpointPath}). ${snapshotNote(snapshot)}${known ? ` Also independently confirmed 2026-08-29 (CONFIRMED_PUBSUB_BINDINGS): ${known.confirmedVia}` : ""}`,
+        });
+      }
     }
-    console.log(`  Pub/sub join result: ${resolvedCount} resolved (externally confirmed), ${unresolvedCount} unresolved.`);
+
+    // 2. Every binding no publish site reached: recorded, never dropped.
+    let records = 0;
+    for (const b of snapshot.bindings) {
+      if (covered.has(b)) continue;
+      const t = targets.get(b)!;
+      const sourceSymbol = `pubsub topic ${b.topic} [subscription ${b.subscription}]`;
+      records++; unresolvedCount++;
+      if (t.kind === "none") {
+        edges.push({ sourceRepo: UNKNOWN_REPO, sourceSymbol, sourceFactId: null, targetRepo: UNKNOWN_REPO, targetSymbol: b.pushEndpointPath ?? `pull ${b.subscription}`, targetFactId: null, resolutionStatus: "unresolved", confirmedVia: snapshotSource(snapshot),
+          details: `${t.reason} ${snapshotNote(snapshot)}` });
+      } else {
+        const target = t.kind === "route" ? { repo: t.route.repo, symbol: t.route.raw, factId: t.route.factId, what: `route '${t.route.raw}' at ${t.route.repo}/${t.route.file}:${t.route.line}` }
+                                          : { repo: t.receiver.repo, symbol: t.receiver.value, factId: t.receiver.fact_id, what: `push receiver ${t.receiver.module}-${t.receiver.value} at ${t.receiver.repo}/${t.receiver.file}:${t.receiver.line}` };
+        edges.push({ sourceRepo: UNKNOWN_REPO, sourceSymbol, sourceFactId: null, targetRepo: target.repo, targetSymbol: target.symbol, targetFactId: target.factId, resolutionStatus: "unresolved", confirmedVia: snapshotSource(snapshot),
+          details: `Subscription '${b.subscription}' pushes topic '${b.topic}' to ${target.what}, which exists in the facts, but no pubsub_publish_call fact names topic '${b.topic}', so there is no fact on the publishing end: ${publisherFacts}. ${snapshotNote(snapshot)}` });
+      }
+    }
+
+    // Warn-only cross-check against task 3's hand-typed list (kept until D1 has reproduced it).
+    const agree = CONFIRMED_PUBSUB_BINDINGS.filter(c => resolvedPairs.some(p => p.topic === c.topicName && p.handlerValue === c.firebaseHandlerValue));
+    const onlyHandTyped = CONFIRMED_PUBSUB_BINDINGS.filter(c => !agree.includes(c));
+    const onlyD1 = resolvedPairs.filter(p => !CONFIRMED_PUBSUB_BINDINGS.some(c => c.topicName === p.topic && c.firebaseHandlerValue === p.handlerValue));
+    console.log(`  Cross-check vs CONFIRMED_PUBSUB_BINDINGS (${CONFIRMED_PUBSUB_BINDINGS.length} entr${CONFIRMED_PUBSUB_BINDINGS.length === 1 ? "y" : "ies"}): ${agree.length} reproduced by the snapshot join, ${onlyHandTyped.length} only in the hand-typed list, ${onlyD1.length} resolved receiver edge(s) only in the snapshot join.`);
+    for (const c of onlyHandTyped) console.log(`  WARN DISAGREEMENT: hand-typed binding topic '${c.topicName}' -> '${c.firebaseHandlerValue}' is NOT reproduced by the snapshot join.`);
+    for (const p of onlyD1) console.log(`  WARN DISAGREEMENT: snapshot join resolved topic '${p.topic}' -> '${p.handlerValue}' which is not in the hand-typed list.`);
+
+    console.log(`  Pub/sub join result: ${resolvedCount} resolved (externally configured), ${unresolvedCount} unresolved, of which ${records} are snapshot bindings with no publisher fact (recorded under source_repo '${UNKNOWN_REPO}').`);
     return edges;
   },
 };
@@ -623,18 +845,83 @@ function pathSegments(path: string): Seg[] {
     .map(s => (s.startsWith(":") || (s.startsWith("{") && s.endsWith("}")) ? null : s));
 }
 
-// "GET /a/:b" -> { method: "GET", path: "/a/:b" }; null if the value isn't that shape.
-function parseRouteValue(value: string): { method: string; path: string } | null {
-  const m = /^(\S+)\s+(\/\S*)$/.exec(value.trim());
-  return m ? { method: m[1].toUpperCase(), path: m[2] } : null;
-}
-
 // True when `route` equals the LAST route.length segments of `call`, position by
 // position: literal == same literal, parameter == parameter, never mixed.
 function isAlignedSuffix(route: Seg[], call: Seg[]): boolean {
   if (route.length === 0 || route.length > call.length) return false;
   const offset = call.length - route.length;
   return route.every((seg, i) => seg === call[offset + i]);
+}
+
+// One server route, read from a `route_definition` fact's structured fields.
+interface RouteFact {
+  factId: string;
+  repo: string;
+  module: string;
+  file: string;
+  line: number;
+  method: string; // upper-case verb
+  httpPath: string;
+  raw: string; // "METHOD /path", built from the structured fields
+  segs: Seg[];
+}
+
+// THE one place routes are read (shared by every join that matches a path to a
+// server route). Reads `evidence.method` / `evidence.httpPath`. `missing` counts
+// route facts lacking either field (preflights fail on any); `disagreements`
+// lists route facts whose packed `payload.value` differs from "METHOD /path"
+// rebuilt from the structured fields. That cross-check is warn-only, never fatal.
+async function loadRoutes(db: Pool): Promise<{ routes: RouteFact[]; missing: number; disagreements: string[] }> {
+  const rows = await db.query<{ fact_id: string; repo: string; module: string; file: string; line: number; method: string | null; http_path: string | null; packed: string | null }>(
+    `SELECT fact_id, repo, module, file, line, payload->'evidence'->>$2 AS method, payload->'evidence'->>$3 AS http_path, payload->>$4 AS packed
+     FROM facts WHERE kind = $1 ORDER BY repo, file, line`,
+    [CONTRACT.ROUTE_KIND, CONTRACT.ROUTE_METHOD, CONTRACT.ROUTE_HTTP_PATH, CONTRACT.ROUTE_PACKED_VALUE]
+  );
+  const routes: RouteFact[] = [];
+  const disagreements: string[] = [];
+  let missing = 0;
+  for (const r of rows.rows) {
+    if (!r.method || !r.http_path) { missing++; continue; }
+    const method = r.method.toUpperCase();
+    const raw = `${method} ${r.http_path}`;
+    if ((r.packed ?? "").trim().replace(/\s+/g, " ") !== raw) disagreements.push(`${r.repo}/${r.file}:${r.line} structured '${raw}' vs packed value '${r.packed ?? "(absent)"}'`);
+    routes.push({ factId: r.fact_id, repo: r.repo, module: r.module, file: r.file, line: r.line, method, httpPath: r.http_path, raw, segs: pathSegments(r.http_path) });
+  }
+  return { routes, missing, disagreements };
+}
+
+// Shared preflight for any join that reads routes: there must be route facts, and
+// EVERY route fact must carry both structured fields; one without either means the
+// extractor changed and the join must not compute (and so must not replace) anything.
+async function routePreflightProblems(db: Pool): Promise<string[]> {
+  const problems: string[] = [];
+  const total = await countFacts(db, `kind = $1`, [CONTRACT.ROUTE_KIND]);
+  if (total === 0) problems.push(`no '${CONTRACT.ROUTE_KIND}' facts exist`);
+  const lacking = await countFacts(
+    db,
+    `kind = $1 AND (payload->'evidence'->>$2 IS NULL OR payload->'evidence'->>$3 IS NULL)`,
+    [CONTRACT.ROUTE_KIND, CONTRACT.ROUTE_METHOD, CONTRACT.ROUTE_HTTP_PATH]
+  );
+  if (lacking > 0) problems.push(`${lacking} of ${total} '${CONTRACT.ROUTE_KIND}' fact(s) lack evidence.${CONTRACT.ROUTE_METHOD} or evidence.${CONTRACT.ROUTE_HTTP_PATH} (extractor field renamed?)`);
+  return problems;
+}
+
+// Warn-only: the packed `value` disagrees with the structured fields. Never fatal.
+function warnRouteDisagreements(disagreements: string[]): void {
+  if (disagreements.length === 0) return;
+  console.log(`  WARN: ${disagreements.length} route fact(s) whose packed payload.${CONTRACT.ROUTE_PACKED_VALUE} disagrees with the structured fields (structured fields are used); first ${Math.min(5, disagreements.length)}:`);
+  for (const d of disagreements.slice(0, 5)) console.log(`    - ${d}`);
+}
+
+// Routes a path can hit: same verb, route segments are an aligned suffix of the
+// path, and at least MIN_LITERAL_SEGMENTS of them are literal (a parameter matches
+// only a parameter, never a literal).
+function matchRoutes(routes: RouteFact[], method: string, pathSegs: Seg[]): RouteFact[] {
+  return routes.filter(r =>
+    r.method === method.toUpperCase() &&
+    isAlignedSuffix(r.segs, pathSegs) &&
+    r.segs.filter(s => s !== null).length >= MIN_LITERAL_SEGMENTS
+  );
 }
 
 const restRouteJoin: Join = {
@@ -656,24 +943,14 @@ const restRouteJoin: Join = {
       [sourceRepos, CONTRACT.REST_CALL_KIND, CONTRACT.REST_CALL_HTTP_METHOD, CONTRACT.REST_CALL_PATH]
     );
     if (sourceRepos.length > 0 && usable === 0) problems.push(`no '${CONTRACT.REST_CALL_KIND}' fact has evidence.${CONTRACT.REST_CALL_HTTP_METHOD} and evidence.${CONTRACT.REST_CALL_PATH} (extractor field renamed?)`);
-    const routes = await countFacts(db, `kind = $1 AND payload->>$2 ~ '^\\S+\\s+/'`, [CONTRACT.ROUTE_KIND, CONTRACT.ROUTE_VALUE]);
-    if (routes === 0) problems.push(`no '${CONTRACT.ROUTE_KIND}' fact has a payload.${CONTRACT.ROUTE_VALUE} of the form "METHOD /path" (extractor changed how it packs the route?)`);
+    problems.push(...(await routePreflightProblems(db)));
     return problems;
   },
 
   async compute(db, sourceRepos) {
-    const routeRows = await db.query<{ fact_id: string; repo: string; module: string; file: string; line: number; value: string | null }>(
-      `SELECT fact_id, repo, module, file, line, payload->>$2 AS value FROM facts WHERE kind = $1`,
-      [CONTRACT.ROUTE_KIND, CONTRACT.ROUTE_VALUE]
-    );
-    const routes: { factId: string; repo: string; module: string; file: string; line: number; raw: string; method: string; segs: Seg[] }[] = [];
-    let unparsedRoutes = 0;
-    for (const r of routeRows.rows) {
-      const parsed = r.value ? parseRouteValue(r.value) : null;
-      if (!parsed) { unparsedRoutes++; continue; }
-      routes.push({ factId: r.fact_id, repo: r.repo, module: r.module, file: r.file, line: r.line, raw: r.value!, method: parsed.method, segs: pathSegments(parsed.path) });
-    }
-    console.log(`  Loaded ${routes.length} routes (${unparsedRoutes} skipped: value not "METHOD /path").`);
+    const { routes, missing, disagreements } = await loadRoutes(db);
+    console.log(`  Loaded ${routes.length} routes from evidence.${CONTRACT.ROUTE_METHOD}/evidence.${CONTRACT.ROUTE_HTTP_PATH} (${missing} skipped: field missing).`);
+    warnRouteDisagreements(disagreements);
 
     const calls = await db.query<{ fact_id: string; repo: string; file: string; line: number; method: string | null; path: string | null }>(
       `SELECT fact_id, repo, file, line, payload->'evidence'->>$3 AS method, payload->'evidence'->>$4 AS path FROM facts WHERE repo = ANY($1::text[]) AND kind = $2`,
@@ -690,11 +967,7 @@ const restRouteJoin: Join = {
 
       if (!method || !c.path) { unresolved(`Cannot match: ${!method ? "no httpMethod" : "no path"} on the call fact.`); continue; }
       const callSegs = pathSegments(c.path);
-      const candidates = routes.filter(r =>
-        r.method === method &&
-        isAlignedSuffix(r.segs, callSegs) &&
-        r.segs.filter(s => s !== null).length >= MIN_LITERAL_SEGMENTS
-      );
+      const candidates = matchRoutes(routes, method, callSegs);
       if (candidates.length === 0) {
         unresolved(`No route_definition with method ${method} matches '${c.path}' as a segment-aligned suffix (with at least ${MIN_LITERAL_SEGMENTS} literal segments; a path parameter matches only another parameter).`);
       } else if (candidates.length > 1) {
@@ -719,7 +992,180 @@ const restRouteJoin: Join = {
   },
 };
 
-const JOINS: Join[] = [firebaseCallableJoin, pubsubBindingJoin, packageSymbolUseJoin, restRouteJoin];
+// ---------------------------------------------------------------------------
+// Join 5: a Firestore write -> the document trigger it fires (FIRESTORE_EVENT_TRIGGER).
+// Same-repo. The trigger's document path comes from its sibling `firestore_path_touched`
+// fact (same file, line and runId); its event from its callee expression; its handler is
+// the declaration fact at (handlerDeclarationFile, handlerName, handlerStartLine). The
+// writer is a call to a base-controller write wrapper (FIRESTORE_WRITE_WRAPPERS) whose
+// first argument, a collection path written as a template or string literal, is read from
+// the call fact's own recorded `arguments` (nothing is parsed from source). A write
+// matches a trigger when its collection path (`${...}` a wildcard) equals the trigger's
+// document path minus its last segment, segment for segment: a trigger wildcard matches any
+// writer segment, a writer wildcard never matches a trigger literal. The edge runs from the
+// enclosing writer METHOD fact to the handler fact, one per (method, handler), always
+// `resolved`: it states "a write to this collection path is configured to run this
+// handler", a fact about code and config, not about runtime outcome, so there is no
+// `probable`. It does NOT model what the handler later does (publishing, a device
+// collecting a document); those are separate edges.
+// ---------------------------------------------------------------------------
+// Segments of a collection path written as a template literal or a string literal; null for
+// anything else (an identifier, a property, a call), which cannot be read from the facts.
+function staticPathSegments(text: string | undefined | null): Seg[] | null {
+  if (!text) return null;
+  const t = text.trim();
+  let body: string;
+  if (t.length >= 2 && t.startsWith("`") && t.endsWith("`")) body = t.slice(1, -1).replace(/\$\{[^}]*\}/g, "\u0000");
+  else if (t.length >= 2 && (t[0] === "'" || t[0] === '"') && t.endsWith(t[0])) body = t.slice(1, -1);
+  else return null;
+  return body.split("/").filter(s => s.length > 0).map(s => (s.includes("\u0000") || (s.startsWith("{") && s.endsWith("}")) ? null : s));
+}
+
+// Same length; a trigger wildcard matches any writer segment; a writer wildcard never
+// matches a trigger literal (it cannot be shown to be that collection).
+function collectionMatches(writer: Seg[], trigger: Seg[]): boolean {
+  return writer.length === trigger.length && writer.every((w, i) => trigger[i] === null || (w !== null && w === trigger[i]));
+}
+
+const firestoreTriggerJoin: Join = {
+  name: "firestore-trigger",
+  connectionType: "FIRESTORE_EVENT_TRIGGER",
+  provenance: "ast_derived",
+
+  async discoverSourceRepos(db) {
+    const r = await db.query<{ repo: string }>(`SELECT DISTINCT repo FROM facts WHERE kind = $1 ORDER BY repo`, [CONTRACT.TRIGGER_KIND]);
+    return r.rows.map(x => x.repo);
+  },
+
+  async preflight(db, sourceRepos) {
+    const problems: string[] = [];
+    if (sourceRepos.length === 0) problems.push(`no repo has any '${CONTRACT.TRIGGER_KIND}' facts`);
+    const usableTriggers = await countFacts(
+      db,
+      `repo = ANY($1::text[]) AND kind = $2 AND payload->'evidence'->>$3 IS NOT NULL AND payload->'evidence'->>$4 IS NOT NULL AND payload->'evidence'->>$5 IS NOT NULL`,
+      [sourceRepos, CONTRACT.TRIGGER_KIND, CONTRACT.TRIGGER_CALLEE, CONTRACT.TRIGGER_HANDLER_NAME, CONTRACT.TRIGGER_HANDLER_FILE]
+    );
+    if (sourceRepos.length > 0 && usableTriggers === 0) problems.push(`no '${CONTRACT.TRIGGER_KIND}' fact has evidence.${CONTRACT.TRIGGER_CALLEE}, ${CONTRACT.TRIGGER_HANDLER_NAME} and ${CONTRACT.TRIGGER_HANDLER_FILE} (extractor field renamed?)`);
+    const paths = await countFacts(db, `repo = ANY($1::text[]) AND kind = $2 AND payload->>$3 IS NOT NULL`, [sourceRepos, CONTRACT.PATH_KIND, CONTRACT.PATH_VALUE]);
+    if (sourceRepos.length > 0 && paths === 0) problems.push(`no '${CONTRACT.PATH_KIND}' fact has a payload.${CONTRACT.PATH_VALUE}`);
+    const writers = await countFacts(
+      db,
+      `repo = ANY($1::text[]) AND kind = $2 AND payload->'evidence'->>$3 = ANY($4::text[]) AND jsonb_typeof(payload->'evidence'->$5) = 'array'`,
+      [sourceRepos, CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_DECLARATION_METHOD, Object.keys(FIRESTORE_WRITE_WRAPPERS), CONTRACT.CALL_ARGUMENTS]
+    );
+    if (sourceRepos.length > 0 && writers === 0) problems.push(`no '${CONTRACT.CALL_EXPRESSION_KIND}' fact resolves to a Firestore write wrapper (${Object.keys(FIRESTORE_WRITE_WRAPPERS).join(", ")}) with evidence.${CONTRACT.CALL_ARGUMENTS} (extractor field renamed, or the base controllers changed?)`);
+    return problems;
+  },
+
+  async compute(db, sourceRepos) {
+    const ev = (field: string) => `payload->'evidence'->>'${field}'`; // field names are CONTRACT constants, never user input
+    const triggers = await db.query<{ fact_id: string; repo: string; file: string; line: number; run_id: string | null; callee: string | null; handler_expr: string | null; handler_name: string | null; handler_file: string | null; handler_line: string | null; handler_res: string | null }>(
+      `SELECT fact_id, repo, file, line, payload->>'${CONTRACT.FACT_RUN_ID}' AS run_id, ${ev(CONTRACT.TRIGGER_CALLEE)} AS callee, ${ev(CONTRACT.TRIGGER_HANDLER_EXPRESSION)} AS handler_expr,
+              ${ev(CONTRACT.TRIGGER_HANDLER_NAME)} AS handler_name, ${ev(CONTRACT.TRIGGER_HANDLER_FILE)} AS handler_file, ${ev(CONTRACT.TRIGGER_HANDLER_START_LINE)} AS handler_line, ${ev(CONTRACT.TRIGGER_HANDLER_RESOLUTION)} AS handler_res
+       FROM facts WHERE repo = ANY($1::text[]) AND kind = $2 ORDER BY repo, file, line`,
+      [sourceRepos, CONTRACT.TRIGGER_KIND]
+    );
+    const pathRows = await db.query<{ repo: string; file: string; line: number; run_id: string | null; value: string }>(
+      `SELECT repo, file, line, payload->>'${CONTRACT.FACT_RUN_ID}' AS run_id, payload->>'${CONTRACT.PATH_VALUE}' AS value FROM facts WHERE repo = ANY($1::text[]) AND kind = $2 AND payload->>'${CONTRACT.PATH_VALUE}' IS NOT NULL`,
+      [sourceRepos, CONTRACT.PATH_KIND]
+    );
+    const siblingKey = (repo: string, file: string, line: number, run: string | null) => `${repo}\u0000${file}\u0000${line}\u0000${run}`;
+    const pathsAt = new Map<string, string[]>();
+    for (const p of pathRows.rows) { const k = siblingKey(p.repo, p.file, p.line, p.run_id); pathsAt.set(k, [...(pathsAt.get(k) ?? []), p.value]); }
+
+    // Declaration facts looked up by (repo, file, name, start line): trigger handlers and enclosing writer methods.
+    const declKey = (repo: string, file: string, name: string, line: number | string) => `${repo}\u0000${file}\u0000${name}\u0000${line}`;
+    const lookupDecls = async (want: { repo: string; file: string; name: string; line: number }[]) => {
+      const out = new Map<string, { fact_id: string; repo: string; file: string; line: number; kind: string; symbol_name: string }[]>();
+      if (want.length === 0) return out;
+      const rows = await db.query<{ fact_id: string; repo: string; file: string; line: number; kind: string; symbol_name: string }>(
+        `SELECT fact_id, repo, file, line, kind, symbol_name FROM facts
+         WHERE kind <> $1 AND (repo, file, symbol_name, line) IN (SELECT * FROM unnest($2::text[], $3::text[], $4::text[], $5::int[]))`,
+        [CONTRACT.CALL_EXPRESSION_KIND, want.map(w => w.repo), want.map(w => w.file), want.map(w => w.name), want.map(w => w.line)]
+      );
+      for (const r of rows.rows) { const k = declKey(r.repo, r.file, r.symbol_name, r.line); out.set(k, [...(out.get(k) ?? []), r]); }
+      return out;
+    };
+
+    // 1. Triggers: path (sibling fact), event (callee), handler (declaration fact).
+    type Trig = { fact_id: string; repo: string; file: string; line: number; event: string; path: string; collection: Seg[]; handler: { fact_id: string; repo: string; file: string; line: number }; handlerExpr: string };
+    const trigs: Trig[] = [];
+    const notes = { noPath: [] as string[], ambiguousPath: [] as string[], unknownEvent: [] as string[], noHandler: [] as string[] };
+    const wantHandlers = triggers.rows.filter(t => t.handler_res === CONTRACT.TRIGGER_HANDLER_RESOLVED && t.handler_name && t.handler_file && t.handler_line && Number.isFinite(Number(t.handler_line)))
+      .map(t => ({ repo: t.repo, file: t.handler_file!, name: t.handler_name!, line: Number(t.handler_line) }));
+    const handlerFacts = await lookupDecls(wantHandlers);
+    for (const t of triggers.rows) {
+      const where = `${t.file}:${t.line}`;
+      // The callee can span lines (`db\n .document(p)\n .onCreate`), so the pattern must cross newlines.
+      const eventName = FIRESTORE_TRIGGER_EVENTS[(t.callee ?? "").replace(/^[\s\S]*\./, "").trim()];
+      const paths = pathsAt.get(siblingKey(t.repo, t.file, t.line, t.run_id)) ?? [];
+      if (paths.length === 0) { notes.noPath.push(`${where} (${(t.callee ?? "").replace(/\s+/g, " ").slice(0, 60)})`); continue; }
+      if (paths.length > 1) { notes.ambiguousPath.push(`${where}: ${paths.join(" | ")}`); continue; }
+      if (!eventName) { notes.unknownEvent.push(`${where}: ${(t.callee ?? "").replace(/\s+/g, " ").slice(0, 60)}`); continue; }
+      const hf = t.handler_res === CONTRACT.TRIGGER_HANDLER_RESOLVED && t.handler_name && t.handler_file ? (handlerFacts.get(declKey(t.repo, t.handler_file, t.handler_name, Number(t.handler_line))) ?? []) : [];
+      if (hf.length !== 1) { notes.noHandler.push(`${where}: ${t.handler_expr ?? t.handler_name} (${hf.length} declaration facts)`); continue; }
+      const segs = pathSegments(paths[0]);
+      trigs.push({ fact_id: t.fact_id, repo: t.repo, file: t.file, line: t.line, event: eventName, path: paths[0], collection: segs.slice(0, -1), handler: hf[0], handlerExpr: t.handler_expr ?? t.handler_name! });
+    }
+    console.log(`  Triggers: ${triggers.rows.length} facts -> ${trigs.length} usable (path from sibling fact, event, handler fact). Skipped: ${notes.noPath.length} with no sibling path fact${notes.noPath.length ? ` [${notes.noPath.join("; ")}]` : ""}, ${notes.ambiguousPath.length} ambiguous path, ${notes.unknownEvent.length} unknown event, ${notes.noHandler.length} handler fact not found${notes.noHandler.length ? ` [${notes.noHandler.join("; ")}]` : ""}.`);
+    for (const a of notes.ambiguousPath) console.log(`  AMBIGUOUS trigger path (skipped): ${a}`);
+
+    // 2. Writers: calls resolved to a write wrapper, with their enclosing method fact.
+    const writers = await db.query<{ fact_id: string; repo: string; file: string; line: number; wrapper: string; arg0: string | null; caller_name: string | null; caller_class: string | null; caller_line: string | null }>(
+      `SELECT fact_id, repo, file, line, ${ev(CONTRACT.CALL_DECLARATION_METHOD)} AS wrapper, payload->'evidence'->'${CONTRACT.CALL_ARGUMENTS}'->>0 AS arg0,
+              ${ev(CONTRACT.CALL_CALLER_NAME)} AS caller_name, ${ev(CONTRACT.CALL_CALLER_CLASS)} AS caller_class, ${ev(CONTRACT.CALL_CALLER_START_LINE)} AS caller_line
+       FROM facts WHERE repo = ANY($1::text[]) AND kind = $2 AND ${ev(CONTRACT.CALL_RESOLUTION_STATUS)} = $3 AND ${ev(CONTRACT.CALL_DECLARATION_METHOD)} = ANY($4::text[]) ORDER BY repo, file, line`,
+      [sourceRepos, CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_RESOLUTION_OK, Object.keys(FIRESTORE_WRITE_WRAPPERS)]
+    );
+    const derivable = writers.rows.filter(w => staticPathSegments(w.arg0) !== null);
+    const enclosing = await lookupDecls(derivable.filter(w => w.caller_name && w.caller_line && Number.isFinite(Number(w.caller_line))).map(w => ({ repo: w.repo, file: w.file, name: w.caller_name!, line: Number(w.caller_line) })));
+
+    // 3. Match, one edge per (writer method, handler).
+    type Group = { method: { fact_id: string; repo: string; file: string; line: number; symbol_name: string }; cls: string | null; trig: Trig; sites: string[]; wrappers: Set<string> };
+    const groups = new Map<string, Group>();
+    let unattributed = 0, matchedSites = 0;
+    const reached = new Set<string>();
+    for (const w of derivable) {
+      const wsegs = staticPathSegments(w.arg0)!;
+      const fires = FIRESTORE_WRITE_WRAPPERS[w.wrapper];
+      const hits = trigs.filter(t => t.repo === w.repo && fires.includes(t.event) && collectionMatches(wsegs, t.collection));
+      if (hits.length === 0) continue;
+      const m = enclosing.get(declKey(w.repo, w.file, w.caller_name ?? "", w.caller_line ?? ""));
+      if (!m || m.length !== 1) { unattributed++; continue; }
+      matchedSites++;
+      for (const t of hits) {
+        reached.add(t.fact_id);
+        const key = `${m[0].fact_id}\u0000${t.handler.fact_id}`;
+        const g = groups.get(key) ?? { method: m[0], cls: w.caller_class, trig: t, sites: [], wrappers: new Set<string>() };
+        g.sites.push(`${w.wrapper}(${w.arg0}) at ${w.file}:${w.line}`);
+        g.wrappers.add(w.wrapper);
+        groups.set(key, g);
+      }
+    }
+
+    const edges: EdgeRow[] = [];
+    for (const g of groups.values()) {
+      const eventText = g.wrappers.has("_set") && ["create", "update"].includes(g.trig.event) ? SET_EVENT_DETAILS : `fires on document ${g.trig.event}`;
+      edges.push({
+        sourceRepo: g.method.repo,
+        sourceSymbol: `${g.method.file}:${g.method.line} ${g.cls ? g.cls + "." : ""}${g.method.symbol_name}`,
+        sourceFactId: g.method.fact_id,
+        targetRepo: g.trig.handler.repo,
+        targetSymbol: g.trig.handlerExpr,
+        targetFactId: g.trig.handler.fact_id,
+        resolutionStatus: "resolved",
+        confirmedVia: null,
+        details: `${eventText}. Write: ${g.sites.slice(0, 3).join("; ")}${g.sites.length > 3 ? `; +${g.sites.length - 3} more` : ""}. Trigger on ${g.trig.event} of '${g.trig.path}' registered at ${g.trig.file}:${g.trig.line} runs ${g.trig.handlerExpr}.`,
+      });
+    }
+    const unreached = trigs.filter(t => !reached.has(t.fact_id));
+    console.log(`  Writers: ${writers.rows.length} write-wrapper call sites; first argument is a readable path for ${derivable.length}, not readable (identifier/call) for ${writers.rows.length - derivable.length}. ${matchedSites} readable-path sites land on a trigger collection (${unattributed} more had no single enclosing method fact and were skipped).`);
+    console.log(`  Join result: ${edges.length} resolved edges (writer method -> handler), reaching ${reached.size} of ${trigs.length} triggers; ${unreached.length} triggers have no readable-path writer${unreached.length ? `: ${unreached.map(t => `${t.event} ${t.path}`).join("; ")}` : ""}.`);
+    return edges;
+  },
+};
+
+const JOINS: Join[] = [firebaseCallableJoin, pubsubBindingJoin, packageSymbolUseJoin, restRouteJoin, firestoreTriggerJoin];
 
 // ---------------------------------------------------------------------------
 // Shared scoped replace. Compute first, replace second: the new edge set for a
@@ -762,13 +1208,17 @@ async function replaceSlices(
     )).rows;
     const fresh = newBySlice.get(repo)!;
     console.log(`  slice ${join.connectionType} / ${repo}: existing ${existing.length} (${statusCounts(existing)}) -> new ${fresh.length} (${statusCounts(fresh)})`);
+    // A row's identity for these diffs: its source fact, or its source symbol when it
+    // has none (a binding record with no publisher fact). Only used to print WHICH rows go.
+    const rowKey = (factId: string | null, symbol: string) => factId ?? `symbol:${symbol}`;
     const existingResolved = existing.filter(r => r.resolution_status === "resolved");
-    const freshResolvedKeys = new Set(fresh.filter(r => r.resolutionStatus === "resolved").map(e => e.sourceFactId));
+    const freshResolved = fresh.filter(r => r.resolutionStatus === "resolved");
+    const freshResolvedKeys = new Set(freshResolved.map(e => rowKey(e.sourceFactId, e.sourceSymbol)));
 
     if (fresh.length === 0 || fresh.length < existing.length) {
       shrunk.push(repo);
-      const freshKeys = new Set(fresh.map(e => e.sourceFactId));
-      const gone = existing.filter(r => r.source_fact_id === null || !freshKeys.has(r.source_fact_id));
+      const freshKeys = new Set(fresh.map(e => rowKey(e.sourceFactId, e.sourceSymbol)));
+      const gone = existing.filter(r => !freshKeys.has(rowKey(r.source_fact_id, r.source_symbol)));
       console.log(`  SHRINK in slice ${join.connectionType} / ${repo}: ${existing.length} -> ${fresh.length}. ${gone.length} existing edge(s) have no source fact in the new set; first ${Math.min(10, gone.length)}:`);
       for (const g of gone.slice(0, 10)) console.log(`    - [${g.resolution_status}] ${g.source_symbol} -> ${g.target_symbol}`);
     }
@@ -776,10 +1226,10 @@ async function replaceSlices(
     // A drop in resolved edges is a shrink too, even when the slice size is
     // unchanged: a target-side rename (e.g. a Firebase module) would flip
     // resolved edges to unresolved and otherwise pass silently.
-    if (freshResolvedKeys.size < existingResolved.length) {
+    if (freshResolved.length < existingResolved.length) {
       if (!shrunk.includes(repo)) shrunk.push(repo);
-      const flipped = existingResolved.filter(r => r.source_fact_id === null || !freshResolvedKeys.has(r.source_fact_id));
-      console.log(`  RESOLVED DROP in slice ${join.connectionType} / ${repo}: ${existingResolved.length} -> ${freshResolvedKeys.size} resolved. ${flipped.length} existing resolved edge(s) would no longer be resolved; first ${Math.min(10, flipped.length)}:`);
+      const flipped = existingResolved.filter(r => !freshResolvedKeys.has(rowKey(r.source_fact_id, r.source_symbol)));
+      console.log(`  RESOLVED DROP in slice ${join.connectionType} / ${repo}: ${existingResolved.length} -> ${freshResolved.length} resolved. ${flipped.length} existing resolved edge(s) would no longer be resolved; first ${Math.min(10, flipped.length)}:`);
       for (const f of flipped.slice(0, 10)) console.log(`    - ${f.source_symbol} -> ${f.target_symbol}`);
     }
   }
