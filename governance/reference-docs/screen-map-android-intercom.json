@@ -1,0 +1,106 @@
+[
+  {
+    "screenSymbol": "FaceRecognitionScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/facerecognition/OSKFaceRecognitionScreen.kt:145",
+    "realContext": "@Composable (navController: NavController, cameraExecutor: ExecutorService, faceRecognitionManager: OSKFaceRecognitionManager, analyzerState: FaceAnalyzerState)",
+    "screenName": "Unknown",
+    "description": "Probably a component for handling face recognition."
+  },
+  {
+    "screenSymbol": "OSKAccessesScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/residents/OSKAccessesScreen.kt:97",
+    "realContext": "@Composable (navController: NavController)",
+    "screenName": "Resident directory",
+    "description": "Displays a list of residents that can be called from the Intercom."
+  },
+  {
+    "screenSymbol": "OSKFaceRecognitionScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/facerecognition/OSKFaceRecognitionScreen.kt:91",
+    "realContext": "@Composable (navController: NavController, mainActivityViewModel: OSKMainActivityViewModel)",
+    "screenName": "Unknown",
+    "description": "Probably a component for handling face recognition."
+  },
+  {
+    "screenSymbol": "OSKHomeScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/main/OSKHomeScreen.kt:102",
+    "realContext": "@Composable (navController: NavController)",
+    "screenName": "Unknown",
+    "description": "Probably the main home screen for the application."
+  },
+  {
+    "screenSymbol": "OSKOpenDoorScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/main/OSKOpenDoorScreen.kt:57",
+    "realContext": "@Composable (navController: NavController, mainActivityViewModel: OSKMainActivityViewModel)",
+    "screenName": "Unknown",
+    "description": "Probably a component for handling the open door functionality."
+  },
+  {
+    "screenSymbol": "OSKResetFactoryScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/reset/OSKResetFactoryScreen.kt:42",
+    "realContext": "@Composable (navController: NavController)",
+    "screenName": "Unknown",
+    "description": "Probably a component for resetting the factory settings."
+  },
+  {
+    "screenSymbol": "OSKResidentsScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/residents/OSKResidentsScreen.kt:38",
+    "realContext": "@Composable (navController: NavController)",
+    "screenName": "Unknown",
+    "description": "Part of the directory list and call screen."
+  },
+  {
+    "screenSymbol": "OSKSettingsScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/settings/OSKSettingsScreen.kt:58",
+    "realContext": "@Composable (navController: NavController)",
+    "screenName": "Unknown",
+    "description": "Admin screen for managing the application settings."
+  },
+  {
+    "screenSymbol": "OSKTestBenchFactoryScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/benchmark/factory/OSKTestBenchFactoryScreen.kt:44",
+    "realContext": "@Composable (navController: NavController)",
+    "screenName": "Unknown",
+    "description": "Probably part of the debug or settings screen."
+  },
+  {
+    "screenSymbol": "OSKTestBenchInstallerScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/benchmark/installer/OSKTestBenchInstallerScreen.kt:62",
+    "realContext": "@Composable (navController: NavController)",
+    "screenName": "Unknown",
+    "description": "Probably part of the debug, testing or settings screen."
+  },
+  {
+    "screenSymbol": "OSKWebRTCConnectScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/webrtc/OSKWebRTCConnectScreen.kt:74",
+    "realContext": "@Composable (navController: NavController, residentName: String, contactId: String, buildingId: String, unitId: String)",
+    "screenName": "Unknown",
+    "description": "The actual in-call screen for the WebRTC call."
+  },
+  {
+    "screenSymbol": "SecondFormatDigicodeScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/digicode/SecondFormatDigicodeScreen.kt:76",
+    "realContext": "@Composable (navController: NavController, mainActivityViewModel: OSKMainActivityViewModel)",
+    "screenName": "Unknown",
+    "description": "Probably a component for handling the pincode input."
+  },
+  {
+    "screenSymbol": "SplashScreen",
+    "kind": "function_declaration",
+    "file": "app/src/main/java/io/oskey/intercom/ui/screens/splash/OSKSplashScreen.kt:64",
+    "realContext": "@Composable (navController: NavController)",
+    "screenName": "Unknown",
+    "description": "Probably the splash screen that appears when the application is launched."
+  }
+]

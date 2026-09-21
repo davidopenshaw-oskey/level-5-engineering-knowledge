@@ -14,7 +14,7 @@ export const SectionContentSchema = z.discriminatedUnion("kind", [
     items: z.array(z.object({ claim: z.string(), evidenceRefs: z.array(z.string()) })),
   }),
   z.object({
-    kind: z.literal("user-stories"),
+    kind: z.literal("stories"),
     items: z.array(z.object({ actor: z.string(), goal: z.string(), reason: z.string() })),
   }),
 ]);
@@ -68,7 +68,7 @@ export type GenerationOutput = z.infer<typeof GenerationOutputSchema>;
 // cited-list claim already carries the evidenceRefs needed to know which
 // repo(s) it touches, and these documents are read by feature teams spread
 // across multiple repos (a cloud dev should be able to jump straight to
-// their own section, not scan one flat list). "list"/"user-stories" are
+// their own section, not scan one flat list). "list"/"stories" are
 // deliberately NOT grouped -- their real data shape carries no evidenceRefs
 // at all (section-content.ts's own closed kind set, ADR-008), so there is
 // no real per-repo linkage to group them by without inventing one.
@@ -86,7 +86,7 @@ export function renderSectionContent(
       return repoForFactRef
         ? renderCitedListGroupedByRepo(content.items, citationNumberOf, repoForFactRef)
         : content.items.map(i => `- ${i.claim}<br>(see ${renderCitations(i.evidenceRefs, citationNumberOf)})`).join("\n\n");
-    case "user-stories":
+    case "stories":
       return content.items.map(s => `- As a ${s.actor}, I want ${s.goal}, so that ${s.reason}.`).join("\n\n");
   }
 }

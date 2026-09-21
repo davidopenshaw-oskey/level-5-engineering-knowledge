@@ -5,7 +5,7 @@
 <!-- reserved: business-request -->
 
 # User Stories
-<!-- kind: user-stories -->
+<!-- kind: stories -->
 
 # Technical Proposal
 <!-- kind: cited-list -->

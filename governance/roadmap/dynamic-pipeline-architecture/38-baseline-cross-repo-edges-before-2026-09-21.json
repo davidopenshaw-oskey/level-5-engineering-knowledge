@@ -1,0 +1,289 @@
+{
+  "groups": [
+    {
+      "count": 13,
+      "provenance": "ast_derived",
+      "source_repo": "angular-app-oskey-io",
+      "target_repo": "firebase-oskey-dev",
+      "connection_type": "FIELD_BINDING",
+      "resolution_status": "resolved"
+    },
+    {
+      "count": 97,
+      "provenance": "ast_derived",
+      "source_repo": "angular-app-oskey-io",
+      "target_repo": "firebase-oskey-dev",
+      "connection_type": "HTTP_API_CALL",
+      "resolution_status": "resolved"
+    },
+    {
+      "count": 5,
+      "provenance": "ast_derived",
+      "source_repo": "angular-app-oskey-io",
+      "target_repo": "unknown",
+      "connection_type": "HTTP_API_CALL",
+      "resolution_status": "unresolved"
+    },
+    {
+      "count": 649,
+      "provenance": "ast_derived",
+      "source_repo": "android-intercom-oskey-io",
+      "target_repo": "android-intercom-oskey-io",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "probable"
+    },
+    {
+      "count": 2941,
+      "provenance": "ast_derived",
+      "source_repo": "android-intercom-oskey-io",
+      "target_repo": "android-intercom-oskey-io",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "unresolved"
+    },
+    {
+      "count": 282,
+      "provenance": "ast_derived",
+      "source_repo": "angular-app-oskey-io",
+      "target_repo": "angular-app-oskey-io",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "confirmed"
+    },
+    {
+      "count": 39,
+      "provenance": "ast_derived",
+      "source_repo": "angular-app-oskey-io",
+      "target_repo": "angular-app-oskey-io",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "probable"
+    },
+    {
+      "count": 25,
+      "provenance": "ast_derived",
+      "source_repo": "angular-app-oskey-io",
+      "target_repo": "angular-app-oskey-io",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "unresolved"
+    },
+    {
+      "count": 2341,
+      "provenance": "ast_derived",
+      "source_repo": "firebase-oskey-dev",
+      "target_repo": "firebase-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "confirmed"
+    },
+    {
+      "count": 22,
+      "provenance": "ast_derived",
+      "source_repo": "firebase-oskey-dev",
+      "target_repo": "firebase-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "unresolved"
+    },
+    {
+      "count": 2525,
+      "provenance": "ast_derived",
+      "source_repo": "ios-oskey-dev",
+      "target_repo": "ios-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "probable"
+    },
+    {
+      "count": 6209,
+      "provenance": "ast_derived",
+      "source_repo": "ios-oskey-dev",
+      "target_repo": "ios-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "unresolved"
+    },
+    {
+      "count": 71,
+      "provenance": "ast_derived",
+      "source_repo": "swift-ble-kit-oskey-dev",
+      "target_repo": "swift-ble-kit-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "probable"
+    },
+    {
+      "count": 174,
+      "provenance": "ast_derived",
+      "source_repo": "swift-ble-kit-oskey-dev",
+      "target_repo": "swift-ble-kit-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "unresolved"
+    },
+    {
+      "count": 188,
+      "provenance": "ast_derived",
+      "source_repo": "swift-cloud-kit-oskey-dev",
+      "target_repo": "swift-cloud-kit-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "probable"
+    },
+    {
+      "count": 322,
+      "provenance": "ast_derived",
+      "source_repo": "swift-cloud-kit-oskey-dev",
+      "target_repo": "swift-cloud-kit-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "unresolved"
+    },
+    {
+      "count": 178,
+      "provenance": "ast_derived",
+      "source_repo": "swift-ui-kit-oskey-dev",
+      "target_repo": "swift-ui-kit-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "probable"
+    },
+    {
+      "count": 447,
+      "provenance": "ast_derived",
+      "source_repo": "swift-ui-kit-oskey-dev",
+      "target_repo": "swift-ui-kit-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "unresolved"
+    },
+    {
+      "count": 163,
+      "provenance": "ast_derived",
+      "source_repo": "swift-webrtc-kit-oskey-io",
+      "target_repo": "swift-webrtc-kit-oskey-io",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "probable"
+    },
+    {
+      "count": 488,
+      "provenance": "ast_derived",
+      "source_repo": "swift-webrtc-kit-oskey-io",
+      "target_repo": "swift-webrtc-kit-oskey-io",
+      "connection_type": "INTRA_REPO_CALL",
+      "resolution_status": "unresolved"
+    },
+    {
+      "count": 14,
+      "provenance": "externally_configured",
+      "source_repo": "firebase-oskey-dev",
+      "target_repo": "unknown",
+      "connection_type": "PUBSUB_TOPIC_BINDING",
+      "resolution_status": "unresolved"
+    },
+    {
+      "count": 1,
+      "provenance": "externally_configured",
+      "source_repo": "node-iot-api-oskey-io",
+      "target_repo": "firebase-oskey-dev",
+      "connection_type": "PUBSUB_TOPIC_BINDING",
+      "resolution_status": "resolved"
+    },
+    {
+      "count": 1,
+      "provenance": "externally_configured",
+      "source_repo": "node-iot-api-oskey-io",
+      "target_repo": "unknown",
+      "connection_type": "PUBSUB_TOPIC_BINDING",
+      "resolution_status": "unresolved"
+    }
+  ],
+  "purpose": "Stage 0 baseline of cross_repo_edges BEFORE any change by prompt-4 build (doc 38). Re-running the refactored build-cross-repo-edges.ts must reproduce every group count and slice fingerprint for the joins it owns.",
+  "totalRows": 17195,
+  "backupFile": "output/backups/cross_repo_edges-2026-09-21.sql",
+  "capturedAt": "2026-09-21T15:13:54Z",
+  "sliceFingerprints": [
+    {
+      "md5": "8c81da1eb81698575187325189794d83",
+      "count": 13,
+      "source_repo": "angular-app-oskey-io",
+      "connection_type": "FIELD_BINDING"
+    },
+    {
+      "md5": "7c8da8c9a34560263be625e48000be65",
+      "count": 102,
+      "source_repo": "angular-app-oskey-io",
+      "connection_type": "HTTP_API_CALL"
+    },
+    {
+      "md5": "cc4f750a784db73e2abf09216fabdf3e",
+      "count": 3590,
+      "source_repo": "android-intercom-oskey-io",
+      "connection_type": "INTRA_REPO_CALL"
+    },
+    {
+      "md5": "3b2d06d2c37a3fbff23ee20b60d8759c",
+      "count": 346,
+      "source_repo": "angular-app-oskey-io",
+      "connection_type": "INTRA_REPO_CALL"
+    },
+    {
+      "md5": "a6a149e267e9ac1c310a5dd4cd159c3f",
+      "count": 2363,
+      "source_repo": "firebase-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL"
+    },
+    {
+      "md5": "0835b92b91ef6893cdf766d427fb7288",
+      "count": 8734,
+      "source_repo": "ios-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL"
+    },
+    {
+      "md5": "5199382961afcc6cee1d68ad9a9ac7a4",
+      "count": 245,
+      "source_repo": "swift-ble-kit-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL"
+    },
+    {
+      "md5": "3435b71fb2b945ee7831e99906542f72",
+      "count": 510,
+      "source_repo": "swift-cloud-kit-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL"
+    },
+    {
+      "md5": "d2b0a35351f3e0e97b6ecd5ea439cbc2",
+      "count": 625,
+      "source_repo": "swift-ui-kit-oskey-dev",
+      "connection_type": "INTRA_REPO_CALL"
+    },
+    {
+      "md5": "14a834542e055d2a47b31b4b57f6718c",
+      "count": 651,
+      "source_repo": "swift-webrtc-kit-oskey-io",
+      "connection_type": "INTRA_REPO_CALL"
+    },
+    {
+      "md5": "c8474aa60276521d3a8a8b3df64b6324",
+      "count": 14,
+      "source_repo": "firebase-oskey-dev",
+      "connection_type": "PUBSUB_TOPIC_BINDING"
+    },
+    {
+      "md5": "1eeccae92da1dfe2936a6a07f8befd39",
+      "count": 2,
+      "source_repo": "node-iot-api-oskey-io",
+      "connection_type": "PUBSUB_TOPIC_BINDING"
+    }
+  ],
+  "latestRunIdPerRepo": {
+    "ios-oskey-dev": "20260920_165124-e660bda2",
+    "firebase-oskey-dev": "20260911_080454-00e1d9fd",
+    "angular-app-oskey-io": "20260911_092322-8345d222",
+    "node-iot-api-oskey-io": "20260911_080505-a6cba122",
+    "swift-ui-kit-oskey-dev": "20260920_165053-9a75c7c6",
+    "swift-ble-kit-oskey-dev": "20260920_165106-f8cdf199",
+    "android-intercom-oskey-io": "20260918_154849-f2cac85f",
+    "swift-cloud-kit-oskey-dev": "20260920_165044-32772e4a",
+    "swift-webrtc-kit-oskey-io": "20260920_165059-e8aeea9d"
+  },
+  "currentExtractionRuns": {
+    "ios-oskey-dev": "20260920_165124-e660bda2",
+    "firebase-oskey-dev": "20260911_080454-00e1d9fd",
+    "angular-app-oskey-io": "20260911_092322-8345d222",
+    "node-iot-api-oskey-io": "20260911_080505-a6cba122",
+    "swift-ui-kit-oskey-dev": "20260920_165053-9a75c7c6",
+    "swift-ble-kit-oskey-dev": "20260920_165106-f8cdf199",
+    "android-intercom-oskey-io": "20260918_154849-f2cac85f",
+    "swift-cloud-kit-oskey-dev": "20260920_165044-32772e4a",
+    "swift-webrtc-kit-oskey-io": "20260920_165059-e8aeea9d"
+  },
+  "fingerprintDefinition": "md5 over rows of one (connection_type, source_repo) slice, of concat_ws(chr(31), source_repo, source_symbol, source_fact_id, target_repo, target_symbol, target_fact_id, connection_type, resolution_status, provenance, confirmed_via, details) joined with chr(30), ordered by (source_symbol, source_fact_id, target_symbol, target_fact_id, resolution_status, details); nulls rendered as '<null>'; edge_id, synthesis_id and generated_at are excluded because they change on every rebuild"
+}

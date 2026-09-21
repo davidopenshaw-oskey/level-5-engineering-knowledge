@@ -1,0 +1,706 @@
+[
+  {
+    "screenSymbol": "OSKAboutScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/App/Views/OSKAboutScreen.swift:16",
+    "realContext": "conforms to/extends: View",
+    "screenName": "About",
+    "description": "Static 'About' screen (app info/version, legal), typically reached from Settings."
+  },
+  {
+    "screenSymbol": "OSKAccessDetailScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Invitations/Views/OSKAccessDetailScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Access detail",
+    "description": "Detail view for a specific guest access/invitation record."
+  },
+  {
+    "screenSymbol": "OSKActivityContentScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Activities/View/OSKActivityScreen.swift:50",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Activity log (content)",
+    "description": "Scrollable content body of the Activity log screen; wrapped by OSKActivityScreen (defined lower in the same file, matching the wrapper/content pattern seen elsewhere)."
+  },
+  {
+    "screenSymbol": "OSKActivityContentScreeniOS16",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Activities/View/OSKActivityScreen.swift:37",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Activity log (content, iOS16)",
+    "description": "iOS16-specific rendering variant of OSKActivityContentScreen; same Activity log content."
+  },
+  {
+    "screenSymbol": "OSKActivityScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Activities/View/OSKActivityScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Activity log",
+    "description": "Top-level Activity screen showing the resident's door/access activity history; wraps OSKActivityContentScreen."
+  },
+  {
+    "screenSymbol": "OSKAddAppUserResidentScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKAddAppUserResidentScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Add resident (app user)",
+    "description": "Form to add a new resident to the household who has (or will have) the OSKey app installed. Confirmed reached via NavigationLink from the household member list (OSKUserHouseholdListView)."
+  },
+  {
+    "screenSymbol": "OSKAddNoAppUserResidentScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKAddNoAppUserResidentScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Add resident (no app)",
+    "description": "Form to add a new resident to the household who does not use the OSKey app (managed via PIN code instead, symmetric to OSKNoAppUserPinCodeScreen)."
+  },
+  {
+    "screenSymbol": "OSKAddResidentScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKAddResidentScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Add resident",
+    "description": "Entry screen for adding a resident to the household, likely branching into the app-user vs. non-app-user add flow (OSKAddAppUserResidentScreen / OSKAddNoAppUserResidentScreen)."
+  },
+  {
+    "screenSymbol": "OSKAddUserScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKAddUserScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Add household member: choose type",
+    "description": "Add a Resident or add a Permanent Guest."
+  },
+  {
+    "screenSymbol": "OSKAddUserScreeniOS16",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKUserHouseholdListView.swift:330",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Add user (iOS16)",
+    "description": "iOS16-specific rendering variant of the add-user screen, embedded directly in the household member list view (OSKUserHouseholdListView)."
+  },
+  {
+    "screenSymbol": "OSKAppareilsListScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/OSKAppareilsListScreen.swift:19",
+    "realContext": "conforms to/extends: View",
+    "screenName": "My devices",
+    "description": "Lists the user's paired/registered devices. Confirmed via localization key 'userProfileMesAppareilsScreen-title' ('Mes Appareils' = French for 'My Devices') -- the French internal name survives in the key even though the rest of the UI is English."
+  },
+  {
+    "screenSymbol": "OSKAuthSignUpConsentScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Auth/Views/OSKAuthSignUpConsentScreen.swift:16",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Sign-up consent",
+    "description": "Terms/consent screen shown during the sign-up flow."
+  },
+  {
+    "screenSymbol": "OSKAuthSignUpSignInScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Auth/Views/OSKAuthSignUpSignInScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Welcome (sign up / sign in)",
+    "description": "Post-splash welcome screen presenting sign-up and sign-in options. Confirmed via real content: it reuses the localization key 'splashScreen_welcome_title' for its welcome message, an odd but real cross-screen key reuse."
+  },
+  {
+    "screenSymbol": "OSKBuildingInformationScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/UnlockView/Views/OSKBuildingInformationScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Building information",
+    "description": "Displays information about the resident's building (address, entry details)."
+  },
+  {
+    "screenSymbol": "OSKDeleteAccountScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/OSKDeleteAccountScreen.swift:19",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Delete account",
+    "description": "Account deletion confirmation screen, under Profile."
+  },
+  {
+    "screenSymbol": "OSKDisableMFAScreenView",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/OSKDisableMFAScreenView.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Disable MFA",
+    "description": "Screen to disable multi-factor authentication on the account."
+  },
+  {
+    "screenSymbol": "OSKDownloadDataScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/OSKDownloadDataScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Download my data",
+    "description": "Screen to request/download an export of the user's personal data (GDPR-style)."
+  },
+  {
+    "screenSymbol": "OSKEnableMFAScreenView",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/OSKEnableMFAScreenView.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Enable MFA",
+    "description": "Screen to enable multi-factor authentication on the account."
+  },
+  {
+    "screenSymbol": "OSKGuestInvitationScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Invitations/Views/OSKGuestInvitationScreen.swift:19",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Guest invitation schedule",
+    "description": "Sets the date/time (or all-day) window for a guest invitation. Confirmed via real content: an all-day toggle plus start-date/start-time pickers, part of the invite-guest flow (paired with OSKInviteGuestScreen)."
+  },
+  {
+    "screenSymbol": "OSKGuestListScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Invitations/Views/OSKGuestListScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Guest list",
+    "description": "Lists the resident's guests/guest invitations."
+  },
+  {
+    "screenSymbol": "OSKInvitationDetailScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Invitations/Views/OSKInvitationDetailScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Invitation detail",
+    "description": "Detail view of a single guest invitation."
+  },
+  {
+    "screenSymbol": "OSKInvitationsScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Invitations/Views/OSKInvitationsScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Invitations",
+    "description": "Top-level screen listing the resident's invitations. Its exact relationship to OSKGuestListScreen (same tab? different tab?) is inferred from naming, not directly confirmed."
+  },
+  {
+    "screenSymbol": "OSKInviteGuestScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Invitations/Views/OSKInviteGuestScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Invite guest",
+    "description": "Main guest-invitation form. Confirmed via real content: its title switches between 'invite guest' and 'add permanent guest' localized strings depending on viewModel.permanentGuest."
+  },
+  {
+    "screenSymbol": "OSKNewUserAlertScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/App/Views/OSKNewUserAlertScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "New user alert",
+    "description": "Alert-style screen shown to a new/newly-detected user; exact trigger condition not confirmed."
+  },
+  {
+    "screenSymbol": "OSKNoAppUserPinCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKNoAppUserPinCodeScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Resident PIN code (no app)",
+    "description": "Shows/manages the PIN code for a resident who doesn't use the app, as an alternative access method."
+  },
+  {
+    "screenSymbol": "OSKNotificationContentScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Notification/View/OSKNotificationScreen.swift:44",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Notification center (content)",
+    "description": "Scrollable list content of the Notification Center, wrapped by OSKNotificationScreen's NavigationStack. Confirmed via real content: each notification row is a NavigationLink to OSKNotificationDetailScreen."
+  },
+  {
+    "screenSymbol": "OSKNotificationDetailScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Notification/View/OSKNotificationDetailScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Notification detail",
+    "description": "Detail view of a single notification. Confirmed via real content: renders notification.title and notification.description."
+  },
+  {
+    "screenSymbol": "OSKNotificationScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Notification/View/OSKNotificationScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Notification center",
+    "description": "Top-level Notification Center screen. Confirmed via real content: a NavigationStack wrapping OSKNotificationContentScreen, titled via the 'notificationCenterScreen_title' localization key."
+  },
+  {
+    "screenSymbol": "OSKPinCodeGenerationScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Invitations/Views/OSKPinCodeGenerationScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Generate quick code",
+    "description": "A bottom-sheet flow to pick a building, pick which doors, pick an access-duration type, and a time limit, then generate a temporary guest PIN code."
+  },
+  {
+    "screenSymbol": "OSKPinCodeGenerationScreeniOS16",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Invitations/Views/OSKInvitationsListView.swift:488",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Generate quick code (iOS16)",
+    "description": "A thin wrapper around OSKPinCodeGenerationScreen"
+  },
+  {
+    "screenSymbol": "OSKPinCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/UnlockView/Views/OSKPinCodeScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "My PIN code (display)",
+    "description": "This is a display-only screen showing the current user's own permanent PIN code digits."
+  },
+  {
+    "screenSymbol": "OSKPrivacyScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/OSKPrivacyScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Privacy",
+    "description": "Privacy information/policy screen, under Profile. Confirmed via 'privacyScreen_title' localization key."
+  },
+  {
+    "screenSymbol": "OSKPrivacySettingsScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/App/Views/OSKPrivacySettingsScreen.swift:16",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Privacy settings",
+    "description": "Privacy/data-collection consent settings screen; wraps OSKDataCollectionConsentForm. Confirmed via real content: a literal (non-localized) 'Privacy settings' navigation title, unlike most other screens which use localization keys."
+  },
+  {
+    "screenSymbol": "OSKResidentAdminPinCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/UnlockView/Views/OSKResidentAdminPinCodeScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Resident PIN code (admin view)",
+    "description": "Admin-facing view/management of a resident's PIN code."
+  },
+  {
+    "screenSymbol": "OSKResidentPinCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/UnlockView/Views/OSKResidentPinCodeScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "My PIN code",
+    "description": "Resident's own view of their PIN code for door access."
+  },
+  {
+    "screenSymbol": "OSKResidentRightsScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKResidentRightsScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Resident permissions",
+    "description": "Household permission toggles for a resident -- can they invite guests (radio choice), keep their invitations private, manage other residents' invitations, share their activity, and restrict their visibility to others. Confirms 'rights' means household permissions, not data-privacy rights."
+  },
+  {
+    "screenSymbol": "OSKSesamePlusConfiguredScreenView",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/SesamePlus/OSKSesamePlusConfiguredScreenView.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Sesame Plus configured",
+    "description": "Success confirmation screen shown after a Sesame Plus (Bluetooth keyfob) device is successfully paired. Confirmed via 'sesamePlusSuccessScreen_title' localization key and a success illustration asset."
+  },
+  {
+    "screenSymbol": "OSKSesamePlusDiscoverScreenView",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/SesamePlus/OSKSesamePlusDiscoverScreenView.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Discover Sesame Plus",
+    "description": "Introductory/discovery screen inviting the user to set up a Sesame Plus keyfob. Confirmed via 'sesamePlusDiscoverScreen_label'/'_description' localization keys."
+  },
+  {
+    "screenSymbol": "OSKSesamePlusEmptyScreenView",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/SesamePlus/OSKSesamePlusEmptyScreenView.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Sesame Plus (empty state)",
+    "description": "Empty-state screen shown when no Sesame Plus keyfobs are configured yet. Confirmed via 'sesamePlusEmptyScreen_label' localization key."
+  },
+  {
+    "screenSymbol": "OSKSesamePlusErrorStateScreenView",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/SesamePlus/OSKSesamePlusErrorStateScreenView.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Sesame Plus pairing failed",
+    "description": "Error state shown when Sesame Plus keyfob pairing fails. Confirmed via 'sesamePlusFailureScreen_title' localization key."
+  },
+  {
+    "screenSymbol": "OSKSesamePlusListKeyfobsScreenView",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/SesamePlus/OSKSesamePlusListKeyfobsScreenView.swift:25",
+    "realContext": "conforms to/extends: View",
+    "screenName": "My Sesame Plus keyfobs",
+    "description": "Lists the user's paired Sesame Plus keyfobs (real `Keyfob` struct, rendered via OSKAccessMethodCell), with a button to open a discover sheet for adding new ones."
+  },
+  {
+    "screenSymbol": "OSKSesamePlusPairingStatusScreenView",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/SesamePlus/PairingSesame/OSKSesamePlusPairingStatusScreenView.swift:30",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Sesame Plus pairing status",
+    "description": "Shows live pairing status (e.g. searching vs. found) while connecting a new Sesame Plus keyfob. Confirmed via real content: branches on a `step == .found` state."
+  },
+  {
+    "screenSymbol": "OSKSettingsScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/App/Views/OSKSettingsScreen.swift:16",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Settings",
+    "description": "Top-level app settings screen."
+  },
+  {
+    "screenSymbol": "OSKSetUpPermissionsScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKSetUpPermissionsScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Set up permissions",
+    "description": "Requests system permissions (e.g. Bluetooth, camera, notifications) needed by the app, during setup."
+  },
+  {
+    "screenSymbol": "OSKSplashScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/App/Views/OSKSplashScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Splash",
+    "description": "App launch splash screen."
+  },
+  {
+    "screenSymbol": "OSKUdpateViewForcedScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/App/UpdateAppKit/View/OSKUdpateViewForcedScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Forced update",
+    "description": "Blocking screen shown when a mandatory app update is required before the app can continue. Symbol name contains a real typo ('Udpate' for 'Update'), preserved as-is since it's the actual code identifier."
+  },
+  {
+    "screenSymbol": "OSKUdpateViewOptionalScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/App/UpdateAppKit/View/OSKUdpateViewOptionalScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Optional update",
+    "description": "Dismissible screen prompting an optional app update. Symbol name contains a real typo ('Udpate' for 'Update'), preserved as-is since it's the actual code identifier."
+  },
+  {
+    "screenSymbol": "OSKUIEmailSentNotificationScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Auth/Views/OSKUIEmailSentNotificationScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Verification email sent",
+    "description": "Shown after a sign-in verification link email is sent. Offers deep-link shortcuts to open Gmail/Outlook/Mail and a resend-link button."
+  },
+  {
+    "screenSymbol": "OSKUserAccountAppearanceScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKUserAccountAppearanceScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Appearance",
+    "description": "Screen for choosing the app's appearance/theme settings (e.g. light/dark mode)."
+  },
+  {
+    "screenSymbol": "OSKUserAccountAppleLinkScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/UserAccountInfoScreen/OSKUserAccountAppleLinkScreen.swift:16",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Apple account link",
+    "description": "Screen to link or unlink Sign in with Apple for the account."
+  },
+  {
+    "screenSymbol": "OSKUserAccountIntercomsChangeNameScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/ListIntercomScrean/OSKUserAccountIntercomsChangeNameScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Rename intercom",
+    "description": "Screen to rename one of the user's paired intercom devices."
+  },
+  {
+    "screenSymbol": "OSKUserAccountIntercomsDetailsScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/ListIntercomScrean/OSKUserAccountIntercomsDetailsScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Intercom detail",
+    "description": "Detail view of a specific paired intercom device."
+  },
+  {
+    "screenSymbol": "OSKUserAccountIntercomsListScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/ListIntercomScrean/OSKUserAccountIntercomsListScreen.swift:19",
+    "realContext": "conforms to/extends: View",
+    "screenName": "My intercoms",
+    "description": "Lists the intercom devices paired to the user's account."
+  },
+  {
+    "screenSymbol": "OSKUserAccountLanguageScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKUserAccountLanguageScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Language",
+    "description": "Screen to choose the app's display language."
+  },
+  {
+    "screenSymbol": "OSKUserBuildingActivationCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/joinBuildindg/OSKUserBuildingActivationCodeScreen.swift:19",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Join building (activation code)",
+    "description": "Manual activation-code entry to join an additional building, reached from Profile settings. Confirmed real duplication: shares the same 'buildingRegistrationActivationCodeScreen_title'-family localization key as the onboarding-flow version (OSKUserBuildingRegistrationActivationCodeScreen), same UI copy, separate struct."
+  },
+  {
+    "screenSymbol": "OSKUserBuildingQRCodeScanScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserBuildingQRCodeScanScreen.swift:21",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Scan building QR code",
+    "description": "Scans a building's QR code to join it. Confirmed via real navigation: on success, navigates to OSKUserBuildingRegistrationValidationScreen."
+  },
+  {
+    "screenSymbol": "OSKUserBuildingRegistrationActivationCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserBuildingRegistrationActivationCodeScreen.swift:19",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Join building (activation code, onboarding)",
+    "description": "Onboarding-flow screen to manually enter a building activation code. Confirmed via real navigation: links to OSKUserBuildingRegistrationActivationQRCodeScreen (scan option) and to OSKUserBuildingRegistrationValidationScreen (after entry)."
+  },
+  {
+    "screenSymbol": "OSKUserBuildingRegistrationActivationQRCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserBuildingRegistrationActivationQRCodeScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Join building (QR option, onboarding)",
+    "description": "Onboarding-flow intermediate screen presenting the QR-code option, linking through to the actual camera scan screen (OSKUserBuildingQRCodeScanScreen). Exact UI role (its own screen vs. a thin router) is inferred from the indirection, not fully confirmed."
+  },
+  {
+    "screenSymbol": "OSKUserBuildingRegistrationValidationScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserBuildingRegistrationValidationScreen.swift:24",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Building joined (validation)",
+    "description": "Confirms successful building registration/join during onboarding. Confirmed via real navigation: on success, routes onward via a `nextScreen` switch, e.g. to OSKUserCloseOnesSetUpScreen -- this is the real anchor confirming 'Close Ones' as the household/trusted-contacts onboarding sub-flow."
+  },
+  {
+    "screenSymbol": "OSKUserBuildingValidationScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/joinBuildindg/OSKUserBuildingValidationScreen.swift:19",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Building joined (validation, from Profile)",
+    "description": "Profile-settings counterpart of OSKUserBuildingRegistrationValidationScreen. Confirmed real duplication: reuses the exact same 'userBuildingRegistrationValidationScreen_title' localization key and copy, as a separate struct used when joining an additional building later rather than during onboarding."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesAddResidentScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesAddResidentScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Add close one (resident)",
+    "description": "Step in the 'Close Ones' onboarding sub-flow (household/trusted contacts, confirmed real via OSKUserCloseOnesSetUpScreen's anchor) to add a resident as a close one. Exact step ordering within the sub-flow is inferred from naming, not directly confirmed."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesAddUserScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesAddUserScreen.swift:19",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Add close one (user)",
+    "description": "Step in the 'Close Ones' onboarding sub-flow to add a non-resident user as a close one. Exact step ordering inferred from naming, not directly confirmed."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesDetailsAppUserScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesDetailsAppUserScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Close one details (app user)",
+    "description": "Detail/confirmation step in the 'Close Ones' sub-flow for a close one who uses the app. Exact step ordering inferred from naming, not directly confirmed."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesDetailsNonAppUserScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesDetailsNonAppUserScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Close one details (no app)",
+    "description": "Detail/confirmation step in the 'Close Ones' sub-flow for a close one who doesn't use the app. Exact step ordering inferred from naming, not directly confirmed."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesDetailsPermanentGuestScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesDetailsPermanentGuestScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Close one details (permanent guest)",
+    "description": "Detail/confirmation step in the 'Close Ones' sub-flow for a close one registered as a permanent guest. Exact step ordering inferred from naming, not directly confirmed."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesNonAppUserPinCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesNonAppUserPinCodeScreen.swift:21",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Close one PIN code (no app)",
+    "description": "PIN code setup step in the 'Close Ones' sub-flow, specific to a non-app-user close one."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesSearchAppUserScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesSearchAppUserScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Search close one (app user)",
+    "description": "Search step in the 'Close Ones' sub-flow to find an existing app-user contact to add."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesSearchNonAppUserScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesSearchNonAppUserScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Search close one (no app)",
+    "description": "Search step in the 'Close Ones' sub-flow to find/enter a non-app-user contact to add."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesSearchPermanentGuestsScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesSearchPermanentGuestsScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Search close one (permanent guest)",
+    "description": "Search step in the 'Close Ones' sub-flow to find/enter a permanent guest to add."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesSetUpScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesSetUpScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Close ones setup",
+    "description": "Entry point of the 'Close Ones' (household/trusted contacts) onboarding sub-flow. Confirmed real anchor: this is the exact screen OSKUserBuildingRegistrationValidationScreen navigates to on success."
+  },
+  {
+    "screenSymbol": "OSKUserCloseOnesSummaryScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/RegisterCloseOnes/OSKUserCloseOnesSummaryScreen.swift:40",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Close ones summary",
+    "description": "Final summary step of the 'Close Ones' onboarding sub-flow, before completing that part of onboarding."
+  },
+  {
+    "screenSymbol": "OSKUserDeviceDetailScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Devices/Views/OSKUserDeviceDetailScreen.swift:16",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Device detail",
+    "description": "Detail view of a paired unlock device (e.g. door lock hardware)."
+  },
+  {
+    "screenSymbol": "OSKUserMainScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/UnlockView/Views/OSKUserMainScreen.swift:27",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Home (unlock)",
+    "description": "Main resident home screen, primarily for unlocking doors."
+  },
+  {
+    "screenSymbol": "OSKUserMFAOnboardingScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserMFAOnboardingScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "MFA onboarding",
+    "description": "Introduces/prompts multi-factor authentication setup during onboarding."
+  },
+  {
+    "screenSymbol": "OSKUserOnboardingBuildingScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserOnboardingBuildingScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Onboarding: building",
+    "description": "Onboarding step related to identifying/selecting the user's building, ahead of the building registration/activation flow. Exact role not directly confirmed."
+  },
+  {
+    "screenSymbol": "OSKUserOnboardingEnrollMFAAddPhoneNumberScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserOnboardingEnrollMFAAddPhoneNumberScreen.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Enroll MFA: phone number",
+    "description": "MFA enrollment step to enter a phone number for SMS-based verification."
+  },
+  {
+    "screenSymbol": "OSKUserOnboardingEnrollMFAEnterConfirmationCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserOnboardingEnrollMFAEnterConfirmationCodeScreen.swift:36",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Enroll MFA: confirmation code",
+    "description": "MFA enrollment step to enter the SMS confirmation code."
+  },
+  {
+    "screenSymbol": "OSKUserOnboardingPhoneSetupScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserOnboardingPhoneSetupScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Onboarding: phone setup",
+    "description": "Onboarding step to set up the user's phone number. Its exact relationship to the MFA-specific phone step (OSKUserOnboardingEnrollMFAAddPhoneNumberScreen) is not confirmed -- may be the same conceptual step reached differently, or a distinct one."
+  },
+  {
+    "screenSymbol": "OSKUserOnboardingStartScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserOnboardingScreen.swift:17",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Onboarding checklist",
+    "description": "Post-signup onboarding checklist screen. Confirmed via real content: numbered setup tasks (e.g. 'Improve your account security' / 'Secure your account using your phone number' opening an MFA sheet; 'Activate your building accesses' opening the building flow), not literally a single 'first step' screen despite the symbol name."
+  },
+  {
+    "screenSymbol": "OSKUserProfileContentScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/OSKUserProfileScreen.swift:50",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Profile (content)",
+    "description": "Scrollable content body of the user Profile screen; wrapped by OSKUserProfileScreen (defined lower in the same file, same wrapper/content pattern as Activity and Notification screens)."
+  },
+  {
+    "screenSymbol": "OSKUserProfileContentScreeniOS16",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/OSKUserProfileScreen.swift:35",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Profile (content, iOS16)",
+    "description": "iOS16-specific rendering variant of OSKUserProfileContentScreen."
+  },
+  {
+    "screenSymbol": "OSKUserProfilePictureUpdateScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/OSKUserProfilePictureUpdateScreen.swift:16",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Update profile picture",
+    "description": "Screen to update the user's profile picture."
+  },
+  {
+    "screenSymbol": "OSKUserProfileScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Profile/Views/OSKUserProfileScreen.swift:21",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Profile",
+    "description": "Top-level user Profile screen; wraps OSKUserProfileContentScreen."
+  },
+  {
+    "screenSymbol": "OSKUserSignInConfirmationCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Onboarding/Views/OSKUserSignInConfirmationCodeScreen.swift:20",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Sign-in confirmation code",
+    "description": "Confirmation code entry step during sign-in (2FA at login, distinct from MFA enrollment)."
+  },
+  {
+    "screenSymbol": "OSKUserVerificationMailActivationCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKUserVerificationMailActivationCodeScreen.swift:19",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Verify email",
+    "description": "Screen to enter the activation/verification code sent by email."
+  },
+  {
+    "screenSymbol": "OSKUserVerificationPhoneActivationCodeScreen",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Account/Views/OSKUserVerificationPhoneActivationCodeScreen.swift:19",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Verify phone",
+    "description": "Screen to enter the activation/verification code sent by SMS."
+  },
+  {
+    "screenSymbol": "OSKZoomableImageFullScreenView",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Activities/View/ImageFullScreenView.swift:18",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Full-screen image viewer",
+    "description": "Full-screen zoomable image viewer overlay (e.g. viewing an activity photo). Confirmed via real content: the file has no Text/localization calls at all, consistent with an image-only viewer. Borderline whether this counts as a navigational 'screen' vs. a modal component -- flagged, not resolved."
+  },
+  {
+    "screenSymbol": "RangeDatePickerScreeniOS16",
+    "kind": "struct_declaration",
+    "file": "iOS App/Presentation/Activities/View/OSKActivityFilterView.swift:296",
+    "realContext": "conforms to/extends: View",
+    "screenName": "Date range picker (Activity filter)",
+    "description": "Date-range picker control within the Activity filter bottom sheet. Confirmed via real content: lives inside OSKActivityFilterView alongside 'activitiesFilterBottomSheet_events_section' -- functions as a filter sub-component rather than a standalone navigational screen. Flagged, not resolved."
+  }
+]

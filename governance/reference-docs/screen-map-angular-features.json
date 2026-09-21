@@ -1,0 +1,592 @@
+[
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "authentication",
+    "component": "OSKSignInComponent",
+    "file": "hosting/web-app/src/app/features/authentication/auth.routes.ts:17",
+    "realContext": "renders: OSKSignInComponent",
+    "screenName": "Sign In",
+    "description": "Used during the Sign in process"
+  },
+  {
+    "route": "actionCode",
+    "module": "features",
+    "submodule": "authentication",
+    "component": "OSKAuthActionComponent",
+    "file": "hosting/web-app/src/app/features/authentication/auth.routes.ts:23",
+    "realContext": "renders: OSKAuthActionComponent",
+    "screenName": "Not known",
+    "description": "Screen used during the Auth0 authentication flow."
+  },
+  {
+    "route": "verifyEmail",
+    "module": "features",
+    "submodule": "authentication",
+    "component": "OSKVerifyEmailComponent",
+    "file": "hosting/web-app/src/app/features/authentication/auth.routes.ts:28",
+    "realContext": "renders: OSKVerifyEmailComponent",
+    "screenName": "Verify Email",
+    "description": "Screen used to verify the user's email address."
+  },
+  {
+    "route": "verifyCode",
+    "module": "features",
+    "submodule": "authentication",
+    "component": "OSKSecondFactorAuthentificationComponent",
+    "file": "hosting/web-app/src/app/features/authentication/auth.routes.ts:35",
+    "realContext": "renders: OSKSecondFactorAuthentificationComponent",
+    "screenName": "Verify Code",
+    "description": "Screen used to verify the user's second factor authentication."
+  },
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "portals_organization_entities",
+    "component": "OSKEntitiesDashboardComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/entities.routes.ts:19",
+    "realContext": "renders: OSKEntitiesDashboardComponent",
+    "screenName": "Entities Dashboard",
+    "description": "Dashboard for managing organization entities."
+  },
+  {
+    "route": ":entityId",
+    "module": "features",
+    "submodule": "portals_organization_entities",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/entities.routes.ts:27",
+    "realContext": "loads child routes from: ./features/entity/entity.routes",
+    "screenName": "Not known",
+    "description": "Part of the entity routing flow"
+  },
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity",
+    "component": "OSKEntityDashboardComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts:20",
+    "realContext": "renders: OSKEntityDashboardComponent",
+    "screenName": "Entity Dashboard component",
+    "description": "Dashboard for managing entity-specific information."
+  },
+  {
+    "route": "properties",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts:28",
+    "realContext": "loads child routes from: ./features/properties/properties.routes",
+    "screenName": "Properties",
+    "description": "Route used to manage entity properties."
+  },
+  {
+    "route": "suppliers",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts:32",
+    "realContext": "loads child routes from: ./features/suppliers/suppliers.routes -- guarded by: OSKUserRoleGuard",
+    "screenName": "Suppliers",
+    "description": "Route used to manage entity suppliers."
+  },
+  {
+    "route": "users",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts:40",
+    "realContext": "loads child routes from: ../entity/features/properties/features/users/organization-users.routes -- guarded by: OSKUserRoleGuard",
+    "screenName": null,
+    "description": "Guarded route for an Orgnaizations users management. Loads child routes from: ../entity/features/properties/features/users/organization-users.routes"
+  },
+  {
+    "route": "message-center",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/entity.routes.ts:51",
+    "realContext": "loads child routes from: ./features/message-center/message-center.routes -- guarded by: OSKUserRoleGuard",
+    "screenName": null,
+    "description": "Guarded route for the message center. Loads child routes from: ./features/message-center/message-center.routes"
+  },
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_message-center",
+    "component": "OSKMessageCenterListComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/message-center/message-center.routes.ts:17",
+    "realContext": "renders: OSKMessageCenterListComponent",
+    "screenName": "Message Center",
+    "description": "Component for managing lists of messages in the message center."
+  },
+  {
+    "route": "details/:messageId",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_message-center",
+    "component": "OSKMessageCenterDetailsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/message-center/message-center.routes.ts:25",
+    "realContext": "renders: OSKMessageCenterDetailsComponent",
+    "screenName": "Message Details",
+    "description": "Component for viewing details of a specific message in the message center."
+  },
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_buildings",
+    "component": "OSKOrganizationBuildingsListComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/buildings/organization-buildings.routes.ts:18",
+    "realContext": "renders: OSKOrganizationBuildingsListComponent",
+    "screenName": "Properties / Buildings",
+    "description": "Route and component used to manage buildings via the entity, properties hierarchy."
+  },
+  {
+    "route": "add",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_buildings",
+    "component": "OSKAddOrganizationBuildingComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/buildings/organization-buildings.routes.ts:26",
+    "realContext": "renders: OSKAddOrganizationBuildingComponent -- guarded by: adminGuard",
+    "screenName": "Add Building",
+    "description": "Guarded route fo component for adding a new building to the organization."
+  },
+  {
+    "route": ":buildingId",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_buildings",
+    "component": "OSKOrganizationBuildingDetailsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/buildings/organization-buildings.routes.ts:34",
+    "realContext": "renders: OSKOrganizationBuildingDetailsComponent",
+    "screenName": "Building Details",
+    "description": "Component for viewing details of a specific building in the organization."
+  },
+  {
+    "route": ":buildingId/edit",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_buildings",
+    "component": "OSKAddOrganizationBuildingComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/buildings/organization-buildings.routes.ts:42",
+    "realContext": "renders: OSKAddOrganizationBuildingComponent -- guarded by: adminGuard",
+    "screenName": "Edit Building",
+    "description": "Guarded route for component for editing an existing building in the organization."
+  },
+  {
+    "route": ":buildingId/units",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_buildings",
+    "component": "OSKOrganizationBuildingUnitsListComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/buildings/organization-buildings.routes.ts:50",
+    "realContext": "renders: OSKOrganizationBuildingUnitsListComponent",
+    "screenName": "Building Units List",
+    "description": "Component for viewing units list within a specific building in the organization."
+  },
+  {
+    "route": ":buildingId/units/add",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_buildings",
+    "component": "OSKAddOrganizationBuildingUnitComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/buildings/organization-buildings.routes.ts:57",
+    "realContext": "renders: OSKAddOrganizationBuildingUnitComponent -- guarded by: adminGuard",
+    "screenName": "Add Building Unit",
+    "description": "Guarded route for component for adding a new unit to a specific building in the organization."
+  },
+  {
+    "route": ":buildingId/units/:unitId/edit",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_buildings",
+    "component": "OSKAddOrganizationBuildingUnitComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/buildings/organization-buildings.routes.ts:65",
+    "realContext": "renders: OSKAddOrganizationBuildingUnitComponent -- guarded by: adminGuard",
+    "screenName": "Edit Building Unit",
+    "description": "Guarded route for component for editing an existing unit within a specific building in the organization."
+  },
+  {
+    "route": ":buildingId/doors",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_buildings",
+    "component": "OSKOrganizationBuildingDoorsListComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/buildings/organization-buildings.routes.ts:73",
+    "realContext": "renders: OSKOrganizationBuildingDoorsListComponent",
+    "screenName": "List Building Doors",
+    "description": "Component for viewing doors within a specific building in the organization."
+  },
+  {
+    "route": ":buildingId/doors/add",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_buildings",
+    "component": "OSKAddOrganizationBuildingDoorComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/buildings/organization-buildings.routes.ts:80",
+    "realContext": "renders: OSKAddOrganizationBuildingDoorComponent -- guarded by: adminGuard",
+    "screenName": "Add Building Door",
+    "description": "Guarded route for component for adding a new door to a specific building in the organization."
+  },
+  {
+    "route": ":buildingId/doors/:doorId/edit",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_buildings",
+    "component": "OSKAddOrganizationBuildingDoorComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/buildings/organization-buildings.routes.ts:88",
+    "realContext": "renders: OSKAddOrganizationBuildingDoorComponent -- guarded by: adminGuard",
+    "screenName": "Edit Building Door",
+    "description": "Guarded route for component for editing an existing door within a specific building in the organization."
+  },
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_general-rules",
+    "component": "OSKListSettingsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/general-rules/organization-general-rules.routes.ts:19",
+    "realContext": "renders: OSKListSettingsComponent",
+    "screenName": "List the settings rules",
+    "description": "Component for general rules management within the organization properties."
+  },
+  {
+    "route": "inhabitant-list",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_inhabitants",
+    "component": "OSKOrganizationInhabitantsListComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/inhabitants/organization-inhabitants.routes.ts:17",
+    "realContext": "renders: OSKOrganizationInhabitantsListComponent",
+    "screenName": "List Inhabitants",
+    "description": "Component for viewing inhabitants within the organization."
+  },
+  {
+    "route": "details/:residentId",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_inhabitants",
+    "component": "OSKOrganizationInhabitantDetailsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/inhabitants/organization-inhabitants.routes.ts:24",
+    "realContext": "renders: OSKOrganizationInhabitantDetailsComponent",
+    "screenName": "Inhabitant Details",
+    "description": "Component for viewing details of a specific inhabitant by residentId within the organization."
+  },
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_users",
+    "component": "OSKOrganizationUsersListComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/users/organization-users.routes.ts:18",
+    "realContext": "renders: OSKOrganizationUsersListComponent",
+    "screenName": "List Organization Users",
+    "description": "Component for viewing users within the organization. This is referring to PGO users, or commonly referred to as Property Managers, or PM's."
+  },
+  {
+    "route": "invite",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_users",
+    "component": "OSKInviteOrganizationUserComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/users/organization-users.routes.ts:25",
+    "realContext": "renders: OSKInviteOrganizationUserComponent -- guarded by: OSKUserRoleGuard",
+    "screenName": "Invite Organization User (PM's)",
+    "description": "Component for inviting new users to the organization. (PM's)"
+  },
+  {
+    "route": ":userId",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_users",
+    "component": "OSKOrganizationUserDetailsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/users/organization-users.routes.ts:36",
+    "realContext": "renders: OSKOrganizationUserDetailsComponent",
+    "screenName": "Organization User Details (PM's)",
+    "description": "Component for viewing details of a specific user within the organization. (PM's)"
+  },
+  {
+    "route": "invitations/:userEmail",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties_users",
+    "component": "OSKOrganizationUserDetailsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/features/users/organization-users.routes.ts:43",
+    "realContext": "renders: OSKOrganizationUserDetailsComponent",
+    "screenName": "Organization User Details (PM's)",
+    "description": "Component for viewing details of a specific user within the organization. (PM's)"
+  },
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties",
+    "component": "OSKOrganizationPropertiesListComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/properties.routes.ts:20",
+    "realContext": "renders: OSKOrganizationPropertiesListComponent",
+    "screenName": "List Organization Properties",
+    "description": "Component for viewing properties within the organization. (PM's)"
+  },
+  {
+    "route": "create",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties",
+    "component": "OSKOrganizationPropertiesCreateComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/properties.routes.ts:28",
+    "realContext": "renders: OSKOrganizationPropertiesCreateComponent",
+    "screenName": "Create a new property",
+    "description": "Component for creating a new property within the organization, under an entity."
+  },
+  {
+    "route": ":propertyId/edit",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties",
+    "component": "OSKOrganizationPropertiesEditComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/properties.routes.ts:35",
+    "realContext": "renders: OSKOrganizationPropertiesEditComponent",
+    "screenName": "Edit a property",
+    "description": "Component for editing an existing property within the organization."
+  },
+  {
+    "route": ":propertyId/property-dashboard",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties",
+    "component": "OSKPropertyDashboardComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/properties.routes.ts:42",
+    "realContext": "renders: OSKPropertyDashboardComponent",
+    "screenName": "Property Dashboard",
+    "description": "Component for viewing the dashboard of a specific property within the organization."
+  },
+  {
+    "route": ":propertyId/buildings",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/properties.routes.ts:51",
+    "realContext": "loads child routes from: ./features/buildings/organization-buildings.routes",
+    "screenName": "List Buildings",
+    "description": "Component for viewing buildings within the property."
+  },
+  {
+    "route": ":propertyId/inhabitants",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/properties.routes.ts:56",
+    "realContext": "loads child routes from: ./features/inhabitants/organization-inhabitants.routes -- guarded by: OSKUserRoleGuard",
+    "screenName": "List Inhabitants",
+    "description": "Component for viewing inhabitants within the property."
+  },
+  {
+    "route": ":propertyId/generalRules",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/properties.routes.ts:65",
+    "realContext": "loads child routes from: ./features/general-rules/organization-general-rules.routes -- guarded by: OSKUserRoleGuard",
+    "screenName": "General Rules",
+    "description": "Component for viewing general rules within the property."
+  },
+  {
+    "route": ":propertyId/suppliers",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/properties.routes.ts:74",
+    "realContext": "loads child routes from: ../suppliers/suppliers.routes -- guarded by: OSKUserRoleGuard",
+    "screenName": "Suppliers",
+    "description": "Component for viewing suppliers within the property."
+  },
+  {
+    "route": ":propertyId/message-center",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/properties.routes.ts:82",
+    "realContext": "loads child routes from: ../message-center/message-center.routes -- guarded by: OSKUserRoleGuard",
+    "screenName": "Message Center",
+    "description": "Component for viewing the message center within the property."
+  },
+  {
+    "route": ":propertyId/users",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_properties",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/properties/properties.routes.ts:90",
+    "realContext": "loads child routes from: ./features/users/organization-users.routes -- guarded by: OSKUserRoleGuard",
+    "screenName": "PGO Users, commonly called Property Managers or PM's",
+    "description": "Component for viewing PGO users via the entity, property hierarchy."
+  },
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_suppliers",
+    "component": "OSKSuppliersListComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/suppliers/suppliers.routes.ts:19",
+    "realContext": "renders: OSKSuppliersListComponent",
+    "screenName": "Suppliers List",
+    "description": "Component for viewing suppliers list within the property."
+  },
+  {
+    "route": ":id/details",
+    "module": "features",
+    "submodule": "portals_organization_entities_entity_suppliers",
+    "component": "OSKSuppliersDetailsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/entities/features/entity/features/suppliers/suppliers.routes.ts:27",
+    "realContext": "renders: OSKSuppliersDetailsComponent",
+    "screenName": "Suppliers Details",
+    "description": "Component for viewing individual supplier details within the property."
+  },
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "portals_organization_onboarding-cards",
+    "component": "OSKOnboardingCardsListComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts:17",
+    "realContext": "renders: OSKOnboardingCardsListComponent",
+    "screenName": "Onboarding Cards",
+    "description": "Component for viewing onboarding cards within the property."
+  },
+  {
+    "route": "add",
+    "module": "features",
+    "submodule": "portals_organization_onboarding-cards",
+    "component": "OSKAddOnboardingCardsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts:24",
+    "realContext": "renders: OSKAddOnboardingCardsComponent",
+    "screenName": "Add Onboarding Card",
+    "description": "Component for adding a new onboarding card within the property."
+  },
+  {
+    "route": "create",
+    "module": "features",
+    "submodule": "portals_organization_onboarding-cards",
+    "component": "OSKCreateOnboardingCardsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts:31",
+    "realContext": "renders: OSKCreateOnboardingCardsComponent",
+    "screenName": "Create Onboarding Card",
+    "description": "Component for adding a new onboarding card within the property."
+  },
+  {
+    "route": "edit/:onboardingId",
+    "module": "features",
+    "submodule": "portals_organization_onboarding-cards",
+    "component": "OSKEditOnboardingCardComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/features/onboarding-cards/onboarding-cards.routes.ts:38",
+    "realContext": "renders: OSKEditOnboardingCardComponent",
+    "screenName": "Edit Onboarding Card",
+    "description": "Component for editing an existing onboarding card within the property."
+  },
+  {
+    "route": "entities",
+    "module": "features",
+    "submodule": "portals_organization",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/organization/organization.routes.ts:17",
+    "realContext": "loads child routes from: ./features/entities/entities.routes",
+    "screenName": null,
+    "description": "Manages loading the child routes for the organization entities feature."
+  },
+  {
+    "route": "notifications",
+    "module": "features",
+    "submodule": "portals_organization",
+    "component": "OSKNotificationsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/organization.routes.ts:22",
+    "realContext": "renders: OSKNotificationsComponent",
+    "screenName": null,
+    "description": "Part of the Notifications feature for the organization portal. Renders the OSKNotificationsComponent."
+  },
+  {
+    "route": "settings",
+    "module": "features",
+    "submodule": "portals_organization",
+    "component": "OSKSettingsComponent",
+    "file": "hosting/web-app/src/app/features/portals/organization/organization.routes.ts:29",
+    "realContext": "renders: OSKSettingsComponent",
+    "screenName": null,
+    "description": "Component for managing organization settings."
+  },
+  {
+    "route": "send",
+    "module": "features",
+    "submodule": "portals_user_invitations",
+    "component": "OSKSendUserInvitationComponent",
+    "file": "hosting/web-app/src/app/features/portals/user/invitations/invitations.routes.ts:4",
+    "realContext": "renders: OSKSendUserInvitationComponent",
+    "screenName": "PGO Users invitations",
+    "description": "Sends invitations to invite people to join the PGO platform"
+  },
+  {
+    "route": "pending",
+    "module": "features",
+    "submodule": "portals_user_organizations",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/user/organizations/organizations.routes.ts:17",
+    "realContext": "loads child routes from: ./pending-organizations/pending-organizations.routes",
+    "screenName": "Pending Organizations",
+    "description": "Manages the list of pending organizations for the user. Sits outside of the PGO organization hierarchy, and is used to manage the user's pending organization invitations."
+  },
+  {
+    "route": "invitations",
+    "module": "features",
+    "submodule": "portals_user_organizations",
+    "component": "OSKOrganizationInvitationsComponent",
+    "file": "hosting/web-app/src/app/features/portals/user/organizations/organizations.routes.ts:22",
+    "realContext": "renders: OSKOrganizationInvitationsComponent",
+    "screenName": "Invitations",
+    "description": "Manages the list of organization invitations for the user."
+  },
+  {
+    "route": "",
+    "module": "features",
+    "submodule": "portals_user_organizations_pending-organizations",
+    "component": "OSKUserPendingOrganizationsComponent",
+    "file": "hosting/web-app/src/app/features/portals/user/organizations/pending-organizations/pending-organizations.routes.ts:17",
+    "realContext": "renders: OSKUserPendingOrganizationsComponent",
+    "screenName": "Not known",
+    "description": "Component for viewing pending organization invites for a user"
+  },
+  {
+    "route": "add",
+    "module": "features",
+    "submodule": "portals_user_organizations_pending-organizations",
+    "component": "OSKAddOrganizationComponent",
+    "file": "hosting/web-app/src/app/features/portals/user/organizations/pending-organizations/pending-organizations.routes.ts:25",
+    "realContext": "renders: OSKAddOrganizationComponent",
+    "screenName": null,
+    "description": "Component for adding new organization invites for a user"
+  },
+  {
+    "route": "account",
+    "module": "features",
+    "submodule": "portals_user",
+    "component": "OSKAccountComponent",
+    "file": "hosting/web-app/src/app/features/portals/user/user.routes.ts:17",
+    "realContext": "renders: OSKAccountComponent",
+    "screenName": null,
+    "description": "Manages the users account space"
+  },
+  {
+    "route": "organizations",
+    "module": "features",
+    "submodule": "portals_user",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/user/user.routes.ts:21",
+    "realContext": "loads child routes from: ./organizations/organizations.routes",
+    "screenName": null,
+    "description": "Manages loading the child routes for the organization feature."
+  },
+  {
+    "route": "invitations",
+    "module": "features",
+    "submodule": "portals_user",
+    "component": null,
+    "file": "hosting/web-app/src/app/features/portals/user/user.routes.ts:25",
+    "realContext": "loads child routes from: ./invitations/invitations.routes",
+    "screenName": null,
+    "description": "Manages loading the child routes for the invitations feature."
+  },
+  {
+    "route": "notifications",
+    "module": "features",
+    "submodule": "portals_user",
+    "component": "OSKNotificationsComponent",
+    "file": "hosting/web-app/src/app/features/portals/user/user.routes.ts:29",
+    "realContext": "renders: OSKNotificationsComponent",
+    "screenName": null,
+    "description": "Manages part of the Notification feature for portals users"
+  },
+  {
+    "route": "settings",
+    "module": "features",
+    "submodule": "portals_user",
+    "component": "OSKSettingsComponent",
+    "file": "hosting/web-app/src/app/features/portals/user/user.routes.ts:34",
+    "realContext": "renders: OSKSettingsComponent",
+    "screenName": null,
+    "description": "Manages the part of the settings feature for the user"
+  }
+]

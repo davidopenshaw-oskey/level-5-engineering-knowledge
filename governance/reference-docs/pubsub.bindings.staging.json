@@ -1,0 +1,109 @@
+{
+  "project": "staging-oskey-io",
+  "extractedAt": "2026-09-21T06:50:31.435153Z",
+  "extractedVia": "gcloud pubsub {topics,subscriptions} list --project=staging-oskey-io (read-only)",
+  "topics": [
+    "accessControlDevice_accessCommands",
+    "accessControlDevice_accessLogs",
+    "accessControlDevice_accesses",
+    "accessControlDevice_activities",
+    "accessControlDevice_activities_dlq",
+    "accessControlDevice_configurations",
+    "accessControlDevice_intercomEntries",
+    "accessControlDevice_states",
+    "accessControlDevice_systemLogs",
+    "dead_letters",
+    "firebase-schedule-user-checkAccountDelete-europe-west1"
+  ],
+  "bindings": [
+    {
+      "topic": "accessControlDevice_accesses",
+      "subscription": "accessControlDevice_accesses",
+      "deliveryType": "push",
+      "pushEndpoint": "https://node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app/v1/access-control-devices/pubsub/accesses?accept=application%2Fvnd.oskey%2Bjson&apiVersion=2023-01-01",
+      "pushEndpointHost": "node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app",
+      "pushEndpointPath": "/v1/access-control-devices/pubsub/accesses",
+      "deadLetterTopic": "dead_letters"
+    },
+    {
+      "topic": "accessControlDevice_intercomEntries",
+      "subscription": "accessControlDevice_intercomEntries",
+      "deliveryType": "push",
+      "pushEndpoint": "https://node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app/v1/access-control-devices/pubsub/intercom-entries?accept=application%2Fvnd.oskey%2Bjson&apiVersion=2023-01-01",
+      "pushEndpointHost": "node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app",
+      "pushEndpointPath": "/v1/access-control-devices/pubsub/intercom-entries",
+      "deadLetterTopic": "dead_letters"
+    },
+    {
+      "topic": "accessControlDevice_accessCommands",
+      "subscription": "accessControlDevice_accessCommands",
+      "deliveryType": "push",
+      "pushEndpoint": "https://node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app/v1/access-control-devices/pubsub/access-command?accept=application%2Fvnd.oskey%2Bjson&apiVersion=2023-01-01",
+      "pushEndpointHost": "node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app",
+      "pushEndpointPath": "/v1/access-control-devices/pubsub/access-command",
+      "deadLetterTopic": "dead_letters"
+    },
+    {
+      "topic": "accessControlDevice_configurations",
+      "subscription": "accessControlDevice_configurations",
+      "deliveryType": "push",
+      "pushEndpoint": "https://node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app/v1/access-control-devices/pubsub/configs?accept=application%2Fvnd.oskey%2Bjson&apiVersion=2023-01-01",
+      "pushEndpointHost": "node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app",
+      "pushEndpointPath": "/v1/access-control-devices/pubsub/configs",
+      "deadLetterTopic": "dead_letters"
+    },
+    {
+      "topic": "firebase-schedule-user-checkAccountDelete-europe-west1",
+      "subscription": "gcf-user-checkAccountDelete-europe-west1-firebase-schedule-user-checkAccountDelete-europe-west1",
+      "deliveryType": "push",
+      "pushEndpoint": "https://8756a68dd414fd423fcfe9612be149dc-dot-w36576cbd35a31c2cp-tp.appspot.com/_ah/push-handlers/pubsub/projects/staging-oskey-io/topics/firebase-schedule-user-checkAccountDelete-europe-west1?pubsub_trigger=true",
+      "pushEndpointHost": "8756a68dd414fd423fcfe9612be149dc-dot-w36576cbd35a31c2cp-tp.appspot.com",
+      "pushEndpointPath": "/_ah/push-handlers/pubsub/projects/staging-oskey-io/topics/firebase-schedule-user-checkAccountDelete-europe-west1",
+      "deadLetterTopic": "dead_letters"
+    },
+    {
+      "topic": "accessControlDevice_accessLogs",
+      "subscription": "accessControlDevice_accessLogs",
+      "deliveryType": "push",
+      "pushEndpoint": "https://node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app/v1/access-control-devices/pubsub/access-log?accept=application%2Fvnd.oskey%2Bjson&apiVersion=2023-01-01",
+      "pushEndpointHost": "node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app",
+      "pushEndpointPath": "/v1/access-control-devices/pubsub/access-log",
+      "deadLetterTopic": "dead_letters"
+    },
+    {
+      "topic": "accessControlDevice_systemLogs",
+      "subscription": "accessControlDevice_systemLogs",
+      "deliveryType": "push",
+      "pushEndpoint": "https://node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app/v1/access-control-devices/pubsub/system-log?accept=application%2Fvnd.oskey%2Bjson&apiVersion=2023-01-01",
+      "pushEndpointHost": "node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app",
+      "pushEndpointPath": "/v1/access-control-devices/pubsub/system-log",
+      "deadLetterTopic": "dead_letters"
+    },
+    {
+      "topic": "accessControlDevice_states",
+      "subscription": "accessControlDevice_states",
+      "deliveryType": "push",
+      "pushEndpoint": "https://node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app/v1/access-control-devices/pubsub/state?accept=application%2Fvnd.oskey%2Bjson&apiVersion=2023-01-01",
+      "pushEndpointHost": "node-iot-api-staging-oskey-io-683045119343.europe-west1.run.app",
+      "pushEndpointPath": "/v1/access-control-devices/pubsub/state",
+      "deadLetterTopic": "dead_letters"
+    },
+    {
+      "topic": "accessControlDevice_activities",
+      "subscription": "accessControlDevice_activities-processPubSubMessage",
+      "deliveryType": "push",
+      "pushEndpoint": "https://europe-west1-staging-oskey-io.cloudfunctions.net/core-processPubSubMessage",
+      "pushEndpointHost": "europe-west1-staging-oskey-io.cloudfunctions.net",
+      "pushEndpointPath": "/core-processPubSubMessage",
+      "deadLetterTopic": "accessControlDevice_activities_dlq"
+    },
+    {
+      "topic": "accessControlDevice_activities_dlq",
+      "subscription": "accessControlDevice_activities-processPubSubMessage-dlq",
+      "deliveryType": "pull"
+    }
+  ],
+  "topicsWithNoSubscription": [
+    "dead_letters"
+  ]
+}

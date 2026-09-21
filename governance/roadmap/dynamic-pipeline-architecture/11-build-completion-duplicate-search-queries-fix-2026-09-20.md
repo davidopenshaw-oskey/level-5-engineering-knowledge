@@ -318,10 +318,31 @@ the gate's whole purpose is protecting the turn budget, not just Vertex spend, a
 means a capability that keeps asking the exact same already-flagged question indefinitely
 would never be refused, just get free-but-still-turn-consuming answers every time — in a
 run with less slack, this could plausibly be the exact mechanism that exhausts a budget the
-fix was built to protect. **Not fixed here** — found live during real testing, not designed
-around in advance; a real decision point on whether/how to fix (e.g., an exact-duplicate whose
-underlying concept has already crossed the block threshold should replay the *blocked* outcome
-instead of the cached *executed* one) before flagging it as resolved.
+fix was built to protect.
+
+**Fixed, same day, before further testing** (user asked for the fix before another live run).
+In `capability-fanout-prd-agent.ts`'s `searchFacts` handler: the escalation count
+(`flaggedRelatedCount`) is now computed *before* the exact-duplicate cache lookup branches, and
+it now adds the exact-match entry's own `crossModuleFlagged` value (if any) on top of
+`relatedPriorEntries`' count — previously, `isRelatedQuery`'s `x !== y` guard meant a query was
+never counted as "related to itself," so an exact repeat of the *first* flagged occurrence was
+invisible to the count entirely. The block check now runs first regardless of whether the
+current query is a fresh one or an exact repeat; only below the threshold does the code fall
+through to the (now free) exact-duplicate cache replay. Type-checked clean, and verified
+offline (no spend) against three scenarios: replaying the exact real sequence from `user`'s
+1b-run trace (all 4 repeats now correctly `BLOCKED` instead of silently cache-replayed),
+a below-threshold repeat (still a free cache hit, unaffected), and a genuinely unrelated new
+query (still executes normally, unaffected).
+
+**Re-verified live, same day, real embeddings, real code, no LLM turns**: rather than a full
+5-capability agent run (15-30 minutes, ~$0.5-1.2), called the actual `searchFacts` tool
+function directly (`makeCapabilityTools` temporarily exported for this one check, reverted
+immediately after) with the exact 3-query sequence that exposed the bug. Confirmed: the 3rd
+and 4th calls (exact repeats) now return `blocked: true` instead of the old free-replay
+behavior, with the same real distances as the 1b run and Phase 3 calibration (`building`
+0.5115, `core` 0.4880) — deterministic, consistent. Total real cost: 2 embedding calls,
+negligible, seconds not minutes. Temp script deleted, export reverted, type-checked clean
+after reverting.
 
 ### Citations: consistent with the grounding-docs run above
 

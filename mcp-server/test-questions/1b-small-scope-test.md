@@ -6,20 +6,12 @@
 **In-scope platforms**:
 - Property Manager web portal
   <!-- repo: angular-app-oskey-io -->
+  <!-- modules: features -->
   <!-- directive: manages the building units, onboarding owners, tenants and now ownerNonResidents -->
 - Cloud backend
   <!-- repo: firebase-oskey-dev -->
-  <!-- modules: building, user, organization, core, unit_management -->
+  <!-- modules: core -->
   <!-- directive: building, users, organization, core, unit_management modules are the primary areas to consider-->
-- iOS app
-  <!-- repo: ios-oskey-dev -->
-  <!-- directive: check where the inhabitantType is being used inside these repos -->
-- Android Intercom (physical building access device)
-  <!-- repo: android-intercom-oskey-io -->
-  <!-- directive: check how the Intercom Directory manages access entries per inhabitantType -->
-- Node-iot, the middleware platform between cloud and Intercom
-  <!-- repo: node-iot-api-oskey-io -->
-  <!-- directive: check how inhabitantType-related access events are routed between cloud and Intercom -->
 
 **Explicitly out of scope**:
 - Real-time signalling/call-routing layer between the Intercom device and resident apps —

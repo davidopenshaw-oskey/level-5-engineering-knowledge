@@ -358,6 +358,15 @@ export interface RunMeta {
     failedCapabilities: string[];
     perCapabilityToolCalls: Record<string, Record<string, number>>;
     perCapabilityTurnsUsed: Record<string, number>;
+    // Optional, added 2026-09-20 (governance/roadmap/dynamic-pipeline-
+    // architecture/23-build-prompt-explicit-scope-orchestration-phase2-
+    // 2026-09-20.md) -- which of the two coexisting routing paths this run
+    // actually took: "vector" (routeCapabilities()'s automated search-based
+    // routing, unchanged) or "explicit" (a "**In-scope platforms**:" marker
+    // present in the business request, resolved to real (repo, module)
+    // pairs instead). undefined on any run from before this field existed --
+    // treat as "vector" for those, the only path that existed then.
+    routingMode?: "vector" | "explicit";
   };
 }
 
@@ -567,13 +576,26 @@ function renderReservedContent(
         ctx.meta.approxCostUsd === null
           ? "unavailable — live Vertex AI pricing lookup failed or returned an ambiguous match this run (see token usage above for the real underlying numbers)"
           : `<a id="cite-cost"></a>[$${ctx.meta.approxCostUsd.toFixed(4)}](#cost-detail)`;
+      // Real fix, 2026-09-21: the plain `turnsUsed of maxTurns` line is only
+      // meaningful for a single ai.generate() call (the one-hit baseline,
+      // where both numbers describe the same real call). A capability-fanout
+      // run's `turnsUsed` is the SUM across every capability, while
+      // `maxTurns` is the PER-CAPABILITY cap -- comparing them directly
+      // (e.g. "22 of 10" for two capabilities each correctly capped at 10)
+      // reads as a ~2x budget overrun that never happened. Found live,
+      // reading a real rendered document, not assumed. Render the real
+      // per-capability breakdown instead whenever it's available.
+      const perCapTurns = ctx.meta.capabilityFanout?.perCapabilityTurnsUsed;
+      const turnsUsedLine = perCapTurns
+        ? `**Turns used:** ${Object.entries(perCapTurns).map(([cap, n]) => `${cap}: ${n}`).join(", ")} (max ${ctx.meta.maxTurns} each)`
+        : `**Turns used:** ${ctx.meta.turnsUsed} of ${ctx.meta.maxTurns}`;
       return [
         `**Status:** ${ctx.meta.runKind === "test" ? "Test run — atomic-prd-agent proof of concept" : "Considered — reviewed agent output"}`,
         `**Persona:** \`${ctx.meta.persona}\` (${ctx.meta.personaPath})`,
         `**Model:** ${ctx.meta.model} (Vertex AI, ${ctx.meta.projectId}/${ctx.meta.location})`,
         `**Snapshot freshness:** ${snapshotFreshnessBlock}`,
         `**Tool calls made:** ${toolCallSummary}`,
-        `**Turns used:** ${ctx.meta.turnsUsed} of ${ctx.meta.maxTurns}`,
+        turnsUsedLine,
         `**Run duration:** ${formatDuration(ctx.meta.durationMs)}`,
         `**Token usage:** ${tokenUsageLine}`,
         `**Approx. document cost:** ${approxCostLine}`,

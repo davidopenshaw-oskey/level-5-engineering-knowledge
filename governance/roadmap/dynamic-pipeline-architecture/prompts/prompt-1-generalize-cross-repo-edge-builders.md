@@ -1,5 +1,11 @@
 # Prompt 1 — Layer 1: make the cross-repo edge builders repo-agnostic
 
+> **Superseded 2026-09-21, see [prompt-4-cross-repo-edges-build.md](prompt-4-cross-repo-edges-build.md)
+> and doc 38's "AUTHORITATIVE BUILD SPEC".** This prompt was never run (no `02-…` findings doc
+> exists; the script is unchanged). Its `build-cross-repo-edges.ts` generalization is now Stage 0
+> plus Stages A and C of prompt 4. Its `build-form-field-lineage-edges.ts` (`FIELD_BINDING`)
+> half is **not** covered by prompt 4 and remains open. Original text below, unchanged.
+
 **Standing rule: never run `git add`/`git commit`, under any circumstance. Writing to files is fine; committing is not your call — only the user commits.**
 
 ## Mode: real build. This is a same-day, scoped refactor, not an open-ended investigation.

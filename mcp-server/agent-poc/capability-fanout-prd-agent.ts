@@ -83,6 +83,190 @@ export async function routeCapabilities(
 }
 
 // ---------------------------------------------------------------------------
+// Step 1b: explicit in-scope-platforms parsing (governance/roadmap/dynamic-
+// pipeline-architecture/16-plan-explicit-pm-directed-scope-2026-09-20.md,
+// 17-build-plan-pm-directed-scope-and-persona-cleanup-2026-09-20.md,
+// 23-build-prompt-explicit-scope-orchestration-phase2-2026-09-20.md). Real
+// alternative to Step 1's automated vector routing above, used only when a
+// business request explicitly states its own "**In-scope platforms**:"
+// list -- see main()'s coexistence check. Free, Postgres-only, no LLM call,
+// same as Step 1.
+// ---------------------------------------------------------------------------
+
+export const IN_SCOPE_PLATFORMS_MARKER = "**In-scope platforms**:";
+
+export interface PlatformEntry {
+  name: string;
+  repos: string[];
+  // Real, added 2026-09-20 (same day as the rest of this file, in direct
+  // response to a live finding: a platform's own directive TEXT is not a
+  // scope filter -- editing it to name "primary" modules had zero effect on
+  // which real modules actually got resolved, since nothing parsed it as
+  // one. This tag is the actual filter. Empty array (no <!-- modules: -->
+  // tag present) means "no narrowing requested" -- resolveExplicitScopeCapabilities
+  // falls back to every real module the named repo(s) have, unchanged from
+  // this file's original behavior.
+  modules: string[];
+  directive: string;
+}
+
+// Regex reproduced verbatim from the real, tested parse-only script this
+// prompt's own prep ran against the real 1b file (doc 23) -- not re-derived,
+// to avoid reintroducing the one real bug that test already caught and fixed
+// (a greedy `\s*` matched newlines and broke the parser; fixed with `[ \t]*`).
+// The new <!-- modules: ... --> tag (below) reuses the exact same match/
+// split/trim shape as the existing <!-- repo: ... --> tag, deliberately --
+// same real convention, not a new one.
+export function parseInScopePlatforms(markdown: string): PlatformEntry[] {
+  const sectionMatch = markdown.match(/\*\*In-scope platforms\*\*:\s*\n([\s\S]*?)(?=\n\*\*[^*]+\*\*:|\n*$)/);
+  if (!sectionMatch) return [];
+  const sectionText = sectionMatch[1];
+  const entries: PlatformEntry[] = [];
+  const entryRe = /^- (.+?)[ \t]*\n((?:^[ \t]+<!--.*-->[ \t]*\n?)*)/gm;
+  let m: RegExpExecArray | null;
+  while ((m = entryRe.exec(sectionText)) !== null) {
+    const name = m[1].trim();
+    const metaBlock = m[2];
+    const repoMatch = metaBlock.match(/<!--\s*repo:\s*(.+?)\s*-->/);
+    const modulesMatch = metaBlock.match(/<!--\s*modules:\s*(.+?)\s*-->/);
+    const directiveMatch = metaBlock.match(/<!--\s*directive:\s*(.+?)\s*-->/);
+    entries.push({
+      name,
+      repos: repoMatch ? repoMatch[1].split(",").map(r => r.trim()).filter(Boolean) : [],
+      modules: modulesMatch ? modulesMatch[1].split(",").map(m2 => m2.trim()).filter(Boolean) : [],
+      directive: directiveMatch ? directiveMatch[1].trim() : "",
+    });
+  }
+  return entries;
+}
+
+export interface ResolvedCapability {
+  module: string;
+  // undefined only for a Step-1 (vector-routing) capability -- every
+  // explicit-scope capability always has a real repo, since that's the
+  // whole point of this path (see capabilityKey below).
+  repo?: string;
+  directive?: string;
+}
+
+// Real identity of a capability once repo enters the picture, used ONLY
+// where a collision would silently lose data: debug-trace filenames
+// (FULL_DEBUG) and the per-capability meta.json dictionaries below. Plain
+// module-name arrays (candidateModules, capabilitiesRun, failedCapabilities)
+// are deliberately left unqualified -- a duplicate there is cosmetically
+// ambiguous, not lossy (arrays don't silently overwrite), and the current
+// live templates (template.md, template.v2.md) have no `kind: prose`
+// section where a module-only label could visibly collide in the rendered
+// document either -- real, checked, not assumed; revisit if a future
+// template adds one. Module names recur across real repos (the whole
+// motivation for opts.repoFilter on search(), above) -- e.g. `features`
+// exists in both firebase-oskey-dev and angular-app-oskey-io -- so two
+// explicit-scope capabilities can share a bare module name.
+function capabilityKey(module: string, repo?: string): string {
+  return repo ? `${repo}/${module}` : module;
+}
+
+// Real bug, found live 2026-09-20 (first real run against a repo-qualified
+// capabilityKey): the "/" separator above is fine as a Map/Record key or a
+// console label, but every capability that hit it in a FULL_DEBUG filename
+// crashed instead -- `tool-calls-${key}.jsonl`/`llm-${key}.json` with a "/"
+// inside silently became a path with an extra, nonexistent directory
+// segment (`tool-calls-firebase-oskey-dev/building.jsonl` means "write
+// building.jsonl inside a tool-calls-firebase-oskey-dev/ directory that was
+// never created"), so every one of that real run's 17 capabilities failed
+// identically on their first search_facts call with ENOENT -- a real,
+// wasted, if modest, spend (each capability's first real Vertex turn +
+// embedding call ran before the crash) for zero usable output. Filename
+// call sites sanitize through this before use; capabilityKey's own "/"
+// form stays as-is everywhere else (meta.json dictionary keys, console
+// labels) -- neither is a filesystem path.
+function sanitizeKeyForFilename(key: string): string {
+  return key.replace(/\//g, "__");
+}
+
+// Real, deliberate choice for the two "partial failure" cases doc 23 left
+// open, not left ambiguous: a malformed platform entry (empty `repos`) or a
+// named repo with zero real modules in `facts` (typo, or never synced) is
+// skipped individually with a loud console.error, not silently dropped and
+// not a reason to fail the whole request -- same "never silently swallow,
+// always surface, keep the rest of a real run" discipline main()'s own
+// per-capability try/catch already applies in Step 2 below. The request
+// fails closed only when NOTHING real is left to synthesize after all
+// skips: zero valid platform entries (checked in main(), mirroring the
+// existing "zero candidate modules" fail-closed message on the vector-
+// routing path), or here, zero real (repo, module) pairs resolved at all.
+export async function resolveExplicitScopeCapabilities(
+  entries: PlatformEntry[],
+  queryModulesByRepo: (repos: string[]) => Promise<{ repo: string; module: string }[]>
+): Promise<ResolvedCapability[]> {
+  const allRepos = [...new Set(entries.flatMap(e => e.repos))];
+  const rows = await queryModulesByRepo(allRepos);
+  const modulesByRepo = new Map<string, string[]>();
+  for (const row of rows) {
+    if (!modulesByRepo.has(row.repo)) modulesByRepo.set(row.repo, []);
+    modulesByRepo.get(row.repo)!.push(row.module);
+  }
+
+  // Keyed by capabilityKey so the SAME real (repo, module) pair named by two
+  // different platform entries (e.g. two platforms both listing the same
+  // repo) spawns exactly one capability, not a wasteful duplicate real LLM
+  // call -- real cost discipline, not just tidiness, per this project's own
+  // standing "flag real spend" rule: an avoidable duplicate call is spend
+  // that should never have been flagged for approval in the first place.
+  const resolved = new Map<string, ResolvedCapability>();
+  for (const entry of entries) {
+    for (const repo of [...new Set(entry.repos)]) {
+      const realModules = modulesByRepo.get(repo) ?? [];
+      if (realModules.length === 0) {
+        console.error(`  [explicit-scope] platform '${entry.name}': repo '${repo}' has zero real modules in facts -- skipping (typo, or repo never synced).`);
+        continue;
+      }
+
+      // Real, added 2026-09-20: an entry's own optional <!-- modules: -->
+      // tag narrows which of this repo's real modules actually get a
+      // capability -- exact string match against the real module column,
+      // not fuzzy/case-insensitive (this project's own repo-matching
+      // convention above does the same, and a live example already showed
+      // why silent fuzzy matching would be the wrong call here: this exact
+      // 1b file's own free-text directive prose reads "users" where the
+      // real module is "user" -- a typo that must surface loudly, not
+      // silently match or silently drop). No <!-- modules: --> tag (empty
+      // array) is unchanged from this function's original behavior: every
+      // real module the repo has.
+      let modules: string[];
+      if (entry.modules.length === 0) {
+        modules = realModules;
+      } else {
+        const requested = [...new Set(entry.modules)];
+        const matched = requested.filter(m => realModules.includes(m));
+        const unmatched = requested.filter(m => !realModules.includes(m));
+        if (unmatched.length > 0) {
+          console.error(`  [explicit-scope] platform '${entry.name}': repo '${repo}' has no real module(s) named ${unmatched.map(m => `'${m}'`).join(", ")} (real modules: ${realModules.join(", ")}) -- typo? dropping the unmatched name(s), not silently substituting.`);
+        }
+        if (matched.length === 0) {
+          console.error(`  [explicit-scope] platform '${entry.name}': repo '${repo}' -- none of the requested <!-- modules: ${entry.modules.join(", ")} --> matched a real module; skipping this repo entirely rather than silently falling back to every module.`);
+          continue;
+        }
+        modules = matched;
+      }
+
+      for (const module of modules) {
+        const key = capabilityKey(module, repo);
+        const existing = resolved.get(key);
+        if (existing) {
+          if (existing.directive !== entry.directive) {
+            console.error(`  [explicit-scope] '${key}' already resolved with directive "${existing.directive}" -- platform '${entry.name}' also resolves to it with a different directive "${entry.directive}"; keeping the first, not spawning a duplicate capability.`);
+          }
+          continue;
+        }
+        resolved.set(key, { module, repo, directive: entry.directive });
+      }
+    }
+  }
+  return [...resolved.values()];
+}
+
+// ---------------------------------------------------------------------------
 // Step 2: per-capability synthesis. Each capability gets its own real
 // conversation: its own module-scoped search_facts, its own fresh
 // seenFactRefs dedup set, its own smaller MAX_TURNS. walk_cluster/
@@ -99,9 +283,9 @@ export async function routeCapabilities(
 // debugLogToolCall, not a replacement for it -- that mechanism's existing
 // DEBUG_TOOL_LOG-env-var-gated behavior stays exactly as it was for every
 // other caller.
-function debugTraceToolCall(debugDir: string | null, moduleFilter: string, name: string, input: unknown, output: unknown): void {
+function debugTraceToolCall(debugDir: string | null, key: string, name: string, input: unknown, output: unknown): void {
   if (!debugDir) return;
-  const file = path.join(debugDir, `tool-calls-${moduleFilter}.jsonl`);
+  const file = path.join(debugDir, `tool-calls-${sanitizeKeyForFilename(key)}.jsonl`);
   fs.appendFileSync(file, JSON.stringify({ ts: new Date().toISOString(), tool: name, input, output }) + "\n", "utf8");
 }
 
@@ -141,33 +325,96 @@ function makeCapabilityTools(
   debugDir: string | null,
   triedQueries: TriedQuery[],
   crossModuleMargin: number | undefined,
-  crossModuleBlockAfter: number
+  crossModuleBlockAfter: number,
+  // Real, added 2026-09-20 (doc 23 above) -- only set on the explicit-scope
+  // path, where a capability's real identity is (repo, module), not module
+  // alone. undefined preserves every existing (vector-routing-path) caller's
+  // exact prior behavior.
+  repoFilter?: string
 ) {
+  const debugKey = capabilityKey(moduleFilter, repoFilter);
+  const scopeDescription = repoFilter ? `'${moduleFilter}' module of the '${repoFilter}' repo` : `'${moduleFilter}' module/capability`;
+  const searchOpts: { crossModuleMargin?: number; repoFilter?: string } | undefined =
+    crossModuleMargin !== undefined || repoFilter !== undefined
+      ? { ...(crossModuleMargin !== undefined ? { crossModuleMargin } : {}), ...(repoFilter !== undefined ? { repoFilter } : {}) }
+      : undefined;
   const searchFacts = ai.defineTool(
     {
       name: "search_facts",
-      description: `Search the codebase's fact index for real, code-derived evidence relevant to this business request -- restricted to the '${moduleFilter}' module/capability only. This is one focused synthesis pass among several separate calls, each scoped to a different module of the same overall request; other modules are covered by other calls, not this one. Returns ranked candidate facts with real factRefs -- a short, opaque reference token, not a readable identifier; copy it character for character wherever you need to pass it back. Each result carries alreadyRetrieved: true if you were already given this exact factRef earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead. The response also carries exactDuplicateOfPriorQuery/substringOfPriorQuery when this query's text exactly repeats, or contains/is contained by, an earlier query you already tried this call, and betterMatchOutsideModule: { module, distance } when a real, meaningfully stronger match for this same query exists in a different module -- that often means this concept structurally belongs to a different capability call, not that another rephrasing here will find it. The first two times a query for the same underlying concept comes back with betterMatchOutsideModule set, treat it as real evidence to weigh, not a block. The next related attempt after that is refused outright (blocked: true, no results) rather than run -- at that point, write [NEEDS CLARIFICATION: ...] for this part of your assigned scope and move on to something your own module's evidence can actually support.`,
+      description: `Search the codebase's fact index for real, code-derived evidence relevant to this business request -- restricted to the ${scopeDescription} only. This is one focused synthesis pass among several separate calls, each scoped to a different module of the same overall request; other modules are covered by other calls, not this one. Returns ranked candidate facts with real factRefs -- a short, opaque reference token, not a readable identifier; copy it character for character wherever you need to pass it back. Each result carries alreadyRetrieved: true if you were already given this exact factRef earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead. The response also carries exactDuplicateOfPriorQuery/substringOfPriorQuery when this query's text exactly repeats, or contains/is contained by, an earlier query you already tried this call, and betterMatchOutsideModule: { module, distance } when a real, meaningfully stronger match for this same query exists in a different module -- that often means this concept structurally belongs to a different capability call, not that another rephrasing here will find it. The first two times a query for the same underlying concept comes back with betterMatchOutsideModule set, treat it as real evidence to weigh, not a block. The next related attempt after that is refused outright (blocked: true, no results) rather than run -- at that point, write [NEEDS CLARIFICATION: ...] for this part of your assigned scope and move on to something your own module's evidence can actually support.`,
       inputSchema: z.object({ query: z.string(), limit: z.number().optional() }),
     },
     async ({ query, limit }) => {
-      console.log(`    [tool call, module=${moduleFilter}] search_facts(${JSON.stringify({ query, limit })})`);
+      console.log(`    [tool call, module=${moduleFilter}${repoFilter ? `, repo=${repoFilter}` : ""}] search_facts(${JSON.stringify({ query, limit })})`);
 
       const logAndReturn = (output: unknown) => {
-        debugLogToolCall(`search_facts[${moduleFilter}]`, { query, limit }, output);
-        debugTraceToolCall(debugDir, moduleFilter, "search_facts", { query, limit }, output);
+        debugLogToolCall(`search_facts[${debugKey}]`, { query, limit }, output);
+        debugTraceToolCall(debugDir, debugKey, "search_facts", { query, limit }, output);
         return output;
       };
 
-      // Real, 2026-09-20: exact-duplicate short-circuit, checked before any
-      // real work. A genuinely identical (query, limit) pair is guaranteed to
-      // produce identical results, so it's replayed from this capability's
-      // own triedQueries instead of re-paying for a real embedding call and
-      // Postgres query -- whichever outcome the first attempt had (a real
-      // result, or a hard block), replayed the same way. alreadyRetrieved is
-      // recomputed fresh against the current seenFactRefs, since it
-      // legitimately changes between the first and a later identical call.
+      // Real, 2026-09-20: exact-match lookup, checked once, up front -- feeds
+      // BOTH the escalation gate below and the cache-replay path. Kept
+      // separate from branching on it immediately (that was the real bug
+      // found 2026-09-20 during live testing against a second business
+      // request, governance/roadmap/dynamic-pipeline-architecture/
+      // 11-build-completion-duplicate-search-queries-fix-2026-09-20.md
+      // Addendum 2: the original code checked exactMatch and returned the
+      // cached *executed* response BEFORE ever computing whether this same
+      // concept had already crossed the block threshold via OTHER, different
+      // phrasings asked in between -- so an exact repeat of the FIRST flagged
+      // occurrence could bypass an already-earned block forever, replaying a
+      // real result for free instead of being refused. Fixed by computing the
+      // escalation count first and checking it before any cache replay.
       const exactMatch = triedQueries.find(t => t.query === query && t.limit === limit);
+      const isExactDuplicate = !!exactMatch;
+
+      // relatedPriorEntries is (d)'s substringOfPriorQuery signal -- strict,
+      // excludes an exact text match to `query` itself (isRelatedQuery's
+      // x!==y guard), since that case is handled by isExactDuplicate/exactMatch
+      // instead.
+      const relatedPriorEntries = triedQueries.filter(t => isRelatedQuery(query, t.query));
+      const substringOfPriorQuery = isExactDuplicate ? true : relatedPriorEntries.length > 0;
+
+      // Real, 2026-09-20 fix: the escalation count must treat an exact repeat
+      // of an already-flagged query as part of the same concept cluster too,
+      // not only genuinely different substring-related rephrasings -- adding
+      // exactMatch's own flag (if any) alongside relatedPriorEntries' is what
+      // makes a repeat of the FIRST flagged occurrence count toward the
+      // threshold, closing the real bug described above.
+      const flaggedRelatedCount =
+        relatedPriorEntries.filter(t => t.outcome.kind === "executed" && t.outcome.crossModuleFlagged).length +
+        (exactMatch?.outcome.kind === "executed" && exactMatch.outcome.crossModuleFlagged ? 1 : 0);
+
+      if (flaggedRelatedCount >= crossModuleBlockAfter) {
+        // Only push a new triedQueries entry for a genuinely new query being
+        // blocked for the first time -- an exact duplicate that's now also
+        // blocked doesn't need a second entry; the original "executed" entry
+        // already serves exact-match lookups, and this count is recomputed
+        // fresh every call regardless, so nothing depends on adding one here.
+        if (!isExactDuplicate) {
+          triedQueries.push({ query, limit, outcome: { kind: "blocked" } });
+        }
+        return logAndReturn({
+          confident: false,
+          results: [],
+          blocked: true,
+          blockedReason: CROSS_MODULE_BLOCKED_REASON,
+          exactDuplicateOfPriorQuery: isExactDuplicate,
+          substringOfPriorQuery,
+        });
+      }
+
       if (exactMatch) {
+        // Real, 2026-09-20: exact-duplicate short-circuit. A genuinely
+        // identical (query, limit) pair not yet escalated to a block (checked
+        // above) is guaranteed to produce identical results, so it's replayed
+        // from this capability's own triedQueries instead of re-paying for a
+        // real embedding call and Postgres query -- whichever outcome the
+        // first attempt had (a real result, or a hard block already recorded
+        // on THIS exact entry), replayed the same way. alreadyRetrieved is
+        // recomputed fresh against the current seenFactRefs, since it
+        // legitimately changes between the first and a later identical call.
         if (exactMatch.outcome.kind === "blocked") {
           return logAndReturn({
             confident: false,
@@ -187,34 +434,7 @@ function makeCapabilityTools(
         });
       }
 
-      // Real, 2026-09-20: relatedPriorEntries is both (d)'s
-      // substringOfPriorQuery signal and the input to (b)'s escalation gate
-      // below -- computed once, used by both, per the "design together, not
-      // a fourth tracker" instruction this shape follows.
-      const relatedPriorEntries = triedQueries.filter(t => isRelatedQuery(query, t.query));
-      const substringOfPriorQuery = relatedPriorEntries.length > 0;
-      const flaggedRelatedCount = relatedPriorEntries.filter(
-        t => t.outcome.kind === "executed" && t.outcome.crossModuleFlagged
-      ).length;
-
-      if (flaggedRelatedCount >= crossModuleBlockAfter) {
-        triedQueries.push({ query, limit, outcome: { kind: "blocked" } });
-        return logAndReturn({
-          confident: false,
-          results: [],
-          blocked: true,
-          blockedReason: CROSS_MODULE_BLOCKED_REASON,
-          exactDuplicateOfPriorQuery: false,
-          substringOfPriorQuery,
-        });
-      }
-
-      const raw = await search(
-        query,
-        limit,
-        moduleFilter,
-        crossModuleMargin !== undefined ? { crossModuleMargin } : undefined
-      );
+      const raw = await search(query, limit, moduleFilter, searchOpts);
       const crossModuleFlagged = !!raw.betterMatchOutsideModule;
       // Real, unchanged ordering from the pre-existing behavior: alreadyRetrieved
       // reflects facts seen in an EARLIER call, so it's computed before this
@@ -238,15 +458,15 @@ function makeCapabilityTools(
       inputSchema: z.object({ factRefs: z.array(z.string()) }),
     },
     async ({ factRefs }) => {
-      console.log(`    [tool call, module=${moduleFilter}] get_graph_neighbors(${JSON.stringify({ factRefs })})`);
+      console.log(`    [tool call, module=${moduleFilter}${repoFilter ? `, repo=${repoFilter}` : ""}] get_graph_neighbors(${JSON.stringify({ factRefs })})`);
       const db = pool();
       try {
         const result = await withToolErrorTrapping(async () => {
           const anchorNumbers = new Map(factRefs.map((ref, i) => [ref, i + 1]));
           return expandWithGraphNeighbors(db, factRefs, anchorNumbers);
         });
-        debugLogToolCall(`get_graph_neighbors[${moduleFilter}]`, { factRefs }, result);
-        debugTraceToolCall(debugDir, moduleFilter, "get_graph_neighbors", { factRefs }, result);
+        debugLogToolCall(`get_graph_neighbors[${debugKey}]`, { factRefs }, result);
+        debugTraceToolCall(debugDir, debugKey, "get_graph_neighbors", { factRefs }, result);
         return result;
       } finally {
         await db.end();
@@ -261,12 +481,12 @@ function makeCapabilityTools(
       inputSchema: z.object({ anchorFactRef: z.string(), maxDepth: z.number().optional(), maxFacts: z.number().optional() }),
     },
     async ({ anchorFactRef, maxDepth, maxFacts }) => {
-      console.log(`    [tool call, module=${moduleFilter}] walk_cluster(${JSON.stringify({ anchorFactRef, maxDepth, maxFacts })})`);
+      console.log(`    [tool call, module=${moduleFilter}${repoFilter ? `, repo=${repoFilter}` : ""}] walk_cluster(${JSON.stringify({ anchorFactRef, maxDepth, maxFacts })})`);
       const db = pool();
       try {
         const result = await withToolErrorTrapping(() => walkBoundedCluster(db, anchorFactRef, { maxDepth, maxFacts }));
-        debugLogToolCall(`walk_cluster[${moduleFilter}]`, { anchorFactRef, maxDepth, maxFacts }, result);
-        debugTraceToolCall(debugDir, moduleFilter, "walk_cluster", { anchorFactRef, maxDepth, maxFacts }, result);
+        debugLogToolCall(`walk_cluster[${debugKey}]`, { anchorFactRef, maxDepth, maxFacts }, result);
+        debugTraceToolCall(debugDir, debugKey, "walk_cluster", { anchorFactRef, maxDepth, maxFacts }, result);
         return result;
       } finally {
         await db.end();
@@ -317,18 +537,47 @@ function makeCapabilityTools(
 // content renderTemplateContract already injects for the one-hit agent, not
 // new judgment. Not yet re-tested against a real run as of this edit --
 // see governance/roadmap/graphrag/ for the next real run's findings.
-function renderCapabilityContract(template: ParsedTemplate, moduleName: string): string {
+// directive: optional, added 2026-09-20 (doc 23 above) -- the PM's own
+// starting-point note for this platform, threaded from an explicit-scope
+// "**In-scope platforms**:" entry. Injected as a plain, per-run FACT (same
+// category of content this function already injects: module scope, template
+// headings), not new behavioral judgment -- this task only needs the note to
+// genuinely reach the model's context; teaching the persona to specially
+// prioritize it as a first search is skill.v3.md's job (Phase 3, a separate,
+// later build, not done here). An empty string or literal "?" (this
+// project's own real, observed convention for "the PM left this blank" --
+// see mcp-server/test-questions/1b-adding-a-owner-non-resident-type.md's
+// Cloud backend entry) renders NO directive line at all, rather than
+// injecting the literal string "?" into the model's system prompt as if it
+// were real guidance.
+function renderCapabilityContract(template: ParsedTemplate, moduleName: string, maxTurns: number, directive?: string): string {
   const lines = template.sections
     .filter(s => !s.reserved)
     .map((s, i) => {
       const kindDescription = s.kind === "list" ? `list (checkable: ${s.checkable ?? false})` : s.kind;
       return `${i + 1}. "${s.heading}" -- kind: ${kindDescription}`;
     });
+  const trimmedDirective = directive?.trim();
+  const directiveLines =
+    trimmedDirective && trimmedDirective !== "?"
+      ? [`The PM's own starting-point note for this platform: "${trimmedDirective}"`, ""]
+      : [];
   return [
     `## Capability-scoped synthesis: '${moduleName}' module only`,
     "",
     `This is one focused synthesis pass among several separate calls for the same business request -- each pass is scoped to a different module/capability of the codebase. Your search_facts tool this call is restricted to the '${moduleName}' module only; walk_cluster and get_graph_neighbors are not restricted and may surface real evidence in other modules -- use it when it genuinely supports a claim about '${moduleName}'. Other capability calls cover the rest of this request.`,
     "",
+    // Real, 2026-09-21 (governance/roadmap/dynamic-pipeline-architecture/
+    // 31-findings-citation-dropoff-and-cross-repo-gap-interaction-2026-09-21.md):
+    // your own persona's own workflow rule 3 says this run's real tool-call
+    // budget "is stated elsewhere in this conversation... if none is stated,
+    // treat 20 as the default" -- found live, checked directly, nothing ever
+    // stated it, so every run silently fell back to that default regardless
+    // of what this run's real configured budget actually was. Fixed here,
+    // not by changing the persona's own generic rule.
+    `Your real, fixed, self-counted tool-call budget for THIS call is ${maxTurns} -- not the 20-default your workflow rules describe falling back to when no number is stated. This number IS stated, right here: it is ${maxTurns}.`,
+    "",
+    ...directiveLines,
     "The final document's real sections, in order, are:",
     "",
     ...lines,
@@ -339,6 +588,11 @@ function renderCapabilityContract(template: ParsedTemplate, moduleName: string):
 
 export interface CapabilityRunResult {
   module: string;
+  // Real, added 2026-09-20 (doc 23 above) -- set only on the explicit-scope
+  // path, where this capability's real identity is (repo, module). See
+  // capabilityKey above for where this matters (debug filenames, meta.json
+  // per-capability dictionaries).
+  repo?: string;
   output: GenerationOutput;
   response: GenerateResponse<unknown>;
   toolCalls: { name: string; input: unknown }[];
@@ -396,6 +650,12 @@ async function runCapability(opts: {
   // documented "fully off" state search.ts's own opts contract defines.
   crossModuleMargin: number | undefined;
   crossModuleBlockAfter: number;
+  // repo/directive: optional, added 2026-09-20 (doc 23 above) -- set only on
+  // the explicit-scope path. undefined preserves the exact prior behavior
+  // for the vector-routing path (see makeCapabilityTools/
+  // renderCapabilityContract's own comments on repoFilter/directive).
+  repoFilter?: string;
+  directive?: string;
 }): Promise<CapabilityRunResult> {
   const seenFactRefs = new Set<string>();
   const triedQueries: TriedQuery[] = [];
@@ -405,9 +665,10 @@ async function runCapability(opts: {
     opts.debugDir,
     triedQueries,
     opts.crossModuleMargin,
-    opts.crossModuleBlockAfter
+    opts.crossModuleBlockAfter,
+    opts.repoFilter
   );
-  const systemPrompt = `${opts.groundingDocs}${opts.systemPersona}\n\n${renderCapabilityContract(opts.template, opts.module)}`;
+  const systemPrompt = `${opts.groundingDocs}${opts.systemPersona}\n\n${renderCapabilityContract(opts.template, opts.module, opts.maxTurns, opts.directive)}`;
 
   let response: GenerateResponse<GenerationOutput>;
   let ranOutOfBudget = false;
@@ -473,10 +734,11 @@ async function runCapability(opts: {
 
   if (opts.debugDir) {
     fs.writeFileSync(
-      path.join(opts.debugDir, `llm-${opts.module}.json`),
+      path.join(opts.debugDir, `llm-${sanitizeKeyForFilename(capabilityKey(opts.module, opts.repoFilter))}.json`),
       JSON.stringify(
         {
           module: opts.module,
+          repo: opts.repoFilter,
           ranOutOfBudget,
           systemPromptSent: systemPrompt,
           businessRequestSent: opts.businessRequest,
@@ -499,7 +761,7 @@ async function runCapability(opts: {
     );
   }
 
-  return { module: opts.module, output, response, toolCalls, turnsUsed, ranOutOfBudget };
+  return { module: opts.module, repo: opts.repoFilter, output, response, toolCalls, turnsUsed, ranOutOfBudget };
 }
 
 // ---------------------------------------------------------------------------
@@ -558,11 +820,11 @@ function mergeOneHeading(templateSection: TemplateSection, runs: CapabilityRunRe
       }
       return { heading: templateSection.heading, content: { kind: "cited-list", items } };
     }
-    case "user-stories": {
+    case "stories": {
       const seen = new Set<string>();
       const items: { actor: string; goal: string; reason: string }[] = [];
       for (const c of contributions) {
-        const content = c.content as Extract<SectionContent, { kind: "user-stories" }>;
+        const content = c.content as Extract<SectionContent, { kind: "stories" }>;
         for (const item of content.items) {
           const key = `${item.actor.trim()}::${item.goal.trim()}::${item.reason.trim()}`;
           if (seen.has(key)) continue;
@@ -570,7 +832,7 @@ function mergeOneHeading(templateSection: TemplateSection, runs: CapabilityRunRe
           items.push(item);
         }
       }
-      return { heading: templateSection.heading, content: { kind: "user-stories", items } };
+      return { heading: templateSection.heading, content: { kind: "stories", items } };
     }
     default:
       throw new Error(`[Fail-Closed] Template heading '${templateSection.heading}' has no recognized kind to merge against.`);
@@ -714,19 +976,72 @@ async function main() {
   console.log(`Running capability-fanout-prd-agent against: ${businessRequestPath}`);
   console.log(`Template: ${templatePath} (${template.llmHeadings.length} LLM-authored section(s): ${template.llmHeadings.join(", ")})`);
 
-  console.log(`\n=== Step 1: routing (search_facts, limit=${ROUTING_LIMIT}, no module filter, no LLM call) ===`);
-  const { routing, capabilities } = await routeCapabilities(businessRequest, { limit: ROUTING_LIMIT, minFacts: MIN_FACTS, maxCapabilities: MAX_CAPABILITIES });
-  console.log(`  ${routing.length} real fact(s) in routing pool, ${capabilities.length} candidate capabilit${capabilities.length === 1 ? "y" : "ies"} (min ${MIN_FACTS} facts/module, max ${MAX_CAPABILITIES} modules):`);
-  for (const c of capabilities) console.log(`    ${c.module}: ${c.factCount} fact(s) in pool, best distance ${c.bestDistance.toFixed(4)}`);
-  if (capabilities.length === 0) {
-    throw new Error("[Fail-Closed] Routing pass found no module with at least CAPABILITY_MIN_FACTS real facts in the pool -- nothing to synthesize.");
+  // Real, 2026-09-20 (doc 23 above): explicit scope and automated vector
+  // routing COEXIST, with a fail-closed distinction decided directly in
+  // discussion, not left for this session to decide -- no marker anywhere
+  // in the business request uses the existing, unchanged vector-routing
+  // path below (old-style, unstructured requests, e.g. 1a); marker present
+  // but zero valid platform entries parsed fails closed (a malformed
+  // explicit-scope attempt silently reverting to automated routing would
+  // defeat the entire point of this feature and mask a real authoring
+  // mistake); marker present with >=1 valid entries uses the new path.
+  const hasExplicitScope = businessRequest.includes(IN_SCOPE_PLATFORMS_MARKER);
+  let routingResultCount = 0;
+  let resolvedCapabilities: ResolvedCapability[];
+
+  if (hasExplicitScope) {
+    console.log(`\n=== Step 1: explicit in-scope-platforms parsing ('${IN_SCOPE_PLATFORMS_MARKER}' found -- no vector search, no LLM call) ===`);
+    const parsedEntries = parseInScopePlatforms(businessRequest);
+    const validEntries = parsedEntries.filter(e => e.repos.length > 0);
+    for (const e of parsedEntries) {
+      if (e.repos.length === 0) {
+        console.error(`  [explicit-scope] skipping platform '${e.name}': no valid <!-- repo: ... --> tag found (malformed or missing).`);
+      }
+    }
+    if (validEntries.length === 0) {
+      throw new Error(`[Fail-Closed] '${IN_SCOPE_PLATFORMS_MARKER}' marker present but zero valid platform entries parsed -- refusing to silently fall back to automated routing.`);
+    }
+    console.log(`  ${validEntries.length} valid platform entr${validEntries.length === 1 ? "y" : "ies"} parsed: ${validEntries.map(e => e.name).join(", ")}`);
+
+    // Real, free, Postgres-only resolution (doc 16 §4, doc 17 Phase 2 step
+    // 2) -- one batched query across every named repo, not one per entry.
+    resolvedCapabilities = await resolveExplicitScopeCapabilities(validEntries, async repos => {
+      if (repos.length === 0) return [];
+      const db = pool();
+      try {
+        const result = await db.query<{ repo: string; module: string }>("SELECT DISTINCT repo, module FROM facts WHERE repo = ANY($1::text[])", [repos]);
+        return result.rows;
+      } finally {
+        await db.end();
+      }
+    });
+    routingResultCount = resolvedCapabilities.length;
+    console.log(`  ${resolvedCapabilities.length} real (repo, module) capabilit${resolvedCapabilities.length === 1 ? "y" : "ies"} resolved:`);
+    for (const c of resolvedCapabilities) {
+      const directiveNote = c.directive && c.directive !== "?" ? ` (directive: "${c.directive}")` : "";
+      console.log(`    ${capabilityKey(c.module, c.repo)}${directiveNote}`);
+    }
+    if (resolvedCapabilities.length === 0) {
+      throw new Error("[Fail-Closed] Explicit in-scope-platforms parsed, but resolved to zero real (repo, module) pairs across every named repo -- nothing to synthesize.");
+    }
+  } else {
+    console.log(`\n=== Step 1: routing (search_facts, limit=${ROUTING_LIMIT}, no module filter, no LLM call) ===`);
+    const { routing, capabilities } = await routeCapabilities(businessRequest, { limit: ROUTING_LIMIT, minFacts: MIN_FACTS, maxCapabilities: MAX_CAPABILITIES });
+    console.log(`  ${routing.length} real fact(s) in routing pool, ${capabilities.length} candidate capabilit${capabilities.length === 1 ? "y" : "ies"} (min ${MIN_FACTS} facts/module, max ${MAX_CAPABILITIES} modules):`);
+    for (const c of capabilities) console.log(`    ${c.module}: ${c.factCount} fact(s) in pool, best distance ${c.bestDistance.toFixed(4)}`);
+    if (capabilities.length === 0) {
+      throw new Error("[Fail-Closed] Routing pass found no module with at least CAPABILITY_MIN_FACTS real facts in the pool -- nothing to synthesize.");
+    }
+    routingResultCount = routing.length;
+    resolvedCapabilities = capabilities.map(c => ({ module: c.module }));
   }
 
-  console.log(`\n=== Step 2: per-capability synthesis (${capabilities.length} sequential call(s), maxTurns=${CAPABILITY_MAX_TURNS} each) ===`);
+  console.log(`\n=== Step 2: per-capability synthesis (${resolvedCapabilities.length} sequential call(s), maxTurns=${CAPABILITY_MAX_TURNS} each) ===`);
   const runs: CapabilityRunResult[] = [];
   const failedCapabilities: string[] = [];
-  for (const c of capabilities) {
-    console.log(`\n  --- capability: ${c.module} ---`);
+  for (const c of resolvedCapabilities) {
+    const label = capabilityKey(c.module, c.repo);
+    console.log(`\n  --- capability: ${label} ---`);
     // Real hardening, 2026-09-13, found from a live failure (governance/
     // roadmap/graphrag/07-prompt-9-real-test-results-2026-09-13.md): one
     // capability exceeding its real maxTurns budget used to crash the whole
@@ -746,6 +1061,8 @@ async function main() {
     try {
       const run = await runCapability({
         module: c.module,
+        repoFilter: c.repo,
+        directive: c.directive,
         businessRequest,
         systemPersona,
         template,
@@ -759,8 +1076,8 @@ async function main() {
       console.log(`  ${run.toolCalls.length} real tool call(s), ${run.turnsUsed} turn(s), ${run.output.sections.length} section(s) produced: ${run.output.sections.map(s => s.heading).join(", ") || "(none)"}${budgetNote}`);
       runs.push(run);
     } catch (e) {
-      console.error(`  [capability FAILED, skipped] '${c.module}': ${e instanceof Error ? e.message : String(e)}`);
-      failedCapabilities.push(c.module);
+      console.error(`  [capability FAILED, skipped] '${label}': ${e instanceof Error ? e.message : String(e)}`);
+      failedCapabilities.push(label);
     }
   }
   if (runs.length === 0) {
@@ -793,14 +1110,15 @@ async function main() {
   const perCapabilityTurnsUsed: Record<string, number> = {};
   let turnsUsed = 0;
   for (const run of runs) {
-    perCapabilityTurnsUsed[run.module] = run.turnsUsed;
+    const key = capabilityKey(run.module, run.repo);
+    perCapabilityTurnsUsed[key] = run.turnsUsed;
     turnsUsed += run.turnsUsed;
     const counts: Record<string, number> = {};
     for (const call of run.toolCalls) {
       counts[call.name] = (counts[call.name] ?? 0) + 1;
       toolCallCounts[call.name] = (toolCallCounts[call.name] ?? 0) + 1;
     }
-    perCapabilityToolCalls[run.module] = counts;
+    perCapabilityToolCalls[key] = counts;
   }
 
   const snapshotFreshness = await getSnapshotFreshness(realFactRefs);
@@ -845,12 +1163,13 @@ async function main() {
     approxCostUsd,
     pricingEffectiveTime: pricing?.pricingEffectiveTime ?? null,
     capabilityFanout: {
-      routingResultCount: routing.length,
-      candidateModules: capabilities.map(c => c.module),
-      capabilitiesRun: runs.map(r => r.module),
+      routingResultCount,
+      candidateModules: resolvedCapabilities.map(c => capabilityKey(c.module, c.repo)),
+      capabilitiesRun: runs.map(r => capabilityKey(r.module, r.repo)),
       failedCapabilities,
       perCapabilityToolCalls,
       perCapabilityTurnsUsed,
+      routingMode: hasExplicitScope ? "explicit" : "vector",
     },
   };
 

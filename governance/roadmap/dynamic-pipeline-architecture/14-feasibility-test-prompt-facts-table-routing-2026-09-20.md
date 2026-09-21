@@ -18,6 +18,16 @@ only — no changes to search.ts, capability-fanout-prd-agent.ts, or the real sc
 the script after recording real findings, per this project's diagnostic-script-cleanup
 rule. Never git add/commit.
 
+**Hard constraint, explicit per user request (regression risk) — Postgres is READ-ONLY for
+this entire task.** Every real query against the live database must be a plain `SELECT`.
+No `INSERT`/`UPDATE`/`DELETE`/`ALTER TABLE`/new tables/new columns, not even into a scratch
+or temporary table, and not even for convenience. The (repo,module) group embeddings this
+task computes are throwaway test artifacts — keep them in-memory in the script or written
+to a local scratch file only (e.g. this session's own scratchpad directory), never into the
+real `facts_index` database in any form. If persisting the group embeddings anywhere would
+make the analysis meaningfully easier, stop and ask before doing it — don't decide
+unilaterally that a "temporary" table is low-risk enough to skip asking.
+
 ## Real ground truth already established (don't re-derive)
 
 - Business request: `mcp-server/gold/business-requests/1a-ownernonresident.txt` (and the

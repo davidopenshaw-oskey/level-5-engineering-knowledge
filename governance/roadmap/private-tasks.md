@@ -39,3 +39,6 @@ CURRENT STRUCTURE OF FAN_OUT
     CAPABILITY_MAX_TURNS (20) — once a topic gets assigned, that one "researcher" gets a budget of 20 actions (searches, follow-ups) to gather evidence before it has to stop and write up whatever it found, whether or not it feels fully done.
 
     So altogether: skim broadly (150), only take seriously the topics with real substance (3+ facts), work on at most 5 of them (5 topics max), and give each one a hard time limit to do its digging (20 actions) before it must produce an answer.
+
+    The android app scfeen mappings doc will need to be done during the repos onboarding
+    

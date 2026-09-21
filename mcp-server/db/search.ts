@@ -127,26 +127,42 @@ function pool(): Pool {
 // undefined (the default) costs nothing extra and preserves prior behavior
 // for every existing caller (atomic-prd-agent.ts's tools, routeCapabilities()'s
 // own unfiltered Step 1 call).
+//
+// opts.repoFilter: optional, added 2026-09-20 (governance/roadmap/dynamic-
+// pipeline-architecture/23-build-prompt-explicit-scope-orchestration-
+// phase2-2026-09-20.md) -- real gap found there: moduleFilter alone
+// identifies a capability's search scope by module name only, with no repo
+// filter, and module names recur across repos (e.g. "features" exists in
+// both firebase-oskey-dev and angular-app-oskey-io) -- so "the `building`
+// module of firebase-oskey-dev specifically" was not actually expressible.
+// Deliberately independent of moduleFilter in the WHERE-clause builder
+// below (usable alone in a real, valid future case) even though today's
+// only real caller always pairs it with moduleFilter. undefined (the
+// default) costs nothing extra and preserves prior behavior for every
+// existing caller.
 export async function search(
   query: string,
   limit?: number,
   moduleFilter?: string,
-  opts?: { crossModuleMargin?: number }
+  opts?: { crossModuleMargin?: number; repoFilter?: string }
 ): Promise<SearchResponse> {
   const db = pool();
   try {
     const { embedding } = await embedSearchQuery(query);
 
-    const sql = moduleFilter
-      ? `SELECT fact_ref, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
-           FROM facts WHERE embedding IS NOT NULL AND module = $3
-           ORDER BY distance LIMIT $2`
-      : `SELECT fact_ref, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
-           FROM facts WHERE embedding IS NOT NULL
+    const conditions: string[] = ["embedding IS NOT NULL"];
+    const params: unknown[] = [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT];
+    if (moduleFilter) {
+      params.push(moduleFilter);
+      conditions.push(`module = $${params.length}`);
+    }
+    if (opts?.repoFilter) {
+      params.push(opts.repoFilter);
+      conditions.push(`repo = $${params.length}`);
+    }
+    const sql = `SELECT fact_ref, repo, module, kind, symbol_name, description, embedding <-> $1::vector AS distance
+           FROM facts WHERE ${conditions.join(" AND ")}
            ORDER BY distance LIMIT $2`;
-    const params = moduleFilter
-      ? [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT, moduleFilter]
-      : [`[${embedding.join(",")}]`, limit ?? DEFAULT_RESULT_LIMIT];
     const vectorRows = await db.query(sql, params);
     traceQuery(sql, params, vectorRows.rows);
 
