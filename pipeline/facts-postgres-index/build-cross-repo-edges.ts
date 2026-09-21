@@ -1,4 +1,4 @@
-// **version:** 1.3.0
+// **version:** 1.4.0
 // **location:** level-5 P2 facts index
 // © Oskey SAS. All rights reserved.
 //
@@ -116,7 +116,34 @@ const CONTRACT = {
   // in the same file with the same name is NOT a declaration and never matches.
   DECLARATION_KIND_SUFFIX: "_declaration",
   EXTENSION_DECLARATION_KIND: "extension_declaration",
+
+  // rest_endpoint_call: emitted by the Android extractor for each Retrofit
+  // interface method (`@GET("/v1/iot/...")`). `evidence.httpMethod` is the verb;
+  // `evidence.path` is the HTTP path (`{x}` marks a path parameter).
+  REST_CALL_KIND: "rest_endpoint_call",
+  REST_CALL_HTTP_METHOD: "httpMethod", // under payload.evidence
+  REST_CALL_PATH: "path", // under payload.evidence
+  // route_definition: emitted by the node-iot extractor for each registered
+  // route. The verb and the HTTP path are packed into the top-level
+  // `payload.value` as "METHOD /path" (`:x` marks a path parameter);
+  // `evidence.path` on this kind is the SOURCE FILE, not the HTTP path.
+  ROUTE_KIND: "route_definition",
+  ROUTE_VALUE: "value", // top-level payload field, "METHOD /path"
 } as const;
+
+// Stage C (android -> node-iot). Heuristics as named constants; the failure mode
+// of each is `unresolved`, never a wrong `resolved`.
+// A route only matches when at least this many of its segments are literals, so
+// a route made mostly of parameters cannot match by accident.
+const MIN_LITERAL_SEGMENTS = 2;
+// The gateway fact behind Stage C. Android reaches node-iot through Apigee, which
+// strips the `/iot` prefix, so the client path and node-iot's route differ by a
+// prefix that no indexed repo contains. The statement below is the product
+// owner's word, not derived from any indexed source, which is why Stage C edges
+// are `externally_configured` (never blended with `ast_derived`). It goes
+// verbatim into every Stage C edge's `details` and `confirmed_via`.
+const APIGEE_CONFIRMATION =
+  "reaches node-iot via Apigee, /iot prefix stripped; confirmed by the product owner 2026-09-21; gateway config not in the indexed repos";
 
 // Stage B heuristics (named constants, not inline magic). Failure mode of each
 // is safe: it falls through to `unresolved`, never to a wrong `resolved` edge.
@@ -573,7 +600,126 @@ const packageSymbolUseJoin: Join = {
   },
 };
 
-const JOINS: Join[] = [firebaseCallableJoin, pubsubBindingJoin, packageSymbolUseJoin];
+// ---------------------------------------------------------------------------
+// Join 4: a client REST call (`rest_endpoint_call`) -> the server route it hits
+// (`route_definition`), HTTP_API_CALL. Today: the Android intercom calling
+// node-iot. Match on the HTTP path as segments: a route matches when its
+// segments are a segment-aligned SUFFIX of the call's path (so a gateway/mount
+// prefix like `/v1/iot` needs no prefix list), the verbs are equal, and at
+// least MIN_LITERAL_SEGMENTS of its segments are literal. A path parameter
+// (`{x}` or `:x`) matches only another parameter at the same position, never a
+// literal such as `pubsub`. Exactly one candidate -> `resolved`; none, or more
+// than one, -> `unresolved` with the reason and candidates in `details`.
+// Provenance is `externally_configured` (see APIGEE_CONFIRMATION).
+// ---------------------------------------------------------------------------
+// A path segment: the literal text, or null for a path parameter.
+type Seg = string | null;
+
+function pathSegments(path: string): Seg[] {
+  return path
+    .split("?")[0]
+    .split("/")
+    .filter(s => s.length > 0)
+    .map(s => (s.startsWith(":") || (s.startsWith("{") && s.endsWith("}")) ? null : s));
+}
+
+// "GET /a/:b" -> { method: "GET", path: "/a/:b" }; null if the value isn't that shape.
+function parseRouteValue(value: string): { method: string; path: string } | null {
+  const m = /^(\S+)\s+(\/\S*)$/.exec(value.trim());
+  return m ? { method: m[1].toUpperCase(), path: m[2] } : null;
+}
+
+// True when `route` equals the LAST route.length segments of `call`, position by
+// position: literal == same literal, parameter == parameter, never mixed.
+function isAlignedSuffix(route: Seg[], call: Seg[]): boolean {
+  if (route.length === 0 || route.length > call.length) return false;
+  const offset = call.length - route.length;
+  return route.every((seg, i) => seg === call[offset + i]);
+}
+
+const restRouteJoin: Join = {
+  name: "rest-route",
+  connectionType: "HTTP_API_CALL",
+  provenance: "externally_configured",
+
+  async discoverSourceRepos(db) {
+    const r = await db.query<{ repo: string }>(`SELECT DISTINCT repo FROM facts WHERE kind = $1 ORDER BY repo`, [CONTRACT.REST_CALL_KIND]);
+    return r.rows.map(x => x.repo);
+  },
+
+  async preflight(db, sourceRepos) {
+    const problems: string[] = [];
+    if (sourceRepos.length === 0) problems.push(`no repo has any '${CONTRACT.REST_CALL_KIND}' facts`);
+    const usable = await countFacts(
+      db,
+      `repo = ANY($1::text[]) AND kind = $2 AND payload->'evidence'->>$3 IS NOT NULL AND payload->'evidence'->>$4 IS NOT NULL`,
+      [sourceRepos, CONTRACT.REST_CALL_KIND, CONTRACT.REST_CALL_HTTP_METHOD, CONTRACT.REST_CALL_PATH]
+    );
+    if (sourceRepos.length > 0 && usable === 0) problems.push(`no '${CONTRACT.REST_CALL_KIND}' fact has evidence.${CONTRACT.REST_CALL_HTTP_METHOD} and evidence.${CONTRACT.REST_CALL_PATH} (extractor field renamed?)`);
+    const routes = await countFacts(db, `kind = $1 AND payload->>$2 ~ '^\\S+\\s+/'`, [CONTRACT.ROUTE_KIND, CONTRACT.ROUTE_VALUE]);
+    if (routes === 0) problems.push(`no '${CONTRACT.ROUTE_KIND}' fact has a payload.${CONTRACT.ROUTE_VALUE} of the form "METHOD /path" (extractor changed how it packs the route?)`);
+    return problems;
+  },
+
+  async compute(db, sourceRepos) {
+    const routeRows = await db.query<{ fact_id: string; repo: string; module: string; file: string; line: number; value: string | null }>(
+      `SELECT fact_id, repo, module, file, line, payload->>$2 AS value FROM facts WHERE kind = $1`,
+      [CONTRACT.ROUTE_KIND, CONTRACT.ROUTE_VALUE]
+    );
+    const routes: { factId: string; repo: string; module: string; file: string; line: number; raw: string; method: string; segs: Seg[] }[] = [];
+    let unparsedRoutes = 0;
+    for (const r of routeRows.rows) {
+      const parsed = r.value ? parseRouteValue(r.value) : null;
+      if (!parsed) { unparsedRoutes++; continue; }
+      routes.push({ factId: r.fact_id, repo: r.repo, module: r.module, file: r.file, line: r.line, raw: r.value!, method: parsed.method, segs: pathSegments(parsed.path) });
+    }
+    console.log(`  Loaded ${routes.length} routes (${unparsedRoutes} skipped: value not "METHOD /path").`);
+
+    const calls = await db.query<{ fact_id: string; repo: string; file: string; line: number; method: string | null; path: string | null }>(
+      `SELECT fact_id, repo, file, line, payload->'evidence'->>$3 AS method, payload->'evidence'->>$4 AS path FROM facts WHERE repo = ANY($1::text[]) AND kind = $2`,
+      [sourceRepos, CONTRACT.REST_CALL_KIND, CONTRACT.REST_CALL_HTTP_METHOD, CONTRACT.REST_CALL_PATH]
+    );
+
+    const edges: EdgeRow[] = [];
+    let resolved = 0;
+    for (const c of calls.rows) {
+      const method = (c.method ?? "").toUpperCase();
+      const label = `${method} ${c.path ?? "(no path)"}`;
+      const base = { sourceRepo: c.repo, sourceSymbol: `${c.file}:${c.line} -> ${label}`, sourceFactId: c.fact_id, confirmedVia: APIGEE_CONFIRMATION };
+      const unresolved = (reason: string) => edges.push({ ...base, targetRepo: UNKNOWN_REPO, targetSymbol: label, targetFactId: null, resolutionStatus: "unresolved", details: `${reason} Note: ${APIGEE_CONFIRMATION}.` });
+
+      if (!method || !c.path) { unresolved(`Cannot match: ${!method ? "no httpMethod" : "no path"} on the call fact.`); continue; }
+      const callSegs = pathSegments(c.path);
+      const candidates = routes.filter(r =>
+        r.method === method &&
+        isAlignedSuffix(r.segs, callSegs) &&
+        r.segs.filter(s => s !== null).length >= MIN_LITERAL_SEGMENTS
+      );
+      if (candidates.length === 0) {
+        unresolved(`No route_definition with method ${method} matches '${c.path}' as a segment-aligned suffix (with at least ${MIN_LITERAL_SEGMENTS} literal segments; a path parameter matches only another parameter).`);
+      } else if (candidates.length > 1) {
+        unresolved(`Ambiguous: ${candidates.length} routes match '${label}' as a segment-aligned suffix: ${candidates.map(r => `'${r.raw}' (${r.repo}/${r.file}:${r.line})`).join("; ")}.`);
+      } else {
+        const t = candidates[0];
+        resolved++;
+        // The unmatched leading part of the call path, derived from the data (not a prefix list).
+        const strippedSegs = c.path.split("?")[0].split("/").filter(s => s.length > 0).slice(0, callSegs.length - t.segs.length);
+        edges.push({
+          ...base,
+          targetRepo: t.repo,
+          targetSymbol: t.raw,
+          targetFactId: t.factId,
+          resolutionStatus: "resolved",
+          details: `${label} matches route '${t.raw}' at ${t.repo}/${t.file}:${t.line} by segment-aligned suffix (parameters matched by position; call-path prefix '${strippedSegs.length ? "/" + strippedSegs.join("/") : ""}' is not part of the route). ${APIGEE_CONFIRMATION}.`,
+        });
+      }
+    }
+    console.log(`  Join result: ${resolved} resolved, ${edges.length - resolved} unresolved of ${edges.length} call site(s).`);
+    return edges;
+  },
+};
+
+const JOINS: Join[] = [firebaseCallableJoin, pubsubBindingJoin, packageSymbolUseJoin, restRouteJoin];
 
 // ---------------------------------------------------------------------------
 // Shared scoped replace. Compute first, replace second: the new edge set for a

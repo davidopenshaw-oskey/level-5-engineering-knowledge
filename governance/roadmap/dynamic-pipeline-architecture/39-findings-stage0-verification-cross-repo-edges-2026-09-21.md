@@ -86,6 +86,11 @@ by kit 222 ui / 135 cloud / 20 ble / 12 webrtc (all identical to doc 31).
   `OSKUIContentView` 33, `OSKUIProgressIndicator` 25, `OSKCKStorageFilePathService` 21,
   `OSKUIOTPCodeField` 20. The existing walk cap (80 facts, depth 6) matters here: a walk that
   reaches `OSKUIExpanded` will hit it.
+  **Update 2026-09-21: measured, see doc 38's Build log, "Stage B" entry, "Hub measurement"
+  paragraph** ([38-build-plan-cross-repo-edges-four-joins-2026-09-21.md](38-build-plan-cross-repo-edges-four-joins-2026-09-21.md),
+  line ~675): on the built edges `findGraphNeighbors(OSKUIExpanded)` returns 85 rows / 35,071 bytes
+  and one `walkBoundedCluster` from it returns 80 members + 164 edges / 73,491 bytes, `truncated: true`
+  (the cap is hit at depth 1). Report only; no cap added, whether to add one is a pending user decision.
 
 ## 4. android→node-iot (Stage C): confirmed, with a data-shape gotcha
 
@@ -99,6 +104,13 @@ by kit 222 ui / 135 cloud / 20 ble / 12 webrtc (all identical to doc 31).
   into `payload.value` as one string, `"GET /access-control-devices/:id/config"`. The join must
   split that string; doc 38 Stage C assumed structured fields.
 - node-iot has **18** `route_definition` facts from 5 route files only.
+- **Correction (validator, 2026-09-21, found when the build session checked):** the bullet above
+  saying node-iot routes have "no method or path fields" is **wrong**. I queried the android
+  field names (`httpMethod`, `path`) against node-iot, whose facts name them
+  `evidence.method` and `evidence.httpPath`. Verified live: all 18 `route_definition` facts
+  carry both, and all 18 agree with the packed `payload.value` string. The Stage C build parsed
+  `value` as the spec (wrongly) instructed; the result is identical (5/5), but the structured
+  fields are the cleaner contract.
 
 ## 5. Pubsub (Stage D): the picture is thinner, and stranger, than doc 31/38 said
 

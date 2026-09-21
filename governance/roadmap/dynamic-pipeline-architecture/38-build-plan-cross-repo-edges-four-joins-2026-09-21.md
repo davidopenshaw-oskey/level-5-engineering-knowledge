@@ -10,6 +10,42 @@ Related: [35](35-collated-action-plan-2026-09-21.md) §2d,
 
 ---
 
+> **Pending user decision, added 2026-09-21 (validator session): hub payload size.** Measured
+> in this doc's **Build log, "Stage B" entry, "Hub measurement" paragraph (~line 675)**, and
+> independently reproduced by the validator: `findGraphNeighbors(OSKUIExpanded)` = 85 rows /
+> 35,071 bytes; `walkBoundedCluster` = 80 members + 164 edges (85 unique) / 73,491 bytes,
+> `truncated: true` (cap hit at depth 1, 6 of 85 callers cut arbitrarily). The `get_graph_neighbors`
+> tool returns the result uncapped. Nothing was changed (report only). Options: (1) do nothing;
+> (2) de-duplicate walk edges, lossless (validator's recommendation, a small separate
+> traversal-code task); (3) summarise hubs (count plus sample); (4) hard cap. Also pending: whether
+> to spend a real agent run to see if hub size hurts in practice. **The build session is not
+> blocked on either.**
+> **Update (validator session, after reading the third session's note at Build log
+> "Validator note on Stage B's hub measurement", ~line 699):** the 35,071-byte figure is raw
+> edge rows. The tool the agent actually calls returns neighbour descriptions too, **57,254 bytes
+> (~14k tokens)** for the hub; the 73,491-byte walk figure stands. A walk from any iOS call site
+> with a kit edge is ~30x heavier at the median than before Stage B. Hubs are not new (Firebase
+> `logError` 534 incoming, `logInfo` 281, all followed by traversal), and the 148 real
+> `walk_cluster` calls in existing traces were never truncated. That note's suggested order
+> supersedes the validator's earlier "de-duplicate now": test with a before/after re-run of the
+> 1c dummy PRD (LLM spend, needs the user's go-ahead, preferably after Stage C) and only then
+> choose between "include the hub with its count but don't expand through it" and lossless
+> edge de-duplication.
+> **Agreed in principle, deferred until the build prompt finishes cleanly (user, 2026-09-21;
+> discuss before running anything; each run needs an explicit go-ahead).** Re-running 1c as a
+> Stage B test is *not* planned: its 14 graph calls returned 2,392 bytes in total (all 8
+> `get_graph_neighbors` empty), its anchors are `inhabitantType` facts, not iOS calls into the
+> kits, and the third session's replay showed byte-identical graph results, so a re-run would
+> show LLM noise, not the new edges. Planned instead: **(2)** one new question that anchors on
+> the new kit edges (e.g. iOS unlock/Bluetooth flows into the BLE kit, or iOS cloud-kit
+> callables), read for hub payload size and anchor choice, not citation counts; it has no
+> "before" baseline, so a baseline would need the `PACKAGE_SYMBOL_USE` slice temporarily
+> removed and restored (reversible via the script and the backup; needs explicit approval); and
+> **(4)** the existing **1d** run (`2026-09-21-002-1d-pubsub-edge-device-api`) as the before/after
+> for Stages C/D1. 1c reference numbers for the record: `gemini-3.5-flash`, 42 turns, 882 s,
+> 372,611 in / 2,415 out / 6,680 thought tokens, about $0.64. Each new run is about
+> $0.60 to $0.70; check the Vertex quota first.
+
 # AUTHORITATIVE BUILD SPEC (2026-09-21): read this; the rest of the doc is history
 
 Consolidates the original plan, the live-verification block and doc 39's findings. **Where
@@ -94,7 +130,14 @@ those are recorded.
 
 **Stage C: android-intercom→node-iot.** Source: `rest_endpoint_call` (5 facts, all
 `OSKApiService.kt`; fields `evidence.httpMethod`, `evidence.path`). Target: node-iot
-`route_definition` (18 facts): **method and path are packed into `payload.value`**
+`route_definition` (18 facts) **[CORRECTED 2026-09-21 by the validator: each fact also carries
+structured `evidence.method` and `evidence.httpPath`, all 18 agreeing with the packed string
+(doc 39 §4 correction); the "packed only" claim below was the validator's error. The build
+used the parse. **Decided 2026-09-21: switch to the structured fields as a small "Stage C
+amendment" before D1, so D1's push-path matching reuses the same route reader.** Acceptance:
+the C slice reproduces byte-identically (same 5 edges); preflight checks
+`evidence.method` and `evidence.httpPath` exist; the packed `value` becomes a warn-only
+cross-check]**: **method and path are packed into `payload.value`**
 (`"GET /access-control-devices/:accessControlDeviceId/config"`); `evidence.path` is the source
 file, so parse the string. Normalize `{x}` and `:x` to a wildcard segment. A route matches a
 call when its segments are a **segment-aligned suffix** of the call's path and methods are
@@ -684,3 +727,100 @@ Reading the numbers: the hub has 85 distinct source facts (85 edges; only 79 dis
 **Guards kept and re-tested on the new slice:** idempotent re-run reproduces the whole table exactly (17,618 rows, 29 groups, 14 slice fingerprints identical). With one throwaway extra resolved row in the slice (`GUARD-TEST-ROW`, 390 rows), a run without `--accept-shrink` printed both `SHRINK 390 -> 389` and `RESOLVED DROP 390 -> 389 resolved` and changed nothing; with `--accept-shrink` the table was restored exactly (test row gone). Orphan report: `none`. A full `--dry-run` of all three joins is consistent (every slice `existing N → new N`, nothing written).
 
 **Notes:** `package.json` not touched; no LLM/embedding/`gcloud` spend. Scratch diagnostics from this stage were deleted after their findings were written here. `screen-map-ios.json` still shows as modified from a peer session (not this build's file).
+
+### 2026-09-21: Validator note on Stage B's hub measurement (added by the validator session, not the build session)
+
+**Status for the build session: informational only. It does not change Stage B's result, the
+spec, or anything the build must do.** Stage B's acceptance stands as recorded above. Hub
+handling stays out of this build's scope (the "report only, no cap, don't touch traversal" rule
+is unchanged); the decision on it belongs to the user and is being discussed separately.
+Nothing was written to `cross_repo_edges`, no code was changed, no LLM/embedding/`gcloud`
+spend, no git add/commit. The validator's scratch scripts were deleted after use.
+
+**What was checked (read-only, against the live table after Stage B):**
+
+1. **Independent confirmation of the hub numbers.** `OSKUIExpanded` has 85 incoming resolved
+   `PACKAGE_SYMBOL_USE` edges (SQL). The build session's walk figure (`walkBoundedCluster`
+   default bounds: 73,491 bytes) reproduced **exactly**.
+2. **One discrepancy on the neighbour figure.** The build log's 35,071 bytes is
+   `findGraphNeighbors` (raw edge rows). The `get_graph_neighbors` tool returns
+   `expandWithGraphNeighbors` (`mcp-server/agent-poc/atomic-prd-agent.ts:184-200`), which adds
+   each neighbour's description text. Measured on that function, the hub call is **57,254 bytes**,
+   about 1.6x the logged figure, so roughly 14k tokens by the build log's own 4-bytes-per-token
+   estimate, not 9k. Only the atomic agent's tool wiring was checked; the capability-fanout
+   version of the tool was not.
+3. **Replay of every real graph call from the 10 `FULL_DEBUG` traces** (200 calls, same inputs
+   including the model's own `maxDepth`/`maxFacts`) against today's graph: total bytes identical
+   before and after (232,785), 0 grew, 0 truncated, 0 threw. The real runs never touched the new
+   edges (the 1c iOS run made only 7 graph calls), so this shows no stale-reference errors, and
+   says nothing about flood risk.
+4. **Sweep: what if an agent anchored on any of the 389 iOS call sites that now have a kit edge.**
+
+   | Bounds | Reach the hub | Truncated | Members (median / max) | Bytes (median / p90 / max) |
+   |---|---|---|---|---|
+   | depth 3, facts 30 (what the agent chose in 1c) | 85 / 389 | 118 | 15 / 30 | 17.7k / 37k / 42k |
+   | defaults, depth 6, facts 80 | 85 / 389 | 85 | 15 / 80 | 17.7k / 73k / 73k |
+
+   Real walks before Stage B had a median of about 0.5 KB, so an iOS walk from a call site with a
+   kit edge is now roughly 30x heavier at the median (the intended payoff of the edges, but each
+   member carries about 1 KB of description). About 1 in 5 of those anchors reaches the hub and
+   is truncated with unrelated sibling callers; at the agent's own bounds about 33 more truncate
+   on other large kit components.
+5. **Kit-side anchors:** `get_graph_neighbors` on each of the 72 target declarations: median
+   1.3 KB, p90 11.6 KB, max 57 KB (the hub); 8 of 72 exceed 10 KB.
+6. **Hubs are not new.** Existing intra-repo hubs are larger (Firebase `OSKLoggingService.logError`
+   534 incoming, `logInfo` 281, Angular `OSKTranslateService.instant` 129); `OSKUIExpanded` is the
+   7th largest. None of the 148 real `walk_cluster` calls in the traces was truncated (max result
+   about 11 KB), but those runs predate Stage B and rarely anchored where a hub would matter.
+
+**Conclusion:** a flood is possible in a narrow case (agent anchors on an iOS call site with a
+kit edge, or on a kit declaration) and is not visible in today's real traces. Behavioural impact
+can only be seen in a real run; a before/after re-run of the 1c dummy PRD (its before trace
+exists) would show it, costs LLM spend, and needs the user's go-ahead, preferably after Stage C.
+If it shows a problem, the candidate fix is "include the hub with its count but do not expand
+through it", which `graph-traversal.ts:178-183` already anticipated for weaker-coupling
+connection types. Lossless de-duplication of the walk's edges (164 to 85 unique) is a separate,
+smaller option. Neither is part of this build.
+
+
+### 2026-09-21: Stage C (android-intercom → node-iot, `HTTP_API_CALL`, `externally_configured`): DONE, pending validator
+
+**Validator's Stage B verdict: approved.**
+
+**runIds:** unchanged (post-run snapshot's `latestRunIdPerRepo` identical to Stage 0's); no re-sync. Clones at the indexed commits: android `develop@f2cac85`, node-iot `staging@a6cba12`.
+
+**New join `rest-route` (`build-cross-repo-edges.ts` v1.4.0).** Sources are `rest_endpoint_call` facts, discovered by kind (5, all `OSKApiService.kt`, all in `android-intercom-oskey-io`). Targets are node-iot `route_definition` facts (18); `payload.value` = `"METHOD /path"` is parsed. Rules as specified: segments; `{x}` and `:x` are parameters; a route matches when its segments are an **aligned suffix** of the call's path, methods are equal, and at least `MIN_LITERAL_SEGMENTS` (2) of its segments are literal; **a parameter matches only another parameter at the same position, never a literal** (`pubsub`); zero or more than one candidate → `unresolved` with the reason/candidates in `details`. The stripped prefix in `details` is computed from the data (`/v1/iot`), not from a prefix list. No repo-name literal in code; all extractor names are in the `CONTRACT` block.
+
+**Provenance (per validator note):** the join carries its own `provenance = externally_configured`, because the match rests on the Apigee claim, which is not in any indexed repo. `confirmed_via` and `details` of every Stage C edge carry the exact sentence: *"reaches node-iot via Apigee, /iot prefix stripped; confirmed by the product owner 2026-09-21; gateway config not in the indexed repos"* (constant `APIGEE_CONFIRMATION`). `HTTP_API_CALL` now holds both provenances (Angular/Swift `ast_derived`, Android `externally_configured`); `findGraphNeighbors` does not filter on provenance, so all are followed.
+
+**Slice-ownership / no-overlap:** discovery is by kind, so `rest-route` finds `android-intercom-oskey-io` only, while `firebase-callable` finds `angular-app-oskey-io` and `swift-cloud-kit-oskey-dev`: no overlap. The guard was tested, not just assumed: a scratch copy in which `rest-route` discovered the same repos as `firebase-callable` aborted with `[Fail-Closed] joins 'firebase-callable' and 'rest-route' both own HTTP_API_CALL for source repo(s) …` before doing any work. Scratch copy deleted.
+
+**Matcher tested before real data (13 synthetic cases, all pass; scratch, deleted):** `{x}`/`:x` both parameters; suffix absorbs `/v1/iot`; **`{modificationDate}` matches `:timestamp` by position**; **parameter does not match literal `pubsub`, and a literal does not match a parameter in the call**; route longer than the call cannot match; route not aligned to the end cannot match; a route with only 1 literal segment fails the ≥2 guard (both `/config` and `/:id/config`); literals are case-sensitive; query string ignored. (The real data cannot exercise the parameter-vs-literal rule, since none of the 5 calls sits next to a `pubsub` route, so the synthetic test is the only proof of it.)
+
+**Dry run first (`--dry-run --print-edges`), then the real run.** Result:
+
+| Measure | Expected | Actual |
+|---|---|---|
+| Sources / targets loaded | 5 / 18 | 5 / 18 (0 routes skipped as unparseable) |
+| Resolved / unresolved | 5 / 0 | **5 / 0** |
+| `{modificationDate}` call | matches the `:timestamp` route by position | `GET …/config/{modificationDate}` → `GET /access-control-devices/:accessControlDeviceId/config/:timestamp` (`access_control_device_configs.route.ts:20`) |
+| Table total | 17,618 | **17,623** (+5) |
+
+The 5 edges: `:32 config` → `GET …/config`; `:42 config/{modificationDate}` → `GET …/config/:timestamp`; `:53 intercom-entries` → `GET …/intercom-entries` (not `…/intercom-entries-deltas`); `:63 accesses` → `GET …/accesses` (not `…/accesses/digicom` etc.); `:73 POST activities/intercom` → `POST …/activities/intercom`. Every call had exactly one candidate route (no ambiguity).
+
+**Independent verification (separate Python implementation, no shared code):** recomputed the matches from the raw facts using node-iot's structured `evidence.method`/`evidence.httpPath` instead of the packed `value`: 5 of 5 calls have exactly one candidate and **5 of 5 edges agree** (same target `fact_id`, `resolved`). All 5 have `provenance = externally_configured`, identical `confirmed_via`, and the Apigee sentence inside `details`.
+
+**Post-run checks:** all 14 pre-existing slices byte-identical to the post-B snapshot (so the Angular and swift-cloud-kit `HTTP_API_CALL` slices are untouched); the only new group is `HTTP_API_CALL android→node-iot resolved externally_configured 5`; `FIELD_BINDING` 13; target `fact_id` not in `facts`: 0; resolved/confirmed with dangling source: 0 (dangling still the known 153). `findGraphNeighbors` on a new edge: outgoing `resolved` `HTTP_API_CALL` to the node-iot route fact, and from the route fact the incoming set includes the android edge.
+
+**Spot-check of 2 edges against real source (android `develop`, node-iot `staging`):**
+1. `OSKApiService.kt:32` `@GET("/v1/iot/access-control-devices/{accessControlDeviceId}/config")` ↔ node-iot `src/v1/routes/access_control_device_configs.route.ts`, path key `'/access-control-devices/:accessControlDeviceId/config': { GET: … getConfig }` (the fact's `line` 15 is the handler-registration line inside that key). ✔
+2. `OSKApiService.kt:42` `@GET(".../config/{modificationDate}")` with `@Path("modificationDate") modificationDate: Long` ↔ node-iot key `'…/config/:timestamp'` (`getConfigAfterTimestamp`), whose handler reads `req.params.timestamp` and does `Number(...)` as **epoch milliseconds**. The parameter names differ but the position, type and meaning line up, so the position match is right, not just structural. ✔
+Extra evidence for the prefix: node-iot's `src/server.ts` mounts its v1 API at `'/v1': apiV1`, so a node-iot route really lives at `/v1/access-control-devices/…`. The only part of the android path with no counterpart in any indexed repo is therefore `/iot`, which is exactly what the Apigee statement covers. (This supports the `/v1` half from code; the `/iot` half still rests on the product owner's word.)
+
+**Guards kept and re-tested on the new slice:** re-running reproduces the whole table exactly (17,623 rows, 30 groups, 15 slice fingerprints); with a throwaway extra resolved row (6 rows) the run refused with both `SHRINK 6 -> 5` and `RESOLVED DROP 6 -> 5 resolved` and changed nothing; `--accept-shrink` restored the table exactly. Orphan report: `none`. A full `--dry-run` of all four joins is consistent.
+
+**Finding for the user (not acted on): a sturdier extractor contract exists.** The spec, doc 38 rule 3 and doc 39 say route method and path are only available packed into `payload.value`. In fact each `route_definition` fact also carries them structured, **`evidence.method` and `evidence.httpPath`** (also mirrored at the top level), and for all 18 facts `value == "<method> <httpPath>"` exactly. The build follows the spec (parses `value`), which works today. Switching to the structured fields would remove the string parse and its "does the extractor still pack it that way" risk; it is a small, optional change, not made here because it would deviate from the spec.
+
+**Logged, not built (per spec): optional future step.** Export Apigee's proxy definitions (base path and target) as a reference JSON, like `pubsub.bindings.staging.json`, so the `/iot` strip becomes deterministic and the Stage C edges could move from `externally_configured` to a data-backed provenance.
+
+**Notes:** `package.json` not touched; no LLM/embedding/`gcloud` spend; scratch diagnostics deleted after their findings were written here. `screen-map-ios.json` may still show as modified from a peer session (not this build's file).
