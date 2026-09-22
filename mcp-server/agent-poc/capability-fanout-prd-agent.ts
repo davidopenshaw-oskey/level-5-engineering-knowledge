@@ -299,8 +299,13 @@ function debugTraceToolCall(debugDir: string | null, key: string, name: string, 
 // concept) -- designed together, not as two independent trackers, per the
 // real alreadyRetrieved (soft) + maxTurns (hard) precedent already in this
 // same file.
+// Real, 2026-09-22 (prompt-6): crossModuleFlagged now has a sibling,
+// nearDuplicateFlagged -- an independent signal, not conflated with it (see
+// the near-duplicate-detector block below for why they can't share a
+// counter). Both live on the same "executed" outcome because both are
+// properties of a query that actually ran, not of one that got blocked.
 type TriedQueryOutcome =
-  | { kind: "executed"; response: SearchResponse; crossModuleFlagged: boolean }
+  | { kind: "executed"; response: SearchResponse; crossModuleFlagged: boolean; nearDuplicateFlagged: boolean }
   | { kind: "blocked" };
 interface TriedQuery { query: string; limit?: number; outcome: TriedQueryOutcome }
 
@@ -319,6 +324,45 @@ const CROSS_MODULE_BLOCKED_REASON =
   "this tool will not run further searches for it this call. If it's critical, " +
   "write [NEEDS CLARIFICATION] and move on.";
 
+// Real, 2026-09-22 (prompt-6, Fix 1): genuine cosine distance between two
+// query embeddings, NOT the same metric as this file's existing
+// crossModuleMargin/betterMatchOutsideModule signal -- that one reuses
+// search.ts's `embedding <-> $1::vector` SQL operator, which pgvector
+// defines as L2 (Euclidean) distance regardless of the facts_embedding_idx
+// HNSW index's own vector_cosine_ops (that index just goes unused for a
+// `<->` query; the operator's meaning doesn't depend on which index exists).
+// Checked directly against pgvector's own operator semantics, not assumed.
+// This function is deliberately real cosine distance because there's no
+// Postgres round trip available here -- comparing two ARBITRARY query
+// embeddings (not one against the facts table) has to happen in this
+// process, and real, extracted embeddings from the 2026-09-21 node-iot
+// trace (see build-completion doc) showed cosine distance gives a cleanly
+// separated real signal for this specific use case: the true near-duplicate
+// trio's pairwise cosine distances were 0.0218-0.0459, vs. 0.0528+ for the
+// closest non-duplicate pair anywhere else in that same real capability's
+// 17 real queries -- L2 distance on the same data was less cleanly
+// separated (0.209-0.303 for the trio vs. 0.325+ nearby). The existing
+// CROSS_MODULE_MARGIN=0.05 was calibrated as a GAP between two independent
+// L2 distances (doc 11, Phase 3), not as an absolute distance between two
+// query embeddings -- so it was never directly transferable to this use
+// case regardless of metric; 0.05 is reused here only because real
+// cosine-distance data, independently checked against this real trace,
+// happens to land in the same real gap for this different purpose.
+function cosineDistance(a: number[], b: number[]): number {
+  let dot = 0, normA = 0, normB = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    normA += a[i] * a[i];
+    normB += b[i] * b[i];
+  }
+  return 1 - dot / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+const NEAR_DUPLICATE_BLOCKED_REASON =
+  "This query's real embedding now sits within a near-duplicate distance of at least two earlier " +
+  "queries this call -- likely the same underlying question, reworded. This tool will not run " +
+  "further searches for it this call. If it's critical, write [NEEDS CLARIFICATION] and move on.";
+
 function makeCapabilityTools(
   moduleFilter: string,
   seenFactRefs: Set<string>,
@@ -326,6 +370,11 @@ function makeCapabilityTools(
   triedQueries: TriedQuery[],
   crossModuleMargin: number | undefined,
   crossModuleBlockAfter: number,
+  // Real, 2026-09-22 (prompt-6, Fix 1) -- independent of crossModuleMargin/
+  // crossModuleBlockAfter above; see cosineDistance's own comment for why
+  // this pair can't just reuse those two.
+  nearDupMargin: number,
+  nearDupBlockAfter: number,
   // Real, added 2026-09-20 (doc 23 above) -- only set on the explicit-scope
   // path, where a capability's real identity is (repo, module), not module
   // alone. undefined preserves every existing (vector-routing-path) caller's
@@ -341,7 +390,7 @@ function makeCapabilityTools(
   const searchFacts = ai.defineTool(
     {
       name: "search_facts",
-      description: `Search the codebase's fact index for real, code-derived evidence relevant to this business request -- restricted to the ${scopeDescription} only. This is one focused synthesis pass among several separate calls, each scoped to a different module of the same overall request; other modules are covered by other calls, not this one. Returns ranked candidate facts with real factRefs -- a short, opaque reference token, not a readable identifier; copy it character for character wherever you need to pass it back. Each result carries alreadyRetrieved: true if you were already given this exact factRef earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead. The response also carries exactDuplicateOfPriorQuery/substringOfPriorQuery when this query's text exactly repeats, or contains/is contained by, an earlier query you already tried this call, and betterMatchOutsideModule: { module, distance } when a real, meaningfully stronger match for this same query exists in a different module -- that often means this concept structurally belongs to a different capability call, not that another rephrasing here will find it. The first two times a query for the same underlying concept comes back with betterMatchOutsideModule set, treat it as real evidence to weigh, not a block. The next related attempt after that is refused outright (blocked: true, no results) rather than run -- at that point, write [NEEDS CLARIFICATION: ...] for this part of your assigned scope and move on to something your own module's evidence can actually support.`,
+      description: `Search the codebase's fact index for real, code-derived evidence relevant to this business request -- restricted to the ${scopeDescription} only. This is one focused synthesis pass among several separate calls, each scoped to a different module of the same overall request; other modules are covered by other calls, not this one. Returns ranked candidate facts with real factRefs -- a short, opaque reference token, not a readable identifier; copy it character for character wherever you need to pass it back. Each result carries alreadyRetrieved: true if you were already given this exact factRef earlier in this conversation -- if so, don't search again for the same concept; call walk_cluster or get_graph_neighbors on it instead. The response also carries exactDuplicateOfPriorQuery/substringOfPriorQuery when this query's text exactly repeats, or contains/is contained by, an earlier query you already tried this call, and betterMatchOutsideModule: { module, distance } when a real, meaningfully stronger match for this same query exists in a different module -- that often means this concept structurally belongs to a different capability call, not that another rephrasing here will find it. The first two times a query for the same underlying concept comes back with betterMatchOutsideModule set, treat it as real evidence to weigh, not a block. The next related attempt after that is refused outright (blocked: true, no results) rather than run -- at that point, write [NEEDS CLARIFICATION: ...] for this part of your assigned scope and move on to something your own module's evidence can actually support. Separately, if a rephrased query keeps landing close to the same underlying question as ones you already asked this call -- even with completely different wording, no shared words at all -- it will also eventually be refused (blocked: true, no results) once that's happened enough times; this can trigger even on a query's very first, only attempt, if it's close enough to two earlier ones. Same recovery: write [NEEDS CLARIFICATION: ...] and move to something else, don't keep rewording the same question hoping for a different answer.`,
       inputSchema: z.object({ query: z.string(), limit: z.number().optional() }),
     },
     async ({ query, limit }) => {
@@ -426,8 +475,11 @@ function makeCapabilityTools(
           });
         }
         const cached = exactMatch.outcome.response;
+        // queryEmbedding must never reach the model -- real token cost, zero
+        // value to it (see search.ts's own comment on this field).
+        const { queryEmbedding: _droppedCachedEmbedding, ...cachedForModel } = cached;
         return logAndReturn({
-          ...cached,
+          ...cachedForModel,
           results: cached.results.map(r => ({ ...r, alreadyRetrieved: seenFactRefs.has(r.factRef) })),
           exactDuplicateOfPriorQuery: true,
           substringOfPriorQuery: true,
@@ -436,14 +488,67 @@ function makeCapabilityTools(
 
       const raw = await search(query, limit, moduleFilter, searchOpts);
       const crossModuleFlagged = !!raw.betterMatchOutsideModule;
+
+      // Real, 2026-09-22 (prompt-6, Fix 1): near-duplicate-query detector.
+      // Unlike the cross-module gate above, this can only run AFTER search()
+      // executes -- there is no zero-cost, pre-execution text signal for
+      // embedding proximity the way isRelatedQuery's substring check is for
+      // cross-module relatedness (checked directly: isRelatedQuery does NOT
+      // reliably relate near-duplicate paraphrases to each other -- the real
+      // node-iot case this targets, "...update handler" vs "...update
+      // implementation", shares no substring at all despite being a real
+      // 0.046 cosine-distance near-duplicate; see build-completion doc).
+      // Zero EXTRA Vertex spend either way: raw.queryEmbedding is already
+      // computed by the search() call above, which runs regardless.
+      const priorEmbeddedQueries = triedQueries
+        .filter((t): t is TriedQuery & { outcome: Extract<TriedQueryOutcome, { kind: "executed" }> } => t.outcome.kind === "executed")
+        .map(t => t.outcome.response.queryEmbedding)
+        .filter((e): e is number[] => !!e);
+      const nearDuplicateCount = raw.queryEmbedding
+        ? priorEmbeddedQueries.filter(e => cosineDistance(raw.queryEmbedding!, e) <= nearDupMargin).length
+        : 0;
+      const nearDuplicateFlagged = nearDuplicateCount >= 1;
+
+      if (nearDuplicateCount >= nearDupBlockAfter) {
+        // Real results were already computed (the embed+search cost above is
+        // unavoidable -- there was no way to know this was a near-duplicate
+        // before running it) but are discarded here, same tradeoff Fix 1's
+        // design doc accepts: this call's own Postgres query is "wasted",
+        // the thing actually being protected is the capability's TURN
+        // budget, via the same blocked:true recovery signal doc 11 already
+        // found lets the model stop cleanly instead of continuing to
+        // rephrase. Pushed as "blocked", NOT "executed" -- storing the real
+        // response here would let a later byte-identical repeat of THIS
+        // exact query hit the exactMatch cache-replay branch above and
+        // silently bypass this block, reproducing the exact bug doc 11's
+        // Addendum 2 found and fixed for the cross-module gate (an
+        // exact-dup cache hit short-circuiting past an already-earned
+        // block). Same real tradeoff that fix already accepted: a blocked
+        // entry carries no embedding for FUTURE near-dup comparisons, a
+        // minor precision loss, not a bypass.
+        triedQueries.push({ query, limit, outcome: { kind: "blocked" } });
+        return logAndReturn({
+          confident: false,
+          results: [],
+          blocked: true,
+          blockedReason: NEAR_DUPLICATE_BLOCKED_REASON,
+          exactDuplicateOfPriorQuery: false,
+          substringOfPriorQuery,
+        });
+      }
+
       // Real, unchanged ordering from the pre-existing behavior: alreadyRetrieved
       // reflects facts seen in an EARLIER call, so it's computed before this
       // call's own results are added to seenFactRefs, not after.
       const mappedResults = raw.results.map(r => ({ ...r, alreadyRetrieved: seenFactRefs.has(r.factRef) }));
       for (const r of raw.results) seenFactRefs.add(r.factRef);
-      triedQueries.push({ query, limit, outcome: { kind: "executed", response: raw, crossModuleFlagged } });
+      triedQueries.push({ query, limit, outcome: { kind: "executed", response: raw, crossModuleFlagged, nearDuplicateFlagged } });
+      // queryEmbedding must never reach the model -- see search.ts's own
+      // comment on this field (real, wasted token cost otherwise: a 768-
+      // number array on every single search_facts call).
+      const { queryEmbedding: _droppedEmbedding, ...rawForModel } = raw;
       return logAndReturn({
-        ...raw,
+        ...rawForModel,
         results: mappedResults,
         exactDuplicateOfPriorQuery: false,
         substringOfPriorQuery,
@@ -650,6 +755,13 @@ async function runCapability(opts: {
   // documented "fully off" state search.ts's own opts contract defines.
   crossModuleMargin: number | undefined;
   crossModuleBlockAfter: number;
+  // Real, 2026-09-22 (prompt-6, Fix 1) -- see main()'s own comment on
+  // CAPABILITY_NEAR_DUP_MARGIN/CAPABILITY_NEAR_DUP_BLOCK_AFTER for the real
+  // measured basis (re-derived from the real 2026-09-21 node-iot trace, not
+  // reused blindly from crossModuleMargin's own, differently-purposed
+  // calibration -- see cosineDistance's comment).
+  nearDupMargin: number;
+  nearDupBlockAfter: number;
   // repo/directive: optional, added 2026-09-20 (doc 23 above) -- set only on
   // the explicit-scope path. undefined preserves the exact prior behavior
   // for the vector-routing path (see makeCapabilityTools/
@@ -666,6 +778,8 @@ async function runCapability(opts: {
     triedQueries,
     opts.crossModuleMargin,
     opts.crossModuleBlockAfter,
+    opts.nearDupMargin,
+    opts.nearDupBlockAfter,
     opts.repoFilter
   );
   const systemPrompt = `${opts.groundingDocs}${opts.systemPersona}\n\n${renderCapabilityContract(opts.template, opts.module, opts.maxTurns, opts.directive)}`;
@@ -935,6 +1049,24 @@ async function main() {
   const CROSS_MODULE_MARGIN = Number(process.env.CAPABILITY_CROSS_MODULE_MARGIN ?? 0.05);
   const CROSS_MODULE_BLOCK_AFTER = Number(process.env.CAPABILITY_CROSS_MODULE_BLOCK_AFTER ?? 2);
 
+  // Real, 2026-09-22 (prompt-6, Fix 1 -- governance/roadmap/dynamic-pipeline-
+  // architecture/prompts/prompt-6-near-duplicate-and-flatline-detection.md,
+  // build-completion doc). NEAR_DUP_MARGIN=0.05 is independently calibrated
+  // against real, extracted cosine distances from the 2026-09-21 node-iot
+  // trace (output/agent-runs/prds/test/debug/2026-09-21-005-1e-invitations-
+  // edit-baseline-prebuild-edges/) -- NOT reused from CROSS_MODULE_MARGIN's
+  // own calibration (that one is a gap between two L2 distances via
+  // search.ts's `<->`, a different metric and a different quantity
+  // entirely; see cosineDistance's own comment). The real trio this fix
+  // targets ("processAccessPubSubMessage update"/"...update handler"/
+  // "...update implementation") had pairwise cosine distances 0.0218-0.0459;
+  // the closest non-duplicate pair anywhere else in that same 17-query
+  // capability was 0.0528 -- 0.05 sits in that real, checked gap.
+  // NEAR_DUP_BLOCK_AFTER=2 matches CROSS_MODULE_BLOCK_AFTER's same literal
+  // "twice" decision, not re-derived (no reason found to differ).
+  const NEAR_DUP_MARGIN = Number(process.env.CAPABILITY_NEAR_DUP_MARGIN ?? 0.05);
+  const NEAR_DUP_BLOCK_AFTER = Number(process.env.CAPABILITY_NEAR_DUP_BLOCK_AFTER ?? 2);
+
   // RUN_KIND/workflowName moved up from their original position just before
   // writeOutput -- both are real, static, run-config facts (env var or
   // business-request filename), not derived from anything Step 1/2 compute,
@@ -1071,6 +1203,8 @@ async function main() {
         debugDir,
         crossModuleMargin: CROSS_MODULE_MARGIN,
         crossModuleBlockAfter: CROSS_MODULE_BLOCK_AFTER,
+        nearDupMargin: NEAR_DUP_MARGIN,
+        nearDupBlockAfter: NEAR_DUP_BLOCK_AFTER,
       });
       const budgetNote = run.ranOutOfBudget ? " [wrapped up early: real tool-call budget exhausted]" : "";
       console.log(`  ${run.toolCalls.length} real tool call(s), ${run.turnsUsed} turn(s), ${run.output.sections.length} section(s) produced: ${run.output.sections.map(s => s.heading).join(", ") || "(none)"}${budgetNote}`);

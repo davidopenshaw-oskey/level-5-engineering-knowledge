@@ -169,8 +169,15 @@ const searchFacts = ai.defineTool(
   async ({ query, limit }) => {
     console.log(`  [tool call] search_facts(${JSON.stringify({ query, limit })})`);
     const raw = await search(query, limit);
+    // Real, 2026-09-22: search.ts's SearchResponse gained an optional
+    // queryEmbedding field (governance/roadmap/dynamic-pipeline-architecture/
+    // prompts/prompt-6-...md) -- a 768-number array that must never reach an
+    // LLM tool response (real, wasted token cost). Stripped here before the
+    // `...raw` spread below, same discipline applied in
+    // capability-fanout-prd-agent.ts's own searchFacts handler.
+    const { queryEmbedding: _unusedQueryEmbedding, ...rawForModel } = raw;
     const result = {
-      ...raw,
+      ...rawForModel,
       results: raw.results.map(r => ({ ...r, alreadyRetrieved: seenFactRefs.has(r.factRef) })),
     };
     for (const r of raw.results) seenFactRefs.add(r.factRef);

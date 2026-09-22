@@ -91,6 +91,20 @@ export interface SearchResponse {
   // duplicate-search-queries-capability-fanout-2026-09-20.md and 10-build-plan-
   // duplicate-search-queries-fix-2026-09-20.md).
   betterMatchOutsideModule?: { module: string; distance: number } | null;
+  // Real, added 2026-09-22 (governance/roadmap/dynamic-pipeline-architecture/
+  // prompts/prompt-6-near-duplicate-and-flatline-detection.md): the query's
+  // own embedding, already computed below on every call and previously
+  // discarded -- exposed here so a caller (capability-fanout-prd-agent.ts's
+  // near-duplicate-query detector) can compare it against earlier queries'
+  // embeddings without paying for a second real Vertex embedding call.
+  // Always present when search() returns normally; optional only because
+  // every pre-existing caller (atomic-prd-agent.ts, routeCapabilities())
+  // ignores it and must keep compiling unchanged. CALLERS MUST NOT include
+  // this field in whatever they hand back to an LLM tool response -- it is
+  // a 768-number array, real token-cost noise if ever serialized into a
+  // model's context (confirmed this project's own capability-fanout code
+  // explicitly strips it back out before returning a tool result).
+  queryEmbedding?: number[];
 }
 
 function pool(): Pool {
@@ -189,13 +203,14 @@ export async function search(
     }
 
     return confident
-      ? { confident: true, results, betterMatchOutsideModule }
+      ? { confident: true, results, betterMatchOutsideModule, queryEmbedding: embedding }
       : {
           confident: false,
           results,
           lowConfidenceMessage:
             "No strong match found for this question. Try rephrasing, or naming the specific module/feature you're asking about.",
           betterMatchOutsideModule,
+          queryEmbedding: embedding,
         };
   } finally {
     await db.end();

@@ -364,3 +364,49 @@ Foyer at all).
   broader, multi-platform business request — the first real test of this fix (and of
   capability-fanout's citation behavior generally) beyond the single request every prior doc
   in this thread was based on.
+
+## Note, 2026-09-21/22 — a real, worse-shaped gap: near-duplicate (not exact) repeat queries, plus a new latency mechanism
+
+Found by the validator session for the cross-repo-edges build's own comparison test (a
+different thread; see `38-build-plan-cross-repo-edges-four-joins-2026-09-21.md`), while asking
+"why did this run take 23.5 minutes" of a real 5-capability run
+(`output/agent-runs/prds/test/2026-09-21-005-1e-invitations-edit-baseline-prebuild-edges.md`,
+debug trace `.../debug/2026-09-21T18-11-10-182Z-1e-invitations-edit-baseline-prebuild-edges/`).
+Not investigated as a fix target — reported here because it's a live instance of this doc's own
+class of bug and because of the new mechanism found alongside it.
+
+**The gap this fix doesn't cover.** The `node-iot-api-oskey-io` capability's last 3 of 21 turns
+were `search_facts` calls for `"processAccessPubSubMessage update"`,
+`"...update handler"`, `"...update implementation"` — three different strings, never exact
+repeats of each other or of anything earlier. Doc 11's fix (above) only escalates on
+`isRelatedQuery`'s cross-module-embedding-distance signal or an exact-string cache hit;
+neither fires for three distinct, related-in-meaning phrasings of the same dead-end question.
+Each of those three calls also happened to be genuinely slow (see below), so this specific
+case cost real wall-clock time, not just turns — but the query-repetition shape itself is the
+same failure mode this whole thread investigates, just one the (b)/(c)/(d) mechanisms don't
+reach.
+
+**A new, real, and much larger cost mechanism found alongside it: Gemini's own
+`thoughtSignature` blob can balloon and stays large.** Traced directly in the saved
+conversation (`llm-node-iot-api-oskey-io__access_control_device.json`'s `messages` array, each
+entry's `content[].metadata.thoughtSignature`, an opaque continuity blob Gemini attaches to
+tool-call turns and that gets resent as part of history on every subsequent turn): normal size
+in every other capability of the same run stayed under ~23 KB throughout (`iOS App`'s largest
+was 22,676 chars). In the `node-iot` capability specifically, it jumped to **~313 KB and
+stayed there for 3 consecutive turns** (312,816 / 312,848 / 312,836 chars at message indices
+36/38/40) — coinciding exactly with the 3 near-duplicate queries above. Consequence, measured
+directly: `node-iot`'s `usage.inputTokens` for the whole capability was 269,674, roughly 3-5x
+every other capability in the same run (50,674-86,564), despite an identical message count
+(44) — because that ~940 KB of resent signature data inflated every subsequent turn's prompt.
+Each of the 3 slow turns took ~150-190 seconds on its own (no `MODEL_RETRY`/`RESOURCE_EXHAUSTED`
+logged — real model latency against a bloated prompt, not a quota wait). This single
+capability's tail (~536s of its 607s total) accounted for ~38% of the whole 5-capability run's
+23.5-minute duration.
+
+**Not established**: whether the signature bloat *causes* the near-duplicate-query looping,
+is *caused by* it (e.g. the model re-"thinking" over an already-bloated context produces a
+bigger signature next turn, a feedback loop), or both stem from a third, unidentified cause.
+Only one real instance observed; not reproduced or isolated. Real, open follow-up questions,
+not answered here: does this recur on other capabilities/requests, does it correlate
+specifically with near-duplicate queries or with any long tool-result-heavy turn, and is it a
+known/documented Gemini API behavior. No code changed, no fix attempted — flagging only.
