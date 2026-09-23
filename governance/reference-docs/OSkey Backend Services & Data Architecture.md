@@ -185,7 +185,7 @@ Description: This collection serves as the master registry for physical Access C
 
 Written By:
 
-GCP Cloud Functions triggered by PGO, or, currently manually added by Oskey Staff
+GCP Cloud Functions currently triggered manually by Oskey Staff
 
 Read By:
 
@@ -205,7 +205,7 @@ Description: This sub-collection implements a versioned configuration pattern fo
 
 Written By:
 
-- GCP Cloud Functions triggered by PGO, or, currently manually added by Oskey Staff
+- GCP Cloud Functions currently triggered manually by Oskey Staff
 
 - OSKIntercomCommunicationService: Creates new configuration documents by calling
 
