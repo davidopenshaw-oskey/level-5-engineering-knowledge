@@ -78,7 +78,8 @@ export function firstCallCalleeInLambda(lambda: Parser.SyntaxNode): string | nul
 
 export function parseKotlinFile(parser: Parser, absPath: string): { src: string; tree: Parser.Tree } {
   const src = fs.readFileSync(absPath, "utf8");
-  return { src, tree: parser.parse(src) };
+  // node-tree-sitter throws "Invalid argument" for sources over its 32 KB default buffer.
+  return { src, tree: parser.parse(src, undefined, { bufferSize: Math.max(32 * 1024, Buffer.byteLength(src) + 1024) }) };
 }
 
 /** A file's own package name and import targets -- pure syntax, no type
