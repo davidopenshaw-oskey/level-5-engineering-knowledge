@@ -141,14 +141,16 @@ Docker Desktop update or reset, and after any run that cost real embedding spend
 
 ### Restore
 
-Test this once into a scratch database so you know it works before you need it:
+Restore into a scratch database first, to check a dump or to test something without touching the
+live data:
 
 ```bash
 # 1. scratch database
 docker exec facts-postgres-index-local createdb -U facts_index facts_restore_test
 
-# 2. restore into it
-docker exec -i facts-postgres-index-local pg_restore -U facts_index -d facts_restore_test \
+# 2. restore into it (the -i is required: without it stdin is empty and nothing restores;
+#    the same goes for `pg_restore -l` when you list a dump's contents)
+docker exec -i facts-postgres-index-local pg_restore -U facts_index -d facts_restore_test --no-owner \
   < output/backups/facts_index-YYYY-MM-DD.dump
 
 # 3. sanity check, then drop it
@@ -160,8 +162,15 @@ docker exec facts-postgres-index-local dropdb -U facts_index facts_restore_test
 To restore over the real database (replaces its contents), stop anything writing to it first, then
 use `pg_restore -d facts_index --clean --if-exists` in step 2.
 
-> These restore commands have **not yet been run in this repo**. Do the scratch-database test
-> above once and correct this page if anything differs.
+**Tested 2026-09-26.** A 275 MB dump (`facts_index-2026-09-26-before-W5a.dump`) restored into a
+scratch database in **29 seconds** and matched the live database exactly: 69,215 facts, 17,775
+edges, 27 extraction runs, 1,115 embedding-call rows, every fact with its embedding, all 7 indexes
+and the 4 extensions present, and the generated `fact_ref` column working. Scripts and tests that
+use a scratch copy should set `PG_DATABASE` explicitly and check `select current_database()` before
+any write, so nothing reaches the live database by accident. Other databases in this container
+(for example `facts_index_prebuild`, a 2026-09-22 snapshot) belong to other work; leave them alone.
+Whenever you restore, remember: restoring over the live database means stopping every session that
+writes to it first.
 
 ---
 

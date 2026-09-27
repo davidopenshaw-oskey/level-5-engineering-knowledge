@@ -322,6 +322,45 @@ function main() {
     scanDirectory(path.join(modulesRootAbsolute, m), m, null);
   }
 
+  // Loose source files directly in modulesRoot (doc 43 W3): the directory-only
+  // module discovery above never sees them (app.component.ts, app.routes.ts,
+  // app.config.ts in this repo). When the repo config names a
+  // `rootFilesModule`, every .ts file that sits directly in modulesRoot (same
+  // .d.ts/.spec/.test filters as everywhere else) is attributed to that module.
+  // Discovered, not listed: a new root file is picked up on the next run.
+  // Fail-closed if the name collides with a directory under modulesRoot.
+  const rootFilesModule: string | undefined = targetRepo.rootFilesModule;
+  const rootModules = new Set<string>();
+  if (rootFilesModule !== undefined) {
+    if (typeof rootFilesModule !== "string" || !rootFilesModule) {
+      throw new Error(`[Fail-Closed] Repository '${REPO_NAME}' rootFilesModule must be a non-empty string.`);
+    }
+    if (modules.includes(rootFilesModule)) {
+      throw new Error(`[Fail-Closed] rootFilesModule '${rootFilesModule}' collides with a directory under modulesRoot '${targetRepo.modulesRoot}'.`);
+    }
+    const before = filesList.length;
+    for (const item of fs.readdirSync(modulesRootAbsolute, { withFileTypes: true })) {
+      if (!item.isFile()) continue;
+      const fullPath = path.join(modulesRootAbsolute, item.name);
+      const repoPath = toRepoPath(fullPath, clonePath);
+      if (repoPath.endsWith(".ts") && !repoPath.endsWith(".d.ts") && !repoPath.endsWith(".spec.ts") && !repoPath.endsWith(".test.ts")) {
+        filesList.push({
+          repo: REPO_NAME,
+          module: rootFilesModule,
+          submodule: null,
+          path: repoPath,
+          kindHint: "typescript",
+          sizeBytes: fs.statSync(fullPath).size,
+        });
+      }
+    }
+    if (filesList.length === before) {
+      throw new Error(`[Fail-Closed] rootFilesModule '${rootFilesModule}' is configured but no .ts file sits directly in modulesRoot '${targetRepo.modulesRoot}'.`);
+    }
+    rootModules.add(rootFilesModule);
+    addNotification(notifications, "00-scan-repo", "info", "ROOT_FILES_MODULE_SCANNED", `rootFilesModule '${rootFilesModule}': ${filesList.length - before} file(s) directly in modulesRoot.`, { key: rootFilesModule });
+  }
+
   filesList.sort((a, b) => a.path.localeCompare(b.path));
 
   if (filesList.length === 0) {
@@ -340,7 +379,11 @@ function main() {
   // latest-repo-manifest.json are namespaced under output/{repoName}/ so
   // multiple repos' pipelines cannot collide on a shared global path.
   writeJsonAtomically(runContextPath(projectRoot, REPO_NAME), runContext, `output/${REPO_NAME}/run-context.json`);
-  writeJsonAtomically(path.join(factsDir, "modules.json"), moduleEntries, "facts/modules.json");
+  writeJsonAtomically(
+    path.join(factsDir, "modules.json"),
+    [...moduleEntries, ...[...rootModules].sort().map(m => ({ module: m }))],
+    "facts/modules.json"
+  );
   writeJsonAtomically(path.join(factsDir, "files.json"), filesList, "facts/files.json");
   writeNotificationsAtomically(notificationsFilePath, notifications);
 
@@ -351,14 +394,14 @@ function main() {
     commitSha,
     ref: resolvedRef,
     updatedAt: now.toISOString(),
-    modulesCount: modules.length,
+    modulesCount: modules.length + rootModules.size,
     filesCount: filesList.length,
   };
   writeJsonAtomically(latestManifestPath(projectRoot, REPO_NAME), latestManifest, `output/${REPO_NAME}/latest-repo-manifest.json`);
 
   console.log(`Starting pipeline run for repo [${REPO_NAME}] with Run ID: ${runId}`);
   console.log(`Repo: ${REPO_NAME}`);
-  console.log(`Modules found: ${modules.length}`);
+  console.log(`Modules found: ${modules.length} (+ ${rootModules.size} from rootFilesModule)`);
   console.log(`TypeScript files found: ${filesList.length}`);
   console.log(`Raw facts written to: ${factsDir}`);
   console.log(`Run notifications initialized at: ${notificationsFilePath}`);

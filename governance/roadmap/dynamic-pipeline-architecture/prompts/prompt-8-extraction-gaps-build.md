@@ -40,3 +40,16 @@ W5a and W5b (edges entry point, edge-sync state), then W1, W4a, W2, W3, W4b, W4c
 ## Out of scope (don't touch)
 
 Parked items in the spec; `build-form-field-lineage-edges.ts` generalisation (orchestrate it, don't change it); the wiki's own repo; any real LLM run; any `gcloud` command; renaming or removing any existing payload field.
+
+---
+
+## Lane A (added 2026-09-26; supersedes the item list and "Order" above)
+
+The work is now split across three parallel sessions. **You are Lane A (Edges).** Read "Lane model and DB write protocol" in doc 43 (above `## Build log`); it wins over this prompt on who does what and when the database may be written.
+
+- **Your items:** W5a and W5b first (as approved with the coordinator's amendments in your Build log thread), then every change to the edge builders requested by Lanes B and C: W1's `firebase-callable` join change, W2's `pubsub-binding` join, the `firestore-trigger` re-run for W4a, W4d, W6 (P7), and W5c. **The extraction items (W1 extraction part, W4a, W2 extraction part, W3, W4b, W4e, W4c) are no longer yours; do not start them.**
+- **You own:** `pipeline/facts-postgres-index/build-*.ts`, `sync-facts.ts`, `build-edges.ts`, the `edge_sync_state` table, `package.json` scripts. Other lanes must not edit these; you must not edit `pipeline/firebase-oskey-dev/**`, `pipeline/angular-app-oskey-io/**`, `pipeline/swift/**` or `pipeline/ios-oskey-dev/**`.
+- **Announce W5a done clearly** in the Build log (`[Lane A] W5a DONE: pipeline:edges available`), because Lanes B and C may not sync until it exists.
+- **Write turns:** the coordinator grants one at a time; you follow the same protocol as the other lanes for syncs, and you may run `pipeline:edges` inside any lane's write turn on request.
+- **Logs:** prefix entries `[Lane A]`; append-only shell writes (`cat >> file <<'EOF'`), never rewrite doc 43.
+- Interface requests from Lanes B and C appear under "Interface contracts" in doc 43; implement them one at a time after the user approves each.

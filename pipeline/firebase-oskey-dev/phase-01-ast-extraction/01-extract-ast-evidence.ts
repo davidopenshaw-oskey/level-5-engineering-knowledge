@@ -11,6 +11,7 @@
 import fs from "fs";
 import path from "path";
 import { Project, SyntaxKind, Node, ClassDeclaration, MethodDeclaration, FunctionDeclaration, Identifier, Symbol, Type, SourceFile } from "ts-morph";
+import { loadEnvTable, analysePublishSite, PublishAnalysis } from "./_shared/pubsub-publish-topics";
 import {
   RunNotifications,
   addNotification,
@@ -289,6 +290,109 @@ function resolveExpressionValue(
   return { value: null, status: "unsupported" };
 }
 
+// Path-value resolver (doc 43 W4a). Deliberately separate from
+// resolveExpressionValue above: that one feeds many existing fact fields, and
+// changing it would silently change their values. This one only feeds the new
+// additive fields (`resolvedPath*` on call facts, the trigger `firestorePath`).
+//
+// Resolves an expression to a string template by following, statically:
+//   - string / template literals (unresolvable `${x}` kept as `{x}`, named after
+//     the expression's last identifier, the style firestore_path_touched uses),
+//   - variable initializers and property assignments,
+//   - class property declarations with an initializer (static or instance),
+//   - get accessors that return a resolvable expression,
+//   - calls to a same-repo method whose body is a single `return <expression>`
+//     (a "path builder"; its own `${param}` stay `{param}`).
+// Anything else is null with a reason; a bare parameter is reported as
+// `parameter_passthrough` (its value is decided by the callers, not here).
+type PathResolution = { value: string | null; via: string | null; reason: string | null };
+
+function placeholderNameFor(expr: Node): string {
+  return expr.getText().replace(/^.*\./, "").replace(/[^A-Za-z0-9_]/g, "");
+}
+
+function resolvePathValue(node: Node, depth = 0, maxDepth = 12): PathResolution {
+  if (depth >= maxDepth) return { value: null, via: null, reason: "max_depth" };
+
+  if (Node.isStringLiteral(node) || Node.isNoSubstitutionTemplateLiteral(node)) {
+    return { value: node.getLiteralValue(), via: "literal", reason: null };
+  }
+
+  if (Node.isTemplateExpression(node)) {
+    let out = node.getHead().getLiteralText();
+    for (const span of node.getTemplateSpans()) {
+      const expr = span.getExpression();
+      const inner = resolvePathValue(expr, depth + 1, maxDepth);
+      out += inner.value !== null ? inner.value : `{${placeholderNameFor(expr)}}`;
+      out += span.getLiteral().getLiteralText();
+    }
+    return { value: out, via: "template", reason: null };
+  }
+
+  if (Node.isParenthesizedExpression(node) || Node.isAsExpression(node) || Node.isNonNullExpression(node)) {
+    return resolvePathValue(node.getExpression(), depth, maxDepth + 1);
+  }
+
+  if (Node.isIdentifier(node) || Node.isPropertyAccessExpression(node)) {
+    const symbol = node.getSymbol();
+    const decl = symbol ? symbol.getValueDeclaration() || symbol.getDeclarations()[0] : undefined;
+    if (!decl) return { value: null, via: null, reason: `unresolved_symbol:${node.getText().slice(0, 60)}` };
+
+    let stepName: string | null = null;
+    let next: Node | undefined;
+    if (Node.isVariableDeclaration(decl)) { stepName = "local_const"; next = decl.getInitializer(); }
+    else if (Node.isPropertyDeclaration(decl)) { stepName = "class_property"; next = decl.getInitializer(); }
+    else if (Node.isPropertyAssignment(decl)) { stepName = "property_assignment"; next = decl.getInitializer(); }
+    else if (Node.isGetAccessorDeclaration(decl)) {
+      stepName = "get_accessor";
+      const rets = decl.getDescendantsOfKind(SyntaxKind.ReturnStatement);
+      if (rets.length === 1) next = rets[0].getExpression();
+    } else if (Node.isParameterDeclaration(decl)) {
+      return { value: null, via: null, reason: "parameter_passthrough" };
+    }
+    if (!next) return { value: null, via: null, reason: `no_static_value:${node.getText().slice(0, 60)}` };
+    const inner = resolvePathValue(next, depth + 1, maxDepth);
+    return inner.value !== null
+      ? { value: inner.value, via: `${stepName}>${inner.via}`, reason: null }
+      : { ...inner, via: null };
+  }
+
+  if (Node.isCallExpression(node)) {
+    const calleeSymbol = node.getExpression().getSymbol();
+    const decl = calleeSymbol ? calleeSymbol.getValueDeclaration() || calleeSymbol.getDeclarations()[0] : undefined;
+    if (decl && Node.isMethodDeclaration(decl)) {
+      const rets = decl.getDescendantsOfKind(SyntaxKind.ReturnStatement);
+      if (rets.length === 1 && rets[0].getExpression()) {
+        const inner = resolvePathValue(rets[0].getExpression()!, depth + 1, maxDepth);
+        return inner.value !== null
+          ? { value: inner.value, via: `path_method>${inner.via}`, reason: null }
+          : { ...inner, via: null, reason: `path_method_unresolved:${inner.reason}` };
+      }
+      return { value: null, via: null, reason: `method_has_${rets.length}_returns` };
+    }
+    return { value: null, via: null, reason: `call_not_a_same_repo_method:${node.getExpression().getText().slice(0, 40)}` };
+  }
+
+  return { value: null, via: null, reason: `unsupported:${node.getKindName()}` };
+}
+
+// A first argument counts as a path when it resolves to `seg(/seg)*` where a
+// segment is a name or a `{placeholder}` (leading slash optional). A value
+// rule, not a name list: it is what keeps `application/json` style strings and
+// prose out. It says "path-shaped", not "is Firestore"; consumers decide that.
+const PATH_SHAPED = /^\/?[A-Za-z][A-Za-z0-9_-]*(\/(\{[^}]+\}|[A-Za-z0-9_-]+))+\/?$|^\/[A-Za-z][A-Za-z0-9_-]*$/;
+
+// Trigger event from the registration method name (`onCreate`, `onDocumentUpdated`,
+// ...). Derived from the name's own words, not a lookup of specific methods.
+function triggerEventFor(methodName: string): string | null {
+  const word = methodName.replace(/^on(Document)?/, "").toLowerCase();
+  if (word.startsWith("creat")) return "create";
+  if (word.startsWith("updat")) return "update";
+  if (word.startsWith("delet")) return "delete";
+  if (word.startsWith("writ")) return "write";
+  return null;
+}
+
 // Handler Symbol & Declaration Resolver for API Contracts and Triggers
 function resolveHandlerDeclaration(
   handlerNode: Node,
@@ -429,6 +533,49 @@ function resolveHandlerDeclaration(
 // call site confirms a publish happens there.
 const PUBSUB_PUBLISH_METHODS = new Set(["_publishMessage", "publishMessage"]);
 
+// Fields a pubsub_publish_call fact gets from the callee-body analysis (doc 43 W2).
+// `legacyValue` is what `value` used to be; fact IDs are built from it (see
+// 02-build-module-evidence.ts), so correcting `value` never changes an ID.
+// When the topic resolves, `value` becomes the topic and the existing
+// `confidence` / `topicResolutionStatus` say so (the join reads them);
+// otherwise those keep their old values.
+function publishAnalysisFields(a: PublishAnalysis | null, legacyValue: string): Record<string, any> {
+  if (!a) return { legacyValue };
+  return {
+    legacyValue,
+    ...(a.topicNameStatus === "resolved" && a.topicName !== null ? { value: a.topicName, confidence: "confirmed", topicResolutionStatus: "resolved" } : {}),
+    topicName: a.topicName,
+    topicNameStatus: a.topicNameStatus,
+    topicNameReason: a.topicNameReason,
+    topicSource: a.topicSource,
+    publishRole: a.publishRole,
+    ...(a.wrapperMethod ? { wrapperMethod: a.wrapperMethod, wrapperDeclarationFile: a.wrapperDeclarationFile } : {}),
+    orderingKeyExpression: a.orderingKeyExpression,
+    topicResolvedVia: a.topicResolvedVia,
+  };
+}
+
+// v2 Cloud Functions style: `onDocumentCreated({ document: <path>, region: ... }, handler)`
+// passes an OPTIONS OBJECT as arg0, not the path itself (unlike v1's
+// `<x>.document(<path>).onCreate(handler)`, where the path is the argument of
+// the receiver's own `document(...)` call, handled separately above). Reads
+// the object literal's `document` property and returns ITS value node so the
+// existing resolvePathValue() runs unchanged on whatever that value is
+// (a string, a template, a local constant, ...). A v2 call whose arg0 is a
+// bare string (the shape our own doc-comment describes, `onDocumentCreated
+// (path, handler)`) is returned as-is: backward compatible, no v1/v2 call
+// site's existing behaviour changes. Dormant at the current pin (00e1d9fd):
+// no v2 trigger exists yet; validated by a synthetic unit test and a
+// regression over all 26 live triggers, 0 change (doc 43, Step U).
+function v2ObjectLiteralPathArg(arg0: Node | undefined): Node | undefined {
+  if (!arg0 || !Node.isObjectLiteralExpression(arg0)) return arg0;
+  const prop = arg0.getProperty("document");
+  if (!prop) return undefined;
+  if (Node.isPropertyAssignment(prop)) return prop.getInitializer() ?? undefined;
+  if (Node.isShorthandPropertyAssignment(prop)) return prop.getNameNode();
+  return undefined;
+}
+
 const TRIGGER_METHODS = new Set([
   "onCreate",
   "onUpdate",
@@ -494,6 +641,10 @@ function main() {
   // keep this repo's existing config working without modification.
   const tsconfigRelativePath: string = targetRepo.tsconfigRelativePath || "functions/tsconfig.json";
   const tsconfigPath = path.join(clonePath, tsconfigRelativePath);
+
+  // Topic env variables come from the repository's own .env* files next to the
+  // functions root (the directory holding tsconfig), read literally (doc 43 W2).
+  const envTable = loadEnvTable(path.join(clonePath, path.dirname(tsconfigRelativePath)), (abs: string) => toRepoPath(abs, clonePath));
 
   // astErrorTolerancePercent is config-driven per repo; defaults to 0 (fail
   // closed on ANY per-file AST extraction error) unless a repo explicitly
@@ -627,7 +778,123 @@ function main() {
   const rawApiContracts: any[] = [];
   const rawTriggers: any[] = [];
   const rawPubSubEventRoutes: any[] = [];
+  const rawExportRegistry: any[] = [];
   const rawErrors: any[] = [];
+
+  // Export registry (doc 43 W1). Which files can hold the deployed-function
+  // export groups is config-driven: any file attributed to a module declared
+  // in `additionalSourcePaths` (source outside modulesRoot, e.g. the Cloud
+  // Functions entrypoint) is scanned for exported object literals that spread
+  // call results, `export const <group> = { ...<alias>.<factory>(args) }`.
+  // Each spread's import is resolved with ts-morph's own compiler resolution
+  // (tsconfig paths and relative imports alike) to a target file, then to its
+  // module via the same file->module classification 00-scan-repo computed.
+  // Nothing about group names, factory names or module names is hardcoded;
+  // commented-out legacy registry code is never seen because this is AST.
+  const registryModules = new Set<string>(
+    (Array.isArray(targetRepo.additionalSourcePaths) ? targetRepo.additionalSourcePaths : []).map((e: any) => e.module)
+  );
+  for (const { base, absolutePath } of runtimeFiles) {
+    if (!registryModules.has(base.module)) continue;
+    const regSf = project.getSourceFile(absolutePath);
+    if (!regSf) continue;
+    try {
+      for (const stmt of regSf.getVariableStatements()) {
+        if (!stmt.isExported()) continue;
+        for (const decl of stmt.getDeclarations()) {
+          const init = decl.getInitializer();
+          if (!init || !Node.isObjectLiteralExpression(init)) continue;
+          let spreadIndex = 0;
+          for (const prop of init.getProperties()) {
+            if (!Node.isSpreadAssignment(prop)) continue;
+            const spreadExpr = prop.getExpression();
+            if (!Node.isCallExpression(spreadExpr)) continue;
+            const callee = spreadExpr.getExpression();
+            let qualifier: string | null = null;
+            let factoryCall: string | null = null;
+            let localName: string | null = null;
+            if (Node.isPropertyAccessExpression(callee) && Node.isIdentifier(callee.getExpression())) {
+              qualifier = callee.getExpression().getText();
+              factoryCall = callee.getName();
+              localName = qualifier;
+            } else if (Node.isIdentifier(callee)) {
+              factoryCall = callee.getText();
+              localName = factoryCall;
+            }
+
+            let importSpecifier: string | null = null;
+            let resolvedTargetFile: string | null = null;
+            let resolvedTargetModule: string | null = null;
+            let resolvedTargetSubmodule: string | null = null;
+            let resolutionStatus: "resolved_in_repo" | "resolved_outside_module_boundary" | "unresolved_by_compiler" | "not_an_import" = "not_an_import";
+            let unresolvedReason: string | null = null;
+            if (localName) {
+              const imp = regSf.getImportDeclarations().find(i =>
+                i.getNamespaceImport()?.getText() === localName ||
+                i.getDefaultImport()?.getText() === localName ||
+                i.getNamedImports().some(n => (n.getAliasNode()?.getText() ?? n.getName()) === localName)
+              );
+              if (imp) {
+                importSpecifier = imp.getModuleSpecifierValue();
+                const targetSf = imp.getModuleSpecifierSourceFile();
+                if (!targetSf) {
+                  resolutionStatus = "unresolved_by_compiler";
+                  unresolvedReason = `The compiler could not resolve import '${importSpecifier}'.`;
+                } else {
+                  resolvedTargetFile = toRepoPath(targetSf.getFilePath(), clonePath);
+                  const entry = fileToModuleMap.get(resolvedTargetFile);
+                  if (entry?.module) {
+                    resolvedTargetModule = entry.module;
+                    resolvedTargetSubmodule = entry.submodule;
+                    resolutionStatus = "resolved_in_repo";
+                  } else {
+                    resolutionStatus = "resolved_outside_module_boundary";
+                    unresolvedReason = `'${resolvedTargetFile}' is not in any scanned module.`;
+                  }
+                }
+              } else {
+                unresolvedReason = `'${localName}' is not imported in this file.`;
+              }
+            } else {
+              unresolvedReason = "Spread callee is not an identifier or a property access on an identifier.";
+            }
+
+            rawExportRegistry.push({
+              ...base,
+              line: prop.getStartLineNumber(),
+              exportGroup: decl.getName(),
+              spreadIndex,
+              factoryCall,
+              factoryQualifier: qualifier,
+              factoryArguments: spreadExpr.getArguments().map(a => a.getText()),
+              importSpecifier,
+              resolvedTargetFile,
+              resolvedTargetModule,
+              resolvedTargetSubmodule,
+              resolutionStatus,
+              unresolvedReason,
+              rawText: spreadExpr.getText(),
+            });
+            spreadIndex++;
+          }
+        }
+      }
+    } catch (err: any) {
+      rawErrors.push({ file: base.path, stage: "export_registry", message: err.message });
+    }
+  }
+
+  // module -> export groups, from the registry above. Used to stamp each
+  // api_contract with the group it is deployed under and its client-facing
+  // name (`<group>-<callableExportName>`). Never guessed: a module with no
+  // group, or with more than one, gets a stated reason instead of a name.
+  const exportGroupsByModule = new Map<string, Set<string>>();
+  for (const entry of rawExportRegistry) {
+    if (entry.resolutionStatus !== "resolved_in_repo" || !entry.resolvedTargetModule) continue;
+    const groups = exportGroupsByModule.get(entry.resolvedTargetModule) ?? new Set<string>();
+    groups.add(entry.exportGroup);
+    exportGroupsByModule.set(entry.resolvedTargetModule, groups);
+  }
 
   for (const { file, base, absolutePath } of runtimeFiles) {
     const sf = project.getSourceFile(absolutePath);
@@ -748,6 +1015,26 @@ function main() {
             isAsync,
             isStatic,
             visibility,
+          });
+        }
+
+        // Function-valued class properties (`set = async (...) => { ... }`, doc 43 W4e):
+        // they are called like methods but `getMethods()` never sees them, so no fact
+        // existed for them and calls inside them had no enclosing member. Recorded as
+        // method-shaped facts (same kind rules as methods) with `memberKind`.
+        for (const prop of cls.getProperties()) {
+          const init = prop.getInitializer();
+          if (!init || !(Node.isArrowFunction(init) || Node.isFunctionExpression(init))) continue;
+          rawMethods.push({
+            ...base,
+            line: prop.getStartLineNumber(),
+            className,
+            methodName: prop.getName(),
+            returnType: sanitizeTypeText(init.getReturnType().getText(), clonePath),
+            isAsync: init.isAsync(),
+            isStatic: prop.isStatic(),
+            visibility: prop.getScope(),
+            memberKind: "arrow_function_property",
           });
         }
       }
@@ -911,13 +1198,44 @@ function main() {
           callerEndLine = enclosingFn.getEndLineNumber();
         }
 
+        // Additive (doc 43 W4e): the enclosing MEMBER of the call, whatever its shape.
+        // `callerName` above only knows methods and function declarations (and is part
+        // of the fact ID, so it must not change); a call inside a function-valued class
+        // property, a constructor or an accessor had none. Callbacks nested inside a
+        // member belong to that member.
+        let enclosingMemberName: string | null = null;
+        let enclosingMemberKind: "method" | "function" | "arrow_function_property" | "constructor" | "accessor" | null = null;
+        let enclosingMemberStartLine: number | null = null;
+        let enclosingMemberEndLine: number | null = null;
+        const enclosingMemberNode: any = callExpr.getFirstAncestor(a =>
+          Node.isMethodDeclaration(a) || Node.isConstructorDeclaration(a) || Node.isGetAccessorDeclaration(a) || Node.isSetAccessorDeclaration(a) ||
+          Node.isFunctionDeclaration(a) ||
+          (Node.isPropertyDeclaration(a) && !!a.getInitializer() && (Node.isArrowFunction(a.getInitializer()!) || Node.isFunctionExpression(a.getInitializer()!)))
+        );
+        if (enclosingMemberNode) {
+          enclosingMemberKind = Node.isMethodDeclaration(enclosingMemberNode) ? "method"
+            : Node.isFunctionDeclaration(enclosingMemberNode) ? "function"
+            : Node.isConstructorDeclaration(enclosingMemberNode) ? "constructor"
+            : Node.isPropertyDeclaration(enclosingMemberNode) ? "arrow_function_property"
+            : "accessor";
+          enclosingMemberName = Node.isConstructorDeclaration(enclosingMemberNode) ? "constructor" : (enclosingMemberNode.getName?.() ?? null);
+          enclosingMemberStartLine = enclosingMemberNode.getStartLineNumber();
+          enclosingMemberEndLine = enclosingMemberNode.getEndLineNumber();
+        }
+
         let calleeSymbol: string | null = null;
         let aliasedCalleeSymbol: string | null = null;
+        let declarationMemberName: string | null = null;
+        let declarationMemberKind: "arrow_function_property" | null = null;
         let declarationFile: string | null = null;
         let declarationLine: number | null = null;
         let declarationClass: string | null = null;
         let declarationMethod: string | null = null;
         let declarationModuleSpecifier: string | null = null;
+        let aliasedDeclarationFile: string | null = null;
+        let aliasedDeclarationLine: number | null = null;
+        let aliasedDeclarationClass: string | null = null;
+        let aliasedDeclarationMethod: string | null = null;
         let resolutionStatus: "resolved" | "partial" | "unresolved" = "unresolved";
 
         try {
@@ -925,7 +1243,22 @@ function main() {
           if (symbol) {
             calleeSymbol = symbol.getName();
             const aliased = symbol.getAliasedSymbol();
-            if (aliased) aliasedCalleeSymbol = aliased.getName();
+            if (aliased) {
+              aliasedCalleeSymbol = aliased.getName();
+              // Additive (doc 43 W1): when the callee is an import alias,
+              // `decl` below is the import specifier in the CALLING file, so
+              // declarationFile points at the caller itself. Keep that as-is
+              // (existing meaning) and record where the alias really leads.
+              const aliasedDecl = aliased.getValueDeclaration() || aliased.getDeclarations()[0];
+              if (aliasedDecl) {
+                aliasedDeclarationFile = toRepoPath(aliasedDecl.getSourceFile().getFilePath(), clonePath);
+                aliasedDeclarationLine = aliasedDecl.getStartLineNumber();
+                aliasedDeclarationClass = aliasedDecl.getFirstAncestorByKind(SyntaxKind.ClassDeclaration)?.getName() || null;
+                if (Node.isMethodDeclaration(aliasedDecl) || Node.isFunctionDeclaration(aliasedDecl)) {
+                  aliasedDeclarationMethod = aliasedDecl.getName() || null;
+                }
+              }
+            }
 
             const decl = symbol.getValueDeclaration() || symbol.getDeclarations()[0];
             if (decl) {
@@ -935,6 +1268,12 @@ function main() {
 
               const declClass = decl.getFirstAncestorByKind(SyntaxKind.ClassDeclaration);
               if (declClass) declarationClass = declClass.getName() || null;
+
+              // Additive (doc 43 W4e): the callee is a function-valued class property.
+              if (Node.isPropertyDeclaration(decl) && decl.getInitializer() && (Node.isArrowFunction(decl.getInitializer()!) || Node.isFunctionExpression(decl.getInitializer()!))) {
+                declarationMemberName = decl.getName();
+                declarationMemberKind = "arrow_function_property";
+              }
 
               if (Node.isMethodDeclaration(decl)) {
                 declarationMethod = decl.getName();
@@ -952,6 +1291,27 @@ function main() {
           }
         } catch {
           resolutionStatus = "unresolved";
+        }
+
+        // Additive (doc 43 W4a): the first argument resolved to a path-shaped
+        // string, statically; set only where a path resolves, null otherwise.
+        // (An argument that is a bare parameter is deliberately not marked: only
+        // a handful of base-controller sites care, and naming them would mean
+        // hardcoding wrapper names. The unresolved reason is derivable from
+        // `arguments[0]` not resolving.)
+        let resolvedPath: string | null = null;
+        let resolvedPathVia: string | null = null;
+        const firstArg = callExpr.getArguments()[0];
+        if (firstArg) {
+          try {
+            const pathRes = resolvePathValue(firstArg);
+            if (pathRes.value !== null && PATH_SHAPED.test(pathRes.value)) {
+              resolvedPath = pathRes.value;
+              resolvedPathVia = pathRes.via;
+            }
+          } catch {
+            // a resolution failure must never fail the call fact itself
+          }
         }
 
         rawCalls.push({
@@ -973,6 +1333,18 @@ function main() {
           declarationClass,
           declarationMethod,
           declarationModuleSpecifier,
+          aliasedDeclarationFile,
+          aliasedDeclarationLine,
+          aliasedDeclarationClass,
+          aliasedDeclarationMethod,
+          resolvedPath,
+          resolvedPathVia,
+          enclosingMemberName,
+          enclosingMemberKind,
+          enclosingMemberStartLine,
+          enclosingMemberEndLine,
+          declarationMemberName,
+          declarationMemberKind,
           resolutionStatus,
         });
 
@@ -1065,11 +1437,13 @@ function main() {
               const topicArg = calleeObject.getArguments()[0];
               if (topicArg) {
                 const res = resolveExpressionValue(topicArg);
+                const legacyValue = res.value || topicArg.getText();
+                const analysis = analysePublishSite(callExpr, envTable, { toRepoPath: (abs: string) => toRepoPath(abs, clonePath), fallback: (n: Node) => resolveExpressionValue(n) });
                 rawExternalHooks.push({
                   ...base,
                   line,
                   type: "pubsub_publish_call",
-                  value: res.value || topicArg.getText(),
+                  value: legacyValue,
                   confidence: res.status === "resolved" ? "confirmed" : "candidate",
                   topicResolutionStatus: res.status,
                   detectionMethod: "structural_chain",
@@ -1078,6 +1452,7 @@ function main() {
                   declarationFile,
                   declarationModuleSpecifier,
                   resolutionStatus,
+                  ...publishAnalysisFields(analysis, legacyValue),
                 });
                 matchedStructuralPubSubChain = true;
               }
@@ -1089,11 +1464,15 @@ function main() {
           const topicArg = callExpr.getArguments()[0];
           if (topicArg) {
             const res = resolveExpressionValue(topicArg);
+            const legacyValue = res.value || topicArg.getText();
+            // Site selection stays name-based (as before); WHICH argument is the
+            // topic and what it evaluates to now comes from the callee's own body.
+            const analysis = analysePublishSite(callExpr, envTable, { toRepoPath: (abs: string) => toRepoPath(abs, clonePath), fallback: (n: Node) => resolveExpressionValue(n) });
             rawExternalHooks.push({
               ...base,
               line,
               type: "pubsub_publish_call",
-              value: res.value || topicArg.getText(),
+              value: legacyValue,
               confidence: res.status === "resolved" ? "confirmed" : "candidate",
               topicResolutionStatus: res.status,
               detectionMethod: "known_wrapper_method_name",
@@ -1102,6 +1481,7 @@ function main() {
               declarationFile,
               declarationModuleSpecifier,
               resolutionStatus,
+              ...publishAnalysisFields(analysis, legacyValue),
             });
           }
         }
@@ -1110,12 +1490,50 @@ function main() {
         if (exactMethodName && TRIGGER_METHODS.has(exactMethodName)) {
           const arg0 = callExpr.getArguments()[0];
           const arg1 = callExpr.getArguments()[1];
-          let firestorePath: string | null = null;
           let handlerNode = arg1 || arg0;
 
-          if (arg0 && (arg1 || TRIGGER_METHODS.has(exactMethodName))) {
-            const res = resolveExpressionValue(arg0);
-            if (res.value) firestorePath = res.value;
+          // Where the path lives depends on the registration style:
+          //  - v2 `onDocumentCreated(path, handler)`: the path is arg0 of this call;
+          //  - v1 `<x>.document(<path>).onCreate(handler)`: arg0 here is the HANDLER,
+          //    and the path is the argument of the `document(...)` call in the
+          //    receiver chain (this was the "unknown" bug: doc 43 W4a).
+          // A trigger whose receiver has no `document(...)` call (e.g. an
+          // `auth.user().onCreate(...)` account trigger) has no Firestore path at
+          // all; it is marked with its own source instead of a placeholder.
+          const isDocumentStyle = exactMethodName.startsWith("onDocument");
+          const receiver = Node.isPropertyAccessExpression(expr) ? expr.getExpression() : undefined;
+          const documentCall =
+            !isDocumentStyle && receiver && Node.isCallExpression(receiver) &&
+            Node.isPropertyAccessExpression(receiver.getExpression()) &&
+            (receiver.getExpression() as any).getName() === "document"
+              ? receiver
+              : undefined;
+          const pathNode = isDocumentStyle ? v2ObjectLiteralPathArg(arg0) : documentCall?.getArguments()[0];
+
+          let firestorePath: string | null = null;
+          let firestorePathStatus: "resolved" | "unresolved" | "not_applicable";
+          let firestorePathResolutionMethod: string | null = null;
+          let firestorePathReason: string | null = null;
+          let triggerSource: string;
+          if (pathNode) {
+            triggerSource = "firestore";
+            const res = resolvePathValue(pathNode);
+            if (res.value !== null) {
+              firestorePath = res.value;
+              firestorePathStatus = "resolved";
+              firestorePathResolutionMethod = res.via;
+            } else {
+              firestorePathStatus = "unresolved";
+              firestorePathReason = res.reason;
+            }
+          } else {
+            // Not a Firestore trigger: name its source from the receiver chain's
+            // root identifier (`auth` for `auth.user().onCreate(...)`).
+            let root: Node | undefined = receiver;
+            while (root && (Node.isCallExpression(root) || Node.isPropertyAccessExpression(root))) root = root.getExpression();
+            triggerSource = root && Node.isIdentifier(root) ? root.getText() : "unknown";
+            firestorePathStatus = "not_applicable";
+            firestorePathReason = "Registration has no document(...) path in its receiver chain.";
           }
 
           const handlerResolution = resolveHandlerDeclaration(handlerNode, clonePath, base.path);
@@ -1124,7 +1542,14 @@ function main() {
             ...base,
             line,
             triggerType: "FIRESTORE_TRIGGER",
-            firestorePath: firestorePath || "unknown",
+            // The path itself (null when the trigger has none). Previously the
+            // sentinel "unknown" for every trigger.
+            firestorePath,
+            firestorePathStatus,
+            firestorePathResolutionMethod,
+            firestorePathReason,
+            triggerSource,
+            triggerEvent: triggerEventFor(exactMethodName),
             rawText: callExpr.getText(),
             calleeExpression: calleeText,
             calleeSymbol,
@@ -1151,6 +1576,26 @@ function main() {
           // contract's evidence blob.
           const { pubsubEventRoutes, ...handlerResolution } = resolveHandlerDeclaration(handlerArg, clonePath, base.path);
 
+          const groupsForModule = exportGroupsByModule.get(base.module);
+          let exportGroup: string | null = null;
+          let clientFunctionName: string | null = null;
+          let clientFunctionNameStatus: string;
+          if (rawExportRegistry.length === 0) {
+            clientFunctionNameStatus = "no_export_registry_found";
+          } else if (!groupsForModule || groupsForModule.size === 0) {
+            clientFunctionNameStatus = "module_not_exported_in_registry";
+          } else if (groupsForModule.size > 1) {
+            clientFunctionNameStatus = `ambiguous_multiple_export_groups:${Array.from(groupsForModule).sort().join(",")}`;
+          } else {
+            exportGroup = Array.from(groupsForModule)[0];
+            if (callableExportName) {
+              clientFunctionName = `${exportGroup}-${callableExportName}`;
+              clientFunctionNameStatus = "resolved";
+            } else {
+              clientFunctionNameStatus = "no_callable_export_name";
+            }
+          }
+
           rawApiContracts.push({
             ...base,
             line,
@@ -1158,6 +1603,9 @@ function main() {
             rawText: callExpr.getText(),
             value: handlerResolution.handlerName || exactMethodName,
             callableExportName,
+            exportGroup,
+            clientFunctionName,
+            clientFunctionNameStatus,
             calleeExpression: calleeText,
             calleeSymbol,
             aliasedCalleeSymbol,
@@ -1265,6 +1713,7 @@ function main() {
   rawApiContracts.sort(sortFn);
   rawTriggers.sort(sortFn);
   rawPubSubEventRoutes.sort(sortFn);
+  rawExportRegistry.sort((a, b) => sortFn(a, b) || a.spreadIndex - b.spreadIndex);
   rawErrors.sort(sortFn);
 
   // Write raw facts atomically
@@ -1283,6 +1732,7 @@ function main() {
   writeJsonAtomically(path.join(rawDir, "ast-api-contracts.json"), rawApiContracts, "facts/ast-api-contracts.json");
   writeJsonAtomically(path.join(rawDir, "ast-firestore-triggers.json"), rawTriggers, "facts/ast-firestore-triggers.json");
   writeJsonAtomically(path.join(rawDir, "ast-pubsub-event-routes.json"), rawPubSubEventRoutes, "facts/ast-pubsub-event-routes.json");
+  writeJsonAtomically(path.join(rawDir, "ast-export-registry.json"), rawExportRegistry, "facts/ast-export-registry.json");
   writeJsonAtomically(path.join(rawDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
 
   // AST error-tolerance gate: previously rawErrors were collected and
@@ -1341,6 +1791,7 @@ function main() {
       { file: "ast-api-contracts.json", evidenceType: "apiContracts", recordCount: rawApiContracts.length, required: true },
       { file: "ast-firestore-triggers.json", evidenceType: "firestoreTriggers", recordCount: rawTriggers.length, required: true },
       { file: "ast-pubsub-event-routes.json", evidenceType: "pubsubEventRoutes", recordCount: rawPubSubEventRoutes.length, required: true },
+      { file: "ast-export-registry.json", evidenceType: "exportRegistry", recordCount: rawExportRegistry.length, required: true },
     ],
     errors: {
       file: "ast-errors.json",
@@ -1370,6 +1821,7 @@ function main() {
     apiContracts: rawApiContracts.length,
     firestoreTriggers: rawTriggers.length,
     pubsubEventRoutes: rawPubSubEventRoutes.length,
+    exportRegistry: rawExportRegistry.length,
     errors: rawErrors.length,
   });
   console.log(`AST evidence manifest written to: ${path.join(rawDir, "ast-evidence-manifest.json")}`);

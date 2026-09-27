@@ -10,7 +10,8 @@
 
 import fs from "fs";
 import path from "path";
-import { parseTemplate } from "@angular/compiler";
+import { parseTemplate, TmplAstRecursiveVisitor, tmplAstVisitAll } from "@angular/compiler";
+import { extractFirestoreClientCalls } from "./_shared/firestore-client-calls";
 import { Project, SyntaxKind, Node, ClassDeclaration, MethodDeclaration, FunctionDeclaration, Identifier, Symbol, Type, SourceFile } from "ts-morph";
 import {
   RunNotifications,
@@ -452,6 +453,47 @@ const AUTH_CHECK_METHODS = new Set([
   "accessGuard",
 ]);
 
+// ---------------------------------------------------------------------------
+// Template form-group context (doc 43 W3). Angular's template AST has no parent
+// links, so one pre-pass with an ancestor stack records, for every element, the
+// `formGroupName` / `formArrayName` elements enclosing it (outermost first).
+// Static names are kept as written; bound ones (`[formGroupName]="i"`) keep
+// their source expression and are flagged `bound`.
+type FormGroupStep = { kind: "formGroupName" | "formArrayName"; name: string; bound: boolean };
+
+class FormGroupChainVisitor extends TmplAstRecursiveVisitor {
+  chainOf = new Map<any, FormGroupStep[]>();
+  private stack: FormGroupStep[] = [];
+
+  private stepFor(node: any): FormGroupStep | null {
+    for (const attr of node.attributes ?? []) {
+      if (attr.name === "formGroupName" || attr.name === "formArrayName") return { kind: attr.name, name: String(attr.value), bound: false };
+    }
+    for (const input of node.inputs ?? []) {
+      if (input.name === "formGroupName" || input.name === "formArrayName") return { kind: input.name, name: String(input.value?.source ?? ""), bound: true };
+    }
+    return null;
+  }
+
+  private enter(node: any, descend: () => void) {
+    this.chainOf.set(node, this.stack.slice());
+    const step = this.stepFor(node);
+    if (step) this.stack.push(step);
+    descend();
+    if (step) this.stack.pop();
+  }
+
+  override visitElement(element: any) { this.enter(element, () => super.visitElement(element)); }
+  override visitTemplate(template: any) { this.enter(template, () => super.visitTemplate(template)); }
+}
+
+// Dotted control path from the group chain and the control's own name; a bound
+// part is shown as `{expression}`.
+function formControlPathFor(chain: FormGroupStep[], leafName: string, leafBound: boolean): string {
+  const part = (name: string, bound: boolean) => (bound ? `{${name}}` : name);
+  return [...chain.map(step => part(step.name, step.bound)), part(leafName, leafBound)].join(".");
+}
+
 function main() {
   const REPO_NAME = process.env.REPO_NAME;
   if (!REPO_NAME) {
@@ -821,7 +863,29 @@ function main() {
               const templateHtml = fs.readFileSync(templateAbsolutePath, 'utf8');
               const parsed = parseTemplate(templateHtml, templateRepoPath);
 
-              const visitNode = (node: any) => {
+              // Pass 1 is the original walk, unchanged (same order), so every existing
+              // fact keeps its ID and `#n` ordinal. Pass 2 (below) records only the
+              // elements pass 1 could not reach (e.g. inside @switch), appended after.
+              const chainVisitor = new FormGroupChainVisitor();
+              if (Array.isArray(parsed.nodes)) tmplAstVisitAll(chainVisitor, parsed.nodes);
+              const seenNodes = new Set<any>();
+
+              // Additive fields for a formControlName (static attribute or bound input):
+              // the enclosing formGroupName/formArrayName chain and the dotted path.
+              // A bound control name that is a string literal ('email') is read as
+              // that literal; any other expression is shown as {expression}.
+              const controlPathFields = (node: any, rawValue: string, valueIsExpression: boolean) => {
+                const chain = chainVisitor.chainOf.get(node) ?? [];
+                let leaf = String(rawValue ?? "");
+                let leafBound = false;
+                if (valueIsExpression) {
+                  const literal = leaf.trim().match(/^(['"`])(.*)\1$/);
+                  if (literal) leaf = literal[2]; else leafBound = true;
+                }
+                return { formGroupChain: chain, formControlPath: formControlPathFor(chain, leaf, leafBound) };
+              };
+
+              const recordNode = (node: any) => {
                 if (!node) return;
 
                 // Check for Element-like structures that have names
@@ -849,7 +913,8 @@ function main() {
                         elementTag,
                         bindingKind: "input",
                         bindingName: input.name,
-                        bindingValueRaw: input.value?.source || ""
+                        bindingValueRaw: input.value?.source || "",
+                        ...(input.name === "formControlName" ? controlPathFields(node, input.value?.source || "", true) : {})
                       });
                     }
                   }
@@ -896,12 +961,19 @@ function main() {
                         templateLine,
                         elementTag,
                         attributeName: attr.name,
-                        attributeValue: attr.value
+                        attributeValue: attr.value,
+                        ...(attr.name === "formControlName" ? controlPathFields(node, attr.value, false) : {})
                       });
                     }
                   }
                 }
 
+              };
+
+              const visitNode = (node: any) => {
+                if (!node) return;
+                seenNodes.add(node);
+                recordNode(node);
                 if (Array.isArray(node.children)) node.children.forEach(visitNode);
                 if (Array.isArray(node.branches)) {
                   node.branches.forEach((branch: any) => {
@@ -911,6 +983,16 @@ function main() {
               };
 
               if (Array.isArray(parsed.nodes)) parsed.nodes.forEach(visitNode);
+
+              // Pass 2: Angular's own recursive visitor enters every node kind (switch
+              // case groups, @empty, @defer blocks, ...). Anything it finds that pass 1
+              // did not see is recorded now, in document order, after everything pass 1
+              // recorded for this template.
+              class UnseenNodeRecorder extends TmplAstRecursiveVisitor {
+                override visitElement(element: any) { if (!seenNodes.has(element)) { seenNodes.add(element); recordNode(element); } super.visitElement(element); }
+                override visitTemplate(template: any) { if (!seenNodes.has(template)) { seenNodes.add(template); recordNode(template); } super.visitTemplate(template); }
+              }
+              if (Array.isArray(parsed.nodes)) tmplAstVisitAll(new UnseenNodeRecorder(), parsed.nodes);
             }
           } catch (err: any) {
             rawErrors.push({ file: base.path, stage: 'template_parsing', message: err.message });
@@ -1567,6 +1649,25 @@ function main() {
   }
 
   // Sort raw outputs deterministically
+  // Client Firestore path facts (doc 43 W4b): SDK vocabulary from config, calls
+  // recognised through the import symbol. Skipped when the repo has no table.
+  const rawFirestoreClientCalls: any[] = [];
+  if (targetRepo.firestoreClientSdk) {
+    const fcResult = extractFirestoreClientCalls({
+      project,
+      runtimeFiles,
+      sdk: targetRepo.firestoreClientSdk,
+      toRepoPath: (abs: string) => toRepoPath(abs, clonePath),
+    });
+    rawFirestoreClientCalls.push(...fcResult.records);
+    for (const gap of fcResult.gaps) {
+      addNotification(notifications, "01-extract-ast-evidence", "warning", "FIRESTORE_SDK_EXPORT_NOT_IN_TABLE", `SDK export '${gap.exportName}' (from '${gap.specifier}') is used at ${gap.file}:${gap.line} but is not in firestoreClientSdk.exports; recorded with operation null.`, { key: `${gap.file}:${gap.line}:${gap.exportName}` });
+    }
+    const skippedByRole: Record<string, number> = {};
+    for (const sk of fcResult.skipped) skippedByRole[sk.role] = (skippedByRole[sk.role] ?? 0) + 1;
+    addNotification(notifications, "01-extract-ast-evidence", "info", "FIRESTORE_CLIENT_CALLS_EXTRACTED", `firestore_client_call records: ${fcResult.records.length}; table gaps: ${fcResult.gaps.length}; SDK calls with no path or operation by role: ${JSON.stringify(skippedByRole)}.`, { key: "firestore-client-calls", skipped: fcResult.skipped });
+  }
+
   const sortFn = (a: any, b: any) => (a.path || "").localeCompare(b.path || "") || (a.line ?? 0) - (b.line ?? 0) || (a.name || a.value || "").localeCompare(b.name || b.value || "");
 
   rawImports.sort(sortFn);
@@ -1591,6 +1692,7 @@ function main() {
   rawAngularSignals.sort(sortFn);
   rawAngularTemplateComposition.sort(sortFn);
   rawAngularTemplateBindings.sort(sortFn);
+  rawFirestoreClientCalls.sort((a: any, b: any) => (a.file || "").localeCompare(b.file || "") || (a.line ?? 0) - (b.line ?? 0) || (a.sdkCall || "").localeCompare(b.sdkCall || ""));
   rawAngularTemplateAttributes.sort(sortFn);
   rawErrors.sort(sortFn);
 
@@ -1618,6 +1720,7 @@ function main() {
   writeJsonAtomically(path.join(rawDir, "ast-angular-template-composition.json"), rawAngularTemplateComposition, "facts/ast-angular-template-composition.json");
   writeJsonAtomically(path.join(rawDir, "ast-angular-template-bindings.json"), rawAngularTemplateBindings, "facts/ast-angular-template-bindings.json");
   writeJsonAtomically(path.join(rawDir, "ast-angular-template-attributes.json"), rawAngularTemplateAttributes, "facts/ast-angular-template-attributes.json");
+  writeJsonAtomically(path.join(rawDir, "ast-firestore-client-calls.json"), rawFirestoreClientCalls, "facts/ast-firestore-client-calls.json");
   writeJsonAtomically(path.join(rawDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
 
   // AST error-tolerance gate: previously rawErrors were collected and
@@ -1684,6 +1787,7 @@ function main() {
       { file: "ast-angular-template-composition.json", evidenceType: "angularTemplateComposition", recordCount: rawAngularTemplateComposition.length, required: true },
       { file: "ast-angular-template-bindings.json", evidenceType: "angularTemplateBindings", recordCount: rawAngularTemplateBindings.length, required: true },
       { file: "ast-angular-template-attributes.json", evidenceType: "angularTemplateAttributes", recordCount: rawAngularTemplateAttributes.length, required: true },
+      { file: "ast-firestore-client-calls.json", evidenceType: "firestoreClientCalls", recordCount: rawFirestoreClientCalls.length, required: true },
     ],
     errors: {
       file: "ast-errors.json",
@@ -1721,6 +1825,7 @@ function main() {
     angularTemplateComposition: rawAngularTemplateComposition.length,
     angularTemplateBindings: rawAngularTemplateBindings.length,
     angularTemplateAttributes: rawAngularTemplateAttributes.length,
+    firestoreClientCalls: rawFirestoreClientCalls.length,
     errors: rawErrors.length,
   });
   console.log(`AST evidence manifest written to: ${path.join(rawDir, "ast-evidence-manifest.json")}`);

@@ -6,6 +6,8 @@ Last verified against the live system: 2026-09-21 (all 9 repos' on-disk runs mat
 
 Known open drift on that date: every `INTRA_REPO_CALL` edge in Postgres was built on 2026-09-11, but android-intercom (09-18), ios-oskey-dev and the three Swift kits (09-20) have been re-extracted and re-synced since. 153 of those edges point at facts that no longer exist (swift-ui-kit 108, swift-webrtc-kit 37, swift-ble-kit 6, android-intercom 2); all are `unresolved`/`probable`, which traversal never follows, so they are harmless for now. Separately, `android-intercom-oskey-io`'s current run (`20260918_154849-f2cac85f`) only ran `00`, `01`, `02` and `05`, so it has no `resolved-engineering-graph.json` at all. Fix: `04` for that repo, then Stage C for every repo above, then Stage D. The resolved cross-repo edges are the ones that would break traversal if a repo is re-synced without rebuilding them.
 
+**Resolved 2026-09-26:** all of that drift was cleared by `npm run pipeline:edges` (see [Rebuilding edges](#rebuilding-edges-npm-run-pipelineedges)): 0 dangling edges, and "stale" is now judged from the facts, not from timestamps.
+
 ---
 
 ## The one thing to remember
@@ -41,8 +43,8 @@ pipeline/
 
 | Repo | Command | Source |
 |---|---|---|
-| `firebase-oskey-dev` | `npm run pipeline:firebase` | branch `staging` |
-| `angular-app-oskey-io` | `npm run pipeline:angular` | branch `staging` |
+| `firebase-oskey-dev` | `npm run pipeline:firebase` | **TEMPORARILY pinned** to commit `00e1d9fd` (normally branch `staging`; pinned 2026-09-26 for the extraction-gaps build, see doc 43 "step U"; restoring it is its own later initiative, deferred pending v2 Firestore-trigger support) |
+| `angular-app-oskey-io` | `npm run pipeline:angular` | branch `staging` (was temporarily pinned to commit `8345d222` for the extraction-gaps build; restored 2026-09-27, doc 43 "step U") |
 | `node-iot-api-oskey-io` | `npm run pipeline:node-iot` | branch `staging` |
 | `android-intercom-oskey-io` | `npm run pipeline:android-intercom` | branch `develop` |
 | `ios-oskey-dev` | `npm run pipeline:ios-oskey-dev` | branch `master` |
@@ -115,6 +117,20 @@ EMBED=true REPO_NAME=$REPO MODULE_NAME="$MODULE" node -r ts-node/register pipeli
 
 Facts whose description did not change keep their embedding, so an unchanged re-extraction costs nothing (the 2026-09-20 Swift/iOS re-run re-embedded 0 of ~33,700 facts). Un-embedded facts are invisible to semantic search, so don't leave them.
 
+### Rebuilding edges: `npm run pipeline:edges`
+
+Stages C, D and E below are three separate scripts. **`npm run pipeline:edges` runs all three in the right order** and is the way to rebuild edges after any sync (Stage B). It changes none of the builders' edge logic:
+
+1. **intra** (Stage C) once per repo that has a current run in Postgres **and** a `resolved-engineering-graph.json` whose `runId` equals that run. Repos are discovered from `extraction_runs`. A repo can be switched off in `config/repos.json` with `"intraRepoEdges": { "enabled": false, "reason": "..." }` (node-iot is, on purpose); the skip and its reason are printed every run, with a note if that repo's graph now has confirmed/probable edges.
+2. **cross** (Stage D), every join.
+3. **lineage** (Stage E, `FIELD_BINDING`, Angular only).
+
+Flags: `--repos=a,b` (limits the intra step; the joins and lineage are global), `--steps=intra,cross,lineage` (default: all three), `--dry-run` (compute and print, write nothing; the lineage builder has no dry run, so it is reported, not run), `--accept-shrink` (passed to the intra and cross builders; only after looking at why an edge set shrinks), `--fail-on-stale` (exit 1 if any slice is STALE at the end). Idempotent: running it twice leaves every slice content-identical (checked live 2026-09-26, per-slice md5).
+
+**Edge-sync state (table `edge_sync_state`, DDL in `facts-postgres-index/edge-sync-state.sql`).** Every real run records, per slice (`connection_type`, `source_repo`), a fingerprint of the fact set of each repo the slice depends on (an md5 over every fact's `fact_ref` and payload, with `runId`/`generatedAt` removed, so two extractions of the same commit have the same fingerprint). The coverage summary at the end of every run reads it: **ok** (built from the current fact sets), **STALE** (an input repo's facts differ from what the edges were built from: run `pipeline:edges`), **UNRECORDED** (the edges were rebuilt by hand outside `pipeline:edges`, or never recorded; freshness unknown). A re-sync of unchanged facts is not stale; a payload field added to an existing fact is.
+
+The individual builders still work on their own (`build-cross-repo-edges.ts --join=...`, `--dry-run`, `--summary-only`; `build-intra-repo-edges.ts` now also has `--dry-run` and a shrink guard with `--accept-shrink`). A hand-run leaves those slices UNRECORDED until the next `pipeline:edges`.
+
 ### Stage C — intra-repo call edges (per repo; needs Stage B for that repo)
 
 ```bash
@@ -168,10 +184,10 @@ Output goes to `governance/reference-docs/screen-map-*.json`. Read-only against 
 
 | Situation | Run |
 |---|---|
-| One repo has new commits | A → B (→ B2 if it reports un-embedded facts) → C for that repo, then D, then E if Angular or Firebase changed |
-| Extractor code changed | A → B → C for every affected repo, then D, E |
+| One repo has new commits | A → B (→ B2 if it reports un-embedded facts) → `npm run pipeline:edges` |
+| Extractor code changed | A → B → `npm run pipeline:edges` |
 | Just want the index current with what's already extracted | B (and B2) for the repos the drift check flags |
-| Rebuilding edges only | D, then E |
+| Rebuilding edges only | `npm run pipeline:edges` |
 
 ## Detecting drift
 
@@ -199,7 +215,7 @@ for f in output/*/run-context.json; do
 done
 ```
 
-What these do not cover: whether `04` is older than `02` within a run, whether edges (Stages C–E) were rebuilt after the last sync, and whether any facts are still missing embeddings. To check the last one: `select repo, count(*) from facts where embedding is null group by 1;` against the same container.
+What these do not cover: whether `04` is older than `02` within a run, whether edges (Stages C–E) were rebuilt after the last sync (the last line of `npm run pipeline:edges --dry-run`'s coverage summary answers that: STALE / UNRECORDED slices), and whether any facts are still missing embeddings. To check the last one: `select repo, count(*) from facts where embedding is null group by 1;` against the same container.
 
 ## Legacy: phase-02 synthesis
 

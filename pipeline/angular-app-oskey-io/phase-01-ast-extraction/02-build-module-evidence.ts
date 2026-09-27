@@ -362,6 +362,7 @@ function main() {
   const angularTemplateCompositionFact = loadFactFile("ast-angular-template-composition.json");
   const angularTemplateBindingsFact = loadFactFile("ast-angular-template-bindings.json");
   const angularTemplateAttributesFact = loadFactFile("ast-angular-template-attributes.json");
+  const firestoreClientCallsFact = loadFactFile("ast-firestore-client-calls.json");
 
   const modulesBaseDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
   fs.mkdirSync(modulesBaseDir, { recursive: true });
@@ -933,6 +934,25 @@ function main() {
         }),
         runId, type: "angular_template_attribute", repo: REPO_NAME, module: moduleName, submodule: item.submodule,
         file: item.templatePath, line: item.templateLine, value: `${item.elementTag}[${item.attributeName}] = "${item.attributeValue}"`,
+        evidence: { ...item },
+      });
+    }
+
+    // 24. firestore_client_call (doc 43 W4b). Same payload shape and ID pattern as the
+    // Swift W4c facts (shared interface contract): `value` is the path template
+    // (or "unresolved"), primaryKey is the calling class.function, secondaryKey
+    // the SDK call plus the path, occurrenceOrdinal covers repeated identical calls.
+    for (const item of firestoreClientCallsFact.filter((f: any) => f.module === moduleName)) {
+      const primaryKey = `${item.callerClass ?? "no_class"}.${item.callerFunction ?? "unknown_function"}`;
+      const secondaryKey = `${item.sdkCall}:${item.value}`;
+      rawModuleFacts.push({
+        id: stableFactId({
+          type: "firestore_client_call", repo: REPO_NAME, module: moduleName, file: item.file, line: item.line,
+          primaryKey, secondaryKey,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "firestore_client_call", item.file, primaryKey, secondaryKey),
+        }),
+        runId, type: "firestore_client_call", repo: REPO_NAME, module: moduleName, submodule: item.submodule,
+        file: item.file, line: item.line, value: item.value,
         evidence: { ...item },
       });
     }

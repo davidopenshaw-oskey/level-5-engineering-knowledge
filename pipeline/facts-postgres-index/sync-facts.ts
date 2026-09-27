@@ -1,4 +1,4 @@
-// **version:** 1.0.0
+// **version:** 1.2.0
 // **location:** level-5 P2 facts index
 // © Oskey SAS. All rights reserved.
 //
@@ -474,7 +474,63 @@ export function descriptionFor(fact: Fact, module: string): string {
     ? ` -- ${touchpointDirection ?? "touches"} event: ${touchpointEvent}`
     : "";
 
-  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${implementsInterfacesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${kotlinCallResolutionDoc}${kotlinCallArgumentsDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${importsDependencyDoc}${enumDeclarationDoc}${tsEnumDeclarationDoc}${swiftEnumDeclarationDoc}${swiftInheritanceDoc}${extensionDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${functionOwningClassDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc} (${loc})`;
+  // Added 2026-09-26 (Lane A, doc 43) for two new fact kinds from the extraction lanes, so they
+  // are embedded with their real content rather than the bare "{kind} in {module}: {symbol}"
+  // floor. Both fire only for their own kind, so no existing fact's description changes (checked:
+  // every stored description is reproduced exactly before and after this edit). Field names are
+  // the ones the emitting extractors write today (Firebase 02-build-module-evidence.ts step 12c
+  // and Swift 02 step 13; Angular's W4b facts use the same firestore_client_call shape, shared
+  // interface contract in doc 43); a missing field is skipped, nothing is invented.
+  const exportGroup: string | undefined = fact.exportGroup ?? fact.evidence?.exportGroup;
+  const exportFactoryCall: string | undefined = fact.factoryCall ?? fact.evidence?.factoryCall;
+  const exportImportSpecifier: string | undefined = fact.importSpecifier ?? fact.evidence?.importSpecifier;
+  const exportTargetModule: string | undefined = fact.resolvedTargetModule ?? fact.evidence?.resolvedTargetModule;
+  const exportTargetSubmodule: string | undefined = fact.resolvedTargetSubmodule ?? fact.evidence?.resolvedTargetSubmodule;
+  const exportResolutionStatus: string | undefined = fact.resolutionStatus ?? fact.evidence?.resolutionStatus;
+  // Client callables are named "<exportGroup>-<callableExportName>", so the group is the piece a
+  // search for a client function name needs to land on the module that implements it.
+  const exportRegistryEntryDoc = fact.type === "export_registry_entry"
+    ? `${exportGroup ? ` -- deployed function group '${exportGroup}': clients call its functions as '${exportGroup}-<name>'` : ""}${exportFactoryCall ? ` -- built by ${exportFactoryCall}` : ""}${exportImportSpecifier ? ` from '${exportImportSpecifier}'` : ""}${exportTargetModule ? ` -- resolves to module: ${exportTargetModule}${exportTargetSubmodule ? `/${exportTargetSubmodule}` : ""}` : exportResolutionStatus ? ` -- module not resolved (${exportResolutionStatus})` : ""}`
+    : "";
+
+  // Added 2026-09-26 (Lane A, doc 43 W2): a Pub/Sub publish call site (`external_hook` with evidence.type =
+  // pubsub_publish_call) used to get only the floor text. Lane B's W2 extractor adds these fields (additive; the fact
+  // ID and top-level `value` semantics are handled there): `topicName` (the concrete topic), `topicNameStatus`
+  // (resolved | pass_through_parameter | env_var_not_defined | env_var_overridden | unresolved), `topicNameReason`,
+  // `topicSource` ({kind: literal | env_var | parameter, envVar, envFile}), `publishRole` (origin | via_wrapper |
+  // plumbing), `wrapperMethod`, `orderingKeyExpression`, `topicResolvedVia` (an ordered chain). The text is added only
+  // when at least one of them is present, so a publish fact extracted before W2 (and node-iot's, which lack them)
+  // keeps exactly the description it has today; nothing is invented, an absent field is skipped. The
+  // `topicResolvedVia` steps are shortened to their names (the "@ file:line" parts stay in the payload) to keep the embedded text small.
+  const hookType: string | undefined = fact.evidence?.type ?? fact.hookType;
+  const psTopic: string | undefined = fact.topicName ?? fact.evidence?.topicName;
+  const psStatus: string | undefined = fact.topicNameStatus ?? fact.evidence?.topicNameStatus;
+  const psReason: string | undefined = fact.topicNameReason ?? fact.evidence?.topicNameReason;
+  const psSource: { kind?: string; envVar?: string; envFile?: string } | undefined = fact.topicSource ?? fact.evidence?.topicSource;
+  const psRole: string | undefined = fact.publishRole ?? fact.evidence?.publishRole;
+  const psWrapper: string | undefined = fact.wrapperMethod ?? fact.evidence?.wrapperMethod;
+  const psOrdering: string | undefined = fact.orderingKeyExpression ?? fact.evidence?.orderingKeyExpression;
+  const psVia: string[] | undefined = fact.topicResolvedVia ?? fact.evidence?.topicResolvedVia;
+  const pubsubPublishCallDoc = fact.type === "external_hook" && hookType === "pubsub_publish_call" && (psTopic || psStatus || psRole)
+    ? `${psTopic ? ` -- publishes to topic: ${psTopic}${psSource?.kind === "env_var" && psSource.envVar ? ` (from env var ${psSource.envVar}${psSource.envFile ? ` in ${psSource.envFile}` : ""})` : psSource?.kind ? ` (${psSource.kind.replace(/_/g, " ")})` : ""}` : psStatus ? ` -- topic not resolved (${psStatus.replace(/_/g, " ")}${psReason ? `: ${psReason}` : ""})` : ""}${psOrdering ? ` -- ordering key: ${psOrdering}` : ""}${psRole === "origin" ? " -- publishes directly" : psRole === "via_wrapper" ? ` -- publishes via ${psWrapper ?? "a wrapper method"}` : psRole === "plumbing" ? " -- shared publish method: the topic is a parameter, the concrete topic is recorded on its callers" : ""}${Array.isArray(psVia) && psVia.length > 0 ? ` -- resolved via: ${psVia.map(step => step.replace(/\s*\(read from .*$/, "").replace(/\s*@\s*\S+$/, "")).join(" -> ")}${psVia.some(step => /committed \.env/.test(step)) ? " (repository's committed .env files, not the deployed runtime)" : ""}` : ""}`
+    : "";
+
+  const fcSide: string | undefined = fact.side ?? fact.evidence?.side;
+  const fcPlatform: string | undefined = fact.platform ?? fact.evidence?.platform;
+  const fcOperation: string | null | undefined = fact.operation ?? fact.evidence?.operation;
+  const fcOperationReason: string | undefined = fact.operationReason ?? fact.evidence?.operationReason;
+  const fcPathKind: string | null | undefined = fact.pathKind ?? fact.evidence?.pathKind;
+  const fcSdkCall: string | null | undefined = fact.sdkCall ?? fact.evidence?.sdkCall;
+  const fcPathSource: { enum?: string; case?: string } | null | undefined = fact.pathSource ?? fact.evidence?.pathSource;
+  const fcResolution: string | undefined = fact.pathResolutionMethod ?? fact.evidence?.pathResolutionMethod;
+  const fcUnresolvedReason: string | undefined = fact.unresolvedReason ?? fact.evidence?.unresolvedReason;
+  const fcCallerClass: string | undefined = fact.callerClass ?? fact.evidence?.callerClass;
+  const fcCallerFunction: string | undefined = fact.callerFunction ?? fact.evidence?.callerFunction ?? fact.callerMethod ?? fact.evidence?.callerMethod;
+  const firestoreClientCallDoc = fact.type === "firestore_client_call"
+    ? ` -- ${fcSide ?? "client"}${fcPlatform ? ` (${fcPlatform})` : ""} Firestore ${fcOperation ?? "access"}${fcSdkCall ? ` via ${fcSdkCall}` : ""} on ${fcPathKind ? `${fcPathKind} path` : "a path"}${fcOperation ? "" : fcOperationReason ? ` (operation not determined: ${fcOperationReason})` : ""}${fcPathSource?.enum && fcPathSource?.case ? ` -- path enum case: ${fcPathSource.enum}.${fcPathSource.case}` : ""}${fcCallerClass || fcCallerFunction ? ` -- called from: ${[fcCallerClass, fcCallerFunction].filter(Boolean).join(".")}` : ""}${fcResolution === "unresolved" ? ` -- path unresolved${fcUnresolvedReason ? `: ${fcUnresolvedReason}` : ""}` : ""}`
+    : "";
+
+  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${implementsInterfacesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${kotlinCallResolutionDoc}${kotlinCallArgumentsDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${importsDependencyDoc}${enumDeclarationDoc}${tsEnumDeclarationDoc}${swiftEnumDeclarationDoc}${swiftInheritanceDoc}${extensionDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${functionOwningClassDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc}${exportRegistryEntryDoc}${firestoreClientCallDoc}${pubsubPublishCallDoc} (${loc})`;
 }
 
 function pool(): Pool {

@@ -67,13 +67,14 @@ import {
   latestManifestPath,
   requireRepoNameEnv,
 } from "./_shared/run-utils";
+import { extractFirestoreClientCalls } from "./_shared/firestore-client-calls";
 
 const projectRoot = process.cwd();
 
 type FileRecord = { repo: string; module: string; submodule: string | null; path: string; kindHint: string; sizeBytes: number };
 
 type SwiftImportFact = { module: string; line: number };
-type SwiftEnumCaseFact = { name: string; rawValue: string | null; associatedValues: string[] };
+type SwiftEnumCaseFact = { name: string; rawValue: string | null; associatedValues: string[]; computedStrings?: { property: string; template?: string; rawTemplate?: string; reason?: string }[] };
 type SwiftDeclFact = { name: string; line: number; visibility: string; extendsTypes: string[]; parentType: string | null; cases: SwiftEnumCaseFact[] };
 type SwiftFunctionFact = { name: string; line: number; visibility: string; isStatic: boolean; parentType: string | null };
 type SwiftPropertyFact = { name: string; line: number; visibility: string; isStatic: boolean; isLet: boolean; parentType: string | null };
@@ -383,6 +384,15 @@ function main() {
   const rawBleGattConstants: any[] = [];
   const rawFirebaseCallableCalls: any[] = [];
 
+  // W4c (doc 43): Firestore path enums and the client call sites that pass
+  // one of their cases. Computed over every in-scope file first because a
+  // call site and its path enum can be in different files.
+  const firestore = extractFirestoreClientCalls(inScopeFiles as any);
+  const rawFirestoreClientCalls: any[] = firestore.calls.map(c => {
+    const rec = filesByPath.get(c.file)!;
+    return { repo: REPO_NAME, module: rec.module, submodule: rec.submodule, ...c };
+  });
+
   let resolvedViaImport = 0;
   let resolvedViaSameTarget = 0;
   let unresolvedCalls = 0;
@@ -447,7 +457,13 @@ function main() {
           visibility: d.visibility,
           extendsTypes: d.extendsTypes,
           parentType: d.parentType,
-          ...(d.cases.length > 0 ? { cases: d.cases } : {}),
+          // `computedStrings` (the swift-extractor's per-case computed-string
+          // literals) is kept only for Firestore path enums; on any other
+          // enum (a title, a label) it is dropped so those facts stay
+          // exactly as they were before W4c.
+          ...(d.cases.length > 0
+            ? { cases: firestore.pathEnums.has(d.name) ? d.cases : d.cases.map(({ computedStrings: _dropped, ...rest }) => rest) }
+            : {}),
         });
       }
     };
@@ -678,6 +694,7 @@ function main() {
   writeJsonAtomically(path.join(factsDir, "ast-errors.json"), rawErrors, "facts/ast-errors.json");
   writeJsonAtomically(path.join(factsDir, "ast-ble-gatt-constants.json"), rawBleGattConstants, "facts/ast-ble-gatt-constants.json");
   writeJsonAtomically(path.join(factsDir, "ast-firebase-callable-calls.json"), rawFirebaseCallableCalls, "facts/ast-firebase-callable-calls.json");
+  writeJsonAtomically(path.join(factsDir, "ast-firestore-client-calls.json"), rawFirestoreClientCalls, "facts/ast-firestore-client-calls.json");
 
   const astManifest = {
     schemaVersion: "1.0.0",
@@ -697,6 +714,7 @@ function main() {
       { file: "ast-errors.json", evidenceType: "errors", recordCount: rawErrors.length, required: false },
       { file: "ast-ble-gatt-constants.json", evidenceType: "bleGattConstants", recordCount: rawBleGattConstants.length, required: true },
       { file: "ast-firebase-callable-calls.json", evidenceType: "firebaseCallableCalls", recordCount: rawFirebaseCallableCalls.length, required: true },
+      { file: "ast-firestore-client-calls.json", evidenceType: "firestoreClientCalls", recordCount: rawFirestoreClientCalls.length, required: true },
     ],
   };
   writeJsonAtomically(path.join(factsDir, "ast-manifest.json"), astManifest, "facts/ast-manifest.json");
@@ -708,6 +726,7 @@ function main() {
   console.log(`Import resolution: ${resolvedInRepoImports} resolved_in_repo, ${resolvedCrossRepoImports} resolved_cross_repo, ${externalOrUnresolvedImports} external_or_unresolved.`);
   console.log(`BLE GATT constants: ${rawBleGattConstants.length}`);
   console.log(`Firebase callable calls: ${rawFirebaseCallableCalls.length}`);
+  console.log(`Firestore client calls: ${rawFirestoreClientCalls.length} (${rawFirestoreClientCalls.filter(c => c.pathResolutionMethod !== "resolved_enum_template").length} unresolved) across ${firestore.pathEnums.size} path enum(s)`);
 }
 
 main();

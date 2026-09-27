@@ -139,3 +139,26 @@ CREATE INDEX cross_repo_edges_target_idx ON cross_repo_edges (target_repo, targe
 CREATE INDEX cross_repo_edges_provenance_idx ON cross_repo_edges (provenance);
 CREATE INDEX cross_repo_edges_source_fact_id_idx ON cross_repo_edges (source_fact_id);
 CREATE INDEX cross_repo_edges_target_fact_id_idx ON cross_repo_edges (target_fact_id);
+
+-- ============================================================
+-- 4. edge_sync_state -- added 2026-09-26 (W5b). Same DDL as edge-sync-state.sql (that file is the one to apply;
+-- this copy keeps the schema of record complete).
+-- ============================================================
+CREATE TABLE IF NOT EXISTS edge_sync_state (
+    connection_type text NOT NULL,
+    source_repo     text NOT NULL,
+    built_at        timestamptz NOT NULL,
+    synthesis_id    text,             -- newest synthesis_id in the slice when recorded; a later value in the edge table means a builder was run by hand ("unrecorded")
+    facts_run_id    text,             -- the source repo's current extraction run when recorded (informational; null for source_repo 'unknown')
+    edge_count      integer NOT NULL,
+    resolved_count  integer NOT NULL, -- resolved + confirmed, the statuses graph traversal follows
+    dangling_source integer NOT NULL, -- edges whose source_fact_id has no fact
+    dangling_target integer NOT NULL,
+    inputs          jsonb NOT NULL,   -- {"<repo>": {"run_id", "fact_count", "fingerprint"}} for the source repo and the target repos of the slice's edges
+    PRIMARY KEY (connection_type, source_repo)
+);
+
+-- ============================================================
+-- 5. cross_repo_edges.attributes -- added 2026-09-27 (W4d). Same statement as edge-attributes.sql (that file is the one to apply).
+-- ============================================================
+ALTER TABLE cross_repo_edges ADD COLUMN IF NOT EXISTS attributes jsonb;

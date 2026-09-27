@@ -110,6 +110,7 @@ const EXPECTED_EVIDENCE_TYPES = [
   "calls",
   "bleGattConstants",
   "firebaseCallableCalls",
+  "firestoreClientCalls",
 ];
 
 function main() {
@@ -247,6 +248,7 @@ function main() {
   const callsFact = loadFactFile("ast-calls.json");
   const bleGattFact = loadFactFile("ast-ble-gatt-constants.json");
   const firebaseCallableCallsFact = loadFactFile("ast-firebase-callable-calls.json");
+  const firestoreClientCallsFact = loadFactFile("ast-firestore-client-calls.json");
 
   const modulesBaseDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
   fs.mkdirSync(modulesBaseDir, { recursive: true });
@@ -514,6 +516,37 @@ function main() {
       });
     }
 
+    // 13. firestore_client_call -- a client call site that passes a Firestore
+    // path enum case to a wrapper method (W4c, doc 43). Same payload shape as
+    // Angular's W4b facts (shared interface contract): `value` is the path
+    // template, `side`/`operation`/`pathKind`/`pathResolutionMethod` are
+    // structured fields. primaryKey is the calling method, secondaryKey the
+    // wrapper method plus the enum case, so a re-extract at the same commit
+    // gives the same IDs; occurrenceOrdinal covers repeated identical calls.
+    for (const item of firestoreClientCallsFact.filter((f: any) => f.module === moduleName)) {
+      const primaryKey = `${item.callerClass ?? "unknown_class"}.${item.callerFunction ?? "unknown_function"}`;
+      const secondaryKey = `${item.wrapperMethod}:${item.pathSource?.case ?? "unresolved"}`;
+      rawModuleFacts.push({
+        id: stableFactId({
+          type: "firestore_client_call",
+          module: moduleName,
+          file: item.file,
+          primaryKey,
+          secondaryKey,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "firestore_client_call", item.file, primaryKey, secondaryKey),
+        }),
+        runId,
+        type: "firestore_client_call",
+        repo: REPO_NAME,
+        module: moduleName,
+        submodule: item.submodule,
+        file: item.file,
+        line: item.line,
+        value: item.value,
+        evidence: { ...item },
+      });
+    }
+
     // Property-based fact deduplication & conflicting-identity guard --
     // same discipline as every other repo's own copy: an identical
     // duplicate is silently merged (logged), a materially different fact
@@ -559,6 +592,7 @@ function main() {
       calls: facts.filter(f => f.type === "call_expression").length,
       bleGattConstants: facts.filter(f => f.type === "ble_gatt_constant").length,
       firebaseCallableCalls: facts.filter(f => f.type === "firebase_callable_call").length,
+      firestoreClientCalls: facts.filter(f => f.type === "firestore_client_call").length,
       facts: facts.length,
     };
 

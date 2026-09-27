@@ -1,4 +1,4 @@
-// **version:** 1.0.0
+// **version:** 1.0.1
 // **location:** level-5 P2 facts index
 // © Oskey SAS. All rights reserved.
 //
@@ -54,6 +54,7 @@ const MAX_FIELD_RESOLUTION_DEPTH = 6;
 
 interface FieldResolution {
   factId: string;
+  repo: string; // the repo the property fact lives in: its type alias is looked up in this repo only (fix 2026-09-26)
   propertyType: string | null;
   resolvedVia: string;
 }
@@ -94,13 +95,13 @@ async function resolveFieldRecursive(
   if (depth > MAX_FIELD_RESOLUTION_DEPTH || visited.has(typeName)) return [];
   visited.add(typeName);
 
-  const direct = await db.query<{ fact_id: string; propertyType: string | null }>(
-    `SELECT fact_id, payload->'evidence'->>'propertyType' as "propertyType" FROM facts
+  const direct = await db.query<{ fact_id: string; repo: string; propertyType: string | null }>(
+    `SELECT fact_id, repo, payload->'evidence'->>'propertyType' as "propertyType" FROM facts
      WHERE kind = 'model_property' AND symbol_name = $1`,
     [`${typeName}.${fieldName}`]
   );
   const results: FieldResolution[] = direct.rows.map(r => ({
-    factId: r.fact_id, propertyType: r.propertyType, resolvedVia: `${typeName}.${fieldName}`,
+    factId: r.fact_id, repo: r.repo, propertyType: r.propertyType, resolvedVia: `${typeName}.${fieldName}`,
   }));
 
   const siblings = await db.query<{ propertyType: string | null }>(
@@ -235,7 +236,7 @@ async function main() {
           unresolvedReasons.push(`${control.className}.${control.controlName}: ${matches.length} real model_property match(es) reachable from ${requestType} (recursive walk, depth<=${MAX_FIELD_RESOLUTION_DEPTH}) for field '${control.controlName}' (need exactly 1)`);
           continue;
         }
-        const field = { rowCount: 1 as const, rows: [{ fact_id: matches[0].factId, propertyType: matches[0].propertyType }] };
+        const field = { rowCount: 1 as const, rows: [{ fact_id: matches[0].factId, repo: matches[0].repo, propertyType: matches[0].propertyType }] };
         const resolvedVia = matches[0].resolvedVia;
 
         // Step 6: if the real field type is a union alias, surface its
@@ -250,10 +251,17 @@ async function main() {
           .replace(/\s*\|\s*undefined\s*$/, "")
           .trim();
         if (rawType) {
+          // Fix 2026-09-26 (doc 43, Lane A): this was `WHERE kind = 'type_alias' AND symbol_name = $1
+          // LIMIT 1` with no repo filter and no ORDER BY. OSKBuildingUnitInhabitantType is a type_alias
+          // in two repos (firebase: 3 union members; angular: none captured), so which row came back
+          // depended on physical row order and the plan, not on the data: after the angular re-sync a
+          // rebuild silently turned "real allowed values: owner, tenant, resident" into "field type is
+          // not a union". A property's type is declared in the property's own repo, so look it up
+          // there, and order the result so it is deterministic.
           const typeAlias = await db.query<{ unionMembers: string[] | null }>(
             `SELECT payload->'evidence'->'unionMembers' as "unionMembers" FROM facts
-             WHERE kind = 'type_alias' AND symbol_name = $1 LIMIT 1`,
-            [rawType]
+             WHERE kind = 'type_alias' AND symbol_name = $1 AND repo = $2 ORDER BY file, line, fact_id LIMIT 1`,
+            [rawType, field.rows[0].repo]
           );
           const members = typeAlias.rows[0]?.unionMembers;
           if (Array.isArray(members) && members.length > 0) unionValues = members;
@@ -302,7 +310,10 @@ async function main() {
   }
 }
 
-main().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+// Run only when executed (`node -r ts-node/register <file>`), never on import: importing this file to type-check it must not start a run against the database (2026-09-26 near-miss, doc 43).
+if (require.main === module) {
+  main().catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+}

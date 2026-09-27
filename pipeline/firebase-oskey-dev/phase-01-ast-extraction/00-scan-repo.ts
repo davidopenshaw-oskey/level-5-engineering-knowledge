@@ -266,7 +266,7 @@ function main() {
   // Scan File Inventory (TypeScript source files only, detecting submodules)
   const filesList: FileRecord[] = [];
 
-  function scanDirectory(dir: string, currentModule: string, currentSubmodule: string | null) {
+  function scanDirectory(dir: string, currentModule: string, currentSubmodule: string | null, detectSubmodules = true) {
     if (!fs.existsSync(dir)) return;
     const items = fs.readdirSync(dir, { withFileTypes: true });
 
@@ -285,7 +285,7 @@ function main() {
         }
 
         let detectedSubmodule = currentSubmodule;
-        if (item.name === "modules") {
+        if (detectSubmodules && item.name === "modules") {
           // Check for nested submodules under {module}/modules/{submodule}
           const subItems = fs.readdirSync(fullPath, { withFileTypes: true });
           for (const subItem of subItems) {
@@ -296,7 +296,7 @@ function main() {
           continue;
         }
 
-        scanDirectory(fullPath, currentModule, detectedSubmodule);
+        scanDirectory(fullPath, currentModule, detectedSubmodule, detectSubmodules);
       } else if (item.isFile()) {
         const repoPath = toRepoPath(fullPath, clonePath);
 
@@ -325,6 +325,57 @@ function main() {
     scanDirectory(path.join(modulesRootAbsolute, m), m, null);
   }
 
+  // Additional source roots outside modulesRoot (config-driven; doc 43 W1):
+  // each entry is a file or a directory attributed to its declared module.
+  // Fail-closed on a malformed entry, a missing path, a module name that
+  // collides with a modulesRoot directory, or one file claimed twice.
+  const additionalModules = new Set<string>();
+  const additionalSourcePaths: Array<{ path: string; module: string }> = targetRepo.additionalSourcePaths ?? [];
+  if (!Array.isArray(additionalSourcePaths)) {
+    throw new Error(`[Fail-Closed] Repository '${REPO_NAME}' additionalSourcePaths must be an array of { path, module }.`);
+  }
+  const claimedBy = new Map<string, string>();
+  for (const entry of additionalSourcePaths) {
+    if (!entry || typeof entry.path !== "string" || typeof entry.module !== "string" || !entry.path || !entry.module) {
+      throw new Error(`[Fail-Closed] Invalid additionalSourcePaths entry ${JSON.stringify(entry)}: needs string 'path' and 'module'.`);
+    }
+    if (modules.includes(entry.module)) {
+      throw new Error(`[Fail-Closed] additionalSourcePaths module '${entry.module}' collides with a directory under modulesRoot '${targetRepo.modulesRoot}'.`);
+    }
+    const entryAbsolute = path.join(clonePath, entry.path);
+    if (!entryAbsolute.startsWith(clonePath + path.sep)) {
+      throw new Error(`[Fail-Closed] additionalSourcePaths path '${entry.path}' escapes the repository.`);
+    }
+    if (!fs.existsSync(entryAbsolute)) {
+      addNotification(notifications, "00-scan-repo", "fatal", "ADDITIONAL_SOURCE_PATH_MISSING_FATAL", `Configured additionalSourcePaths path '${entry.path}' does not exist in target repository.`);
+      writeNotificationsAtomically(notificationsFilePath, notifications);
+      throw new Error(`[Fail-Closed] additionalSourcePaths path '${entry.path}' does not exist in repository.`);
+    }
+    const before = filesList.length;
+    if (fs.statSync(entryAbsolute).isDirectory()) {
+      scanDirectory(entryAbsolute, entry.module, null, false);
+    } else if (entryAbsolute.endsWith(".ts") && !entryAbsolute.endsWith(".d.ts") && !entryAbsolute.endsWith(".spec.ts") && !entryAbsolute.endsWith(".test.ts")) {
+      filesList.push({
+        repo: REPO_NAME,
+        module: entry.module,
+        submodule: null,
+        path: toRepoPath(entryAbsolute, clonePath),
+        kindHint: "typescript",
+        sizeBytes: fs.statSync(entryAbsolute).size,
+      });
+    }
+    if (filesList.length === before) {
+      throw new Error(`[Fail-Closed] additionalSourcePaths entry '${entry.path}' contributed zero TypeScript source files.`);
+    }
+    for (const f of filesList.slice(before)) {
+      const prior = claimedBy.get(f.path);
+      if (prior) throw new Error(`[Fail-Closed] File '${f.path}' claimed by additionalSourcePaths modules '${prior}' and '${entry.module}'.`);
+      claimedBy.set(f.path, entry.module);
+    }
+    additionalModules.add(entry.module);
+    addNotification(notifications, "00-scan-repo", "info", "ADDITIONAL_SOURCE_PATH_SCANNED", `additionalSourcePaths '${entry.path}' -> module '${entry.module}': ${filesList.length - before} file(s).`, { key: entry.path });
+  }
+
   filesList.sort((a, b) => a.path.localeCompare(b.path));
 
   if (filesList.length === 0) {
@@ -343,7 +394,11 @@ function main() {
   // latest-repo-manifest.json are namespaced under output/{repoName}/ so
   // multiple repos' pipelines cannot collide on a shared global path.
   writeJsonAtomically(runContextPath(projectRoot, REPO_NAME), runContext, `output/${REPO_NAME}/run-context.json`);
-  writeJsonAtomically(path.join(factsDir, "modules.json"), moduleEntries, "facts/modules.json");
+  writeJsonAtomically(
+    path.join(factsDir, "modules.json"),
+    [...moduleEntries, ...[...additionalModules].sort().map(m => ({ module: m }))],
+    "facts/modules.json"
+  );
   writeJsonAtomically(path.join(factsDir, "files.json"), filesList, "facts/files.json");
   writeNotificationsAtomically(notificationsFilePath, notifications);
 
@@ -354,14 +409,14 @@ function main() {
     commitSha,
     ref: resolvedRef,
     updatedAt: now.toISOString(),
-    modulesCount: modules.length,
+    modulesCount: modules.length + additionalModules.size,
     filesCount: filesList.length,
   };
   writeJsonAtomically(latestManifestPath(projectRoot, REPO_NAME), latestManifest, `output/${REPO_NAME}/latest-repo-manifest.json`);
 
   console.log(`Starting pipeline run for repo [${REPO_NAME}] with Run ID: ${runId}`);
   console.log(`Repo: ${REPO_NAME}`);
-  console.log(`Modules found: ${modules.length}`);
+  console.log(`Modules found: ${modules.length} (+ ${additionalModules.size} from additionalSourcePaths)`);
   console.log(`TypeScript files found: ${filesList.length}`);
   console.log(`Raw facts written to: ${factsDir}`);
   console.log(`Run notifications initialized at: ${notificationsFilePath}`);

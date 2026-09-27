@@ -33,10 +33,26 @@ struct ImportFact: Codable {
     let line: Int
 }
 
+/// One computed `String` property's literal for one enum case, e.g.
+/// `var string: String { switch self { case let .user(userId): "/users/\(userId)" } }`
+/// yields property "string", template "/users/{userId}", rawTemplate
+/// "/users/\(userId)". Added 2026-09-26 (W4c, doc 43): additive only, the
+/// existing EnumCaseFact fields are unchanged and this field is omitted
+/// (nil is not encoded) for any enum with no such property.
+struct ComputedStringFact: Codable {
+    let property: String
+    /// Literal with each `\(x)` replaced by `{name}`; nil when the case's
+    /// body is not a single string literal (see `reason`).
+    let template: String?
+    let rawTemplate: String?
+    let reason: String?
+}
+
 struct EnumCaseFact: Codable {
     let name: String
     let rawValue: String?
     let associatedValues: [String]
+    var computedStrings: [ComputedStringFact]? = nil
 }
 
 struct DeclFact: Codable {
@@ -268,12 +284,20 @@ final class FactExtractor: SyntaxVisitor {
 
     override func visit(_ node: EnumDeclSyntax) -> SyntaxVisitorContinueKind {
         pendingEnumCases.append([])
+        pendingEnumComputed.append([:])
+        pendingEnumLabels.append([:])
         typeStack.append(node.name.text)
         return .visitChildren
     }
     override func visitPost(_ node: EnumDeclSyntax) {
         typeStack.removeLast()
-        let cases = pendingEnumCases.removeLast()
+        let computed = pendingEnumComputed.removeLast()
+        _ = pendingEnumLabels.removeLast()
+        let cases = pendingEnumCases.removeLast().map { c -> EnumCaseFact in
+            var withComputed = c
+            if let strings = computed[c.name] { withComputed.computedStrings = strings }
+            return withComputed
+        }
         enums.append(DeclFact(
             name: node.name.text,
             line: line(node),
@@ -289,6 +313,10 @@ final class FactExtractor: SyntaxVisitor {
         for element in node.elements {
             let rawValue = element.rawValue?.value.trimmedDescription
             let associatedValues = element.parameterClause?.parameters.map { $0.type.trimmedDescription } ?? []
+            // Declared labels by position (nil for an unlabeled value), used
+            // to name `{placeholders}` in a computed-string template.
+            pendingEnumLabels[pendingEnumLabels.count - 1][element.name.text] =
+                element.parameterClause?.parameters.map { $0.firstName.flatMap { $0.text == "_" ? nil : $0.text } } ?? []
             pendingEnumCases[pendingEnumCases.count - 1].append(
                 EnumCaseFact(name: element.name.text, rawValue: rawValue, associatedValues: associatedValues)
             )
@@ -394,7 +422,134 @@ final class FactExtractor: SyntaxVisitor {
                 parentType: typeStack.last
             ))
         }
+        captureComputedStrings(node)
         return .visitChildren
+    }
+
+    // W4c (doc 43, 2026-09-26): an enum's computed `String` property whose
+    // body is `switch self` with one string literal per case (the shape of
+    // swift-cloud-kit's Firestore path enums, but matched structurally, not
+    // by enum/property name). Recorded per case as `computedStrings`; which
+    // enums are actually Firestore path enums is decided later, in
+    // 01-extract-ast-evidence.ts, not here.
+    private var pendingEnumComputed: [[String: [ComputedStringFact]]] = []
+    private var pendingEnumLabels: [[String: [String?]]] = []
+
+    /// True only for a stored/computed member declared directly in an enum's
+    /// member block (through any `#if`), not inside a function/accessor/
+    /// closure body and not in a nested type.
+    private func isDirectEnumMember(_ node: VariableDeclSyntax) -> Bool {
+        var current: Syntax? = node.parent
+        while let c = current {
+            if c.is(EnumDeclSyntax.self) { return true }
+            if c.is(ClassDeclSyntax.self) || c.is(StructDeclSyntax.self) || c.is(ExtensionDeclSyntax.self)
+                || c.is(ProtocolDeclSyntax.self) || c.is(ActorDeclSyntax.self)
+                || c.is(CodeBlockSyntax.self) || c.is(ClosureExprSyntax.self) || c.is(AccessorBlockSyntax.self) {
+                return false
+            }
+            current = c.parent
+        }
+        return false
+    }
+
+    private func captureComputedStrings(_ node: VariableDeclSyntax) {
+        guard !pendingEnumComputed.isEmpty, isDirectEnumMember(node) else { return }
+        for binding in node.bindings {
+            guard let property = binding.pattern.as(IdentifierPatternSyntax.self)?.identifier.text,
+                  binding.typeAnnotation?.type.trimmedDescription == "String",
+                  let accessorBlock = binding.accessorBlock else { continue }
+            var body: CodeBlockItemListSyntax?
+            switch accessorBlock.accessors {
+            case .getter(let items):
+                body = items
+            case .accessors(let list):
+                body = list.first(where: { $0.accessorSpecifier.tokenKind == .keyword(.get) })?.body?.statements
+            }
+            guard let items = body, let switchExpr = switchExprOf(items) else { continue }
+            for caseItem in switchExpr.cases {
+                guard case .switchCase(let switchCase) = caseItem,
+                      case .case(let label) = switchCase.label else { continue }
+                let literal = stringLiteralOf(switchCase.statements)
+                for item in label.caseItems {
+                    guard let (caseName, boundNames) = caseNameAndBindings(item.pattern) else { continue }
+                    var fact: ComputedStringFact
+                    if let literal {
+                        let declared = pendingEnumLabels[pendingEnumLabels.count - 1][caseName] ?? []
+                        let (template, raw) = templateOf(literal, boundNames: boundNames, declaredLabels: declared)
+                        fact = ComputedStringFact(property: property, template: template, rawTemplate: raw, reason: nil)
+                    } else {
+                        fact = ComputedStringFact(property: property, template: nil, rawTemplate: nil,
+                                                  reason: "case body is not a single string literal")
+                    }
+                    pendingEnumComputed[pendingEnumComputed.count - 1][caseName, default: []].append(fact)
+                }
+            }
+        }
+    }
+
+    /// `switch self { ... }` as the sole statement, as an implicit return,
+    /// an explicit `return switch`, or the statement itself.
+    private func switchExprOf(_ items: CodeBlockItemListSyntax) -> SwitchExprSyntax? {
+        guard items.count == 1, let only = items.first else { return nil }
+        if let expr = only.item.as(SwitchExprSyntax.self) { return expr }
+        if let ret = only.item.as(ReturnStmtSyntax.self), let expr = ret.expression?.as(SwitchExprSyntax.self) { return expr }
+        if let stmtExpr = only.item.as(ExpressionStmtSyntax.self), let expr = stmtExpr.expression.as(SwitchExprSyntax.self) { return expr }
+        return nil
+    }
+
+    private func stringLiteralOf(_ items: CodeBlockItemListSyntax) -> StringLiteralExprSyntax? {
+        guard items.count == 1, let only = items.first else { return nil }
+        if let lit = only.item.as(StringLiteralExprSyntax.self) { return lit }
+        if let ret = only.item.as(ReturnStmtSyntax.self) { return ret.expression?.as(StringLiteralExprSyntax.self) }
+        return nil
+    }
+
+    /// `.users`, `.user(userId)`, `let .user(userId)`, `.user(userId: userId)`
+    /// -> (case name, bound names by position; label ignored, the bound
+    /// name is what the literal's `\(...)` refers to).
+    private func caseNameAndBindings(_ pattern: PatternSyntax) -> (String, [String])? {
+        var inner: PatternSyntax = pattern
+        if let bound = pattern.as(ValueBindingPatternSyntax.self) { inner = bound.pattern }
+        guard let exprPattern = inner.as(ExpressionPatternSyntax.self) else { return nil }
+        let expr = exprPattern.expression
+        if let member = expr.as(MemberAccessExprSyntax.self), member.base == nil {
+            return (member.declName.baseName.text, [])
+        }
+        if let call = expr.as(FunctionCallExprSyntax.self),
+           let member = call.calledExpression.as(MemberAccessExprSyntax.self), member.base == nil {
+            let names = call.arguments.map { arg -> String in
+                var text = arg.expression.trimmedDescription
+                for prefix in ["let ", "var "] where text.hasPrefix(prefix) { text.removeFirst(prefix.count) }
+                return text
+            }
+            return (member.declName.baseName.text, names)
+        }
+        return nil
+    }
+
+    /// Template with each `\(x)` as `{name}`. A bound name at position i maps
+    /// to the case's declared label at position i when there is one (the
+    /// switch may bind different names than the declaration, and the
+    /// declared label is the stable one); any other expression keeps its
+    /// source text.
+    private func templateOf(_ literal: StringLiteralExprSyntax, boundNames: [String], declaredLabels: [String?]) -> (String, String) {
+        var template = ""
+        var raw = ""
+        for segment in literal.segments {
+            if let text = segment.as(StringSegmentSyntax.self) {
+                template += text.content.text
+                raw += text.content.text
+            } else if let interpolation = segment.as(ExpressionSegmentSyntax.self) {
+                let exprText = interpolation.expressions.trimmedDescription
+                var name = exprText
+                if let idx = boundNames.firstIndex(of: exprText), idx < declaredLabels.count, let label = declaredLabels[idx] {
+                    name = label
+                }
+                template += "{\(name)}"
+                raw += "\\(\(exprText))"
+            }
+        }
+        return (template, raw)
     }
 
     override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {

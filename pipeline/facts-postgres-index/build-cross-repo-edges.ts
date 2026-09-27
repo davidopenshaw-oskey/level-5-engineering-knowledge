@@ -1,4 +1,4 @@
-// **version:** 1.7.0
+// **version:** 1.12.0
 // **location:** level-5 P2 facts index
 // © Oskey SAS. All rights reserved.
 //
@@ -54,6 +54,7 @@ import "dotenv/config";
 import * as fs from "fs";
 import * as path from "path";
 import { Pool } from "pg";
+import { printEdgeSyncReport } from "./_shared/edge-sync-state";
 
 // ---------------------------------------------------------------------------
 // Extractor-contract literals -- the ONE legitimate place for hardcoded names.
@@ -80,6 +81,12 @@ const CONTRACT = {
   API_CONTRACT_TYPE_FIELD: "contractType", // top-level payload field
   API_CONTRACT_TYPE_CALLABLE: "callable",
   API_CONTRACT_CALLABLE_EXPORT_NAME: "callableExportName", // under payload.evidence
+  // Added by the Firebase extractor with the export registry (W1, 2026-09-26): the export group the
+  // callable is deployed under (the `export const <group> = {...}` in functions/src/index.ts) and the
+  // full name a client passes, "<exportGroup>-<callableExportName>". Absent on facts extracted before
+  // that change; the join then falls back to the module-name compound key for those facts only.
+  API_CONTRACT_CLIENT_FUNCTION_NAME: "clientFunctionName", // under payload.evidence
+  API_CONTRACT_EXPORT_GROUP: "exportGroup", // under payload.evidence
   // A Pub/Sub push-receiver handler is flagged `evidence.pubsubPushReceiver =
   // 'true'`, and its handler name is the top-level `payload.value`.
   API_CONTRACT_PUBSUB_RECEIVER: "pubsubPushReceiver", // under payload.evidence
@@ -96,6 +103,13 @@ const CONTRACT = {
   EXTERNAL_HOOK_TOPIC_VALUE: "value", // under payload.evidence
   EXTERNAL_HOOK_TOPIC_STATUS: "topicResolutionStatus", // under payload.evidence
   EXTERNAL_HOOK_TOPIC_STATUS_RESOLVED: "resolved",
+  // W2 (Firebase extractor, 2026-09-27), additive, used only to word an unresolved edge's `details`: why the topic is
+  // not a concrete name at this site, and the site's role. A publish fact extracted before W2 (and node-iot's) has
+  // none of them and keeps the older wording.
+  EXTERNAL_HOOK_TOPIC_NAME_STATUS: "topicNameStatus", // under payload.evidence
+  EXTERNAL_HOOK_TOPIC_NAME_REASON: "topicNameReason", // under payload.evidence
+  EXTERNAL_HOOK_PUBLISH_ROLE: "publishRole", // under payload.evidence
+  EXTERNAL_HOOK_PUBLISH_ROLE_PLUMBING: "plumbing",
 
   // call_expression: emitted by the Swift extractor for each call site.
   // `evidence.resolutionMethod = 'resolved_via_import'` plus a
@@ -143,6 +157,17 @@ const CONTRACT = {
   // NOTE the kind also tags Firebase AUTH triggers (`auth.user().onCreate`); those have
   // no sibling path fact and are skipped as "no path".
   TRIGGER_KIND: "firestore_trigger",
+  // W4a (2026-09-26, Lane B's extractor): a trigger fact now carries its own document path in
+  // `evidence.firestorePath` (and top-level `value`), the receiver kind in `evidence.triggerSource`
+  // ("firestore", or "auth" for a Firebase Auth trigger, which has no path), and the registration
+  // event in `evidence.triggerEvent` ("create" | "update" | "delete" | "write"). Facts extracted
+  // before W4a have `firestorePath = "unknown"` and none of the other two; the join then falls back
+  // to the sibling `firestore_path_touched` fact exactly as before.
+  TRIGGER_PATH: "firestorePath", // under payload.evidence
+  TRIGGER_PATH_UNKNOWN: "unknown", // the pre-W4a placeholder
+  TRIGGER_SOURCE: "triggerSource", // under payload.evidence
+  TRIGGER_SOURCE_AUTH: "auth",
+  TRIGGER_EVENT: "triggerEvent", // under payload.evidence
   TRIGGER_CALLEE: "calleeExpression", // under payload.evidence
   TRIGGER_HANDLER_EXPRESSION: "handlerExpression", // under payload.evidence, e.g. "Service.onDocumentCreated"
   TRIGGER_HANDLER_NAME: "handlerName", // under payload.evidence
@@ -165,6 +190,33 @@ const CONTRACT = {
   CALL_CALLER_NAME: "callerName", // under payload.evidence
   CALL_CALLER_CLASS: "callerClass", // under payload.evidence
   CALL_CALLER_START_LINE: "callerStartLine", // under payload.evidence
+  // W4a: `evidence.resolvedPath` is the first argument resolved to a path template (`{param}` for a
+  // parameter, e.g. "/buildings/{buildingId}/doors"), set only where it resolves to a path-shaped
+  // string; absent/null otherwise. Facts extracted before W4a have none: the writer path is then read
+  // from the literal in `arguments[0]` as before.
+  CALL_RESOLVED_PATH: "resolvedPath", // under payload.evidence
+  // W4e: a call inside an arrow-function class property has no `callerName`; the extractor supplies the enclosing
+  // member instead (`enclosingMemberName`, `enclosingMemberStartLine`). Used only by the W4d joins below.
+  CALL_ENCLOSING_MEMBER_NAME: "enclosingMemberName", // under payload.evidence
+  CALL_ENCLOSING_MEMBER_START_LINE: "enclosingMemberStartLine", // under payload.evidence
+  // firestore_client_call (W4b Angular, W4c Swift; one shared shape): a client call that touches a Firestore path.
+  // `evidence.value` is the path template ("/users/{userId}/devices"), or the literal text "unresolved" when
+  // `pathResolutionMethod = "unresolved"`; `operation` is get | set | update | delete | listen, or null when the
+  // reference is built but nothing consumes it (`operationReason` says why); `pathKind` is collection | document.
+  CLIENT_CALL_KIND: "firestore_client_call",
+  CLIENT_VALUE: "value", // under payload.evidence
+  CLIENT_OPERATION: "operation", // under payload.evidence
+  CLIENT_OPERATION_REASON: "operationReason", // under payload.evidence
+  CLIENT_PATH_KIND: "pathKind", // under payload.evidence
+  CLIENT_PATH_RESOLUTION: "pathResolutionMethod", // under payload.evidence
+  CLIENT_PATH_UNRESOLVED: "unresolved",
+  CLIENT_UNRESOLVED_REASON: "unresolvedReason", // under payload.evidence
+  CLIENT_SDK_CALL: "sdkCall", // under payload.evidence
+  CLIENT_PLATFORM: "platform", // under payload.evidence
+  CLIENT_RAW_TEMPLATE: "rawTemplate", // under payload.evidence
+  CLIENT_CALLER_CLASS: "callerClass", // under payload.evidence
+  CLIENT_CALLER_FUNCTION: "callerFunction", // under payload.evidence (Swift); Angular uses callerMethod
+  CLIENT_CALLER_METHOD: "callerMethod", // under payload.evidence
 } as const;
 
 // Stage E (Firestore triggers). The Firebase repo's base controllers (core/controllers/
@@ -304,6 +356,17 @@ interface EdgeRow {
   resolutionStatus: "resolved" | "unresolved";
   confirmedVia: string | null;
   details: string;
+  // Structured, machine-readable facts about the edge (W4d): stored in cross_repo_edges.attributes (jsonb, nullable,
+  // NULL for every edge the older joins write). Only joins that set it need the column.
+  attributes?: Record<string, unknown> | null;
+}
+
+// Set from --dry-run in main(); lets a preflight skip the "column exists" check for a read-only dry run.
+let DRY_RUN = false;
+async function attributesColumnProblems(db: Pool): Promise<string[]> {
+  const r = await db.query<{ n: string }>(`SELECT count(*)::text AS n FROM information_schema.columns WHERE table_name = 'cross_repo_edges' AND column_name = 'attributes'`);
+  if (Number(r.rows[0].n) > 0) return [];
+  return DRY_RUN ? [] : [`cross_repo_edges has no 'attributes' column yet (apply: ALTER TABLE cross_repo_edges ADD COLUMN IF NOT EXISTS attributes jsonb; a schema change, only in a granted write turn)`];
 }
 
 // One join = one way of deriving edges of one connection_type. `sourceRepos`
@@ -357,42 +420,63 @@ const firebaseCallableJoin: Join = {
   },
 
   async compute(db, sourceRepos) {
-    const fbRows = await db.query<{ fact_id: string; repo: string; module: string; handler_name: string; file: string; line: number }>(
-      `SELECT fact_id, repo, module, payload->'evidence'->>$3 as handler_name, file, line
+    const fbRows = await db.query<{ fact_id: string; repo: string; module: string; handler_name: string; client_name: string | null; export_group: string | null; file: string; line: number }>(
+      `SELECT fact_id, repo, module, payload->'evidence'->>$3 as handler_name, payload->'evidence'->>$5 as client_name, payload->'evidence'->>$6 as export_group, file, line
        FROM facts WHERE kind = $1 AND payload->>$2 = $4`,
-      [CONTRACT.API_CONTRACT_KIND, CONTRACT.API_CONTRACT_TYPE_FIELD, CONTRACT.API_CONTRACT_CALLABLE_EXPORT_NAME, CONTRACT.API_CONTRACT_TYPE_CALLABLE]
+      [CONTRACT.API_CONTRACT_KIND, CONTRACT.API_CONTRACT_TYPE_FIELD, CONTRACT.API_CONTRACT_CALLABLE_EXPORT_NAME, CONTRACT.API_CONTRACT_TYPE_CALLABLE, CONTRACT.API_CONTRACT_CLIENT_FUNCTION_NAME, CONTRACT.API_CONTRACT_EXPORT_GROUP]
     );
 
+    type Callable = { factId: string; repo: string; module: string; handlerName: string; clientName: string | null; exportGroup: string | null; file: string; line: number };
     // Compound key, built defensively: fails loud immediately if two
     // callable facts ever share the same (module, handlerName) -- would
     // mean either a real duplicate api_contract or a bug in this query,
     // either way worth stopping for, not silently overwriting like the
     // old script's bare-name map would.
-    const firebaseByCompoundKey = new Map<string, { factId: string; repo: string; module: string; handlerName: string; file: string; line: number }>();
+    const firebaseByCompoundKey = new Map<string, Callable>();
+    // The client-facing name the export registry gives each callable ("<group>-<export>", W1). A callable
+    // is deployed under exactly one client name, so this is the authoritative key whenever it is present;
+    // a duplicate is the same kind of real ambiguity as a duplicate compound key and is fail-closed too.
+    const firebaseByClientName = new Map<string, Callable>();
     for (const row of fbRows.rows) {
       if (!row.handler_name) continue;
       const key = `${row.module}::${row.handler_name}`;
       if (firebaseByCompoundKey.has(key)) {
         throw new Error(`[Fail-Closed] Duplicate Firebase api_contract for compound key '${key}' -- real ambiguity, not expected. Investigate before proceeding.`);
       }
-      firebaseByCompoundKey.set(key, { factId: row.fact_id, repo: row.repo, module: row.module, handlerName: row.handler_name, file: row.file, line: row.line });
+      const c: Callable = { factId: row.fact_id, repo: row.repo, module: row.module, handlerName: row.handler_name, clientName: row.client_name, exportGroup: row.export_group, file: row.file, line: row.line };
+      firebaseByCompoundKey.set(key, c);
+      if (c.clientName) {
+        const dup = firebaseByClientName.get(c.clientName);
+        if (dup) throw new Error(`[Fail-Closed] Two Firebase callables share the client name '${c.clientName}' (${dup.module}::${dup.handlerName} at ${dup.file}:${dup.line} and ${c.module}::${c.handlerName} at ${c.file}:${c.line}) -- real ambiguity, not expected. Investigate before proceeding.`);
+        firebaseByClientName.set(c.clientName, c);
+      }
     }
-    console.log(`  Loaded ${firebaseByCompoundKey.size} real callable handlers (compound-keyed by module::handlerName).`);
+    const haveRegistry = firebaseByClientName.size > 0;
+    const knownGroups = new Set([...firebaseByCompoundKey.values()].map(c => c.exportGroup).filter((g): g is string => !!g));
+    console.log(`  Loaded ${firebaseByCompoundKey.size} real callable handlers (compound-keyed by module::handlerName); ${firebaseByClientName.size} carry a registry client name (evidence.${CONTRACT.API_CONTRACT_CLIENT_FUNCTION_NAME}, ${knownGroups.size} export group(s))${haveRegistry && firebaseByClientName.size < firebaseByCompoundKey.size ? `; the other ${firebaseByCompoundKey.size - firebaseByClientName.size} are matched by the module-name compound key as before` : haveRegistry ? "" : " -- none: every callable is matched by the module-name compound key as before"}.`);
 
     // Index used only to explain a miss from the data (never to resolve one):
     // which modules a handler name exists under, and which modules exist.
-    const modulesByHandler = new Map<string, { module: string; file: string; line: number }[]>();
+    const modulesByHandler = new Map<string, Callable[]>();
     const knownModules = new Set<string>();
     for (const t of firebaseByCompoundKey.values()) {
       knownModules.add(t.module);
       const list = modulesByHandler.get(t.handlerName) ?? [];
-      list.push({ module: t.module, file: t.file, line: t.line });
+      list.push(t);
       modulesByHandler.set(t.handlerName, list);
     }
     const explainMiss = (modulePrefix: string, handlerSuffix: string): string => {
       const elsewhere = modulesByHandler.get(handlerSuffix) ?? [];
       if (elsewhere.length === 0) {
         return `No callable named '${handlerSuffix}' exists in any module (searched ${firebaseByCompoundKey.size} callables across ${knownModules.size} modules); the client asked for module '${modulePrefix}'.`;
+      }
+      if (haveRegistry) {
+        // The registry says which client name each callable is deployed under; the client's name is not one of them.
+        const where = elsewhere.map(c => `'${c.clientName ?? `${c.module}::${c.handlerName}`}' (module '${c.module}', ${c.file}:${c.line})`).join(", ");
+        if (!knownGroups.has(modulePrefix)) {
+          return `Callable '${handlerSuffix}' exists as ${where}, but the client prefix '${modulePrefix}' is not an export group in the registry (${knownGroups.size} groups). Left unresolved: the client name '${modulePrefix}-${handlerSuffix}' is not a name any callable is deployed under.`;
+        }
+        return `Export group '${modulePrefix}' has no callable '${handlerSuffix}'; the name exists as ${where}. Left unresolved: a different group is not the one the client named.`;
       }
       const where = elsewhere.map(c => `'${c.module}' (${c.file}:${c.line})`).join(", ");
       if (!knownModules.has(modulePrefix)) {
@@ -429,7 +513,13 @@ const firebaseCallableJoin: Join = {
       }
       const modulePrefix = functionName.slice(0, dashIdx);
       const handlerSuffix = functionName.slice(dashIdx + 1);
-      const match = firebaseByCompoundKey.get(`${modulePrefix}::${handlerSuffix}`);
+      // 1. The registry's client name, exactly as the client passes it. 2. Only for a callable that carries no
+      // registry name (an older extraction): the module-name compound key, as before. A callable that HAS a
+      // registry name is never matched by its module name, or a client passing a name nothing is deployed
+      // under (module name instead of export group) would resolve to a function that does not answer to it.
+      const byRegistry = firebaseByClientName.get(functionName);
+      const byModule = firebaseByCompoundKey.get(`${modulePrefix}::${handlerSuffix}`);
+      const match = byRegistry ?? (byModule && !byModule.clientName ? byModule : undefined);
       if (match) {
         resolvedCount++;
         edges.push({
@@ -438,7 +528,7 @@ const firebaseCallableJoin: Join = {
           targetSymbol: `${match.module}::${match.handlerName}`,
           targetFactId: match.factId,
           resolutionStatus: "resolved",
-          details: `req: ${requestTypeText ?? "undefined"}, res: ${responseTypeText ?? "undefined"} -- handler at ${match.file}:${match.line}`,
+          details: `req: ${requestTypeText ?? "undefined"}, res: ${responseTypeText ?? "undefined"} -- handler at ${match.file}:${match.line}${match.exportGroup && match.exportGroup !== match.module ? ` -- resolved through export group '${match.exportGroup}' (module '${match.module}'), from the export registry in functions/src/index.ts` : ""}`,
         });
       } else {
         unresolvedCount++;
@@ -574,7 +664,7 @@ const pubsubBindingJoin: Join = {
     for (const r of publishCalls.rows) perRepo.set(r.repo, (perRepo.get(r.repo) ?? 0) + 1);
     const resolvedTopics = [...new Set(publishCalls.rows.filter(isResolved).map(topicOf))].sort();
     const unresolvedSites = publishCalls.rows.filter(r => !isResolved(r)).length;
-    const publisherFacts = `${publishCalls.rows.length} pubsub_publish_call facts (${[...perRepo.entries()].sort().map(([r, n]) => `${r} ${n}`).join(", ")}); the topic is statically resolved for ${resolvedTopics.length} (${resolvedTopics.join(", ") || "none"}), and ${unresolvedSites} publish site(s) have a topic that could not be resolved and may publish to it`;
+    const publisherFacts = `${publishCalls.rows.length} external_hook facts with evidence.type = pubsub_publish_call (${[...perRepo.entries()].sort().map(([r, n]) => `${r} ${n}`).join(", ")}); the topic is statically resolved for ${resolvedTopics.length} (${resolvedTopics.join(", ") || "none"}), and ${unresolvedSites} publish site(s) have a topic that could not be resolved and may publish to it`;
 
     // What each binding's push endpoint reaches in the facts.
     type Target =
@@ -630,9 +720,16 @@ const pubsubBindingJoin: Join = {
 
       if (!isResolved(row)) {
         unresolvedCount++;
+        // With the W2 fields the reason is the extractor's own; without them (older facts, node-iot) the older wording stays.
+        const ev = row.payload.evidence;
+        const nameStatus: string | undefined = ev[CONTRACT.EXTERNAL_HOOK_TOPIC_NAME_STATUS];
+        const nameReason: string | undefined = ev[CONTRACT.EXTERNAL_HOOK_TOPIC_NAME_REASON];
+        const plumbing = ev[CONTRACT.EXTERNAL_HOOK_PUBLISH_ROLE] === CONTRACT.EXTERNAL_HOOK_PUBLISH_ROLE_PLUMBING;
         edges.push({
           ...base, targetRepo: UNKNOWN_REPO, targetSymbol: topicValue, targetFactId: null, resolutionStatus: "unresolved", confirmedVia: null,
-          details: `Topic name not statically resolvable in source (topicResolutionStatus: ${topicResolutionStatus}) -- a pass-through parameter at this call site, not a literal.`,
+          details: nameStatus
+            ? `The topic is not a concrete name at this publish site (topicNameStatus: ${nameStatus}${nameReason ? `: ${nameReason}` : ""})${plumbing ? "; this is a shared publish method, so the concrete topic is recorded on the facts of the code that calls it, not here" : ""}.`
+            : `Topic name not statically resolvable in source (topicResolutionStatus: ${topicResolutionStatus}) -- a pass-through parameter at this call site, not a literal.`,
         });
         continue;
       }
@@ -662,7 +759,7 @@ const pubsubBindingJoin: Join = {
         resolvedCount++;
         edges.push({
           ...base, targetRepo: pair.repo, targetSymbol: pair.symbol, targetFactId: pair.factId, resolutionStatus: "resolved", confirmedVia: snapshotSource(snapshot),
-          details: `${pair.where}; publish site of topic '${topicValue}' -> subscription '${b.subscription}' (push ${b.pushEndpointPath}). ${snapshotNote(snapshot)}${known ? ` Also independently confirmed 2026-08-29 (CONFIRMED_PUBSUB_BINDINGS): ${known.confirmedVia}` : ""}`,
+          details: `${pair.where}; publish site (external_hook fact, evidence.type = pubsub_publish_call) of topic '${topicValue}' -> subscription '${b.subscription}' (push ${b.pushEndpointPath}). ${snapshotNote(snapshot)}${known ? ` Also independently confirmed 2026-08-29 (CONFIRMED_PUBSUB_BINDINGS): ${known.confirmedVia}` : ""}`,
         });
       }
     }
@@ -681,7 +778,7 @@ const pubsubBindingJoin: Join = {
         const target = t.kind === "route" ? { repo: t.route.repo, symbol: t.route.raw, factId: t.route.factId, what: `route '${t.route.raw}' at ${t.route.repo}/${t.route.file}:${t.route.line}` }
                                           : { repo: t.receiver.repo, symbol: t.receiver.value, factId: t.receiver.fact_id, what: `push receiver ${t.receiver.module}-${t.receiver.value} at ${t.receiver.repo}/${t.receiver.file}:${t.receiver.line}` };
         edges.push({ sourceRepo: UNKNOWN_REPO, sourceSymbol, sourceFactId: null, targetRepo: target.repo, targetSymbol: target.symbol, targetFactId: target.factId, resolutionStatus: "unresolved", confirmedVia: snapshotSource(snapshot),
-          details: `Subscription '${b.subscription}' pushes topic '${b.topic}' to ${target.what}, which exists in the facts, but no pubsub_publish_call fact names topic '${b.topic}', so there is no fact on the publishing end: ${publisherFacts}. ${snapshotNote(snapshot)}` });
+          details: `Subscription '${b.subscription}' pushes topic '${b.topic}' to ${target.what}, which exists in the facts, but no external_hook fact with evidence.type = pubsub_publish_call names topic '${b.topic}', so there is no fact on the publishing end: ${publisherFacts}. ${snapshotNote(snapshot)}` });
       }
     }
 
@@ -1030,6 +1127,14 @@ function staticPathSegments(text: string | undefined | null): Seg[] | null {
 
 // Same length; a trigger wildcard matches any writer segment; a writer wildcard never
 // matches a trigger literal (it cannot be shown to be that collection).
+// A resolved path template ("/a/{x}/b"), as the W4a extractor writes `evidence.resolvedPath`: a segment that is
+// or contains a `{param}` placeholder is a wildcard, every other segment a literal. Unlike staticPathSegments
+// this text is not quoted.
+function templatePathSegments(text: string | undefined | null): Seg[] | null {
+  if (!text) return null;
+  const segs = text.trim().split("/").filter(s => s.length > 0);
+  return segs.length === 0 ? null : segs.map(s => (s.includes("{") ? null : s));
+}
 function collectionMatches(writer: Seg[], trigger: Seg[]): boolean {
   return writer.length === trigger.length && writer.every((w, i) => trigger[i] === null || (w !== null && w === trigger[i]));
 }
@@ -1066,9 +1171,10 @@ const firestoreTriggerJoin: Join = {
 
   async compute(db, sourceRepos) {
     const ev = (field: string) => `payload->'evidence'->>'${field}'`; // field names are CONTRACT constants, never user input
-    const triggers = await db.query<{ fact_id: string; repo: string; file: string; line: number; run_id: string | null; callee: string | null; handler_expr: string | null; handler_name: string | null; handler_file: string | null; handler_line: string | null; handler_res: string | null }>(
+    const triggers = await db.query<{ fact_id: string; repo: string; file: string; line: number; run_id: string | null; callee: string | null; handler_expr: string | null; handler_name: string | null; handler_file: string | null; handler_line: string | null; handler_res: string | null; fs_path: string | null; trig_source: string | null; trig_event: string | null }>(
       `SELECT fact_id, repo, file, line, payload->>'${CONTRACT.FACT_RUN_ID}' AS run_id, ${ev(CONTRACT.TRIGGER_CALLEE)} AS callee, ${ev(CONTRACT.TRIGGER_HANDLER_EXPRESSION)} AS handler_expr,
-              ${ev(CONTRACT.TRIGGER_HANDLER_NAME)} AS handler_name, ${ev(CONTRACT.TRIGGER_HANDLER_FILE)} AS handler_file, ${ev(CONTRACT.TRIGGER_HANDLER_START_LINE)} AS handler_line, ${ev(CONTRACT.TRIGGER_HANDLER_RESOLUTION)} AS handler_res
+              ${ev(CONTRACT.TRIGGER_HANDLER_NAME)} AS handler_name, ${ev(CONTRACT.TRIGGER_HANDLER_FILE)} AS handler_file, ${ev(CONTRACT.TRIGGER_HANDLER_START_LINE)} AS handler_line, ${ev(CONTRACT.TRIGGER_HANDLER_RESOLUTION)} AS handler_res,
+              ${ev(CONTRACT.TRIGGER_PATH)} AS fs_path, ${ev(CONTRACT.TRIGGER_SOURCE)} AS trig_source, ${ev(CONTRACT.TRIGGER_EVENT)} AS trig_event
        FROM facts WHERE repo = ANY($1::text[]) AND kind = $2 ORDER BY repo, file, line`,
       [sourceRepos, CONTRACT.TRIGGER_KIND]
     );
@@ -1097,34 +1203,54 @@ const firestoreTriggerJoin: Join = {
     // 1. Triggers: path (sibling fact), event (callee), handler (declaration fact).
     type Trig = { fact_id: string; repo: string; file: string; line: number; event: string; path: string; collection: Seg[]; handler: { fact_id: string; repo: string; file: string; line: number }; handlerExpr: string };
     const trigs: Trig[] = [];
-    const notes = { noPath: [] as string[], ambiguousPath: [] as string[], unknownEvent: [] as string[], noHandler: [] as string[] };
+    const notes = { noPath: [] as string[], ambiguousPath: [] as string[], unknownEvent: [] as string[], noHandler: [] as string[], auth: [] as string[], disagree: [] as string[] };
+    let pathFromTrigger = 0, pathFromSibling = 0;
     const wantHandlers = triggers.rows.filter(t => t.handler_res === CONTRACT.TRIGGER_HANDLER_RESOLVED && t.handler_name && t.handler_file && t.handler_line && Number.isFinite(Number(t.handler_line)))
       .map(t => ({ repo: t.repo, file: t.handler_file!, name: t.handler_name!, line: Number(t.handler_line) }));
     const handlerFacts = await lookupDecls(wantHandlers);
     for (const t of triggers.rows) {
       const where = `${t.file}:${t.line}`;
       // The callee can span lines (`db\n .document(p)\n .onCreate`), so the pattern must cross newlines.
-      const eventName = FIRESTORE_TRIGGER_EVENTS[(t.callee ?? "").replace(/^[\s\S]*\./, "").trim()];
-      const paths = pathsAt.get(siblingKey(t.repo, t.file, t.line, t.run_id)) ?? [];
+      // A Firebase Auth trigger has no Firestore path by design (W4a marks it triggerSource = auth): not a "missing path".
+      if (t.trig_source === CONTRACT.TRIGGER_SOURCE_AUTH) { notes.auth.push(`${where} (${(t.callee ?? "").replace(/\s+/g, " ").slice(0, 60)})`); continue; }
+      // The callee's last identifier gives the event; for a registration style it does not name, the extractor's own triggerEvent.
+      const eventName = FIRESTORE_TRIGGER_EVENTS[(t.callee ?? "").replace(/^[\s\S]*\./, "").trim()]
+        ?? (t.trig_event && Object.values(FIRESTORE_TRIGGER_EVENTS).includes(t.trig_event) ? t.trig_event : undefined);
+      const siblingPaths = pathsAt.get(siblingKey(t.repo, t.file, t.line, t.run_id)) ?? [];
+      // The trigger's own path first (W4a); the sibling firestore_path_touched fact only when the trigger carries none
+      // (a fact extracted before W4a, whose path is the placeholder "unknown"). Where both exist and differ: warn, and trust the trigger.
+      const ownPath = t.fs_path && t.fs_path !== CONTRACT.TRIGGER_PATH_UNKNOWN ? t.fs_path : null;
+      if (ownPath && siblingPaths.length === 1 && siblingPaths[0] !== ownPath) notes.disagree.push(`${where}: trigger '${ownPath}' vs sibling fact '${siblingPaths[0]}'`);
+      const paths = ownPath ? [ownPath] : siblingPaths;
       if (paths.length === 0) { notes.noPath.push(`${where} (${(t.callee ?? "").replace(/\s+/g, " ").slice(0, 60)})`); continue; }
       if (paths.length > 1) { notes.ambiguousPath.push(`${where}: ${paths.join(" | ")}`); continue; }
       if (!eventName) { notes.unknownEvent.push(`${where}: ${(t.callee ?? "").replace(/\s+/g, " ").slice(0, 60)}`); continue; }
       const hf = t.handler_res === CONTRACT.TRIGGER_HANDLER_RESOLVED && t.handler_name && t.handler_file ? (handlerFacts.get(declKey(t.repo, t.handler_file, t.handler_name, Number(t.handler_line))) ?? []) : [];
       if (hf.length !== 1) { notes.noHandler.push(`${where}: ${t.handler_expr ?? t.handler_name} (${hf.length} declaration facts)`); continue; }
+      if (ownPath) pathFromTrigger++; else pathFromSibling++;
       const segs = pathSegments(paths[0]);
       trigs.push({ fact_id: t.fact_id, repo: t.repo, file: t.file, line: t.line, event: eventName, path: paths[0], collection: segs.slice(0, -1), handler: hf[0], handlerExpr: t.handler_expr ?? t.handler_name! });
     }
-    console.log(`  Triggers: ${triggers.rows.length} facts -> ${trigs.length} usable (path from sibling fact, event, handler fact). Skipped: ${notes.noPath.length} with no sibling path fact${notes.noPath.length ? ` [${notes.noPath.join("; ")}]` : ""}, ${notes.ambiguousPath.length} ambiguous path, ${notes.unknownEvent.length} unknown event, ${notes.noHandler.length} handler fact not found${notes.noHandler.length ? ` [${notes.noHandler.join("; ")}]` : ""}.`);
+    console.log(`  Triggers: ${triggers.rows.length} facts -> ${trigs.length} usable (path from the trigger's own evidence.${CONTRACT.TRIGGER_PATH} for ${pathFromTrigger}, from the sibling fact for ${pathFromSibling}). Skipped: ${notes.auth.length} auth trigger(s) with no Firestore path${notes.auth.length ? ` [${notes.auth.join("; ")}]` : ""}, ${notes.noPath.length} with no path${notes.noPath.length ? ` [${notes.noPath.join("; ")}]` : ""}, ${notes.ambiguousPath.length} with ambiguous paths, ${notes.unknownEvent.length} with an unknown event${notes.unknownEvent.length ? ` [${notes.unknownEvent.join("; ")}]` : ""}, ${notes.noHandler.length} with no handler fact${notes.noHandler.length ? ` [${notes.noHandler.join("; ")}]` : ""}.`);
+    for (const d of notes.disagree) console.log(`  WARN trigger path disagreement (the trigger's own path is used): ${d}`);
     for (const a of notes.ambiguousPath) console.log(`  AMBIGUOUS trigger path (skipped): ${a}`);
 
     // 2. Writers: calls resolved to a write wrapper, with their enclosing method fact.
-    const writers = await db.query<{ fact_id: string; repo: string; file: string; line: number; wrapper: string; decl_file: string | null; arg0: string | null; caller_name: string | null; caller_class: string | null; caller_line: string | null }>(
-      `SELECT fact_id, repo, file, line, ${ev(CONTRACT.CALL_DECLARATION_METHOD)} AS wrapper, ${ev(CONTRACT.CALL_DECLARATION_FILE)} AS decl_file, payload->'evidence'->'${CONTRACT.CALL_ARGUMENTS}'->>0 AS arg0,
-              ${ev(CONTRACT.CALL_CALLER_NAME)} AS caller_name, ${ev(CONTRACT.CALL_CALLER_CLASS)} AS caller_class, ${ev(CONTRACT.CALL_CALLER_START_LINE)} AS caller_line
+    // W4e: a call inside an arrow-function class property has no callerName/callerStartLine; the extractor supplies the enclosing
+    // member (enclosingMemberName / enclosingMemberStartLine) instead, so the writer can be attributed to its method fact.
+    const writers = await db.query<{ fact_id: string; repo: string; file: string; line: number; wrapper: string; decl_file: string | null; arg0: string | null; resolved_path: string | null; caller_name: string | null; caller_class: string | null; caller_line: string | null }>(
+      `SELECT fact_id, repo, file, line, ${ev(CONTRACT.CALL_DECLARATION_METHOD)} AS wrapper, ${ev(CONTRACT.CALL_DECLARATION_FILE)} AS decl_file, payload->'evidence'->'${CONTRACT.CALL_ARGUMENTS}'->>0 AS arg0, ${ev(CONTRACT.CALL_RESOLVED_PATH)} AS resolved_path,
+              coalesce(${ev(CONTRACT.CALL_CALLER_NAME)}, ${ev(CONTRACT.CALL_ENCLOSING_MEMBER_NAME)}) AS caller_name, ${ev(CONTRACT.CALL_CALLER_CLASS)} AS caller_class,
+              coalesce(${ev(CONTRACT.CALL_CALLER_START_LINE)}, ${ev(CONTRACT.CALL_ENCLOSING_MEMBER_START_LINE)}) AS caller_line
        FROM facts WHERE repo = ANY($1::text[]) AND kind = $2 AND ${ev(CONTRACT.CALL_RESOLUTION_STATUS)} = $3 AND ${ev(CONTRACT.CALL_DECLARATION_METHOD)} = ANY($4::text[]) ORDER BY repo, file, line`,
       [sourceRepos, CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_RESOLUTION_OK, Object.keys(FIRESTORE_WRITE_WRAPPERS)]
     );
-    const derivable = writers.rows.filter(w => staticPathSegments(w.arg0) !== null);
+    // The writer's collection path: the extractor's resolved template (W4a) when present, else the literal in
+    // arguments[0] (a fact extracted before W4a, or a call the extractor could not resolve but is a literal).
+    const writerSegments = (w: { arg0: string | null; resolved_path: string | null }): Seg[] | null =>
+      (w.resolved_path ? templatePathSegments(w.resolved_path) : null) ?? staticPathSegments(w.arg0);
+    const derivable = writers.rows.filter(w => writerSegments(w) !== null);
+    const viaResolvedPath = derivable.filter(w => !!w.resolved_path && templatePathSegments(w.resolved_path) !== null).length;
     const enclosing = await lookupDecls(derivable.filter(w => w.caller_name && w.caller_line && Number.isFinite(Number(w.caller_line))).map(w => ({ repo: w.repo, file: w.file, name: w.caller_name!, line: Number(w.caller_line) })));
 
     // 3. Match, one edge per (writer method, handler).
@@ -1133,7 +1259,7 @@ const firestoreTriggerJoin: Join = {
     let unattributed = 0, matchedSites = 0;
     const reached = new Set<string>();
     for (const w of derivable) {
-      const wsegs = staticPathSegments(w.arg0)!;
+      const wsegs = writerSegments(w)!;
       const fires = FIRESTORE_WRITE_WRAPPERS[w.wrapper];
       const hits = trigs.filter(t => t.repo === w.repo && fires.includes(t.event) && collectionMatches(wsegs, t.collection));
       if (hits.length === 0) continue;
@@ -1144,7 +1270,9 @@ const firestoreTriggerJoin: Join = {
         reached.add(t.fact_id);
         const key = `${m[0].fact_id}\u0000${t.handler.fact_id}`;
         const g = groups.get(key) ?? { method: m[0], cls: w.caller_class, trig: t, sites: [], wrappers: new Set<string>() };
-        g.sites.push(`${w.wrapper}(${w.arg0}) at ${w.file}:${w.line}`);
+        // The resolved template is shown only where it was needed (arguments[0] is not itself a literal), so an edge whose writer
+        // path was already readable keeps exactly the details it had before W4a.
+        g.sites.push(`${w.wrapper}(${w.arg0}${w.resolved_path && staticPathSegments(w.arg0) === null ? ` = ${w.resolved_path}` : ""}) at ${w.file}:${w.line}`);
         g.wrappers.add(w.wrapper);
         groups.set(key, g);
       }
@@ -1182,13 +1310,426 @@ const firestoreTriggerJoin: Join = {
     )).rows;
     console.log(`  Base controllers (${baseFiles.length} file(s) declaring a write wrapper): ${unclassified.length === 0 ? "every called method is classified (write table or known-reader list)." : `${unclassified.length} called method(s) in NEITHER the write-wrapper table nor the known-reader list, review them: ${unclassified.map(u => `${u.method} (${u.n} call site${u.n === "1" ? "" : "s"}, ${u.file.replace(/^.*\//, "")})`).join("; ")}.`}`);
     const unreached = trigs.filter(t => !reached.has(t.fact_id));
-    console.log(`  Writers: ${writers.rows.length} write-wrapper call sites; first argument is a readable path for ${derivable.length}, not readable (identifier/call) for ${writers.rows.length - derivable.length}. ${matchedSites} readable-path sites land on a trigger collection (${unattributed} more had no single enclosing method fact and were skipped).`);
-    console.log(`  Join result: ${edges.length} resolved edges (writer method -> handler), reaching ${reached.size} of ${trigs.length} triggers; ${unreached.length} triggers have no readable-path writer${unreached.length ? `: ${unreached.map(t => `${t.event} ${t.path}`).join("; ")}` : ""}.`);
+    const noPath = writers.rows.filter(w => writerSegments(w) === null);
+    console.log(`  Writers: ${writers.rows.length} write-wrapper call sites; the collection path is known for ${derivable.length} (${viaResolvedPath} via evidence.${CONTRACT.CALL_RESOLVED_PATH}, ${derivable.length - viaResolvedPath} via the literal in arguments[0]), unknown for ${noPath.length}. ${matchedSites} known-path sites land on a trigger collection (${unattributed} more had no single enclosing method fact and were skipped).`);
+    // Write-wrapper calls whose collection path is not known: the first argument is not a literal and the extractor resolved no
+    // path for it (W4a `evidence.resolvedPath` absent), so it is not a statically known collection at this call site. Generic
+    // reason worked out from the fact itself (no name list); no edge is made for it, and that is not a claim that the write
+    // reaches no trigger. Listed (first 12) so a new one shows up.
+    for (const w of noPath.slice(0, 12)) console.log(`    path unknown: ${w.file}:${w.line} ${w.wrapper}(${(w.arg0 ?? "<no arguments>").replace(/\s+/g, " ").slice(0, 60)}): first argument is not a literal and no evidence.${CONTRACT.CALL_RESOLVED_PATH} was extracted, so the collection is not statically known at this call site.`);
+    if (noPath.length > 12) console.log(`    ... and ${noPath.length - 12} more write-wrapper call site(s) with an unknown collection path.`);
+    console.log(`  Join result: ${edges.length} resolved edges (writer method -> handler), reaching ${reached.size} of ${trigs.length} triggers; ${unreached.length} triggers have no known-path writer${unreached.length ? `: ${unreached.map(t => `${t.event} ${t.path}`).join("; ")}` : ""}.`);
     return edges;
   },
 };
 
-const JOINS: Join[] = [firebaseCallableJoin, pubsubBindingJoin, packageSymbolUseJoin, restRouteJoin, firestoreTriggerJoin];
+// ---------------------------------------------------------------------------
+// W4d: client Firestore calls (Swift W4c, Angular W4b) <-> the Firebase side. A client call is not a call into
+// Firebase code: it touches a Firestore path that Firebase code also touches. Two relations, two connection types
+// (both resolved, ast_derived), each edge carrying its structured facts in `attributes` (jsonb):
+//   FIRESTORE_CLIENT_TRIGGER  a client WRITE (set / update / delete) -> the Firebase trigger handler that fires on it.
+//   FIRESTORE_CLIENT_ACCESS   any client call -> each Firebase writer METHOD that writes the same collection.
+// Path matching reuses the existing wildcard rules: a trigger wildcard matches any client segment; any other
+// wildcard (client or writer) matches only a wildcard, never a literal. Whether a client path is a collection or a
+// document is taken from its segment count (odd = collection), and checked against the extractor's `pathKind`.
+// A client call that links to nothing is recorded as an `unresolved` FIRESTORE_CLIENT_ACCESS edge with the reason
+// (a client write that simply has no trigger is not a gap and gets no row). Nothing here names a repo, a
+// collection, an operation table other than the wrapper table above, or a platform: source repos are the repos
+// that have `firestore_client_call` facts, the Firebase side is whatever repo has the writer/trigger facts.
+// ---------------------------------------------------------------------------
+interface ClientCall { fact_id: string; repo: string; file: string; line: number; ev: any }
+
+const lastIdentifier = (expr: string): string => (/([A-Za-z_]\w*)\s*\)?\s*$/.exec(expr.replace(/\.\.\./g, ""))?.[1] ?? expr.trim());
+// Interpolated names in a raw client path template: Swift "\(name)", Angular "${expr}" (its last identifier).
+function rawPlaceholderNames(raw: string | null | undefined): string[] {
+  if (!raw) return [];
+  const out: string[] = [];
+  for (const m of raw.matchAll(/\\\(([^)]*)\)|\$\{([^}]*)\}/g)) out.push(lastIdentifier(m[1] ?? m[2] ?? ""));
+  return out;
+}
+const templatePlaceholderNames = (t: string): string[] => [...t.matchAll(/\{([^}]*)\}/g)].map(m => m[1]);
+// Wildcard on both sides only matches a wildcard; a literal only matches the same literal.
+const bothMatch = (a: Seg[], b: Seg[]): boolean => a.length === b.length && a.every((x, i) => (x === null && b[i] === null) || (x !== null && b[i] !== null && x === b[i]));
+const collectionText = (segs: Seg[]): string => "/" + segs.map(s => s ?? "{}").join("/");
+
+type ClientInfo =
+  | { ok: false; why: "path_unresolved" | "no_operation"; reason: string; op: string | null; sdk: string | null; platform: string }
+  | { ok: true; op: string; sdk: string | null; platform: string; template: string; full: Seg[]; collectionShape: boolean; collection: Seg[]; declaredKind: string | null; flags: Record<string, unknown> };
+
+function analyseClient(c: ClientCall): ClientInfo {
+  const ev = c.ev;
+  const op: string | null = ev[CONTRACT.CLIENT_OPERATION] ?? null;
+  const sdk: string | null = ev[CONTRACT.CLIENT_SDK_CALL] ?? null;
+  const platform: string = ev[CONTRACT.CLIENT_PLATFORM] ?? c.repo;
+  const value: string | undefined = ev[CONTRACT.CLIENT_VALUE];
+  const full = ev[CONTRACT.CLIENT_PATH_RESOLUTION] === CONTRACT.CLIENT_PATH_UNRESOLVED || !value ? null : templatePathSegments(value);
+  if (!full || !value) return { ok: false, why: "path_unresolved", reason: `the client path is not resolved${ev[CONTRACT.CLIENT_UNRESOLVED_REASON] ? `: ${ev[CONTRACT.CLIENT_UNRESOLVED_REASON]}` : ""}`, op, sdk, platform };
+  if (!op) return { ok: false, why: "no_operation", reason: `the client call has no operation${ev[CONTRACT.CLIENT_OPERATION_REASON] ? `: ${ev[CONTRACT.CLIENT_OPERATION_REASON]}` : ""}`, op, sdk, platform };
+  const collectionShape = full.length % 2 === 1; // Firestore: an odd segment count is a collection, an even one a document
+  const declaredKind: string | null = ev[CONTRACT.CLIENT_PATH_KIND] ?? null;
+  const flags: Record<string, unknown> = {};
+  // Not hidden, only reported: a declared kind that contradicts the path's own shape, and a template whose placeholder
+  // names differ from the names the source interpolates (the matching itself is by segment position).
+  if (declaredKind && declaredKind !== (collectionShape ? "collection" : "document")) flags.pathShapeMismatch = { declared: declaredKind, segments: full.length, shape: collectionShape ? "collection" : "document" };
+  const rawNames = rawPlaceholderNames(ev[CONTRACT.CLIENT_RAW_TEMPLATE]);
+  const tplNames = templatePlaceholderNames(value);
+  if (rawNames.length > 0 && rawNames.length === tplNames.length && rawNames.some((n, i) => n !== tplNames[i])) {
+    flags.placeholderMismatch = rawNames.map((n, i) => (n !== tplNames[i] ? { template: tplNames[i], source: n } : null)).filter(Boolean);
+  }
+  return { ok: true, op, sdk, platform, template: value, full, collectionShape, collection: collectionShape ? full : full.slice(0, -1), declaredKind, flags };
+}
+
+async function loadClientCalls(db: Pool, sourceRepos: string[]): Promise<ClientCall[]> {
+  const r = await db.query<{ fact_id: string; repo: string; file: string; line: number; ev: any }>(
+    `SELECT fact_id, repo, file, line, payload->'evidence' AS ev FROM facts WHERE repo = ANY($1::text[]) AND kind = $2 ORDER BY repo, file, line`,
+    [sourceRepos, CONTRACT.CLIENT_CALL_KIND]
+  );
+  return r.rows;
+}
+
+interface FbWriter { fact_id: string; repo: string; file: string; line: number; wrapper: string; path: string; segs: Seg[]; callerName: string | null; callerClass: string | null; callerLine: number | null }
+interface FbTrigger { fact_id: string; repo: string; file: string; line: number; event: string; path: string; segs: Seg[]; handlerExpr: string | null; handlerName: string | null; handlerFile: string | null; handlerLine: number | null; handlerResolved: boolean }
+interface FbTouched { path: string; segs: Seg[]; via: string }
+
+// The Firebase side, discovered from the data: write-wrapper call sites with a resolved collection path (their
+// enclosing member is the method; W4e supplies it for arrow-function properties), Firestore triggers with their own
+// path, and every other Firebase fact that names a path (used only to word a miss).
+async function loadFirebaseFirestoreSide(db: Pool): Promise<{ writers: FbWriter[]; triggers: FbTrigger[]; touched: FbTouched[] }> {
+  const ev = (f: string) => `payload->'evidence'->>'${f}'`;
+  const w = await db.query<{ fact_id: string; repo: string; file: string; line: number; wrapper: string; path: string; caller_name: string | null; caller_class: string | null; caller_line: string | null }>(
+    `SELECT fact_id, repo, file, line, ${ev(CONTRACT.CALL_DECLARATION_METHOD)} AS wrapper, ${ev(CONTRACT.CALL_RESOLVED_PATH)} AS path,
+            coalesce(${ev(CONTRACT.CALL_CALLER_NAME)}, ${ev(CONTRACT.CALL_ENCLOSING_MEMBER_NAME)}) AS caller_name, ${ev(CONTRACT.CALL_CALLER_CLASS)} AS caller_class,
+            coalesce(${ev(CONTRACT.CALL_CALLER_START_LINE)}, ${ev(CONTRACT.CALL_ENCLOSING_MEMBER_START_LINE)}) AS caller_line
+     FROM facts WHERE kind = $1 AND ${ev(CONTRACT.CALL_RESOLUTION_STATUS)} = $2 AND ${ev(CONTRACT.CALL_DECLARATION_METHOD)} = ANY($3::text[]) AND ${ev(CONTRACT.CALL_RESOLVED_PATH)} IS NOT NULL
+     ORDER BY repo, file, line`,
+    [CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_RESOLUTION_OK, Object.keys(FIRESTORE_WRITE_WRAPPERS)]
+  );
+  const writers: FbWriter[] = w.rows.flatMap(r => { const segs = templatePathSegments(r.path); return segs ? [{ fact_id: r.fact_id, repo: r.repo, file: r.file, line: r.line, wrapper: r.wrapper, path: r.path, segs, callerName: r.caller_name, callerClass: r.caller_class, callerLine: r.caller_line !== null && Number.isFinite(Number(r.caller_line)) ? Number(r.caller_line) : null }] : []; });
+  const t = await db.query<{ fact_id: string; repo: string; file: string; line: number; path: string; callee: string | null; trig_event: string | null; handler_expr: string | null; handler_name: string | null; handler_file: string | null; handler_line: string | null; handler_res: string | null }>(
+    `SELECT fact_id, repo, file, line, ${ev(CONTRACT.TRIGGER_PATH)} AS path, ${ev(CONTRACT.TRIGGER_CALLEE)} AS callee, ${ev(CONTRACT.TRIGGER_EVENT)} AS trig_event,
+            ${ev(CONTRACT.TRIGGER_HANDLER_EXPRESSION)} AS handler_expr, ${ev(CONTRACT.TRIGGER_HANDLER_NAME)} AS handler_name, ${ev(CONTRACT.TRIGGER_HANDLER_FILE)} AS handler_file,
+            ${ev(CONTRACT.TRIGGER_HANDLER_START_LINE)} AS handler_line, ${ev(CONTRACT.TRIGGER_HANDLER_RESOLUTION)} AS handler_res
+     FROM facts WHERE kind = $1 AND ${ev(CONTRACT.TRIGGER_PATH)} IS NOT NULL AND ${ev(CONTRACT.TRIGGER_PATH)} <> $2 AND coalesce(${ev(CONTRACT.TRIGGER_SOURCE)}, '') <> $3
+     ORDER BY repo, file, line`,
+    [CONTRACT.TRIGGER_KIND, CONTRACT.TRIGGER_PATH_UNKNOWN, CONTRACT.TRIGGER_SOURCE_AUTH]
+  );
+  const triggers: FbTrigger[] = t.rows.flatMap(r => {
+    const event = FIRESTORE_TRIGGER_EVENTS[(r.callee ?? "").replace(/^[\s\S]*\./, "").trim()] ?? (r.trig_event && Object.values(FIRESTORE_TRIGGER_EVENTS).includes(r.trig_event) ? r.trig_event : undefined);
+    if (!event) return [];
+    return [{ fact_id: r.fact_id, repo: r.repo, file: r.file, line: r.line, event, path: r.path, segs: pathSegments(r.path), handlerExpr: r.handler_expr, handlerName: r.handler_name, handlerFile: r.handler_file, handlerLine: r.handler_line !== null && Number.isFinite(Number(r.handler_line)) ? Number(r.handler_line) : null, handlerResolved: r.handler_res === CONTRACT.TRIGGER_HANDLER_RESOLVED }];
+  });
+  const o = await db.query<{ p: string; m: string | null; n: string }>(
+    `SELECT ${ev(CONTRACT.CALL_RESOLVED_PATH)} AS p, ${ev(CONTRACT.CALL_DECLARATION_METHOD)} AS m, count(*)::text AS n FROM facts WHERE kind = $1 AND ${ev(CONTRACT.CALL_RESOLVED_PATH)} IS NOT NULL GROUP BY 1, 2`,
+    [CONTRACT.CALL_EXPRESSION_KIND]
+  );
+  const touched: FbTouched[] = o.rows.flatMap(r => { const segs = templatePathSegments(r.p); return segs ? [{ path: r.p, segs, via: `${r.m ?? "a call"} x${r.n}` }] : []; });
+  const pt = await db.query<{ p: string }>(`SELECT DISTINCT payload->>'${CONTRACT.PATH_VALUE}' AS p FROM facts WHERE kind = $1 AND payload->>'${CONTRACT.PATH_VALUE}' IS NOT NULL`, [CONTRACT.PATH_KIND]);
+  for (const r of pt.rows) { const segs = templatePathSegments(r.p); if (segs) touched.push({ path: r.p, segs, via: "firestore_path_touched" }); }
+  return { writers, triggers, touched };
+}
+
+// Declaration facts by (repo, file, name, start line): enclosing writer methods and trigger handlers.
+async function lookupDeclFacts(db: Pool, want: { repo: string; file: string; name: string; line: number }[]) {
+  const out = new Map<string, { fact_id: string; repo: string; file: string; line: number; kind: string; symbol_name: string }[]>();
+  if (want.length === 0) return out;
+  const rows = await db.query<{ fact_id: string; repo: string; file: string; line: number; kind: string; symbol_name: string }>(
+    `SELECT fact_id, repo, file, line, kind, symbol_name FROM facts
+     WHERE kind <> $1 AND (repo, file, symbol_name, line) IN (SELECT * FROM unnest($2::text[], $3::text[], $4::text[], $5::int[]))`,
+    [CONTRACT.CALL_EXPRESSION_KIND, want.map(w => w.repo), want.map(w => w.file), want.map(w => w.name), want.map(w => w.line)]
+  );
+  for (const r of rows.rows) { const k = `${r.repo}\u0000${r.file}\u0000${r.symbol_name}\u0000${r.line}`; out.set(k, [...(out.get(k) ?? []), r]); }
+  return out;
+}
+const declLookupKey = (repo: string, file: string, name: string, line: number) => `${repo}\u0000${file}\u0000${name}\u0000${line}`;
+
+async function clientJoinPreflight(db: Pool, sourceRepos: string[]): Promise<string[]> {
+  const problems: string[] = [];
+  if (sourceRepos.length === 0) problems.push(`no repo has any '${CONTRACT.CLIENT_CALL_KIND}' facts`);
+  else {
+    const withOp = await countFacts(db, `repo = ANY($1::text[]) AND kind = $2 AND payload->'evidence' ? $3`, [sourceRepos, CONTRACT.CLIENT_CALL_KIND, CONTRACT.CLIENT_OPERATION]);
+    if (withOp === 0) problems.push(`no '${CONTRACT.CLIENT_CALL_KIND}' fact has evidence.${CONTRACT.CLIENT_OPERATION} (extractor field renamed?)`);
+    const withValue = await countFacts(db, `repo = ANY($1::text[]) AND kind = $2 AND payload->'evidence' ? $3`, [sourceRepos, CONTRACT.CLIENT_CALL_KIND, CONTRACT.CLIENT_VALUE]);
+    if (withValue === 0) problems.push(`no '${CONTRACT.CLIENT_CALL_KIND}' fact has evidence.${CONTRACT.CLIENT_VALUE} (extractor field renamed?)`);
+  }
+  const writers = await countFacts(db, `kind = $1 AND payload->'evidence'->>$2 = ANY($3::text[]) AND payload->'evidence'->>$4 IS NOT NULL`, [CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_DECLARATION_METHOD, Object.keys(FIRESTORE_WRITE_WRAPPERS), CONTRACT.CALL_RESOLVED_PATH]);
+  if (writers === 0) problems.push(`no '${CONTRACT.CALL_EXPRESSION_KIND}' fact resolves to a Firestore write wrapper with evidence.${CONTRACT.CALL_RESOLVED_PATH} (extractor field renamed, or W4a not loaded?)`);
+  problems.push(...(await attributesColumnProblems(db)));
+  return problems;
+}
+const clientSourceRepos = async (db: Pool): Promise<string[]> =>
+  (await db.query<{ repo: string }>(`SELECT DISTINCT repo FROM facts WHERE kind = $1 ORDER BY repo`, [CONTRACT.CLIENT_CALL_KIND])).rows.map(r => r.repo);
+
+const clientLabel = (c: ClientCall): string => {
+  const who = [c.ev[CONTRACT.CLIENT_CALLER_CLASS], c.ev[CONTRACT.CLIENT_CALLER_FUNCTION] ?? c.ev[CONTRACT.CLIENT_CALLER_METHOD]].filter(Boolean).join(".");
+  return `${c.file}:${c.line}${who ? " " + who : ""}`;
+};
+const clientAttrs = (i: Extract<ClientInfo, { ok: true }>) => ({ platform: i.platform, clientOperation: i.op, clientSdkCall: i.sdk, pathKind: i.declaredKind, pathShape: i.collectionShape ? "collection" : "document", pathTemplate: i.template, ...i.flags });
+const flagText = (i: Extract<ClientInfo, { ok: true }>): string =>
+  `${i.flags.pathShapeMismatch ? ` NOTE: declared ${(i.flags.pathShapeMismatch as any).declared} but the template has ${(i.flags.pathShapeMismatch as any).segments} segment(s), the shape of a ${(i.flags.pathShapeMismatch as any).shape}.` : ""}${i.flags.placeholderMismatch ? ` NOTE: the template names ${(i.flags.placeholderMismatch as any[]).map(m => `{${m.template}}`).join(", ")} but the source interpolates ${(i.flags.placeholderMismatch as any[]).map(m => m.source).join(", ")}.` : ""}`;
+
+// Join: client write -> trigger handler.
+const firestoreClientTriggerJoin: Join = {
+  name: "firestore-client-trigger",
+  connectionType: "FIRESTORE_CLIENT_TRIGGER",
+  provenance: "ast_derived",
+  discoverSourceRepos: clientSourceRepos,
+  preflight: clientJoinPreflight,
+
+  async compute(db, sourceRepos) {
+    const clients = await loadClientCalls(db, sourceRepos);
+    const side = await loadFirebaseFirestoreSide(db);
+    const handlerFacts = await lookupDeclFacts(db, side.triggers.filter(t => t.handlerResolved && t.handlerName && t.handlerFile && t.handlerLine !== null).map(t => ({ repo: t.repo, file: t.handlerFile!, name: t.handlerName!, line: t.handlerLine! })));
+    const handlerOf = (t: FbTrigger) => (t.handlerResolved && t.handlerName && t.handlerFile && t.handlerLine !== null ? handlerFacts.get(declLookupKey(t.repo, t.handlerFile, t.handlerName, t.handlerLine)) ?? [] : []);
+    type G = { c: ClientCall; info: Extract<ClientInfo, { ok: true }>; handler: { fact_id: string; repo: string }; handlerExpr: string; events: Set<string>; trig: FbTrigger };
+    const groups = new Map<string, G>();
+    const perPlatform = new Map<string, { writes: number; matched: Set<string> }>();
+    let writes = 0, noHandler = 0;
+    for (const c of clients) {
+      const info = analyseClient(c);
+      if (!info.ok || !["set", "update", "delete"].includes(info.op)) continue;
+      writes++;
+      const pp = perPlatform.get(info.platform) ?? { writes: 0, matched: new Set<string>() }; pp.writes++; perPlatform.set(info.platform, pp);
+      // set on a document: create or update (unknown which); set that adds to a collection: create; update: update; delete: delete.
+      const events = info.op === "set" ? (info.collectionShape ? ["create"] : ["create", "update"]) : info.collectionShape ? [] : [info.op];
+      for (const t of side.triggers) {
+        if (!events.includes(t.event)) continue;
+        if (!collectionMatches(info.full, info.collectionShape ? t.segs.slice(0, -1) : t.segs)) continue;
+        const hf = handlerOf(t);
+        if (hf.length !== 1) { noHandler++; continue; }
+        const key = `${c.fact_id}\u0000${hf[0].fact_id}`;
+        const g = groups.get(key) ?? { c, info, handler: hf[0], handlerExpr: t.handlerExpr ?? t.handlerName ?? "", events: new Set<string>(), trig: t };
+        g.events.add(t.event); groups.set(key, g); pp.matched.add(c.fact_id);
+      }
+    }
+    const edges: EdgeRow[] = [];
+    for (const g of groups.values()) {
+      const ev = [...g.events].sort();
+      // Same wording as the existing writer -> trigger join: a `set` on a document fires create if the document is new, update if it exists.
+      const eventText = g.info.op === "set" && !g.info.collectionShape && ev.some(e => e === "create" || e === "update") ? SET_EVENT_DETAILS : `fires on document ${ev.join(" and ")}`;
+      edges.push({
+        sourceRepo: g.c.repo, sourceSymbol: `${clientLabel(g.c)} -> ${g.info.op} ${g.info.template}`, sourceFactId: g.c.fact_id,
+        targetRepo: g.handler.repo, targetSymbol: g.handlerExpr, targetFactId: g.handler.fact_id, resolutionStatus: "resolved", confirmedVia: null,
+        details: `Client ${g.info.platform} ${g.info.op}${g.info.sdk ? ` (${g.info.sdk})` : ""} on ${g.info.collectionShape ? "collection" : "document"} '${g.info.template}': ${eventText}. Trigger on ${ev.join("/")} of '${g.trig.path}' registered at ${g.trig.file}:${g.trig.line} runs ${g.handlerExpr}.${flagText(g.info)}`,
+        attributes: { ...clientAttrs(g.info), serverEvents: ev, triggerPath: g.trig.path },
+      });
+    }
+    console.log(`  Client writes (set/update/delete): ${writes} from ${clients.length} client fact(s); ${[...perPlatform.entries()].sort().map(([p, v]) => `${p}: ${v.matched.size} of ${v.writes} match a trigger`).join(", ")}${noHandler ? `; ${noHandler} trigger match(es) skipped: no single handler declaration fact` : ""}.`);
+    console.log(`  Join result: ${edges.length} resolved edges (client write -> trigger handler), reaching ${new Set(edges.map(e => e.targetFactId)).size} handler(s). A client write with no trigger on its path is not a gap and gets no row.`);
+    return edges;
+  },
+};
+
+// Join: any client call -> each Firebase writer method on the same collection; misses recorded as unresolved.
+const firestoreClientAccessJoin: Join = {
+  name: "firestore-client-access",
+  connectionType: "FIRESTORE_CLIENT_ACCESS",
+  provenance: "ast_derived",
+  discoverSourceRepos: clientSourceRepos,
+  preflight: clientJoinPreflight,
+
+  async compute(db, sourceRepos) {
+    const clients = await loadClientCalls(db, sourceRepos);
+    const side = await loadFirebaseFirestoreSide(db);
+    const methodFacts = await lookupDeclFacts(db, side.writers.filter(w => w.callerName && w.callerLine !== null).map(w => ({ repo: w.repo, file: w.file, name: w.callerName!, line: w.callerLine! })));
+    const methodOf = (w: FbWriter) => (w.callerName && w.callerLine !== null ? methodFacts.get(declLookupKey(w.repo, w.file, w.callerName, w.callerLine)) ?? [] : []);
+    const edges: EdgeRow[] = [];
+    const stat = new Map<string, { facts: number; matched: number; edges: number; unresolved: number }>();
+    for (const c of clients) {
+      const info = analyseClient(c);
+      const plat = info.platform;
+      const st = stat.get(plat) ?? { facts: 0, matched: 0, edges: 0, unresolved: 0 }; st.facts++; stat.set(plat, st);
+      const miss = (why: string, reason: string, i: ClientInfo) => {
+        st.unresolved++;
+        edges.push({
+          sourceRepo: c.repo, sourceSymbol: `${clientLabel(c)} -> ${i.op ?? "?"} ${i.ok ? i.template : "(path unresolved)"}`, sourceFactId: c.fact_id,
+          targetRepo: UNKNOWN_REPO, targetSymbol: i.ok ? i.template : "unresolved", targetFactId: null, resolutionStatus: "unresolved", confirmedVia: null,
+          details: `Client ${i.platform} ${i.op ?? "call"}${i.sdk ? ` (${i.sdk})` : ""} not linked to a Firebase writer: ${reason}${i.ok ? flagText(i) : ""}`,
+          attributes: { platform: i.platform, clientOperation: i.op, clientSdkCall: i.sdk, reason: why, ...(i.ok ? clientAttrs(i) : {}) },
+        });
+      };
+      if (!info.ok) { miss(info.why, info.reason, info); continue; }
+      const matched = side.writers.filter(w => bothMatch(info.collection, w.segs));
+      const byMethod = new Map<string, { m: { fact_id: string; repo: string; file: string; line: number; symbol_name: string }; cls: string | null; sites: string[]; wrappers: Set<string>; paths: Set<string> }>();
+      for (const w of matched) {
+        const mf = methodOf(w);
+        if (mf.length !== 1) continue;
+        const g = byMethod.get(mf[0].fact_id) ?? { m: mf[0], cls: w.callerClass, sites: [], wrappers: new Set<string>(), paths: new Set<string>() };
+        g.sites.push(`${w.wrapper}(${w.path}) at ${w.file}:${w.line}`); g.wrappers.add(w.wrapper); g.paths.add(w.path); byMethod.set(mf[0].fact_id, g);
+      }
+      if (byMethod.size === 0) {
+        const coll = collectionText(info.collection);
+        const other = side.touched.filter(t => bothMatch(info.collection, t.segs));
+        const reason = matched.length > 0
+          ? `Firebase writes collection '${coll}' in ${matched.length} write-wrapper call site(s) (${matched.slice(0, 3).map(w => `${w.file}:${w.line}`).join(", ")}${matched.length > 3 ? ", ..." : ""}) but none has an enclosing method fact, so there is nothing to attach an edge to.`
+          : other.length > 0
+            ? `Firebase code touches collection '${coll}' (${[...new Set(other.map(o => o.via))].slice(0, 4).join(", ")}) but no write-wrapper call writes it.`
+            : `No Firebase fact names collection '${coll}': no write-wrapper call, read call, trigger or ${CONTRACT.PATH_KIND} fact has a path matching it.`;
+        miss("no_firebase_writer", reason, info);
+        continue;
+      }
+      st.matched++;
+      for (const g of byMethod.values()) {
+        st.edges++;
+        edges.push({
+          sourceRepo: c.repo, sourceSymbol: `${clientLabel(c)} -> ${info.op} ${info.template}`, sourceFactId: c.fact_id,
+          targetRepo: g.m.repo, targetSymbol: `${g.m.file}:${g.m.line} ${g.cls ? g.cls + "." : ""}${g.m.symbol_name}`, targetFactId: g.m.fact_id, resolutionStatus: "resolved", confirmedVia: null,
+          details: `Client ${info.platform} ${info.op}${info.sdk ? ` (${info.sdk})` : ""} on ${info.collectionShape ? "collection" : "document"} '${info.template}' touches collection '${collectionText(info.collection)}', which this Firebase method writes: ${g.sites.slice(0, 3).join("; ")}${g.sites.length > 3 ? `; +${g.sites.length - 3} more` : ""}.${flagText(info)}`,
+          attributes: { ...clientAttrs(info), serverCollection: [...g.paths].sort(), serverWrappers: [...g.wrappers].sort() },
+        });
+      }
+    }
+    for (const [p, v] of [...stat.entries()].sort()) console.log(`  ${p}: ${v.facts} client fact(s): ${v.matched} matched a Firebase writer method -> ${v.edges} resolved edge(s); ${v.unresolved} recorded unresolved.`);
+    console.log(`  Join result: ${edges.filter(e => e.resolutionStatus === "resolved").length} resolved, ${edges.filter(e => e.resolutionStatus === "unresolved").length} unresolved (each with its reason).`);
+    return edges;
+  },
+};
+
+// ---------------------------------------------------------------------------
+// W6 (doc 38 P7, doc 43): same-repo call edges from the call facts' OWN declaration fields. The resolved graph
+// (INTRA_REPO_CALL, build-intra-repo-edges.ts) covers only part of the resolved calls whose declaration is in the
+// repo; this join edges the rest: call-site fact -> the callee's declaration fact (controller_method, service_method,
+// class_method, ... or function_declaration), for a call fact whose `declarationFile` is a file the repo has facts
+// for. A call that has an import alias (`aliasedDeclaration*`, W1) uses the alias's declaration, since its own
+// `declarationFile` is then the importing file. Call sites that already have a followed INTRA_REPO_CALL edge are
+// skipped (the two never duplicate). It is a NEW connection type because a second writer of INTRA_REPO_CALL for a
+// repo would delete the intra builder's rows (slice ownership).
+//
+// Hubs: a callee with a very high fan-in (a logger, a security check) would give every neighbour walk a huge
+// neighbour list. The threshold is DERIVED FROM THE DATA at every run, per repo, never a name list: the Tukey outer
+// fence (Q3 + 3 * IQR) of the logarithm of the callees' fan-in. Edges into callees above it are skipped, and the
+// fence, the number skipped and each hub with its fan-in are printed on every run. Calls with no callee fact
+// (arrow-function properties, framework functions, `next(...)`) get no edge and are counted in the report only.
+// A repo whose config/repos.json entry sets `intraRepoEdges.enabled = false` is left out, with its reason printed.
+// ---------------------------------------------------------------------------
+const W6 = {
+  // Callee declaration facts are recognised by kind: a `<construct>_method` fact or a `function_declaration`.
+  DECLARATION_KIND_METHOD_SUFFIX: "_method",
+  DECLARATION_KIND_FUNCTION: "function_declaration",
+  CALL_MEMBER_NAME: "declarationMemberName", // under payload.evidence: W4e, callee is an arrow-function member
+  CALL_ALIASED_FILE: "aliasedDeclarationFile", // under payload.evidence: W1
+  CALL_ALIASED_LINE: "aliasedDeclarationLine",
+  CALL_ALIASED_METHOD: "aliasedDeclarationMethod",
+  CALL_ALIASED_CLASS: "aliasedDeclarationClass",
+  CALL_ALIASED_SYMBOL: "aliasedCalleeSymbol",
+  CALL_DECLARATION_LINE: "declarationLine",
+  CALL_DECLARATION_CLASS: "declarationClass",
+  INTRA_CONNECTION_TYPE: "INTRA_REPO_CALL",
+  FOLLOWED: ["resolved", "confirmed"],
+} as const;
+
+const fenceQuantile = (sorted: number[], p: number): number => sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))];
+
+function loadIntraSwitchOff(): Map<string, string> {
+  // Repos switched off for intra-repo call edges in config/repos.json (`intraRepoEdges.enabled = false`, with a reason).
+  const file = path.resolve(__dirname, "..", "..", "config", "repos.json");
+  const out = new Map<string, string>();
+  if (!fs.existsSync(file)) return out;
+  const j = JSON.parse(fs.readFileSync(file, "utf8"));
+  const list: any[] = Array.isArray(j.repositories) ? j.repositories : Object.values(j.repositories ?? {});
+  for (const r of list) if (r?.intraRepoEdges?.enabled === false) out.set(r.name, r.intraRepoEdges.reason ?? "(no reason given)");
+  return out;
+}
+
+const intraRepoCallDeclaredJoin: Join = {
+  name: "intra-repo-call-declared",
+  connectionType: "INTRA_REPO_CALL_DECLARED",
+  provenance: "ast_derived",
+
+  async discoverSourceRepos(db) {
+    const r = await db.query<{ repo: string }>(
+      `SELECT DISTINCT repo FROM facts WHERE kind = $1 AND payload->'evidence'->>$2 = $3 AND payload->'evidence'->>$4 IS NOT NULL ORDER BY repo`,
+      [CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_RESOLUTION_STATUS, CONTRACT.CALL_RESOLUTION_OK, CONTRACT.CALL_DECLARATION_FILE]
+    );
+    const off = loadIntraSwitchOff();
+    for (const repo of r.rows.map(x => x.repo).filter(x => off.has(x))) console.log(`  intra-repo-call-declared: skipping ${repo}: switched off in config/repos.json (intraRepoEdges.enabled = false) -- ${off.get(repo)}`);
+    return r.rows.map(x => x.repo).filter(x => !off.has(x));
+  },
+
+  async preflight(db, sourceRepos) {
+    const problems: string[] = [];
+    if (sourceRepos.length === 0) problems.push(`no repo has a resolved '${CONTRACT.CALL_EXPRESSION_KIND}' fact with evidence.${CONTRACT.CALL_DECLARATION_FILE}`);
+    else {
+      const withLine = await countFacts(db, `repo = ANY($1::text[]) AND kind = $2 AND payload->'evidence' ? $3`, [sourceRepos, CONTRACT.CALL_EXPRESSION_KIND, W6.CALL_DECLARATION_LINE]);
+      if (withLine === 0) problems.push(`no '${CONTRACT.CALL_EXPRESSION_KIND}' fact has evidence.${W6.CALL_DECLARATION_LINE} (extractor field renamed?)`);
+      const decls = await countFacts(db, `repo = ANY($1::text[]) AND (kind LIKE $2 OR kind = $3)`, [sourceRepos, `%${W6.DECLARATION_KIND_METHOD_SUFFIX}`, W6.DECLARATION_KIND_FUNCTION]);
+      if (decls === 0) problems.push(`no declaration fact (kind ending '${W6.DECLARATION_KIND_METHOD_SUFFIX}' or '${W6.DECLARATION_KIND_FUNCTION}') in ${sourceRepos.join(", ")}`);
+    }
+    problems.push(...(await attributesColumnProblems(db)));
+    return problems;
+  },
+
+  async compute(db, sourceRepos) {
+    const edges: EdgeRow[] = [];
+    for (const repo of sourceRepos) {
+      const files = new Set((await db.query<{ file: string }>(`SELECT DISTINCT file FROM facts WHERE repo = $1`, [repo])).rows.map(r => r.file));
+      const calls = (await db.query<{ fact_id: string; file: string; line: number; module: string; ev: any }>(
+        `SELECT fact_id, file, line, module, payload->'evidence' AS ev FROM facts WHERE repo = $1 AND kind = $2 AND payload->'evidence'->>$3 = $4 ORDER BY fact_id`,
+        [repo, CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_RESOLUTION_STATUS, CONTRACT.CALL_RESOLUTION_OK]
+      )).rows;
+      const decls = (await db.query<{ fact_id: string; kind: string; file: string; line: number; module: string; symbol_name: string }>(
+        `SELECT fact_id, kind, file, line, module, symbol_name FROM facts WHERE repo = $1 AND (kind LIKE $2 OR kind = $3) ORDER BY fact_id`,
+        [repo, `%${W6.DECLARATION_KIND_METHOD_SUFFIX}`, W6.DECLARATION_KIND_FUNCTION]
+      )).rows;
+      const already = new Set((await db.query<{ source_fact_id: string }>(
+        `SELECT source_fact_id FROM cross_repo_edges WHERE connection_type = $1 AND source_repo = $2 AND resolution_status = ANY($3::text[]) AND source_fact_id IS NOT NULL`,
+        [W6.INTRA_CONNECTION_TYPE, repo, [...W6.FOLLOWED]]
+      )).rows.map(r => r.source_fact_id));
+      const byFileLine = new Map<string, typeof decls>(), byFileName = new Map<string, typeof decls>();
+      for (const d of decls) {
+        const k1 = `${d.file}\u0000${d.line}`; byFileLine.set(k1, [...(byFileLine.get(k1) ?? []), d]);
+        const k2 = `${d.file}\u0000${d.symbol_name}`; byFileName.set(k2, [...(byFileName.get(k2) ?? []), d]);
+      }
+      const st = { resolvedCalls: calls.length, inRepoDeclaration: 0, alreadyEdged: 0, candidates: 0, matched: 0, viaAlias: 0, ambiguous: 0, noMethodName: 0, noDeclarationFact: 0 };
+      type Cand = { c: (typeof calls)[number]; t: (typeof decls)[number]; alias: boolean; cls: string | null };
+      const cands: Cand[] = [];
+      for (const c of calls) {
+        const e = c.ev;
+        const alias = !!e[W6.CALL_ALIASED_FILE];
+        const df: string | undefined = alias ? e[W6.CALL_ALIASED_FILE] : e[CONTRACT.CALL_DECLARATION_FILE];
+        const dl = alias ? e[W6.CALL_ALIASED_LINE] : e[W6.CALL_DECLARATION_LINE];
+        const dm: string | undefined = alias ? (e[W6.CALL_ALIASED_METHOD] ?? e[W6.CALL_ALIASED_SYMBOL]) : (e[CONTRACT.CALL_DECLARATION_METHOD] ?? e[W6.CALL_MEMBER_NAME]);
+        const cls: string | null = (alias ? e[W6.CALL_ALIASED_CLASS] : e[W6.CALL_DECLARATION_CLASS]) ?? null;
+        if (!df || !files.has(df)) continue;
+        st.inRepoDeclaration++;
+        if (already.has(c.fact_id)) { st.alreadyEdged++; continue; }
+        st.candidates++;
+        let t = byFileLine.get(`${df}\u0000${dl}`) ?? [];
+        if (t.length > 1 && dm) t = t.filter(x => x.symbol_name === dm);
+        if (t.length === 0 && dm) t = byFileName.get(`${df}\u0000${dm}`) ?? [];
+        if (t.length === 0) { if (dm) st.noDeclarationFact++; else st.noMethodName++; continue; }
+        if (t.length > 1) { st.ambiguous++; continue; }
+        if (t[0].fact_id === c.fact_id) continue;
+        st.matched++; if (alias) st.viaAlias++;
+        cands.push({ c, t: t[0], alias, cls });
+      }
+      // The hub fence, derived from this repo's own fan-in distribution.
+      const fan = new Map<string, number>();
+      for (const x of cands) fan.set(x.t.fact_id, (fan.get(x.t.fact_id) ?? 0) + 1);
+      const logs = [...fan.values()].sort((a, b) => a - b).map(v => Math.log(v));
+      const fence = logs.length === 0 ? Infinity : Math.exp(fenceQuantile(logs, 0.75) + 3 * (fenceQuantile(logs, 0.75) - fenceQuantile(logs, 0.25)));
+      const kept = cands.filter(x => fan.get(x.t.fact_id)! <= fence);
+      const hubs = [...fan.entries()].filter(([, n]) => n > fence).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
+      const symOf = new Map(cands.map(x => [x.t.fact_id, `${x.t.module}::${x.t.symbol_name}`]));
+      const skipped = hubs.reduce((s, [, n]) => s + n, 0);
+      console.log(`  ${repo}: ${st.resolvedCalls} resolved calls; ${st.inRepoDeclaration} name an in-repo declaration; ${st.alreadyEdged} already have an ${W6.INTRA_CONNECTION_TYPE} edge; ${st.candidates} candidates -> ${st.matched} with a callee fact (${st.viaAlias} through the import alias), ${st.ambiguous} ambiguous, ${st.noMethodName} with no method name and ${st.noDeclarationFact} with a name but no declaration fact (reported only, no edge).`);
+      console.log(`  ${repo}: ${fan.size} callees; hub fence (Tukey outer fence of log fan-in) = ${Number.isFinite(fence) ? fence.toFixed(1) : "n/a"}; ${hubs.length} hub callee(s) above it, ${skipped} edge(s) skipped, ${kept.length} kept. Hubs: ${hubs.length ? hubs.map(([id, n]) => `${symOf.get(id)} (${n})`).join(", ") : "none"}.`);
+      for (const x of kept) {
+        const e = x.c.ev;
+        const crossModule = x.c.module !== x.t.module;
+        edges.push({
+          sourceRepo: repo, sourceSymbol: `${x.c.file}:${x.c.line} -> ${e[CONTRACT.CALL_CALLER_NAME] ?? e[CONTRACT.CALL_ENCLOSING_MEMBER_NAME] ?? "(unknown caller)"}`, sourceFactId: x.c.fact_id,
+          targetRepo: repo, targetSymbol: `${x.t.module}::${x.cls ? x.cls + "." : ""}${x.t.symbol_name}`, targetFactId: x.t.fact_id, resolutionStatus: "resolved", confirmedVia: null,
+          details: `via ${e[CONTRACT.CALL_CALLEE_EXPRESSION] ?? "(call)"} (the call fact's own declaration fields${x.alias ? ", through the import alias" : ""}) -- ${crossModule ? `cross-module ('${x.c.module}' -> '${x.t.module}')` : `same module ('${x.c.module}')`}`,
+          attributes: { viaAlias: x.alias, crossModule, calleeFanIn: fan.get(x.t.fact_id)!, calleeKind: x.t.kind },
+        });
+      }
+    }
+    console.log(`  Join result: ${edges.length} resolved INTRA_REPO_CALL_DECLARED edge(s) across ${sourceRepos.length} repo(s).`);
+    return edges;
+  },
+};
+
+const JOINS: Join[] = [firebaseCallableJoin, pubsubBindingJoin, packageSymbolUseJoin, restRouteJoin, firestoreTriggerJoin, firestoreClientTriggerJoin, firestoreClientAccessJoin, intraRepoCallDeclaredJoin];
 
 // ---------------------------------------------------------------------------
 // Shared scoped replace. Compute first, replace second: the new edge set for a
@@ -1281,6 +1822,15 @@ async function replaceSlices(
       console.log(`  Removed ${deleted.rowCount} stale ${join.connectionType} edge(s) for ${repo}.`);
     }
     for (const edge of edges) {
+      // The attributes column is written only by joins that set it, so every older join's INSERT is unchanged.
+      if (edge.attributes) {
+        await client.query(
+          `INSERT INTO cross_repo_edges (source_repo, source_symbol, source_fact_id, target_repo, target_symbol, target_fact_id, connection_type, resolution_status, provenance, confirmed_via, details, synthesis_id, generated_at, attributes)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, now(), $13::jsonb)`,
+          [edge.sourceRepo, edge.sourceSymbol, edge.sourceFactId, edge.targetRepo, edge.targetSymbol, edge.targetFactId, join.connectionType, edge.resolutionStatus, join.provenance, edge.confirmedVia, edge.details, synthesisId, JSON.stringify(edge.attributes)]
+        );
+        continue;
+      }
       await client.query(
         `INSERT INTO cross_repo_edges (source_repo, source_symbol, source_fact_id, target_repo, target_symbol, target_fact_id, connection_type, resolution_status, provenance, confirmed_via, details, synthesis_id, generated_at)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, now())`,
@@ -1392,41 +1942,38 @@ async function printCoverageSummary(db: Pool, discovered: Map<string, string[]>)
     ? `  DANGLING ON A FOLLOWED EDGE (${FOLLOWED_STATUSES.join("/")}): ${followedDangling}. walkBoundedCluster will THROW when it reaches one. Rebuild the edges of the affected repo(s) now.`
     : `  dangling on ${FOLLOWED_STATUSES.join("/")} edges: 0 (traversal-safe); ${allDangling} dangling on statuses traversal never follows.`);
 
-  // 3. Newest extraction run versus the edges built for each repo.
-  const stale = await db.query<{ repo: string; run_id: string; extracted_at: Date; connection_type: string | null; edges: string; built_before: string }>(
-    `SELECT r.repo, r.run_id, r.extracted_at, e.connection_type, count(e.edge_id)::text AS edges,
-            count(e.edge_id) FILTER (WHERE e.generated_at < r.extracted_at)::text AS built_before
-     FROM (SELECT DISTINCT ON (repo) repo, run_id, extracted_at FROM extraction_runs ORDER BY repo, extracted_at DESC) r
-     LEFT JOIN cross_repo_edges e ON e.source_repo = r.repo
-     GROUP BY r.repo, r.run_id, r.extracted_at, e.connection_type ORDER BY r.repo, e.connection_type`
-  );
-  console.log(`  newest extraction run per repo versus the edges built for it as source (a repo synced after its edges were built may have stale edges):`);
-  let staleSlices = 0;
-  for (const r of stale.rows) {
-    const flag = Number(r.built_before) > 0;
-    if (flag) staleSlices++;
-    console.log(`    ${flag ? "STALE " : "ok    "}${r.repo}  run ${r.run_id} (${r.extracted_at.toISOString()}): ${r.connection_type ?? "no edges"}${r.connection_type ? ` ${r.edges} edge(s), ${r.built_before} built before that run` : ""}`);
-  }
-  console.log(staleSlices === 0 ? `  no repo has edges older than its newest extraction run` : `  ${staleSlices} (connection_type, repo) slice(s) have edges built BEFORE the repo's newest extraction run: rebuild after the sync (see the dangling counts above for the ones already broken).`);
+  // 3. Edge-sync state. Since 2026-09-26 (W5b) "stale" means "the edges were built from a
+  // different fact set than the current one" (fingerprints recorded in edge_sync_state by
+  // pipeline:edges), not "the repo's newest run has a later timestamp than the edges". A slice
+  // rebuilt by hand (this script run alone) shows as UNRECORDED, not STALE.
+  console.log(`  edges versus the fact sets they were built from:`);
+  await printEdgeSyncReport(db);
 }
 
-function parseArgs(argv: string[]): { joins: string[]; dryRun: boolean; acceptShrink: boolean; printEdges: boolean } {
-  const out = { joins: [] as string[], dryRun: false, acceptShrink: false, printEdges: false };
+function parseArgs(argv: string[]): { joins: string[]; dryRun: boolean; acceptShrink: boolean; printEdges: boolean; noSummary: boolean; summaryOnly: boolean } {
+  const out = { joins: [] as string[], dryRun: false, acceptShrink: false, printEdges: false, noSummary: false, summaryOnly: false };
   for (const a of argv) {
     if (a.startsWith("--join=")) out.joins.push(...a.slice("--join=".length).split(",").filter(Boolean));
     else if (a === "--dry-run") out.dryRun = true;
     else if (a === "--accept-shrink") out.acceptShrink = true;
     else if (a === "--print-edges") out.printEdges = true;
-    else throw new Error(`Unknown argument '${a}'. Usage: [--join=<name>[,<name>]] [--dry-run] [--print-edges] [--accept-shrink]. Joins: ${JOINS.map(j => j.name).join(", ")}`);
+    // Added 2026-09-26 for pipeline:edges (build-edges.ts): it prints one coverage summary at the very
+    // end, after the edge-sync state is recorded, so the joins run with --no-summary and the summary
+    // is printed by a final --summary-only run (discover + orphans + summary; no joins, no writes).
+    else if (a === "--no-summary") out.noSummary = true;
+    else if (a === "--summary-only") out.summaryOnly = true;
+    else throw new Error(`Unknown argument '${a}'. Usage: [--join=<name>[,<name>]] [--dry-run] [--print-edges] [--accept-shrink] [--no-summary] [--summary-only]. Joins: ${JOINS.map(j => j.name).join(", ")}`);
   }
   return out;
 }
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+  DRY_RUN = args.dryRun;
   const unknown = args.joins.filter(n => !JOINS.some(j => j.name === n));
   if (unknown.length > 0) throw new Error(`Unknown --join value(s): ${unknown.join(", ")}. Joins: ${JOINS.map(j => j.name).join(", ")}`);
-  const selected = args.joins.length > 0 ? JOINS.filter(j => args.joins.includes(j.name)) : JOINS;
+  if (args.summaryOnly && (args.joins.length > 0 || args.dryRun || args.acceptShrink || args.printEdges || args.noSummary)) throw new Error(`--summary-only takes no other flag: it runs no join and writes nothing.`);
+  const selected = args.summaryOnly ? [] : args.joins.length > 0 ? JOINS.filter(j => args.joins.includes(j.name)) : JOINS;
 
   const db = pool();
   let failed = 0;
@@ -1462,8 +2009,10 @@ async function main() {
         failed++;
       }
     }
-    await reportOrphanSlices(db, discovered);
-    await printCoverageSummary(db, discovered);
+    if (!args.noSummary) {
+      await reportOrphanSlices(db, discovered);
+      await printCoverageSummary(db, discovered);
+    }
   } finally {
     await db.end();
   }
@@ -1473,7 +2022,10 @@ async function main() {
   }
 }
 
-main().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+// Run only when executed (`node -r ts-node/register <file>`), never on import: importing this file to type-check it must not start a run against the database (2026-09-26 near-miss, doc 43).
+if (require.main === module) {
+  main().catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+}

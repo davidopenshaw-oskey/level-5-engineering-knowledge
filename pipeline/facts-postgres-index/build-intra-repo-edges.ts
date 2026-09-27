@@ -1,4 +1,4 @@
-// **version:** 1.0.0
+// **version:** 1.1.0
 // **location:** level-5 P2 facts index
 // © Oskey SAS. All rights reserved.
 //
@@ -244,7 +244,39 @@ function fromUnresolvedEligibleCalls(rows: any[]): Edge[] {
   }));
 }
 
+// Added 2026-09-26 (W5a, doc 43, Lane A). Both flags are off by default, so a run with no
+// arguments behaves as before, except that it now refuses a shrink (see below):
+//   --dry-run        compute the edges and print what would change against the existing slice;
+//                    write nothing. Used by pipeline:edges (build-edges.ts) --dry-run.
+//   --accept-shrink  allow the new slice to have fewer edges, or fewer resolved/confirmed edges,
+//                    than the existing one. Only after looking at why.
+// Shrink guard: before this the script deleted the repo's INTRA_REPO_CALL slice and inserted
+// whatever the graph file gave, with no comparison. It now compares the new slice with the
+// existing one and aborts (nothing changed) if the total, or the number of edges traversal
+// follows (resolved/confirmed), would fall. Same rule as the cross-repo builder's replaceSlices.
+const FOLLOWED_STATUSES = ["resolved", "confirmed"]; // statuses findGraphNeighbors follows
+
+function parseArgs(argv: string[]): { dryRun: boolean; acceptShrink: boolean } {
+  const out = { dryRun: false, acceptShrink: false };
+  for (const a of argv) {
+    if (a === "--dry-run") out.dryRun = true;
+    else if (a === "--accept-shrink") out.acceptShrink = true;
+    else throw new Error(`Unknown argument '${a}'. Usage: REPO_NAME=<repo> build-intra-repo-edges.ts [--dry-run] [--accept-shrink]`);
+  }
+  return out;
+}
+
+function statusCounts(rows: { resolutionStatus?: string; resolution_status?: string }[]): string {
+  const m = new Map<string, number>();
+  for (const r of rows) {
+    const k = (r.resolutionStatus ?? r.resolution_status)!;
+    m.set(k, (m.get(k) ?? 0) + 1);
+  }
+  return [...m.entries()].sort().map(([k, v]) => `${v} ${k}`).join(", ") || "none";
+}
+
 async function main() {
+  const args = parseArgs(process.argv.slice(2));
   const REPO_NAME = process.env.REPO_NAME;
   if (!REPO_NAME) throw new Error("[Fail-Closed] REPO_NAME environment variable is required and was not set.");
 
@@ -334,28 +366,68 @@ async function main() {
       console.log(`Built ${edges.length} real edges (${graph.confirmedCallEdges?.length ?? 0} confirmed cross-module, ${graph.confirmedIntraModuleCallEdges?.length ?? 0} confirmed intra-module, ${graph.probableCallEdges?.length ?? 0} probable cross-module, ${graph.probableIntraModuleCallEdges?.length ?? 0} probable intra-module, ${graph.unresolvedCallEdges?.length ?? 0} unresolved).`);
     }
 
-    const synthesisId = new Date().toISOString().replace(/[-:]/g, "").replace("T", "_").slice(0, 15);
-    await db.query("BEGIN");
-    const deleted = await db.query(`DELETE FROM cross_repo_edges WHERE connection_type = 'INTRA_REPO_CALL' AND source_repo = $1 RETURNING edge_id`, [REPO_NAME]);
-    console.log(`Removed ${deleted.rowCount} stale INTRA_REPO_CALL edge(s) for ${REPO_NAME} (recomputed fresh).`);
-    for (const edge of edges) {
-      await db.query(
-        `INSERT INTO cross_repo_edges (source_repo, source_symbol, source_fact_id, target_repo, target_symbol, target_fact_id, connection_type, resolution_status, provenance, confirmed_via, details, synthesis_id, generated_at)
-         VALUES ($1, $2, $3, $1, $4, $5, 'INTRA_REPO_CALL', $6, 'ast_derived', NULL, $7, $8, now())`,
-        [REPO_NAME, edge.sourceSymbol, edge.sourceFactId, edge.targetSymbol, edge.targetFactId, edge.resolutionStatus, edge.details, synthesisId]
-      );
+    // Compare with the existing slice before touching it (shrink guard + dry-run report).
+    const existing = (await db.query<{ source_fact_id: string | null; resolution_status: string }>(
+      `SELECT source_fact_id, resolution_status FROM cross_repo_edges WHERE connection_type = 'INTRA_REPO_CALL' AND source_repo = $1`,
+      [REPO_NAME]
+    )).rows;
+    const followed = (rows: { resolutionStatus?: string; resolution_status?: string }[]) => rows.filter(r => FOLLOWED_STATUSES.includes((r.resolutionStatus ?? r.resolution_status)!)).length;
+    const oldIds = new Set(existing.map(r => r.source_fact_id).filter((x): x is string => x !== null));
+    const newIds = new Set(edges.map(e => e.sourceFactId));
+    const stillLive = new Set(
+      (await db.query<{ fact_id: string }>(`SELECT fact_id FROM facts WHERE repo = $1 AND fact_id = ANY($2::text[])`, [REPO_NAME, [...oldIds]])).rows.map(r => r.fact_id)
+    );
+    const oldOnly = [...oldIds].filter(id => !newIds.has(id));
+    const newOnly = [...newIds].filter(id => !oldIds.has(id));
+    console.log(`Slice INTRA_REPO_CALL / ${REPO_NAME}: existing ${existing.length} (${statusCounts(existing)}; ${followed(existing)} followed by traversal) -> new ${edges.length} (${statusCounts(edges)}; ${followed(edges)} followed).`);
+    console.log(`  source fact ids: ${oldIds.size - oldOnly.length} identical, ${oldOnly.length} only in the existing slice (${oldOnly.filter(id => !stillLive.has(id)).length} of them no longer exist in facts), ${newOnly.length} only in the new slice.`);
+    const shrink: string[] = [];
+    if (edges.length < existing.length) shrink.push(`total ${existing.length} -> ${edges.length}`);
+    if (followed(edges) < followed(existing)) shrink.push(`resolved/confirmed ${followed(existing)} -> ${followed(edges)}`);
+    if (shrink.length > 0) {
+      console.log(`  SHRINK: ${shrink.join("; ")}.`);
+      if (!args.acceptShrink) {
+        if (args.dryRun) console.log(`  DRY RUN: a real run would REFUSE this (nothing would change) unless --accept-shrink is given.`);
+        else throw new Error(`[Fail-Closed] new INTRA_REPO_CALL slice for ${REPO_NAME} is smaller than the existing one (${shrink.join("; ")}). Nothing was changed. Re-run with --accept-shrink only if that is understood and intended.`);
+      }
     }
-    await db.query("COMMIT");
-    console.log(`Inserted ${edges.length} real INTRA_REPO_CALL edge(s), synthesis_id=${synthesisId}.`);
-  } catch (err) {
-    await db.query("ROLLBACK");
-    throw err;
+    if (args.dryRun) {
+      console.log(`  DRY RUN: nothing written.`);
+      return;
+    }
+
+    const synthesisId = new Date().toISOString().replace(/[-:]/g, "").replace("T", "_").slice(0, 15);
+    // A dedicated client, so BEGIN, the writes and COMMIT/ROLLBACK are guaranteed to share one
+    // connection (a Pool may hand each db.query() a different one).
+    const client = await db.connect();
+    try {
+      await client.query("BEGIN");
+      const deleted = await client.query(`DELETE FROM cross_repo_edges WHERE connection_type = 'INTRA_REPO_CALL' AND source_repo = $1 RETURNING edge_id`, [REPO_NAME]);
+      console.log(`Removed ${deleted.rowCount} stale INTRA_REPO_CALL edge(s) for ${REPO_NAME} (recomputed fresh).`);
+      for (const edge of edges) {
+        await client.query(
+          `INSERT INTO cross_repo_edges (source_repo, source_symbol, source_fact_id, target_repo, target_symbol, target_fact_id, connection_type, resolution_status, provenance, confirmed_via, details, synthesis_id, generated_at)
+           VALUES ($1, $2, $3, $1, $4, $5, 'INTRA_REPO_CALL', $6, 'ast_derived', NULL, $7, $8, now())`,
+          [REPO_NAME, edge.sourceSymbol, edge.sourceFactId, edge.targetSymbol, edge.targetFactId, edge.resolutionStatus, edge.details, synthesisId]
+        );
+      }
+      await client.query("COMMIT");
+      console.log(`Inserted ${edges.length} real INTRA_REPO_CALL edge(s), synthesis_id=${synthesisId}.`);
+    } catch (err) {
+      await client.query("ROLLBACK");
+      throw err;
+    } finally {
+      client.release();
+    }
   } finally {
     await db.end();
   }
 }
 
-main().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+// Run only when executed (`node -r ts-node/register <file>`), never on import: importing this file to type-check it must not start a run against the database (2026-09-26 near-miss, doc 43).
+if (require.main === module) {
+  main().catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+}

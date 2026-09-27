@@ -128,6 +128,15 @@ function stableFactId(input: {
 // Per-module, per-(type|file|primaryKey|secondaryKey) occurrence counter for
 // the fact types that need an ordinal disambiguator (see stableFactId above).
 // Reset per module below, alongside rawModuleFacts.
+// firestore_trigger fact IDs were built while the extractor could not resolve any
+// trigger path, so every ID contains this placeholder (`firestore_trigger|<module>|
+// <file>|unknown|<handler>|#n`). The extractor now resolves the real path
+// (doc 43 W4a) and stores it in the payload, but the ID MUST keep being built
+// from the placeholder: putting the real path in would change every trigger's
+// fact_id/fact_ref, break references that cite them and force re-embedding.
+// The `#n` ordinal still separates triggers sharing a file and handler.
+const LEGACY_TRIGGER_ID_PATH_PLACEHOLDER = "unknown";
+
 function nextOccurrenceOrdinal(counterMap: Map<string, number>, type: string, file: string, primaryKey: string, secondaryKey?: string | null): number {
   const key = `${type}|${file}|${primaryKey}|${secondaryKey ?? ""}`;
   const next = (counterMap.get(key) ?? 0) + 1;
@@ -357,6 +366,7 @@ function main() {
   const apiContractsFact = loadFactFile("ast-api-contracts.json");
   const triggersFact = loadFactFile("ast-firestore-triggers.json");
   const pubsubEventRoutesFact = loadFactFile("ast-pubsub-event-routes.json");
+  const exportRegistryFact = loadFactFile("ast-export-registry.json");
 
   const modulesBaseDir = path.join(repoOutputDir, "knowledge-pipeline", "modules");
   fs.mkdirSync(modulesBaseDir, { recursive: true });
@@ -437,6 +447,8 @@ function main() {
           isAsync: item.isAsync,
           isStatic: item.isStatic,
           visibility: item.visibility,
+          // only on the method-shaped facts for function-valued class properties (doc 43 W4e)
+          ...(item.memberKind ? { memberKind: item.memberKind } : {}),
         },
       });
     }
@@ -639,8 +651,12 @@ function main() {
           module: moduleName,
           file: item.path,
           line: item.line,
-          primaryKey: item.value,
-          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, hType, item.path, item.value),
+          // pubsub_publish_call facts keep building their ID from `legacyValue`, the
+          // `value` they had before W2 corrected it to the resolved topic (doc 43),
+          // so the correction never changes a fact_id / fact_ref. Every other hook
+          // has no legacyValue and is unchanged.
+          primaryKey: item.legacyValue ?? item.value,
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, hType, item.path, item.legacyValue ?? item.value),
         }),
         runId,
         type: hType,
@@ -663,12 +679,12 @@ function main() {
           module: moduleName,
           file: item.path,
           line: item.line,
-          primaryKey: item.firestorePath,
+          primaryKey: LEGACY_TRIGGER_ID_PATH_PLACEHOLDER,
           secondaryKey: item.handlerName,
           // Verified necessary against real data 2026-08-03: multiple triggers
           // with an unresolved firestorePath ("unknown") and the same handler
           // name pattern legitimately collide in the same file without this.
-          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "firestore_trigger", item.path, item.firestorePath, item.handlerName),
+          occurrenceOrdinal: nextOccurrenceOrdinal(occurrenceCounters, "firestore_trigger", item.path, LEGACY_TRIGGER_ID_PATH_PLACEHOLDER, item.handlerName),
         }),
         runId,
         type: "firestore_trigger",
@@ -732,6 +748,28 @@ function main() {
         dataType: item.dataType,
         dataTypeResolutionStatus: item.dataTypeResolutionStatus,
         targetCalls: item.targetCalls,
+        evidence: { ...item },
+      });
+    }
+
+    // 12c. export_registry_entry: one fact per spread entry of an exported
+    // deployed-function group in an additionalSourcePaths file (doc 43 W1).
+    for (const item of exportRegistryFact.filter(r => r.module === moduleName)) {
+      rawModuleFacts.push({
+        id: stableFactId({ type: "export_registry_entry", repo: REPO_NAME, module: moduleName, file: item.path, line: item.line, primaryKey: item.exportGroup, secondaryKey: String(item.spreadIndex) }),
+        runId,
+        type: "export_registry_entry",
+        repo: REPO_NAME,
+        module: moduleName,
+        submodule: item.submodule,
+        file: item.path,
+        line: item.line,
+        value: item.exportGroup,
+        exportGroup: item.exportGroup,
+        importSpecifier: item.importSpecifier,
+        resolvedTargetModule: item.resolvedTargetModule,
+        resolvedTargetSubmodule: item.resolvedTargetSubmodule,
+        resolutionStatus: item.resolutionStatus,
         evidence: { ...item },
       });
     }
@@ -879,6 +917,7 @@ function main() {
       firestoreTriggers: facts.filter(f => f.type === "firestore_trigger").length,
       apiContracts: facts.filter(f => f.type === "api_contract").length,
       pubsubEventRoutes: facts.filter(f => f.type === "pubsub_event_route").length,
+      exportRegistryEntries: facts.filter(f => f.type === "export_registry_entry").length,
       services: services.length,
       controllers: controllers.length,
       facts: facts.length,
