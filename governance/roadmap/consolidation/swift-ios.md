@@ -2,6 +2,8 @@
 
 **Purpose of this file:** a consolidated audit, not a new roadmap folder for ongoing work. Compiled by reading every file in `governance/roadmap/ios-oskey-dev/` (docs 00-19), the 5 per-leaf-package `governance/roadmap/swift-*-oskey-*/00-repo-snapshot-2026-09-09.md` docs, `governance/roadmap/swift-kotlin-preparation/` (both docs), plus every other real Swift/iOS mention found via a repo-wide grep across `governance/roadmap/` and `governance/adrs/`. Every claim below is either read directly from a real file (cited) or verified directly against live code/Postgres in this same pass (marked "verified live"). Where a cited doc's own claim is now stale (superseded by later, unrelated work), that's flagged explicitly rather than silently repeated. Structure mirrors `consolidation/kotlin-android.md`'s own audit, run the same day.
 
+> **Partly superseded 2026-10-01 — read §7 at the bottom first.** §7 is a re-audit against the live DB covering everything built since this audit (2026-09-11 → 2026-09-27). Several items below are now closed: §2a (embeddings: done 2026-09-11), §2b (`swift-ai-kit-oskey-io` discrepancy: explained), §2d (cross-repo edges: built), §3 (Swift facts are now retrievable). The original text below is left intact as the 2026-09-11 record.
+
 ---
 
 ## 1. Real, current pipeline status — what's actually done
@@ -91,3 +93,60 @@ Per §1's closed decision (`18-...md`): the concrete next step (a new `SWIFT_MOD
 - Kotlin's own equivalent `stableFactId()` risk — that's `consolidation/kotlin-android.md`'s own scope (§2a there), not re-verified independently here.
 - Whether `build-cross-repo-edges.ts`/`build-intra-repo-edges.ts`'s real scoping bug (§2d) has since been fixed elsewhere — flagged as unconfirmed, not investigated further in this pass.
 - Whether any `mcp-server/` code path has Swift-specific handling anywhere — not checked; low likelihood given zero Swift facts are currently retrievable (§3), but not literally verified.
+
+---
+
+## 7. Re-audit, 2026-10-01 — current status (supersedes §1-§3 where they conflict)
+
+**How this was compiled:** read `ios-oskey-dev/` docs 00-19, `graphrag/03`-`04`, `dynamic-pipeline-architecture/` docs 20, 22, 35, 36, 38 (Stages A/B + proposals P1-P10), 43 (W1, W4c, W4d, W5c, W6, Lane C entries and final capture notes) and 44, `prompts/prompt-8c-lane-swift.md`, `ux-mappings/01`, and `downstream-app-feedback/2026-09-27-extraction-update-3.md`. Every number marked "live" was queried read-only against `facts_index` on 2026-10-01; no spend, no writes.
+
+### 7a. Built, verified, current
+
+| Layer | Status | Source | Live, 2026-10-01 |
+|---|---|---|---|
+| P1 extraction (SwiftSyntax + `.pbxproj` scan) | Done, 0 parse errors | `ios-oskey-dev/10`, `15`-`17` | — |
+| Facts in Postgres | Done, current | `ios-oskey-dev/19`, doc 43 W4c | ios 25,458 / cloud 2,587 / ui 2,482 / webrtc 2,487 / ble 799 = **33,813**; **0 without embedding** |
+| Embeddings | Done 2026-09-11 (real cost $0.96, ~143 tokens/fact for Swift — use this, not the TS/Kotlin 69) | `graphrag/03` | 0 missing |
+| Orchestrators | `pipeline:` script for all 5 repos (3 were missing until 2026-09-20) | dynamic-pipeline doc 22 | — |
+| Current runs | All 5 extracted 2026-09-26 (W4c) | doc 43 | ios `20260926_073857-e660bda2`; kits `…073744-32772e4a`, `…073755-9a75c7c6`, `…073758-f8cdf199`, `…073801-e8aeea9d` |
+| iOS → kit edges (`PACKAGE_SYMBOL_USE`) | Built 2026-09-21 (Stage B) | doc 38 | 389 resolved (ui 222, cloud 135, ble 20, webrtc 12) |
+| Cloud kit → Firebase callables (`HTTP_API_CALL`) | Built Stage A; export-group alias (doc 38 P3/A2) closed by W1 | doc 38, doc 43 | 31 resolved, 3 unresolved (dead iOS friend-request/OTP code, user-confirmed 2026-09-21) |
+| Swift Firestore path facts (`firestore_client_call`, `cases[].computedStrings`) | Built 2026-09-26 (W4c) | doc 43 | 65 facts in cloud kit (64 resolved templates, 1 unresolved); 32/32 path-enum cases have templates. **iOS calls Firestore only through the cloud kit**, no direct path calls |
+| Client ↔ Firebase Firestore edges | Built 2026-09-27 (W4d) | doc 43 | `FIRESTORE_CLIENT_ACCESS` 215 resolved + 22 unresolved; `FIRESTORE_CLIENT_TRIGGER` 17 |
+| Intra-repo call edges | Built 2026-09-11 | `graphrag/04`, doc 43 | ios 8,734; kits 245/510/625/651 — **all `probable`/`unresolved`**, see 7b-1 |
+| BLE GATT constants | Built | `ios-oskey-dev/10` Task 6 | 5 of 6 UUIDs identical to Android's |
+| iOS screen map | Built 2026-09-21, hand-filled | `ux-mappings/01` | `screen-map-ios.json`: 88/88 entries have `screenName` + `description` |
+| W5c (151 dangling Swift `INTRA_REPO_CALL` edges) | Cleared by the W5a rebuild | doc 43 | 0 dangling |
+
+### 7b. Outstanding, in priority order
+
+1. **The iOS graph cannot be walked within a repo (most important).** *Now its own initiative: `governance/roadmap/call-resolution-same-repo-edges/00-findings-and-plan-2026-10-01.md` (root cause: root-identifier-only resolution; also affects android-intercom).* Every Swift `INTRA_REPO_CALL` edge is `probable` or `unresolved`, and traversal follows neither (doc 38 Stage B hub note). W6's `INTRA_REPO_CALL_DECLARED` (resolved, facts-based, with a derived hub fence) fixed this for Firebase and Angular on 2026-09-27; Swift was not in its scope. **The input data already exists (live):** of 17,442 iOS `call_expression` facts, 4,838 `resolved_via_same_target` and 389 `resolved_via_import` all carry `declarationFile`; 12,074 `unresolved` and 141 `self_reference` carry none. A W6-style join for the 5 Swift repos looks feasible without extractor work (not built, not dry-run). Concrete consequence, found 2026-10-01 while tracing the Invitations tab's "Generate quick code" button: the view-model → cloud-kit hop (`OSKPinCodeGenerationViewModel.generatePinCode` → `pinCodeService.generatePinCode(...)`) is a call through an injected variable, so it is `unresolved` and has no edge. Each piece of the flow is findable by search, but a graph walk from button to backend almost certainly breaks inside iOS (inferred from the edge statuses; no walk was run).
+2. **iOS branch choice — needs a user decision.** `ios-oskey-dev` is pinned to `master` on evidence that `master` = shipped production (`ios-oskey-dev/03`). Live 2026-10-01: `master` is still `e660bda2` (unchanged since ≤2026-09-10), while `develop` (`37320fa6`) and `staging` (`8f9d49ac`) have both moved. iOS facts therefore describe the released app, while Angular and node-iot track `staging` — a cross-platform mismatch for any end-to-end workflow question. The kit pins stay valid only while `master`'s `Package.resolved` is unchanged.
+3. **`swift-ai-kit-oskey-io` (face recognition) not onboarded — awaiting a yes/no.** The §2b discrepancy is explained (doc 43, Lane C scoping, 2026-09-27): 2 Swift files in `SwiftRecognition`; the rest is a C++ target (`CxxRecognition`), which the extractor doesn't parse by design. iOS uses it from 4 files, 7 static calls on `OSKFaceRecognition`. Estimate: ~1 session, ~100-145 facts to embed (~10-14k tokens), `PACKAGE_SYMBOL_USE` 389 → ~396; needs a `pipeline:swift-ai-kit` script and a re-extract of iOS. Open: whether `02`-`07` cope with a zero-file module.
+4. **Hub cap (doc 38 P8) — undecided.** `OSKUIExpanded` has 85 incoming `PACKAGE_SYMBOL_USE` edges; `findGraphNeighbors` ~35 KB (~57 KB through `get_graph_neighbors`), `walkBoundedCluster` truncates at depth 1. The validator's suggested fix ("include the hub with its count, don't expand through it") is not built. Item 1 would add more Swift hubs, so decide this alongside it.
+5. **Findings to pass on to the iOS developers** (none sent as far as these docs show): `OSKCKUserInvitationService.swift:157` listens on a collection-shaped path declared as a document (likely runtime failure); `OSKCKUserBuildingAccessService.swift:64` template names `buildingId` but interpolates `accessId`; friend-request code (3 callables + `friends`/`friendRequests`/`pendingFriendRequests` collections, plus `/users/{}/accesses/{}/invitations`) has no Firebase counterpart. Two independent methods (W1 callables, W4d paths) reach that conclusion.
+6. **Smaller open items:**
+   - `OSKCKUserBuildingSettingsService.swift:42`: an unresolved Firestore call (path from a local `let`; local bindings aren't tracked).
+   - Latent bug in `pipeline/swift/phase-01-ast-extraction/_shared/firestore-client-calls.ts`: the wrapper table is keyed by method name, not (class, method). Harmless today; see doc 43, Lane C FINAL CAPTURE.
+   - The `any_truncated` embedding on one iOS fact (`graphrag/03`, 2026-09-11) has never been investigated.
+   - §2c (cloud kit file count) and §2f (flat resolver: `enum Text` ~122 calls, `Provider`, `OSKUserIdKey`) are unchanged and still accepted. Also accepted: 261 implicit-member calls are unresolvable without compiling.
+7. **Governance, unchanged since §2g/§4:** there's still no ADR for SwiftSyntax. The stale code comments and snapshot docs listed in §4 were **not re-checked** in this pass.
+
+### 7c. Status of §2/§3 items from 2026-09-11
+
+| 2026-09-11 item | Status 2026-10-01 |
+|---|---|
+| 2a embeddings | **Closed**: done 2026-09-11, 0 missing live |
+| 2b swift-ai-kit discrepancy | **Explained**; onboarding is now a scoping decision (7b-3) |
+| 2c cloud-kit file count | Open, low priority |
+| 2d cross-repo dependency graph | **Superseded**: delivered as Postgres edges (`PACKAGE_SYMBOL_USE`, `HTTP_API_CALL`, `FIRESTORE_CLIENT_*`). The `build-intra-repo-edges.ts` scoping bug it warned about was re-proven fixed (`graphrag/04`) |
+| 2e no narrative reports | Unchanged, still the decision |
+| 2f flat-resolver limits | Unchanged, accepted |
+| 2g no ADR | Unchanged, open |
+| §3 nothing retrievable | **Closed**: all Swift facts are embedded and edged; the new risks are 7b-1 and 7b-4 |
+
+### 7d. Not checked in this pass
+
+- Whether `2026-09-27-extraction-update-3.md` (exists untracked; doc 44 says it was not yet drafted) has been sent to the wiki team.
+- Whether `INTRA_REPO_CALL_DECLARED` would need a different hub fence for SwiftUI-heavy code.
+- Any real `walk_cluster` / `get_graph_neighbors` run over the iOS quick-code or invite-guest flow (7b-1 is inferred from edge statuses).

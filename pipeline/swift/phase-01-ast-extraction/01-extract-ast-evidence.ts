@@ -68,6 +68,7 @@ import {
   requireRepoNameEnv,
 } from "./_shared/run-utils";
 import { extractFirestoreClientCalls } from "./_shared/firestore-client-calls";
+import { MemberResolver, RawFile, RepoInput } from "./_shared/member-resolution";
 
 const projectRoot = process.cwd();
 
@@ -76,9 +77,17 @@ type FileRecord = { repo: string; module: string; submodule: string | null; path
 type SwiftImportFact = { module: string; line: number };
 type SwiftEnumCaseFact = { name: string; rawValue: string | null; associatedValues: string[]; computedStrings?: { property: string; template?: string; rawTemplate?: string; reason?: string }[] };
 type SwiftDeclFact = { name: string; line: number; visibility: string; extendsTypes: string[]; parentType: string | null; cases: SwiftEnumCaseFact[] };
-type SwiftFunctionFact = { name: string; line: number; visibility: string; isStatic: boolean; parentType: string | null };
-type SwiftPropertyFact = { name: string; line: number; visibility: string; isStatic: boolean; isLet: boolean; parentType: string | null };
-type SwiftCallFact = { calleeExpression: string; rootIdentifier: string; line: number; callerFunction: string | null; callerType: string | null; arguments: string[] };
+// Fields after the first six (functions/properties) or six (calls) are the
+// raw-only additions of swift-extractor schema 3.1.0 (member-level call
+// resolution, 2026-10-01); they reach the facts only through
+// _shared/member-resolution.ts, as the new `member*`/`declaredType*` fields.
+type SwiftFunctionFact = { name: string; line: number; visibility: string; isStatic: boolean; parentType: string | null; parameters?: { label: string; hasDefault: boolean }[]; scope?: string; extensionVisibility?: string; containerKind?: string };
+type SwiftPropertyFact = { name: string; line: number; visibility: string; isStatic: boolean; isLet: boolean; parentType: string | null; annotationBaseType?: string; initializerCalledName?: string; initializerPath?: string[]; scope?: string; extensionVisibility?: string };
+type SwiftCallFact = {
+  calleeExpression: string; rootIdentifier: string; line: number; callerFunction: string | null; callerType: string | null; arguments: string[];
+  calleeMember?: string; calleeBasePath?: string[]; calleeShape?: string; callerMember?: string; callerMemberKind?: string;
+  argumentLabels?: string[]; trailingClosures?: number; rootIsLocal?: boolean;
+};
 
 type SwiftFileFacts = {
   path: string;
@@ -124,7 +133,7 @@ function loadCrossRepoDeclarations(
   selfRepoName: string,
   importedModuleNames: Set<string>,
   notifications: RunNotifications
-): { declLocation: Map<string, CrossRepoDeclLocation>; moduleOwnerRepo: ModuleOwnerRepo } {
+): { declLocation: Map<string, CrossRepoDeclLocation>; moduleOwnerRepo: ModuleOwnerRepo; reposToLoad: Map<string, Set<string>> } {
   const result = new Map<string, CrossRepoDeclLocation>();
 
   // Real moduleName -> ownerRepo index, built from every sibling Swift repo
@@ -226,7 +235,42 @@ function loadCrossRepoDeclarations(
     { siblingsLoaded, declarationsIndexed, crossRepoCollisions, importedSiblingRepos: Array.from(reposToLoad.keys()) }
   );
 
-  return { declLocation: result, moduleOwnerRepo };
+  return { declLocation: result, moduleOwnerRepo, reposToLoad };
+}
+
+/**
+ * The imported kits' raw swift-extractor output, for member-level resolution
+ * (_shared/member-resolution.ts). Same kits and modules as the legacy
+ * cross-repo lookup above (`reposToLoad`), read from each kit's latest run's
+ * `knowledge-pipeline/swift-extractor-raw.json` and limited to that run's
+ * in-scope files. A kit whose raw output predates schema 3.1.0 has no
+ * parameter/scope fields: it is skipped with a warning (its members then stay
+ * unresolved) rather than read wrongly -- re-extract the kits first.
+ */
+function loadKitRawInputs(projectRoot: string, reposToLoad: Map<string, Set<string>>, notifications: RunNotifications): RepoInput[] {
+  const inputs: RepoInput[] = [];
+  for (const [repoName, moduleNames] of reposToLoad.entries()) {
+    const runId = JSON.parse(fs.readFileSync(latestManifestPath(projectRoot, repoName), "utf8")).runId;
+    const runDir = path.join(projectRoot, "output", "runs", repoName, runId);
+    const rawPath = path.join(runDir, "knowledge-pipeline", "swift-extractor-raw.json");
+    const filesPath = path.join(runDir, "facts", "files.json");
+    const raw = fs.existsSync(rawPath) ? JSON.parse(fs.readFileSync(rawPath, "utf8")) : null;
+    const [major, minor] = String(raw?.schemaVersion ?? "0.0").split(".").map(Number);
+    if (!raw || !fs.existsSync(filesPath) || major < 3 || (major === 3 && minor < 1)) {
+      addNotification(notifications, "01-extract-ast-evidence", "warning", "MEMBER_RESOLUTION_KIT_SKIPPED",
+        `Kit '${repoName}' run ${runId} has no swift-extractor raw output at schema >= 3.1.0 (found ${raw?.schemaVersion ?? "none"}): its members are not used for member-level resolution. Re-extract it first.`,
+        { repo: repoName, runId, schemaVersion: raw?.schemaVersion ?? null });
+      continue;
+    }
+    const files: Array<{ path: string; module: string }> = JSON.parse(fs.readFileSync(filesPath, "utf8"));
+    const moduleByPath = new Map(files.map(f => [f.path, f.module]));
+    inputs.push({
+      repo: repoName,
+      files: (raw.files as RawFile[]).filter(f => moduleNames.has(moduleByPath.get(f.path) ?? "")),
+      moduleOf: (file: string) => moduleByPath.get(file)!,
+    });
+  }
+  return inputs;
 }
 
 function main() {
@@ -349,7 +393,14 @@ function main() {
   for (const file of inScopeFiles) {
     for (const imp of file.imports) importedModuleNames.add(imp.module);
   }
-  const { declLocation: crossRepoDeclLocation, moduleOwnerRepo } = loadCrossRepoDeclarations(projectRoot, repoConfig, REPO_NAME, importedModuleNames, notifications);
+  const { declLocation: crossRepoDeclLocation, moduleOwnerRepo, reposToLoad } = loadCrossRepoDeclarations(projectRoot, repoConfig, REPO_NAME, importedModuleNames, notifications);
+
+  // Member-level call resolution (AM-1..AM-8, O-1): a separate resolver whose
+  // answers go only into new fields; the legacy resolution below is unchanged.
+  const memberResolver = new MemberResolver(
+    { repo: REPO_NAME, files: inScopeFiles as unknown as RawFile[], moduleOf: (file: string) => filesByPath.get(file)!.module },
+    loadKitRawInputs(projectRoot, reposToLoad, notifications)
+  );
 
   // Real same-repo (cross-TARGET) import resolution -- the direct Swift
   // analog of Kotlin's own "resolved_in_repo" tier, and a real, necessary
@@ -477,7 +528,7 @@ function main() {
       rawFunctions.push({ ...base, line: fn.line, name: fn.name, visibility: fn.visibility, isStatic: fn.isStatic, parentType: fn.parentType });
     }
     for (const p of file.properties) {
-      rawProperties.push({ ...base, line: p.line, name: p.name, visibility: p.visibility, isStatic: p.isStatic, isLet: p.isLet, parentType: p.parentType });
+      rawProperties.push({ ...base, line: p.line, name: p.name, visibility: p.visibility, isStatic: p.isStatic, isLet: p.isLet, parentType: p.parentType, ...memberResolver.propertyFields(p as any) });
     }
 
     for (const call of file.calls) {
@@ -493,7 +544,7 @@ function main() {
         // (a call's enclosing type can just as easily be a struct/enum/
         // protocol, not only a class) while the wire-format fact this
         // script writes stays cross-language-compatible for free.
-        rawCalls.push({ ...base, line: call.line, calleeExpression: call.calleeExpression, callerFunction: call.callerFunction, callerClass: call.callerType, declarationFile: null, declarationModule: null, resolutionMethod: "self_reference" });
+        rawCalls.push({ ...base, line: call.line, calleeExpression: call.calleeExpression, callerFunction: call.callerFunction, callerClass: call.callerType, declarationFile: null, declarationModule: null, resolutionMethod: "self_reference", ...memberResolver.callFields(call as any) });
         continue;
       }
 
@@ -541,6 +592,7 @@ function main() {
         ...(declarationRepo ? { declarationRepo } : {}),
         resolutionMethod,
         ...(call.arguments.length > 0 ? { arguments: call.arguments } : {}),
+        ...memberResolver.callFields(call as any),
       });
     }
 
@@ -638,6 +690,17 @@ function main() {
     { resolvedViaImport, resolvedViaSameTarget, unresolvedCalls }
   );
 
+  const memberByMethod = Object.fromEntries([...memberResolver.stats.byMethod.entries()].sort());
+  const memberByReason = Object.fromEntries([...memberResolver.stats.byReason.entries()].sort((a, b) => b[1] - a[1]));
+  addNotification(
+    notifications,
+    "01-extract-ast-evidence",
+    "info",
+    "MEMBER_RESOLUTION_SUMMARY",
+    `Member-level call resolution (new member* fields; legacy resolutionMethod unchanged): resolved ${JSON.stringify(memberByMethod)}; unresolved ${JSON.stringify(memberByReason)}.`,
+    { resolved: memberByMethod, unresolved: memberByReason }
+  );
+
   addNotification(
     notifications,
     "01-extract-ast-evidence",
@@ -723,6 +786,7 @@ function main() {
   console.log(`Classes: ${rawClasses.length}, Structs: ${rawStructs.length}, Enums: ${rawEnums.length}, Protocols: ${rawProtocols.length}, Extensions: ${rawExtensions.length}`);
   console.log(`Functions: ${rawFunctions.length}, Properties: ${rawProperties.length}, Imports: ${rawImports.length}, Calls: ${rawCalls.length}`);
   console.log(`Call resolution: ${resolvedViaImport} via import, ${resolvedViaSameTarget} via same-target, ${unresolvedCalls} unresolved.`);
+  console.log(`Member resolution: resolved ${JSON.stringify(memberByMethod)}; unresolved ${JSON.stringify(memberByReason)}`);
   console.log(`Import resolution: ${resolvedInRepoImports} resolved_in_repo, ${resolvedCrossRepoImports} resolved_cross_repo, ${externalOrUnresolvedImports} external_or_unresolved.`);
   console.log(`BLE GATT constants: ${rawBleGattConstants.length}`);
   console.log(`Firebase callable calls: ${rawFirebaseCallableCalls.length}`);

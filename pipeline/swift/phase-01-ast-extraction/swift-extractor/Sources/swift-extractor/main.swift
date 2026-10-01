@@ -72,12 +72,38 @@ struct DeclFact: Codable {
     let cases: [EnumCaseFact]
 }
 
+// Member-level call resolution (call-resolution-same-repo-edges/01-build-spec,
+// Lane S, 2026-10-01): every field below marked "raw" is added for step 01's
+// (type, member) resolution. All are additive and omitted when nil; the
+// pre-existing fields are untouched, so fact IDs and the legacy resolution
+// built from them cannot change.
+
+/// One declared parameter: external label ("_" when unlabeled) and whether it
+/// has a default value. Raw: used to pick between overloads by argument labels.
+struct ParamFact: Codable {
+    let label: String
+    let hasDefault: Bool
+}
+
 struct FunctionFact: Codable {
     let name: String
     let line: Int
     let visibility: String
     let isStatic: Bool
     let parentType: String?
+    var parameters: [ParamFact]? = nil
+    /// "member" (declared in a type/extension member block), "local" (inside a
+    /// body) or "top_level". Raw.
+    var scope: String? = nil
+    /// Access modifier of the enclosing `extension`, when there is one: a member
+    /// of a `public extension` is public by default although `visibility`
+    /// records "internal". Raw.
+    var extensionVisibility: String? = nil
+    /// Kind of the declaration a member sits in: "class" | "struct" | "enum" |
+    /// "protocol" | "actor" | "extension". "protocol" = a protocol
+    /// requirement; a member of `extension SomeProtocol` is "extension" (a
+    /// default implementation). Raw.
+    var containerKind: String? = nil
 }
 
 struct PropertyFact: Codable {
@@ -87,6 +113,18 @@ struct PropertyFact: Codable {
     let isStatic: Bool
     let isLet: Bool
     let parentType: String?
+    /// Base nominal type name of the type annotation (optionality, generic
+    /// arguments, attributes, `any`/`some` stripped); nil without an annotation
+    /// or for a collection/tuple/function type. Raw.
+    var annotationBaseType: String? = nil
+    /// Initializer `Name(...)` / `Name<T>(...)` / `A.Name.init(...)`: the name
+    /// called. Whether it is a type is decided in step 01 against the declared
+    /// types, not here. Raw.
+    var initializerCalledName: String? = nil
+    /// Initializer that is a pure dotted path (`T.shared`, `T.a.b`). Raw.
+    var initializerPath: [String]? = nil
+    var scope: String? = nil
+    var extensionVisibility: String? = nil
 }
 
 struct CallFact: Codable {
@@ -96,6 +134,25 @@ struct CallFact: Codable {
     let callerFunction: String?
     let callerType: String?
     let arguments: [String]
+    /// Last segment of a member-access callee (`a.b.member(...)` -> "member").
+    var calleeMember: String? = nil
+    /// The callee's base when it is a pure dotted identifier path
+    /// (`self.a`, `T.shared`, `a?.b`); nil when the base contains a call,
+    /// subscript or other expression. Raw.
+    var calleeBasePath: [String]? = nil
+    /// "bare" | "member_of_path" | "member_of_expression" | "implicit_member" | "other". Raw.
+    var calleeShape: String? = nil
+    /// Enclosing member of the call site, including computed properties,
+    /// accessors and property initializers; local bindings are skipped.
+    var callerMember: String? = nil
+    var callerMemberKind: String? = nil
+    /// Argument labels in order ("_" for unlabeled) and trailing-closure count. Raw.
+    var argumentLabels: [String]? = nil
+    var trailingClosures: Int? = nil
+    /// True when the root identifier is bound locally at the call site (a
+    /// parameter, closure parameter, earlier local declaration or optional
+    /// binding), so it cannot be read as a member property or type. Raw.
+    var rootIsLocal: Bool? = nil
 }
 
 struct FileFacts: Codable {
@@ -354,12 +411,17 @@ final class FactExtractor: SyntaxVisitor {
     override func visitPost(_ node: ExtensionDeclSyntax) { typeStack.removeLast() }
 
     override func visit(_ node: FunctionDeclSyntax) -> SyntaxVisitorContinueKind {
+        let (scope, extensionVisibility, containerKind) = scopeAndContainerOf(node)
         functions.append(FunctionFact(
             name: node.name.text,
             line: line(node),
             visibility: visibilityOf(node.modifiers),
             isStatic: isStaticOrClassModifier(node.modifiers),
-            parentType: typeStack.last
+            parentType: typeStack.last,
+            parameters: parametersOf(node.signature.parameterClause),
+            scope: scope,
+            extensionVisibility: extensionVisibility,
+            containerKind: containerKind
         ))
         functionStack.append(node.name.text)
         return .visitChildren
@@ -382,12 +444,17 @@ final class FactExtractor: SyntaxVisitor {
     // wiring) was mis-attributed with `callerFunction: null` instead of
     // "init".
     override func visit(_ node: InitializerDeclSyntax) -> SyntaxVisitorContinueKind {
+        let (scope, extensionVisibility, containerKind) = scopeAndContainerOf(node)
         functions.append(FunctionFact(
             name: "init",
             line: line(node),
             visibility: visibilityOf(node.modifiers),
             isStatic: false,
-            parentType: typeStack.last
+            parentType: typeStack.last,
+            parameters: parametersOf(node.signature.parameterClause),
+            scope: scope,
+            extensionVisibility: extensionVisibility,
+            containerKind: containerKind
         ))
         functionStack.append("init")
         return .visitChildren
@@ -411,16 +478,31 @@ final class FactExtractor: SyntaxVisitor {
         let isLet = node.bindingSpecifier.tokenKind == .keyword(.let)
         let isStatic = isStaticOrClassModifier(node.modifiers)
         let visibility = visibilityOf(node.modifiers)
+        let (scope, extensionVisibility) = scopeOf(node)
         for binding in node.bindings {
             guard let name = binding.pattern.as(IdentifierPatternSyntax.self)?.identifier.text else { continue }
-            properties.append(PropertyFact(
+            var fact = PropertyFact(
                 name: name,
                 line: line(node),
                 visibility: visibility,
                 isStatic: isStatic,
                 isLet: isLet,
                 parentType: typeStack.last
-            ))
+            )
+            // `var a, b: Int` -- the annotation sits on the last binding of the group.
+            let annotation = binding.typeAnnotation?.type
+                ?? node.bindings.drop(while: { $0.id != binding.id }).first(where: { $0.typeAnnotation != nil })?.typeAnnotation?.type
+            if let annotation { fact.annotationBaseType = baseTypeName(annotation) }
+            if let value = binding.initializer?.value {
+                if let call = value.as(FunctionCallExprSyntax.self) {
+                    fact.initializerCalledName = initializerCalledName(call.calledExpression)
+                } else {
+                    fact.initializerPath = dottedPath(value)
+                }
+            }
+            fact.scope = scope
+            fact.extensionVisibility = extensionVisibility
+            properties.append(fact)
         }
         captureComputedStrings(node)
         return .visitChildren
@@ -552,6 +634,201 @@ final class FactExtractor: SyntaxVisitor {
         return (template, raw)
     }
 
+    // ---- Member-level call resolution helpers (Lane S, 2026-10-01) ----
+
+    private func parametersOf(_ clause: FunctionParameterClauseSyntax) -> [ParamFact] {
+        clause.parameters.map { ParamFact(label: $0.firstName.text, hasDefault: $0.defaultValue != nil) }
+    }
+
+    /// Where a declaration sits: directly in a type/extension member block
+    /// ("member", plus the extension's own access modifier if any), inside any
+    /// body ("local"), or at file level ("top_level").
+    private func scopeOf(_ node: some SyntaxProtocol) -> (String, String?) {
+        let (scope, extensionVisibility, _) = scopeAndContainerOf(node)
+        return (scope, extensionVisibility)
+    }
+
+    /// scopeOf plus the kind of the enclosing declaration for a member.
+    private func scopeAndContainerOf(_ node: some SyntaxProtocol) -> (String, String?, String?) {
+        var current: Syntax? = Syntax(node).parent
+        while let c = current {
+            if c.is(CodeBlockSyntax.self) || c.is(ClosureExprSyntax.self) || c.is(AccessorBlockSyntax.self) { return ("local", nil, nil) }
+            if let ext = c.as(ExtensionDeclSyntax.self) {
+                let modifier = ext.modifiers.first(where: { ["public", "open", "internal", "fileprivate", "private"].contains($0.name.text) })
+                return ("member", modifier?.name.text, "extension")
+            }
+            if c.is(ClassDeclSyntax.self) { return ("member", nil, "class") }
+            if c.is(StructDeclSyntax.self) { return ("member", nil, "struct") }
+            if c.is(EnumDeclSyntax.self) { return ("member", nil, "enum") }
+            if c.is(ProtocolDeclSyntax.self) { return ("member", nil, "protocol") }
+            if c.is(ActorDeclSyntax.self) { return ("member", nil, "actor") }
+            current = c.parent
+        }
+        return ("top_level", nil, nil)
+    }
+
+    /// Base nominal type name: optionality, generic arguments, attributes and
+    /// `any`/`some` stripped; a member type `A.B` -> "B" (the name a nested
+    /// type's own declaration and `parentType` use). Collection, dictionary,
+    /// tuple and function types -> nil (no guess).
+    private func baseTypeName(_ type: TypeSyntax) -> String? {
+        if let t = type.as(IdentifierTypeSyntax.self) { return t.name.text }
+        if let t = type.as(OptionalTypeSyntax.self) { return baseTypeName(t.wrappedType) }
+        if let t = type.as(ImplicitlyUnwrappedOptionalTypeSyntax.self) { return baseTypeName(t.wrappedType) }
+        if let t = type.as(MemberTypeSyntax.self) { return t.name.text }
+        if let t = type.as(AttributedTypeSyntax.self) { return baseTypeName(t.baseType) }
+        if let t = type.as(SomeOrAnyTypeSyntax.self) { return baseTypeName(t.constraint) }
+        return nil
+    }
+
+    /// A pure dotted identifier path (`a`, `self.a`, `T.shared.b`, `a?.b`,
+    /// `T<X>.shared`), else nil.
+    private func dottedPath(_ expr: ExprSyntax) -> [String]? {
+        if let d = expr.as(DeclReferenceExprSyntax.self) { return [d.baseName.text] }
+        if expr.is(SuperExprSyntax.self) { return ["super"] }
+        if let o = expr.as(OptionalChainingExprSyntax.self) { return dottedPath(o.expression) }
+        if let f = expr.as(ForceUnwrapExprSyntax.self) { return dottedPath(f.expression) }
+        if let g = expr.as(GenericSpecializationExprSyntax.self) { return dottedPath(g.expression) }
+        if let m = expr.as(MemberAccessExprSyntax.self) {
+            guard let base = m.base, let basePath = dottedPath(base) else { return nil }
+            return basePath + [m.declName.baseName.text]
+        }
+        return nil
+    }
+
+    /// The name an initializer expression `X(...)` calls: `Name(...)`,
+    /// `Name<T>(...)`, `A.Name(...)`, `Name.init(...)`. nil for `.init(...)`,
+    /// a closure call or a call on a computed base.
+    private func initializerCalledName(_ callee: ExprSyntax) -> String? {
+        guard let path = dottedPath(callee), path.first != "self", path.first != "super" else { return nil }
+        if path.last == "init" { return path.count >= 2 ? path[path.count - 2] : nil }
+        return path.last
+    }
+
+    /// Nearest enclosing member of a call site. A property initializer or
+    /// accessor counts only when the property is a member (or top-level); a
+    /// local `let x = ...` inside a body is skipped, so the call reports the
+    /// enclosing function instead.
+    private func enclosingMember(_ node: some SyntaxProtocol) -> (String, String)? {
+        var current: Syntax? = Syntax(node).parent
+        var sawClosure = false
+        while let c = current {
+            if c.is(ClosureExprSyntax.self) { sawClosure = true }
+            if let f = c.as(FunctionDeclSyntax.self) { return (f.name.text, "function") }
+            if c.is(InitializerDeclSyntax.self) { return ("init", "init") }
+            if c.is(DeinitializerDeclSyntax.self) { return ("deinit", "deinit") }
+            if c.is(SubscriptDeclSyntax.self) { return ("subscript", "subscript") }
+            if let accessor = c.as(AccessorDeclSyntax.self), let (binding, decl) = owningBinding(c), scopeOf(decl).0 != "local" {
+                let name = binding.pattern.as(IdentifierPatternSyntax.self)?.identifier.text ?? binding.pattern.trimmedDescription
+                switch accessor.accessorSpecifier.tokenKind {
+                case .keyword(.get): return (name, "computed_property")
+                case .keyword(.willSet), .keyword(.didSet): return (name, "property_observer")
+                default: return (name, "property_setter")
+                }
+            }
+            if let binding = c.as(PatternBindingSyntax.self), let decl = binding.parent?.parent?.as(VariableDeclSyntax.self), scopeOf(decl).0 != "local" {
+                let name = binding.pattern.as(IdentifierPatternSyntax.self)?.identifier.text ?? binding.pattern.trimmedDescription
+                if binding.initializer == nil && binding.accessorBlock != nil { return (name, "computed_property") }
+                return (name, sawClosure ? "closure_in_property" : "property_initializer")
+            }
+            if c.is(ClassDeclSyntax.self) || c.is(StructDeclSyntax.self) || c.is(EnumDeclSyntax.self)
+                || c.is(ExtensionDeclSyntax.self) || c.is(ProtocolDeclSyntax.self) || c.is(ActorDeclSyntax.self) {
+                return nil
+            }
+            current = c.parent
+        }
+        return nil
+    }
+
+    private func owningBinding(_ node: Syntax) -> (PatternBindingSyntax, VariableDeclSyntax)? {
+        var current: Syntax? = node.parent
+        while let c = current {
+            if let binding = c.as(PatternBindingSyntax.self), let decl = binding.parent?.parent?.as(VariableDeclSyntax.self) { return (binding, decl) }
+            if c.is(MemberBlockSyntax.self) || c.is(CodeBlockSyntax.self) { return nil }
+            current = c.parent
+        }
+        return nil
+    }
+
+    /// True when `name` is bound locally where `node` sits: an enclosing
+    /// function/initializer/subscript/closure parameter, a closure capture, a
+    /// declaration earlier in an enclosing code block (variable, local
+    /// function, `guard let`), an `if`/`while`/`for`/`case`/`catch` binding,
+    /// or an accessor's implicit `newValue`/`oldValue`. Walks the real syntax up
+    /// to the enclosing type, no name list.
+    private func isLocallyBound(_ name: String, at node: some SyntaxProtocol) -> Bool {
+        var child: Syntax = Syntax(node)
+        var current: Syntax? = child.parent
+        while let c = current {
+            if c.is(ClassDeclSyntax.self) || c.is(StructDeclSyntax.self) || c.is(EnumDeclSyntax.self)
+                || c.is(ExtensionDeclSyntax.self) || c.is(ProtocolDeclSyntax.self) || c.is(ActorDeclSyntax.self) {
+                return false
+            }
+            if let items = c.as(CodeBlockItemListSyntax.self) {
+                for item in items {
+                    if item.id == child.id { break }
+                    if let v = item.item.as(VariableDeclSyntax.self), v.bindings.contains(where: { bindsName($0.pattern, name) }) { return true }
+                    if let f = item.item.as(FunctionDeclSyntax.self), f.name.text == name { return true }
+                    if let g = item.item.as(GuardStmtSyntax.self), conditionsBind(g.conditions, name) { return true }
+                }
+            }
+            if let ifExpr = c.as(IfExprSyntax.self), child.id == ifExpr.body.id, conditionsBind(ifExpr.conditions, name) { return true }
+            if let w = c.as(WhileStmtSyntax.self), child.id == w.body.id, conditionsBind(w.conditions, name) { return true }
+            if let f = c.as(ForStmtSyntax.self), child.id == f.body.id, bindsName(f.pattern, name) { return true }
+            if let sc = c.as(SwitchCaseSyntax.self), case .case(let label) = sc.label,
+               label.caseItems.contains(where: { bindsName($0.pattern, name) }) { return true }
+            if let cc = c.as(CatchClauseSyntax.self) {
+                if cc.catchItems.isEmpty && name == "error" { return true }
+                if cc.catchItems.contains(where: { $0.pattern.map { bindsName($0, name) } ?? false }) { return true }
+            }
+            if let closure = c.as(ClosureExprSyntax.self), let signature = closure.signature {
+                if let captures = signature.capture?.items, captures.contains(where: { $0.name.text == name }) { return true }
+                switch signature.parameterClause {
+                case .simpleInput(let list): if list.contains(where: { $0.name.text == name }) { return true }
+                case .parameterClause(let clause): if clause.parameters.contains(where: { ($0.secondName ?? $0.firstName).text == name }) { return true }
+                case nil: break
+                }
+            }
+            if let f = c.as(FunctionDeclSyntax.self), f.signature.parameterClause.parameters.contains(where: { ($0.secondName ?? $0.firstName).text == name }) { return true }
+            if let i = c.as(InitializerDeclSyntax.self), i.signature.parameterClause.parameters.contains(where: { ($0.secondName ?? $0.firstName).text == name }) { return true }
+            if let s = c.as(SubscriptDeclSyntax.self), s.parameterClause.parameters.contains(where: { ($0.secondName ?? $0.firstName).text == name }) { return true }
+            if let a = c.as(AccessorDeclSyntax.self) {
+                if let p = a.parameters, p.name.text == name { return true }
+                switch a.accessorSpecifier.tokenKind {
+                case .keyword(.set), .keyword(.willSet): if a.parameters == nil && name == "newValue" { return true }
+                case .keyword(.didSet): if a.parameters == nil && name == "oldValue" { return true }
+                default: break
+                }
+            }
+            child = c
+            current = c.parent
+        }
+        return false
+    }
+
+    private func conditionsBind(_ conditions: ConditionElementListSyntax, _ name: String) -> Bool {
+        conditions.contains { element in
+            switch element.condition {
+            case .optionalBinding(let b): return bindsName(b.pattern, name)
+            case .matchingPattern(let m): return bindsName(m.pattern, name)
+            default: return false
+            }
+        }
+    }
+
+    /// Any identifier pattern named `name` inside a pattern (tuples, `let`/`var`, enum-case payloads).
+    private func bindsName(_ pattern: some SyntaxProtocol, _ name: String) -> Bool {
+        if let id = Syntax(pattern).as(IdentifierPatternSyntax.self) { return id.identifier.text == name }
+        if Syntax(pattern).is(ClosureExprSyntax.self) || Syntax(pattern).is(CodeBlockSyntax.self) { return false }
+        for child in Syntax(pattern).children(viewMode: .sourceAccurate) where bindsName(child, name) { return true }
+        // `case .x(let value)` binds through an expression pattern whose leaf is a DeclReference.
+        if let d = Syntax(pattern).as(DeclReferenceExprSyntax.self), d.baseName.text == name,
+           Syntax(pattern).ancestorOrSelf(mapping: { $0.as(ValueBindingPatternSyntax.self) }) != nil {
+            return true
+        }
+        return false
+    }
+
     override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {
         let calleeText = node.calledExpression.trimmedDescription
         // Fourth real gap found and fixed the same day (2026-09-10), the
@@ -595,14 +872,41 @@ final class FactExtractor: SyntaxVisitor {
             }
             return arg.expression.trimmedDescription
         }
-        calls.append(CallFact(
+        var fact = CallFact(
             calleeExpression: calleeText,
             rootIdentifier: rootIdentifier,
             line: line(node),
             callerFunction: functionStack.last,
             callerType: typeStack.last,
             arguments: arguments
-        ))
+        )
+        var callee = node.calledExpression
+        if let generic = callee.as(GenericSpecializationExprSyntax.self) { callee = generic.expression }
+        if let member = callee.as(MemberAccessExprSyntax.self) {
+            fact.calleeMember = member.declName.baseName.text
+            if let base = member.base {
+                fact.calleeBasePath = dottedPath(base)
+                fact.calleeShape = fact.calleeBasePath == nil ? "member_of_expression" : "member_of_path"
+            } else {
+                fact.calleeShape = "implicit_member"
+            }
+        } else if callee.is(DeclReferenceExprSyntax.self) {
+            fact.calleeShape = "bare"
+        } else {
+            fact.calleeShape = "other"
+        }
+        if let (member, kind) = enclosingMember(node) {
+            fact.callerMember = member
+            fact.callerMemberKind = kind
+        }
+        fact.argumentLabels = node.arguments.map { $0.label?.text ?? "_" }
+        let trailing = (node.trailingClosure == nil ? 0 : 1) + node.additionalTrailingClosures.count
+        if trailing > 0 { fact.trailingClosures = trailing }
+        if !rootIdentifier.isEmpty, rootIdentifier != "self", rootIdentifier != "super",
+           isLocallyBound(rootIdentifier, at: node) {
+            fact.rootIsLocal = true
+        }
+        calls.append(fact)
         return .visitChildren
     }
 }
@@ -670,7 +974,8 @@ for relPath in swiftFiles {
 
 let isoFormatter = ISO8601DateFormatter()
 let result = ExtractionResult(
-    schemaVersion: "3.0.0",
+    // 3.1.0 (2026-10-01): additive raw fields for member-level call resolution.
+    schemaVersion: "3.1.0",
     generatedAt: isoFormatter.string(from: Date()),
     rootDir: rootDir,
     totalFiles: swiftFiles.count,

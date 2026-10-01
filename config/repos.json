@@ -207,7 +207,11 @@
       "branch": "staging",
       "intraRepoEdges": {
         "enabled": false,
-        "reason": "Not loaded as INTRA_REPO_CALL edges, by decision (README Stage C, checked 2026-09-11 and again 2026-09-26): the resolved graph has 0 confirmed and 0 probable call edges (1 unresolved of 62 graph-eligible calls, 761 call expressions). pipeline:edges prints this skip on every run and says if the graph ever gains confirmed or probable edges; turning it on is a deliberate edit here."
+        "reason": "Not loaded as INTRA_REPO_CALL edges, by decision (README Stage C, checked 2026-09-11 and again 2026-09-26): the resolved graph has 0 confirmed and 0 probable call edges (1 unresolved of 62 graph-eligible calls, 761 call expressions). pipeline:edges prints this skip on every run and says if the graph ever gains confirmed or probable edges; turning it on is a deliberate edit here.",
+        "declaredCalls": {
+          "enabled": true,
+          "reason": "W6 (INTRA_REPO_CALL_DECLARED) reads the call facts' own declaration fields, not the resolved graph, so it is switched on separately (user decision 2026-10-01, governance/roadmap/call-resolution-same-repo-edges/01-build-spec-2026-10-01.md E1): 74 edges, no hubs. INTRA_REPO_CALL stays off (enabled = false above)."
+        }
       },
       "modulesRoot": "src/v1",
 

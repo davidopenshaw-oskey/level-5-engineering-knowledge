@@ -1,4 +1,4 @@
-// **version:** 1.2.0
+// **version:** 1.3.0
 // **location:** level-5 P2 facts index
 // © Oskey SAS. All rights reserved.
 //
@@ -429,8 +429,34 @@ export function descriptionFor(fact: Fact, module: string): string {
   // dishonest.
   const resolutionMethod: string | undefined = fact.resolutionMethod ?? fact.evidence?.resolutionMethod;
   const declarationFileForCall: string | undefined = fact.declarationFile ?? fact.evidence?.declarationFile;
-  const kotlinCallResolutionDoc = fact.type === "call_expression" && resolutionMethod && resolutionMethod !== "unresolved" && declarationFileForCall
+  // D1 (user decision, 2026-10-01): on a Swift call whose member-level resolution came from the caller's type, a typed
+  // property or a supertype, a legacy `declarationFile` that differs from `memberDeclarationFile` is a flat bare-name
+  // collision (the legacy lookup resolved the call's ROOT name to another type's file), so this segment would state a
+  // wrong file next to the right method; it is left out there. Kept for initializer/type-member targets, where the
+  // legacy file is the type's own file (less precise, still true), and for every other fact. Payload stays frozen.
+  const memberTier: string | undefined = fact.memberResolutionMethod ?? fact.evidence?.memberResolutionMethod;
+  const memberFile: string | undefined = fact.memberDeclarationFile ?? fact.evidence?.memberDeclarationFile;
+  const legacyFileIsCollision = (fact.memberResolutionStatus ?? fact.evidence?.memberResolutionStatus) === "resolved"
+    && !!memberFile && declarationFileForCall !== memberFile
+    && (memberTier === "resolved_via_caller_type" || memberTier === "resolved_via_property_type" || memberTier === "resolved_via_supertype");
+  const kotlinCallResolutionDoc = fact.type === "call_expression" && resolutionMethod && resolutionMethod !== "unresolved" && declarationFileForCall && !legacyFileIsCollision
     ? ` -- resolves to: ${declarationFileForCall} (${resolutionMethod})`
+    : "";
+
+  // Swift member-level call target (D1, governance/roadmap/call-resolution-same-repo-edges, 2026-10-01). A Swift call's
+  // legacy fields resolve only its ROOT (`userInviteService`), so a description read "calls:
+  // userInviteService.userSendInvitation" and never named OSKCKUserInvitesService or the kit: vector search could not
+  // find an app's callers from the kit side (impact analysis, PRD). The extractor's member-level result (`member*`
+  // fields, spec AM-2) names the declaring type, method and, when foreign, repo. Rendered only when
+  // `memberResolutionStatus = 'resolved'`, so every other fact's description is byte-identical. A protocol requirement
+  // is said so, because the target is the requirement, not an implementation.
+  const memberStatus: string | undefined = fact.memberResolutionStatus ?? fact.evidence?.memberResolutionStatus;
+  const memberClass: string | undefined = fact.memberDeclarationClass ?? fact.evidence?.memberDeclarationClass;
+  const memberMethod: string | undefined = fact.memberDeclarationMethod ?? fact.evidence?.memberDeclarationMethod;
+  const memberRepo: string | undefined = fact.memberDeclarationRepo ?? fact.evidence?.memberDeclarationRepo;
+  const memberIsRequirement = (fact.memberTargetIsProtocolRequirement ?? fact.evidence?.memberTargetIsProtocolRequirement) === true;
+  const swiftMemberTargetDoc = fact.type === "call_expression" && memberStatus === "resolved" && memberMethod
+    ? ` -- calls method: ${memberClass ? `${memberClass}.` : ""}${memberMethod}${memberRepo ? ` in ${memberRepo}` : ""}${memberIsRequirement ? " (protocol requirement, not a specific implementation)" : ""}`
     : "";
 
   // Kotlin call arguments (real gap found via a live PRD review, 2026-09-09
@@ -530,7 +556,7 @@ export function descriptionFor(fact: Fact, module: string): string {
     ? ` -- ${fcSide ?? "client"}${fcPlatform ? ` (${fcPlatform})` : ""} Firestore ${fcOperation ?? "access"}${fcSdkCall ? ` via ${fcSdkCall}` : ""} on ${fcPathKind ? `${fcPathKind} path` : "a path"}${fcOperation ? "" : fcOperationReason ? ` (operation not determined: ${fcOperationReason})` : ""}${fcPathSource?.enum && fcPathSource?.case ? ` -- path enum case: ${fcPathSource.enum}.${fcPathSource.case}` : ""}${fcCallerClass || fcCallerFunction ? ` -- called from: ${[fcCallerClass, fcCallerFunction].filter(Boolean).join(".")}` : ""}${fcResolution === "unresolved" ? ` -- path unresolved${fcUnresolvedReason ? `: ${fcUnresolvedReason}` : ""}` : ""}`
     : "";
 
-  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${implementsInterfacesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${kotlinCallResolutionDoc}${kotlinCallArgumentsDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${importsDependencyDoc}${enumDeclarationDoc}${tsEnumDeclarationDoc}${swiftEnumDeclarationDoc}${swiftInheritanceDoc}${extensionDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${functionOwningClassDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc}${exportRegistryEntryDoc}${firestoreClientCallDoc}${pubsubPublishCallDoc} (${loc})`;
+  return `${fact.type} in ${module}${sub}: ${sym}${values}${managesDoc}${implementsInterfacesDoc}${returnsDoc}${apiContractDoc}${callExpressionDoc}${swiftMemberTargetDoc}${kotlinCallResolutionDoc}${kotlinCallArgumentsDoc}${firebaseCallableCallDoc}${routeDefinitionDoc}${pubsubOperationRouteDoc}${pubsubEventRouteDoc}${angularRouteDoc}${angularComponentDoc}${angularInjectableDoc}${angularTemplateAttributeDoc}${modelPropertyDoc}${importsDependencyDoc}${enumDeclarationDoc}${tsEnumDeclarationDoc}${swiftEnumDeclarationDoc}${swiftInheritanceDoc}${extensionDeclarationDoc}${sealedHierarchyDoc}${composableDoc}${functionOwningClassDoc}${constructorPromotedDoc}${bleGattDoc}${usbWireConstantDoc}${webrtcTouchpointDoc}${exportRegistryEntryDoc}${firestoreClientCallDoc}${pubsubPublishCallDoc} (${loc})`;
 }
 
 function pool(): Pool {

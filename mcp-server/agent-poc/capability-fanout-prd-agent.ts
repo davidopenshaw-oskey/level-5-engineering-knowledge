@@ -1008,7 +1008,7 @@ async function main() {
   // alone guarantees the model still meaningfully attends to this content
   // by the time it writes its final answer, many turns later -- that's the
   // real, open, honestly-unresolved question this test exists to check.
-  const GROUNDING_DOC_PATHS = ["governance/reference-docs/Oskey Architecture.md", "governance/reference-docs/Oskey Personas and Authority models.md"];
+  const GROUNDING_DOC_PATHS = ["governance/reference-docs/Oskey Architecture v2.md", "governance/reference-docs/Oskey Personas and Authority models.md"];
   let groundingDocs = "";
   if (process.env.GROUNDING_DOCS === "true") {
     const parts = GROUNDING_DOC_PATHS.map(p => `## Reference: ${p}\n\n${fs.readFileSync(path.join(PROJECT_ROOT, p), "utf8")}`);

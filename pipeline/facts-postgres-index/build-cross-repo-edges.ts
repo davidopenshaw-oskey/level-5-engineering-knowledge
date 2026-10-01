@@ -1,4 +1,4 @@
-// **version:** 1.12.0
+// **version:** 1.13.0
 // **location:** level-5 P2 facts index
 // © Oskey SAS. All rights reserved.
 //
@@ -1600,6 +1600,20 @@ const firestoreClientAccessJoin: Join = {
 // fence, the number skipped and each hub with its fan-in are printed on every run. Calls with no callee fact
 // (arrow-function properties, framework functions, `next(...)`) get no edge and are counted in the report only.
 // A repo whose config/repos.json entry sets `intraRepoEdges.enabled = false` is left out, with its reason printed.
+//
+// 1.13.0 (governance/roadmap/call-resolution-same-repo-edges, 2026-10-01): (1) Swift call facts carry their
+// member-level resolution in `member*` fields (spec AM-2: `memberResolutionStatus`, `memberDeclarationFile/Line/
+// Method/Class/Repo`), never in the TS fields, whose Swift values stay the frozen root-level ones. A call with
+// `memberResolutionStatus = 'resolved'` uses its member fields (an override like the import alias), and one whose
+// `memberDeclarationRepo` names another repo is left to PACKAGE_METHOD_CALL. Facts without `member*` fields
+// (Firebase, Angular, node-iot) take exactly the path they took before. (2) For a member call whose line holds no
+// declaration, the by-name fallback narrows several same-named declarations by `memberDeclarationClass` against the
+// declaration's `parentType`. (3) `intraRepoEdges.declaredCalls.enabled`, when present, switches this join alone
+// (node-iot: on, while its resolved-graph INTRA_REPO_CALL stays off). (4) The caller printed in `source_symbol`
+// falls back to `callerMember` / `callerFunction` (Swift has no `callerName` in evidence).
+// (5) A repo whose own log fan-in has IQR 0 (fence exp(Q3) = 1: every callee called twice would be a hub;
+// swift-webrtc-kit, E3) uses the fence of all repos' fan-ins pooled; the log names the repo and the fallback. Hub labels
+// print `<module>::<parentType>.<name>` when the declaration has a `parentType` (log only).
 // ---------------------------------------------------------------------------
 const W6 = {
   // Callee declaration facts are recognised by kind: a `<construct>_method` fact or a `function_declaration`.
@@ -1613,6 +1627,21 @@ const W6 = {
   CALL_ALIASED_SYMBOL: "aliasedCalleeSymbol",
   CALL_DECLARATION_LINE: "declarationLine",
   CALL_DECLARATION_CLASS: "declarationClass",
+  // Member-level resolution (Swift, spec AM-2), all under payload.evidence.
+  MEMBER_STATUS: "memberResolutionStatus",
+  MEMBER_TIER: "memberResolutionMethod",
+  MEMBER_FILE: "memberDeclarationFile",
+  MEMBER_LINE: "memberDeclarationLine",
+  MEMBER_MODULE: "memberDeclarationModule",
+  MEMBER_REPO: "memberDeclarationRepo", // set only when the declaration is in another repo
+  MEMBER_CLASS: "memberDeclarationClass",
+  MEMBER_METHOD: "memberDeclarationMethod", // "init" for an initializer target
+  MEMBER_PROTOCOL_REQUIREMENT: "memberTargetIsProtocolRequirement", // boolean: the target is a protocol requirement, not an implementation
+  CALLEE_MEMBER: "calleeMember",
+  CALLER_MEMBER: "callerMember",
+  CALLER_MEMBER_KIND: "callerMemberKind",
+  CALLER_FUNCTION: "callerFunction", // Swift's raw caller field
+  DECLARATION_PARENT_TYPE: "parentType", // under a Swift declaration fact's payload.evidence
   INTRA_CONNECTION_TYPE: "INTRA_REPO_CALL",
   FOLLOWED: ["resolved", "confirmed"],
 } as const;
@@ -1626,7 +1655,12 @@ function loadIntraSwitchOff(): Map<string, string> {
   if (!fs.existsSync(file)) return out;
   const j = JSON.parse(fs.readFileSync(file, "utf8"));
   const list: any[] = Array.isArray(j.repositories) ? j.repositories : Object.values(j.repositories ?? {});
-  for (const r of list) if (r?.intraRepoEdges?.enabled === false) out.set(r.name, r.intraRepoEdges.reason ?? "(no reason given)");
+  for (const r of list) {
+    // `intraRepoEdges.declaredCalls`, when present, decides for this join alone; otherwise the shared `enabled` does.
+    const dc = r?.intraRepoEdges?.declaredCalls;
+    if (dc && typeof dc.enabled === "boolean") { if (!dc.enabled) out.set(r.name, `intraRepoEdges.declaredCalls.enabled = false -- ${dc.reason ?? "(no reason given)"}`); continue; }
+    if (r?.intraRepoEdges?.enabled === false) out.set(r.name, `intraRepoEdges.enabled = false -- ${r.intraRepoEdges.reason ?? "(no reason given)"}`);
+  }
   return out;
 }
 
@@ -1636,12 +1670,17 @@ const intraRepoCallDeclaredJoin: Join = {
   provenance: "ast_derived",
 
   async discoverSourceRepos(db) {
+    // A repo is a source if it has a resolved call with a declaration file (TS fields), or a member-resolved call
+    // whose declaration is in the same repo (Swift member* fields; a foreign one is PACKAGE_METHOD_CALL's).
     const r = await db.query<{ repo: string }>(
-      `SELECT DISTINCT repo FROM facts WHERE kind = $1 AND payload->'evidence'->>$2 = $3 AND payload->'evidence'->>$4 IS NOT NULL ORDER BY repo`,
-      [CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_RESOLUTION_STATUS, CONTRACT.CALL_RESOLUTION_OK, CONTRACT.CALL_DECLARATION_FILE]
+      `SELECT DISTINCT repo FROM facts WHERE kind = $1 AND (
+         (payload->'evidence'->>$2 = $3 AND payload->'evidence'->>$4 IS NOT NULL)
+         OR (payload->'evidence'->>$5 = $3 AND payload->'evidence'->>$6 IS NOT NULL AND coalesce(payload->'evidence'->>$7, repo) = repo)
+       ) ORDER BY repo`,
+      [CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_RESOLUTION_STATUS, CONTRACT.CALL_RESOLUTION_OK, CONTRACT.CALL_DECLARATION_FILE, W6.MEMBER_STATUS, W6.MEMBER_FILE, W6.MEMBER_REPO]
     );
     const off = loadIntraSwitchOff();
-    for (const repo of r.rows.map(x => x.repo).filter(x => off.has(x))) console.log(`  intra-repo-call-declared: skipping ${repo}: switched off in config/repos.json (intraRepoEdges.enabled = false) -- ${off.get(repo)}`);
+    for (const repo of r.rows.map(x => x.repo).filter(x => off.has(x))) console.log(`  intra-repo-call-declared: skipping ${repo}: switched off in config/repos.json (${off.get(repo)})`);
     return r.rows.map(x => x.repo).filter(x => !off.has(x));
   },
 
@@ -1649,8 +1688,8 @@ const intraRepoCallDeclaredJoin: Join = {
     const problems: string[] = [];
     if (sourceRepos.length === 0) problems.push(`no repo has a resolved '${CONTRACT.CALL_EXPRESSION_KIND}' fact with evidence.${CONTRACT.CALL_DECLARATION_FILE}`);
     else {
-      const withLine = await countFacts(db, `repo = ANY($1::text[]) AND kind = $2 AND payload->'evidence' ? $3`, [sourceRepos, CONTRACT.CALL_EXPRESSION_KIND, W6.CALL_DECLARATION_LINE]);
-      if (withLine === 0) problems.push(`no '${CONTRACT.CALL_EXPRESSION_KIND}' fact has evidence.${W6.CALL_DECLARATION_LINE} (extractor field renamed?)`);
+      const withLine = await countFacts(db, `repo = ANY($1::text[]) AND kind = $2 AND (payload->'evidence' ? $3 OR payload->'evidence' ? $4)`, [sourceRepos, CONTRACT.CALL_EXPRESSION_KIND, W6.CALL_DECLARATION_LINE, W6.MEMBER_LINE]);
+      if (withLine === 0) problems.push(`no '${CONTRACT.CALL_EXPRESSION_KIND}' fact has evidence.${W6.CALL_DECLARATION_LINE} or evidence.${W6.MEMBER_LINE} (extractor field renamed?)`);
       const decls = await countFacts(db, `repo = ANY($1::text[]) AND (kind LIKE $2 OR kind = $3)`, [sourceRepos, `%${W6.DECLARATION_KIND_METHOD_SUFFIX}`, W6.DECLARATION_KIND_FUNCTION]);
       if (decls === 0) problems.push(`no declaration fact (kind ending '${W6.DECLARATION_KIND_METHOD_SUFFIX}' or '${W6.DECLARATION_KIND_FUNCTION}') in ${sourceRepos.join(", ")}`);
     }
@@ -1660,15 +1699,18 @@ const intraRepoCallDeclaredJoin: Join = {
 
   async compute(db, sourceRepos) {
     const edges: EdgeRow[] = [];
+    // Pass 1 collects every repo's candidates and fan-in; pass 2 applies the fence. Two passes because a repo whose
+    // own fan-in distribution has IQR 0 falls back to the fence of all repos' fan-ins pooled (user decision, 2026-10-01).
+    const perRepo: { repo: string; st: Record<string, number>; cands: any[]; fan: Map<string, number> }[] = [];
     for (const repo of sourceRepos) {
       const files = new Set((await db.query<{ file: string }>(`SELECT DISTINCT file FROM facts WHERE repo = $1`, [repo])).rows.map(r => r.file));
       const calls = (await db.query<{ fact_id: string; file: string; line: number; module: string; ev: any }>(
-        `SELECT fact_id, file, line, module, payload->'evidence' AS ev FROM facts WHERE repo = $1 AND kind = $2 AND payload->'evidence'->>$3 = $4 ORDER BY fact_id`,
-        [repo, CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_RESOLUTION_STATUS, CONTRACT.CALL_RESOLUTION_OK]
+        `SELECT fact_id, file, line, module, payload->'evidence' AS ev FROM facts WHERE repo = $1 AND kind = $2 AND (payload->'evidence'->>$3 = $4 OR payload->'evidence'->>$5 = $4) ORDER BY fact_id`,
+        [repo, CONTRACT.CALL_EXPRESSION_KIND, CONTRACT.CALL_RESOLUTION_STATUS, CONTRACT.CALL_RESOLUTION_OK, W6.MEMBER_STATUS]
       )).rows;
-      const decls = (await db.query<{ fact_id: string; kind: string; file: string; line: number; module: string; symbol_name: string }>(
-        `SELECT fact_id, kind, file, line, module, symbol_name FROM facts WHERE repo = $1 AND (kind LIKE $2 OR kind = $3) ORDER BY fact_id`,
-        [repo, `%${W6.DECLARATION_KIND_METHOD_SUFFIX}`, W6.DECLARATION_KIND_FUNCTION]
+      const decls = (await db.query<{ fact_id: string; kind: string; file: string; line: number; module: string; symbol_name: string; parent_type: string | null }>(
+        `SELECT fact_id, kind, file, line, module, symbol_name, payload->'evidence'->>$4 AS parent_type FROM facts WHERE repo = $1 AND (kind LIKE $2 OR kind = $3) ORDER BY fact_id`,
+        [repo, `%${W6.DECLARATION_KIND_METHOD_SUFFIX}`, W6.DECLARATION_KIND_FUNCTION, W6.DECLARATION_PARENT_TYPE]
       )).rows;
       const already = new Set((await db.query<{ source_fact_id: string }>(
         `SELECT source_fact_id FROM cross_repo_edges WHERE connection_type = $1 AND source_repo = $2 AND resolution_status = ANY($3::text[]) AND source_fact_id IS NOT NULL`,
@@ -1679,48 +1721,75 @@ const intraRepoCallDeclaredJoin: Join = {
         const k1 = `${d.file}\u0000${d.line}`; byFileLine.set(k1, [...(byFileLine.get(k1) ?? []), d]);
         const k2 = `${d.file}\u0000${d.symbol_name}`; byFileName.set(k2, [...(byFileName.get(k2) ?? []), d]);
       }
-      const st = { resolvedCalls: calls.length, inRepoDeclaration: 0, alreadyEdged: 0, candidates: 0, matched: 0, viaAlias: 0, ambiguous: 0, noMethodName: 0, noDeclarationFact: 0 };
-      type Cand = { c: (typeof calls)[number]; t: (typeof decls)[number]; alias: boolean; cls: string | null };
+      const st = { resolvedCalls: calls.length, memberResolved: 0, memberOtherRepo: 0, inRepoDeclaration: 0, alreadyEdged: 0, candidates: 0, matched: 0, viaAlias: 0, viaMember: 0, viaName: 0, ambiguous: 0, noMethodName: 0, noDeclarationFact: 0 };
+      type Cand = { c: (typeof calls)[number]; t: (typeof decls)[number]; alias: boolean; member: boolean; cls: string | null };
       const cands: Cand[] = [];
       for (const c of calls) {
         const e = c.ev;
-        const alias = !!e[W6.CALL_ALIASED_FILE];
-        const df: string | undefined = alias ? e[W6.CALL_ALIASED_FILE] : e[CONTRACT.CALL_DECLARATION_FILE];
-        const dl = alias ? e[W6.CALL_ALIASED_LINE] : e[W6.CALL_DECLARATION_LINE];
-        const dm: string | undefined = alias ? (e[W6.CALL_ALIASED_METHOD] ?? e[W6.CALL_ALIASED_SYMBOL]) : (e[CONTRACT.CALL_DECLARATION_METHOD] ?? e[W6.CALL_MEMBER_NAME]);
-        const cls: string | null = (alias ? e[W6.CALL_ALIASED_CLASS] : e[W6.CALL_DECLARATION_CLASS]) ?? null;
+        // Member-level resolution (Swift) first, then the import alias (W1), then the call's own TS fields.
+        const member = e[W6.MEMBER_STATUS] === CONTRACT.CALL_RESOLUTION_OK;
+        if (member) {
+          st.memberResolved++;
+          if (e[W6.MEMBER_REPO] && e[W6.MEMBER_REPO] !== repo) { st.memberOtherRepo++; continue; }
+        }
+        const alias = !member && !!e[W6.CALL_ALIASED_FILE];
+        const df: string | undefined = member ? e[W6.MEMBER_FILE] : alias ? e[W6.CALL_ALIASED_FILE] : e[CONTRACT.CALL_DECLARATION_FILE];
+        const dl = member ? e[W6.MEMBER_LINE] : alias ? e[W6.CALL_ALIASED_LINE] : e[W6.CALL_DECLARATION_LINE];
+        const dm: string | undefined = member ? e[W6.MEMBER_METHOD] : alias ? (e[W6.CALL_ALIASED_METHOD] ?? e[W6.CALL_ALIASED_SYMBOL]) : (e[CONTRACT.CALL_DECLARATION_METHOD] ?? e[W6.CALL_MEMBER_NAME]);
+        const cls: string | null = (member ? e[W6.MEMBER_CLASS] : alias ? e[W6.CALL_ALIASED_CLASS] : e[W6.CALL_DECLARATION_CLASS]) ?? null;
         if (!df || !files.has(df)) continue;
         st.inRepoDeclaration++;
         if (already.has(c.fact_id)) { st.alreadyEdged++; continue; }
         st.candidates++;
         let t = byFileLine.get(`${df}\u0000${dl}`) ?? [];
         if (t.length > 1 && dm) t = t.filter(x => x.symbol_name === dm);
-        if (t.length === 0 && dm) t = byFileName.get(`${df}\u0000${dm}`) ?? [];
+        let byName = false;
+        if (t.length === 0 && dm) {
+          t = byFileName.get(`${df}\u0000${dm}`) ?? []; byName = t.length > 0;
+          // Member calls only: several same-named declarations in the file (e.g. `call` in a protocol and in its
+          // implementation) are narrowed by the declaring type. TS facts never take this branch.
+          if (member && t.length > 1 && cls) t = t.filter(x => x.parent_type === cls);
+        }
         if (t.length === 0) { if (dm) st.noDeclarationFact++; else st.noMethodName++; continue; }
         if (t.length > 1) { st.ambiguous++; continue; }
         if (t[0].fact_id === c.fact_id) continue;
-        st.matched++; if (alias) st.viaAlias++;
-        cands.push({ c, t: t[0], alias, cls });
+        st.matched++; if (alias) st.viaAlias++; if (member) st.viaMember++; if (byName) st.viaName++;
+        cands.push({ c, t: t[0], alias, member, cls });
       }
-      // The hub fence, derived from this repo's own fan-in distribution.
       const fan = new Map<string, number>();
       for (const x of cands) fan.set(x.t.fact_id, (fan.get(x.t.fact_id) ?? 0) + 1);
-      const logs = [...fan.values()].sort((a, b) => a - b).map(v => Math.log(v));
-      const fence = logs.length === 0 ? Infinity : Math.exp(fenceQuantile(logs, 0.75) + 3 * (fenceQuantile(logs, 0.75) - fenceQuantile(logs, 0.25)));
+      perRepo.push({ repo, st, cands, fan });
+    }
+    // The hub fence: the Tukey outer fence of the log fan-in, from this repo's own distribution; when that has IQR 0
+    // (most callees called once, so every callee called twice would be a "hub"), from all repos' fan-ins pooled.
+    const tukey = (values: number[]): { fence: number; iqr: number } => {
+      const logs = [...values].sort((a, b) => a - b).map(v => Math.log(v));
+      if (logs.length === 0) return { fence: Infinity, iqr: NaN };
+      const q1 = fenceQuantile(logs, 0.25), q3 = fenceQuantile(logs, 0.75);
+      return { fence: Math.exp(q3 + 3 * (q3 - q1)), iqr: q3 - q1 };
+    };
+    const pooled = tukey(perRepo.flatMap(r => [...r.fan.values()]));
+    for (const { repo, st, cands, fan } of perRepo) {
+      const own = tukey([...fan.values()]);
+      const usePooled = own.iqr === 0;
+      const fence = usePooled ? (pooled.iqr > 0 ? pooled.fence : Infinity) : own.fence;
+      const fenceText = usePooled
+        ? `own fence undefined (IQR of log fan-in is 0), FALLBACK to the pooled fence of all ${perRepo.length} repos' fan-ins = ${pooled.iqr > 0 ? pooled.fence.toFixed(1) : "also undefined, so no fence"}`
+        : `Tukey outer fence of log fan-in = ${Number.isFinite(fence) ? fence.toFixed(1) : "n/a"}`;
       const kept = cands.filter(x => fan.get(x.t.fact_id)! <= fence);
       const hubs = [...fan.entries()].filter(([, n]) => n > fence).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
-      const symOf = new Map(cands.map(x => [x.t.fact_id, `${x.t.module}::${x.t.symbol_name}`]));
+      const symOf = new Map(cands.map(x => [x.t.fact_id, `${x.t.module}::${x.t.parent_type ? x.t.parent_type + "." : ""}${x.t.symbol_name}`]));
       const skipped = hubs.reduce((s, [, n]) => s + n, 0);
-      console.log(`  ${repo}: ${st.resolvedCalls} resolved calls; ${st.inRepoDeclaration} name an in-repo declaration; ${st.alreadyEdged} already have an ${W6.INTRA_CONNECTION_TYPE} edge; ${st.candidates} candidates -> ${st.matched} with a callee fact (${st.viaAlias} through the import alias), ${st.ambiguous} ambiguous, ${st.noMethodName} with no method name and ${st.noDeclarationFact} with a name but no declaration fact (reported only, no edge).`);
-      console.log(`  ${repo}: ${fan.size} callees; hub fence (Tukey outer fence of log fan-in) = ${Number.isFinite(fence) ? fence.toFixed(1) : "n/a"}; ${hubs.length} hub callee(s) above it, ${skipped} edge(s) skipped, ${kept.length} kept. Hubs: ${hubs.length ? hubs.map(([id, n]) => `${symOf.get(id)} (${n})`).join(", ") : "none"}.`);
+      console.log(`  ${repo}: ${st.resolvedCalls} resolved calls (${st.memberResolved} member-level, ${st.memberOtherRepo} of them declared in another repo: PACKAGE_METHOD_CALL's); ${st.inRepoDeclaration} name an in-repo declaration; ${st.alreadyEdged} already have an ${W6.INTRA_CONNECTION_TYPE} edge; ${st.candidates} candidates -> ${st.matched} with a callee fact (${st.viaAlias} through the import alias, ${st.viaMember} through the member-level resolution, ${st.viaName} by name because the line held no declaration), ${st.ambiguous} ambiguous, ${st.noMethodName} with no method name and ${st.noDeclarationFact} with a name but no declaration fact (reported only, no edge).`);
+      console.log(`  ${repo}: ${fan.size} callees; hub fence: ${fenceText}; ${hubs.length} hub callee(s) above it, ${skipped} edge(s) skipped, ${kept.length} kept. Hubs: ${hubs.length ? hubs.map(([id, n]) => `${symOf.get(id)} (${n})`).join(", ") : "none"}.`);
       for (const x of kept) {
         const e = x.c.ev;
         const crossModule = x.c.module !== x.t.module;
         edges.push({
-          sourceRepo: repo, sourceSymbol: `${x.c.file}:${x.c.line} -> ${e[CONTRACT.CALL_CALLER_NAME] ?? e[CONTRACT.CALL_ENCLOSING_MEMBER_NAME] ?? "(unknown caller)"}`, sourceFactId: x.c.fact_id,
+          sourceRepo: repo, sourceSymbol: `${x.c.file}:${x.c.line} -> ${e[CONTRACT.CALL_CALLER_NAME] ?? e[CONTRACT.CALL_ENCLOSING_MEMBER_NAME] ?? e[W6.CALLER_MEMBER] ?? e[W6.CALLER_FUNCTION] ?? "(unknown caller)"}`, sourceFactId: x.c.fact_id,
           targetRepo: repo, targetSymbol: `${x.t.module}::${x.cls ? x.cls + "." : ""}${x.t.symbol_name}`, targetFactId: x.t.fact_id, resolutionStatus: "resolved", confirmedVia: null,
-          details: `via ${e[CONTRACT.CALL_CALLEE_EXPRESSION] ?? "(call)"} (the call fact's own declaration fields${x.alias ? ", through the import alias" : ""}) -- ${crossModule ? `cross-module ('${x.c.module}' -> '${x.t.module}')` : `same module ('${x.c.module}')`}`,
-          attributes: { viaAlias: x.alias, crossModule, calleeFanIn: fan.get(x.t.fact_id)!, calleeKind: x.t.kind },
+          details: `via ${e[CONTRACT.CALL_CALLEE_EXPRESSION] ?? "(call)"} (${x.member ? `the call fact's member-level resolution, ${e[W6.MEMBER_TIER]}` : `the call fact's own declaration fields${x.alias ? ", through the import alias" : ""}`}) -- ${crossModule ? `cross-module ('${x.c.module}' -> '${x.t.module}')` : `same module ('${x.c.module}')`}`,
+          attributes: { viaAlias: x.alias, crossModule, calleeFanIn: fan.get(x.t.fact_id)!, calleeKind: x.t.kind, ...(x.member ? { memberResolutionMethod: e[W6.MEMBER_TIER], memberTargetIsProtocolRequirement: e[W6.MEMBER_PROTOCOL_REQUIREMENT] === true } : {}) },
         });
       }
     }
@@ -1729,7 +1798,126 @@ const intraRepoCallDeclaredJoin: Join = {
   },
 };
 
-const JOINS: Join[] = [firebaseCallableJoin, pubsubBindingJoin, packageSymbolUseJoin, restRouteJoin, firestoreTriggerJoin, firestoreClientTriggerJoin, firestoreClientAccessJoin, intraRepoCallDeclaredJoin];
+// ---------------------------------------------------------------------------
+// PACKAGE_METHOD_CALL (governance/roadmap/call-resolution-same-repo-edges, spec §2d + AM-2, 2026-10-01): a call
+// whose member-level resolution lands in ANOTHER indexed repo (the iOS app calling a Swift kit method) -> that
+// repo's method declaration fact. Source: a `call_expression` with `memberResolutionStatus = 'resolved'` and a
+// `memberDeclarationRepo` that is not its own repo. Target: the declaration fact (kind `<x>_method` or
+// `function_declaration`) at `memberDeclarationFile:memberDeclarationLine` in that repo; if the line holds none,
+// the one declaration in that file named `memberDeclarationMethod` (narrowed by `memberDeclarationClass` against
+// its `parentType` when there are several). `resolved` only with a target; otherwise `unresolved` with the reason.
+// PACKAGE_SYMBOL_USE (the type-level edge from the frozen legacy fields) is a separate join and is untouched.
+// Fan-in is reported per run with the same data-derived fence as W6, but nothing is skipped (report only).
+// ---------------------------------------------------------------------------
+const PMC = {
+  CONNECTION_TYPE: "PACKAGE_METHOD_CALL",
+} as const;
+
+const packageMethodCallJoin: Join = {
+  name: "package-method-call",
+  connectionType: PMC.CONNECTION_TYPE,
+  provenance: "ast_derived",
+
+  async discoverSourceRepos(db) {
+    const r = await db.query<{ repo: string }>(
+      `SELECT DISTINCT repo FROM facts WHERE kind = $1 AND payload->'evidence'->>$2 = $3
+         AND payload->'evidence'->>$4 IS NOT NULL AND payload->'evidence'->>$4 <> repo ORDER BY repo`,
+      [CONTRACT.CALL_EXPRESSION_KIND, W6.MEMBER_STATUS, CONTRACT.CALL_RESOLUTION_OK, W6.MEMBER_REPO]
+    );
+    return r.rows.map(x => x.repo);
+  },
+
+  async preflight(db, sourceRepos) {
+    const problems: string[] = [];
+    if (sourceRepos.length === 0) problems.push(`no repo has a '${CONTRACT.CALL_EXPRESSION_KIND}' fact with evidence.${W6.MEMBER_STATUS} = '${CONTRACT.CALL_RESOLUTION_OK}' and a foreign evidence.${W6.MEMBER_REPO}`);
+    else {
+      const usable = await countFacts(db, `repo = ANY($1::text[]) AND kind = $2 AND payload->'evidence'->>$3 = $4 AND payload->'evidence' ? $5 AND payload->'evidence' ? $6`,
+        [sourceRepos, CONTRACT.CALL_EXPRESSION_KIND, W6.MEMBER_STATUS, CONTRACT.CALL_RESOLUTION_OK, W6.MEMBER_FILE, W6.MEMBER_LINE]);
+      if (usable === 0) problems.push(`no member-resolved call fact has evidence.${W6.MEMBER_FILE} and evidence.${W6.MEMBER_LINE} (extractor field renamed?)`);
+      const decls = await countFacts(db, `kind LIKE $1 OR kind = $2`, [`%${W6.DECLARATION_KIND_METHOD_SUFFIX}`, W6.DECLARATION_KIND_FUNCTION]);
+      if (decls === 0) problems.push(`no declaration fact (kind ending '${W6.DECLARATION_KIND_METHOD_SUFFIX}' or '${W6.DECLARATION_KIND_FUNCTION}') anywhere`);
+    }
+    problems.push(...(await attributesColumnProblems(db)));
+    return problems;
+  },
+
+  async compute(db, sourceRepos) {
+    const edges: EdgeRow[] = [];
+    for (const repo of sourceRepos) {
+      const calls = (await db.query<{ fact_id: string; file: string; line: number; ev: any }>(
+        `SELECT fact_id, file, line, payload->'evidence' AS ev FROM facts WHERE repo = $1 AND kind = $2 AND payload->'evidence'->>$3 = $4
+           AND payload->'evidence'->>$5 IS NOT NULL AND payload->'evidence'->>$5 <> repo ORDER BY fact_id`,
+        [repo, CONTRACT.CALL_EXPRESSION_KIND, W6.MEMBER_STATUS, CONTRACT.CALL_RESOLUTION_OK, W6.MEMBER_REPO]
+      )).rows;
+      const targetRepos = [...new Set(calls.map(c => c.ev[W6.MEMBER_REPO] as string))].sort();
+      const decls = (await db.query<{ fact_id: string; repo: string; kind: string; file: string; line: number; module: string; symbol_name: string; parent_type: string | null }>(
+        `SELECT fact_id, repo, kind, file, line, module, symbol_name, payload->'evidence'->>$4 AS parent_type FROM facts
+          WHERE repo = ANY($1::text[]) AND (kind LIKE $2 OR kind = $3) ORDER BY fact_id`,
+        [targetRepos, `%${W6.DECLARATION_KIND_METHOD_SUFFIX}`, W6.DECLARATION_KIND_FUNCTION, W6.DECLARATION_PARENT_TYPE]
+      )).rows;
+      const indexedRepos = new Set((await db.query<{ repo: string }>(`SELECT DISTINCT repo FROM facts WHERE repo = ANY($1::text[])`, [targetRepos])).rows.map(r => r.repo));
+      const byFileLine = new Map<string, typeof decls>(), byFileName = new Map<string, typeof decls>();
+      for (const d of decls) {
+        const k1 = `${d.repo}\u0000${d.file}\u0000${d.line}`; byFileLine.set(k1, [...(byFileLine.get(k1) ?? []), d]);
+        const k2 = `${d.repo}\u0000${d.file}\u0000${d.symbol_name}`; byFileName.set(k2, [...(byFileName.get(k2) ?? []), d]);
+      }
+      const reasons = new Map<string, number>();
+      const fan = new Map<string, number>();
+      const symOf = new Map<string, string>();
+      let byName = 0;
+      for (const c of calls) {
+        const e = c.ev;
+        const tr: string = e[W6.MEMBER_REPO], df: string | undefined = e[W6.MEMBER_FILE], dl = e[W6.MEMBER_LINE];
+        const dm: string | undefined = e[W6.MEMBER_METHOD] ?? undefined, cls: string | undefined = e[W6.MEMBER_CLASS] ?? undefined, tier: string | undefined = e[W6.MEMBER_TIER];
+        const caller = e[W6.CALLER_MEMBER] ?? e[W6.CALLER_FUNCTION] ?? e[CONTRACT.CALL_CALLER_NAME] ?? null;
+        const base = {
+          sourceRepo: repo, sourceSymbol: `${c.file}:${c.line} -> ${e[CONTRACT.CALL_CALLER_CLASS] ? e[CONTRACT.CALL_CALLER_CLASS] + "." : ""}${caller ?? "(unknown caller)"}`, sourceFactId: c.fact_id,
+          targetRepo: tr, confirmedVia: null,
+        };
+        const attrs = { memberResolutionMethod: tier ?? null, memberTargetIsProtocolRequirement: e[W6.MEMBER_PROTOCOL_REQUIREMENT] === true, calleeMember: e[W6.CALLEE_MEMBER] ?? null, callerMember: e[W6.CALLER_MEMBER] ?? null, callerMemberKind: e[W6.CALLER_MEMBER_KIND] ?? null };
+        const via = `via ${e[CONTRACT.CALL_CALLEE_EXPRESSION] ?? "(call)"} (the call fact's member-level resolution, ${tier ?? "tier not recorded"})`;
+        const unresolved = (reasonKey: string, why: string) => {
+          reasons.set(reasonKey, (reasons.get(reasonKey) ?? 0) + 1);
+          edges.push({ ...base, targetSymbol: `${e[W6.MEMBER_MODULE] ?? tr}::${cls ? cls + "." : ""}${dm ?? "(no method name)"}`, targetFactId: null, resolutionStatus: "unresolved",
+            details: `${via}: ${why}`, attributes: { ...attrs, unresolvedReason: reasonKey } });
+        };
+        if (!indexedRepos.has(tr)) { unresolved("target_repo_not_indexed", `declaring repo '${tr}' has no facts in the index`); continue; }
+        if (!df || dl == null) { unresolved("no_declaration_location", `no ${W6.MEMBER_FILE}/${W6.MEMBER_LINE} on the call fact`); continue; }
+        let t = byFileLine.get(`${tr}\u0000${df}\u0000${dl}`) ?? [];
+        if (t.length > 1 && dm) t = t.filter(x => x.symbol_name === dm);
+        let named = false;
+        if (t.length === 0 && dm) {
+          t = byFileName.get(`${tr}\u0000${df}\u0000${dm}`) ?? []; named = t.length > 0;
+          if (t.length > 1 && cls) t = t.filter(x => x.parent_type === cls);
+        }
+        if (t.length === 0) { unresolved("no_declaration_fact", `no method declaration fact at ${tr}/${df}:${dl}${dm ? ` and none named '${dm}' in that file` : ""}`); continue; }
+        if (t.length > 1) { unresolved("ambiguous", `${t.length} declarations named '${dm}' in ${tr}/${df} (${t.map(x => `${x.parent_type ?? "?"}:${x.line}`).join(", ")}); not guessed`); continue; }
+        const d = t[0];
+        if (named) byName++;
+        fan.set(d.fact_id, (fan.get(d.fact_id) ?? 0) + 1);
+        symOf.set(d.fact_id, `${d.repo}/${d.parent_type ? d.parent_type + "." : ""}${d.symbol_name}`);
+        edges.push({ ...base, targetSymbol: `${d.module}::${(d.parent_type ?? cls) ? `${d.parent_type ?? cls}.` : ""}${d.symbol_name}`, targetFactId: d.fact_id, resolutionStatus: "resolved",
+          details: `${via} -> ${d.kind} at ${d.repo}/${d.file}:${d.line}${named ? ` (matched by name in that file: the recorded line ${dl} holds no declaration)` : ""}`,
+          attributes: { ...attrs, matchedBy: named ? "name" : "file_line", targetKind: d.kind } });
+      }
+      // Fan-in: the same data-derived fence as W6, REPORTED only (nothing is skipped by this join).
+      const logs = [...fan.values()].sort((a, b) => a - b).map(v => Math.log(v));
+      const fence = logs.length === 0 ? Infinity : Math.exp(fenceQuantile(logs, 0.75) + 3 * (fenceQuantile(logs, 0.75) - fenceQuantile(logs, 0.25)));
+      const hubs = [...fan.entries()].filter(([, n]) => n > fence).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
+      const top = [...fan.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, 10);
+      const mine = edges.filter(x => x.sourceRepo === repo);
+      const res = mine.filter(x => x.resolutionStatus === "resolved").length;
+      console.log(`  ${repo}: ${calls.length} member-resolved call(s) into ${targetRepos.join(", ") || "none"} -> ${res} resolved (${byName} by name because the line held no declaration), ${mine.length - res} unresolved (${[...reasons.entries()].sort().map(([k, v]) => `${k} ${v}`).join(", ") || "none"}).`);
+      console.log(`  ${repo}: ${fan.size} target method(s); fan-in fence (Tukey outer fence of log fan-in, REPORT ONLY) = ${Number.isFinite(fence) ? fence.toFixed(1) : "n/a"}; above it: ${hubs.length ? hubs.map(([id, n]) => `${symOf.get(id)} (${n})`).join(", ") : "none"}. Top fan-in: ${top.map(([id, n]) => `${symOf.get(id)} ${n}`).join(", ") || "none"}.`);
+    }
+    if (edges.some(e => e.resolutionStatus === "resolved" && e.targetFactId === null)) throw new Error(`[Fail-Closed] ${packageMethodCallJoin.name} produced a resolved edge without a target fact -- invisible to traversal, refusing.`);
+    const res = edges.filter(e => e.resolutionStatus === "resolved").length;
+    console.log(`  Join result: ${res} resolved, ${edges.length - res} unresolved ${PMC.CONNECTION_TYPE} edge(s) across ${sourceRepos.length} repo(s).`);
+    return edges;
+  },
+};
+
+const JOINS: Join[] = [firebaseCallableJoin, pubsubBindingJoin, packageSymbolUseJoin, restRouteJoin, firestoreTriggerJoin, firestoreClientTriggerJoin, firestoreClientAccessJoin, intraRepoCallDeclaredJoin, packageMethodCallJoin];
 
 // ---------------------------------------------------------------------------
 // Shared scoped replace. Compute first, replace second: the new edge set for a

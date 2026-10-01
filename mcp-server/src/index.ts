@@ -60,3 +60,4 @@ ai.defineTool(
 
 const server = createMcpServer(ai, { name: "facts-corpus-server", version: "0.1.0" });
 server.start();
+console.log( "facts-corpus-server: ", "0.1.0");
