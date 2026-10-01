@@ -836,6 +836,10 @@ function main() {
         let declarationClass: string | null = null;
         let declarationMethod: string | null = null;
         let declarationModuleSpecifier: string | null = null;
+        let aliasedDeclarationFile: string | null = null;
+        let aliasedDeclarationLine: number | null = null;
+        let aliasedDeclarationClass: string | null = null;
+        let aliasedDeclarationMethod: string | null = null;
         let resolutionStatus: "resolved" | "partial" | "unresolved" = "unresolved";
 
         try {
@@ -843,7 +847,24 @@ function main() {
           if (symbol) {
             calleeSymbol = symbol.getName();
             const aliased = symbol.getAliasedSymbol();
-            if (aliased) aliasedCalleeSymbol = aliased.getName();
+            if (aliased) {
+              aliasedCalleeSymbol = aliased.getName();
+              // Additive (port of firebase's doc 43 W1, call-resolution-same-repo-edges
+              // Lane N): when the callee is an import alias, `decl` below is the import
+              // specifier in the CALLING file, so declarationFile points at the caller
+              // itself. Keep that as-is (existing meaning) and record where the alias
+              // really leads. An import TypeScript can't resolve (package not installed)
+              // has no declaration, so these stay null.
+              const aliasedDecl = aliased.getValueDeclaration() || aliased.getDeclarations()[0];
+              if (aliasedDecl) {
+                aliasedDeclarationFile = toRepoPath(aliasedDecl.getSourceFile().getFilePath(), clonePath);
+                aliasedDeclarationLine = aliasedDecl.getStartLineNumber();
+                aliasedDeclarationClass = aliasedDecl.getFirstAncestorByKind(SyntaxKind.ClassDeclaration)?.getName() || null;
+                if (Node.isMethodDeclaration(aliasedDecl) || Node.isFunctionDeclaration(aliasedDecl)) {
+                  aliasedDeclarationMethod = aliasedDecl.getName() || null;
+                }
+              }
+            }
 
             const decl = symbol.getValueDeclaration() || symbol.getDeclarations()[0];
             if (decl) {
@@ -891,6 +912,10 @@ function main() {
           declarationClass,
           declarationMethod,
           declarationModuleSpecifier,
+          aliasedDeclarationFile,
+          aliasedDeclarationLine,
+          aliasedDeclarationClass,
+          aliasedDeclarationMethod,
           resolutionStatus,
         });
 

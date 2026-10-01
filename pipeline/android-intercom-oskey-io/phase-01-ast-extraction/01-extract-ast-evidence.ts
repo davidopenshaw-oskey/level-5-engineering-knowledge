@@ -1,4 +1,4 @@
-// **version:** 1.0.0
+// **version:** 1.1.0
 // **location:** level-5 phase 1
 // © Oskey SAS. All rights reserved.
 //
@@ -29,6 +29,13 @@
 //   BFS hit exactly this gap), or "unresolved". NEVER "confirmed" the way
 //   the TS pipeline's compiler-backed Rule A is -- this is a real, honest
 //   capability difference, not hidden behind reused terminology.
+//
+// 1.1.0 (governance/roadmap/call-resolution-same-repo-edges, round 2, Lane K, 2026-10-01): every call also
+// carries a MEMBER-level resolution in new `member*` evidence fields (plus `calleeMember`, `callerMember`,
+// `callerMemberKind`), and every property `propertyScope`/`declaredTypeName`/`declaredTypeSource` -- see
+// _shared/member-resolution.ts. Additive only: the legacy fields above keep exactly their values (spec AM-1),
+// since step 04's resolved graph and the facts index's descriptions read them, and nothing that feeds
+// 02-build-module-evidence.ts's stableFactId() changes.
 
 import fs from "fs";
 import path from "path";
@@ -55,6 +62,7 @@ import {
   isSealed,
   modifiersOf,
 } from "./_shared/kotlin-ast-utils";
+import { buildMemberIndex, resolveCallMember, propertyTypeFields } from "./_shared/member-resolution";
 
 const projectRoot = process.cwd();
 const parser = new Parser();
@@ -135,6 +143,12 @@ function main() {
       }
     }
   }
+
+  // Member-level index (types, members, supertypes, top-level functions, extensions), built from every parsed
+  // file before any call is resolved.
+  const memberIndex = buildMemberIndex([...parsedByFile].map(([file, { tree, rec }]) => ({ file, module: rec.module, tree })));
+  const memberTierCounts: Record<string, number> = {};
+  const memberUnresolvedCounts: Record<string, number> = {};
 
   // --- Pass 2: emit facts per file ---
   const rawImports: any[] = [];
@@ -412,6 +426,7 @@ function main() {
         ...(initializerTypeArguments.length > 0 ? { initializerTypeArguments } : {}),
         visibility: visibilityOf(mods),
         ...(owningClass ? { owningClass } : {}),
+        ...propertyTypeFields(memberIndex, relPath, prop),
       });
     }
 
@@ -448,6 +463,7 @@ function main() {
         visibility: visibilityOf(mods),
         isConstructorPromoted: true,
         owningClass,
+        ...propertyTypeFields(memberIndex, relPath, param),
       });
     }
 
@@ -517,6 +533,11 @@ function main() {
       const argsNode = findNodesOfType(call, "value_arguments")[0];
       const callArguments = argsNode ? argsNode.namedChildren.map(a => a.text) : [];
 
+      // Member-level resolution (new fields only; the legacy ones above are unchanged).
+      const member = resolveCallMember(memberIndex, relPath, call);
+      if (member.memberResolutionStatus === "resolved") memberTierCounts[member.memberResolutionMethod!] = (memberTierCounts[member.memberResolutionMethod!] ?? 0) + 1;
+      else if (member.memberUnresolvedReason) memberUnresolvedCounts[member.memberUnresolvedReason] = (memberUnresolvedCounts[member.memberUnresolvedReason] ?? 0) + 1;
+
       rawCalls.push({
         ...base,
         line: call.startPosition.row + 1,
@@ -527,6 +548,7 @@ function main() {
         declarationModule,
         resolutionMethod,
         ...(callArguments.length > 0 ? { arguments: callArguments } : {}),
+        ...member,
       });
 
       // 10. WebRTC signaling touch points -- real, high-value domain fact
@@ -640,6 +662,15 @@ function main() {
     `Call resolution: ${resolvedViaImport} resolved_via_import, ${resolvedViaSamePackage} resolved_via_same_package, ${unresolvedCalls} unresolved.`,
     { resolvedViaImport, resolvedViaSamePackage, unresolvedCalls }
   );
+  const memberResolved = Object.values(memberTierCounts).reduce((a, b) => a + b, 0);
+  addNotification(
+    notifications,
+    "01-extract-ast-evidence",
+    "info",
+    "MEMBER_RESOLUTION_SUMMARY",
+    `Member-level call resolution: ${memberResolved} resolved (${Object.entries(memberTierCounts).map(([k, v]) => `${k} ${v}`).join(", ")}).`,
+    { memberResolved, memberTierCounts, memberUnresolvedCounts }
+  );
 
   // AST error-tolerance gate -- real gap found building Task 8:
   // config/repos.json's astErrorTolerancePercent (5%, set from Task 1's own
@@ -748,6 +779,7 @@ function main() {
     properties: rawProperties.length,
     calls: rawCalls.length,
     callResolution: { resolvedViaImport, resolvedViaSamePackage, unresolvedCalls },
+    memberResolution: { resolved: memberResolved, ...memberTierCounts },
     webrtcSignalingTouchpoints: rawWebrtcSignalingTouchpoints.length,
     bleGattConstants: rawBleGattConstants.length,
     usbWireConstants: rawUsbWireConstants.length,

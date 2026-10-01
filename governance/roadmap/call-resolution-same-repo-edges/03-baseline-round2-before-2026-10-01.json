@@ -1,0 +1,2885 @@
+{
+    "totals": {
+        "edges": 22058,
+        "facts": 69643,
+        "factsWithoutEmbedding": 0
+    },
+    "purpose": "round-2 baseline (Lanes K and N), taken before any round-2 write",
+    "takenAt": "2026-10-01T21:11:24.015137+00:00",
+    "edgeSlices": [
+        {
+            "n": 13,
+            "md5": "34796582c99a99b7b7c9dd376e1f14a1",
+            "byStatus": {
+                "resolved": 13
+            },
+            "source_repo": "angular-app-oskey-io",
+            "connection_type": "FIELD_BINDING"
+        },
+        {
+            "n": 29,
+            "md5": "a9598fd43f0abfe71947c145bc4fe25f",
+            "byStatus": {
+                "resolved": 27,
+                "unresolved": 2
+            },
+            "source_repo": "angular-app-oskey-io",
+            "connection_type": "FIRESTORE_CLIENT_ACCESS"
+        },
+        {
+            "n": 237,
+            "md5": "00322e68b6c523f90599dfcd3d630dd2",
+            "byStatus": {
+                "resolved": 215,
+                "unresolved": 22
+            },
+            "source_repo": "swift-cloud-kit-oskey-dev",
+            "connection_type": "FIRESTORE_CLIENT_ACCESS"
+        },
+        {
+            "n": 2,
+            "md5": "bd79947d07acb80d8c0cc4f4b977326f",
+            "byStatus": {
+                "resolved": 2
+            },
+            "source_repo": "angular-app-oskey-io",
+            "connection_type": "FIRESTORE_CLIENT_TRIGGER"
+        },
+        {
+            "n": 17,
+            "md5": "3f124ef7fe89885d1f810c78ee03a11e",
+            "byStatus": {
+                "resolved": 17
+            },
+            "source_repo": "swift-cloud-kit-oskey-dev",
+            "connection_type": "FIRESTORE_CLIENT_TRIGGER"
+        },
+        {
+            "n": 32,
+            "md5": "21d047e75d3b6ee9db3f9448037eca3a",
+            "byStatus": {
+                "resolved": 32
+            },
+            "source_repo": "firebase-oskey-dev",
+            "connection_type": "FIRESTORE_EVENT_TRIGGER"
+        },
+        {
+            "n": 5,
+            "md5": "a084f18bcdd9ec26ce86255175c2e3ec",
+            "byStatus": {
+                "resolved": 5
+            },
+            "source_repo": "android-intercom-oskey-io",
+            "connection_type": "HTTP_API_CALL"
+        },
+        {
+            "n": 102,
+            "md5": "6c92cfb2a3cb17f53089b5f90311d1e3",
+            "byStatus": {
+                "resolved": 97,
+                "unresolved": 5
+            },
+            "source_repo": "angular-app-oskey-io",
+            "connection_type": "HTTP_API_CALL"
+        },
+        {
+            "n": 34,
+            "md5": "ac8f112f6904318264cb4ae78d1d9d33",
+            "byStatus": {
+                "resolved": 31,
+                "unresolved": 3
+            },
+            "source_repo": "swift-cloud-kit-oskey-dev",
+            "connection_type": "HTTP_API_CALL"
+        },
+        {
+            "n": 3716,
+            "md5": "9317f78f99832f6ac8808e4872c4867b",
+            "byStatus": {
+                "probable": 656,
+                "unresolved": 3060
+            },
+            "source_repo": "android-intercom-oskey-io",
+            "connection_type": "INTRA_REPO_CALL"
+        },
+        {
+            "n": 348,
+            "md5": "8eb54d4fd63c087b96e324b8fa23e372",
+            "byStatus": {
+                "probable": 39,
+                "confirmed": 284,
+                "unresolved": 25
+            },
+            "source_repo": "angular-app-oskey-io",
+            "connection_type": "INTRA_REPO_CALL"
+        },
+        {
+            "n": 2382,
+            "md5": "ab5b53a87d3a7550ee5243e5cae7127f",
+            "byStatus": {
+                "confirmed": 2360,
+                "unresolved": 22
+            },
+            "source_repo": "firebase-oskey-dev",
+            "connection_type": "INTRA_REPO_CALL"
+        },
+        {
+            "n": 8734,
+            "md5": "5feb9b12405441317eca95063c520f13",
+            "byStatus": {
+                "probable": 2525,
+                "unresolved": 6209
+            },
+            "source_repo": "ios-oskey-dev",
+            "connection_type": "INTRA_REPO_CALL"
+        },
+        {
+            "n": 245,
+            "md5": "8530056ecfdf6eb2f5840612ac54e604",
+            "byStatus": {
+                "probable": 71,
+                "unresolved": 174
+            },
+            "source_repo": "swift-ble-kit-oskey-dev",
+            "connection_type": "INTRA_REPO_CALL"
+        },
+        {
+            "n": 510,
+            "md5": "1412a7cc027255f5503820b315507d64",
+            "byStatus": {
+                "probable": 188,
+                "unresolved": 322
+            },
+            "source_repo": "swift-cloud-kit-oskey-dev",
+            "connection_type": "INTRA_REPO_CALL"
+        },
+        {
+            "n": 625,
+            "md5": "a73fda4e71a6327a647d24f7aadb11a3",
+            "byStatus": {
+                "probable": 178,
+                "unresolved": 447
+            },
+            "source_repo": "swift-ui-kit-oskey-dev",
+            "connection_type": "INTRA_REPO_CALL"
+        },
+        {
+            "n": 651,
+            "md5": "a13e552f36f32f01c003a97794064325",
+            "byStatus": {
+                "probable": 163,
+                "unresolved": 488
+            },
+            "source_repo": "swift-webrtc-kit-oskey-io",
+            "connection_type": "INTRA_REPO_CALL"
+        },
+        {
+            "n": 303,
+            "md5": "891d762ebddc68be1b5f25692f382f1b",
+            "byStatus": {
+                "resolved": 303
+            },
+            "source_repo": "angular-app-oskey-io",
+            "connection_type": "INTRA_REPO_CALL_DECLARED"
+        },
+        {
+            "n": 1420,
+            "md5": "0d297b0fd2d3dabd79916a6fda23247d",
+            "byStatus": {
+                "resolved": 1420
+            },
+            "source_repo": "firebase-oskey-dev",
+            "connection_type": "INTRA_REPO_CALL_DECLARED"
+        },
+        {
+            "n": 1283,
+            "md5": "4a0448cee5a945d3e2f14398e6474a1c",
+            "byStatus": {
+                "resolved": 1283
+            },
+            "source_repo": "ios-oskey-dev",
+            "connection_type": "INTRA_REPO_CALL_DECLARED"
+        },
+        {
+            "n": 74,
+            "md5": "673d0137b871895ace5e3aa711ed9719",
+            "byStatus": {
+                "resolved": 74
+            },
+            "source_repo": "node-iot-api-oskey-io",
+            "connection_type": "INTRA_REPO_CALL_DECLARED"
+        },
+        {
+            "n": 59,
+            "md5": "16d0cae6e0fc924be9ac24c2a7bf8c17",
+            "byStatus": {
+                "resolved": 59
+            },
+            "source_repo": "swift-ble-kit-oskey-dev",
+            "connection_type": "INTRA_REPO_CALL_DECLARED"
+        },
+        {
+            "n": 136,
+            "md5": "fb805d6f32852a048f700ef34e42d6c4",
+            "byStatus": {
+                "resolved": 136
+            },
+            "source_repo": "swift-cloud-kit-oskey-dev",
+            "connection_type": "INTRA_REPO_CALL_DECLARED"
+        },
+        {
+            "n": 84,
+            "md5": "2e01824f36574fc87a47a4208b9cc2d7",
+            "byStatus": {
+                "resolved": 84
+            },
+            "source_repo": "swift-ui-kit-oskey-dev",
+            "connection_type": "INTRA_REPO_CALL_DECLARED"
+        },
+        {
+            "n": 202,
+            "md5": "1da35366615a3534bfa2544412002380",
+            "byStatus": {
+                "resolved": 202
+            },
+            "source_repo": "swift-webrtc-kit-oskey-io",
+            "connection_type": "INTRA_REPO_CALL_DECLARED"
+        },
+        {
+            "n": 404,
+            "md5": "78fcf7f413fd86169c115285a0c89d13",
+            "byStatus": {
+                "resolved": 404
+            },
+            "source_repo": "ios-oskey-dev",
+            "connection_type": "PACKAGE_METHOD_CALL"
+        },
+        {
+            "n": 389,
+            "md5": "88bc76668d200c8b608f1fb28bf143bd",
+            "byStatus": {
+                "resolved": 389
+            },
+            "source_repo": "ios-oskey-dev",
+            "connection_type": "PACKAGE_SYMBOL_USE"
+        },
+        {
+            "n": 14,
+            "md5": "8a4e732a639043de751edf1500e45fdc",
+            "byStatus": {
+                "resolved": 10,
+                "unresolved": 4
+            },
+            "source_repo": "firebase-oskey-dev",
+            "connection_type": "PUBSUB_TOPIC_BINDING"
+        },
+        {
+            "n": 2,
+            "md5": "096dc2b1202030103ebd6c987c193943",
+            "byStatus": {
+                "resolved": 1,
+                "unresolved": 1
+            },
+            "source_repo": "node-iot-api-oskey-io",
+            "connection_type": "PUBSUB_TOPIC_BINDING"
+        },
+        {
+            "n": 6,
+            "md5": "8eb6894fd4bf7c8e984450596484d843",
+            "byStatus": {
+                "unresolved": 6
+            },
+            "source_repo": "unknown",
+            "connection_type": "PUBSUB_TOPIC_BINDING"
+        }
+    ],
+    "perRepoMd5": {
+        "ios-oskey-dev": {
+            "count": 25458,
+            "factRefMd5": "8ce1f194f08e19809f64c54f39db8de2",
+            "payloadMd5": "ec0ee36381070308e03a574b6b23e111",
+            "descriptionMd5": "110cf6908d1c531a6ee5c986b71b4876"
+        },
+        "firebase-oskey-dev": {
+            "count": 15453,
+            "factRefMd5": "1e243981820259bd39295ad09b857e3f",
+            "payloadMd5": "76ce357b42b85b0acdfb7f481c74f063",
+            "descriptionMd5": "483038c1674b4db32364fde0fae42a8f"
+        },
+        "angular-app-oskey-io": {
+            "count": 8916,
+            "factRefMd5": "c1b7c7fe336d25f965cbb5307aa48d53",
+            "payloadMd5": "cb6119fee4550471ee5d5c0ef5f20bbc",
+            "descriptionMd5": "e786c54916bdd5d42c20790eef0c8d86"
+        },
+        "node-iot-api-oskey-io": {
+            "count": 1432,
+            "factRefMd5": "8a83ec0b658fcfba6a3a2d762d00702c",
+            "payloadMd5": "3cdd546a552ebaca09daac05d531b0ea",
+            "descriptionMd5": "f3a30fcf450ab83e053a6b4048dfc5d9"
+        },
+        "swift-ui-kit-oskey-dev": {
+            "count": 2482,
+            "factRefMd5": "1bea3368994097f2345f6ec951ae9e86",
+            "payloadMd5": "c03002c114dc523a6a5d4994298985ca",
+            "descriptionMd5": "02a91cd319f0e8a15774f1009927e7cb"
+        },
+        "swift-ble-kit-oskey-dev": {
+            "count": 799,
+            "factRefMd5": "9c48b6458014f98bc41c4c3c616f5c8f",
+            "payloadMd5": "597917134a29f68957a3ea9b6a639287",
+            "descriptionMd5": "d0d393430cb5c4541848416b6cb61040"
+        },
+        "android-intercom-oskey-io": {
+            "count": 10029,
+            "factRefMd5": "10bda6bf65dcfc3e79a009e4a0424004",
+            "payloadMd5": "e650a00beeb9918f8f8972f41a359c7e",
+            "descriptionMd5": "647915b7745df13d77db52f2d1479cce"
+        },
+        "swift-cloud-kit-oskey-dev": {
+            "count": 2587,
+            "factRefMd5": "776ec2d7e9b804e03331f14faf33ea0a",
+            "payloadMd5": "74bf6a6817d4b8d1bd97bd8869f72396",
+            "descriptionMd5": "a960c5e152f65c719a8d2f7e6b8ec39b"
+        },
+        "swift-webrtc-kit-oskey-io": {
+            "count": 2487,
+            "factRefMd5": "e45086eda378bfccb519c808b686bf13",
+            "payloadMd5": "ec5d075e88d6359b7bb05905f3ae01c8",
+            "descriptionMd5": "10a23b01069794581db451e30af824d3"
+        }
+    },
+    "currentRuns": {
+        "ios-oskey-dev": "20261001_201113-e660bda2",
+        "firebase-oskey-dev": "20260926_134105-00e1d9fd",
+        "angular-app-oskey-io": "20260926_131550-8345d222",
+        "node-iot-api-oskey-io": "20260923_110250-a6cba122",
+        "swift-ui-kit-oskey-dev": "20261001_201043-9a75c7c6",
+        "swift-ble-kit-oskey-dev": "20261001_201047-f8cdf199",
+        "android-intercom-oskey-io": "20260925_124505-ee4493bf",
+        "swift-cloud-kit-oskey-dev": "20261001_201038-32772e4a",
+        "swift-webrtc-kit-oskey-io": "20261001_201051-e8aeea9d"
+    },
+    "callResolution": [
+        {
+            "n": 4849,
+            "repo": "android-intercom-oskey-io",
+            "member_status": "-",
+            "resolution_method": "unresolved",
+            "resolution_status": "-"
+        },
+        {
+            "n": 428,
+            "repo": "android-intercom-oskey-io",
+            "member_status": "-",
+            "resolution_method": "resolved_via_same_package",
+            "resolution_status": "-"
+        },
+        {
+            "n": 228,
+            "repo": "android-intercom-oskey-io",
+            "member_status": "-",
+            "resolution_method": "resolved_via_import",
+            "resolution_status": "-"
+        },
+        {
+            "n": 2363,
+            "repo": "angular-app-oskey-io",
+            "member_status": "-",
+            "resolution_method": "-",
+            "resolution_status": "resolved"
+        },
+        {
+            "n": 1257,
+            "repo": "angular-app-oskey-io",
+            "member_status": "-",
+            "resolution_method": "-",
+            "resolution_status": "unresolved"
+        },
+        {
+            "n": 5907,
+            "repo": "firebase-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "-",
+            "resolution_status": "resolved"
+        },
+        {
+            "n": 834,
+            "repo": "firebase-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "-",
+            "resolution_status": "unresolved"
+        },
+        {
+            "n": 12074,
+            "repo": "ios-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "unresolved",
+            "resolution_status": "-"
+        },
+        {
+            "n": 4838,
+            "repo": "ios-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "resolved_via_same_target",
+            "resolution_status": "-"
+        },
+        {
+            "n": 389,
+            "repo": "ios-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "resolved_via_import",
+            "resolution_status": "-"
+        },
+        {
+            "n": 141,
+            "repo": "ios-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "self_reference",
+            "resolution_status": "-"
+        },
+        {
+            "n": 484,
+            "repo": "node-iot-api-oskey-io",
+            "member_status": "-",
+            "resolution_method": "-",
+            "resolution_status": "unresolved"
+        },
+        {
+            "n": 277,
+            "repo": "node-iot-api-oskey-io",
+            "member_status": "-",
+            "resolution_method": "-",
+            "resolution_status": "resolved"
+        },
+        {
+            "n": 337,
+            "repo": "swift-ble-kit-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "unresolved",
+            "resolution_status": "-"
+        },
+        {
+            "n": 71,
+            "repo": "swift-ble-kit-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "resolved_via_same_target",
+            "resolution_status": "-"
+        },
+        {
+            "n": 25,
+            "repo": "swift-ble-kit-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "self_reference",
+            "resolution_status": "-"
+        },
+        {
+            "n": 664,
+            "repo": "swift-cloud-kit-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "unresolved",
+            "resolution_status": "-"
+        },
+        {
+            "n": 188,
+            "repo": "swift-cloud-kit-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "resolved_via_same_target",
+            "resolution_status": "-"
+        },
+        {
+            "n": 5,
+            "repo": "swift-cloud-kit-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "self_reference",
+            "resolution_status": "-"
+        },
+        {
+            "n": 1109,
+            "repo": "swift-ui-kit-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "unresolved",
+            "resolution_status": "-"
+        },
+        {
+            "n": 300,
+            "repo": "swift-ui-kit-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "resolved_via_same_target",
+            "resolution_status": "-"
+        },
+        {
+            "n": 14,
+            "repo": "swift-ui-kit-oskey-dev",
+            "member_status": "-",
+            "resolution_method": "self_reference",
+            "resolution_status": "-"
+        },
+        {
+            "n": 1123,
+            "repo": "swift-webrtc-kit-oskey-io",
+            "member_status": "-",
+            "resolution_method": "unresolved",
+            "resolution_status": "-"
+        },
+        {
+            "n": 163,
+            "repo": "swift-webrtc-kit-oskey-io",
+            "member_status": "-",
+            "resolution_method": "resolved_via_same_target",
+            "resolution_status": "-"
+        },
+        {
+            "n": 80,
+            "repo": "swift-webrtc-kit-oskey-io",
+            "member_status": "-",
+            "resolution_method": "self_reference",
+            "resolution_status": "-"
+        }
+    ],
+    "factRefSetMd5AllRepos": "2244d2f6303a900621c036a7d54325ea",
+    "factsPerRepoModuleKind": [
+        {
+            "n": 3801,
+            "kind": "call_expression",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 8,
+            "kind": "enum_declaration",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 288,
+            "kind": "function_declaration",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 1531,
+            "kind": "imports_dependency",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 22,
+            "kind": "kotlin_object",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 2,
+            "kind": "kotlin_sealed_hierarchy",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 916,
+            "kind": "model_property",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 5,
+            "kind": "rest_endpoint_call",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 87,
+            "kind": "source_class",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 91,
+            "kind": "source_file",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 4,
+            "kind": "source_interface",
+            "repo": "android-intercom-oskey-io",
+            "module": "app"
+        },
+        {
+            "n": 22,
+            "kind": "ble_gatt_constant",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 809,
+            "kind": "call_expression",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 1,
+            "kind": "enum_declaration",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 144,
+            "kind": "function_declaration",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 130,
+            "kind": "imports_dependency",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 3,
+            "kind": "kotlin_object",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 279,
+            "kind": "model_property",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 12,
+            "kind": "source_class",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 17,
+            "kind": "source_file",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 2,
+            "kind": "source_interface",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 8,
+            "kind": "usb_wire_constant",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-ble-kit-oskey-io"
+        },
+        {
+            "n": 74,
+            "kind": "call_expression",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-usb-oskey-io"
+        },
+        {
+            "n": 15,
+            "kind": "function_declaration",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-usb-oskey-io"
+        },
+        {
+            "n": 18,
+            "kind": "imports_dependency",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-usb-oskey-io"
+        },
+        {
+            "n": 53,
+            "kind": "model_property",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-usb-oskey-io"
+        },
+        {
+            "n": 4,
+            "kind": "source_class",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-usb-oskey-io"
+        },
+        {
+            "n": 5,
+            "kind": "source_file",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-usb-oskey-io"
+        },
+        {
+            "n": 1,
+            "kind": "source_interface",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-usb-oskey-io"
+        },
+        {
+            "n": 13,
+            "kind": "usb_wire_constant",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-usb-oskey-io"
+        },
+        {
+            "n": 818,
+            "kind": "call_expression",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-data-oskey-io"
+        },
+        {
+            "n": 4,
+            "kind": "enum_declaration",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-data-oskey-io"
+        },
+        {
+            "n": 93,
+            "kind": "function_declaration",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-data-oskey-io"
+        },
+        {
+            "n": 137,
+            "kind": "imports_dependency",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-data-oskey-io"
+        },
+        {
+            "n": 1,
+            "kind": "kotlin_object",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-data-oskey-io"
+        },
+        {
+            "n": 2,
+            "kind": "kotlin_sealed_hierarchy",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-data-oskey-io"
+        },
+        {
+            "n": 275,
+            "kind": "model_property",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-data-oskey-io"
+        },
+        {
+            "n": 51,
+            "kind": "source_class",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-data-oskey-io"
+        },
+        {
+            "n": 10,
+            "kind": "source_file",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-data-oskey-io"
+        },
+        {
+            "n": 14,
+            "kind": "webrtc_signaling_touchpoint",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-data-oskey-io"
+        },
+        {
+            "n": 3,
+            "kind": "call_expression",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-domain-oskey-io"
+        },
+        {
+            "n": 4,
+            "kind": "enum_declaration",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-domain-oskey-io"
+        },
+        {
+            "n": 54,
+            "kind": "function_declaration",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-domain-oskey-io"
+        },
+        {
+            "n": 39,
+            "kind": "imports_dependency",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-domain-oskey-io"
+        },
+        {
+            "n": 19,
+            "kind": "kotlin_object",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-domain-oskey-io"
+        },
+        {
+            "n": 8,
+            "kind": "kotlin_sealed_hierarchy",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-domain-oskey-io"
+        },
+        {
+            "n": 71,
+            "kind": "model_property",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-domain-oskey-io"
+        },
+        {
+            "n": 42,
+            "kind": "source_class",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-domain-oskey-io"
+        },
+        {
+            "n": 13,
+            "kind": "source_file",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-domain-oskey-io"
+        },
+        {
+            "n": 6,
+            "kind": "source_interface",
+            "repo": "android-intercom-oskey-io",
+            "module": "kotlin-webrtc-domain-oskey-io"
+        },
+        {
+            "n": 1,
+            "kind": "angular_component",
+            "repo": "angular-app-oskey-io",
+            "module": "app_root"
+        },
+        {
+            "n": 5,
+            "kind": "angular_route",
+            "repo": "angular-app-oskey-io",
+            "module": "app_root"
+        },
+        {
+            "n": 6,
+            "kind": "angular_template_binding",
+            "repo": "angular-app-oskey-io",
+            "module": "app_root"
+        },
+        {
+            "n": 11,
+            "kind": "angular_template_composition",
+            "repo": "angular-app-oskey-io",
+            "module": "app_root"
+        },
+        {
+            "n": 36,
+            "kind": "call_expression",
+            "repo": "angular-app-oskey-io",
+            "module": "app_root"
+        },
+        {
+            "n": 4,
+            "kind": "class_method",
+            "repo": "angular-app-oskey-io",
+            "module": "app_root"
+        },
+        {
+            "n": 31,
+            "kind": "imports_dependency",
+            "repo": "angular-app-oskey-io",
+            "module": "app_root"
+        },
+        {
+            "n": 1,
+            "kind": "source_class",
+            "repo": "angular-app-oskey-io",
+            "module": "app_root"
+        },
+        {
+            "n": 3,
+            "kind": "source_file",
+            "repo": "angular-app-oskey-io",
+            "module": "app_root"
+        },
+        {
+            "n": 3,
+            "kind": "angular_component",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 2,
+            "kind": "angular_injectable",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 3,
+            "kind": "angular_signal",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 3,
+            "kind": "angular_template_attribute",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 11,
+            "kind": "angular_template_binding",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 5,
+            "kind": "angular_template_composition",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 42,
+            "kind": "call_expression",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 2,
+            "kind": "class_method",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 24,
+            "kind": "imports_dependency",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 4,
+            "kind": "service_method",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 5,
+            "kind": "source_class",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 5,
+            "kind": "source_file",
+            "repo": "angular-app-oskey-io",
+            "module": "components"
+        },
+        {
+            "n": 3,
+            "kind": "angular_guard",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 6,
+            "kind": "angular_injectable",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 2,
+            "kind": "angular_signal",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 217,
+            "kind": "call_expression",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 8,
+            "kind": "class_method",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 2,
+            "kind": "enum_declaration",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 37,
+            "kind": "exported_symbol",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 5,
+            "kind": "firestore_client_call",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 3,
+            "kind": "function_declaration",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 113,
+            "kind": "imports_dependency",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 185,
+            "kind": "model_property",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 2,
+            "kind": "permission_candidate",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 22,
+            "kind": "service_method",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 18,
+            "kind": "source_class",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 49,
+            "kind": "source_file",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 59,
+            "kind": "type_alias",
+            "repo": "angular-app-oskey-io",
+            "module": "core"
+        },
+        {
+            "n": 57,
+            "kind": "angular_component",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 27,
+            "kind": "angular_injectable",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 59,
+            "kind": "angular_route",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 107,
+            "kind": "angular_signal",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 88,
+            "kind": "angular_template_attribute",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 749,
+            "kind": "angular_template_binding",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 1001,
+            "kind": "angular_template_composition",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 3325,
+            "kind": "call_expression",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 353,
+            "kind": "class_method",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 9,
+            "kind": "enum_declaration",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 102,
+            "kind": "firebase_callable_call",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 1,
+            "kind": "firestore_client_call",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 2,
+            "kind": "function_declaration",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 1072,
+            "kind": "imports_dependency",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 529,
+            "kind": "model_property",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 47,
+            "kind": "permission_candidate",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 120,
+            "kind": "service_method",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 86,
+            "kind": "source_class",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 137,
+            "kind": "source_file",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 107,
+            "kind": "type_alias",
+            "repo": "angular-app-oskey-io",
+            "module": "features"
+        },
+        {
+            "n": 2,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 165,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 1,
+            "kind": "class_method",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 37,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 1,
+            "kind": "enum_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 25,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 2,
+            "kind": "external_hook",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 8,
+            "kind": "firestore_path_touched",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 7,
+            "kind": "firestore_trigger",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 2,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 93,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 77,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 1,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 15,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 14,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 35,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 36,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "access_control_device"
+        },
+        {
+            "n": 48,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 663,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 1,
+            "kind": "class_method",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 22,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 11,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 9,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 282,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 47,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 41,
+            "kind": "permission_candidate",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 23,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 87,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 26,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 46,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 43,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "admin"
+        },
+        {
+            "n": 157,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "apps"
+        },
+        {
+            "n": 16,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "apps"
+        },
+        {
+            "n": 11,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "apps"
+        },
+        {
+            "n": 82,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "apps"
+        },
+        {
+            "n": 101,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "apps"
+        },
+        {
+            "n": 17,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "apps"
+        },
+        {
+            "n": 8,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "apps"
+        },
+        {
+            "n": 34,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "apps"
+        },
+        {
+            "n": 45,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "apps"
+        },
+        {
+            "n": 38,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 1003,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 177,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 2,
+            "kind": "enum_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 74,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 4,
+            "kind": "external_hook",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 10,
+            "kind": "firestore_path_touched",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 2,
+            "kind": "firestore_trigger",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 15,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 387,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 432,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 21,
+            "kind": "permission_candidate",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 20,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 94,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 42,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 90,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 96,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "building"
+        },
+        {
+            "n": 1,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 249,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 3,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 3,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 1,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 39,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 35,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 4,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 2,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 13,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 16,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "call"
+        },
+        {
+            "n": 15,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 965,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 11,
+            "kind": "class_method",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 43,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 4,
+            "kind": "enum_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 42,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 8,
+            "kind": "external_hook",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 26,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 211,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 179,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 3,
+            "kind": "permission_candidate",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 4,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 7,
+            "kind": "pubsub_event_route",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 95,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 21,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 58,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 107,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "core"
+        },
+        {
+            "n": 18,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "decorators"
+        },
+        {
+            "n": 2,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "decorators"
+        },
+        {
+            "n": 9,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "decorators"
+        },
+        {
+            "n": 1,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "decorators"
+        },
+        {
+            "n": 3,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "decorators"
+        },
+        {
+            "n": 2,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "decorators"
+        },
+        {
+            "n": 31,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "entrypoint"
+        },
+        {
+            "n": 19,
+            "kind": "export_registry_entry",
+            "repo": "firebase-oskey-dev",
+            "module": "entrypoint"
+        },
+        {
+            "n": 17,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "entrypoint"
+        },
+        {
+            "n": 1,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "entrypoint"
+        },
+        {
+            "n": 75,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 1506,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 1,
+            "kind": "class_method",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 93,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 3,
+            "kind": "enum_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 64,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 3,
+            "kind": "firestore_path_touched",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 13,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 399,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 516,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 77,
+            "kind": "permission_candidate",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 44,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 127,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 31,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 80,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 123,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "organization"
+        },
+        {
+            "n": 7,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 193,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 34,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 14,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 10,
+            "kind": "firestore_path_touched",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 10,
+            "kind": "firestore_trigger",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 6,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 96,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 36,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 199,
+            "kind": "permission_candidate",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 1,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 21,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 13,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 29,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 17,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "settings"
+        },
+        {
+            "n": 16,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 316,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 43,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 26,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 2,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 137,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 116,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 17,
+            "kind": "permission_candidate",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 18,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 30,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 12,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 24,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 36,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "supplier"
+        },
+        {
+            "n": 1,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "tasks"
+        },
+        {
+            "n": 34,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "tasks"
+        },
+        {
+            "n": 2,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "tasks"
+        },
+        {
+            "n": 1,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "tasks"
+        },
+        {
+            "n": 11,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "tasks"
+        },
+        {
+            "n": 10,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "tasks"
+        },
+        {
+            "n": 3,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "tasks"
+        },
+        {
+            "n": 2,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "tasks"
+        },
+        {
+            "n": 5,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "tasks"
+        },
+        {
+            "n": 1,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "tasks"
+        },
+        {
+            "n": 10,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 216,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 11,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 1,
+            "kind": "enum_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 7,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 1,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 99,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 139,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 4,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 21,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 6,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 13,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 28,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "unit_management"
+        },
+        {
+            "n": 43,
+            "kind": "api_contract",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 1188,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 159,
+            "kind": "controller_method",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 2,
+            "kind": "enum_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 75,
+            "kind": "exported_symbol",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 11,
+            "kind": "firestore_path_touched",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 9,
+            "kind": "firestore_trigger",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 24,
+            "kind": "function_declaration",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 511,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 490,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 5,
+            "kind": "permission_candidate",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 14,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 5,
+            "kind": "permission_required",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 107,
+            "kind": "service_method",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 47,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 117,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 190,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "user"
+        },
+        {
+            "n": 37,
+            "kind": "call_expression",
+            "repo": "firebase-oskey-dev",
+            "module": "utils"
+        },
+        {
+            "n": 19,
+            "kind": "class_method",
+            "repo": "firebase-oskey-dev",
+            "module": "utils"
+        },
+        {
+            "n": 7,
+            "kind": "imports_dependency",
+            "repo": "firebase-oskey-dev",
+            "module": "utils"
+        },
+        {
+            "n": 5,
+            "kind": "model_property",
+            "repo": "firebase-oskey-dev",
+            "module": "utils"
+        },
+        {
+            "n": 1,
+            "kind": "permission_error",
+            "repo": "firebase-oskey-dev",
+            "module": "utils"
+        },
+        {
+            "n": 5,
+            "kind": "source_class",
+            "repo": "firebase-oskey-dev",
+            "module": "utils"
+        },
+        {
+            "n": 4,
+            "kind": "source_file",
+            "repo": "firebase-oskey-dev",
+            "module": "utils"
+        },
+        {
+            "n": 2,
+            "kind": "type_alias",
+            "repo": "firebase-oskey-dev",
+            "module": "utils"
+        },
+        {
+            "n": 17132,
+            "kind": "call_expression",
+            "repo": "ios-oskey-dev",
+            "module": "iOS App"
+        },
+        {
+            "n": 148,
+            "kind": "class_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "iOS App"
+        },
+        {
+            "n": 78,
+            "kind": "enum_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "iOS App"
+        },
+        {
+            "n": 149,
+            "kind": "extension_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "iOS App"
+        },
+        {
+            "n": 1256,
+            "kind": "function_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "iOS App"
+        },
+        {
+            "n": 1079,
+            "kind": "imports_dependency",
+            "repo": "ios-oskey-dev",
+            "module": "iOS App"
+        },
+        {
+            "n": 4222,
+            "kind": "model_property",
+            "repo": "ios-oskey-dev",
+            "module": "iOS App"
+        },
+        {
+            "n": 18,
+            "kind": "protocol_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "iOS App"
+        },
+        {
+            "n": 460,
+            "kind": "source_file",
+            "repo": "ios-oskey-dev",
+            "module": "iOS App"
+        },
+        {
+            "n": 390,
+            "kind": "struct_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "iOS App"
+        },
+        {
+            "n": 265,
+            "kind": "call_expression",
+            "repo": "ios-oskey-dev",
+            "module": "OSKDoorUnlockActivityExtension"
+        },
+        {
+            "n": 12,
+            "kind": "enum_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "OSKDoorUnlockActivityExtension"
+        },
+        {
+            "n": 7,
+            "kind": "extension_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "OSKDoorUnlockActivityExtension"
+        },
+        {
+            "n": 14,
+            "kind": "function_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "OSKDoorUnlockActivityExtension"
+        },
+        {
+            "n": 16,
+            "kind": "imports_dependency",
+            "repo": "ios-oskey-dev",
+            "module": "OSKDoorUnlockActivityExtension"
+        },
+        {
+            "n": 108,
+            "kind": "model_property",
+            "repo": "ios-oskey-dev",
+            "module": "OSKDoorUnlockActivityExtension"
+        },
+        {
+            "n": 7,
+            "kind": "source_file",
+            "repo": "ios-oskey-dev",
+            "module": "OSKDoorUnlockActivityExtension"
+        },
+        {
+            "n": 10,
+            "kind": "struct_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "OSKDoorUnlockActivityExtension"
+        },
+        {
+            "n": 45,
+            "kind": "call_expression",
+            "repo": "ios-oskey-dev",
+            "module": "OSKEYTests"
+        },
+        {
+            "n": 1,
+            "kind": "class_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "OSKEYTests"
+        },
+        {
+            "n": 1,
+            "kind": "extension_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "OSKEYTests"
+        },
+        {
+            "n": 11,
+            "kind": "function_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "OSKEYTests"
+        },
+        {
+            "n": 6,
+            "kind": "imports_dependency",
+            "repo": "ios-oskey-dev",
+            "module": "OSKEYTests"
+        },
+        {
+            "n": 20,
+            "kind": "model_property",
+            "repo": "ios-oskey-dev",
+            "module": "OSKEYTests"
+        },
+        {
+            "n": 2,
+            "kind": "source_file",
+            "repo": "ios-oskey-dev",
+            "module": "OSKEYTests"
+        },
+        {
+            "n": 1,
+            "kind": "struct_declaration",
+            "repo": "ios-oskey-dev",
+            "module": "OSKEYTests"
+        },
+        {
+            "n": 761,
+            "kind": "call_expression",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 1,
+            "kind": "class_method",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 28,
+            "kind": "controller_method",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 7,
+            "kind": "enum_declaration",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 2,
+            "kind": "external_hook",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 12,
+            "kind": "function_declaration",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 113,
+            "kind": "imports_dependency",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 36,
+            "kind": "joi_schema_field",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 228,
+            "kind": "model_property",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 36,
+            "kind": "mongo_operation",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 10,
+            "kind": "pubsub_operation_route",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 18,
+            "kind": "route_definition",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 11,
+            "kind": "route_handler_method",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 16,
+            "kind": "service_method",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 17,
+            "kind": "source_class",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 44,
+            "kind": "source_file",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 92,
+            "kind": "type_alias",
+            "repo": "node-iot-api-oskey-io",
+            "module": "access_control_device"
+        },
+        {
+            "n": 6,
+            "kind": "ble_gatt_constant",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 433,
+            "kind": "call_expression",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 8,
+            "kind": "class_declaration",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 10,
+            "kind": "enum_declaration",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 13,
+            "kind": "extension_declaration",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 91,
+            "kind": "function_declaration",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 56,
+            "kind": "imports_dependency",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 141,
+            "kind": "model_property",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 2,
+            "kind": "protocol_declaration",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 30,
+            "kind": "source_file",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 9,
+            "kind": "struct_declaration",
+            "repo": "swift-ble-kit-oskey-dev",
+            "module": "OSKBluetoothLEKit"
+        },
+        {
+            "n": 857,
+            "kind": "call_expression",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 30,
+            "kind": "class_declaration",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 42,
+            "kind": "enum_declaration",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 15,
+            "kind": "extension_declaration",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 34,
+            "kind": "firebase_callable_call",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 65,
+            "kind": "firestore_client_call",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 255,
+            "kind": "function_declaration",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 177,
+            "kind": "imports_dependency",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 853,
+            "kind": "model_property",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 4,
+            "kind": "protocol_declaration",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 127,
+            "kind": "source_file",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 128,
+            "kind": "struct_declaration",
+            "repo": "swift-cloud-kit-oskey-dev",
+            "module": "OSKCloudKit"
+        },
+        {
+            "n": 1423,
+            "kind": "call_expression",
+            "repo": "swift-ui-kit-oskey-dev",
+            "module": "OSKUIKit"
+        },
+        {
+            "n": 15,
+            "kind": "class_declaration",
+            "repo": "swift-ui-kit-oskey-dev",
+            "module": "OSKUIKit"
+        },
+        {
+            "n": 22,
+            "kind": "enum_declaration",
+            "repo": "swift-ui-kit-oskey-dev",
+            "module": "OSKUIKit"
+        },
+        {
+            "n": 53,
+            "kind": "extension_declaration",
+            "repo": "swift-ui-kit-oskey-dev",
+            "module": "OSKUIKit"
+        },
+        {
+            "n": 148,
+            "kind": "function_declaration",
+            "repo": "swift-ui-kit-oskey-dev",
+            "module": "OSKUIKit"
+        },
+        {
+            "n": 118,
+            "kind": "imports_dependency",
+            "repo": "swift-ui-kit-oskey-dev",
+            "module": "OSKUIKit"
+        },
+        {
+            "n": 534,
+            "kind": "model_property",
+            "repo": "swift-ui-kit-oskey-dev",
+            "module": "OSKUIKit"
+        },
+        {
+            "n": 4,
+            "kind": "protocol_declaration",
+            "repo": "swift-ui-kit-oskey-dev",
+            "module": "OSKUIKit"
+        },
+        {
+            "n": 91,
+            "kind": "source_file",
+            "repo": "swift-ui-kit-oskey-dev",
+            "module": "OSKUIKit"
+        },
+        {
+            "n": 74,
+            "kind": "struct_declaration",
+            "repo": "swift-ui-kit-oskey-dev",
+            "module": "OSKUIKit"
+        },
+        {
+            "n": 1366,
+            "kind": "call_expression",
+            "repo": "swift-webrtc-kit-oskey-io",
+            "module": "OSKWebRTCKit"
+        },
+        {
+            "n": 20,
+            "kind": "class_declaration",
+            "repo": "swift-webrtc-kit-oskey-io",
+            "module": "OSKWebRTCKit"
+        },
+        {
+            "n": 15,
+            "kind": "enum_declaration",
+            "repo": "swift-webrtc-kit-oskey-io",
+            "module": "OSKWebRTCKit"
+        },
+        {
+            "n": 23,
+            "kind": "extension_declaration",
+            "repo": "swift-webrtc-kit-oskey-io",
+            "module": "OSKWebRTCKit"
+        },
+        {
+            "n": 290,
+            "kind": "function_declaration",
+            "repo": "swift-webrtc-kit-oskey-io",
+            "module": "OSKWebRTCKit"
+        },
+        {
+            "n": 143,
+            "kind": "imports_dependency",
+            "repo": "swift-webrtc-kit-oskey-io",
+            "module": "OSKWebRTCKit"
+        },
+        {
+            "n": 476,
+            "kind": "model_property",
+            "repo": "swift-webrtc-kit-oskey-io",
+            "module": "OSKWebRTCKit"
+        },
+        {
+            "n": 14,
+            "kind": "protocol_declaration",
+            "repo": "swift-webrtc-kit-oskey-io",
+            "module": "OSKWebRTCKit"
+        },
+        {
+            "n": 87,
+            "kind": "source_file",
+            "repo": "swift-webrtc-kit-oskey-io",
+            "module": "OSKWebRTCKit"
+        },
+        {
+            "n": 53,
+            "kind": "struct_declaration",
+            "repo": "swift-webrtc-kit-oskey-io",
+            "module": "OSKWebRTCKit"
+        }
+    ],
+    "nodeIotSelfPointingResolvedCalls": [
+        {
+            "file": "src/v1/controllers/access_control_device_access_sync.controller.ts",
+            "line": 34,
+            "repo": "node-iot-api-oskey-io",
+            "callee": "compareAccessLists",
+            "caller": "updateFromFullList",
+            "fact_ref": "5824b104321c8eb8a0a2cca8e58691b4dfdf8b17",
+            "decl_line": "11",
+            "module_specifier": "../core/shared/delta.utils"
+        },
+        {
+            "file": "src/v1/controllers/access_control_device_access_sync.controller.ts",
+            "line": 81,
+            "repo": "node-iot-api-oskey-io",
+            "callee": "mergeDeltas",
+            "caller": "getMergedDeltasSince",
+            "fact_ref": "b4ca5382858c36466f100cdce2b027a56b5b8383",
+            "decl_line": "11",
+            "module_specifier": "../core/shared/delta.utils"
+        },
+        {
+            "file": "src/v1/core/shared/delta.utils.ts",
+            "line": 46,
+            "repo": "node-iot-api-oskey-io",
+            "callee": "isEqual",
+            "caller": "compareAccessLists",
+            "fact_ref": "046c8948621208ef18995b4fea19b32f3a4602c1",
+            "decl_line": "8",
+            "module_specifier": "lodash.isequal"
+        },
+        {
+            "file": "src/v1/handlers/routes/access_control_device_accesses_route.handler.ts",
+            "line": 392,
+            "repo": "node-iot-api-oskey-io",
+            "callee": "convertAccessPayloadDateStringToDate",
+            "caller": "convertAccessPayloadDateStringToDate",
+            "fact_ref": "4177f5bcc7df8bebca191e96a4e2b7afe79b98fa",
+            "decl_line": "13",
+            "module_specifier": "../../models/access_control_device_access.model"
+        },
+        {
+            "file": "src/v1/handlers/routes/access_control_device_accesses_route.handler.ts",
+            "line": 607,
+            "repo": "node-iot-api-oskey-io",
+            "callee": "isDateString",
+            "caller": "_getDateTime",
+            "fact_ref": "8595bc27f569e1e0854aae72bd884b112ed5b5f8",
+            "decl_line": "19",
+            "module_specifier": "../../models/access_control_device_access.model"
+        },
+        {
+            "file": "src/v1/handlers/routes/access_control_device_intercom_entries_route.handler.ts",
+            "line": 81,
+            "repo": "node-iot-api-oskey-io",
+            "callee": "isPubsubPayloadUpdate",
+            "caller": "isPubsubPayloadUpdate",
+            "fact_ref": "8c440cca31a8eb2e1399d1196e093e0c4106833e",
+            "decl_line": "19",
+            "module_specifier": "../../models/access_control_device_intercom_entry.model"
+        }
+    ]
+}
